@@ -174,7 +174,8 @@ def test_database_is_only_included_when_asked(root_site, project_site):
 def test_no_raw_or_personal_files_are_published(root_site):
     out, _ = root_site
     suffixes = {p.suffix for p in out.rglob("*") if p.is_file()}
-    assert suffixes <= {".html", ".js", ".css", ".csv", ".json", ""}  # '' is .nojekyll
+    # '' is .nojekyll; .webp is the logo in static/img.
+    assert suffixes <= {".html", ".js", ".css", ".csv", ".json", ".webp", ""}
     published = "".join(p.read_text() for p in (out / "downloads" / "voter_file").rglob("*.json"))
     for forbidden in ("VTR_ID", "LastName", "FirstName", "BirthDate"):
         assert forbidden not in published
