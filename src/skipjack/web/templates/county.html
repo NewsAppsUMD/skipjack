@@ -1,0 +1,394 @@
+{% extends "base.html" %}
+
+{% block title %}{{ county }} Voter Registration{% endblock %}
+
+{% block head %}
+<style>
+    /* Chart tokens: validated palette (light surface #ffffff). The site is light-only. */
+    .viz-root {
+        --surface-1: #ffffff;
+        --text-primary: #0b0b0b;
+        --text-secondary: #52514e;
+        --text-muted: #898781;
+        --gridline: #e1e0d9;
+        --baseline: #c3c2b7;
+        --party-dem: #2a78d6;
+        --party-rep: #e34948;
+        --party-una: #4a3aa7;
+        --party-minor: #52514e;
+        --series-new: #1baf7a;
+        --series-removed: #eb6834;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: var(--text-primary);
+    }
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.5rem;
+        align-items: end;
+        margin-bottom: 1rem;
+    }
+    .filters form { margin: 0; }
+    .filters fieldset { width: auto; padding: 0; border: 0; }
+    .filters label { margin: 0; font-size: 0.85rem; color: var(--text-secondary); }
+    .filters select { margin: 0.25rem 0 0; min-width: 14rem; }
+    .filters fieldset { margin: 0; display: flex; gap: 1rem; }
+    .filters fieldset legend { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+    .filters fieldset label { color: var(--text-primary); font-size: 0.95rem; }
+    .viz-card {
+        background: var(--surface-1);
+        border: 1px solid rgba(11, 11, 11, 0.10);
+        border-radius: 8px;
+        padding: 1rem 1rem 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .viz-card h2 { font-size: 1.05rem; margin: 0 0 0.25rem; }
+    .viz-card .sub { font-size: 0.85rem; color: var(--text-secondary); margin: 0 0 0.5rem; }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-size: 0.85rem;
+              color: var(--text-secondary); margin: 0 0 0.25rem; padding: 0; list-style: none; }
+    .legend li { display: flex; align-items: center; gap: 0.4rem; margin: 0; }
+    .legend .key { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
+    .multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                 gap: 1rem; }
+    .multiples .wide { grid-column: 1 / -1; }
+    .section-head { display: flex; flex-wrap: wrap; justify-content: space-between;
+                    align-items: end; gap: 0.5rem 1.5rem; margin: 2rem 0 0.75rem; }
+    .section-head h2 { font-size: 1.25rem; margin: 0; }
+    .note { font-size: 0.85rem; color: var(--text-secondary); }
+    .multiples .viz-card { margin: 0; padding: 0.75rem 0.75rem 0.25rem; }
+    .multiples h3 { font-size: 0.95rem; margin: 0; }
+    .multiples .sub { margin: 0; }
+
+    .lc { position: relative; }
+    .lc-svg { display: block; overflow: visible; outline: none; }
+    .lc-svg:focus-visible { outline: 2px solid var(--party-dem); outline-offset: 2px; border-radius: 4px; }
+    .lc-gridline { stroke: var(--gridline); stroke-width: 1; shape-rendering: crispEdges; }
+    .lc-baseline { stroke: var(--baseline); stroke-width: 1; shape-rendering: crispEdges; }
+    .lc-tick { fill: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+    .lc-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    .lc-rule { stroke: var(--text-muted); stroke-width: 1; }
+    .lc-dot { stroke: var(--surface-1); stroke-width: 2; }
+    .lc-key { stroke-width: 2; stroke-linecap: round; }
+    .lc-leader { stroke: var(--baseline); fill: none; stroke-width: 1; }
+    .lc-endtext { fill: var(--text-secondary); font-size: 12px; }
+    .lc-endvalue { fill: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .lc-tip {
+        position: absolute; pointer-events: none; z-index: 2;
+        background: var(--surface-1); color: var(--text-primary);
+        border: 1px solid rgba(11, 11, 11, 0.10); border-radius: 6px;
+        box-shadow: 0 4px 16px rgba(11, 11, 11, 0.08);
+        padding: 0.4rem 0.6rem; font-size: 0.8rem; white-space: nowrap;
+    }
+    .lc-tip-date { color: var(--text-secondary); margin-bottom: 0.2rem; }
+    .lc-tip-row { display: flex; align-items: center; gap: 0.4rem; line-height: 1.5; }
+    .lc-tip-key { width: 12px; height: 2px; border-radius: 1px; flex: none; }
+    .lc-tip-row strong { font-variant-numeric: tabular-nums; }
+    .lc-tip-name { color: var(--text-secondary); }
+
+    .data-table { font-size: 0.8rem; }
+    .data-table td, .data-table th { padding: 0.25rem 0.5rem; white-space: nowrap;
+                                     text-align: right; font-variant-numeric: tabular-nums; }
+    .data-table td:first-child, .data-table th:first-child { text-align: left; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<p><a href="{{ base }}/voters/">&larr; All counties</a></p>
+<h1>{{ county }}{% if county == statewide_label %} (statewide){% endif %}</h1>
+<p class="secondary">
+    {{ "{:,}".format(latest_total) }} active registered voters as of {{ latest_date }}.
+    Monthly reports since {{ dates[0] }}.
+</p>
+
+<div class="filters">
+    <div>
+        <label for="county-select">County</label>
+        <select id="county-select" onchange="location.href = this.value">
+            <option value="{{ base }}/voters/county/" {% if county == statewide_label %}selected{% endif %}>
+                {{ statewide_label }} (statewide)
+            </option>
+            {% for c in counties %}
+            <option value="{{ base }}/voters/county/{{ c|slug }}/" {% if c == county %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="section-head">
+    <h2>Overall registration</h2>
+</div>
+<div class="multiples" id="overall"></div>
+{% if not overall.new_registrations %}
+<p class="note">New registrations and removals are only reported statewide.
+    <a href="{{ base }}/voters/county/">See Maryland statewide</a>.</p>
+{% endif %}
+
+<div class="section-head">
+    <h2>By party</h2>
+    <div class="filters" style="margin:0">
+        <fieldset id="measure">
+            <legend>Show</legend>
+            <label><input type="radio" name="measure" value="count" checked> Voters</label>
+            <label><input type="radio" name="measure" value="share"> Share of active voters</label>
+        </fieldset>
+    </div>
+</div>
+
+<section class="viz-card" aria-labelledby="major-title">
+    <h2 id="major-title">Active registration by party</h2>
+    <p class="sub" id="major-sub">Democratic, Republican and unaffiliated voters, monthly</p>
+    <ul class="legend" id="major-legend"></ul>
+    <div id="major-chart"></div>
+</section>
+
+<h3 style="font-size:1.05rem">Other parties</h3>
+<p class="secondary" style="font-size:0.85rem">
+    Each party has its own scale; they are far smaller than the major parties.
+    Gaps mean the party was not on that month's report.
+</p>
+<div class="multiples" id="multiples"></div>
+
+<details style="margin-top:1.5rem">
+    <summary>Data table</summary>
+    <div class="overflow-auto">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Active</th>
+                <th>Inactive</th>
+                <th>Party switches</th>
+                {% if overall.new_registrations %}<th>New registrations</th><th>Removals</th>{% endif %}
+                {% for s in series %}<th>{{ s.name }}</th>{% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(dates|length - 1, -1, -1) %}
+            <tr>
+                <td>{{ dates[i] }}</td>
+                <td>{{ "{:,}".format(totals[i]) }}</td>
+                {% set cols = ["inactive", "party_switches"] + (["new_registrations", "removals"] if overall.new_registrations else []) %}
+                {% for c in cols %}
+                <td>{% if overall[c][i] is not none %}{{ "{:,}".format(overall[c][i]) }}{% else %}&ndash;{% endif %}</td>
+                {% endfor %}
+                {% for s in series %}
+                <td>{% if s["values"][i] is not none %}{{ "{:,}".format(s["values"][i]) }}{% else %}&ndash;{% endif %}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</details>
+</div>
+
+<script id="county-data" type="application/json">
+{{ {"dates": dates, "totals": totals, "series": series, "overall": overall} | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+import { renderLineChart, ChartGroup, monthLabel } from "{{ base }}/static/linechart.js";
+
+const data = JSON.parse(document.getElementById("county-data").textContent);
+const root = getComputedStyle(document.querySelector(".viz-root"));
+const token = (name) => root.getPropertyValue(name).trim();
+const COLORS = {
+  Democratic: token("--party-dem"),
+  Republican: token("--party-rep"),
+  Unaffiliated: token("--party-una"),
+};
+const count = (v) => {
+  if (v >= 1e6) return `${(v / 1e6).toFixed(v % 1e6 ? 1 : 0)}M`;
+  if (v >= 1e4) return `${Math.round(v / 1e3)}k`;
+  return Math.round(v).toLocaleString();
+};
+const full = (v) => Math.round(v).toLocaleString();
+const pct = (v) => `${v.toFixed(v < 1 && v > 0 ? 2 : 1)}%`;
+const pctAxis = (v) => `${Number.isInteger(v) ? v : +v.toPrecision(2)}%`;
+
+function values(s, measure) {
+  if (measure === "count") return s.values;
+  return s.values.map((v, i) => (v == null ? null : (100 * v) / data.totals[i]));
+}
+
+const major = data.series.filter((s) => s.major);
+const minor = data.series.filter((s) => !s.major);
+
+// Legend: line keys, built with textContent (party names come from data).
+const legend = document.getElementById("major-legend");
+for (const s of major) {
+  const li = document.createElement("li");
+  const key = document.createElement("span");
+  key.className = "key";
+  key.style.background = COLORS[s.name];
+  li.append(key, document.createTextNode(s.name));
+  legend.appendChild(li);
+}
+
+// Small-multiple cards.
+const multiples = document.getElementById("multiples");
+const cards = minor.map((s) => {
+  const card = document.createElement("section");
+  card.className = "viz-card";
+  const h = document.createElement("h3");
+  h.textContent = s.name;
+  const sub = document.createElement("p");
+  sub.className = "sub";
+  const chart = document.createElement("div");
+  card.append(h, sub, chart);
+  multiples.appendChild(card);
+  return { s, sub, chart };
+});
+
+// Overall cards: {key, title, series:[{name, values, color}], wide}
+const neutral = token("--party-minor");
+const overallSpecs = [
+  { title: "Active voters", note: "all parties", series: [{ name: "Active voters", values: data.overall.active }] },
+  { title: "Inactive voters", note: "not counted as active", series: [{ name: "Inactive voters", values: data.overall.inactive }] },
+  { title: "Party switches", note: "voters who changed party that month", series: [{ name: "Party switches", values: data.overall.party_switches }] },
+];
+// Sum of the 12 months ending at each month; null until a full year is available
+// or when any month in the window is missing.
+function rolling(values, window = 12) {
+  return values.map((_, i) => {
+    if (i < window - 1) return null;
+    const slice = values.slice(i - window + 1, i + 1);
+    return slice.some((v) => v == null) ? null : slice.reduce((a, b) => a + b, 0);
+  });
+}
+
+if (data.overall.new_registrations) {
+  overallSpecs.push({
+    title: "New registrations and removals, 12-month rolling total",
+    rolling: true,
+    wide: true,
+    series: [
+      { name: "New registrations", monthly: data.overall.new_registrations,
+        values: rolling(data.overall.new_registrations), color: token("--series-new") },
+      { name: "Removals", monthly: data.overall.removals,
+        values: rolling(data.overall.removals), color: token("--series-removed") },
+    ],
+  });
+}
+const overallBox = document.getElementById("overall");
+const overallCards = overallSpecs.map((spec) => {
+  const card = document.createElement("section");
+  card.className = spec.wide ? "viz-card wide" : "viz-card";
+  const h = document.createElement("h3");
+  h.textContent = spec.title;
+  const sub = document.createElement("p");
+  sub.className = "sub";
+  card.append(h, sub);
+  if (spec.series.length > 1) {
+    const ul = document.createElement("ul");
+    ul.className = "legend";
+    for (const s of spec.series) {
+      const li = document.createElement("li");
+      const key = document.createElement("span");
+      key.className = "key";
+      key.style.background = s.color;
+      li.append(key, document.createTextNode(s.name));
+      ul.appendChild(li);
+    }
+    card.appendChild(ul);
+  }
+  const chart = document.createElement("div");
+  card.appendChild(chart);
+  overallBox.appendChild(card);
+  return { spec, sub, chart };
+});
+
+function yearChange(values) {
+  const last = values.findLastIndex((v) => v != null);
+  const prev = last - 12;
+  if (prev < 0 || values[prev] == null) return "";
+  const d = values[last] - values[prev];
+  return `, ${d >= 0 ? "up" : "down"} ${Math.abs(d).toLocaleString()} from a year earlier`;
+}
+
+let charts = [];
+function draw() {
+  const measure = document.querySelector("input[name=measure]:checked").value;
+  const fmtAxis = measure === "count" ? count : pctAxis;
+  document.getElementById("major-sub").textContent = measure === "count"
+    ? "Democratic, Republican and unaffiliated voters, monthly"
+    : "Share of all active voters, monthly";
+  const fmtFull = measure === "count" ? full : pct;
+  charts.forEach((c) => c.destroy());
+  const group = new ChartGroup();
+  const detailFor = (list) => (k, i) =>
+    measure === "count"
+      ? pct((100 * list[k].values[i]) / data.totals[i])
+      : `${full(list[k].values[i])} voters`;
+
+  charts = [];
+  for (const { spec, sub, chart } of overallCards) {
+    const first = spec.series[0].values;
+    const last = first.findLastIndex((v) => v != null);
+    if (spec.rolling) {
+      const [added, removed] = spec.series.map((s) => s.values[last]);
+      const net = added - removed;
+      sub.textContent = `12 months to ${monthLabel(data.dates[last])}: ${full(added)} new ` +
+        `registrations, ${full(removed)} removals, net ${net >= 0 ? "+" : "\u2212"}${full(Math.abs(net))}. ` +
+        "Excludes duplicate applications. Each month's own figure is in the tooltip and data table.";
+    } else {
+      sub.textContent = `${full(first[last])} in ${monthLabel(data.dates[last])}` +
+        `${spec.title === "Party switches" ? "" : yearChange(first)}; ${spec.note}`;
+    }
+    charts.push(renderLineChart(chart, {
+      dates: data.dates,
+      series: spec.series.map((s) => ({ ...s, color: s.color ?? neutral })),
+      format: count,
+      labelFormat: full,
+      detail: spec.rolling ? (k, i) => `${full(spec.series[k].monthly[i])} that month` : null,
+      height: spec.wide ? 240 : 150,
+      endLabels: spec.wide,
+      group,
+      ariaLabel: `${spec.title} over time. Values are in the data table below.`,
+    }));
+  }
+  charts.push(
+    renderLineChart(document.getElementById("major-chart"), {
+      dates: data.dates,
+      series: major.map((s) => ({ name: s.name, color: COLORS[s.name], values: values(s, measure) })),
+      format: fmtAxis,
+      labelFormat: fmtFull,
+      detail: detailFor(major),
+      height: 340,
+      endLabels: true,
+      group,
+      ariaLabel: `Active registration by party in ${document.querySelector("h1").textContent}. Full values are in the data table below.`,
+    }),
+  );
+
+  for (const { s, sub, chart } of cards) {
+    const last = s.values.findLastIndex((v) => v != null);
+    const lastVal = values(s, measure)[last];
+    sub.textContent = last === data.dates.length - 1
+      ? `${fmtFull(lastVal)} in ${monthLabel(data.dates[last])}`
+      : `Last reported ${monthLabel(data.dates[last])}: ${fmtFull(lastVal)}`;
+    charts.push(renderLineChart(chart, {
+      dates: data.dates,
+      series: [{ name: s.name, color: token("--party-minor"), values: values(s, measure) }],
+      format: fmtAxis,
+      labelFormat: fmtFull,
+      detail: detailFor([s]),
+      height: 130,
+      group,
+      ariaLabel: `${s.name} registration over time`,
+    }));
+  }
+}
+
+draw();
+document.getElementById("measure").addEventListener("change", draw);
+let resizeTimer;
+new ResizeObserver(() => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(draw, 150);
+}).observe(document.getElementById("major-chart").parentElement);
+</script>
+{% endblock %}

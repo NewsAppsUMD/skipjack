@@ -1,0 +1,23 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Derived databases (rebuilt from data/ CSVs)
+skipjack.db
+skipjack_cvr.db
+
+# Archives (Git LFS or too large for regular Git)
+archives/sbe/cvr/
+
+# macOS
+.DS_Store
+
+# Static site output (rebuilt by `skipjack build-site`)
+site/

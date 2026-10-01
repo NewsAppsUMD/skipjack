@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}{% if county == statewide %}Voter File{% else %}{{ county }} Voter File{% endif %}{% endblock %}
+
+{% block head %}
+<style>
+    .viz-root {
+        --surface-1: #ffffff;
+        --text-primary: #0b0b0b;
+        --text-secondary: #52514e;
+        --text-muted: #898781;
+        --gridline: #e1e0d9;
+        --baseline: #c3c2b7;
+        --party-dem: #2a78d6;
+        --party-rep: #e34948;
+        --party-una: #4a3aa7;
+        --party-all: #52514e;
+        --bar-default: #2a78d6;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: var(--text-primary);
+    }
+    .filters { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: end; margin-bottom: 1rem; }
+    .filters form { margin: 0; }
+    .filters label { margin: 0; font-size: 0.85rem; color: var(--text-secondary); }
+    .filters select { margin: 0.25rem 0 0; min-width: 14rem; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin: 1rem 0 0.5rem; }
+    .tile { background: var(--surface-1); border: 1px solid rgba(11, 11, 11, 0.10); border-radius: 8px; padding: 0.75rem 1rem; }
+    .tile .v.small { font-size: 1.45rem; }
+    .tile .v { font-size: 1.9rem; font-weight: 600; line-height: 1.2; }
+    .tile .l { font-size: 0.85rem; color: var(--text-secondary); }
+    .section-head { margin: 2rem 0 0.5rem; }
+    .section-head h2 { font-size: 1.25rem; margin: 0 0 0.25rem; }
+    .note { font-size: 0.85rem; color: var(--text-secondary); margin: 0 0 0.75rem; }
+    .muted { color: var(--text-muted); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .viz-card { background: var(--surface-1); border: 1px solid rgba(11, 11, 11, 0.10); border-radius: 8px; padding: 0.75rem 1rem 0.5rem; }
+    .viz-card h3 { font-size: 1rem; margin: 0 0 0.25rem; }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-size: 0.85rem; color: var(--text-secondary); margin: 0 0 0.25rem; padding: 0; list-style: none; }
+    .legend li { display: flex; align-items: center; gap: 0.4rem; margin: 0; }
+    .legend .key { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
+    .lc { position: relative; }
+    .lc-svg { display: block; overflow: visible; outline: none; }
+    .lc-svg:focus-visible { outline: 2px solid var(--party-dem); outline-offset: 2px; border-radius: 4px; }
+    .lc-gridline { stroke: var(--gridline); stroke-width: 1; shape-rendering: crispEdges; }
+    .lc-baseline { stroke: var(--baseline); stroke-width: 1; shape-rendering: crispEdges; }
+    .lc-tick { fill: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+    .lc-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    .lc-rule { stroke: var(--text-muted); stroke-width: 1; }
+    .lc-dot { stroke: var(--surface-1); stroke-width: 2; }
+    .lc-key { stroke-width: 2; stroke-linecap: round; }
+    .lc-leader { stroke: var(--baseline); fill: none; stroke-width: 1; }
+    .lc-endtext { fill: var(--text-secondary); font-size: 12px; }
+    .lc-endvalue { fill: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .lc-tip { position: absolute; pointer-events: none; z-index: 2; background: var(--surface-1); color: var(--text-primary); border: 1px solid rgba(11, 11, 11, 0.10); border-radius: 6px; box-shadow: 0 4px 16px rgba(11, 11, 11, 0.08); padding: 0.4rem 0.6rem; font-size: 0.8rem; white-space: nowrap; }
+    .lc-tip-date { color: var(--text-secondary); margin-bottom: 0.2rem; }
+    .lc-tip-row { display: flex; align-items: center; gap: 0.4rem; line-height: 1.5; }
+    .lc-tip-key { width: 12px; height: 2px; border-radius: 1px; flex: none; }
+    .lc-tip-row strong { font-variant-numeric: tabular-nums; }
+    .lc-tip-name { color: var(--text-secondary); }
+
+    .grid-table { font-size: 0.9rem; }
+    .grid-table th, .grid-table td { padding: 0.35rem 0.6rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .grid-table th:not(:first-child), .grid-table td:not(:first-child) { text-align: right; }
+    .grid-table td small { display: block; color: var(--text-muted); font-size: 0.75em; }
+    .barcell { background: linear-gradient(to right, color-mix(in srgb, var(--c) 24%, transparent) var(--w), transparent var(--w)); }
+    .grid-table tfoot td { font-weight: 600; border-top: 2px solid var(--pico-table-border-color); }
+    .about li { margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .callout { background: #f3f1ea; border-left: 4px solid var(--text-secondary); border-radius: 4px; padding: 0.75rem 1rem; margin: 0 0 1rem; font-size: 0.95rem; }
+    .callout p { margin: 0 0 0.5rem; }
+    .callout small { display: block; color: var(--text-secondary); margin-top: 0.5rem; }
+    .callout .grid-table { margin: 0.5rem 0 0; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set last_election = meta.elections[-1] %}
+<div class="viz-root">
+<p><a href="{{ base }}/voters/">&larr; Voter registration</a></p>
+<h1>{% if county == statewide %}Maryland voter file{% else %}{{ county }}{% endif %}</h1>
+<p class="secondary">
+    Aggregates from the State Board of Elections voter list as of {{ snapshot }}.
+    Voter history covers {{ meta.elections|length }} elections, {{ meta.elections[0].label }} through {{ last_election.label }}.
+</p>
+
+<div class="filters">
+    <div>
+        <label for="county-select">County</label>
+        <select id="county-select" onchange="location.href = this.value">
+            <option value="{{ base }}/voters/file/{{ snapshot_q }}" {% if county == statewide %}selected{% endif %}>{{ statewide }} (statewide)</option>
+            {% for c in counties %}
+            <option value="{{ base }}/voters/file/county/{{ c|slug }}/{{ snapshot_q }}" {% if c == county %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% if snapshots|length > 1 and not static_site %}
+    <div>
+        <label for="snapshot-select">Snapshot</label>
+        <select id="snapshot-select" onchange="location.href = this.value">
+            {% for s in snapshots %}<option value="?snapshot={{ s }}" {% if s == snapshot %}selected{% endif %}>{{ s }}</option>{% endfor %}
+        </select>
+    </div>
+    {% endif %}
+    {% if county == statewide %}
+    <p style="margin:0"><a href="{{ base }}/voters/file/districts/congressional/{{ snapshot_q }}">Congressional districts</a> &middot;
+        <a href="{{ base }}/voters/file/districts/legislative/{{ snapshot_q }}">Legislative districts</a></p>
+    {% endif %}
+</div>
+
+<div class="tiles">
+    <div class="tile"><div class="v">{{ m.n(tiles.registered) }}</div><div class="l">registered voters</div></div>
+    <div class="tile"><div class="v">{{ m.n(tiles.active) }}</div><div class="l">active</div></div>
+    <div class="tile"><div class="v">{{ m.p(tiles.inactive_pct, 1) }}</div><div class="l">inactive ({{ m.n(tiles.inactive) }})</div></div>
+    <div class="tile"><div class="v small">{{ m.p(shares.DEM) }} / {{ m.p(shares.REP) }} / {{ m.p(shares.UNA) }}</div><div class="l">Democratic / Republican / unaffiliated</div></div>
+</div>
+
+<div class="section-head" id="participation">
+    <h2>Participation among current voters</h2>
+    <p class="note">
+        The share of today's registered voters who voted in each election, among those who could have voted:
+        registered by election day and old enough.
+        Primaries are closed in Maryland, so unaffiliated voters mostly sit them out.
+    </p>
+</div>
+<aside class="callout" role="note" aria-labelledby="caveat-title">
+    <p><strong id="caveat-title">These are not official turnout figures.</strong>
+        They describe the people on the voter list today, not the electorate on election day.
+        Voters who have since moved, died or been removed are missing, so past elections are undercounted,
+        and the older the election, the more is missing.
+        For official turnout, use the State Board of Elections' published results.</p>
+    {% if coverage_rows %}
+    <div class="overflow-auto">
+    <table class="grid-table">
+        <thead><tr><th>Election</th><th>Registered then</th><th>In this file</th><th>Share still in file</th></tr></thead>
+        <tbody>
+        {% for c in coverage_rows %}
+        <tr><td>{{ c.election.label }}</td><td>{{ m.n(c.reported) }}</td><td>{{ m.n(c.in_file) }}</td><td>{{ m.p(c.pct) }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <small>
+        Registered then: active plus inactive voters on that month's registration report.
+        In this file: today's registered voters who could have voted. The share is approximate.
+    </small>
+    {% endif %}
+</aside>
+<div class="cards">
+    <section class="viz-card" aria-labelledby="primary-title">
+        <h3 id="primary-title">Participation among current voters: primary elections</h3>
+        <ul class="legend" id="primary-legend"></ul>
+        <div id="primary-chart"></div>
+    </section>
+    <section class="viz-card" aria-labelledby="general-title">
+        <h3 id="general-title">Participation among current voters: general elections</h3>
+        <ul class="legend" id="general-legend"></ul>
+        <div id="general-chart"></div>
+    </section>
+</div>
+<details style="margin-top:1rem">
+    <summary>Data table: participation among current voters</summary>
+    <div class="overflow-auto">
+    <table class="grid-table">
+        <thead><tr><th>Election</th>{% for g in shown_parties %}<th>{{ party_labels[g] }}</th>{% endfor %}</tr></thead>
+        <tbody>
+        {% for row in turnout_rows %}
+        <tr>
+            <td>{{ row.election.label }}</td>
+            {% for c in row.cells %}
+            <td>{{ m.p(c.pct, 1) }}<small>{{ m.n(c.count) }} of {{ m.n(c.eligible) }}</small></td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</details>
+
+<div class="section-head">
+    <h2>Voting habits</h2>
+    <p class="note">
+        What today's voters did across all {{ meta.elections|length }} elections, for the {{ m.p(long_term_pct) }} of
+        registered voters who could have voted in every one of them. Voters who left the list are not counted. Each column adds to 100%.
+        A dash means too few voters to show.
+    </p>
+</div>
+<div class="overflow-auto">
+<table class="grid-table">
+    <thead><tr><th>Pattern</th>{% for g in shown_parties %}<th>{{ party_labels[g] }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for t in voter_types %}
+    <tr>
+        <td>{{ t.label }}</td>
+        {% for v in t.pcts %}{{ m.bar(v, "var(--party-" ~ shown_parties[loop.index0]|lower ~ ")") }}{% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% if new_voters %}
+<div class="section-head">
+    <h2>Newest voters</h2>
+    <p class="note">
+        Registered after the {{ new_voters.since.label }} and eligible for the {{ new_voters.latest.label }}:
+        how many voted.
+    </p>
+</div>
+<div class="overflow-auto">
+<table class="grid-table">
+    <thead><tr><th></th><th>Newly registered</th><th>Voted</th><th>Share</th></tr></thead>
+    <tbody>
+    {% for r in new_voters.rows %}
+    <tr><td>{{ r.name }}</td><td>{{ m.n(r.eligible) }}</td><td>{{ m.n(r.count) }}</td>{{ m.bar(r.pct, "var(--party-" ~ shown_parties[loop.index0]|lower ~ ")") }}</tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+<div class="section-head">
+    <h2>Age</h2>
+    <p class="note">Participation among current voters by age today, then each party's age makeup. Past elections are undercounted because voters who left the list are missing. Voters under 18 and with unknown birth dates are not shown.</p>
+</div>
+<div class="overflow-auto">
+<table class="grid-table">
+    <thead><tr><th>Age</th>{% for e in meta.elections %}<th>{{ e.short }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for r in age_turnout %}
+    <tr><td>{{ r.band }}</td>{% for v in r.pcts %}{{ m.bar(v) }}{% endfor %}</tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<div class="overflow-auto" style="margin-top:1rem">
+<table class="grid-table">
+    <thead><tr><th>Share of party by age</th>{% for g in shown_parties %}<th>{{ party_labels[g] }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for r in age_profile %}
+    <tr><td>{{ r.band }}</td>{% for v in r.pcts %}{{ m.bar(v, "var(--party-" ~ shown_parties[loop.index0]|lower ~ ")") }}{% endfor %}</tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="section-head">
+    <h2>When voters registered</h2>
+    <p class="note">
+        Current voters by the year they first registered in Maryland, {{ cohorts.years[0] }} onward.
+        These are survivors: people who registered and have since left the list are not counted.
+        Spikes line up with presidential elections.
+    </p>
+</div>
+<section class="viz-card" aria-labelledby="cohort-title">
+    <h3 id="cohort-title">Voters by year first registered</h3>
+    <ul class="legend" id="cohort-legend"></ul>
+    <div id="cohort-chart"></div>
+</section>
+
+<div class="section-head"><h2>Gender</h2></div>
+<div class="overflow-auto">
+<table class="grid-table">
+    <thead><tr><th></th>{% for g in genders %}<th>{{ g }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for r in gender_rows %}
+    <tr><td>{{ r.name }}</td>{% for v in r.pcts %}{{ m.bar(v, "var(--party-" ~ r.party|lower ~ ")", 1) }}{% endfor %}</tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="section-head">
+    <h2>Minor parties</h2>
+    <p class="note">Registered voters in parties other than Democratic, Republican, unaffiliated, Green or Working Class.</p>
+</div>
+<div class="overflow-auto">
+<table class="grid-table">
+    <thead><tr><th>Party</th><th>Code</th><th>Voters</th></tr></thead>
+    <tbody>
+    {% for r in minor.shown %}
+    <tr><td>{{ r.name }}</td><td class="muted">{{ r.code }}</td><td>{{ m.n(r.count) }}</td></tr>
+    {% endfor %}
+    {% if minor.remainder %}
+    <tr><td>{{ minor.remainder_codes }} smaller parties</td><td></td><td>{{ m.n(minor.remainder) }}</td></tr>
+    {% endif %}
+    </tbody>
+</table>
+</div>
+
+{% if county_rows %}
+<div class="section-head">
+    <h2>By county</h2>
+    <p class="note">Party columns are shares of registered voters. Participation is the share of today's registered voters who voted. It is not official turnout; see the note under Participation above.</p>
+</div>
+<div class="overflow-auto">
+<table class="grid-table" data-sortable>
+    <thead>
+        <tr>
+            <th>County</th>
+            <th>Registered</th>
+            <th>Dem</th>
+            <th>Rep</th>
+            <th>Unaff.</th>
+            <th>Inactive</th>
+            <th>Participation, {{ latest_general.short }}</th>
+            <th>Participation, {{ last_election.short }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in county_rows %}
+        <tr>
+            <td><a href="{{ base }}/voters/file/county/{{ r.county|slug }}/{{ snapshot_q }}">{{ r.county }}</a></td>
+            <td>{{ m.n(r.registered) }}</td>
+            <td>{{ m.p(r.dem) }}</td><td>{{ m.p(r.rep) }}</td><td>{{ m.p(r.una) }}</td>
+            <td>{{ m.p(r.inactive, 1) }}</td>
+            {{ m.bar(r.general) }}{{ m.bar(r.latest) }}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+<div class="section-head"><h2>About these numbers</h2></div>
+<ul class="about">
+    {% for text in meta.limitations %}<li>{% if loop.first %}<strong>{{ text }}</strong>{% else %}{{ text }}{% endif %}</li>{% endfor %}
+    {% if meta.vrar_cross_check %}
+    <li>
+        Cross-check: {{ "{:,}".format(meta.vrar_cross_check.file_active) }} active voters in this file against
+        {{ "{:,}".format(meta.vrar_cross_check.vrar_active) }} in the {{ meta.vrar_cross_check.vrar_month }}
+        monthly registration report ({{ "%+.1f"|format(meta.vrar_cross_check.difference_pct) }}%).
+        See <a href="{{ base }}/voters/">monthly registration</a> for the official counts.
+    </li>
+    {% endif %}
+    <li>Source: Maryland State Board of Elections voter registration list, aggregated by Skipjack. No individual records are published.</li>
+</ul>
+</div>
+
+<script id="voterfile-data" type="application/json">
+{{ data | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+import { renderLineChart } from "{{ base }}/static/linechart.js";
+
+const data = JSON.parse(document.getElementById("voterfile-data").textContent);
+const root = getComputedStyle(document.querySelector(".viz-root"));
+const COLORS = {
+  DEM: root.getPropertyValue("--party-dem").trim(),
+  REP: root.getPropertyValue("--party-rep").trim(),
+  UNA: root.getPropertyValue("--party-una").trim(),
+  ALL: root.getPropertyValue("--party-all").trim(),
+};
+const full = (v) => Math.round(v).toLocaleString();
+const count = (v) => (v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : v >= 1e4 ? `${Math.round(v / 1e3)}k` : full(v));
+const pctAxis = (v) => `${Math.round(v)}%`;
+const pctFull = (v) => `${v.toFixed(1)}%`;
+
+function legend(id, series) {
+  const ul = document.getElementById(id);
+  ul.replaceChildren();
+  for (const s of series) {
+    const li = document.createElement("li");
+    const key = document.createElement("span");
+    key.className = "key";
+    key.style.background = COLORS[s.party];
+    li.append(key, document.createTextNode(s.name));
+    ul.appendChild(li);
+  }
+}
+
+function draw() {
+  for (const kind of ["primary", "general"]) {
+    const chart = data.charts[kind];
+    legend(`${kind}-legend`, chart.series);
+    renderLineChart(document.getElementById(`${kind}-chart`), {
+      dates: chart.labels,
+      xLabels: chart.labels,
+      tipLabel: (i) => chart.labels[i],
+      xInset: chart.labels.length < 3 ? 56 : 40,
+      series: chart.series.map((s) => ({ name: s.name, color: COLORS[s.party], values: s.values })),
+      format: pctAxis,
+      labelFormat: pctFull,
+      detail: (k, i) => {
+        const s = chart.series[k];
+        return s.counts[i] == null ? null : `${full(s.counts[i])} of ${full(s.eligible[i])}`;
+      },
+      height: 240,
+      ariaLabel: `Participation among current voters in ${kind} elections, by party. Not official turnout. Values are in the data table below.`,
+    });
+  }
+
+  const c = data.cohorts;
+  legend("cohort-legend", c.series);
+  renderLineChart(document.getElementById("cohort-chart"), {
+    dates: c.years.map(String),
+    xLabels: c.years.map((y) => (y % 5 === 0 ? String(y) : "")),
+    tipLabel: (i) => `Registered in ${c.years[i]}`,
+    series: c.series.map((s) => ({ name: s.name, color: COLORS[s.party], values: s.values })),
+    format: count,
+    labelFormat: full,
+    height: 280,
+    endLabels: false,
+    ariaLabel: "Current voters by the year they first registered, by party.",
+  });
+}
+
+draw();
+let timer;
+new ResizeObserver(() => { clearTimeout(timer); timer = setTimeout(draw, 150); })
+  .observe(document.getElementById("cohort-chart").parentElement);
+</script>
+{% endblock %}

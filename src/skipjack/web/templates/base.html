@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Skipjack{% endblock %} — Maryland Elections Data</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="{{ base }}/static/style.css">
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><a href="{{ base }}/" class="brand"><strong>Skipjack</strong></a></li>
+            </ul>
+            <ul>
+                <li><a href="{{ base }}/voters/">Voter Registration</a></li>
+                <li><a href="{{ base }}/voters/file/">Voter File</a></li>
+                <li><a href="{{ base }}/data/">Data</a></li>
+                {% if not static_site %}<li><a href="{{ base }}/explorer/">Data Explorer</a></li>{% endif %}
+                <li><a href="{{ base }}/about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="container">
+        <p>
+            <small>
+                Data from the <a href="https://results.elections.maryland.gov">Maryland State Board of Elections</a>.
+                Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.
+            </small>
+        </p>
+    </footer>
+    <script src="{{ base }}/static/sortable.js" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

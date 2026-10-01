@@ -1,0 +1,169 @@
+report_date,county,party,active_voters,party_name
+2023-01,Allegany,DEM,11701,Democratic
+2023-01,Allegany,REP,22894,Republican
+2023-01,Allegany,GRN,78,Green
+2023-01,Allegany,LIB,231,Libertarian
+2023-01,Allegany,WCP,82,Working Class
+2023-01,Allegany,UNAF,8502,Unaffiliated
+2023-01,Allegany,OTH,384,Other
+2023-01,Anne Arundel,DEM,175731,Democratic
+2023-01,Anne Arundel,REP,130328,Republican
+2023-01,Anne Arundel,GRN,647,Green
+2023-01,Anne Arundel,LIB,2345,Libertarian
+2023-01,Anne Arundel,WCP,468,Working Class
+2023-01,Anne Arundel,UNAF,99150,Unaffiliated
+2023-01,Anne Arundel,OTH,3000,Other
+2023-01,Baltimore City,DEM,303708,Democratic
+2023-01,Baltimore City,REP,28141,Republican
+2023-01,Baltimore City,GRN,937,Green
+2023-01,Baltimore City,LIB,1105,Libertarian
+2023-01,Baltimore City,WCP,712,Working Class
+2023-01,Baltimore City,UNAF,57828,Unaffiliated
+2023-01,Baltimore City,OTH,4042,Other
+2023-01,Baltimore County,DEM,310978,Democratic
+2023-01,Baltimore County,REP,137558,Republican
+2023-01,Baltimore County,GRN,912,Green
+2023-01,Baltimore County,LIB,2560,Libertarian
+2023-01,Baltimore County,WCP,767,Working Class
+2023-01,Baltimore County,UNAF,109938,Unaffiliated
+2023-01,Baltimore County,OTH,5960,Other
+2023-01,Calvert,DEM,23953,Democratic
+2023-01,Calvert,REP,28022,Republican
+2023-01,Calvert,GRN,103,Green
+2023-01,Calvert,LIB,446,Libertarian
+2023-01,Calvert,WCP,67,Working Class
+2023-01,Calvert,UNAF,15497,Unaffiliated
+2023-01,Calvert,OTH,555,Other
+2023-01,Caroline,DEM,6220,Democratic
+2023-01,Caroline,REP,10595,Republican
+2023-01,Caroline,GRN,34,Green
+2023-01,Caroline,LIB,120,Libertarian
+2023-01,Caroline,WCP,44,Working Class
+2023-01,Caroline,UNAF,4557,Unaffiliated
+2023-01,Caroline,OTH,166,Other
+2023-01,Carroll,DEM,33751,Democratic
+2023-01,Carroll,REP,64032,Republican
+2023-01,Carroll,GRN,194,Green
+2023-01,Carroll,LIB,810,Libertarian
+2023-01,Carroll,WCP,105,Working Class
+2023-01,Carroll,UNAF,29100,Unaffiliated
+2023-01,Carroll,OTH,1031,Other
+2023-01,Cecil,DEM,20652,Democratic
+2023-01,Cecil,REP,32351,Republican
+2023-01,Cecil,GRN,116,Green
+2023-01,Cecil,LIB,467,Libertarian
+2023-01,Cecil,WCP,119,Working Class
+2023-01,Cecil,UNAF,16845,Unaffiliated
+2023-01,Cecil,OTH,684,Other
+2023-01,Charles,DEM,74824,Democratic
+2023-01,Charles,REP,23176,Republican
+2023-01,Charles,GRN,136,Green
+2023-01,Charles,LIB,415,Libertarian
+2023-01,Charles,WCP,157,Working Class
+2023-01,Charles,UNAF,22400,Unaffiliated
+2023-01,Charles,OTH,873,Other
+2023-01,Dorchester,DEM,9625,Democratic
+2023-01,Dorchester,REP,9086,Republican
+2023-01,Dorchester,GRN,25,Green
+2023-01,Dorchester,LIB,113,Libertarian
+2023-01,Dorchester,WCP,31,Working Class
+2023-01,Dorchester,UNAF,3873,Unaffiliated
+2023-01,Dorchester,OTH,193,Other
+2023-01,Frederick,DEM,77015,Democratic
+2023-01,Frederick,REP,67961,Republican
+2023-01,Frederick,GRN,327,Green
+2023-01,Frederick,LIB,1163,Libertarian
+2023-01,Frederick,WCP,192,Working Class
+2023-01,Frederick,UNAF,49256,Unaffiliated
+2023-01,Frederick,OTH,1122,Other
+2023-01,Garrett,DEM,3694,Democratic
+2023-01,Garrett,REP,13701,Republican
+2023-01,Garrett,GRN,23,Green
+2023-01,Garrett,LIB,110,Libertarian
+2023-01,Garrett,WCP,24,Working Class
+2023-01,Garrett,UNAF,2870,Unaffiliated
+2023-01,Garrett,OTH,155,Other
+2023-01,Harford,DEM,65474,Democratic
+2023-01,Harford,REP,80609,Republican
+2023-01,Harford,GRN,252,Green
+2023-01,Harford,LIB,1218,Libertarian
+2023-01,Harford,WCP,231,Working Class
+2023-01,Harford,UNAF,42076,Unaffiliated
+2023-01,Harford,OTH,1641,Other
+2023-01,Howard,DEM,121915,Democratic
+2023-01,Howard,REP,48682,Republican
+2023-01,Howard,GRN,363,Green
+2023-01,Howard,LIB,914,Libertarian
+2023-01,Howard,WCP,152,Working Class
+2023-01,Howard,UNAF,57906,Unaffiliated
+2023-01,Howard,OTH,1976,Other
+2023-01,Kent,DEM,5852,Democratic
+2023-01,Kent,REP,5234,Republican
+2023-01,Kent,GRN,22,Green
+2023-01,Kent,LIB,66,Libertarian
+2023-01,Kent,WCP,22,Working Class
+2023-01,Kent,UNAF,2636,Unaffiliated
+2023-01,Kent,OTH,114,Other
+2023-01,Montgomery,DEM,412716,Democratic
+2023-01,Montgomery,REP,97245,Republican
+2023-01,Montgomery,GRN,1133,Green
+2023-01,Montgomery,LIB,2237,Libertarian
+2023-01,Montgomery,WCP,474,Working Class
+2023-01,Montgomery,UNAF,159752,Unaffiliated
+2023-01,Montgomery,OTH,5402,Other
+2023-01,Prince George's,DEM,459456,Democratic
+2023-01,Prince George's,REP,37277,Republican
+2023-01,Prince George's,GRN,781,Green
+2023-01,Prince George's,LIB,1316,Libertarian
+2023-01,Prince George's,WCP,594,Working Class
+2023-01,Prince George's,UNAF,85560,Unaffiliated
+2023-01,Prince George's,OTH,10685,Other
+2023-01,Queen Anne's,DEM,11167,Democratic
+2023-01,Queen Anne's,REP,19781,Republican
+2023-01,Queen Anne's,GRN,49,Green
+2023-01,Queen Anne's,LIB,227,Libertarian
+2023-01,Queen Anne's,WCP,39,Working Class
+2023-01,Queen Anne's,UNAF,8175,Unaffiliated
+2023-01,Queen Anne's,OTH,296,Other
+2023-01,St. Mary's,DEM,25108,Democratic
+2023-01,St. Mary's,REP,31667,Republican
+2023-01,St. Mary's,GRN,106,Green
+2023-01,St. Mary's,LIB,467,Libertarian
+2023-01,St. Mary's,WCP,91,Working Class
+2023-01,St. Mary's,UNAF,16620,Unaffiliated
+2023-01,St. Mary's,OTH,633,Other
+2023-01,Somerset,DEM,5562,Democratic
+2023-01,Somerset,REP,6056,Republican
+2023-01,Somerset,GRN,23,Green
+2023-01,Somerset,LIB,66,Libertarian
+2023-01,Somerset,WCP,18,Working Class
+2023-01,Somerset,UNAF,2314,Unaffiliated
+2023-01,Somerset,OTH,112,Other
+2023-01,Talbot,DEM,10816,Democratic
+2023-01,Talbot,REP,11730,Republican
+2023-01,Talbot,GRN,45,Green
+2023-01,Talbot,LIB,148,Libertarian
+2023-01,Talbot,WCP,23,Working Class
+2023-01,Talbot,UNAF,5718,Unaffiliated
+2023-01,Talbot,OTH,214,Other
+2023-01,Washington,DEM,31615,Democratic
+2023-01,Washington,REP,44355,Republican
+2023-01,Washington,GRN,174,Green
+2023-01,Washington,LIB,635,Libertarian
+2023-01,Washington,WCP,133,Working Class
+2023-01,Washington,UNAF,22293,Unaffiliated
+2023-01,Washington,OTH,835,Other
+2023-01,Wicomico,DEM,26808,Democratic
+2023-01,Wicomico,REP,24062,Republican
+2023-01,Wicomico,GRN,110,Green
+2023-01,Wicomico,LIB,337,Libertarian
+2023-01,Wicomico,WCP,115,Working Class
+2023-01,Wicomico,UNAF,13799,Unaffiliated
+2023-01,Wicomico,OTH,660,Other
+2023-01,Worcester,DEM,13825,Democratic
+2023-01,Worcester,REP,19299,Republican
+2023-01,Worcester,GRN,59,Green
+2023-01,Worcester,LIB,220,Libertarian
+2023-01,Worcester,WCP,41,Working Class
+2023-01,Worcester,UNAF,8597,Unaffiliated
+2023-01,Worcester,OTH,467,Other

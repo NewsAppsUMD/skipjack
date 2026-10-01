@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Data{% endblock %}
+
+{% block head %}
+<style>
+    .years { display: grid; grid-template-columns: 4rem 1fr; gap: 0.15rem 1rem; font-size: 0.9rem; }
+    .years dt { font-weight: 600; margin: 0; }
+    .years dd { margin: 0; }
+    .years a { margin-right: 0.6rem; white-space: nowrap; }
+    .dataset { margin-bottom: 2rem; }
+    .dataset code { font-size: 0.85rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Data</h1>
+<p>
+    The numbers behind the charts, as CSV and JSON. Every file has a companion
+    <code>_provenance.json</code> naming the source document, its SHA-256 hash, when it was
+    processed, and the checks it passed. Licensed
+    <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>; please credit the
+    Maryland State Board of Elections as the source.
+</p>
+
+<h2>Monthly voter registration</h2>
+{% for d in datasets %}
+<section class="dataset">
+    <h3>{{ d.title }}</h3>
+    <p>{{ d.description }}</p>
+    <p><small>Columns: <code>{{ d.columns }}</code></small></p>
+    <dl class="years">
+        {% for y in d.years %}
+        <dt>{{ y.year }}</dt>
+        <dd>{% for f in y.files %}<a href="{{ base }}/downloads/{{ f.path }}">{{ f.month[5:] }}</a>{% endfor %}</dd>
+        {% endfor %}
+    </dl>
+</section>
+{% endfor %}
+{% if discrepancies %}
+<p>
+    <a href="{{ base }}/downloads/voter_registration/source_discrepancies.csv">source_discrepancies.csv</a>
+    lists the places where the State Board's own reports do not add up, each checked against the
+    original PDF.
+</p>
+{% endif %}
+{% if db_download %}
+<p><a href="{{ base }}/downloads/skipjack.db">skipjack.db</a>: all of the above in one SQLite database.</p>
+{% endif %}
+
+{% if snapshots %}
+<h2>Voter file aggregates</h2>
+<p>
+    Counts from the statewide voter list, never individual records. Counts of 1 to 9 voters are
+    hidden (null). Participation figures describe people on the list today, not the electorate on
+    election day, and are not official turnout.
+</p>
+{% for s in snapshots %}
+<section class="dataset">
+    <h3>Snapshot {{ s.date }}</h3>
+    <p>
+        Each file holds <code>rows</code> of counts with their dimensions (county, party group,
+        election, and so on). Counts below {{ s.suppress_below }} are <code>null</code>.
+        <a href="{{ base }}/downloads/{{ s.meta }}">snapshot.json</a> describes the elections, the limitations,
+        and how much of each past electorate the file still contains;
+        <a href="{{ base }}/downloads/{{ s.provenance }}">provenance</a> records the checks.
+    </p>
+    <p>{% for f in s.files %}<a href="{{ base }}/downloads/{{ f.path }}" style="margin-right:0.8rem;white-space:nowrap">{{ f.name }}</a>{% endfor %}</p>
+</section>
+{% endfor %}
+{% endif %}
+{% endblock %}

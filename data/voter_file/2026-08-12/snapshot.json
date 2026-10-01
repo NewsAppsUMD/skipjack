@@ -1,0 +1,954 @@
+{
+  "snapshot_date": "2026-08-12",
+  "elections": [
+    {
+      "key": "2022-GP",
+      "date": "2022-07-19",
+      "kind": "primary",
+      "label": "2022 Gubernatorial Primary",
+      "short": "2022 Primary"
+    },
+    {
+      "key": "2022-GG",
+      "date": "2022-11-08",
+      "kind": "general",
+      "label": "2022 Gubernatorial General",
+      "short": "2022 General"
+    },
+    {
+      "key": "2024-PP",
+      "date": "2024-05-14",
+      "kind": "primary",
+      "label": "2024 Presidential Primary",
+      "short": "2024 Primary"
+    },
+    {
+      "key": "2024-PG",
+      "date": "2024-11-05",
+      "kind": "general",
+      "label": "2024 Presidential General",
+      "short": "2024 General"
+    },
+    {
+      "key": "2026-GP",
+      "date": "2026-06-23",
+      "kind": "primary",
+      "label": "2026 Gubernatorial Primary",
+      "short": "2026 Primary"
+    }
+  ],
+  "counties": [
+    "Allegany",
+    "Anne Arundel",
+    "Baltimore City",
+    "Baltimore County",
+    "Calvert",
+    "Caroline",
+    "Carroll",
+    "Cecil",
+    "Charles",
+    "Dorchester",
+    "Frederick",
+    "Garrett",
+    "Harford",
+    "Howard",
+    "Kent",
+    "Montgomery",
+    "Prince George's",
+    "Queen Anne's",
+    "Somerset",
+    "St. Mary's",
+    "Talbot",
+    "Washington",
+    "Wicomico",
+    "Worcester"
+  ],
+  "party_groups": [
+    "DEM",
+    "REP",
+    "UNA",
+    "GRN",
+    "WCP",
+    "OTH"
+  ],
+  "all_parties": "ALL",
+  "statewide": "Maryland",
+  "age_bands": [
+    "Under 18",
+    "18-24",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75+",
+    "Unknown"
+  ],
+  "generations": [
+    "Gen Z",
+    "Millennial",
+    "Gen X",
+    "Baby Boomer",
+    "Silent/Greatest",
+    "Unknown"
+  ],
+  "voter_types": [
+    "every_election",
+    "primary_and_general",
+    "primary_only",
+    "general_only",
+    "none"
+  ],
+  "records": {
+    "readme_total_records": 4561127,
+    "rows_valid": 4561126,
+    "status_counts": {
+      "I": 285544,
+      "A": 4275582
+    }
+  },
+  "vrar_cross_check": {
+    "vrar_month": "2026-08",
+    "file_active": 4275582,
+    "vrar_active": 4322671,
+    "difference_pct": -1.09,
+    "by_county_pct": {
+      "Allegany": -1.28,
+      "Anne Arundel": -1.1,
+      "Baltimore City": -1.11,
+      "Baltimore County": -1.03,
+      "Calvert": -1.06,
+      "Caroline": -1.18,
+      "Carroll": -1.23,
+      "Cecil": -1.21,
+      "Charles": -0.69,
+      "Dorchester": -0.87,
+      "Frederick": -1.83,
+      "Garrett": -1.18,
+      "Harford": -1.32,
+      "Howard": -0.88,
+      "Kent": -0.5,
+      "Montgomery": -1.75,
+      "Prince George's": -0.65,
+      "Queen Anne's": -0.88,
+      "Somerset": -0.86,
+      "St. Mary's": -1.0,
+      "Talbot": -0.72,
+      "Washington": 1.38,
+      "Wicomico": -0.9,
+      "Worcester": -1.12
+    }
+  },
+  "electorate_coverage": {
+    "2022-GP": {
+      "month": "2022-07",
+      "Maryland": {
+        "reported": 4450673,
+        "in_file": 3866118,
+        "pct": 86.9
+      },
+      "counties": {
+        "Allegany": {
+          "reported": 46739,
+          "in_file": 40668,
+          "pct": 87.0
+        },
+        "Anne Arundel": {
+          "reported": 440428,
+          "in_file": 383806,
+          "pct": 87.1
+        },
+        "Baltimore City": {
+          "reported": 420531,
+          "in_file": 362524,
+          "pct": 86.2
+        },
+        "Baltimore County": {
+          "reported": 603418,
+          "in_file": 529389,
+          "pct": 87.7
+        },
+        "Calvert": {
+          "reported": 74087,
+          "in_file": 64175,
+          "pct": 86.6
+        },
+        "Caroline": {
+          "reported": 22939,
+          "in_file": 20613,
+          "pct": 89.9
+        },
+        "Carroll": {
+          "reported": 135338,
+          "in_file": 122085,
+          "pct": 90.2
+        },
+        "Cecil": {
+          "reported": 76183,
+          "in_file": 65018,
+          "pct": 85.3
+        },
+        "Charles": {
+          "reported": 130712,
+          "in_file": 117727,
+          "pct": 90.1
+        },
+        "Dorchester": {
+          "reported": 23747,
+          "in_file": 21672,
+          "pct": 91.3
+        },
+        "Frederick": {
+          "reported": 208467,
+          "in_file": 188569,
+          "pct": 90.5
+        },
+        "Garrett": {
+          "reported": 21713,
+          "in_file": 19114,
+          "pct": 88.0
+        },
+        "Harford": {
+          "reported": 203137,
+          "in_file": 181270,
+          "pct": 89.2
+        },
+        "Howard": {
+          "reported": 244594,
+          "in_file": 214300,
+          "pct": 87.6
+        },
+        "Kent": {
+          "reported": 14697,
+          "in_file": 12865,
+          "pct": 87.5
+        },
+        "Montgomery": {
+          "reported": 751158,
+          "in_file": 622498,
+          "pct": 82.9
+        },
+        "Prince George's": {
+          "reported": 639196,
+          "in_file": 553494,
+          "pct": 86.6
+        },
+        "Queen Anne's": {
+          "reported": 41199,
+          "in_file": 38170,
+          "pct": 92.6
+        },
+        "Somerset": {
+          "reported": 14576,
+          "in_file": 12999,
+          "pct": 89.2
+        },
+        "St. Mary's": {
+          "reported": 82864,
+          "in_file": 71822,
+          "pct": 86.7
+        },
+        "Talbot": {
+          "reported": 29975,
+          "in_file": 26549,
+          "pct": 88.6
+        },
+        "Washington": {
+          "reported": 109981,
+          "in_file": 95514,
+          "pct": 86.8
+        },
+        "Wicomico": {
+          "reported": 69895,
+          "in_file": 61048,
+          "pct": 87.3
+        },
+        "Worcester": {
+          "reported": 45099,
+          "in_file": 40229,
+          "pct": 89.2
+        }
+      }
+    },
+    "2022-GG": {
+      "month": "2022-11",
+      "Maryland": {
+        "reported": 4502428,
+        "in_file": 3920806,
+        "pct": 87.1
+      },
+      "counties": {
+        "Allegany": {
+          "reported": 47100,
+          "in_file": 41157,
+          "pct": 87.4
+        },
+        "Anne Arundel": {
+          "reported": 446226,
+          "in_file": 389247,
+          "pct": 87.2
+        },
+        "Baltimore City": {
+          "reported": 424313,
+          "in_file": 368179,
+          "pct": 86.8
+        },
+        "Baltimore County": {
+          "reported": 608743,
+          "in_file": 535121,
+          "pct": 87.9
+        },
+        "Calvert": {
+          "reported": 74898,
+          "in_file": 64983,
+          "pct": 86.8
+        },
+        "Caroline": {
+          "reported": 23296,
+          "in_file": 20841,
+          "pct": 89.5
+        },
+        "Carroll": {
+          "reported": 136677,
+          "in_file": 123162,
+          "pct": 90.1
+        },
+        "Cecil": {
+          "reported": 77197,
+          "in_file": 66064,
+          "pct": 85.6
+        },
+        "Charles": {
+          "reported": 132427,
+          "in_file": 119211,
+          "pct": 90.0
+        },
+        "Dorchester": {
+          "reported": 23946,
+          "in_file": 21906,
+          "pct": 91.5
+        },
+        "Frederick": {
+          "reported": 212494,
+          "in_file": 191301,
+          "pct": 90.0
+        },
+        "Garrett": {
+          "reported": 21854,
+          "in_file": 19327,
+          "pct": 88.4
+        },
+        "Harford": {
+          "reported": 205554,
+          "in_file": 183343,
+          "pct": 89.2
+        },
+        "Howard": {
+          "reported": 247950,
+          "in_file": 217551,
+          "pct": 87.7
+        },
+        "Kent": {
+          "reported": 14879,
+          "in_file": 13075,
+          "pct": 87.9
+        },
+        "Montgomery": {
+          "reported": 761294,
+          "in_file": 634027,
+          "pct": 83.3
+        },
+        "Prince George's": {
+          "reported": 644637,
+          "in_file": 561306,
+          "pct": 87.1
+        },
+        "Queen Anne's": {
+          "reported": 41829,
+          "in_file": 38629,
+          "pct": 92.3
+        },
+        "Somerset": {
+          "reported": 14763,
+          "in_file": 13179,
+          "pct": 89.3
+        },
+        "St. Mary's": {
+          "reported": 84207,
+          "in_file": 72845,
+          "pct": 86.5
+        },
+        "Talbot": {
+          "reported": 30431,
+          "in_file": 26904,
+          "pct": 88.4
+        },
+        "Washington": {
+          "reported": 111336,
+          "in_file": 96814,
+          "pct": 87.0
+        },
+        "Wicomico": {
+          "reported": 70739,
+          "in_file": 61879,
+          "pct": 87.5
+        },
+        "Worcester": {
+          "reported": 45638,
+          "in_file": 40755,
+          "pct": 89.3
+        }
+      }
+    },
+    "2024-PP": {
+      "month": "2024-05",
+      "Maryland": {
+        "reported": 4507821,
+        "in_file": 4163965,
+        "pct": 92.4
+      },
+      "counties": {
+        "Allegany": {
+          "reported": 47059,
+          "in_file": 43616,
+          "pct": 92.7
+        },
+        "Anne Arundel": {
+          "reported": 448456,
+          "in_file": 413545,
+          "pct": 92.2
+        },
+        "Baltimore City": {
+          "reported": 420920,
+          "in_file": 388602,
+          "pct": 92.3
+        },
+        "Baltimore County": {
+          "reported": 605757,
+          "in_file": 563030,
+          "pct": 92.9
+        },
+        "Calvert": {
+          "reported": 74892,
+          "in_file": 68706,
+          "pct": 91.7
+        },
+        "Caroline": {
+          "reported": 23497,
+          "in_file": 22032,
+          "pct": 93.8
+        },
+        "Carroll": {
+          "reported": 136466,
+          "in_file": 128980,
+          "pct": 94.5
+        },
+        "Cecil": {
+          "reported": 78215,
+          "in_file": 71372,
+          "pct": 91.3
+        },
+        "Charles": {
+          "reported": 134341,
+          "in_file": 126506,
+          "pct": 94.2
+        },
+        "Dorchester": {
+          "reported": 24445,
+          "in_file": 23158,
+          "pct": 94.7
+        },
+        "Frederick": {
+          "reported": 217075,
+          "in_file": 204013,
+          "pct": 94.0
+        },
+        "Garrett": {
+          "reported": 21968,
+          "in_file": 20472,
+          "pct": 93.2
+        },
+        "Harford": {
+          "reported": 206249,
+          "in_file": 193537,
+          "pct": 93.8
+        },
+        "Howard": {
+          "reported": 250331,
+          "in_file": 232073,
+          "pct": 92.7
+        },
+        "Kent": {
+          "reported": 14902,
+          "in_file": 13845,
+          "pct": 92.9
+        },
+        "Montgomery": {
+          "reported": 753150,
+          "in_file": 681263,
+          "pct": 90.5
+        },
+        "Prince George's": {
+          "reported": 648697,
+          "in_file": 596549,
+          "pct": 92.0
+        },
+        "Queen Anne's": {
+          "reported": 42851,
+          "in_file": 40732,
+          "pct": 95.1
+        },
+        "Somerset": {
+          "reported": 14891,
+          "in_file": 13895,
+          "pct": 93.3
+        },
+        "St. Mary's": {
+          "reported": 84204,
+          "in_file": 77636,
+          "pct": 92.2
+        },
+        "Talbot": {
+          "reported": 30471,
+          "in_file": 28340,
+          "pct": 93.0
+        },
+        "Washington": {
+          "reported": 111933,
+          "in_file": 102964,
+          "pct": 92.0
+        },
+        "Wicomico": {
+          "reported": 70984,
+          "in_file": 65969,
+          "pct": 92.9
+        },
+        "Worcester": {
+          "reported": 46067,
+          "in_file": 43130,
+          "pct": 93.6
+        }
+      }
+    },
+    "2024-PG": {
+      "month": "2024-11",
+      "Maryland": {
+        "reported": 4639253,
+        "in_file": 4309277,
+        "pct": 92.9
+      },
+      "counties": {
+        "Allegany": {
+          "reported": 48116,
+          "in_file": 44891,
+          "pct": 93.3
+        },
+        "Anne Arundel": {
+          "reported": 461566,
+          "in_file": 427221,
+          "pct": 92.6
+        },
+        "Baltimore City": {
+          "reported": 435141,
+          "in_file": 403656,
+          "pct": 92.8
+        },
+        "Baltimore County": {
+          "reported": 622251,
+          "in_file": 580161,
+          "pct": 93.2
+        },
+        "Calvert": {
+          "reported": 76997,
+          "in_file": 70965,
+          "pct": 92.2
+        },
+        "Caroline": {
+          "reported": 24133,
+          "in_file": 22724,
+          "pct": 94.2
+        },
+        "Carroll": {
+          "reported": 140125,
+          "in_file": 132087,
+          "pct": 94.3
+        },
+        "Cecil": {
+          "reported": 79870,
+          "in_file": 73945,
+          "pct": 92.6
+        },
+        "Charles": {
+          "reported": 138832,
+          "in_file": 131046,
+          "pct": 94.4
+        },
+        "Dorchester": {
+          "reported": 25239,
+          "in_file": 23924,
+          "pct": 94.8
+        },
+        "Frederick": {
+          "reported": 224210,
+          "in_file": 210546,
+          "pct": 93.9
+        },
+        "Garrett": {
+          "reported": 22487,
+          "in_file": 21022,
+          "pct": 93.5
+        },
+        "Harford": {
+          "reported": 211386,
+          "in_file": 198706,
+          "pct": 94.0
+        },
+        "Howard": {
+          "reported": 258053,
+          "in_file": 239847,
+          "pct": 92.9
+        },
+        "Kent": {
+          "reported": 15227,
+          "in_file": 14260,
+          "pct": 93.6
+        },
+        "Montgomery": {
+          "reported": 776874,
+          "in_file": 709757,
+          "pct": 91.4
+        },
+        "Prince George's": {
+          "reported": 666481,
+          "in_file": 619701,
+          "pct": 93.0
+        },
+        "Queen Anne's": {
+          "reported": 42809,
+          "in_file": 41793,
+          "pct": 97.6
+        },
+        "Somerset": {
+          "reported": 15179,
+          "in_file": 14357,
+          "pct": 94.6
+        },
+        "St. Mary's": {
+          "reported": 87070,
+          "in_file": 80717,
+          "pct": 92.7
+        },
+        "Talbot": {
+          "reported": 31148,
+          "in_file": 29111,
+          "pct": 93.5
+        },
+        "Washington": {
+          "reported": 115529,
+          "in_file": 106485,
+          "pct": 92.2
+        },
+        "Wicomico": {
+          "reported": 73182,
+          "in_file": 68047,
+          "pct": 93.0
+        },
+        "Worcester": {
+          "reported": 47348,
+          "in_file": 44308,
+          "pct": 93.6
+        }
+      }
+    },
+    "2026-GP": {
+      "month": "2026-06",
+      "Maryland": {
+        "reported": 4589121,
+        "in_file": 4548180,
+        "pct": 99.1
+      },
+      "counties": {
+        "Allegany": {
+          "reported": 47822,
+          "in_file": 47362,
+          "pct": 99.0
+        },
+        "Anne Arundel": {
+          "reported": 454624,
+          "in_file": 450810,
+          "pct": 99.2
+        },
+        "Baltimore City": {
+          "reported": 428720,
+          "in_file": 425453,
+          "pct": 99.2
+        },
+        "Baltimore County": {
+          "reported": 612133,
+          "in_file": 607310,
+          "pct": 99.2
+        },
+        "Calvert": {
+          "reported": 75121,
+          "in_file": 74433,
+          "pct": 99.1
+        },
+        "Caroline": {
+          "reported": 24211,
+          "in_file": 24016,
+          "pct": 99.2
+        },
+        "Carroll": {
+          "reported": 138787,
+          "in_file": 137650,
+          "pct": 99.2
+        },
+        "Cecil": {
+          "reported": 79720,
+          "in_file": 78862,
+          "pct": 98.9
+        },
+        "Charles": {
+          "reported": 139315,
+          "in_file": 138452,
+          "pct": 99.4
+        },
+        "Dorchester": {
+          "reported": 25358,
+          "in_file": 25155,
+          "pct": 99.2
+        },
+        "Frederick": {
+          "reported": 225079,
+          "in_file": 222525,
+          "pct": 98.9
+        },
+        "Garrett": {
+          "reported": 22282,
+          "in_file": 22068,
+          "pct": 99.0
+        },
+        "Harford": {
+          "reported": 210778,
+          "in_file": 208744,
+          "pct": 99.0
+        },
+        "Howard": {
+          "reported": 256028,
+          "in_file": 253505,
+          "pct": 99.0
+        },
+        "Kent": {
+          "reported": 15140,
+          "in_file": 15046,
+          "pct": 99.4
+        },
+        "Montgomery": {
+          "reported": 764358,
+          "in_file": 755396,
+          "pct": 98.8
+        },
+        "Prince George's": {
+          "reported": 660250,
+          "in_file": 655322,
+          "pct": 99.3
+        },
+        "Queen Anne's": {
+          "reported": 44142,
+          "in_file": 43759,
+          "pct": 99.1
+        },
+        "Somerset": {
+          "reported": 15353,
+          "in_file": 15198,
+          "pct": 99.0
+        },
+        "St. Mary's": {
+          "reported": 85884,
+          "in_file": 85117,
+          "pct": 99.1
+        },
+        "Talbot": {
+          "reported": 30794,
+          "in_file": 30577,
+          "pct": 99.3
+        },
+        "Washington": {
+          "reported": 113169,
+          "in_file": 112437,
+          "pct": 99.4
+        },
+        "Wicomico": {
+          "reported": 72946,
+          "in_file": 72258,
+          "pct": 99.1
+        },
+        "Worcester": {
+          "reported": 47107,
+          "in_file": 46725,
+          "pct": 99.2
+        }
+      }
+    }
+  },
+  "metrics": {
+    "party_by_county": {
+      "dims": [
+        "county",
+        "party_group",
+        "status"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 348
+    },
+    "turnout_by_election": {
+      "dims": [
+        "county",
+        "party_group",
+        "election"
+      ],
+      "values": [
+        "count",
+        "eligible"
+      ],
+      "rows": 875
+    },
+    "turnout_by_age": {
+      "dims": [
+        "county",
+        "age_band",
+        "election"
+      ],
+      "values": [
+        "count",
+        "eligible"
+      ],
+      "rows": 1060
+    },
+    "turnout_by_age_party": {
+      "dims": [
+        "party_group",
+        "age_band",
+        "election"
+      ],
+      "values": [
+        "count",
+        "eligible"
+      ],
+      "rows": 305
+    },
+    "voter_types": {
+      "dims": [
+        "county",
+        "party_group",
+        "eligible_elections",
+        "voter_type"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 3070
+    },
+    "districts": {
+      "dims": [
+        "district_type",
+        "district",
+        "party_group",
+        "status"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 1103
+    },
+    "district_turnout": {
+      "dims": [
+        "district_type",
+        "district",
+        "election"
+      ],
+      "values": [
+        "count",
+        "eligible"
+      ],
+      "rows": 395
+    },
+    "age_by_party": {
+      "dims": [
+        "county",
+        "party_group",
+        "age_band"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 1391
+    },
+    "generation_by_party": {
+      "dims": [
+        "county",
+        "party_group",
+        "generation"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 863
+    },
+    "gender": {
+      "dims": [
+        "county",
+        "party_group",
+        "gender"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 508
+    },
+    "registration_cohorts": {
+      "dims": [
+        "county",
+        "party_group",
+        "reg_year"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 10203
+    },
+    "minor_parties": {
+      "dims": [
+        "county",
+        "party"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 290
+    },
+    "new_voters_voted": {
+      "dims": [
+        "county",
+        "party_group"
+      ],
+      "values": [
+        "count",
+        "eligible"
+      ],
+      "rows": 175
+    }
+  },
+  "suppress_below": 10,
+  "limitations": [
+    "Participation figures describe the people on the voter list today, not the electorate on election day. Voters who have since moved, died or been removed are missing from the file, both as voters and as registered voters. Past elections are therefore undercounted, the older the election the more is missing, and these are not official turnout figures. The State Board of Elections publishes official turnout for each election.",
+    "A voter counts as eligible for an election if they were registered by election day and turned 18 by it (by that year's general election, for a primary), or if the file records a vote for it. Age bands use age today.",
+    "Party switching, removals, and net registration change cannot be measured from a single snapshot. They need two snapshots compared voter by voter.",
+    "The file records whether someone voted, not how (early, mail, or election day).",
+    "Cells with 1 to 9 voters are hidden. Hidden cells are not rebalanced, so rows may not sum to their totals.",
+    "Active counts in the file are about 1% below the State Board's monthly registration report for the same month. The monthly report remains the official count; shares and participation rates here are computed within the file.",
+    "Registration cohorts show survivors: current voters by the year they first registered in Maryland, not everyone who ever registered."
+  ]
+}

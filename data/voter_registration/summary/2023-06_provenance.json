@@ -1,0 +1,28 @@
+{
+  "source_id": "sbe-vrar-2023-06",
+  "source_url": "https://results.elections.maryland.gov/pdf/vrar/2023/MSR-2023_06.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "Voter Registration Activity Report - 2023-06",
+  "fetch_date": "2026-06-24T15:44:59+00:00",
+  "parse_date": "2026-09-30T16:47:02+00:00",
+  "sha256_original": "7b4e6a98f7718430ddb9ab0ce94a22bd77e546c3b3fd559ca746a9d710d548b1",
+  "parser_version": "skipjack 0.2.0",
+  "notes": "VRAR summary table parsed with natural-pdf. 151 rows.",
+  "extraction_method": "native",
+  "checks": {
+    "reconciled": true,
+    "parties": [
+      "DEM",
+      "REP",
+      "LIB",
+      "UNAF",
+      "OTH"
+    ],
+    "statewide_active_total": 4154251,
+    "counties": 24,
+    "county_table_source_discrepancies": [],
+    "new_registrations_total": 23334,
+    "removals_total": 27009,
+    "summary_table_source_discrepancies": []
+  }
+}

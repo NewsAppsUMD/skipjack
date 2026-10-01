@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Voter Registration{% endblock %}
+
+{% block head %}
+<style>
+    .voters-table {
+        font-size: 0.9rem;
+    }
+    .voters-table td, .voters-table th {
+        padding: 0.4rem 0.6rem;
+        white-space: nowrap;
+    }
+    .voters-table .pct {
+        color: var(--pico-muted-color);
+        font-size: 0.8em;
+    }
+    .voters-table tbody tr:hover {
+        background: rgba(61, 126, 166, 0.06);
+    }
+    .voters-table tfoot td {
+        font-weight: bold;
+        border-top: 2px solid var(--pico-table-border-color);
+    }
+    .date-picker {
+        display: inline-block;
+        max-width: 200px;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Registered Voters by County</h1>
+<p><em>as of {{ selected_date }}</em></p>
+<p><a href="{{ base }}/voters/county/">Trends over time</a> &middot; <a href="{{ base }}/voters/file/">Participation among current voters (voter file)</a></p>
+
+<label class="sr-only" for="month-select">Report month</label>
+<select id="month-select" class="date-picker" onchange="location.href = this.value">
+    {% for d in dates %}
+    <option value="{{ base }}/voters/month/{{ d }}/" {% if d == selected_date %}selected{% endif %}>{{ d }}</option>
+    {% endfor %}
+</select>
+
+<div class="overflow-auto">
+<table class="voters-table" data-sortable>
+    <thead>
+        <tr>
+            <th>County</th>
+            <th style="text-align:right"># Reg</th>
+            {% for p in parties %}
+            <th style="text-align:right">{{ p }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for cd in county_data %}
+        <tr>
+            <td><a href="{{ base }}/voters/county/{{ cd.county|slug }}/">{{ cd.county }}</a></td>
+            <td style="text-align:right">{{ "{:,}".format(cd.total) }}</td>
+            {% for p in parties %}
+            {% set v = cd.parties.get(p, 0) %}
+            <td style="text-align:right">
+                {{ "{:,}".format(v) }}
+                <span class="pct">({{ "%.1f"|format(v / cd.total * 100) }}%)</span>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><a href="{{ base }}/voters/county/">Total</a></td>
+            <td style="text-align:right">{{ "{:,}".format(statewide_total) }}</td>
+            {% for p in parties %}
+            {% set v = statewide.get(p, 0) %}
+            <td style="text-align:right">
+                {{ "{:,}".format(v) }}
+                <span class="pct">({{ "%.1f"|format(v / statewide_total * 100) }}%)</span>
+            </td>
+            {% endfor %}
+        </tr>
+    </tfoot>
+</table>
+</div>
+{% endblock %}

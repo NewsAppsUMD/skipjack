@@ -1,0 +1,14 @@
+{# Number and percent cells shared by the voter file pages. #}
+
+{% macro n(v) -%}
+{%- if v is none %}<span class="muted" title="Fewer than {{ suppress_below|default(10) }} voters">&lt;{{ suppress_below|default(10) }}</span>{% else %}{{ "{:,}".format(v) }}{% endif -%}
+{%- endmacro %}
+
+{% macro p(v, digits=0) -%}
+{%- if v is none %}<span class="muted">&ndash;</span>{% else %}{{ ("%." ~ digits ~ "f")|format(v) }}%{% endif -%}
+{%- endmacro %}
+
+{# A table cell whose background is a bar sized to the percent. #}
+{% macro bar(v, color="var(--bar-default)", digits=0) -%}
+<td class="barcell" style="--w: {{ v if v is not none else 0 }}%; --c: {{ color }}">{{ p(v, digits) }}</td>
+{%- endmacro %}

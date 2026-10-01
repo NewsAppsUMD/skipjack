@@ -1,0 +1,121 @@
+report_date,county,party,active_voters,party_name
+2023-09,Allegany,DEM,11463,Democratic
+2023-09,Allegany,REP,22870,Republican
+2023-09,Allegany,LIB,248,Libertarian
+2023-09,Allegany,UNAF,8754,Unaffiliated
+2023-09,Allegany,OTH,565,Other
+2023-09,Anne Arundel,DEM,174896,Democratic
+2023-09,Anne Arundel,REP,129130,Republican
+2023-09,Anne Arundel,LIB,2395,Libertarian
+2023-09,Anne Arundel,UNAF,101908,Unaffiliated
+2023-09,Anne Arundel,OTH,4177,Other
+2023-09,Baltimore City,DEM,298928,Democratic
+2023-09,Baltimore City,REP,28011,Republican
+2023-09,Baltimore City,LIB,1141,Libertarian
+2023-09,Baltimore City,UNAF,59729,Unaffiliated
+2023-09,Baltimore City,OTH,5762,Other
+2023-09,Baltimore County,DEM,308716,Democratic
+2023-09,Baltimore County,REP,136225,Republican
+2023-09,Baltimore County,LIB,2604,Libertarian
+2023-09,Baltimore County,UNAF,113396,Unaffiliated
+2023-09,Baltimore County,OTH,7746,Other
+2023-09,Calvert,DEM,23719,Democratic
+2023-09,Calvert,REP,27872,Republican
+2023-09,Calvert,LIB,459,Libertarian
+2023-09,Calvert,UNAF,15903,Unaffiliated
+2023-09,Calvert,OTH,721,Other
+2023-09,Caroline,DEM,6152,Democratic
+2023-09,Caroline,REP,10636,Republican
+2023-09,Caroline,LIB,119,Libertarian
+2023-09,Caroline,UNAF,4773,Unaffiliated
+2023-09,Caroline,OTH,256,Other
+2023-09,Carroll,DEM,33507,Democratic
+2023-09,Carroll,REP,63404,Republican
+2023-09,Carroll,LIB,848,Libertarian
+2023-09,Carroll,UNAF,29746,Unaffiliated
+2023-09,Carroll,OTH,1323,Other
+2023-09,Cecil,DEM,20503,Democratic
+2023-09,Cecil,REP,32498,Republican
+2023-09,Cecil,LIB,491,Libertarian
+2023-09,Cecil,UNAF,17349,Unaffiliated
+2023-09,Cecil,OTH,936,Other
+2023-09,Charles,DEM,74786,Democratic
+2023-09,Charles,REP,22834,Republican
+2023-09,Charles,LIB,432,Libertarian
+2023-09,Charles,UNAF,23209,Unaffiliated
+2023-09,Charles,OTH,1186,Other
+2023-09,Dorchester,DEM,9569,Democratic
+2023-09,Dorchester,REP,9120,Republican
+2023-09,Dorchester,LIB,114,Libertarian
+2023-09,Dorchester,UNAF,4033,Unaffiliated
+2023-09,Dorchester,OTH,262,Other
+2023-09,Frederick,DEM,77572,Democratic
+2023-09,Frederick,REP,67451,Republican
+2023-09,Frederick,LIB,1199,Libertarian
+2023-09,Frederick,UNAF,51130,Unaffiliated
+2023-09,Frederick,OTH,1703,Other
+2023-09,Garrett,DEM,3685,Democratic
+2023-09,Garrett,REP,13735,Republican
+2023-09,Garrett,LIB,113,Libertarian
+2023-09,Garrett,UNAF,2974,Unaffiliated
+2023-09,Garrett,OTH,201,Other
+2023-09,Harford,DEM,65008,Democratic
+2023-09,Harford,REP,80110,Republican
+2023-09,Harford,LIB,1226,Libertarian
+2023-09,Harford,UNAF,43244,Unaffiliated
+2023-09,Harford,OTH,2168,Other
+2023-09,Howard,DEM,121809,Democratic
+2023-09,Howard,REP,47976,Republican
+2023-09,Howard,LIB,925,Libertarian
+2023-09,Howard,UNAF,59701,Unaffiliated
+2023-09,Howard,OTH,2479,Other
+2023-09,Kent,DEM,5806,Democratic
+2023-09,Kent,REP,5215,Republican
+2023-09,Kent,LIB,69,Libertarian
+2023-09,Kent,UNAF,2705,Unaffiliated
+2023-09,Kent,OTH,152,Other
+2023-09,Montgomery,DEM,408389,Democratic
+2023-09,Montgomery,REP,96168,Republican
+2023-09,Montgomery,LIB,2273,Libertarian
+2023-09,Montgomery,UNAF,164125,Unaffiliated
+2023-09,Montgomery,OTH,7094,Other
+2023-09,Prince George's,DEM,456861,Democratic
+2023-09,Prince George's,REP,37585,Republican
+2023-09,Prince George's,LIB,1451,Libertarian
+2023-09,Prince George's,UNAF,91915,Unaffiliated
+2023-09,Prince George's,OTH,12387,Other
+2023-09,Queen Anne's,DEM,11144,Democratic
+2023-09,Queen Anne's,REP,19926,Republican
+2023-09,Queen Anne's,LIB,229,Libertarian
+2023-09,Queen Anne's,UNAF,8538,Unaffiliated
+2023-09,Queen Anne's,OTH,392,Other
+2023-09,St. Mary's,DEM,25090,Democratic
+2023-09,St. Mary's,REP,31654,Republican
+2023-09,St. Mary's,LIB,469,Libertarian
+2023-09,St. Mary's,UNAF,17242,Unaffiliated
+2023-09,St. Mary's,OTH,837,Other
+2023-09,Somerset,DEM,5508,Democratic
+2023-09,Somerset,REP,6099,Republican
+2023-09,Somerset,LIB,67,Libertarian
+2023-09,Somerset,UNAF,2394,Unaffiliated
+2023-09,Somerset,OTH,153,Other
+2023-09,Talbot,DEM,10718,Democratic
+2023-09,Talbot,REP,11687,Republican
+2023-09,Talbot,LIB,155,Libertarian
+2023-09,Talbot,UNAF,5890,Unaffiliated
+2023-09,Talbot,OTH,276,Other
+2023-09,Washington,DEM,31098,Democratic
+2023-09,Washington,REP,44050,Republican
+2023-09,Washington,LIB,638,Libertarian
+2023-09,Washington,UNAF,22952,Unaffiliated
+2023-09,Washington,OTH,1132,Other
+2023-09,Wicomico,DEM,26583,Democratic
+2023-09,Wicomico,REP,23949,Republican
+2023-09,Wicomico,LIB,345,Libertarian
+2023-09,Wicomico,UNAF,14221,Unaffiliated
+2023-09,Wicomico,OTH,890,Other
+2023-09,Worcester,DEM,13698,Democratic
+2023-09,Worcester,REP,19327,Republican
+2023-09,Worcester,LIB,231,Libertarian
+2023-09,Worcester,UNAF,8822,Unaffiliated
+2023-09,Worcester,OTH,570,Other

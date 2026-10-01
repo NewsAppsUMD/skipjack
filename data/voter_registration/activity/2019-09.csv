@@ -1,0 +1,217 @@
+report_date,county,measure,party,value
+2019-09,Allegany,address_changes,,463
+2019-09,Allegany,name_changes,,67
+2019-09,Allegany,confirmation_mailings,,223
+2019-09,Allegany,inactive,,2322
+2019-09,Allegany,party_affiliation_changes_from,DEM,33
+2019-09,Allegany,party_affiliation_changes_from,REP,22
+2019-09,Allegany,party_affiliation_changes_from,BAR,0
+2019-09,Allegany,party_affiliation_changes_from,UNAF,25
+2019-09,Allegany,party_affiliation_changes_from,OTH,12
+2019-09,Anne Arundel,address_changes,,5309
+2019-09,Anne Arundel,name_changes,,1294
+2019-09,Anne Arundel,confirmation_mailings,,3702
+2019-09,Anne Arundel,inactive,,20688
+2019-09,Anne Arundel,party_affiliation_changes_from,DEM,237
+2019-09,Anne Arundel,party_affiliation_changes_from,REP,245
+2019-09,Anne Arundel,party_affiliation_changes_from,BAR,0
+2019-09,Anne Arundel,party_affiliation_changes_from,UNAF,273
+2019-09,Anne Arundel,party_affiliation_changes_from,OTH,119
+2019-09,Baltimore City,address_changes,,7791
+2019-09,Baltimore City,name_changes,,2387
+2019-09,Baltimore City,confirmation_mailings,,2132
+2019-09,Baltimore City,inactive,,18904
+2019-09,Baltimore City,party_affiliation_changes_from,DEM,310
+2019-09,Baltimore City,party_affiliation_changes_from,REP,120
+2019-09,Baltimore City,party_affiliation_changes_from,BAR,1
+2019-09,Baltimore City,party_affiliation_changes_from,UNAF,250
+2019-09,Baltimore City,party_affiliation_changes_from,OTH,109
+2019-09,Baltimore County,address_changes,,7383
+2019-09,Baltimore County,name_changes,,2801
+2019-09,Baltimore County,confirmation_mailings,,4573
+2019-09,Baltimore County,inactive,,21647
+2019-09,Baltimore County,party_affiliation_changes_from,DEM,491
+2019-09,Baltimore County,party_affiliation_changes_from,REP,260
+2019-09,Baltimore County,party_affiliation_changes_from,BAR,2
+2019-09,Baltimore County,party_affiliation_changes_from,UNAF,317
+2019-09,Baltimore County,party_affiliation_changes_from,OTH,172
+2019-09,Calvert,address_changes,,624
+2019-09,Calvert,name_changes,,205
+2019-09,Calvert,confirmation_mailings,,2481
+2019-09,Calvert,inactive,,3215
+2019-09,Calvert,party_affiliation_changes_from,DEM,36
+2019-09,Calvert,party_affiliation_changes_from,REP,47
+2019-09,Calvert,party_affiliation_changes_from,BAR,0
+2019-09,Calvert,party_affiliation_changes_from,UNAF,41
+2019-09,Calvert,party_affiliation_changes_from,OTH,18
+2019-09,Caroline,address_changes,,203
+2019-09,Caroline,name_changes,,53
+2019-09,Caroline,confirmation_mailings,,135
+2019-09,Caroline,inactive,,769
+2019-09,Caroline,party_affiliation_changes_from,DEM,17
+2019-09,Caroline,party_affiliation_changes_from,REP,7
+2019-09,Caroline,party_affiliation_changes_from,BAR,0
+2019-09,Caroline,party_affiliation_changes_from,UNAF,15
+2019-09,Caroline,party_affiliation_changes_from,OTH,5
+2019-09,Carroll,address_changes,,1170
+2019-09,Carroll,name_changes,,311
+2019-09,Carroll,confirmation_mailings,,742
+2019-09,Carroll,inactive,,5647
+2019-09,Carroll,party_affiliation_changes_from,DEM,68
+2019-09,Carroll,party_affiliation_changes_from,REP,80
+2019-09,Carroll,party_affiliation_changes_from,BAR,0
+2019-09,Carroll,party_affiliation_changes_from,UNAF,96
+2019-09,Carroll,party_affiliation_changes_from,OTH,59
+2019-09,Cecil,address_changes,,717
+2019-09,Cecil,name_changes,,240
+2019-09,Cecil,confirmation_mailings,,1760
+2019-09,Cecil,inactive,,5506
+2019-09,Cecil,party_affiliation_changes_from,DEM,63
+2019-09,Cecil,party_affiliation_changes_from,REP,24
+2019-09,Cecil,party_affiliation_changes_from,BAR,0
+2019-09,Cecil,party_affiliation_changes_from,UNAF,52
+2019-09,Cecil,party_affiliation_changes_from,OTH,22
+2019-09,Charles,address_changes,,1495
+2019-09,Charles,name_changes,,437
+2019-09,Charles,confirmation_mailings,,1007
+2019-09,Charles,inactive,,6762
+2019-09,Charles,party_affiliation_changes_from,DEM,85
+2019-09,Charles,party_affiliation_changes_from,REP,45
+2019-09,Charles,party_affiliation_changes_from,BAR,0
+2019-09,Charles,party_affiliation_changes_from,UNAF,53
+2019-09,Charles,party_affiliation_changes_from,OTH,26
+2019-09,Dorchester,address_changes,,265
+2019-09,Dorchester,name_changes,,57
+2019-09,Dorchester,confirmation_mailings,,67
+2019-09,Dorchester,inactive,,942
+2019-09,Dorchester,party_affiliation_changes_from,DEM,16
+2019-09,Dorchester,party_affiliation_changes_from,REP,12
+2019-09,Dorchester,party_affiliation_changes_from,BAR,0
+2019-09,Dorchester,party_affiliation_changes_from,UNAF,10
+2019-09,Dorchester,party_affiliation_changes_from,OTH,4
+2019-09,Frederick,address_changes,,2631
+2019-09,Frederick,name_changes,,649
+2019-09,Frederick,confirmation_mailings,,4707
+2019-09,Frederick,inactive,,10295
+2019-09,Frederick,party_affiliation_changes_from,DEM,115
+2019-09,Frederick,party_affiliation_changes_from,REP,104
+2019-09,Frederick,party_affiliation_changes_from,BAR,1
+2019-09,Frederick,party_affiliation_changes_from,UNAF,159
+2019-09,Frederick,party_affiliation_changes_from,OTH,54
+2019-09,Garrett,address_changes,,171
+2019-09,Garrett,name_changes,,59
+2019-09,Garrett,confirmation_mailings,,113
+2019-09,Garrett,inactive,,994
+2019-09,Garrett,party_affiliation_changes_from,DEM,10
+2019-09,Garrett,party_affiliation_changes_from,REP,10
+2019-09,Garrett,party_affiliation_changes_from,BAR,0
+2019-09,Garrett,party_affiliation_changes_from,UNAF,2
+2019-09,Garrett,party_affiliation_changes_from,OTH,3
+2019-09,Harford,address_changes,,2237
+2019-09,Harford,name_changes,,554
+2019-09,Harford,confirmation_mailings,,904
+2019-09,Harford,inactive,,8676
+2019-09,Harford,party_affiliation_changes_from,DEM,140
+2019-09,Harford,party_affiliation_changes_from,REP,107
+2019-09,Harford,party_affiliation_changes_from,BAR,2
+2019-09,Harford,party_affiliation_changes_from,UNAF,134
+2019-09,Harford,party_affiliation_changes_from,OTH,89
+2019-09,Howard,address_changes,,2677
+2019-09,Howard,name_changes,,703
+2019-09,Howard,confirmation_mailings,,1344
+2019-09,Howard,inactive,,10607
+2019-09,Howard,party_affiliation_changes_from,DEM,107
+2019-09,Howard,party_affiliation_changes_from,REP,128
+2019-09,Howard,party_affiliation_changes_from,BAR,0
+2019-09,Howard,party_affiliation_changes_from,UNAF,190
+2019-09,Howard,party_affiliation_changes_from,OTH,81
+2019-09,Kent,address_changes,,126
+2019-09,Kent,name_changes,,36
+2019-09,Kent,confirmation_mailings,,86
+2019-09,Kent,inactive,,684
+2019-09,Kent,party_affiliation_changes_from,DEM,12
+2019-09,Kent,party_affiliation_changes_from,REP,12
+2019-09,Kent,party_affiliation_changes_from,BAR,0
+2019-09,Kent,party_affiliation_changes_from,UNAF,5
+2019-09,Kent,party_affiliation_changes_from,OTH,5
+2019-09,Montgomery,address_changes,,6604
+2019-09,Montgomery,name_changes,,2207
+2019-09,Montgomery,confirmation_mailings,,9725
+2019-09,Montgomery,inactive,,59177
+2019-09,Montgomery,party_affiliation_changes_from,DEM,245
+2019-09,Montgomery,party_affiliation_changes_from,REP,220
+2019-09,Montgomery,party_affiliation_changes_from,BAR,1
+2019-09,Montgomery,party_affiliation_changes_from,UNAF,352
+2019-09,Montgomery,party_affiliation_changes_from,OTH,165
+2019-09,Prince George's,address_changes,,6756
+2019-09,Prince George's,name_changes,,2132
+2019-09,Prince George's,confirmation_mailings,,5458
+2019-09,Prince George's,inactive,,30717
+2019-09,Prince George's,party_affiliation_changes_from,DEM,264
+2019-09,Prince George's,party_affiliation_changes_from,REP,103
+2019-09,Prince George's,party_affiliation_changes_from,BAR,1
+2019-09,Prince George's,party_affiliation_changes_from,UNAF,152
+2019-09,Prince George's,party_affiliation_changes_from,OTH,155
+2019-09,Queen Anne's,address_changes,,418
+2019-09,Queen Anne's,name_changes,,92
+2019-09,Queen Anne's,confirmation_mailings,,166
+2019-09,Queen Anne's,inactive,,1532
+2019-09,Queen Anne's,party_affiliation_changes_from,DEM,16
+2019-09,Queen Anne's,party_affiliation_changes_from,REP,17
+2019-09,Queen Anne's,party_affiliation_changes_from,BAR,0
+2019-09,Queen Anne's,party_affiliation_changes_from,UNAF,24
+2019-09,Queen Anne's,party_affiliation_changes_from,OTH,12
+2019-09,St. Mary's,address_changes,,988
+2019-09,St. Mary's,name_changes,,189
+2019-09,St. Mary's,confirmation_mailings,,620
+2019-09,St. Mary's,inactive,,6290
+2019-09,St. Mary's,party_affiliation_changes_from,DEM,58
+2019-09,St. Mary's,party_affiliation_changes_from,REP,50
+2019-09,St. Mary's,party_affiliation_changes_from,BAR,1
+2019-09,St. Mary's,party_affiliation_changes_from,UNAF,35
+2019-09,St. Mary's,party_affiliation_changes_from,OTH,20
+2019-09,Somerset,address_changes,,174
+2019-09,Somerset,name_changes,,34
+2019-09,Somerset,confirmation_mailings,,547
+2019-09,Somerset,inactive,,497
+2019-09,Somerset,party_affiliation_changes_from,DEM,8
+2019-09,Somerset,party_affiliation_changes_from,REP,6
+2019-09,Somerset,party_affiliation_changes_from,BAR,0
+2019-09,Somerset,party_affiliation_changes_from,UNAF,3
+2019-09,Somerset,party_affiliation_changes_from,OTH,3
+2019-09,Talbot,address_changes,,303
+2019-09,Talbot,name_changes,,77
+2019-09,Talbot,confirmation_mailings,,151
+2019-09,Talbot,inactive,,1128
+2019-09,Talbot,party_affiliation_changes_from,DEM,11
+2019-09,Talbot,party_affiliation_changes_from,REP,10
+2019-09,Talbot,party_affiliation_changes_from,BAR,0
+2019-09,Talbot,party_affiliation_changes_from,UNAF,16
+2019-09,Talbot,party_affiliation_changes_from,OTH,8
+2019-09,Washington,address_changes,,1211
+2019-09,Washington,name_changes,,333
+2019-09,Washington,confirmation_mailings,,570
+2019-09,Washington,inactive,,7783
+2019-09,Washington,party_affiliation_changes_from,DEM,70
+2019-09,Washington,party_affiliation_changes_from,REP,48
+2019-09,Washington,party_affiliation_changes_from,BAR,0
+2019-09,Washington,party_affiliation_changes_from,UNAF,53
+2019-09,Washington,party_affiliation_changes_from,OTH,36
+2019-09,Wicomico,address_changes,,943
+2019-09,Wicomico,name_changes,,210
+2019-09,Wicomico,confirmation_mailings,,357
+2019-09,Wicomico,inactive,,3151
+2019-09,Wicomico,party_affiliation_changes_from,DEM,45
+2019-09,Wicomico,party_affiliation_changes_from,REP,32
+2019-09,Wicomico,party_affiliation_changes_from,BAR,0
+2019-09,Wicomico,party_affiliation_changes_from,UNAF,36
+2019-09,Wicomico,party_affiliation_changes_from,OTH,16
+2019-09,Worcester,address_changes,,482
+2019-09,Worcester,name_changes,,103
+2019-09,Worcester,confirmation_mailings,,622
+2019-09,Worcester,inactive,,2383
+2019-09,Worcester,party_affiliation_changes_from,DEM,28
+2019-09,Worcester,party_affiliation_changes_from,REP,20
+2019-09,Worcester,party_affiliation_changes_from,BAR,0
+2019-09,Worcester,party_affiliation_changes_from,UNAF,13
+2019-09,Worcester,party_affiliation_changes_from,OTH,21

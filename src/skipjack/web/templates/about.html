@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<h1>About Skipjack</h1>
+
+<p>
+    Skipjack transforms Maryland election data from scattered government PDFs and spreadsheets
+    into clean, explorable datasets. Named after Maryland's state boat — the Chesapeake Bay
+    skipjack — the project aims to make election data accessible and traceable.
+</p>
+
+<h2>Data Sources</h2>
+
+<p>All data comes from official government sources. Every number on this site traces back to
+its original document through our provenance system.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Source ID</th>
+            <th>Document</th>
+            <th>Fetched</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in sources %}
+        <tr>
+            <td><code>{{ s.source_id }}</code></td>
+            <td>{{ s.document_title }}</td>
+            <td>{{ s.fetch_date[:10] }}</td>
+            <td><a href="{{ s.source_url }}" target="_blank" rel="noopener">Original</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Methodology</h2>
+
+<p>
+    Original files are downloaded from the Maryland State Board of Elections and stored
+    as-is in an archive with SHA-256 checksums. Each file is then parsed into structured
+    CSV format with a provenance sidecar recording the source, parse date, and parser version.
+    The CSVs are loaded into a SQLite database for fast querying by the web application.
+</p>
+
+<h2>License</h2>
+
+<p>
+    This project is licensed under
+    <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC-BY 4.0)</a>.
+    You are free to share and adapt the data with attribution.
+</p>
+{% endblock %}

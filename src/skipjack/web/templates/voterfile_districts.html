@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}{{ district_type|capitalize }} Districts{% endblock %}
+
+{% block head %}
+<style>
+    .grid-table { font-size: 0.9rem; }
+    .grid-table th, .grid-table td { padding: 0.35rem 0.6rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .grid-table th:not(:first-child), .grid-table td:not(:first-child) { text-align: right; }
+    .barcell { background: linear-gradient(to right, color-mix(in srgb, #2a78d6 24%, transparent) var(--w), transparent var(--w)); }
+    .muted { color: #898781; }
+    .tabs a { margin-right: 1rem; }
+    .callout { background: #f3f1ea; border-left: 4px solid #52514e; border-radius: 4px; padding: 0.75rem 1rem; margin: 0 0 1rem; font-size: 0.95rem; }
+    .tabs a.active { font-weight: 600; text-decoration: none; color: var(--pico-h3-color); }
+</style>
+{% endblock %}
+
+{% block content %}
+<p><a href="{{ base }}/voters/file/{{ snapshot_q }}">&larr; Voter file</a></p>
+<h1>{{ district_type|capitalize }} districts</h1>
+<p class="secondary">From the voter list as of {{ snapshot }}. Party columns are shares of registered voters.</p>
+<p class="callout"><strong>Participation is among current voters and is not official turnout.</strong>
+    It is the share of today's registered voters who voted. Voters who have since moved, died or been removed
+    are missing, so past elections are undercounted. <a href="{{ base }}/voters/file/{{ snapshot_q }}#participation">See how much</a>.</p>
+
+<p class="tabs">
+    <a href="{{ base }}/voters/file/districts/congressional/{{ snapshot_q }}" class="{% if district_type == 'congressional' %}active{% endif %}">Congressional</a>
+    <a href="{{ base }}/voters/file/districts/legislative/{{ snapshot_q }}" class="{% if district_type == 'legislative' %}active{% endif %}">Legislative</a>
+</p>
+
+<div class="overflow-auto">
+<table class="grid-table" data-sortable>
+    <thead>
+        <tr>
+            <th>District</th>
+            <th>Registered</th>
+            <th>Dem</th>
+            <th>Rep</th>
+            <th>Unaff.</th>
+            <th>Inactive</th>
+            <th>Participation, {{ latest_general.short }}</th>
+            <th>Participation, {{ latest.short }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>{{ r.district }}</td>
+            <td>{{ m.n(r.registered) }}</td>
+            <td>{{ m.p(r.dem) }}</td><td>{{ m.p(r.rep) }}</td><td>{{ m.p(r.una) }}</td>
+            <td>{{ m.p(r.inactive, 1) }}</td>
+            {{ m.bar(r.general) }}{{ m.bar(r.latest) }}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="secondary" style="font-size:0.85rem;margin-top:1rem">
+    Legislative codes with a letter (for example 01A) are delegate sub-districts within a Senate district.
+    Districts with no recorded district are listed as Unknown.
+</p>
+{% endblock %}

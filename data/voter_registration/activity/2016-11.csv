@@ -1,0 +1,241 @@
+report_date,county,measure,party,value
+2016-11,Allegany,address_changes,,328
+2016-11,Allegany,name_changes,,47
+2016-11,Allegany,confirmation_mailings,,0
+2016-11,Allegany,inactive,,2681
+2016-11,Allegany,party_affiliation_changes_from,DEM,0
+2016-11,Allegany,party_affiliation_changes_from,REP,0
+2016-11,Allegany,party_affiliation_changes_from,GRN,0
+2016-11,Allegany,party_affiliation_changes_from,LIB,0
+2016-11,Allegany,party_affiliation_changes_from,UNAF,1
+2016-11,Allegany,party_affiliation_changes_from,OTH,0
+2016-11,Anne Arundel,address_changes,,2935
+2016-11,Anne Arundel,name_changes,,1123
+2016-11,Anne Arundel,confirmation_mailings,,0
+2016-11,Anne Arundel,inactive,,24293
+2016-11,Anne Arundel,party_affiliation_changes_from,DEM,7
+2016-11,Anne Arundel,party_affiliation_changes_from,REP,5
+2016-11,Anne Arundel,party_affiliation_changes_from,GRN,0
+2016-11,Anne Arundel,party_affiliation_changes_from,LIB,0
+2016-11,Anne Arundel,party_affiliation_changes_from,UNAF,7
+2016-11,Anne Arundel,party_affiliation_changes_from,OTH,1
+2016-11,Baltimore City,address_changes,,4896
+2016-11,Baltimore City,name_changes,,668
+2016-11,Baltimore City,confirmation_mailings,,1
+2016-11,Baltimore City,inactive,,39429
+2016-11,Baltimore City,party_affiliation_changes_from,DEM,7
+2016-11,Baltimore City,party_affiliation_changes_from,REP,2
+2016-11,Baltimore City,party_affiliation_changes_from,GRN,0
+2016-11,Baltimore City,party_affiliation_changes_from,LIB,0
+2016-11,Baltimore City,party_affiliation_changes_from,UNAF,10
+2016-11,Baltimore City,party_affiliation_changes_from,OTH,2
+2016-11,Baltimore County,address_changes,,3026
+2016-11,Baltimore County,name_changes,,1135
+2016-11,Baltimore County,confirmation_mailings,,12
+2016-11,Baltimore County,inactive,,28503
+2016-11,Baltimore County,party_affiliation_changes_from,DEM,6
+2016-11,Baltimore County,party_affiliation_changes_from,REP,3
+2016-11,Baltimore County,party_affiliation_changes_from,GRN,0
+2016-11,Baltimore County,party_affiliation_changes_from,LIB,0
+2016-11,Baltimore County,party_affiliation_changes_from,UNAF,7
+2016-11,Baltimore County,party_affiliation_changes_from,OTH,5
+2016-11,Calvert,address_changes,,264
+2016-11,Calvert,name_changes,,142
+2016-11,Calvert,confirmation_mailings,,0
+2016-11,Calvert,inactive,,4478
+2016-11,Calvert,party_affiliation_changes_from,DEM,19
+2016-11,Calvert,party_affiliation_changes_from,REP,11
+2016-11,Calvert,party_affiliation_changes_from,GRN,0
+2016-11,Calvert,party_affiliation_changes_from,LIB,1
+2016-11,Calvert,party_affiliation_changes_from,UNAF,23
+2016-11,Calvert,party_affiliation_changes_from,OTH,3
+2016-11,Caroline,address_changes,,96
+2016-11,Caroline,name_changes,,30
+2016-11,Caroline,confirmation_mailings,,0
+2016-11,Caroline,inactive,,1191
+2016-11,Caroline,party_affiliation_changes_from,DEM,0
+2016-11,Caroline,party_affiliation_changes_from,REP,1
+2016-11,Caroline,party_affiliation_changes_from,GRN,0
+2016-11,Caroline,party_affiliation_changes_from,LIB,0
+2016-11,Caroline,party_affiliation_changes_from,UNAF,0
+2016-11,Caroline,party_affiliation_changes_from,OTH,0
+2016-11,Carroll,address_changes,,415
+2016-11,Carroll,name_changes,,118
+2016-11,Carroll,confirmation_mailings,,0
+2016-11,Carroll,inactive,,5477
+2016-11,Carroll,party_affiliation_changes_from,DEM,1
+2016-11,Carroll,party_affiliation_changes_from,REP,1
+2016-11,Carroll,party_affiliation_changes_from,GRN,0
+2016-11,Carroll,party_affiliation_changes_from,LIB,0
+2016-11,Carroll,party_affiliation_changes_from,UNAF,1
+2016-11,Carroll,party_affiliation_changes_from,OTH,0
+2016-11,Cecil,address_changes,,313
+2016-11,Cecil,name_changes,,74
+2016-11,Cecil,confirmation_mailings,,1
+2016-11,Cecil,inactive,,6269
+2016-11,Cecil,party_affiliation_changes_from,DEM,0
+2016-11,Cecil,party_affiliation_changes_from,REP,0
+2016-11,Cecil,party_affiliation_changes_from,GRN,0
+2016-11,Cecil,party_affiliation_changes_from,LIB,0
+2016-11,Cecil,party_affiliation_changes_from,UNAF,0
+2016-11,Cecil,party_affiliation_changes_from,OTH,1
+2016-11,Charles,address_changes,,805
+2016-11,Charles,name_changes,,275
+2016-11,Charles,confirmation_mailings,,0
+2016-11,Charles,inactive,,6850
+2016-11,Charles,party_affiliation_changes_from,DEM,2
+2016-11,Charles,party_affiliation_changes_from,REP,0
+2016-11,Charles,party_affiliation_changes_from,GRN,0
+2016-11,Charles,party_affiliation_changes_from,LIB,0
+2016-11,Charles,party_affiliation_changes_from,UNAF,3
+2016-11,Charles,party_affiliation_changes_from,OTH,0
+2016-11,Dorchester,address_changes,,140
+2016-11,Dorchester,name_changes,,29
+2016-11,Dorchester,confirmation_mailings,,0
+2016-11,Dorchester,inactive,,1266
+2016-11,Dorchester,party_affiliation_changes_from,DEM,0
+2016-11,Dorchester,party_affiliation_changes_from,REP,0
+2016-11,Dorchester,party_affiliation_changes_from,GRN,0
+2016-11,Dorchester,party_affiliation_changes_from,LIB,0
+2016-11,Dorchester,party_affiliation_changes_from,UNAF,1
+2016-11,Dorchester,party_affiliation_changes_from,OTH,0
+2016-11,Frederick,address_changes,,897
+2016-11,Frederick,name_changes,,285
+2016-11,Frederick,confirmation_mailings,,0
+2016-11,Frederick,inactive,,10130
+2016-11,Frederick,party_affiliation_changes_from,DEM,6
+2016-11,Frederick,party_affiliation_changes_from,REP,8
+2016-11,Frederick,party_affiliation_changes_from,GRN,1
+2016-11,Frederick,party_affiliation_changes_from,LIB,1
+2016-11,Frederick,party_affiliation_changes_from,UNAF,11
+2016-11,Frederick,party_affiliation_changes_from,OTH,1
+2016-11,Garrett,address_changes,,77
+2016-11,Garrett,name_changes,,19
+2016-11,Garrett,confirmation_mailings,,0
+2016-11,Garrett,inactive,,1050
+2016-11,Garrett,party_affiliation_changes_from,DEM,0
+2016-11,Garrett,party_affiliation_changes_from,REP,0
+2016-11,Garrett,party_affiliation_changes_from,GRN,0
+2016-11,Garrett,party_affiliation_changes_from,LIB,0
+2016-11,Garrett,party_affiliation_changes_from,UNAF,0
+2016-11,Garrett,party_affiliation_changes_from,OTH,0
+2016-11,Harford,address_changes,,1001
+2016-11,Harford,name_changes,,305
+2016-11,Harford,confirmation_mailings,,0
+2016-11,Harford,inactive,,9047
+2016-11,Harford,party_affiliation_changes_from,DEM,3
+2016-11,Harford,party_affiliation_changes_from,REP,2
+2016-11,Harford,party_affiliation_changes_from,GRN,0
+2016-11,Harford,party_affiliation_changes_from,LIB,1
+2016-11,Harford,party_affiliation_changes_from,UNAF,2
+2016-11,Harford,party_affiliation_changes_from,OTH,0
+2016-11,Howard,address_changes,,946
+2016-11,Howard,name_changes,,503
+2016-11,Howard,confirmation_mailings,,5
+2016-11,Howard,inactive,,11463
+2016-11,Howard,party_affiliation_changes_from,DEM,5
+2016-11,Howard,party_affiliation_changes_from,REP,2
+2016-11,Howard,party_affiliation_changes_from,GRN,0
+2016-11,Howard,party_affiliation_changes_from,LIB,0
+2016-11,Howard,party_affiliation_changes_from,UNAF,3
+2016-11,Howard,party_affiliation_changes_from,OTH,0
+2016-11,Kent,address_changes,,57
+2016-11,Kent,name_changes,,26
+2016-11,Kent,confirmation_mailings,,0
+2016-11,Kent,inactive,,854
+2016-11,Kent,party_affiliation_changes_from,DEM,1
+2016-11,Kent,party_affiliation_changes_from,REP,0
+2016-11,Kent,party_affiliation_changes_from,GRN,0
+2016-11,Kent,party_affiliation_changes_from,LIB,0
+2016-11,Kent,party_affiliation_changes_from,UNAF,1
+2016-11,Kent,party_affiliation_changes_from,OTH,1
+2016-11,Montgomery,address_changes,,4970
+2016-11,Montgomery,name_changes,,2281
+2016-11,Montgomery,confirmation_mailings,,8
+2016-11,Montgomery,inactive,,58921
+2016-11,Montgomery,party_affiliation_changes_from,DEM,33
+2016-11,Montgomery,party_affiliation_changes_from,REP,20
+2016-11,Montgomery,party_affiliation_changes_from,GRN,0
+2016-11,Montgomery,party_affiliation_changes_from,LIB,1
+2016-11,Montgomery,party_affiliation_changes_from,UNAF,67
+2016-11,Montgomery,party_affiliation_changes_from,OTH,21
+2016-11,Prince George's,address_changes,,4972
+2016-11,Prince George's,name_changes,,1603
+2016-11,Prince George's,confirmation_mailings,,0
+2016-11,Prince George's,inactive,,58283
+2016-11,Prince George's,party_affiliation_changes_from,DEM,6
+2016-11,Prince George's,party_affiliation_changes_from,REP,1
+2016-11,Prince George's,party_affiliation_changes_from,GRN,0
+2016-11,Prince George's,party_affiliation_changes_from,LIB,0
+2016-11,Prince George's,party_affiliation_changes_from,UNAF,13
+2016-11,Prince George's,party_affiliation_changes_from,OTH,11
+2016-11,Queen Anne's,address_changes,,86
+2016-11,Queen Anne's,name_changes,,28
+2016-11,Queen Anne's,confirmation_mailings,,0
+2016-11,Queen Anne's,inactive,,2008
+2016-11,Queen Anne's,party_affiliation_changes_from,DEM,0
+2016-11,Queen Anne's,party_affiliation_changes_from,REP,0
+2016-11,Queen Anne's,party_affiliation_changes_from,GRN,0
+2016-11,Queen Anne's,party_affiliation_changes_from,LIB,1
+2016-11,Queen Anne's,party_affiliation_changes_from,UNAF,2
+2016-11,Queen Anne's,party_affiliation_changes_from,OTH,0
+2016-11,St. Mary's,address_changes,,437
+2016-11,St. Mary's,name_changes,,104
+2016-11,St. Mary's,confirmation_mailings,,0
+2016-11,St. Mary's,inactive,,5271
+2016-11,St. Mary's,party_affiliation_changes_from,DEM,0
+2016-11,St. Mary's,party_affiliation_changes_from,REP,2
+2016-11,St. Mary's,party_affiliation_changes_from,GRN,0
+2016-11,St. Mary's,party_affiliation_changes_from,LIB,0
+2016-11,St. Mary's,party_affiliation_changes_from,UNAF,1
+2016-11,St. Mary's,party_affiliation_changes_from,OTH,0
+2016-11,Somerset,address_changes,,155
+2016-11,Somerset,name_changes,,44
+2016-11,Somerset,confirmation_mailings,,475
+2016-11,Somerset,inactive,,1438
+2016-11,Somerset,party_affiliation_changes_from,DEM,3
+2016-11,Somerset,party_affiliation_changes_from,REP,0
+2016-11,Somerset,party_affiliation_changes_from,GRN,0
+2016-11,Somerset,party_affiliation_changes_from,LIB,0
+2016-11,Somerset,party_affiliation_changes_from,UNAF,1
+2016-11,Somerset,party_affiliation_changes_from,OTH,0
+2016-11,Talbot,address_changes,,77
+2016-11,Talbot,name_changes,,38
+2016-11,Talbot,confirmation_mailings,,40
+2016-11,Talbot,inactive,,1431
+2016-11,Talbot,party_affiliation_changes_from,DEM,0
+2016-11,Talbot,party_affiliation_changes_from,REP,1
+2016-11,Talbot,party_affiliation_changes_from,GRN,0
+2016-11,Talbot,party_affiliation_changes_from,LIB,0
+2016-11,Talbot,party_affiliation_changes_from,UNAF,0
+2016-11,Talbot,party_affiliation_changes_from,OTH,1
+2016-11,Washington,address_changes,,672
+2016-11,Washington,name_changes,,130
+2016-11,Washington,confirmation_mailings,,0
+2016-11,Washington,inactive,,7201
+2016-11,Washington,party_affiliation_changes_from,DEM,1
+2016-11,Washington,party_affiliation_changes_from,REP,0
+2016-11,Washington,party_affiliation_changes_from,GRN,0
+2016-11,Washington,party_affiliation_changes_from,LIB,0
+2016-11,Washington,party_affiliation_changes_from,UNAF,1
+2016-11,Washington,party_affiliation_changes_from,OTH,1
+2016-11,Wicomico,address_changes,,471
+2016-11,Wicomico,name_changes,,116
+2016-11,Wicomico,confirmation_mailings,,0
+2016-11,Wicomico,inactive,,4765
+2016-11,Wicomico,party_affiliation_changes_from,DEM,3
+2016-11,Wicomico,party_affiliation_changes_from,REP,1
+2016-11,Wicomico,party_affiliation_changes_from,GRN,0
+2016-11,Wicomico,party_affiliation_changes_from,LIB,0
+2016-11,Wicomico,party_affiliation_changes_from,UNAF,6
+2016-11,Wicomico,party_affiliation_changes_from,OTH,2
+2016-11,Worcester,address_changes,,181
+2016-11,Worcester,name_changes,,63
+2016-11,Worcester,confirmation_mailings,,0
+2016-11,Worcester,inactive,,2792
+2016-11,Worcester,party_affiliation_changes_from,DEM,0
+2016-11,Worcester,party_affiliation_changes_from,REP,0
+2016-11,Worcester,party_affiliation_changes_from,GRN,0
+2016-11,Worcester,party_affiliation_changes_from,LIB,0
+2016-11,Worcester,party_affiliation_changes_from,UNAF,2
+2016-11,Worcester,party_affiliation_changes_from,OTH,1

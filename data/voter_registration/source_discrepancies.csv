@@ -1,0 +1,19 @@
+report_date,message,note,verified
+2013-09,new registration IN PERSON: parsed 59 but report says 15,"Party counts sum to 59; row TOTAL prints 15, the same as DUPS.",2026-09-30
+2019-02,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2019-04,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2019-06,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2019-07,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2019-08,new registration RECRUITING: parsed 2 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2019-09,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2020-03,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2020-07,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2020-09,new registration RECRUITING: parsed 2 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2020-09,"new registration total UNAF: parsed 16,587 but report says 16,235",UNAF column TOTAL omits the ABSENTEE BALLOT (FPCA) row value of 352.,2026-09-30
+2020-10,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2021-05,new registration RECRUITING: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2023-03,new registration SAME DAY REGISTRATION: parsed 1 but report says 0,Row prints party counts but a row TOTAL of 0.,2026-09-30
+2024-07,"removal total UNAF: parsed 8,156 but report says 15,059","Removals TOTAL row UNAF prints 15,059; the column sums to 8,156, which is the value that makes the printed grand total of 32,686 add up.",2026-09-30
+2024-07,"statewide UNAF active: parsed 909,958 but report says 902,407","TOTAL row UNAF is 7,551 below the county sum; with the printed UNAF the TOTAL row does not add to its own grand total of 4,184,617, which matches the county sums.",2026-09-30
+2024-10,new registration RECRUITING: parsed 5 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30
+2024-12,new registration RECRUITING: parsed 2 but report says 0,Row prints party counts but a row TOTAL of 0; column TOTALs include the party counts.,2026-09-30

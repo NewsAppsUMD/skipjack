@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<hgroup>
+    <h1>Skipjack</h1>
+    <p>Maryland elections data, traced to the source</p>
+</hgroup>
+
+<section>
+    <h2>Current Registration</h2>
+    <p>As of <strong>{{ latest_date }}</strong> — <strong>{{ "{:,}".format(total_voters) }}</strong> active registered voters</p>
+
+    <div class="overflow-auto">
+        <table>
+            <thead>
+                <tr>
+                    <th>Party</th>
+                    <th style="text-align: right">Active Voters</th>
+                    <th style="text-align: right">Share</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in totals %}
+                <tr>
+                    <td>{{ row.party_name }}</td>
+                    <td style="text-align: right">{{ "{:,}".format(row.total) }}</td>
+                    <td style="text-align: right">{{ "%.1f"|format(row.total / total_voters * 100) }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section>
+    <div class="grid">
+        <article>
+            <h3>Voter Registration</h3>
+            <p>Monthly registration data by county and party, back to 2010.</p>
+            <a href="{{ base }}/voters/" role="button">Explore</a>
+        </article>
+        <article>
+            <h3>Voter File</h3>
+            <p>Participation among current voters by party, age and district, from the statewide voter list. Not official turnout.</p>
+            <a href="{{ base }}/voters/file/" role="button">Explore</a>
+        </article>
+        {% if static_site %}
+        <article>
+            <h3>Data</h3>
+            <p>Download the monthly registration files and the voter file aggregates as CSV and JSON.</p>
+            <a href="{{ base }}/data/" role="button" class="outline">Downloads</a>
+        </article>
+        {% else %}
+        <article>
+            <h3>Data Explorer</h3>
+            <p>Browse raw tables, run SQL queries, and export data as CSV or JSON.</p>
+            <a href="{{ base }}/explorer/" role="button" class="outline">Open Datasette</a>
+        </article>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

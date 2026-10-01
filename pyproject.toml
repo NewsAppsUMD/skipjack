@@ -1,0 +1,47 @@
+[project]
+name = "skipjack"
+version = "0.1.0"
+description = "Maryland elections data and analysis"
+readme = "README.md"
+authors = [
+    { name = "Derek Willis", email = "dwillis@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "jinja2>=3.1",
+    "aiosqlite>=0.21",
+    "polars>=1.20",
+    "natural-pdf>=0.1",
+    "llm>=0.24",
+    "openpyxl>=3.1",
+    "xlrd>=2.0",
+    "httpx>=0.28",
+    "datasette>=0.65",
+    "datasette-vega>=0.6",
+    "llm-anthropic>=0.25.1",
+    "rapidocr>=3.9.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.9",
+]
+
+[project.scripts]
+skipjack = "skipjack.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.8.9,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: runs OCR on a scanned-font report (about 30 seconds)"]

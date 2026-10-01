@@ -1,0 +1,79 @@
+:root {
+    --pico-primary: #3D7EA6;
+    --pico-primary-hover: #1B3A4B;
+    --pico-background-color: #F5F0E8;
+    --pico-card-background-color: #fff;
+    --pico-card-border-color: #D4C5A9;
+    --pico-color: #1B3A4B;
+    --pico-h1-color: #1B3A4B;
+    --pico-h2-color: #1B3A4B;
+    --pico-h3-color: #1B3A4B;
+    --pico-muted-color: #6b7b8d;
+    --pico-table-border-color: #D4C5A9;
+    --pico-secondary: #4A7C59;
+}
+
+.brand {
+    color: #1B3A4B !important;
+    text-decoration: none;
+}
+
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #D4C5A9;
+}
+
+details summary {
+    cursor: pointer;
+}
+
+.secondary {
+    color: var(--pico-muted-color);
+    font-weight: normal;
+}
+
+.overflow-auto {
+    overflow-x: auto;
+}
+
+/* Let the header links wrap on narrow screens instead of widening the page. */
+header nav {
+    flex-wrap: wrap;
+}
+
+header nav ul {
+    flex-wrap: wrap;
+}
+
+/* Sortable table headings (see sortable.js). */
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+th.sortable:hover,
+th.sortable:focus-visible {
+    text-decoration: underline;
+}
+
+th.sortable[aria-sort="ascending"]::after {
+    content: " \25B2";
+    font-size: 0.7em;
+}
+
+th.sortable[aria-sort="descending"]::after {
+    content: " \25BC";
+    font-size: 0.7em;
+}
+
+/* Visually hidden, still read by screen readers. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
