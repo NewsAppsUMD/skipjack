@@ -1,0 +1,73 @@
+# Publishes the site to GitHub Pages on every push to main.
+#
+# One-time setup: in the repository's Settings > Pages, set Source to "GitHub Actions".
+#
+# Things to know:
+#   * Pages sites are public, even when the repository is private.
+#   * The site is built from the aggregated files committed under data/. The raw archives and
+#     the raw voter file are never needed here and must not be committed.
+#   * The tests run first; a failing test, a stale uv.lock, or a broken internal link stops
+#     the deploy.
+name: Publish site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Same permissions as GitHub's own Pages starter workflows.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a deploy in progress finish, and run only the newest queued one after it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+
+      # uv reads the Python version from .python-version and downloads it if needed.
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Build the database from the committed data
+        run: uv run skipjack build-db
+
+      # The OCR test needs the archived PDFs and model downloads, so it is skipped here.
+      - name: Test
+        run: uv run pytest -q -m "not slow"
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v6
+
+      # base_path is "/<repo>" for a project site and empty for a user site or custom domain.
+      - name: Build the static site
+        run: uv run skipjack build-site --out site --base-path "${{ steps.pages.outputs.base_path }}"
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
