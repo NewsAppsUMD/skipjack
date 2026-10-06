@@ -1,5 +1,6 @@
 // Click a column heading to sort a table. Tables opt in with the data-sortable attribute.
 // Works from the cell text: "1,234" and "72%" sort as numbers, "<10" and dashes sort last.
+// A cell can carry its own number in data-sort (for "+1,234" or "\u22121,234"); an empty one sorts last.
 // Rows keep their server-rendered order until a heading is clicked.
 
 (function () {
@@ -8,6 +9,10 @@
 
   function cellValue(cell) {
     const text = cell.textContent.trim();
+    if (cell.dataset.sort !== undefined) {
+      const given = parseFloat(cell.dataset.sort);
+      return { number: Number.isNaN(given) ? null : given, text };
+    }
     const match = text.match(LEADING_NUMBER);
     return { number: match ? parseFloat(match[0].replace(/,/g, "")) : null, text };
   }

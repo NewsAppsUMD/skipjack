@@ -2,11 +2,33 @@
 
 {% block title %}Home{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
+
 {% block content %}
 <hgroup>
     <h1>Skipjack</h1>
     <p>Maryland elections data, traced to the source</p>
 </hgroup>
+
+{% if summary.sentences %}
+<section>
+    <h2>{{ summary.latest|month_label }} in registration</h2>
+    <ul class="highlights">
+        {% for item in summary.sentences %}<li>{{ item }}</li>{% endfor %}
+    </ul>
+    <div class="viz-root">
+        <section class="viz-card" aria-labelledby="home-chart-title">
+            <h2 id="home-chart-title">Active registered voters by party</h2>
+            <p class="sub">Monthly since {{ summary.chart.dates[0]|month_label }}</p>
+            <ul class="legend" id="home-legend"></ul>
+            <div id="home-chart"></div>
+        </section>
+    </div>
+    <p><a href="{{ base }}/voters/county/">More trends, by county</a></p>
+</section>
+{% endif %}
 
 <section>
     <h2>Current Registration</h2>
@@ -42,6 +64,11 @@
             <a href="{{ base }}/voters/" role="button">Explore</a>
         </article>
         <article>
+            <h3>How people register</h3>
+            <p>New registrations by method, why voters are removed, and who switches party.</p>
+            <a href="{{ base }}/voters/methods/" role="button">Explore</a>
+        </article>
+        <article>
             <h3>Voter File</h3>
             <p>Participation among current voters by party, age and district, from the statewide voter list. Not official turnout.</p>
             <a href="{{ base }}/voters/file/" role="button">Explore</a>
@@ -61,4 +88,11 @@
         {% endif %}
     </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+{% if summary.chart %}
+<script id="home-data" type="application/json">{{ summary.chart | tojson }}</script>
+<script type="module" src="{{ base }}/static/home.js"></script>
+{% endif %}
 {% endblock %}

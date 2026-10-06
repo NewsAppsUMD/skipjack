@@ -9,6 +9,7 @@ import sqlite3
 import pytest
 
 from skipjack.web import static_site
+from skipjack.web.bulk import BULK_FILES
 from skipjack.web.db import DB_PATH
 from skipjack.web.downloads import DOWNLOAD_SUFFIXES, download_files
 from skipjack.web.paths import DATA_DIR
@@ -121,6 +122,21 @@ def test_every_page_in_the_plan_is_written(root_site):
     assert (out / "voters" / "month" / "2019-06" / "index.html").is_file()
     assert (out / "voters" / "county" / "prince-georges" / "index.html").is_file()
     assert (out / "voters" / "file" / "districts" / "legislative" / "index.html").is_file()
+
+
+@needs_db
+def test_trend_pages_scripts_and_combined_downloads_are_published(root_site, project_site):
+    for out, _ in (root_site, project_site):
+        for page in ("voters/methods", "voters/removals", "voters/party-switching", "errata"):
+            assert (out / page / "index.html").is_file(), page
+        for script in ("breakdown.js", "switching.js", "home.js", "charthelpers.js", "charts.css"):
+            assert (out / "static" / script).is_file(), script
+        for name in BULK_FILES:
+            assert (out / "downloads" / "combined" / name).stat().st_size > 100_000, name
+    # Module scripts and downloads carry the base path, like every other internal link.
+    html = (project_site[0] / "voters" / "methods" / "index.html").read_text()
+    assert 'src="/skipjack/static/breakdown.js"' in html
+    assert 'href="/skipjack/downloads/combined/registration_summary_all.csv"' in html
 
 
 @needs_db

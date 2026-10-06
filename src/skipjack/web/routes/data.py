@@ -8,6 +8,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Request
 
+from skipjack.web.bulk import BULK_FILES, DESCRIPTIONS
 from skipjack.web.downloads import download_files
 from skipjack.web.paths import DATA_DIR
 
@@ -84,6 +85,7 @@ async def data_page(request: Request):
         "data.html",
         {
             "datasets": datasets,
+            "combined": [{"name": n, "description": DESCRIPTIONS[n]} for n in BULK_FILES],
             "snapshots": voter_file_listing(DATA_DIR),
             "discrepancies": "voter_registration/source_discrepancies.csv" in available,
         },

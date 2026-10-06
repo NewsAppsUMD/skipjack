@@ -13,6 +13,8 @@
 //   xLabels: string[]             // optional; a tick for every non-empty label (ordinal axes)
 //   tipLabel: (i) => string       // optional tooltip heading (defaults to the month)
 //   xInset: number                // optional px of padding inside the plot, left and right
+//   markers: [{ index, label?, kind? }]  // optional vertical rules, e.g. election months;
+//                                 // kind ("primary" or "general") picks the style
 //   height, endLabels, group, ariaLabel
 // }
 
@@ -64,6 +66,7 @@ export function renderLineChart(container, opts) {
     xLabels = null,
     tipLabel = null,
     xInset = 0,
+    markers = [],
     height = 320,
     endLabels = false,
     group = null,
@@ -74,7 +77,7 @@ export function renderLineChart(container, opts) {
   container.classList.add("lc");
   const width = Math.max(container.clientWidth, 280);
   const labelsOn = endLabels && width >= 560;
-  const m = { top: 10, right: labelsOn ? 150 : 14, bottom: 26, left: 58 };
+  const m = { top: 10, right: labelsOn ? 180 : 14, bottom: 26, left: 58 };
   const w = width - m.left - m.right;
   const h = height - m.top - m.bottom;
   const n = dates.length;
@@ -124,6 +127,18 @@ export function renderLineChart(container, opts) {
                              "text-anchor": "middle" }, grid);
       t.textContent = d.slice(0, 4);
     });
+  }
+
+  // Vertical rules, drawn first so the lines sit on top of them.
+  for (const mk of markers) {
+    if (mk.index < 0 || mk.index >= n) continue;
+    el("line", { x1: x(mk.index), x2: x(mk.index), y1: m.top, y2: m.top + h,
+                 class: `lc-marker lc-marker-${mk.kind ?? "primary"}` }, svg);
+    if (mk.label) {
+      const t = el("text", { x: x(mk.index), y: m.top + 9, class: "lc-marker-label",
+                             "text-anchor": "middle" }, svg);
+      t.textContent = mk.label;
+    }
   }
 
   // Lines, broken where a party did not appear on the report.

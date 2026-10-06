@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% import "_macros.html" as m %}
+{% import "_macros.html" as m with context %}
 
 {% block title %}{% if county == statewide %}Voter File{% else %}{{ county }} Voter File{% endif %}{% endblock %}
 
@@ -78,6 +78,7 @@
 <div class="viz-root">
 <p><a href="{{ base }}/voters/">&larr; Voter registration</a></p>
 <h1>{% if county == statewide %}Maryland voter file{% else %}{{ county }}{% endif %}</h1>
+{{ m.county_nav("file", county, statewide) }}
 <p class="secondary">
     Aggregates from the State Board of Elections voter list as of {{ snapshot }}.
     Voter history covers {{ meta.elections|length }} elections, {{ meta.elections[0].label }} through {{ last_election.label }}.

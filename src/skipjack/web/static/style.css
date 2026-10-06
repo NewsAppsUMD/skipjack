@@ -77,3 +77,63 @@ th.sortable[aria-sort="descending"]::after {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
 }
+
+/* Second row of links under the page heading, for a section's pages. */
+.subnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0 0 1.25rem;
+    padding: 0 0 0.5rem;
+    border-bottom: 1px solid var(--pico-table-border-color);
+    font-size: 0.95rem;
+}
+
+.subnav a {
+    text-decoration: none;
+}
+
+.subnav a[aria-current="page"] {
+    font-weight: 600;
+    color: var(--pico-h3-color);
+    border-bottom: 2px solid var(--pico-primary);
+}
+
+/* Where a page's numbers came from. */
+.source-strip {
+    background: #fff;
+    border: 1px solid var(--pico-card-border-color);
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    margin: 0 0 1rem;
+    font-size: 0.85rem;
+    color: var(--pico-muted-color);
+}
+
+.source-strip strong {
+    color: var(--pico-color);
+}
+
+.source-strip .warn {
+    display: block;
+    margin-top: 0.35rem;
+    color: #8a4b0f;
+}
+
+.delta-up { color: #1c6b4a; }
+.delta-down { color: #a5391c; }
+.delta-flat { color: var(--pico-muted-color); }
+
+.callout {
+    background: #f3f1ea;
+    border-left: 4px solid #52514e;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+}
+
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.highlights { margin: 0 0 1rem; padding-left: 1.2rem; }
+.highlights li { margin-bottom: 0.4rem; }

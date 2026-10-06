@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}Errata{% endblock %}
+
+{% block head %}
+<style>.nowrap { white-space: nowrap; }</style>
+{% endblock %}
+
+{% block content %}
+{{ m.registration_nav("errata") }}
+<h1>Errors in the State Board's own reports</h1>
+<p>Skipjack checks every monthly report against the totals the report itself prints: party columns
+    must add up to each county's total, and counties must add up to the statewide row.
+    A report that fails the check is not published until someone compares it with the PDF.</p>
+<p>{{ rows|length }} mismatches in {{ months }} reports turned out to be errors in the report, not in the
+    parsing. Skipjack publishes the figures printed in the individual rows and records each mismatch here.
+    The same rows are in <a href="{{ base }}/downloads/{{ file }}">a CSV</a>.</p>
+
+<div class="overflow-auto">
+<table data-sortable>
+    <thead>
+        <tr>
+            <th>Report</th>
+            <th>What does not add up</th>
+            <th>Note</th>
+            <th>Checked</th>
+            <th>Original</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td class="nowrap"><a href="{{ base }}/voters/month/{{ r.report_date }}/">{{ r.report_date }}</a></td>
+            <td>{{ r.message }}</td>
+            <td>{{ r.note }}</td>
+            <td class="nowrap">{{ r.verified }}</td>
+            <td>{% if r.pdf %}<a href="{{ r.pdf }}" target="_blank" rel="noopener">PDF</a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="secondary">In a message, "parsed" is what the report's rows add up to and "report says" is the total
+    the report prints.</p>
+{% endblock %}

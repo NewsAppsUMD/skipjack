@@ -5,6 +5,10 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import RedirectResponse
 
+import json
+
+from skipjack.web import errata
+from skipjack.web.dates import shift_month
 from skipjack.web.db import get_db
 from skipjack.web.urls import resolve_slug, slugify
 
@@ -85,6 +89,17 @@ def _month_page(request: Request, report_date: str | None):
             for p, v in cd["parties"].items():
                 statewide[p] = statewide.get(p, 0) + v
 
+        party_names = {row["party"]: row["party_name"] for row in rows}
+        changes = {
+            "month": _changes(
+                conn, selected_date, -1, county_list, statewide, statewide_total, party_names
+            ),
+            "year": _changes(
+                conn, selected_date, -12, county_list, statewide, statewide_total, party_names
+            ),
+        }
+        source = _source(conn, selected_date)
+
     return request.app.state.templates.TemplateResponse(
         request,
         "voters.html",
@@ -95,8 +110,77 @@ def _month_page(request: Request, report_date: str | None):
             "county_data": county_list,
             "statewide": statewide,
             "statewide_total": statewide_total,
+            "changes": changes,
+            "source": source,
         },
     )
+
+
+def _totals_by(conn, report_date: str) -> tuple[dict[str, int], dict[str, int]] | None:
+    """County totals and statewide totals by party name for a report, or None if there is none."""
+    rows = conn.execute(
+        """SELECT county, party_name, active_voters FROM voter_registration
+           WHERE report_date = ?""",
+        (report_date,),
+    ).fetchall()
+    if not rows:
+        return None
+    counties: dict[str, int] = {}
+    parties: dict[str, int] = {}
+    for r in rows:
+        counties[r["county"]] = counties.get(r["county"], 0) + r["active_voters"]
+        parties[r["party_name"]] = parties.get(r["party_name"], 0) + r["active_voters"]
+    return counties, parties
+
+
+def _changes(conn, report_date, months, county_list, statewide, statewide_total, party_names):
+    """How each county, the state and each party column changed since an earlier report.
+
+    ``months`` is negative. Everything is None when that earlier report does not exist.
+    Parties are compared by name, so Unaffiliated is one series across the UNAF to UNA rename.
+    """
+    earlier_date = shift_month(report_date, months)
+    earlier = _totals_by(conn, earlier_date)
+    if earlier is None:
+        return None
+    county_totals, party_totals = earlier
+
+    def change(now: int, before: int | None) -> dict | None:
+        if before is None:
+            return None
+        return {"n": now - before, "pct": 100 * (now - before) / before if before else None}
+
+    return {
+        "since": earlier_date,
+        "counties": {
+            cd["county"]: change(cd["total"], county_totals.get(cd["county"])) for cd in county_list
+        },
+        "state": change(statewide_total, sum(county_totals.values())),
+        "parties": {p: change(v, party_totals.get(party_names[p])) for p, v in statewide.items()},
+    }
+
+
+def _source(conn, report_date: str) -> dict | None:
+    """Where the month's numbers came from: the original report and how it was checked."""
+    row = conn.execute(
+        "SELECT * FROM sources WHERE source_id = ?", (f"sbe-vrar-{report_date}",)
+    ).fetchone()
+    if row is None:
+        return None
+    checks = json.loads(row["checks_json"] or "{}")
+    return {
+        "url": row["source_url"],
+        "fetched": (row["fetch_date"] or "")[:10],
+        "sha256": (row["sha256"] or "")[:12],
+        "method": "optical character recognition"
+        if (row["extraction_method"] or "").startswith("ocr")
+        else "the PDF's own text",
+        "reconciled": bool(checks.get("reconciled")),
+        "counties": checks.get("counties"),
+        "errors": errata.by_month().get(report_date, []),
+        "csv": f"voter_registration/monthly/{report_date}.csv",
+        "provenance": f"voter_registration/monthly/{report_date}_provenance.json",
+    }
 
 
 # Series shown in the main chart. Everything else is drawn as a small multiple,

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as m with context %}
 
 {% block title %}Voter Registration{% endblock %}
 
@@ -22,6 +23,15 @@
         font-weight: bold;
         border-top: 2px solid var(--pico-table-border-color);
     }
+    .voters-table tfoot .change-row td {
+        font-weight: normal;
+        border-top: 1px solid var(--pico-table-border-color);
+    }
+    .voters-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .voters-table .muted { color: var(--pico-muted-color); }
+    .delta-up { color: #1c6b4a; }
+    .delta-down { color: #a5391c; }
+    .delta-flat { color: var(--pico-muted-color); }
     .date-picker {
         display: inline-block;
         max-width: 200px;
@@ -31,9 +41,10 @@
 {% endblock %}
 
 {% block content %}
+{{ m.registration_nav("month") }}
 <h1>Registered Voters by County</h1>
 <p><em>as of {{ selected_date }}</em></p>
-<p><a href="{{ base }}/voters/county/">Trends over time</a> &middot; <a href="{{ base }}/voters/file/">Participation among current voters (voter file)</a></p>
+<p><a href="{{ base }}/voters/file/">Participation among current voters (voter file)</a></p>
 
 <label class="sr-only" for="month-select">Report month</label>
 <select id="month-select" class="date-picker" onchange="location.href = this.value">
@@ -42,12 +53,31 @@
     {% endfor %}
 </select>
 
+{% if source %}
+<div class="source-strip">
+    <strong>Source:</strong>
+    <a href="{{ source.url }}" target="_blank" rel="noopener">State Board of Elections report for {{ selected_date }} (PDF)</a>,
+    downloaded {{ source.fetched }}, read from {{ source.method }}{% if source.reconciled %} and checked: each county's parties add up to its total and the
+    {{ source.counties }} counties add up to the statewide row{% endif %}.
+    Original file fingerprint <code>{{ source.sha256 }}</code>.
+    Download this month as <a href="{{ base }}/downloads/{{ source.csv }}">CSV</a> or see its
+    <a href="{{ base }}/downloads/{{ source.provenance }}">provenance record</a>.
+    {% if source.errors %}
+    <span class="warn">The State Board's own report does not add up this month
+        ({{ source.errors|length }} mismatch{{ "es" if source.errors|length != 1 }}).
+        <a href="{{ base }}/errata/">See the errata</a>.</span>
+    {% endif %}
+</div>
+{% endif %}
+
 <div class="overflow-auto">
 <table class="voters-table" data-sortable>
     <thead>
         <tr>
             <th>County</th>
             <th style="text-align:right"># Reg</th>
+            <th style="text-align:right" title="Change in # Reg from the previous month's report">vs month before</th>
+            <th style="text-align:right" title="Change in # Reg from the report twelve months earlier">vs year before</th>
             {% for p in parties %}
             <th style="text-align:right">{{ p }}</th>
             {% endfor %}
@@ -58,6 +88,10 @@
         <tr>
             <td><a href="{{ base }}/voters/county/{{ cd.county|slug }}/">{{ cd.county }}</a></td>
             <td style="text-align:right">{{ "{:,}".format(cd.total) }}</td>
+            {% for key in ("month", "year") %}
+            {% set c = changes[key].counties.get(cd.county) if changes[key] else none %}
+            {{ m.delta(c.n if c else none, c.pct if c else none) }}
+            {% endfor %}
             {% for p in parties %}
             {% set v = cd.parties.get(p, 0) %}
             <td style="text-align:right">
@@ -72,6 +106,10 @@
         <tr>
             <td><a href="{{ base }}/voters/county/">Total</a></td>
             <td style="text-align:right">{{ "{:,}".format(statewide_total) }}</td>
+            {% for key in ("month", "year") %}
+            {% set c = changes[key].state if changes[key] else none %}
+            {{ m.delta(c.n if c else none, c.pct if c else none) }}
+            {% endfor %}
             {% for p in parties %}
             {% set v = statewide.get(p, 0) %}
             <td style="text-align:right">
@@ -80,6 +118,18 @@
             </td>
             {% endfor %}
         </tr>
+        {% for key, label in (("month", "Change from month before"), ("year", "Change from year before")) %}
+        {% if changes[key] %}
+        <tr class="change-row">
+            <td>{{ label }}</td>
+            <td></td><td></td><td></td>
+            {% for p in parties %}
+            {% set c = changes[key].parties.get(p) %}
+            {{ m.delta(c.n if c else none, c.pct if c else none) }}
+            {% endfor %}
+        </tr>
+        {% endif %}
+        {% endfor %}
     </tfoot>
 </table>
 </div>

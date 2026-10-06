@@ -44,6 +44,8 @@ its original document through our provenance system.</p>
     as-is in an archive with SHA-256 checksums. Each file is then parsed into structured
     CSV format with a provenance sidecar recording the source, parse date, and parser version.
     The CSVs are loaded into a SQLite database for fast querying by the web application.
+    Each report is checked against its own printed totals; the reports that do not add up are listed on the
+    <a href="{{ base }}/errata/">errata page</a>.
 </p>
 
 <h2>License</h2>

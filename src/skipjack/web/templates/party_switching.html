@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}Party switching{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ m.registration_nav("switching") }}
+<h1>Voters changing party</h1>
+<p class="secondary">Statewide, by month, from the State Board's monthly reports, January 2010 to {{ latest|month_label }}.</p>
+<p>Maryland's primaries are closed: a voter can take part only in the primary of the party they are
+    registered with. Voter registration, party changes included, closes 21 days before an election, and
+    voters who are not affiliated with a party may still join one until the day before early voting begins
+    (<a href="https://elections.maryland.gov/voter_registration/index.html">State Board of Elections</a>).
+    The reports give the party a voter left, not the party they joined.</p>
+
+<div id="switching-chart"></div>
+
+<div class="section-head"><h2>Around each primary</h2></div>
+<p>
+    {% if quietest %}In {{ quietest|length }} of the {{ primaries_counted }} primaries
+    ({{ quietest|join(", ") }}), the month of the primary had fewer party changes than any other reported
+    month of that year.{% endif %}
+    {% if busier %}In {{ busier|length }} ({{ busier|join(", ") }}) it had at least a quarter more than a
+    typical month.{% endif %}
+    The pattern is not the same every year.
+</p>
+<div class="overflow-auto">
+<table class="year-table" data-sortable>
+    <thead>
+        <tr>
+            <th>Primary</th>
+            <th>Month before</th>
+            <th>Primary month</th>
+            <th>Typical month</th>
+            <th>Primary month vs typical</th>
+            <th>Rank in year</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td data-sort="{{ r.date }}"><a href="{{ base }}/voters/month/{{ r.month }}/">{{ r.date }}</a></td>
+            <td>{{ "{:,}".format(r.before) if r.before is not none else "–" }}</td>
+            <td>{{ "{:,}".format(r.during) }}</td>
+            <td>{{ "{:,}".format(r.typical) }}</td>
+            {{ m.change_pct(((r.ratio - 1) * 100)|round|int if r.ratio is not none else none) }}
+            <td data-sort="{{ r.rank }}">{{ r.rank }} of {{ r.months }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">"Typical month" is the median of the year's other reported months. "Rank" is the primary
+    month's place among the year's reported months, with 1 meaning the fewest changes. {% if rows and rows[-1].months < 12 %}The
+    {{ rows[-1].date[:4] }} figures cover only the {{ rows[-1].months }} months reported so far.{% endif %}</p>
+
+<div class="section-head"><h2>By calendar year</h2></div>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead><tr><th>Year</th><th>Voters who changed party</th></tr></thead>
+    <tbody>
+        {% for y in year_totals %}
+        <tr>
+            <td>{{ y.year }}{% if y.months < 12 %} <span class="pct">({{ y.months }} months)</span>{% endif %}</td>
+            <td>{{ "{:,}".format(y.total) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The rows are in
+    <a href="{{ base }}/downloads/combined/registration_activity_all.csv">registration_activity_all.csv</a>,
+    measure <code>party_affiliation_changes_from</code>. Primary and general election dates are entered by hand
+    from the State Board's election archive.</p>
+</div>
+
+<script id="switching-data" type="application/json">
+{{ chart | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ base }}/static/switching.js"></script>
+{% endblock %}

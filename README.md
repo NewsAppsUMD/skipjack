@@ -24,10 +24,17 @@ Once GitHub Pages is switched on, the site publishes to
 
 ### The site
 
-- **Voter Registration**: a table for every month, plus county trend pages with party lines and
-  12-month rolling totals of new registrations and removals.
-- **Voter File**: participation among current voters, by party, age, county and district.
-- **Data**: every CSV and JSON file as a download, each with its provenance file.
+- **Home**: a few plain sentences about the latest report, written from the data, and a statewide chart.
+- **Voter Registration**: a table for every month with the change from the month and year before, and
+  the original PDF, parse details and any known errors in the State Board's report at the top. County
+  trend pages have party lines and 12-month rolling totals of new registrations and removals.
+- **How people register**, **Removals** and **Party switching**: statewide trends in new registrations
+  by method, removals by reason and party changes around each primary.
+- **Errata**: every place the State Board's own report does not add up.
+- **Voter File**: participation among current voters, by party, age, county and district. Each county has
+  a link between its registration trends and its voter file page.
+- **Data**: every CSV and JSON file as a download, each with its provenance file, plus all months of each
+  table combined into one file with a `source_id` on every row.
 - **About**: every source document, with a link to the original.
 
 > **Participation is not turnout.** The voter file lists the people registered today. Voters who
@@ -91,7 +98,7 @@ month that does not reconcile fails instead of publishing a wrong number.
 Sixteen reports contain arithmetic errors in the State Board's own tables, mostly a row total of
 0 beside non-zero party counts. Each was checked against the PDF and is recorded with a note in
 [`data/voter_registration/source_discrepancies.csv`](data/voter_registration/source_discrepancies.csv).
-Any new mismatch fails the parse until someone checks the PDF and adds a row.
+Any new mismatch fails the parse until someone checks the PDF and adds a row. The site lists them on its errata page.
 
 ### Provenance
 
@@ -107,6 +114,14 @@ data/voter_registration/activity/YYYY-MM.csv   report_date, county, measure, par
 data/voter_registration/summary/YYYY-MM.csv    report_date, section, category, party, value
 data/voter_file/<snapshot>/*.json              suppressed aggregates, plus snapshot.json
 ```
+
+Combined files for the whole history (`registration_monthly_all.csv`, `registration_activity_all.csv`
+and `registration_summary_all.csv`) are built from the database when the site is built and are not
+stored in `data/`.
+
+Some reports leave a category's row out in months when it has nothing to report (same-day
+registration, for instance). The trend pages count a missing row as zero from the month the category
+first appears, and a value printed as NA as unknown.
 
 Party codes change over time (Americans Elect and Bread and Roses appear for a few years), so
 columns are read from each report's header rather than from a fixed list.

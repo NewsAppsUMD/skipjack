@@ -23,6 +23,19 @@
     Maryland State Board of Elections as the source.
 </p>
 
+<h2>Every month in one file</h2>
+<p>The same data as the monthly files below, with all months stacked. Each row ends with the id of the report
+    it came from, so it still traces back to the original PDF.</p>
+<ul>
+    {% for f in combined %}
+    <li><a href="{{ base }}/downloads/combined/{{ f.name }}"><code>{{ f.name }}</code></a> &mdash; {{ f.description }}</li>
+    {% endfor %}
+</ul>
+{% if discrepancies %}
+<p>Places where the State Board's own report does not add up are listed on the
+    <a href="{{ base }}/errata/">errata page</a>.</p>
+{% endif %}
+
 <h2>Monthly voter registration</h2>
 {% for d in datasets %}
 <section class="dataset">

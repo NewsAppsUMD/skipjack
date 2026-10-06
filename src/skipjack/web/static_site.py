@@ -21,6 +21,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from skipjack.web.app import app, configure_templates
+from skipjack.web.bulk import BULK_FILES, bulk_csv
 from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
@@ -66,7 +67,16 @@ def page_urls() -> list[str]:
     if not dates:
         raise SiteBuildError("skipjack.db has no registration data. Run `skipjack build-db` first.")
 
-    urls = ["/", "/about", "/data/", "/voters/"]
+    urls = [
+        "/",
+        "/about",
+        "/data/",
+        "/errata/",
+        "/voters/",
+        "/voters/methods/",
+        "/voters/removals/",
+        "/voters/party-switching/",
+    ]
     urls += [f"/voters/month/{d}/" for d in dates]
     urls += ["/voters/county/"] + [f"/voters/county/{slugify(c)}/" for c in counties]
     if latest_snapshot:
@@ -185,6 +195,12 @@ def build_site(
         target = out_dir / "downloads" / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(data_dir / relative, target)
+    with get_db() as conn:
+        (out_dir / "downloads" / "combined").mkdir(parents=True, exist_ok=True)
+        for name in BULK_FILES:
+            (out_dir / "downloads" / "combined" / name).write_text(
+                bulk_csv(conn, name), encoding="utf-8"
+            )
     if include_db:
         database = PROJECT_ROOT / SQLITE_NAME
         if not database.exists():

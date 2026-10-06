@@ -5,6 +5,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Request
 
 from skipjack.web.db import get_db
+from skipjack.web.summary import highlights
 
 router = APIRouter()
 
@@ -26,6 +27,7 @@ async def home(request: Request):
         ).fetchall()
 
         total_voters = sum(r["total"] for r in totals) if totals else 0
+        summary = highlights(conn)
 
     return request.app.state.templates.TemplateResponse(
         request,
@@ -34,5 +36,6 @@ async def home(request: Request):
             "latest_date": latest["report_date"] if latest else "N/A",
             "totals": totals,
             "total_voters": total_voters,
+            "summary": summary,
         },
     )

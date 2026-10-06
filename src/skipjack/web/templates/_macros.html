@@ -1,3 +1,6 @@
+{# Import with context ({% import "_macros.html" as m with context %}) in any template that calls
+   county_nav, registration_nav or the table macros: they read the `base` link prefix, and a macro module
+   imported without context keeps whatever prefix was set the first time it was loaded. #}
 {# Number and percent cells shared by the voter file pages. #}
 
 {% macro n(v) -%}
@@ -11,4 +14,116 @@
 {# A table cell whose background is a bar sized to the percent. #}
 {% macro bar(v, color="var(--bar-default)", digits=0) -%}
 <td class="barcell" style="--w: {{ v if v is not none else 0 }}%; --c: {{ color }}">{{ p(v, digits) }}</td>
+{%- endmacro %}
+
+{# Links between a county's pages. `active` is "trends" or "file". #}
+{% macro county_nav(active, county, statewide_label="Maryland") -%}
+{% set slug = "" if county == statewide_label else (county|slug) -%}
+<nav class="subnav" aria-label="Pages for {{ county }}">
+    <a href="{{ base }}/voters/county/{{ slug ~ '/' if slug }}"{% if active == "trends" %} aria-current="page"{% endif %}>Registration trends</a>
+    <a href="{{ base }}/voters/file/{{ 'county/' ~ slug ~ '/' if slug }}"{% if active == "file" %} aria-current="page"{% endif %}>Voter file</a>
+</nav>
+{%- endmacro %}
+
+{# The registration section's pages. `active` is the page's key. #}
+{% macro registration_nav(active) -%}
+<nav class="subnav" aria-label="Voter registration pages">
+    {% for key, path, label in [
+        ("month", "/voters/", "By month"),
+        ("trends", "/voters/county/", "Trends"),
+        ("methods", "/voters/methods/", "How people register"),
+        ("removals", "/voters/removals/", "Removals"),
+        ("switching", "/voters/party-switching/", "Party switching"),
+        ("errata", "/errata/", "Errata"),
+    ] %}
+    <a href="{{ base }}{{ path }}"{% if active == key %} aria-current="page"{% endif %}>{{ label }}</a>
+    {% endfor %}
+</nav>
+{%- endmacro %}
+
+{# A signed change with its percent. `pct` may be none. Sorts by the number. #}
+{% macro delta(n, pct=none) -%}
+{%- if n is none -%}
+<td class="num delta-flat" data-sort=""><span class="muted">&ndash;</span></td>
+{%- else -%}
+<td class="num {{ 'delta-up' if n > 0 else 'delta-down' if n < 0 else 'delta-flat' }}" data-sort="{{ n }}">{{ n|signed }}{% if pct is not none %} <span class="pct">({{ pct|signed(1, "%") }})</span>{% endif %}</td>
+{%- endif -%}
+{%- endmacro %}
+
+{# Calendar-year totals, one column per group. `year_rows` comes from Breakdown.year_rows(). #}
+{% macro year_table(groups, year_rows) -%}
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>Year</th>
+            {% for g in groups %}<th>{{ g.name }}</th>{% endfor %}
+            <th class="total">All</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in year_rows %}
+        <tr>
+            <td>{{ r.year }}{% if r.months < 12 %} <span class="pct">({{ r.months }} months)</span>{% endif %}</td>
+            {% for v in r.cells %}
+            <td>{% if v is none %}<span class="muted">&ndash;</span>{% else %}{{ "{:,}".format(v) }}{% endif %}</td>
+            {% endfor %}
+            <td class="total">{% if r.total is none %}<span class="muted">&ndash;</span>{% else %}{{ "{:,}".format(r.total) }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{%- endmacro %}
+
+{# Who is in each group: party shares for the last 12 months, against all active voters. #}
+{% macro party_table(rows, buckets, baseline, first_heading) -%}
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>{{ first_heading }}</th>
+            <th>Total</th>
+            {% for b in buckets %}<th>{{ b }}</th>{% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>{{ r.name }}</td>
+            <td>{{ "{:,}".format(r.total) }}</td>
+            {% for b in buckets %}{{ bar(r.shares[b], digits=0) }}{% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>All active voters</td>
+            <td></td>
+            {% for b in buckets %}{{ bar(baseline[b], digits=0) }}{% endfor %}
+        </tr>
+    </tfoot>
+</table>
+</div>
+{%- endmacro %}
+
+{# Which of the State Board's categories each group adds up. #}
+{% macro group_details(groups) -%}
+<details>
+    <summary>Which of the State Board's categories each group includes (as the reports spell them)</summary>
+    <ul>
+        {% for g in groups %}
+        <li><strong>{{ g.name }}</strong>: {{ g.categories|join("; ") }}</li>
+        {% endfor %}
+    </ul>
+</details>
+{%- endmacro %}
+
+{# A signed whole-number percent, sorted by the number. #}
+{% macro change_pct(p) -%}
+{%- if p is none -%}
+<td class="num delta-flat" data-sort=""><span class="muted">&ndash;</span></td>
+{%- else -%}
+<td class="num {{ 'delta-up' if p > 0 else 'delta-down' if p < 0 else 'delta-flat' }}" data-sort="{{ p }}">{{ p|signed(0, "%") }}</td>
+{%- endif -%}
 {%- endmacro %}

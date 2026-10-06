@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}How people register{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ m.registration_nav("methods") }}
+<h1>How Marylanders register</h1>
+<p class="secondary">Statewide new registrations by method, from the State Board's monthly reports, January 2010 to {{ latest|month_label }}.</p>
+<p class="lead">{{ lead }}</p>
+{% for note in notes %}<p>{{ note }}</p>{% endfor %}
+
+<div class="section-head"><h2>Over time</h2></div>
+<p class="note">Each chart shows the total of the 12 months ending at that month, so seasonal swings
+    do not hide the trend. Hover for the figure for that month alone. Each chart has its own scale.</p>
+<div class="multiples" id="cards"></div>
+
+<div class="section-head"><h2>By calendar year</h2></div>
+{{ m.year_table(groups, year_rows) }}
+<p class="note">A dash means the method had not yet appeared on the reports. Some methods are printed only in months
+    when they have something to report; a month without a row counts as zero.</p>
+
+<div class="section-head"><h2>Who registers through each method</h2></div>
+<p class="note">Party shares of the new registrations in the 12 months from {{ window }}.
+    The last row is the share of all active voters today, for comparison.</p>
+{{ m.party_table(party_rows, party_buckets, baseline, "Method") }}
+
+<div class="section-head"><h2>How to read this</h2></div>
+<ul>
+    <li>The group names are Skipjack's. The State Board's own category names changed over the years
+        (for example, two spellings of the elderly and disabled category), and several are folded
+        together here so a group means the same thing in 2010 and today.</li>
+    <li>Duplicate applications, which the reports print in their own column, are not counted.</li>
+    <li>FPCA is the Federal Post Card Application used by military and overseas voters.
+        ERIC is the Electronic Registration Information Center, a multi-state group whose data the
+        board uses to find eligible residents who are not registered; the board's reports label
+        the registrations that follow as "ERIC report".</li>
+    <li>"From another board" is a small category the reports name only by that label. No report since
+        April 2019 shows more than zero for it. Voters who move between counties are recorded as
+        <a href="{{ base }}/voters/removals/">removals</a> from the county they left.</li>
+    <li>Online registrations first appear on the reports in July 2012 and same-day registrations in
+        April 2016, so those charts begin there.</li>
+</ul>
+{{ m.group_details(groups) }}
+<p class="note">Every number comes from the
+    <a href="{{ base }}/voters/">monthly reports</a>, which are linked from each month's page.
+    The underlying rows are in
+    <a href="{{ base }}/downloads/combined/registration_summary_all.csv">registration_summary_all.csv</a>.</p>
+</div>
+
+<script id="trend-data" type="application/json">
+{{ chart | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ base }}/static/breakdown.js"></script>
+{% endblock %}

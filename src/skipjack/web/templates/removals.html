@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}Removals from the rolls{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ m.registration_nav("removals") }}
+<h1>Why voters leave the rolls</h1>
+<p class="secondary">Statewide removals by reason, from the State Board's monthly reports, January 2010 to {{ latest|month_label }}.</p>
+<p class="lead">{{ lead }}</p>
+{% for note in notes %}<p>{{ note }}</p>{% endfor %}
+
+<div class="callout">
+    <strong>Removals are not all voters leaving Maryland.</strong>
+    {{ "{:,}".format(moved_last12) }} of them were voters transferred out of a county, and those voters
+    can still be registered in another county.
+    The reports do not say where transfers land, so new registrations minus removals is not a reliable
+    measure of the change in registered voters.
+    From {{ window }} that difference was {{ net_last12|signed }}.
+    {% if rolls_change %}Over the same months the number of people on the rolls, active and inactive together,
+    changed by {{ rolls_change.change|signed }}.{% endif %}
+</div>
+
+<div class="section-head"><h2>Over time</h2></div>
+<p class="note">The charts of removals show the total of the 12 months ending at that month, so one month's
+    batch does not hide the trend. Hover for the figure for that month alone. Each chart has its own scale.</p>
+<div class="multiples" id="cards"></div>
+
+<div class="section-head"><h2>By calendar year</h2></div>
+{{ m.year_table(groups, year_rows) }}
+
+<div class="section-head"><h2>Which voters are removed</h2></div>
+<p class="note">Party shares of the removals in the 12 months from {{ window }}.
+    The last row is the share of all active voters today, for comparison. Different reasons affect
+    different parts of the electorate, so a share above or below the last row says little on its own.</p>
+{{ m.party_table(party_rows, party_buckets, baseline, "Reason") }}
+
+<div class="section-head"><h2>How to read this</h2></div>
+<ul>
+    <li>The group names are Skipjack's. "Address confirmation mailings" adds the board's
+        "mail verification (NVRA)" and "confirmation mail" categories, the two whose names refer to
+        mailings. The board's reports do not define its categories.</li>
+    <li>The removal figures come from the report's statewide summary table. The inactive and
+        confirmation mailing charts add up the county activity table for the whole state.</li>
+</ul>
+{{ m.group_details(groups) }}
+<p class="note">The underlying rows are in
+    <a href="{{ base }}/downloads/combined/registration_summary_all.csv">registration_summary_all.csv</a> and
+    <a href="{{ base }}/downloads/combined/registration_activity_all.csv">registration_activity_all.csv</a>.</p>
+</div>
+
+<script id="trend-data" type="application/json">
+{{ chart | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ base }}/static/breakdown.js"></script>
+{% endblock %}
