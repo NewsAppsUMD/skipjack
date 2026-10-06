@@ -46,7 +46,7 @@
 {%- if n is none -%}
 <td class="num delta-flat" data-sort=""><span class="muted">&ndash;</span></td>
 {%- else -%}
-<td class="num {{ 'delta-up' if n > 0 else 'delta-down' if n < 0 else 'delta-flat' }}" data-sort="{{ n }}">{{ n|signed }}{% if pct is not none %} <span class="pct">({{ pct|signed(1, "%") }})</span>{% endif %}</td>
+<td class="num {{ 'delta-up' if n > 0 else 'delta-down' if n < 0 else 'delta-flat' }}" data-sort="{{ n }}">{% if n > 0 %}<span aria-hidden="true">&#9650;</span> {% elif n < 0 %}<span aria-hidden="true">&#9660;</span> {% endif %}{{ n|signed }}{% if pct is not none %} <span class="pct">({{ pct|signed(1, "%") }})</span>{% endif %}</td>
 {%- endif -%}
 {%- endmacro %}
 

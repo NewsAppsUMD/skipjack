@@ -120,8 +120,8 @@ th.sortable[aria-sort="descending"]::after {
     color: #8a4b0f;
 }
 
-.delta-up { color: #1c6b4a; }
-.delta-down { color: #a5391c; }
+.delta-up { color: var(--pico-color); }
+.delta-down { color: var(--pico-color); }
 .delta-flat { color: var(--pico-muted-color); }
 
 .callout {

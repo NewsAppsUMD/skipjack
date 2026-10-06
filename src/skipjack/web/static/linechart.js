@@ -75,7 +75,8 @@ export function renderLineChart(container, opts) {
 
   container.replaceChildren();
   container.classList.add("lc");
-  const width = Math.max(container.clientWidth, 280);
+  // Never wider than the box: the smallest grid cards are about 234px inside their padding.
+  const width = Math.max(container.clientWidth, 200);
   const labelsOn = endLabels && width >= 560;
   const m = { top: 10, right: labelsOn ? 180 : 14, bottom: 26, left: 58 };
   const w = width - m.left - m.right;

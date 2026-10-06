@@ -217,12 +217,19 @@ const overallCards = overallSpecs.map((spec) => {
   return { spec, sub, chart };
 });
 
+// "▼ 3,792 (−0.6%) from a year earlier". The arrow and the sign carry the direction; colour
+// is left out because red and green read as parties and as good or bad news here.
 function yearChange(values) {
   const last = values.findLastIndex((v) => v != null);
   const prev = last - 12;
   if (prev < 0 || values[prev] == null) return "";
   const d = values[last] - values[prev];
-  return `, ${d >= 0 ? "up" : "down"} ${Math.abs(d).toLocaleString()} from a year earlier`;
+  const pctChange = values[prev] ? (100 * d) / values[prev] : null;
+  const rounded = pctChange == null ? null : Math.round(pctChange * 10) / 10;
+  const arrow = d > 0 ? "\u25B2 " : d < 0 ? "\u25BC " : "";
+  const sign = rounded > 0 ? "+" : rounded < 0 ? "\u2212" : "";
+  const pctText = rounded == null ? "" : ` (${sign}${Math.abs(rounded).toFixed(1)}%)`;
+  return `, ${arrow}${Math.abs(d).toLocaleString()}${pctText} from a year earlier`;
 }
 
 let charts = [];
