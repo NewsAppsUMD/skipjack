@@ -103,9 +103,10 @@
     "readme_total_records": 4561127,
     "rows_valid": 4561126,
     "status_counts": {
-      "I": 285544,
-      "A": 4275582
-    }
+      "A": 4275582,
+      "I": 285544
+    },
+    "latest_registration_date": "2026-08-12"
   },
   "vrar_cross_check": {
     "vrar_month": "2026-08",

@@ -140,6 +140,21 @@ def test_trend_pages_scripts_and_combined_downloads_are_published(root_site, pro
 
 
 @needs_db
+def test_the_snapshot_comparison_is_published_once_per_newest_pair(root_site, project_site):
+    urls = list(dict.fromkeys(page_urls()))
+    assert urls.count("/voters/file/compare/") == 1
+    for out, _ in (root_site, project_site):
+        html = (out / "voters" / "file" / "compare" / "index.html").read_text()
+        assert "This compares totals, not people." in html
+        assert (out / "static" / "compare.js").is_file()
+    # With only two snapshots there is no separate address for the one pair.
+    assert not [u for u in urls if re.match(r"/voters/file/compare/\d{4}-", u)]
+    html = (project_site[0] / "voters" / "file" / "compare" / "index.html").read_text()
+    assert 'src="/skipjack/static/compare.js"' in html
+    assert 'href="/skipjack/voters/file/county/kent/"' in html
+
+
+@needs_db
 def test_build_has_no_broken_links(root_site, project_site):
     assert root_site[1].problems == []
     assert project_site[1].problems == []

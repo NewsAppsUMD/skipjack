@@ -488,3 +488,90 @@ def test_first_limitation_says_these_are_not_official_turnout(snapshot_run):
     first = json.loads((out / "snapshot.json").read_text())["limitations"][0]
     assert "not official turnout" in first
     assert "election day" in first
+
+
+# --- an older export: one file, no readme, an election that had not happened yet ------------
+
+OLD_COLUMNS = ["11/08/2016-PG", "11/03/2020-PG", "11/05/2024-PG"]
+OLD_SNAPSHOT = "2024-09-11"
+
+
+def old_row(vtr, county, party, birth, reg, voted=()):
+    fields = dict.fromkeys(FIXED_COLUMNS, "")
+    fields.update(
+        VTR_ID=str(vtr), LastName="TESTLAST", FirstName="TESTFIRST", StatusCode="A", Party=party,
+        Gender="Female", Congressional="05", Legislative="01A", BirthDate=birth,
+        StateRegistrationDate=reg, CountyRegistrationDate=reg,
+    )  # fmt: skip
+    history = [f"history {c}" if c in voted else "" for c in OLD_COLUMNS]
+    return "\t".join([*fields.values(), *history, county, ""])
+
+
+@pytest.fixture
+def old_file(tmp_path):
+    path = tmp_path / "old" / "export.txt"
+    path.parent.mkdir()
+    header = "\t".join([*FIXED_COLUMNS, *OLD_COLUMNS, "County", ""])
+    rows = [
+        old_row(
+            1, "Allegany", "DEM", "03/15/1950", "01/01/2000", ("11/08/2016-PG", "11/03/2020-PG")
+        ),
+        old_row(2, "Allegany", "OGRN", "06/01/1960", "05/05/2005", ("11/03/2020-PG",)),
+        old_row(3, "Saint Mary's", "OWCP", "01/01/1990", "03/03/2010"),
+        old_row(4, "Saint Mary's", "UNA", "02/02/1975", "08/20/2024"),
+    ]
+    path.write_text("\n".join([header, *rows]) + "\n")
+    return path
+
+
+def run_old(old_file, tmp_path, **kwargs):
+    return vf.run(
+        old_file,
+        tmp_path / "data" / "voter_file",
+        suppress_below=1,
+        manifest_path=tmp_path / "manifest.csv",
+        data_dir=tmp_path / "data",
+        **kwargs,
+    )
+
+
+def test_a_single_file_has_no_date_unless_given(old_file, tmp_path):
+    with pytest.raises(VoterFileError, match="snapshot-date"):
+        run_old(old_file, tmp_path)
+
+
+def test_a_single_file_becomes_part_one(old_file):
+    parts, duplicates = discover_parts(old_file)
+    assert [(p.number, p.has_header) for p in parts] == [(1, True)] and duplicates == []
+
+
+def test_an_export_made_before_an_election_leaves_that_election_out(old_file, tmp_path):
+    checks = run_old(old_file, tmp_path, snapshot_date=OLD_SNAPSHOT)
+    assert checks["reconciled"] and checks["rows_valid"] == 4
+    assert checks["readme_total_records"] is None
+    assert checks["elections_not_yet_held"] == ["2024-PG"]
+    assert checks["latest_registration_date"] == "2024-08-20"
+    out = tmp_path / "data" / "voter_file" / OLD_SNAPSHOT
+    meta = json.loads((out / "snapshot.json").read_text())
+    assert [e["key"] for e in meta["elections"]] == ["2016-PG", "2020-PG"]
+    assert meta["records"]["latest_registration_date"] == "2024-08-20"
+    notes = " ".join(meta["limitations"])
+    assert "without a readme" in notes and "2024-PG" in notes
+    turnout = json.loads((out / "turnout_by_election.json").read_text())["rows"]
+    assert {r["election"] for r in turnout} == {"2016-PG", "2020-PG"}
+    prov = json.loads((out / "snapshot_provenance.json").read_text())
+    assert prov["checks"]["reconciled"] is True and "export.txt" not in json.dumps(prov)
+
+
+def test_the_older_green_and_working_class_codes_join_their_groups(old_file, tmp_path):
+    run_old(old_file, tmp_path, snapshot_date=OLD_SNAPSHOT)
+    rows = json.loads(
+        (tmp_path / "data/voter_file" / OLD_SNAPSHOT / "party_by_county.json").read_text()
+    )["rows"]
+    statewide = {r["party_group"]: r["count"] for r in rows if r["county"] == "Maryland"}
+    assert statewide["GRN"] == 1 and statewide["WCP"] == 1 and statewide.get("OTH", 0) == 0
+
+
+def test_a_snapshot_before_every_election_is_refused(old_file, tmp_path):
+    with pytest.raises(VoterFileError, match="No election"):
+        run_old(old_file, tmp_path, snapshot_date="2010-01-01")

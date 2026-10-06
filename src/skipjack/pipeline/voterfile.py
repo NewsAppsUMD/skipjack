@@ -20,6 +20,10 @@ Statewide figures use ``county = "Maryland"`` and are computed before suppressio
 The file is a tab-delimited export split into parts; only the first part has a
 header row. The header names the vote-history columns (one per election, e.g.
 ``11/05/2024-PG``), so later snapshots with more elections need no code change.
+
+An older export may be a single file with no readme. Point ``--path`` at it and give
+``--snapshot-date``; there is then no record count to check, and any election column dated
+after the snapshot (the export is made before the election) is ignored.
 """
 
 from __future__ import annotations
@@ -171,7 +175,7 @@ def parse_election(column: str) -> Election:
 
 @dataclass
 class Readme:
-    total_records: int
+    total_records: int | None  # None for a single file that came without a readme
     snapshot_date: str  # ISO
 
 
@@ -204,7 +208,14 @@ def _part_number(path: Path) -> int:
 
 
 def discover_parts(directory: Path) -> tuple[list[Part], list[Path]]:
-    """Return (unique parts in order, byte-identical duplicates that were skipped)."""
+    """Return (unique parts in order, byte-identical duplicates that were skipped).
+
+    ``directory`` may also be a single voter file, which becomes part 1.
+    """
+    if directory.is_file():
+        with open(directory, "rb") as f:
+            header = f.read(7) == b"VTR_ID\t"
+        return [Part(directory, 1, compute_sha256(directory), directory.stat().st_size, header)], []
     files = [p for p in directory.glob("*Part_*.txt") if "readme" not in p.name.lower()]
 
     files.sort(key=lambda p: (_part_number(p), p.name))
@@ -362,8 +373,12 @@ def load_voterfile(
         "unrecognized_counties": unrecognized,
         "status_counts": dict(df["status"].cast(pl.String).value_counts().iter_rows()),
     }
-    checks["reconciled"] = (
-        rejected.height <= MAX_REJECTED and abs(df.height - readme.total_records) <= MAX_REJECTED
+    checks["latest_registration_date"] = (
+        str(df["reg_date"].max()) if df["reg_date"].null_count() < df.height else None
+    )
+    # Without a readme there is no record count to compare, only the malformed-row limit.
+    checks["reconciled"] = rejected.height <= MAX_REJECTED and (
+        readme.total_records is None or abs(df.height - readme.total_records) <= MAX_REJECTED
     )
     return df, checks
 
@@ -644,6 +659,22 @@ def _dump_metric(path: Path, metric: Metric, snapshot: str, below: int) -> None:
     path.write_text(f'{head[:-1]},"rows":[\n{body}\n]}}\n')
 
 
+def _snapshot_limitations(checks: dict, snapshot: str) -> list[str]:
+    notes = []
+    if checks.get("readme_total_records") is None:
+        notes.append(
+            f"This file came without a readme, so its date ({snapshot}) was supplied by hand and "
+            "its record count could not be checked against the State Board's. The latest "
+            f"registration in it is dated {checks.get('latest_registration_date')}."
+        )
+    held = checks.get("elections_not_yet_held")
+    if held:
+        notes.append(
+            f"The file was made before the {', '.join(held)} election, so that election is not in it."
+        )
+    return notes
+
+
 def write_outputs(
     out_dir: Path,
     metrics: list[Metric],
@@ -676,14 +707,17 @@ def write_outputs(
         "age_bands": [b[0] for b in AGE_BANDS] + ["Unknown"],
         "generations": [g[0] for g in GENERATIONS] + ["Unknown"],
         "voter_types": VOTER_TYPES,
-        "records": {k: checks[k] for k in ("readme_total_records", "rows_valid", "status_counts")},
+        "records": {
+            **{k: checks[k] for k in ("readme_total_records", "rows_valid", "status_counts")},
+            "latest_registration_date": checks.get("latest_registration_date"),
+        },
         "vrar_cross_check": checks.get("vrar_cross_check"),
         "electorate_coverage": checks.get("electorate_coverage", {}),
         "metrics": {
             m.name: {"dims": m.dims, "values": m.values, "rows": m.df.height} for m in metrics
         },  # fmt: skip
         "suppress_below": below,
-        "limitations": LIMITATIONS,
+        "limitations": LIMITATIONS + _snapshot_limitations(checks, snapshot),
     }
     snapshot_path = out_dir / "snapshot.json"
     snapshot_path.write_text(json.dumps(meta, indent=2) + "\n")
@@ -767,7 +801,14 @@ def run(
     if out_root == directory or directory in out_root.parents:
         raise VoterFileError("Refusing to write output inside the voter file directory")
 
-    readme = read_readme(directory)
+    if directory.is_file():
+        if not snapshot_date:
+            raise VoterFileError(
+                "A single voter file has no readme to give its date; pass --snapshot-date"
+            )
+        readme = Readme(total_records=None, snapshot_date=snapshot_date)
+    else:
+        readme = read_readme(directory)
     snapshot = snapshot_date or readme.snapshot_date
     out_dir = out_root / snapshot
     if (out_dir / "snapshot.json").exists() and not force:
@@ -777,7 +818,13 @@ def run(
     for d in duplicates:
         logger.info("Skipping duplicate part: %s", d.name)
     names, elections = columns_from_header(parts)
+    # An export made before an election still has that election's (empty) column.
+    not_yet_held = [e for e in elections if e.date > snapshot]
+    elections = [e for e in elections if e.date <= snapshot]
+    if not elections:
+        raise VoterFileError(f"No election in the header took place on or before {snapshot}")
     df, checks = load_voterfile(parts, names, elections, readme)
+    checks["elections_not_yet_held"] = [e.key for e in not_yet_held]
     if not checks["reconciled"]:
         raise VoterFileError(
             f"Voter file does not match its readme: {json.dumps(checks, default=str)}"

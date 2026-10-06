@@ -9,7 +9,16 @@ from fastapi.templating import Jinja2Templates
 from skipjack.web.downloads import DOWNLOAD_ROOTS
 from skipjack.web.dates import month_label
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR, TEMPLATES_DIR
-from skipjack.web.routes import about, data, errata, home, trends, voterfile, voters
+from skipjack.web.routes import (
+    about,
+    compare,
+    data,
+    errata,
+    home,
+    trends,
+    voterfile,
+    voters,
+)
 from skipjack.web.summary import signed
 from skipjack.web.urls import slugify
 
@@ -49,6 +58,7 @@ def create_app() -> FastAPI:
     application.include_router(home.router)
     application.include_router(voters.router)
     application.include_router(trends.router)
+    application.include_router(compare.router)
     application.include_router(voterfile.router)
     application.include_router(data.router)
     application.include_router(errata.router)

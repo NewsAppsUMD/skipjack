@@ -30,10 +30,17 @@ def normalize_parties(df: pl.DataFrame) -> pl.DataFrame:
 
 # --- Voter file (statewide list) party codes -----------------------------------------
 # The voter file spells minor parties with an "O" prefix; map them to the VRAR codes.
-VOTERFILE_PARTY_CODES = {"OLB": "LIB", "ONLM": "NLM", "OBAR": "BAR", "OIN": "IND"}
+VOTERFILE_PARTY_CODES = {
+    "OLB": "LIB", "ONLM": "NLM", "OBAR": "BAR", "OIN": "IND",
+    # The 2024 export spelled Green and Working Class this way.
+    "OGRN": "GRN", "OWCP": "WCP",
+}  # fmt: skip
 
 # Coarse groups that match the party columns in the 2026 monthly reports.
-PARTY_GROUPS = {"DEM": "DEM", "REP": "REP", "UNA": "UNA", "GRN": "GRN", "WCP": "WCP"}
+PARTY_GROUPS = {
+    "DEM": "DEM", "REP": "REP", "UNA": "UNA", "GRN": "GRN", "WCP": "WCP",
+    "OGRN": "GRN", "OWCP": "WCP",
+}  # fmt: skip
 PARTY_GROUP_ORDER = ["DEM", "REP", "UNA", "GRN", "WCP", "OTH"]
 
 

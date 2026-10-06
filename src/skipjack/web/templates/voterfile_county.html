@@ -104,7 +104,8 @@
     {% endif %}
     {% if county == statewide %}
     <p style="margin:0"><a href="{{ base }}/voters/file/districts/congressional/{{ snapshot_q }}">Congressional districts</a> &middot;
-        <a href="{{ base }}/voters/file/districts/legislative/{{ snapshot_q }}">Legislative districts</a></p>
+        <a href="{{ base }}/voters/file/districts/legislative/{{ snapshot_q }}">Legislative districts</a>
+        {% if compare_with %}&middot; <a href="{{ base }}/voters/file/compare/">Compare with {{ compare_with|month_label }}</a>{% endif %}</p>
     {% endif %}
 </div>
 

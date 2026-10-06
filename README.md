@@ -20,7 +20,7 @@ Once GitHub Pages is switched on, the site publishes to
 | **Voter registration by county and party** | Jan 2010 to Aug 2026, 200 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
-| **Voter file aggregates** (participation by party, age and district; voting habits) | Snapshot of 2026-08-12 | SBE statewide voter list, aggregates only |
+| **Voter file aggregates** (participation by party, age and district; voting habits) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
 ### The site
 
@@ -33,6 +33,9 @@ Once GitHub Pages is switched on, the site publishes to
 - **Errata**: every place the State Board's own report does not add up.
 - **Voter File**: participation among current voters, by party, age, county and district. Each county has
   a link between its registration trends and its voter file page.
+- **Voter file comparison**: how the totals moved between two snapshots (September 2024 and August 2026),
+  by party, county and age, set beside the State Board's monthly reports, plus how many voters from each
+  registration year are still on the list. It compares counts only and says so.
 - **Data**: every CSV and JSON file as a download, each with its provenance file, plus all months of each
   table combined into one file with a `source_id` on every row.
 - **About**: every source document, with a link to the original.
@@ -136,6 +139,16 @@ aggregates:
 ```bash
 make voterfile VOTERFILE_DIR="/path/to/voter files"
 ```
+
+An older export may be a single file with no readme. Point the command at the file and give its date:
+
+```bash
+uv run skipjack voterfile --path /path/to/export.txt --snapshot-date 2024-09-11
+```
+
+With no readme there is no record count to check, so only the malformed-row limit applies, and the
+snapshot's notes say so. Election columns dated after the snapshot are ignored, because an export made
+before an election has an empty column for it.
 
 - Counts of 1 to 9 voters are hidden, and no output contains a name, ID or birth date.
 - The command refuses to write unless the row count matches the file's readme, allowing for a few

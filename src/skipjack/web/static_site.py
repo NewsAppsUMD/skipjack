@@ -22,6 +22,7 @@ from fastapi.testclient import TestClient
 
 from skipjack.web.app import app, configure_templates
 from skipjack.web.bulk import BULK_FILES, bulk_csv
+from skipjack.web.compare import snapshot_pairs
 from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
@@ -64,6 +65,9 @@ def page_urls() -> list[str]:
         latest_snapshot = conn.execute(
             "SELECT meta_json FROM voter_file_snapshots ORDER BY snapshot_date DESC LIMIT 1"
         ).fetchone()
+        snapshot_dates = [
+            r[0] for r in conn.execute("SELECT snapshot_date FROM voter_file_snapshots")
+        ]
     if not dates:
         raise SiteBuildError("skipjack.db has no registration data. Run `skipjack build-db` first.")
 
@@ -84,6 +88,12 @@ def page_urls() -> list[str]:
         urls += ["/voters/file/"]
         urls += [f"/voters/file/county/{slugify(c)}/" for c in meta["counties"]]
         urls += [f"/voters/file/districts/{kind}/" for kind in DISTRICT_TYPES]
+    # The comparison of the two newest snapshots lives at /voters/file/compare/; older pairs
+    # get their own addresses.
+    pairs = snapshot_pairs(snapshot_dates)
+    if pairs:
+        urls.append("/voters/file/compare/")
+        urls += [f"/voters/file/compare/{a}/{b}/" for a, b in pairs[:-1]]
     return urls
 
 

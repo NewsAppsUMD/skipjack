@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}Voter file: {{ c.earlier_label }} to {{ c.later_label }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<p><a href="{{ base }}/voters/file/">&larr; Voter file</a></p>
+<h1>{{ c.earlier_label }} to {{ c.later_label }}</h1>
+<p class="secondary">How the statewide voter list changed between two State Board of Elections snapshots,
+    {{ c.earlier }} and {{ c.later }}.</p>
+
+<div class="callout">
+    <strong>This compares totals, not people.</strong>
+    A voter who moved away, died or was removed between the two dates is only in the earlier list, and a
+    voter who registered is only in the later one. The comparison shows how the totals moved. It cannot say
+    who changed party or who left, because that would mean matching individual voters across the two files,
+    and Skipjack publishes only counts.
+</div>
+
+<div class="section-head"><h2>At a glance</h2></div>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr><th></th><th>{{ c.earlier }}</th><th>{{ c.later }}</th><th>Change</th></tr>
+    </thead>
+    <tbody>
+        {% for label, key in (("Registered voters (active and inactive)", "registered"), ("Active voters", "active"), ("Inactive voters", "inactive")) %}
+        {% set t = c.tiles[key] %}
+        <tr>
+            <td>{{ label }}</td>
+            <td>{{ m.n(t.a) }}</td>
+            <td>{{ m.n(t.b) }}</td>
+            {{ m.delta(t.change, t.pct) }}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% if c.official %}
+<div class="section-head"><h2>Against the State Board's monthly reports</h2></div>
+<p>The State Board's monthly registration reports are the official counts of active voters.
+    {% if c.official.agree %}Both sources show active voters {{ "rising" if c.official.file.change > 0 else "falling" }}.
+    {% else %}The two sources disagree on the direction of the change.{% endif %}
+    The lists do not match the reports exactly (see the last row), so use the reports for official totals and
+    the lists for breakdowns the reports do not publish.</p>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr><th>Active voters</th><th>{{ c.earlier }}</th><th>{{ c.later }}</th><th>Change</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Voter list</td>
+            <td>{{ m.n(c.official.file.a) }}</td><td>{{ m.n(c.official.file.b) }}</td>
+            {{ m.delta(c.official.file.change, c.official.file.pct) }}
+        </tr>
+        <tr>
+            <td>Monthly report ({{ c.official.a.month }} and {{ c.official.b.month }})</td>
+            <td>{{ m.n(c.official.official.a) }}</td><td>{{ m.n(c.official.official.b) }}</td>
+            {{ m.delta(c.official.official.change, c.official.official.pct) }}
+        </tr>
+        <tr>
+            <td>List compared with report</td>
+            <td>{{ c.official.a.gap_pct|signed(1, "%") }}</td><td>{{ c.official.b.gap_pct|signed(1, "%") }}</td><td></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+<div class="section-head"><h2>By party</h2></div>
+<p class="note">Registered voters, active and inactive together. Shares are of all registered voters.</p>
+<div class="overflow-auto">
+<table class="year-table" data-sortable>
+    <thead>
+        <tr>
+            <th>Party</th><th>{{ c.earlier }}</th><th>{{ c.later }}</th><th>Change</th>
+            <th>Share before</th><th>Share after</th><th>Share change</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in c.parties %}
+        <tr>
+            <td>{{ p.label }}</td>
+            <td>{{ m.n(p.registered.a) }}</td><td>{{ m.n(p.registered.b) }}</td>
+            {{ m.delta(p.registered.change, p.registered.pct) }}
+            {% if p.group == "ALL" %}
+            <td></td><td></td><td></td>
+            {% else %}
+            <td>{{ m.p(p.share.a, 1) }}</td><td>{{ m.p(p.share.b, 1) }}</td>
+            {{ m.delta_points(p.share.points) }}
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The {{ c.earlier }} list spells the Green and Working Class party codes differently (OGRN and OWCP)
+    from the {{ c.later }} list (GRN and WCP). Skipjack counts them as the same parties in both.</p>
+
+<div class="section-head"><h2>By county</h2></div>
+<p class="note">Click a heading to sort. The last three columns are the change in each party's share of the
+    county's registered voters, in percentage points.</p>
+<div class="overflow-auto">
+<table class="year-table" data-sortable>
+    <thead>
+        <tr>
+            <th>County</th><th>{{ c.earlier }}</th><th>{{ c.later }}</th><th>Change</th>
+            <th>Democratic</th><th>Republican</th><th>Unaffiliated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in c.counties %}
+        <tr>
+            <td><a href="{{ base }}/voters/file/county/{{ r.county|slug }}/">{{ r.county }}</a></td>
+            <td>{{ m.n(r.registered.a) }}</td><td>{{ m.n(r.registered.b) }}</td>
+            {{ m.delta(r.registered.change, r.registered.pct) }}
+            {{ m.delta_points(r.shares.DEM.points) }}
+            {{ m.delta_points(r.shares.REP.points) }}
+            {{ m.delta_points(r.shares.UNA.points) }}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="section-head"><h2>By age</h2></div>
+<p class="note">Ages are as of each date, so a voter who was 24 in {{ c.earlier[:4] }} is in the 25 to 34 band in
+    {{ c.later[:4] }}. A change in a band mixes people aging in or out with voters joining and leaving the
+    list.</p>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>Age</th><th>{{ c.earlier }}</th><th>{{ c.later }}</th><th>Change</th>
+            <th>Democratic</th><th>Republican</th><th>Unaffiliated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in c.ages %}
+        <tr>
+            <td>{{ r.band }}</td>
+            <td>{{ m.n(r.registered.a) }}</td><td>{{ m.n(r.registered.b) }}</td>
+            {{ m.delta(r.registered.change, r.registered.pct) }}
+            {{ m.delta_points(r.shares.DEM.points) }}
+            {{ m.delta_points(r.shares.REP.points) }}
+            {{ m.delta_points(r.shares.UNA.points) }}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The three party columns are the change in each party's share of that age band, in percentage points.
+    Under 18 are voters who registered before turning 18.</p>
+
+{% if c.cohorts.rows %}
+<div class="section-head"><h2>How many stayed on the list</h2></div>
+<p>{{ "{:,}".format(c.cohorts.total_a) }} voters on the {{ c.earlier }} list had first registered between
+    {{ c.cohorts.first_year }} and {{ c.cohorts.last_year }}.
+    {{ "{:,}".format(c.cohorts.total_b) }} of them ({{ "%.1f"|format(c.cohorts.kept) }}%) are on the
+    {{ c.later }} list. The other {{ "{:,}".format(c.cohorts.total_a - c.cohorts.total_b) }}
+    ({{ "%.1f"|format(100 - c.cohorts.kept) }}%) are not: they moved away, died, were removed or otherwise no
+    longer appear, and the lists cannot say which.</p>
+<section class="viz-card" aria-labelledby="cohort-title">
+    <h3 id="cohort-title" style="font-size:1.05rem">Share of each registration year no longer on the list</h3>
+    <p class="sub">Voters on the {{ c.earlier }} list, by the year they first registered in Maryland, who are not on the
+        {{ c.later }} list.
+        {{ c.earlier[:4] }} is left out because the earlier list caught that year part-way through.</p>
+    <div id="cohort-chart"></div>
+</section>
+{% endif %}
+
+<div class="section-head"><h2>What this cannot show</h2></div>
+<ul>
+    <li><strong>Who changed party or who left.</strong> Totals can move in opposite directions at once.
+        A party's count can hold steady while it loses and gains voters in equal numbers.
+        Skipjack's <a href="{{ base }}/voters/party-switching/">party switching page</a> counts party changes
+        directly, from the State Board's monthly reports.</li>
+    <li><strong>Participation.</strong> The {{ c.earlier }} list has vote history for
+        {{ c.elections.earlier|join(" and ") }} only, and the {{ c.later }} list for
+        {{ c.elections.later|join(", ") }}. {% if not c.elections.shared %}No election is in both, so
+        participation cannot be compared between them.{% endif %}</li>
+    {% for note in c.earlier_meta.limitations if "without a readme" in note or "was made before" in note %}
+    <li><strong>The {{ c.earlier }} list.</strong> {{ note }}</li>
+    {% endfor %}
+</ul>
+<p class="note">Both snapshots are described on the <a href="{{ base }}/about">about page</a>; the aggregates are on
+    the <a href="{{ base }}/data/">data page</a>. Counts from 1 to 9 voters are hidden in both.</p>
+</div>
+
+<script id="compare-data" type="application/json">
+{{ chart | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ base }}/static/compare.js"></script>
+{% endblock %}

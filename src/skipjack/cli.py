@@ -108,7 +108,7 @@ def cmd_voterfile(args: argparse.Namespace) -> None:
     print(f"Wrote {checks['metrics']} metrics to {checks['out_dir']}")
     print(
         f"  {checks['rows_valid']:,} voters kept of {checks['rows_read']:,} read "
-        f"(readme: {checks['readme_total_records']:,}); {checks['rows_rejected']} malformed rows "
+        f"(readme: {checks['readme_total_records'] or 'none'}); {checks['rows_rejected']} malformed rows "
         f"rejected; {checks['parts']} parts, {checks['duplicates_skipped']} duplicate skipped"
     )
 
@@ -174,7 +174,12 @@ def main(argv: list[str] | None = None) -> None:
     )
 
     vf_p = sub.add_parser("voterfile", help="Aggregate a statewide voter file into JSON")
-    vf_p.add_argument("--path", required=True, type=Path, help="Directory of voter file parts")
+    vf_p.add_argument(
+        "--path",
+        required=True,
+        type=Path,
+        help="Directory of voter file parts, or one voter file (then give --snapshot-date)",
+    )
     vf_p.add_argument("--snapshot-date", metavar="YYYY-MM-DD", help="Override the readme date")
     vf_p.add_argument("--out", type=Path, default=Path("data/voter_file"))
     vf_p.add_argument("--suppress-below", type=int, default=10)

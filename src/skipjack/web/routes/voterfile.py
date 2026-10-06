@@ -392,6 +392,7 @@ def _county_page(request: Request, snapshot: str | None, slug: str | None):
             "snapshot": snapshot,
             "snapshot_q": _snapshot_query(snapshot, dates[0]),
             "snapshots": dates,
+            "compare_with": dates[1] if len(dates) > 1 and snapshot == dates[0] else None,
             "meta": meta,
             "county": county,
             "statewide": STATEWIDE,

@@ -127,3 +127,13 @@
 <td class="num {{ 'delta-up' if p > 0 else 'delta-down' if p < 0 else 'delta-flat' }}" data-sort="{{ p }}">{{ p|signed(0, "%") }}</td>
 {%- endif -%}
 {%- endmacro %}
+
+{# A change in a share, in percentage points. Sorts by the number. #}
+{% macro delta_points(x) -%}
+{%- if x is none -%}
+<td class="num delta-flat" data-sort=""><span class="muted">&ndash;</span></td>
+{%- else -%}
+{%- set r = x|round(1) -%}
+<td class="num" data-sort="{{ x|round(3) }}">{% if r > 0 %}<span aria-hidden="true">&#9650;</span> {% elif r < 0 %}<span aria-hidden="true">&#9660;</span> {% endif %}{{ x|signed(1) }} pts</td>
+{%- endif -%}
+{%- endmacro %}
