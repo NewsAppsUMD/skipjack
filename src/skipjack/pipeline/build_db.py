@@ -93,6 +93,7 @@ def load_table(conn: sqlite3.Connection, subdir: str, data_dir: Path = DATA_DIR)
 VOTER_FILE_DIMS = [
     "county", "party_group", "party", "status", "election", "age_band", "generation",
     "reg_year", "district_type", "district", "gender", "voter_type", "eligible_elections",
+    "reg_window", "reg_week",
 ]  # fmt: skip
 VOTER_FILE_COLUMNS = ["snapshot_date", "metric", *VOTER_FILE_DIMS, "count", "eligible"]
 

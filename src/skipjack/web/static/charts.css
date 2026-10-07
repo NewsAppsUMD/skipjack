@@ -98,6 +98,7 @@
 .pct { color: var(--text-secondary); font-size: 0.8em; }
 .year-table td, .year-table th { padding: 0.3rem 0.55rem; white-space: nowrap; font-variant-numeric: tabular-nums; font-size: 0.85rem; }
 .year-table td:not(:first-child), .year-table th:not(:first-child) { text-align: right; }
+.year-table th { white-space: normal; vertical-align: bottom; }
 .year-table tbody tr:hover { background: rgba(61, 126, 166, 0.06); }
 .year-table td.total, .year-table th.total { font-weight: 600; }
 .lead { font-size: 1.05rem; }

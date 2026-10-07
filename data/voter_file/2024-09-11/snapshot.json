@@ -63,6 +63,24 @@
     "75+",
     "Unknown"
   ],
+  "age_detail_bands": [
+    "Under 18",
+    "18-22",
+    "23-29",
+    "30-44",
+    "45-64",
+    "65+",
+    "Unknown"
+  ],
+  "new_registrants": {
+    "first_year": 2010,
+    "age_bands": [
+      "18-22",
+      "23-29",
+      "30+"
+    ],
+    "cutoff": "09-11"
+  },
   "generations": [
     "Gen Z",
     "Millennial",
@@ -519,6 +537,41 @@
       ],
       "rows": 298
     },
+    "new_registrants": {
+      "dims": [
+        "county",
+        "party_group",
+        "age_band",
+        "reg_year",
+        "reg_window"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 12167
+    },
+    "new_registrant_weeks": {
+      "dims": [
+        "reg_year",
+        "reg_week",
+        "age_band"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 2311
+    },
+    "age_detail_by_party": {
+      "dims": [
+        "county",
+        "party_group",
+        "age_band"
+      ],
+      "values": [
+        "count"
+      ],
+      "rows": 1029
+    },
     "new_voters_voted": {
       "dims": [
         "county",
@@ -540,6 +593,7 @@
     "Cells with 1 to 9 voters are hidden. Hidden cells are not rebalanced, so rows may not sum to their totals.",
     "Active counts in the file are about 1% below the State Board's monthly registration report for the same month. The monthly report remains the official count; shares and participation rates here are computed within the file.",
     "Registration cohorts show survivors: current voters by the year they first registered in Maryland, not everyone who ever registered.",
+    "New registrants are voters whose county and state registration dates match, which marks a first registration in Maryland, and who were 18 or older when they registered. Voters who pre-registered at 16 or 17 are left out, because the youngest of them are not yet in the file. Party is the voter's party today, not the party they chose when they registered.",
     "This file came without a readme, so its date (2024-09-11) was supplied by hand and its record count could not be checked against the State Board's. The latest registration in it is dated 2024-08-20.",
     "The file was made before the 2024-PG election, so that election is not in it."
   ]

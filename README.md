@@ -20,7 +20,7 @@ Once GitHub Pages is switched on, the site publishes to
 | **Voter registration by county and party** | Jan 2010 to Aug 2026, 200 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
-| **Voter file aggregates** (participation by party, age and district; voting habits) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
+| **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
 ### The site
 
@@ -33,6 +33,10 @@ Once GitHub Pages is switched on, the site publishes to
 - **Errata**: every place the State Board's own report does not add up.
 - **Voter File**: participation among current voters, by party, age, county and district. Each county has
   a link between its registration trends and its voter file page.
+- **Young voters**: how many 18-to-22-year-olds registered for the first time from January 1 to the
+  snapshot date, against the same stretch of earlier election years, which party they choose, and how it
+  differs by county. Earlier years are undercounted because voters leave the list, so the page measures
+  that between the two snapshots and shows the comparison both ways.
 - **Voter file comparison**: how the totals moved between two snapshots (September 2024 and August 2026),
   by party, county and age, set beside the State Board's monthly reports, plus how many voters from each
   registration year are still on the list. It compares counts only and says so.

@@ -87,6 +87,14 @@ AGE_BANDS = [
     ("Under 18", 0, 17), ("18-24", 18, 24), ("25-34", 25, 34), ("35-44", 35, 44),
     ("45-54", 45, 54), ("55-64", 55, 64), ("65-74", 65, 74), ("75+", 75, MAX_AGE),
 ]  # fmt: skip
+# Age today, in the bands the young voters page uses.
+AGE_DETAIL_BANDS = [
+    ("Under 18", 0, 17), ("18-22", 18, 22), ("23-29", 23, 29), ("30-44", 30, 44),
+    ("45-64", 45, 64), ("65+", 65, MAX_AGE),
+]  # fmt: skip
+# Age when a first-time registrant signed up.
+NEW_REGISTRANT_BANDS = [("18-22", 18, 22), ("23-29", 23, 29), ("30+", 30, MAX_AGE)]
+NEW_REGISTRANT_FIRST_YEAR = 2010
 GENERATIONS = [
     ("Gen Z", 1997, 2100), ("Millennial", 1981, 1996), ("Gen X", 1965, 1980),
     ("Baby Boomer", 1946, 1964), ("Silent/Greatest", 1900, 1945),
@@ -116,6 +124,10 @@ LIMITATIONS = [
     "rates here are computed within the file.",
     "Registration cohorts show survivors: current voters by the year they first registered "
     "in Maryland, not everyone who ever registered.",
+    "New registrants are voters whose county and state registration dates match, which marks a "
+    "first registration in Maryland, and who were 18 or older when they registered. Voters who "
+    "pre-registered at 16 or 17 are left out, because the youngest of them are not yet in the "
+    "file. Party is the voter's party today, not the party they chose when they registered.",
 ]
 
 
@@ -288,6 +300,35 @@ def scan_part(part: Part, names: list[str], elections: list[Election], snapshot:
     age = snapshot.year - birth.dt.year() - pl.when(had_birthday).then(0).otherwise(1)
     age = pl.when(age.is_between(0, MAX_AGE)).then(age)  # implausible ages become null
 
+    county_registered = pl.col("CountyRegistrationDate").str.to_date("%m/%d/%Y", strict=False)
+
+    def completed_years(on: pl.Expr) -> pl.Expr:
+        """Whole years between the birth date and ``on``."""
+        before_birthday = (on.dt.month() < birth.dt.month()) | (
+            (on.dt.month() == birth.dt.month()) & (on.dt.day() < birth.dt.day())
+        )
+        return on.dt.year() - birth.dt.year() - pl.when(before_birthday).then(1).otherwise(0)
+
+    # A first registration in Maryland: the county and state dates match. Voters who moved
+    # between counties or re-registered have a county date later than the state date.
+    age_at_registration = completed_years(registered)
+    first_time = (
+        (county_registered == registered)
+        & birth.is_not_null()
+        & registered.dt.year().is_between(NEW_REGISTRANT_FIRST_YEAR, snapshot.year)
+        & (registered <= snapshot)
+        & (age_at_registration >= NEW_REGISTRANT_BANDS[0][1])
+    ).fill_null(False)
+    # Registered on or before the snapshot's month and day, in any year: lets each year be
+    # compared with the same stretch of the others, e.g. January 1 to August 12.
+    to_date = (registered.dt.month() < snapshot.month) | (
+        (registered.dt.month() == snapshot.month) & (registered.dt.day() <= snapshot.day)
+    )
+    # Day of a non-leap year, so a week means the same thing in leap years.
+    day_of_year = registered.dt.ordinal_day() - pl.when(
+        registered.dt.is_leap_year() & (registered.dt.month() > 2)
+    ).then(1).otherwise(0)  # fmt: skip
+
     def district(column: str) -> pl.Expr:
         value = pl.col(column).fill_null("").str.strip_chars()
         return pl.when(value == "").then(pl.lit("Unknown")).otherwise(value).alias(column.lower())
@@ -312,6 +353,14 @@ def scan_part(part: Part, names: list[str], elections: list[Election], snapshot:
         district("Legislative"),
         _band_expr(age, AGE_BANDS).alias("age_band"),
         _band_expr(birth.dt.year(), GENERATIONS).alias("generation"),
+        _band_expr(age, AGE_DETAIL_BANDS).alias("age_detail"),
+        pl.when(first_time)
+        .then(_band_expr(age_at_registration, NEW_REGISTRANT_BANDS))
+        .alias("new_age"),
+        pl.when(first_time)
+        .then(pl.when(to_date).then(pl.lit("to_date")).otherwise(pl.lit("rest")))
+        .alias("reg_window"),
+        pl.when(first_time).then(((day_of_year - 1) // 7 + 1).cast(pl.Int64)).alias("reg_week"),
         pl.when(registered.dt.year().is_between(1900, snapshot.year))
         .then(registered.dt.year())
         .alias("reg_year"),
@@ -396,7 +445,7 @@ class Metric:
     df: pl.DataFrame = field(repr=False)
 
 
-NUMERIC_DIMS = {"reg_year", "eligible_elections"}
+NUMERIC_DIMS = {"reg_year", "eligible_elections", "reg_week"}
 
 
 def _strings(df: pl.DataFrame, dims: list[str]) -> pl.DataFrame:
@@ -533,6 +582,22 @@ def build_metrics(df: pl.DataFrame, elections: list[Election]) -> list[Metric]:
     dims = ["county", "party"]
     minor = df.filter(pl.col("party_group") == "OTH")
     add("minor_parties", dims, ["count"], count_by(minor, dims))
+
+    # First-time registrants (age 18 or older when they registered), by the year they
+    # registered and whether that was on or before the snapshot's month and day.
+    new = df.filter(pl.col("new_age").is_not_null()).with_columns(
+        pl.col("new_age").alias("age_band")
+    )
+    dims = ["county", "party_group", "age_band", "reg_year", "reg_window"]
+    add("new_registrants", dims, ["count"], count_by(new, dims))
+    # The same, week by week, statewide: enough to draw a running total.
+    dims = ["reg_year", "reg_week", "age_band"]
+    add("new_registrant_weeks", dims, ["count"], count_by(new, dims))
+
+    # Everyone registered today, by age in the bands the young voters page uses.
+    detail = df.with_columns(pl.col("age_detail").alias("age_band"))
+    dims = ["county", "party_group", "age_band"]
+    add("age_detail_by_party", dims, ["count"], count_by(detail, dims))
 
     # Registered since the previous general election, and how many voted in the latest one.
     latest = elections[-1]
@@ -705,6 +770,12 @@ def write_outputs(
         "all_parties": ALL_PARTIES,
         "statewide": STATEWIDE,
         "age_bands": [b[0] for b in AGE_BANDS] + ["Unknown"],
+        "age_detail_bands": [b[0] for b in AGE_DETAIL_BANDS] + ["Unknown"],
+        "new_registrants": {
+            "first_year": NEW_REGISTRANT_FIRST_YEAR,
+            "age_bands": [b[0] for b in NEW_REGISTRANT_BANDS],
+            "cutoff": snapshot[5:],  # "08-12": registered on or before this month and day
+        },
         "generations": [g[0] for g in GENERATIONS] + ["Unknown"],
         "voter_types": VOTER_TYPES,
         "records": {

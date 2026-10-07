@@ -13,8 +13,8 @@
 //   xLabels: string[]             // optional; a tick for every non-empty label (ordinal axes)
 //   tipLabel: (i) => string       // optional tooltip heading (defaults to the month)
 //   xInset: number                // optional px of padding inside the plot, left and right
-//   markers: [{ index, label?, kind? }]  // optional vertical rules, e.g. election months;
-//                                 // kind ("primary" or "general") picks the style
+//   markers: [{ index, label?, kind?, color? }]  // optional vertical rules, e.g. election months;
+//                                 // kind ("primary" or "general") picks the style, color overrides the line color
 //   height, endLabels, group, ariaLabel
 // }
 
@@ -134,7 +134,8 @@ export function renderLineChart(container, opts) {
   for (const mk of markers) {
     if (mk.index < 0 || mk.index >= n) continue;
     el("line", { x1: x(mk.index), x2: x(mk.index), y1: m.top, y2: m.top + h,
-                 class: `lc-marker lc-marker-${mk.kind ?? "primary"}` }, svg);
+                 class: `lc-marker lc-marker-${mk.kind ?? "primary"}`,
+                 ...(mk.color ? { style: `stroke: ${mk.color}` } : {}) }, svg);
     if (mk.label) {
       const t = el("text", { x: x(mk.index), y: m.top + 9, class: "lc-marker-label",
                              "text-anchor": "middle" }, svg);

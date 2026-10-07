@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "Statewide voter registration list with voter history (2026-08-12)",
   "fetch_date": "2026-09-21T14:19:56+00:00",
-  "parse_date": "2026-10-01T20:37:14+00:00",
+  "parse_date": "2026-10-07T16:20:22+00:00",
   "sha256_original": "3601757cca6ced4713bd347e81623f14897961e6eaa9b52392451439095e2bc2",
   "parser_version": "skipjack 0.3.0",
   "notes": "Aggregated with polars; no row-level data is written.",
@@ -20,7 +20,9 @@
       "I": 285544,
       "A": 4275582
     },
+    "latest_registration_date": "2026-08-12",
     "reconciled": true,
+    "elections_not_yet_held": [],
     "vrar_cross_check": {
       "vrar_month": "2026-08",
       "file_active": 4275582,

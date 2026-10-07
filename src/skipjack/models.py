@@ -76,6 +76,8 @@ CREATE TABLE IF NOT EXISTS voter_file_counts (
     gender TEXT,
     voter_type TEXT,
     eligible_elections INTEGER,
+    reg_window TEXT,
+    reg_week INTEGER,
     count INTEGER,
     eligible INTEGER
 );

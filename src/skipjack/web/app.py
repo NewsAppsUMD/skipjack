@@ -18,6 +18,7 @@ from skipjack.web.routes import (
     trends,
     voterfile,
     voters,
+    young,
 )
 from skipjack.web.summary import signed
 from skipjack.web.urls import slugify
@@ -59,6 +60,7 @@ def create_app() -> FastAPI:
     application.include_router(voters.router)
     application.include_router(trends.router)
     application.include_router(compare.router)
+    application.include_router(young.router)
     application.include_router(voterfile.router)
     application.include_router(data.router)
     application.include_router(errata.router)

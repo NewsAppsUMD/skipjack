@@ -1,10 +1,10 @@
 """Maryland statewide election dates, used to mark charts.
 
-These are entered by hand from the State Board of Elections' election archive. The 2020
-primary moved from April 28 to June 2 and the 2022 primary from June 28 to July 19; the dates
-below are the days voting actually took place. ``tests/test_trends.py`` checks that each one
-falls on a Tuesday and that every general election is the Tuesday after the first Monday
-in November.
+These are entered by hand. The 2020 primary moved from April 28 to June 2 and the 2022
+primary from June 28 to July 19; the dates below are the days voting actually took place.
+``tests/test_trends.py`` checks that each one falls on a Tuesday, that every general election is
+the Tuesday after the first Monday in November, and that every election named in the voter file
+snapshots (whose history columns carry the State Board's own dates) appears here.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ PRIMARIES = [
     "2020-06-02",
     "2022-07-19",
     "2024-05-14",
-    "2026-06-30",
+    "2026-06-23",
 ]
 
 GENERALS = [

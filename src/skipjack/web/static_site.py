@@ -26,6 +26,7 @@ from skipjack.web.compare import snapshot_pairs
 from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
+from skipjack.web.young import snapshots_with_young
 from skipjack.web.urls import normalize_base_path, slugify
 
 logger = logging.getLogger(__name__)
@@ -68,6 +69,7 @@ def page_urls() -> list[str]:
         snapshot_dates = [
             r[0] for r in conn.execute("SELECT snapshot_date FROM voter_file_snapshots")
         ]
+        has_young_page = bool(snapshots_with_young(conn))
     if not dates:
         raise SiteBuildError("skipjack.db has no registration data. Run `skipjack build-db` first.")
 
@@ -88,6 +90,8 @@ def page_urls() -> list[str]:
         urls += ["/voters/file/"]
         urls += [f"/voters/file/county/{slugify(c)}/" for c in meta["counties"]]
         urls += [f"/voters/file/districts/{kind}/" for kind in DISTRICT_TYPES]
+    if has_young_page:
+        urls.append("/voters/young/")
     # The comparison of the two newest snapshots lives at /voters/file/compare/; older pairs
     # get their own addresses.
     pairs = snapshot_pairs(snapshot_dates)

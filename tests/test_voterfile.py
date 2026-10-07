@@ -444,7 +444,7 @@ def test_cli(voter_dir, tmp_path, monkeypatch, capsys):
             "2",
         ]
     )
-    assert "Wrote 13 metrics" in capsys.readouterr().out
+    assert "Wrote 16 metrics" in capsys.readouterr().out
     with pytest.raises(SystemExit) as e:
         main(["voterfile", "--path", str(voter_dir), "--out", str(tmp_path / "o")])
     assert e.value.code == 1
@@ -575,3 +575,143 @@ def test_the_older_green_and_working_class_codes_join_their_groups(old_file, tmp
 def test_a_snapshot_before_every_election_is_refused(old_file, tmp_path):
     with pytest.raises(VoterFileError, match="No election"):
         run_old(old_file, tmp_path, snapshot_date="2010-01-01")
+
+
+# --- first-time registrants, by age when they registered ------------------------------------
+
+NEW_SNAPSHOT = "2026-08-12"
+
+
+def reg_row(vtr, county, party, birth, state_reg, county_reg=None):
+    fields = dict.fromkeys(FIXED_COLUMNS, "")
+    fields.update(
+        VTR_ID=str(vtr), LastName="TESTLAST", FirstName="TESTFIRST", StatusCode="A", Party=party,
+        Gender="Female", Congressional="05", Legislative="01A", BirthDate=birth,
+        StateRegistrationDate=state_reg, CountyRegistrationDate=county_reg or state_reg,
+    )  # fmt: skip
+    return "\t".join([*fields.values(), "", county, ""])
+
+
+NEW_ROWS = [
+    # Exactly 18 on the day they registered: counts, as 18 to 22.
+    reg_row(1, "Allegany", "UNA", "03/15/2006", "03/15/2024"),
+    # One day short of 18: pre-registered, left out.
+    reg_row(2, "Allegany", "DEM", "03/16/2006", "03/15/2024"),
+    # 22 on the day, and the day they turn 23: the two sides of the 18-22 and 23-29 line.
+    reg_row(3, "Allegany", "DEM", "03/16/2001", "03/15/2024"),
+    reg_row(4, "Allegany", "REP", "03/15/2001", "03/15/2024"),
+    # Turned 30 that day.
+    reg_row(5, "Allegany", "UNA", "03/15/1994", "03/15/2024"),
+    # County date later than the state date: moved between counties, not a first registration.
+    reg_row(6, "Allegany", "DEM", "01/01/2000", "03/15/2024", "09/01/2025"),
+    # The snapshot's own month and day is "to date"; the day after is "rest".
+    reg_row(7, "Kent", "DEM", "01/01/2000", "08/12/2025"),
+    reg_row(8, "Kent", "REP", "01/01/2000", "08/13/2025"),
+    # Before the first year counted.
+    reg_row(9, "Kent", "DEM", "01/01/1980", "12/31/2009"),
+    # March 4 is the last day of week 9 in a non-leap year. In a leap year it is one day later in
+    # the calendar, and counting days naively would push it into week 10.
+    reg_row(10, "Kent", "UNA", "01/01/1990", "03/04/2024"),
+    reg_row(11, "Kent", "UNA", "01/01/1990", "03/04/2025"),
+    # Unknown birth date: age at registration cannot be told.
+    reg_row(12, "Kent", "DEM", "", "03/15/2024"),
+    # Green and Working Class under the 2024 spellings.
+    reg_row(13, "Kent", "OGRN", "01/01/2000", "06/01/2025"),
+    reg_row(14, "Kent", "OWCP", "01/01/2000", "06/01/2025"),
+]
+
+
+@pytest.fixture
+def new_registrant_run(tmp_path):
+    path = tmp_path / "in" / "export.txt"
+    path.parent.mkdir()
+    header = "\t".join([*FIXED_COLUMNS, "11/08/2022-GG", "County", ""])
+    path.write_text("\n".join([header, *NEW_ROWS]) + "\n")
+    out = tmp_path / "data" / "voter_file"
+    vf.run(
+        path, out, snapshot_date=NEW_SNAPSHOT, suppress_below=1,
+        manifest_path=tmp_path / "manifest.csv", data_dir=tmp_path / "data",
+    )  # fmt: skip
+    return out / NEW_SNAPSHOT
+
+
+def read_rows(directory, name):
+    return json.loads((directory / f"{name}.json").read_text())["rows"]
+
+
+def new_counts(directory, county="Maryland", group="ALL", **match):
+    rows = read_rows(directory, "new_registrants")
+    return sum(
+        r["count"] or 0
+        for r in rows
+        if r["county"] == county
+        and r["party_group"] == group
+        and all(r[k] == v for k, v in match.items())
+    )
+
+
+def test_new_registrants_split_by_age_when_they_registered(new_registrant_run):
+    d = new_registrant_run
+    in_2024 = {"reg_year": 2024}
+    assert new_counts(d, age_band="18-22", **in_2024) == 2  # voters 1 and 3, not 2
+    assert new_counts(d, age_band="23-29", **in_2024) == 1  # voter 4 turned 23 that day
+    assert new_counts(d, age_band="30+", **in_2024) == 2  # voters 5 and 10
+    assert new_counts(d, **in_2024) == 5  # 6 moved counties and 12 has no birth date
+
+
+def test_a_county_move_is_not_a_first_registration(new_registrant_run):
+    assert new_counts(new_registrant_run, "Allegany", reg_year=2025) == 0
+
+
+def test_the_snapshots_month_and_day_divides_the_year(new_registrant_run):
+    d = new_registrant_run
+    assert (
+        new_counts(d, "Kent", reg_year=2025, reg_window="to_date", age_band="23-29") == 3
+    )  # 7, 13, 14
+    assert new_counts(d, "Kent", reg_year=2025, reg_window="rest") == 1  # voter 8, August 13
+
+
+def test_registrations_before_the_first_year_are_left_out(new_registrant_run):
+    assert new_counts(new_registrant_run, reg_year=2009) == 0
+
+
+def test_older_green_and_working_class_codes_count_under_their_groups(new_registrant_run):
+    d = new_registrant_run
+    assert new_counts(d, group="GRN", reg_year=2025) == 1
+    assert new_counts(d, group="WCP", reg_year=2025) == 1
+    assert new_counts(d, group="OTH") == 0
+
+
+def test_a_week_is_the_same_week_in_leap_and_non_leap_years(new_registrant_run):
+    weeks = {
+        (r["reg_year"], r["reg_week"]): r["count"]
+        for r in read_rows(new_registrant_run, "new_registrant_weeks")
+        if r["age_band"] == "30+"
+    }
+    assert weeks[(2024, 9)] == 1  # voter 10, March 4 of a leap year
+    assert weeks[(2025, 9)] == 1  # voter 11, March 4 of a plain year
+    assert (2024, 10) not in weeks
+    assert weeks[(2024, 11)] == 1  # voter 5, March 15
+
+
+def test_age_detail_uses_age_on_the_snapshot_date(new_registrant_run):
+    rows = read_rows(new_registrant_run, "age_detail_by_party")
+    total = {
+        r["age_band"]: r["count"]
+        for r in rows
+        if r["county"] == "Maryland" and r["party_group"] == "ALL"
+    }
+    assert total == {"18-22": 2, "23-29": 7, "30-44": 3, "45-64": 1, "Unknown": 1}
+
+
+def test_the_snapshot_records_what_the_new_registrant_numbers_mean(new_registrant_run):
+    meta = json.loads((new_registrant_run / "snapshot.json").read_text())
+    assert meta["new_registrants"] == {
+        "first_year": 2010,
+        "age_bands": ["18-22", "23-29", "30+"],
+        "cutoff": "08-12",
+    }
+    assert meta["age_detail_bands"][:2] == ["Under 18", "18-22"]
+    assert any("pre-registered at 16 or 17" in note for note in meta["limitations"])
+    for name in ("new_registrants", "new_registrant_weeks", "age_detail_by_party"):
+        assert name in meta["metrics"]

@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}Young voters{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<h1>Young voters in {{ y.year }}</h1>
+<p class="secondary">Registration and party choice among Marylanders aged 18 to 22, from the State Board of Elections'
+    statewide voter list as of {{ y.snapshot }}. This page counts registrations, not votes.</p>
+
+<div class="callout">
+    <strong>These counts are of people still on the list.</strong>
+    Voters who registered in earlier years and have since moved away, died or been removed are missing, so earlier
+    years look smaller than they were. The
+    <a href="#caveats">measured size of that gap</a> changes how this year compares.
+</div>
+
+<div class="section-head"><h2>The short version</h2></div>
+<ul class="highlights">
+    {% for b in bullets %}<li>{{ b }}</li>{% endfor %}
+</ul>
+
+<div class="section-head"><h2>Registration pace</h2></div>
+<p>First-time Maryland registrations by voters aged 18 to 22 when they registered, January 1 through
+    {{ y.cutoff_label }} of each year, so every year is measured over the same stretch.</p>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Jan 1 to {{ y.cutoff_label }}</th>
+            <th>Whole year</th>
+            <th>Share that came after {{ y.cutoff_label }}</th>
+            <th>18 to 22 share of all new</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in y.pace %}
+        <tr>
+            <td>{{ r.year }}</td>
+            <td>{{ m.n(r.window) }}</td>
+            <td>{% if r.full is not none %}{{ m.n(r.full) }}{% else %}<span class="muted">not yet known</span>{% endif %}</td>
+            <td>{% if r.after_share is not none %}{{ m.p(r.after_share, 0) }}{% else %}<span class="muted">&ndash;</span>{% endif %}</td>
+            <td>{{ m.p(r.young_share, 0) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% if y.shrink %}
+<h3 style="font-size:1.05rem">Earlier years, with the voters who left put back</h3>
+<p>People leave the list when they move away, die or are removed, so the same registrants are fewer in a later file.
+    Two voter lists show how many, for exactly this stretch of the year. Putting those voters back gives a fairer
+    comparison, though still a generous one to {{ y.year }}: voters also left before the earlier file was made.</p>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>Year (Jan 1 to {{ y.cutoff_label }})</th>
+            <th>In the {{ y.shrink_label }} file</th>
+            <th>In this file</th>
+            <th>Gone since</th>
+            <th>{{ y.year }} against this file</th>
+            <th>{{ y.year }} against the earlier file</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in y.shrink %}
+        <tr>
+            <td>{{ r.year }}</td>
+            <td>{{ "{:,}".format(r.was) }}</td>
+            <td>{{ "{:,}".format(r.now) }}</td>
+            <td>{{ "%.1f"|format(r.lost_pct) }}%</td>
+            {{ m.change_pct(y.changes[r.year]|round|int if y.changes[r.year] is not none else none) }}
+            {{ m.change_pct(y.adjusted[r.year].change|round|int if r.year in y.adjusted and y.adjusted[r.year].change is not none else none) }}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">Ages are measured on the day each voter registered, so the same registrants fall in the same row in both
+    files. Weeks with fewer than 10 registrations are hidden in the data and counted as 5 here.</p>
+{% endif %}
+{% if y.estimate %}
+<p><strong>Most of the year's young registrations may still be coming.</strong>
+    In {{ y.compare[:-1]|join(" and ") }}, between {{ "%.0f"|format(y.pace[:-1]|map(attribute="after_share")|min) }}% and
+    {{ "%.0f"|format(y.pace[:-1]|map(attribute="after_share")|max) }}% of the year's registrations by 18-to-22-year-olds came after
+    {{ y.cutoff_label }}, including during early voting, when Maryland allows same-day registration. If {{ y.year }} follows the same pattern
+    it would end the year with roughly {{ "{:,}".format(y.estimate[0]|int) }}{% if y.estimate[0] != y.estimate[1] %} to {{ "{:,}".format(y.estimate[1]|int) }}{% endif %}
+    new young registrants. That is an estimate, not a finding.</p>
+{% endif %}
+
+<div id="running-chart"></div>
+{% if hidden_weeks %}
+<p class="note">{{ hidden_weeks }} week{{ "s" if hidden_weeks != 1 }} in these lines had fewer than 10 registrations, which
+    the data hides. Each is drawn as a number from 1 to 9 chosen so its line ends at the exact total, so a line can be
+    off by a few voters out of thousands.</p>
+{% endif %}
+
+<div class="section-head"><h2>The move toward unaffiliated</h2></div>
+<div id="trend-chart"></div>
+<p class="note">{{ y.trend_note }}</p>
+
+<h3 style="font-size:1.05rem">New registrants, January 1 to {{ y.cutoff_label }}</h3>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr><th>Year and age when they registered</th><th>New registrants</th><th>Democratic</th><th>Republican</th><th>Unaffiliated</th><th>Other</th></tr>
+    </thead>
+    <tbody>
+        {% for row in y.parties %}
+        {% for label, key in (("aged 18 to 22", "young"), ("aged 23 and older", "older")) %}
+        {% set s = row[key] %}
+        <tr>
+            <td>{{ row.year }}, {{ label }}</td>
+            <td>{{ m.n(s.total) }}</td>
+            <td>{{ m.p(s.DEM, 0) }}</td><td>{{ m.p(s.REP, 0) }}</td><td>{{ m.p(s.UNA, 0) }}</td><td>{{ m.p(s.other, 0) }}</td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<h3 style="font-size:1.05rem">Everyone registered today, by age today</h3>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr><th>Age</th><th>Registered voters</th><th>Unaffiliated</th><th>Democratic</th><th>Republican</th></tr>
+    </thead>
+    <tbody>
+        {% for r in y.age_rows %}
+        <tr{% if r.total %} class="total"{% endif %}>
+            <td>{% if r.total %}<strong>{{ r.band }}</strong>{% else %}{{ r.band }}{% endif %}</td>
+            <td>{{ m.n(r.n) }}</td>
+            <td>{% if r.total %}<strong>{{ m.p(r.UNA, 0) }}</strong>{% else %}{{ m.p(r.UNA, 0) }}{% endif %}</td>
+            <td>{{ m.p(r.DEM, 0) }}</td><td>{{ m.p(r.REP, 0) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">Active and inactive voters together. Left out: {{ "{:,}".format(y.left_out.under_18) }} registered voters under 18
+    {% if y.left_out.unknown %}and {{ "{:,}".format(y.left_out.unknown) }} whose birth dates imply an age over 115{% endif %}.</p>
+
+{% if y.counties %}
+<div class="section-head"><h2>County differences</h2></div>
+<p>Registration pace varies a lot by county. The table compares January 1 to {{ y.cutoff_label }} of {{ y.prior }} and
+    {{ y.year }}. Click a heading to sort. Republican shares are shown only for counties with at least
+    {{ y.min_county }} new young registrants in both years.</p>
+{% if gap_range and gap_range[0] > 0 %}
+<p>Among everyone on the rolls today, 18-to-22-year-olds are {{ "%.0f"|format(gap_range[0]) }} to
+    {{ "%.0f"|format(gap_range[1]) }} points more unaffiliated than voters 23 and older in every one of Maryland's
+    {{ gap_range[2] }} counties.</p>
+{% endif %}
+<div class="overflow-auto">
+<table class="year-table" data-sortable>
+    <thead>
+        <tr>
+            <th>County</th>
+            <th>Aged 18 to 22, {{ y.prior }}</th><th>{{ y.year }}</th><th>Change</th>
+            <th>All ages, change</th>
+            <th>Republican share, {{ y.prior }}</th><th>{{ y.year }}</th><th>Change</th>
+            <th>Unaffiliated gap today</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in counties %}
+        <tr>
+            <td><a href="{{ base }}/voters/file/county/{{ c.county|slug }}/">{{ c.county }}</a></td>
+            <td>{{ m.n(c.young_then) }}</td><td>{{ m.n(c.young_now) }}</td>
+            {{ m.change_pct(c.young_change|round|int if c.young_change is not none else none) }}
+            {{ m.change_pct(c.all_change|round|int if c.all_change is not none else none) }}
+            <td>{% if c.enough %}{{ m.p(c.rep_then, 0) }}{% else %}<span class="muted">too few</span>{% endif %}</td>
+            <td>{% if c.enough %}{{ m.p(c.rep_now, 0) }}{% else %}<span class="muted">too few</span>{% endif %}</td>
+            {{ m.delta_points(c.rep_points) }}
+            {{ m.delta_points(c.gap_points) }}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">"All ages" counts every first-time registrant aged 18 or older, not just those 18 to 22, so a county
+    where young registrants rose faster than all ages is one where young people drove the change. The last column is
+    how many points more of 18-to-22-year-olds than of voters 23 and older are unaffiliated among everyone registered
+    today.</p>
+{% endif %}
+
+<div class="section-head" id="caveats"><h2>Caveats</h2></div>
+<ul>
+    <li><strong>This is one snapshot, taken {{ y.snapshot_label }}.</strong> It does not include anyone who registered
+        after {{ y.snapshot }}, and the part of the year after {{ y.cutoff_label }} has historically held about half of
+        the year's young registrations. The {{ y.year }} numbers are partial, and comparisons cover January 1 to
+        {{ y.cutoff_label }} of each year.</li>
+    <li><strong>The file only includes people who are still registered.</strong> Earlier years are undercounted, and
+        two voter lists show by how much.
+        {% if y.shrink %}
+        Between the {{ y.shrink_label }} file and this one, the young registrants of January 1 to {{ y.cutoff_label }}
+        {% for s in y.shrink %}{{ s.year }} went from {{ "{:,}".format(s.was) }} to {{ "{:,}".format(s.now) }}
+        ({{ "%.1f"|format(s.lost_pct) }}% gone){{ ", and those of " if not loop.last else "" }}{% endfor %}.
+        That is only the time between the two files; the loss before the earlier file was made is not visible, so the
+        true undercount is larger.
+        {% else %}
+        A second voter list would be needed to measure it.
+        {% endif %}</li>
+    <li><strong>Party is the voter's party today, not the party they chose when they registered.</strong> Someone who
+        registered unaffiliated in 2018 and later joined a party, often to vote in Maryland's closed primaries, appears
+        as a party member. That makes the past look less unaffiliated than it was.</li>
+    <li><strong>"New registrant" means a first-time Maryland registration</strong>: the county and state registration
+        dates match, so people who moved between counties are left out. Age is the voter's age on the day they
+        registered, and only registrations at 18 or older count.</li>
+    <li><strong>Voters who pre-registered at 16 or 17 are left out.</strong> The youngest recent pre-registrants are not
+        in the file yet, so including them would make {{ y.year }} look artificially low.</li>
+    <li><strong>Small counties are noisy.</strong> A change of a few dozen voters can swing their percentages by 10 or
+        20 points, so counties under {{ y.min_county }} new young registrants in either year are not compared.</li>
+</ul>
+<p class="note">The aggregates behind this page are
+    <a href="{{ base }}/downloads/voter_file/{{ y.snapshot }}/new_registrants.json">new_registrants.json</a>,
+    <a href="{{ base }}/downloads/voter_file/{{ y.snapshot }}/new_registrant_weeks.json">new_registrant_weeks.json</a> and
+    <a href="{{ base }}/downloads/voter_file/{{ y.snapshot }}/age_detail_by_party.json">age_detail_by_party.json</a>.
+    Counts from 1 to 9 voters are hidden. More on the file is on the <a href="{{ base }}/voters/file/">voter file page</a>.</p>
+</div>
+
+<script id="young-data" type="application/json">
+{{ chart | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ base }}/static/young.js"></script>
+{% endblock %}

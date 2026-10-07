@@ -216,6 +216,19 @@ def test_each_year_has_one_primary_and_one_general():
     assert elections.PRIMARIES == sorted(elections.PRIMARIES)
 
 
+def test_the_voter_files_own_election_dates_match_ours():
+    # The voter file's history columns are named with the State Board's election dates, so they
+    # are a source to check the hand-entered list against.
+    import json
+
+    from skipjack.web.paths import DATA_DIR
+
+    for snapshot in (DATA_DIR / "voter_file").glob("*/snapshot.json"):
+        for e in json.loads(snapshot.read_text())["elections"]:
+            known = elections.PRIMARIES if e["kind"] == "primary" else elections.GENERALS
+            assert e["date"] in known, f"{e['date']} ({e['label']}) is not in elections.py"
+
+
 # --- against the built database --------------------------------------------------------------
 
 needs_db = pytest.mark.skipif(not DB_PATH.exists(), reason="skipjack.db not built")

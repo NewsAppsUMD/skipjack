@@ -155,6 +155,19 @@ def test_the_snapshot_comparison_is_published_once_per_newest_pair(root_site, pr
 
 
 @needs_db
+def test_the_young_voters_page_is_published_with_its_script(root_site, project_site):
+    assert "/voters/young/" in page_urls()
+    for out, _ in (root_site, project_site):
+        assert (out / "voters" / "young" / "index.html").is_file()
+        assert (out / "static" / "young.js").is_file()
+        assert (out / "downloads" / "voter_file" / "2026-08-12" / "new_registrants.json").is_file()
+    html = (project_site[0] / "voters" / "young" / "index.html").read_text()
+    assert 'src="/skipjack/static/young.js"' in html
+    assert 'href="/skipjack/voters/file/county/calvert/"' in html
+    assert "Young Voters" in (root_site[0] / "index.html").read_text()
+
+
+@needs_db
 def test_build_has_no_broken_links(root_site, project_site):
     assert root_site[1].problems == []
     assert project_site[1].problems == []
