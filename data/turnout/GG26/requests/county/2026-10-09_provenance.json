@@ -4,14 +4,14 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GG26 requests (county) as of 2026-10-09",
   "fetch_date": "2026-10-10T17:29:55+00:00",
-  "parse_date": "2026-10-10T17:30:04+00:00",
+  "parse_date": "2026-10-10T19:30:53+00:00",
   "sha256_original": "a1f4a1a192549604d14b9255bc80f77606c39c2ae585ab3b31547c827607a35e",
   "parser_version": "skipjack 0.2.0",
   "election": "GG26",
   "family": "requests",
   "geography": "county",
   "notes": "GG26 requests (county) snapshot, reconciled against its printed totals.",
-  "extraction_method": "ocr: none; pdf text",
+  "extraction_method": "pdf text",
   "checks": {
     "rows": 168,
     "as_of": "2026-10-09"
