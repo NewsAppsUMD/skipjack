@@ -55,7 +55,7 @@ def test_month_pages_show_that_month():
     html = client.get("/voters/month/2019-06/").text
     assert "as of 2019-06" in html
     assert 'value="/voters/month/2019-06/" selected' in html
-    assert "as of 2026-08" in client.get("/voters/").text
+    assert "as of 2026-09" in client.get("/voters/").text
 
 
 def test_voters_table_links_to_county_pages():

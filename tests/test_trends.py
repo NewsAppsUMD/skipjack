@@ -322,8 +322,8 @@ def test_new_pages_render_with_the_section_nav(path):
 @needs_db
 def test_methods_page_describes_the_latest_twelve_months():
     html = page("/voters/methods/")
-    assert "September 2025 to August 2026" in html
-    assert "Motor Vehicle Administration (77%)" in html
+    assert "October 2025 to September 2026" in html
+    assert "Motor Vehicle Administration (75%)" in html
     assert "Online (87%)" in html  # concentrated in election years
     assert 'id="trend-data"' in html and 'src="/static/breakdown.js"' in html
 
@@ -332,8 +332,8 @@ def test_methods_page_describes_the_latest_twelve_months():
 def test_removals_page_warns_that_county_transfers_are_not_departures():
     html = page("/voters/removals/")
     assert "Removals are not all voters leaving Maryland" in html
-    assert "101,880" in html  # transfers out in the 12 months to August 2026
-    assert "+60,341" in html  # change in the rolls over the same months
+    assert "105,025" in html  # transfers out in the 12 months to September 2026
+    assert "−853" in html  # change in the rolls over the same months
 
 
 @needs_db
@@ -342,7 +342,7 @@ def test_party_switching_page_lists_every_primary_without_overclaiming():
     assert html.count("/voters/month/20") >= 9
     assert "In 4 of the 9 primaries" in html
     assert "The pattern is not the same every year." in html
-    assert "The 2026 figures cover only the 8 months reported so far." in html
+    assert "The 2026 figures cover only the 9 months reported so far." in html
     assert "coded IND" in html  # the 2010 spike is named, not explained
 
 
@@ -397,8 +397,8 @@ def test_unaffiliated_change_survives_the_unaf_to_una_rename():
 @needs_db
 def test_home_page_highlights_describe_the_latest_report():
     html = page("/")
-    assert "August 2026 in registration" in html
-    assert "4,322,671 active registered voters in August 2026" in html
+    assert "September 2026 in registration" in html
+    assert "4,333,854 active registered voters in September 2026" in html
     assert 'id="home-data"' in html
 
 

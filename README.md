@@ -17,7 +17,7 @@ Once GitHub Pages is switched on, the site publishes to
 
 | Dataset | Coverage | Source |
 |---|---|---|
-| **Voter registration by county and party** | Jan 2010 to Aug 2026, 200 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
+| **Voter registration by county and party** | Jan 2010 to Sep 2026, 201 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
 | **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
