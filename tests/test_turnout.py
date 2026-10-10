@@ -1583,7 +1583,9 @@ GP26_REQUESTS_XLSX = [
     ],
     ["Allegany", "", 2, "", 0, "", 112, 4041, 0, 295, "", 4450],
     ["Worcester", "", 1, "", 0, "", 14, 4881, 0, 599, "", 5495],
-    ["", "", "TOTAL", "", "", "", 126, 8922, 0, 894, "", 9945],
+    # the printed TOTAL row: the label in the county column, and only the columns it
+    # cares about (this export omits the agent and faxed totals)
+    ["TOTAL", "", "", "", "", "", 126, 8922, 0, 894, "", 9945],
 ]
 
 
@@ -1869,12 +1871,6 @@ def official_district_row(area, ed, ev, vbm, prov, elig, turnout=0.0, lead=0):
     ]
 
 
-def official_totals_row(label="TOTAL", lead=0):
-    """The block-closing printed totals row for the county shape."""
-    row = [""] * lead
-    return row + [label, "", "", "", "", "", "", "", "", "", "", ""]
-
-
 OFFICIAL_COUNTY_ROWS = [
     ["", "", "", "Official Turnout (By Party and County)", "", "", "", ""],
     ["", "", "", "Election Date: June 23, 2026\nAs of: July 23, 2026", "", "", "", ""],
@@ -1935,10 +1931,19 @@ def test_official_turnout_shares_are_never_stored():
     as_of, df = turnout.parse_turnout_official_bytes(
         sent_worksheet(OFFICIAL_COUNTY_ROWS), "GP26", "county"
     )
-    assert "turnout" not in set(df["measure"])
-    assert not any(round(v, 4) != v for v in df["value"])  # shares like 0.2797 are kept out
-    assert 0.2797 not in set(df["value"].to_list()) or 0.2797 == 0  # no float shares anywhere
+    assert "turnout" not in set(df["measure"])  # the printed shares are not a measure
+    printed_shares = {0.2797, 0.2824, 0.2723, 0.3201, 0.2741, 0.2944}
+    assert not (set(df["value"].to_list()) & printed_shares)  # no share reaches the frame
     assert df.schema["value"] == pl.Int64
+
+
+def test_official_turnout_turnout_column_is_excluded_from_the_cell_checks():
+    # the shares column is not a mapped measure, so a share cell that is not an
+    # integer never reaches the parser's cell checks; only counts do
+    bad = [row[:] for row in OFFICIAL_COUNTY_ROWS]
+    bad[4][16] = -0.5  # a torn share in the Statewide block's TURNOUT column
+    as_of, df = turnout.parse_turnout_official_bytes(sent_worksheet(bad), "GP26", "county")
+    assert as_of == "2026-07-23" and len(df) == 30
 
 
 def test_official_turnout_rejects_a_bad_block_label():
@@ -2219,7 +2224,7 @@ def test_eligible_rejects_a_row_total_that_understates_its_parties():
         turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "county")
 
 
-def test_eligible_rejects_a_section_total_that_omits_a_county():
+def test_eligible_rejects_a_section_total_that_understates_its_rows():
     torn = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
     torn[5][10] = 30000  # the section's Total column no longer equals the rows' totals
     with pytest.raises(turnout.TurnoutParseError):
@@ -2650,7 +2655,7 @@ LEFT_TO_COUNT_HEADER = [
 ]
 
 
-def left_to_count_row(category, county, cells, lead=0):
+def left_to_count_row(category, county, cells):
     """One county row and its printed cells; LEFT TO COUNT last."""
     dem_s, rep_s, oth_s, tot_s, dem_r, rep_r, oth_r, tot_r, dem_a, rep_a, oth_a, tot_a, left = cells
     return [

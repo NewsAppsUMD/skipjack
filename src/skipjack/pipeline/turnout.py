@@ -1219,6 +1219,12 @@ ELIGIBLE_MEASURES = {"eligible-active": "active", "eligible-inactive": "inactive
 ELIGIBLE_GEOGRAPHIES = ("county", "congressional", "legislative", "councilmanic")
 
 
+def label_upper(text: str) -> str:
+    """A district label's key for matching a file's own spellings of it (and for the
+    two sections that spell 'councilmanic' differently in the live file)."""
+    return " ".join(text.split()).upper()
+
+
 def parse_eligible_bytes(
     data: bytes, election: str, family: str, geography: str
 ) -> tuple[str | None, pl.DataFrame]:
@@ -1322,7 +1328,7 @@ def _eligible_sheet_rows(
         nonlocal open_group
         if open_group is None:
             return
-        label, _first_county, sums, full = open_group
+        label, sums, full = open_group
         open_group = None
         if (grain_row := grain.get(label_upper(label))) is None:
             raise TurnoutParseError(
@@ -1338,7 +1344,7 @@ def _eligible_sheet_rows(
                     f"{party}, not the printed {label}'s {printed}"
                 )
 
-    def check_row_total(index: int, county_or_district: str, cells: dict[str, int]) -> None:
+    def check_row_total(index: int, county_or_district: str, cells: dict[str, int | None]) -> None:
         total = cells.get("ALL")
         printed = {party: value for party, value in cells.items() if party != "ALL"}
         if any(value is None for value in printed.values()):
@@ -1356,7 +1362,7 @@ def _eligible_sheet_rows(
                 f"not the printed Total {total}"
             )
 
-    def publish(kind_key: str, label: str, cells: dict[str, int]) -> None:
+    def publish(kind_key: str, label: str, cells: dict[str, int | None]) -> None:
         county, district = (label, "") if kind_key == "county" else ("", label)
         for party, value in cells.items():
             if value is None:
@@ -1406,7 +1412,7 @@ def _eligible_sheet_rows(
             "TOTAL",
             "TOTALS",
         )
-        counts = {key: cells.get(key) for key, value in cells.items() if key in ELIGIBLE_PARTIES}  # type: ignore[union-attr]
+        counts: dict[str, int | None] = {party: cells.get(party) for party in ELIGIBLE_PARTIES}
         counts["ALL"] = cells.get("ALL")
         if total_label and "ALL" in counts and counts["ALL"] is not None:
             close_group(index)
@@ -1439,27 +1445,27 @@ def _eligible_sheet_rows(
             # the file's detail grain: same population, finer breakdown, not published
             if open_group is None or open_group[0].upper() != district.upper():
                 close_group(index)
-                open_group = (district, county, {}, {})
-            label, _county, sums, full = open_group
+                open_group = (district, {}, {})
+            label, sums, full = open_group
             for party, value in counts.items():
                 if party == "ALL":
                     continue
                 if value is not None:
                     sums[party] = sums.get(party, 0) + value
                 full[party] = full.get(party, True) and value is not None
-            open_group = (label, _county, sums, full)
+            open_group = (label, sums, full)
             section_rows.append(dict(counts))
         elif not district and county and open_group is not None:
             # the district's label is merged to blank on the rows after its first row:
             # the detail group continues
-            label, _county, sums, full = open_group
+            label, sums, full = open_group
             for party, value in counts.items():
                 if party == "ALL":
                     continue
                 if value is not None:
                     sums[party] = sums.get(party, 0) + value
                 full[party] = full.get(party, True) and value is not None
-            open_group = (label, _county, sums, full)
+            open_group = (label, sums, full)
             section_rows.append(dict(counts))
         elif district:
             close_group(index)
@@ -1496,12 +1502,6 @@ def _eligible_sheet_rows(
             f"{sheet}: {len(section_rows)} rows at the sheet's end have no printed Total row"
         )
     return published
-
-
-def label_upper(text: str) -> str:
-    """A district label's key for matching a file's own spellings of it (and for the
-    two sections that spell 'councilmanic' differently in the live file)."""
-    return " ".join(text.split()).upper()
 
 
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
@@ -1753,3 +1753,6 @@ def _parse_file(
 
 def _extraction_of(path: Path) -> str:
     return "pdf text" if path.suffix == ".pdf" else "xlsx (calamine)"
+
+
+# --- GP26: the requests workbook -----------------------------------------------------------------
