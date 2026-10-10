@@ -21,3 +21,6 @@ archives/sbe/cvr/
 
 # Static site output (rebuilt by `skipjack build-site`)
 site/
+
+# Skill worktrees (created per feature)
+.worktrees/
