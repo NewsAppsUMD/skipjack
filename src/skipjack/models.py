@@ -90,4 +90,40 @@ CREATE INDEX IF NOT EXISTS idx_vreg_party ON voter_registration(party);
 CREATE INDEX IF NOT EXISTS idx_vreg_county_date ON voter_registration(county, report_date);
 CREATE INDEX IF NOT EXISTS idx_activity_date ON registration_activity(report_date, measure);
 CREATE INDEX IF NOT EXISTS idx_summary_date ON registration_summary(report_date, section);
+
+-- A press-room turnout stat file snapshot (one row per archived revision).
+CREATE TABLE IF NOT EXISTS turnout_sources (
+    source_id TEXT PRIMARY KEY,
+    election TEXT NOT NULL,
+    family TEXT NOT NULL,
+    geography TEXT NOT NULL,
+    as_of TEXT NOT NULL,
+    source_url TEXT NOT NULL,
+    source_name TEXT NOT NULL,
+    document_title TEXT,
+    fetch_date TEXT NOT NULL,
+    sha256 TEXT,
+    extraction_method TEXT,
+    checks_json TEXT,
+    notes TEXT
+);
+
+-- One cell of one turnout snapshot: mail-in requests by delivery method, or
+-- ballots sent / received / accepted by party, per county or district.
+CREATE TABLE IF NOT EXISTS turnout_counts (
+    id INTEGER PRIMARY KEY,
+    source_id TEXT REFERENCES turnout_sources(source_id),
+    as_of TEXT NOT NULL,
+    election TEXT NOT NULL,
+    family TEXT NOT NULL,
+    geography TEXT NOT NULL,
+    county TEXT,
+    district TEXT,
+    category TEXT NOT NULL,
+    party TEXT NOT NULL,
+    measure TEXT NOT NULL,
+    value INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_turnout_counts_asof
+    ON turnout_counts (as_of, election, family, geography);
 """

@@ -140,6 +140,68 @@ def load_voter_file(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
     return total
 
 
+def _upsert_turnout_source(conn: sqlite3.Connection, prov: dict, as_of: str) -> None:
+    """The as-of date comes from the CSV's file name; the sidecar carries the rest."""
+    conn.execute(
+        """INSERT OR REPLACE INTO turnout_sources
+           (source_id, election, family, geography, as_of, source_url, source_name,
+            document_title, fetch_date, sha256, extraction_method, checks_json, notes)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            prov["source_id"],
+            prov["election"],
+            prov["family"],
+            prov["geography"],
+            as_of,
+            prov["source_url"],
+            prov["source_name"],
+            prov["document_title"],
+            prov["fetch_date"],
+            prov.get("sha256_original", ""),
+            prov.get("extraction_method", ""),
+            json.dumps(prov.get("checks", {})),
+            prov.get("notes", ""),
+        ),
+    )
+
+
+def load_turnout(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
+    """Load every data/turnout/<election>/<family>/<geography>/<as-of>.csv snapshot."""
+    root = data_dir / "turnout"
+    if not root.exists():
+        return 0
+    columns = [
+        "as_of",
+        "election",
+        "family",
+        "geography",
+        "county",
+        "district",
+        "category",
+        "party",
+        "measure",
+        "value",
+    ]
+    sql = (
+        f"INSERT INTO turnout_counts (source_id, {', '.join(columns)}) "
+        f"VALUES (?, {', '.join('?' * len(columns))})"
+    )
+    total = 0
+    for csv_path in sorted(root.glob("*/*/*/*.csv")):
+        if csv_path.stem.endswith("_provenance"):
+            continue
+        prov = load_provenance(csv_path)
+        if not prov:
+            logger.warning("No provenance for %s — skipped", csv_path)
+            continue
+        _upsert_turnout_source(conn, prov, csv_path.stem)
+        df = pl.read_csv(csv_path, schema_overrides={c: pl.String for c in columns[:-1]})
+        conn.executemany(sql, ((prov["source_id"], *row) for row in df.select(columns).iter_rows()))
+        total += len(df)
+    logger.info("Loaded turnout: %d rows", total)
+    return total
+
+
 def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     if db_path.exists():
         db_path.unlink()
@@ -148,6 +210,7 @@ def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     conn = create_db(db_path)
     counts = {subdir: load_table(conn, subdir, data_dir) for subdir in TABLES}
     counts["voter_file"] = load_voter_file(conn, data_dir)
+    counts["turnout"] = load_turnout(conn, data_dir)
     conn.commit()
     conn.close()
 

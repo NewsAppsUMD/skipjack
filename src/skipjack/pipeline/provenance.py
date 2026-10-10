@@ -61,6 +61,10 @@ class ProvenanceSidecar:
     parse_date: str
     sha256_original: str
     parser_version: str
+    # turnout sidecars carry these; other parsers leave them empty
+    election: str = ""
+    family: str = ""
+    geography: str = ""
     notes: str = ""
     extraction_method: str = ""
     checks: dict = field(default_factory=dict)
