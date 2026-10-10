@@ -85,7 +85,7 @@ def _tiles(headline: dict) -> list[dict]:
                 "change": change.get("received"),
                 "sub": (
                     f"{entry['return_rate'] * 100:.0f}% of sent"
-                    if entry.get("return_rate")
+                    if entry.get("return_rate") is not None
                     else None
                 ),
                 "as_of": entry["as_of"],
