@@ -15,6 +15,7 @@ from pathlib import Path
 
 import hashlib
 
+import httpx
 import polars as pl
 from python_calamine import CalamineError, CalamineWorkbook
 
@@ -293,11 +294,13 @@ def parse_sent_returned_bytes(
         raise TurnoutParseError(f"the sent-returned workbook could not be read: {err}") from err
     as_of = None
     published: list[dict] = []
+    seen: set[tuple[str, str, str]] = set()  # per document, not per sheet: the
+    # legislative file's detail region reprints districts the sections already carry
     for sheet in workbook.sheet_names:
         rows = workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
         if as_of is None:
             as_of = _first_as_of(rows)
-        published += _sent_sheet_rows(sheet, rows, election, geography, as_of)
+        published += _sent_sheet_rows(sheet, rows, election, geography, as_of, seen)
     if not published:
         raise TurnoutParseError("the sent-returned workbook has no county or district rows")
     return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
@@ -380,6 +383,7 @@ def _sent_sheet_rows(
     election: str,
     geography: str,
     as_of: str | None,
+    seen: set[tuple[str, str, str]],
 ) -> list[dict]:
     """All the data rows of one sheet, reconciled against the sheet's printed totals.
 
@@ -397,7 +401,6 @@ def _sent_sheet_rows(
     open_detail: set[tuple[str, str]] = set()
     category_sums: dict[str, dict[tuple[str, str], int]] = {}  # county-grain rows only
     printed_totals: dict[str, dict[tuple[str, str], int]] = {}  # "X Total" rows, for the grand
-    seen: set[tuple[str, str, str]] = set()  # published identities, to catch repeats
     last_category = ""
 
     for index, row in enumerate(rows, start=1):
@@ -423,12 +426,18 @@ def _sent_sheet_rows(
                 cells[payload] = None
                 continue
             try:
-                cells[payload] = int(float(str(raw)))
+                as_float = float(str(raw))
             except (TypeError, ValueError):
                 raise TurnoutParseError(
                     f"{sheet} row {index}: the {payload[0]} {payload[1]} cell is not a "
                     f"number ({raw!r})"
                 ) from None
+            if as_float != int(as_float):
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the {payload[0]} {payload[1]} cell is not an "
+                    f"integer ({raw!r})"
+                )
+            cells[payload] = int(as_float)
         if all(value is None for value in cells.values()):
             continue  # a heading, not a row of numbers
 
@@ -504,7 +513,7 @@ def _sent_sheet_rows(
                 f"{sheet} row {index}: a {category} row with no county or district"
             )
         for measure in SENT_MEASURES:
-            four = {party: cells[(party, measure)] for party in ("DEM", "REP", "OTH", "ALL")}
+            four = {party: cells.get((party, measure)) for party in ("DEM", "REP", "OTH", "ALL")}
             if any(value is None for value in four.values()):
                 raise TurnoutParseError(
                     f"{sheet} row {index}: the {category} {measure} counts are incomplete"
@@ -611,15 +620,31 @@ def sniff(data: bytes) -> str | None:
 
 
 def extract_as_of_bytes(data: bytes, kind: str) -> str | None:
-    """A downloaded file's as-of date, read the way the parse command reads the file."""
+    """A downloaded file's as-of date, read the way the parse command reads the file.
+
+    A workbook SBE exported unreadably reads as unknown (the parse command decides what
+    a snapshot with no date means); a PDF's text layer does not appear in the raw
+    bytes, so the text is extracted with natural-pdf from a temp copy.
+    """
     if kind == "pdf":
-        return extract_as_of_text(data.decode("latin-1", errors="replace"))
-    workbook = CalamineWorkbook.from_object(io.BytesIO(data))
-    for sheet in workbook.sheet_names:
-        if found := _first_as_of(
-            workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
-        ):
-            return found
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(suffix=".pdf") as fh:
+            fh.write(data)
+            fh.flush()
+            try:
+                return extract_as_of_text(read_requests_pdf(Path(fh.name)))
+            except Exception:  # natural-pdf has no error taxonomy; unreadable reads as unknown
+                return None
+    try:
+        workbook = CalamineWorkbook.from_object(io.BytesIO(data))
+        for sheet in workbook.sheet_names:
+            if found := _first_as_of(
+                workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
+            ):
+                return found
+    except (OSError, CalamineError):
+        return None
     return None
 
 
@@ -628,12 +653,20 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
     newest revision and record it.
 
     An unchanged file (same bytes as the newest archived revision) is skipped, as is a
-    file SBE has not published yet (their server answers with an HTML page).
+    file SBE has not published yet (their server answers with an HTML page). Archived
+    files are named by content (`__<sha>.<ext>`), so two revisions fetched in the same
+    second can never write the same path.
     """
     fetched: list[SourceRecord] = []
+    failed: list[str] = []
     for e in ELECTIONS.values() if election is None else [ELECTIONS[election]]:
         for f in e.files:
-            data = download(f.url)
+            try:
+                data = download(f.url)
+            except httpx.HTTPError as err:
+                logger.error("Download failed for %s: %s", f.url, err)
+                failed.append(f.url)
+                continue
             kind = sniff(data)
             if kind is None:
                 logger.info("Not published yet: %s", f.url)
@@ -643,20 +676,20 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
             if not force and _latest_sha(e.code, f.family, f.geography, kind) == digest:
                 logger.info("Already archived: %s (%s)", f.family, f.geography)
                 continue
-            stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S")
             dest = (
                 ARCHIVES_DIR
                 / "sbe"
                 / "campaign_stats"
                 / e.code
-                / f"{f.family}__{f.geography}__{as_of or 'unknown'}__{stamp}.{kind}"
+                / f"{f.family}__{f.geography}__{as_of or 'unknown'}__{digest[:12]}.{kind}"
             )
             dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_bytes(data)
+            if not dest.exists():
+                dest.write_bytes(data)
             record = SourceRecord.create(
                 source_id=(
                     f"sbe-turnout-{e.code.lower()}-{f.family}-{f.geography}-"
-                    f"{(as_of or 'unknown').replace('-', '')}-{stamp}"
+                    f"{(as_of or 'unknown').replace('-', '')}-{digest[:12]}"
                 ),
                 source_url=f.url,
                 source_name=SOURCE_NAME,
@@ -666,6 +699,8 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
             append_to_manifest(MANIFEST_PATH, record)
             fetched.append(record)
             logger.info("Archived %s (as of %s)", dest.name, as_of or "unknown")
+    if failed:
+        raise TurnoutParseError(f"downloads failed for: {', '.join(failed)}")
     return fetched
 
 
@@ -673,7 +708,7 @@ def _latest_sha(election: str, family: str, geography: str, kind: str) -> str | 
     """The SHA-256 of the newest archived revision of this file, from the manifest."""
     prefix = f"sbe-turnout-{election.lower()}-{family}-{geography}-"
     for record in reversed(read_manifest(MANIFEST_PATH)):
-        if record.source_id.startswith(prefix) and record.local_path.rstrip(".").endswith(kind):
+        if record.source_id.startswith(prefix) and Path(record.local_path).suffix == "." + kind:
             return record.sha256
     return None
 
@@ -719,8 +754,10 @@ def turnout_parse(
         record = revisions[-1]  # the newest revision of this snapshot wins
         path = Path(record.local_path)
         out_dir = data_dir / "turnout" / election_code / family / geography
-        if snapshot != "unknown" and (out_dir / f"{snapshot}.csv").exists() and not force:
-            continue
+        if snapshot != "unknown" and not force:
+            existing = out_dir / f"{snapshot}.csv"
+            if existing.exists() and not _revision_updated(existing, record):
+                continue  # this CSV came from this same revision
         if not path.exists():
             failures.append(f"{record.source_id}: the archived file is missing ({path.name})")
             continue
@@ -728,11 +765,12 @@ def turnout_parse(
             snapshot_date, frame = _parse_file(path, record, election_code, family, geography)
             if snapshot_date is None:
                 raise TurnoutParseError(f"no As-of date in {path.name}")
+            if as_of and snapshot_date != as_of:
+                continue  # an "unknown" fetch-time snapshot belongs to a different date
             out_csv = out_dir / f"{snapshot_date}.csv"
-            if out_csv.exists() and not force:
-                continue
+            if out_csv.exists() and not force and not _revision_updated(out_csv, record):
+                continue  # parsed before, and the newest revision is the same bytes
             out_dir.mkdir(parents=True, exist_ok=True)
-            frame.write_csv(out_csv)
             sidecar = ProvenanceSidecar.from_source(
                 record,
                 parser_version=PARSER_VERSION,
@@ -741,12 +779,26 @@ def turnout_parse(
                 notes=f"{election_code} {family} ({geography}) snapshot, reconciled against its printed totals.",
             )
             sidecar.election, sidecar.family, sidecar.geography = election_code, family, geography
-            sidecar.write(out_csv)
+            sidecar.write(out_csv)  # provenance first, so a crash leaves no bare CSV
+            frame.write_csv(out_csv)
             written += 1
             logger.info("Parsed %s (%s rows)", out_csv.name, frame.height)
         except TurnoutParseError as err:
             failures.append(f"{record.source_id}: {err}")
     return written, failures
+
+
+def _revision_updated(csv_path: Path, record: SourceRecord) -> bool:
+    """Whether the manifest revision differs from the one the CSV was parsed from.
+
+    A reposted file (SBE updates a snapshot later the same day) compares byte-for-byte
+    against the sidecar's sha, so the CSV tracks the newest archived revision.
+    """
+    sidecar_path = csv_path.with_name(csv_path.stem + "_provenance.json")
+    if not sidecar_path.exists():
+        return True
+    sidecar = ProvenanceSidecar.read(sidecar_path)
+    return sidecar.sha256_original != record.sha256
 
 
 def _split_snapshot_name(path: Path) -> tuple[str, str, str, str]:
@@ -768,7 +820,13 @@ def _parse_file(
 ) -> tuple[str | None, pl.DataFrame]:
     """One archived file, by its family: the requests PDF or a sent-returned workbook."""
     if family == "requests":
-        return parse_requests_text(read_requests_pdf(path), election_code)
+        try:
+            text = read_requests_pdf(path)
+        except (
+            Exception
+        ) as err:  # natural-pdf has no error taxonomy; a broken PDF is a parse failure
+            raise TurnoutParseError(f"could not read the requests PDF ({err})") from err
+        return parse_requests_text(text, election_code)
     if family == "sent-returned":
         return parse_sent_returned_bytes(path.read_bytes(), election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")

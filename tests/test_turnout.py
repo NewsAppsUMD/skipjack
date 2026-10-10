@@ -1374,3 +1374,131 @@ def test_turnout_parse_reports_failures(turnout_env, monkeypatch, live_bodies):
         "data/turnout/GG26/sent-returned/county/2026-10-09.csv",
         "data/turnout/GG26/sent-returned/legislative/2026-10-09.csv",
     ]
+
+
+# --- review fixes: the four Important findings (see the fix-commit message) -----------------
+
+
+def test_fetch_survives_a_corrupt_workbook(turnout_env, monkeypatch, live_bodies):
+    # one PK-signed but unreadable xlsx must not abort the rest of the day's fetch
+    broken = dict(live_bodies)
+    broken[GG26.files[1].url] = b"PK\x03\x04 not really a zip"
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: broken[url])
+    records = turnout.turnout_fetch()
+    assert len(records) == 4  # the corrupt one is archived under "unknown"
+
+
+def test_fetch_continues_when_one_download_fails(turnout_env, monkeypatch, live_bodies):
+    import httpx
+
+    def flaky(url, timeout=30.0):
+        if url == GG26.files[1].url:
+            raise httpx.ConnectError("down")
+        return live_bodies[url]
+
+    monkeypatch.setattr(turnout, "download", flaky)
+    # the other three files are archived anyway, and the day ends loudly
+    with pytest.raises(turnout.TurnoutParseError, match="downloads failed"):
+        turnout.turnout_fetch()
+    from skipjack.pipeline.provenance import read_manifest
+
+    rows = read_manifest(turnout.MANIFEST_PATH)
+    assert len(rows) == 3
+    assert not any(r.source_url == GG26.files[1].url for r in rows)
+
+
+def test_a_newer_revision_with_the_same_date_is_parsed(turnout_env, monkeypatch, live_bodies):
+    # SBE reposted the same snapshot at a later time: the CSV must track the newer file
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: live_bodies[url])
+    monkeypatch.setattr(turnout, "read_requests_pdf", lambda path: REQUESTS_TEXT)
+    turnout.turnout_fetch()
+    written, failed = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert written == 4
+    county_csv = (
+        turnout_env / "data" / "turnout" / "GG26" / "sent-returned" / "county" / "2026-10-09.csv"
+    )
+    assert "2054" in county_csv.read_text()
+
+    # a revision with changed numbers, same as-of date
+    # a revision with changed numbers (the row, its printed total, and the block
+    # totals all move together, since the parser checks every layer)
+    rows = [r[:] for r in SENT_COUNTY_ROWS]
+    rows[4][5] = 2055  # Allegany's DEM SENT
+    rows[4][8] = 4467  # the row's own printed total
+    rows[6][5] = 4657  # the block's printed DEM SENT total
+    rows[6][8] = 9840  # the block's printed total of totals
+    live_bodies[GG26.files[1].url] = sent_worksheet(with_as_of("As of: October 9, 2026", rows))
+    assert len(turnout.turnout_fetch()) == 1
+    written, _ = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert written == 1  # only the sent-returned county snapshot changed
+    assert "2055" in county_csv.read_text() and "2054" not in county_csv.read_text()
+
+
+def test_as_of_filter_skips_an_unknown_snapshot_whose_date_is_not_the_filter(
+    turnout_env, monkeypatch, live_bodies
+):
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: live_bodies[url])
+    monkeypatch.setattr(turnout, "read_requests_pdf", lambda path: REQUESTS_TEXT)
+    turnout.turnout_fetch()
+    written, _ = turnout.turnout_parse(data_dir=turnout_env / "data", as_of="2025-01-01")
+    assert written == 0
+
+
+def test_sent_returned_rejects_a_repeat_across_sheets():
+    # the same table pasted onto two sheets would double-publish its counties
+    wb = openpyxl.Workbook()
+    wb.active["A1"] = None
+    first = wb.active
+    for row in SENT_COUNTY_ROWS:
+        first.append(row)
+    second = wb.create_sheet("Sheet2")
+    for row in SENT_COUNTY_ROWS:
+        second.append(row)
+    buf = io.BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(buf.read(), "GG26", "county")
+
+
+def test_sent_returned_rejects_a_block_without_a_measure_column():
+    torn = [r[:] for r in SENT_COUNTY_ROWS]
+    torn[3][5] = "SENT"  # the "DEM SENT" label renamed away -> its column is unmapped
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(torn), "GG26", "county")
+
+
+def test_sent_returned_rejects_a_fractional_cell():
+    torn = [r[:] for r in SENT_COUNTY_ROWS]
+    torn[4][5] = 2054.5
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(torn), "GG26", "county")
+
+
+def test_sidecar_precedes_the_csv(turnout_env, monkeypatch, live_bodies):
+    # the sequence in which the snapshot is written: provenance first, CSV second, so a
+    # crash between them leaves an unwatched sidecar (harmless), not an unloaded CSV
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: live_bodies[url])
+    monkeypatch.setattr(turnout, "read_requests_pdf", lambda path: REQUESTS_TEXT)
+    turnout.turnout_fetch()
+    turnout.turnout_parse(data_dir=turnout_env / "data")
+    prov = (
+        turnout_env
+        / "data"
+        / "turnout"
+        / "GG26"
+        / "requests"
+        / "county"
+        / "2026-10-09_provenance.json"
+    )
+    assert prov.exists()
+    from skipjack.pipeline.provenance import ProvenanceSidecar
+
+    sidecar = ProvenanceSidecar.read(prov)
+    from skipjack.pipeline.provenance import read_manifest
+
+    manifest_row = next(
+        r for r in read_manifest(turnout.MANIFEST_PATH) if "requests" in r.source_id
+    )
+    assert sidecar.source_id == manifest_row.source_id
+    assert sidecar.sha256_original == manifest_row.sha256

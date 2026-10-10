@@ -91,8 +91,11 @@ def cmd_parse(args: argparse.Namespace) -> None:
 
 
 def cmd_turnout_fetch(args: argparse.Namespace) -> None:
-    from skipjack.pipeline.turnout import turnout_fetch
+    from skipjack.pipeline.turnout import ELECTIONS, turnout_fetch
 
+    if args.election and args.election not in ELECTIONS:
+        print(f"known elections: {', '.join(ELECTIONS)}", file=sys.stderr)
+        sys.exit(1)
     records = turnout_fetch(force=args.force, election=args.election)
     print(f"Fetched {len(records)} new turnout snapshots")
 
@@ -197,7 +200,9 @@ def main(argv: list[str] | None = None) -> None:
     turnout_fetch_p.add_argument("--election", help="Only one election's files (e.g. GG26)")
 
     turnout_parse_p = sub.add_parser("turnout-parse", help="Parse archived turnout files into CSVs")
-    turnout_parse_p.add_argument("--as-of", dest="as_of", metavar="YYYY-MM-DD", help="Only this snapshot")
+    turnout_parse_p.add_argument(
+        "--as-of", dest="as_of", metavar="YYYY-MM-DD", help="Only this snapshot"
+    )
     turnout_parse_p.add_argument("--force", action="store_true")
 
     vf_p = sub.add_parser("voterfile", help="Aggregate a statewide voter file into JSON")
