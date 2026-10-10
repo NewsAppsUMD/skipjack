@@ -25,19 +25,29 @@ async def election(request: Request, slug: str):
     with get_db() as conn:
         available = {e["slug"]: e["code"] for e in qt.elections(conn)}
         code = available.get(slug)
-        if code is None:
+        if code is None or code not in ELECTIONS:
             raise HTTPException(status_code=404)
         headline = qt.headline(conn, code)
-        rows = qt.county_rows(conn, code, headline["latest"])
-        chart = _chart(conn, code)
-        sources = qt.snapshot_sources(conn, code, headline["latest"])
-    config = ELECTIONS.get(code)
+        # the two files refresh on their own schedules: read each family at its own
+        # latest snapshot so a day with only one new file keeps the other family's columns
+        sent_as_of = headline.get("sent-returned", {}).get("as_of")
+        requests_as_of = headline.get("requests", {}).get("as_of")
+        rows = qt.county_rows(
+            conn,
+            code,
+            sent_as_of or requests_as_of,
+            requests_as_of=requests_as_of,
+        )
+        sources = qt.snapshot_sources(conn, code)
+        chart = qt.chart_data(conn, code)
+    tiles = _tiles(headline)
     return request.app.state.templates.TemplateResponse(
         request,
         "turnout_election.html",
         {
-            "election": config,
+            "election": ELECTIONS[code],
             "headline": headline,
+            "tiles": tiles,
             "rows": rows,
             "chart": chart,
             "sources": sources,
@@ -45,35 +55,46 @@ async def election(request: Request, slug: str):
     )
 
 
-def _chart(conn, code: str) -> dict | None:
-    """Chart data for the election page: the trends of both families on one axis.
-
-    The date axis is every snapshot day that has any figures; each series stops where
-    its family has no figures that day.
-    """
-    all_dates = sorted(
-        {d for f in ("requests", "sent-returned") for d in qt.series(conn, code, f)["dates"]}
-    )
-    if not all_dates:
-        return None
-
-    def aligned(family: str, measure: str):
-        trend = qt.series(conn, code, family)
-        if not trend["dates"]:
-            return None
-        date_index = {d: i for i, d in enumerate(trend["dates"])}
-        values = trend["series"].get(measure, [None] * len(trend["dates"]))
-        return [values[date_index[d]] if d in date_index else None for d in all_dates]
-
-    wanted = [
-        ("requests", "total", "Requests"),
-        ("sent-returned", "sent", "Sent"),
-        ("sent-returned", "received", "Received"),
-        ("sent-returned", "accepted", "Accepted"),
-    ]
-    series = []
-    for family, measure, name in wanted:
-        values = aligned(family, measure)
-        if values is not None and any(v for v in values):
-            series.append({"name": name, "values": values})
-    return {"dates": all_dates, "series": series} if series else None
+def _tiles(headline: dict) -> list[dict]:
+    """The headline figures, in the order the page shows them: each tile carries its
+    family's own as-of day and the change from that family's previous snapshot."""
+    tiles: list[dict] = []
+    if "requests" in headline:
+        entry = headline["requests"]
+        tiles.append(
+            {
+                "label": "mail-in ballot requests",
+                "value": entry.get("requests_total"),
+                "change": entry.get("change", {}).get("total"),
+                "as_of": entry["as_of"],
+            }
+        )
+    if "sent-returned" in headline:
+        entry = headline["sent-returned"]
+        change = entry.get("change", {})
+        tiles += [
+            {
+                "label": "ballots sent",
+                "value": entry.get("sent"),
+                "change": change.get("sent"),
+                "as_of": entry["as_of"],
+            },
+            {
+                "label": "received back",
+                "value": entry.get("received"),
+                "change": change.get("received"),
+                "sub": (
+                    f"{entry['return_rate'] * 100:.0f}% of sent"
+                    if entry.get("return_rate")
+                    else None
+                ),
+                "as_of": entry["as_of"],
+            },
+            {
+                "label": "accepted in the canvass",
+                "value": entry.get("accepted"),
+                "change": change.get("accepted"),
+                "as_of": entry["as_of"],
+            },
+        ]
+    return tiles

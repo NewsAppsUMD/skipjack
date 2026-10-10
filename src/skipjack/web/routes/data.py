@@ -67,10 +67,14 @@ def turnout_listing(data_dir: Path) -> list[dict]:
                     for csv in sorted(geo_dir.glob("*.csv"), reverse=True)
                 ]
                 if files:
+                    names = {
+                        "requests": "mail-in ballot requests",
+                        "sent-returned": "ballots sent and returned",
+                    }
                     blocks.append(
                         {
                             "election": election_dir.name,
-                            "family": family_dir.name.replace("-", " "),
+                            "family": names.get(family_dir.name, family_dir.name),
                             "geography": geo_dir.name,
                             "files": files,
                         }

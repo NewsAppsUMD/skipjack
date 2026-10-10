@@ -113,9 +113,12 @@ def headline(conn: sqlite3.Connection, election: str) -> dict:
         entry["totals"] = _statewide(conn, election, family, dates[-1])
         out[family] = entry
         if len(dates) > 1:
-            entry["previous"] = dates[-2]
             before = _statewide(conn, election, family, dates[-2])
-            entry["change"] = {m: entry["totals"][m] - before.get(m, 0) for m in entry["totals"]}
+            if before:  # a previous snapshot with no rows reads as no previous at all
+                entry["previous"] = dates[-2]
+                entry["change"] = {
+                    m: entry["totals"][m] - before.get(m, 0) for m in entry["totals"]
+                }
         if family == "requests":
             entry["requests_total"] = entry["totals"].get("total")
             entry["mailed"] = entry["totals"].get("mailed")
@@ -130,16 +133,6 @@ def headline(conn: sqlite3.Connection, election: str) -> dict:
             out["latest"] = entry["as_of"]
             out["previous"] = entry["previous"] if "previous" in entry else None
     return out
-
-
-def previous_as_of(conn: sqlite3.Connection, election: str, family: str, as_of: str) -> str | None:
-    """The snapshot of this family immediately before `as_of`, if one exists."""
-    dates = _snapshot_dates(conn, election, family)
-    try:
-        i = dates.index(as_of)
-    except ValueError:
-        return None
-    return dates[i - 1] if i > 0 else None
 
 
 def series(conn: sqlite3.Connection, election: str, family: str) -> dict:
@@ -165,26 +158,37 @@ def series(conn: sqlite3.Connection, election: str, family: str) -> dict:
     return {"dates": dates, "series": series}
 
 
-def county_rows(conn: sqlite3.Connection, election: str, as_of: str) -> list[dict]:
-    """One sortable row per county at a snapshot, joining the families that reported it.
+def county_rows(
+    conn: sqlite3.Connection, election: str, as_of: str, requests_as_of: str | None = None
+) -> list[dict]:
+    """One sortable row per county, joining both families at each family's own date.
 
-    Counties absent from a family's snapshot are absent here (unknown, not zero);
-    counties only in the requests file read with empty mail-in columns.
+    The two press-room files refresh on their own schedules, so the mail-in columns and
+    the request columns can be from different snapshot days; each is read at its own
+    family's latest date (requests_as_of defaults to the same day). A county absent
+    from a family's snapshot is absent from the row (unknown, not zero); counties only
+    in the requests file read with empty mail-in columns.
     """
+    requests_as_of = requests_as_of or as_of
     counties = sorted(
-        r[0]
-        for r in conn.execute(
-            """SELECT DISTINCT county FROM turnout_counts
-               WHERE election = ? AND geography = 'county' AND county != ''
-                 AND district = '' AND category = 'ALL' AND as_of = ?
-               ORDER BY county""",
-            (election, as_of),
-        )
+        {
+            r[0]
+            for r in conn.execute(
+                """SELECT DISTINCT county FROM turnout_counts
+                   WHERE election = ? AND geography = 'county' AND county != ''
+                     AND district = '' AND category = 'ALL'
+                     AND as_of IN (?, ?)
+                   ORDER BY county""",
+                (election, as_of, requests_as_of),
+            )
+        }
     )
     out: list[dict] = []
     for county in counties:
         sent = _county_cells(conn, election, "sent-returned", county, as_of)
-        method_cells = _county_cells(conn, election, "requests", county, as_of)
+        method_cells = _county_cells(conn, election, "requests", county, requests_as_of)
+        if not sent and not method_cells:
+            continue  # the county reports on the other day only
         row: dict = {
             "county": county,
             "sent": sent.get(("ALL", "sent")),
@@ -209,25 +213,84 @@ def county_rows(conn: sqlite3.Connection, election: str, as_of: str) -> list[dic
     return out
 
 
-def snapshot_sources(conn: sqlite3.Connection, election: str, as_of: str) -> list[dict]:
-    """The manifest records behind one snapshot, one per report family — for the page's
-    source strip, with its download links."""
-    return [
-        {
-            "family": r["family"],
-            "geography": r["geography"],
-            "url": r["source_url"],
-            "title": r["document_title"],
-            "sha256": r["sha256"],
-            "fetched": r["fetch_date"][:10],
-            "method": r["extraction_method"],
-            "csv": f"turnout/{election}/{r['family']}/{r['geography']}/{as_of}.csv",
-            "provenance": f"turnout/{election}/{r['family']}/{r['geography']}/{as_of}_provenance.json",
-        }
-        for r in conn.execute(
+def snapshot_sources(
+    conn: sqlite3.Connection, election: str, as_of: str | None = None
+) -> list[dict]:
+    """The manifest records behind a snapshot — for the page's source strip, with its
+    download links. With no as-of, the latest of each family (and geography) wins:
+    a file re-posted later the same day leaves more than one record here.
+    """
+    if as_of is None:
+        rows = conn.execute(
+            """SELECT * FROM turnout_sources
+               WHERE election = ?
+               ORDER BY family, geography, as_of""",
+            (election,),
+        ).fetchall()
+        latest: dict[tuple[str, str], dict] = {}
+        for r in rows:
+            if r["as_of"] and r["as_of"] >= latest.get((r["family"], r["geography"]), {}).get(
+                "as_of", ""
+            ):
+                latest[(r["family"], r["geography"])] = dict(r)
+        rows = list(latest.values())
+    else:
+        rows = conn.execute(
             """SELECT * FROM turnout_sources
                WHERE election = ? AND as_of = ?
                ORDER BY family, geography""",
             (election, as_of),
+        ).fetchall()
+    out = []
+    for r in sorted(rows, key=lambda r: (r["family"], r["geography"])):
+        family_as_of = as_of or r["as_of"]
+        out.append(
+            {
+                "family": r["family"],
+                "geography": r["geography"],
+                "as_of": family_as_of,
+                "url": r["source_url"],
+                "title": r["document_title"],
+                "sha256": r["sha256"],
+                "fetched": r["fetch_date"][:10],
+                "method": r["extraction_method"],
+                "csv": f"turnout/{election}/{r['family']}/{r['geography']}/{family_as_of}.csv",
+                "provenance": f"turnout/{election}/{r['family']}/{r['geography']}/{family_as_of}_provenance.json",
+            }
         )
+    return out
+
+
+def chart_data(conn: sqlite3.Connection, election: str) -> dict | None:
+    """Chart data for the election page: both families' trends on one day axis.
+
+    The axis is every snapshot day with any figures; each series stops where its
+    family has no figures that day. A series that is zero everywhere (accepted counts
+    before the canvass) is left off the chart on purpose — the tiles carry that number;
+    a line that starts at zero and later moves does appear.
+    """
+    trends = {family: series(conn, election, family) for family in ("requests", "sent-returned")}
+    all_dates = sorted({d for trend in trends.values() for d in trend["dates"]})
+    if not all_dates:
+        return None
+
+    def aligned(family: str, measure: str):
+        trend = trends[family]
+        if not trend["dates"]:
+            return None
+        date_index = {d: i for i, d in enumerate(trend["dates"])}
+        values = trend["series"].get(measure, [None] * len(trend["dates"]))
+        return [values[date_index[d]] if d in date_index else None for d in all_dates]
+
+    wanted = [
+        ("requests", "total", "Requests"),
+        ("sent-returned", "sent", "Sent"),
+        ("sent-returned", "received", "Received"),
+        ("sent-returned", "accepted", "Accepted"),
     ]
+    out = []
+    for family, measure, name in wanted:
+        values = aligned(family, measure)
+        if values is not None and any(values):
+            out.append({"name": name, "values": values})
+    return {"dates": all_dates, "series": out} if out else None

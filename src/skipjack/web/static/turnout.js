@@ -1,7 +1,7 @@
 // The election's trend chart: mail-in ballot requests, ballots sent, and ballots
 // returned, over the State Board's press-room snapshots. Data comes in a JSON
-// script tag; dates are days, labeled as dates, so the label callbacks replace the
-// default month labels.
+// script tag; dates are days, so the label callbacks replace the default month
+// labels, and they are thinned the way the chart thins its own year labels.
 import { count, full, redrawOnResize, renderLineChart, token } from "./charthelpers.js";
 
 const data = JSON.parse(document.getElementById("turnout-data").textContent);
@@ -23,9 +23,11 @@ for (const s of series) {
   legend.appendChild(li);
 }
 
-const shortDate = (d) => d;  // yyyy-mm-dd reads fine
-
 const box = document.getElementById("turnout-chart");
+// ~64px between labels, as the chart's own year labels space themselves
+const step = Math.max(1, Math.ceil((data.dates.length * 64) / Math.max(box.clientWidth, 200)));
+const xLabels = data.dates.map((d, i) => (i % step ? "" : d.slice(5)));
+
 let drawn = null;
 function draw() {
   drawn?.destroy();
@@ -37,7 +39,7 @@ function draw() {
     height: 300,
     endLabels: true,
     tipLabel: (i) => data.dates[i],
-    xLabels: data.dates.map(shortDate),
+    xLabels,
     ariaLabel:
       "Mail-in ballot requests, sent, and received over the campaign. The county table below has the latest figures.",
   });

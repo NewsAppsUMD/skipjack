@@ -155,13 +155,6 @@ def test_a_county_missing_from_a_snapshot_reads_as_unknown_not_zero(conn):
     assert set(rows) == {"Worcester"}  # absent counties are absent, not zeroed
 
 
-def test_previous_as_of(conn):
-    add(conn, "2026-10-09", ALLEGANY)
-    assert turnout.previous_as_of(conn, "GG26", "sent-returned", "2026-10-09") is None
-    add(conn, "2026-10-10", ALLEGANY, source_id="s2")
-    assert turnout.previous_as_of(conn, "GG26", "sent-returned", "2026-10-10") == "2026-10-09"
-
-
 # --- the pages, against the real built db -----------------------------------------------------
 needs_db = pytest.mark.skipif(not DB_PATH.exists(), reason="skipjack.db not built")
 
@@ -251,3 +244,116 @@ def test_the_turnout_csv_download_route_serves_files():
     r = client.get("/downloads/turnout/GG26/requests/county/2026-10-09.csv")
     assert r.status_code == 200
     assert "Allegany" in r.text
+
+
+def test_zero_sent_counts_have_no_return_rate(conn):
+    rows = [
+        ("county", "Kent", "", "ALL", "ALL", "sent", 0),
+        ("county", "Kent", "", "ALL", "ALL", "received", 0),
+    ]
+    add(conn, "2026-10-09", rows)
+    [row] = turnout.county_rows(conn, "GG26", "2026-10-09")
+    assert row["sent"] == 0 and row["return_rate"] is None
+
+
+def test_chart_data_on_one_axis_with_a_missing_family(conn):
+    # requests reported on a day the mail-in figures did not refresh: one axis,
+    # None where a family has nothing
+    add(
+        conn, "2026-10-09", [("county", "Kent", "", "ALL", "ALL", "total", 1000)], family="requests"
+    )
+    add(conn, "2026-10-10", ALLEGANY, source_id="s2")
+    chart = turnout.chart_data(conn, "GG26")
+    assert chart["dates"] == ["2026-10-09", "2026-10-10"]
+    requests = next(s for s in chart["series"] if s["name"] == "Requests")
+    sent = next(s for s in chart["series"] if s["name"] == "Sent")
+    assert requests["values"] == [1000, None]
+    assert sent["values"] == [None, 4466]
+
+
+def test_chart_data_drops_an_all_zero_series(conn):
+    # accepted counts are zero until the canvass: that line waits until it moves
+    add(conn, "2026-10-09", ALLEGANY)
+    chart = turnout.chart_data(conn, "GG26")
+    assert [s["name"] for s in chart["series"]] == ["Sent", "Received"]
+
+
+def _page_db(tmp_path, as_ofs):
+    """A built db file with GG26 snapshots at the given dates, one county each day."""
+    path = tmp_path / "skipjack.db"
+    conn = sqlite3.connect(path)
+    conn.row_factory = sqlite3.Row
+    conn.executescript(SCHEMA_SQL)
+    conn.executescript(
+        """
+        CREATE TABLE IF NOT EXISTS voter_registration (
+            id INTEGER PRIMARY KEY, source_id TEXT, report_date TEXT, county TEXT,
+            party TEXT, party_name TEXT, active_voters INTEGER
+        );
+        CREATE TABLE IF NOT EXISTS sources (
+            source_id TEXT PRIMARY KEY, source_url TEXT, source_name TEXT,
+            document_title TEXT, fetch_date TEXT, sha256 TEXT, extraction_method TEXT,
+            checks_json TEXT, notes TEXT
+        );
+        """
+    )
+    for i, as_of in enumerate(as_ofs):
+        add(conn, as_of, ALLEGANY + WORCESTER, source_id=f"s{i}")
+    conn.commit()
+    conn.close()
+    return path
+
+
+def _page_db(tmp_path, snapshots):
+    """A db file with GG26 snapshots: (as_of, rows) pairs, plus the registration
+    table's minimum so the app boots."""
+    path = tmp_path / "skipjack.db"
+    conn = sqlite3.connect(path)
+    conn.row_factory = sqlite3.Row
+    conn.executescript(SCHEMA_SQL)
+    conn.execute(
+        """CREATE TABLE IF NOT EXISTS voter_registration (
+            id INTEGER PRIMARY KEY, source_id TEXT, report_date TEXT, county TEXT,
+            party TEXT, party_name TEXT, active_voters INTEGER)"""
+    )
+    for i, snapshot in enumerate(snapshots):
+        as_of, rows = snapshot[:2]
+        family = snapshot[2] if len(snapshot) > 2 else "sent-returned"
+        add(conn, as_of, rows, source_id=f"s{i}", family=family)
+    conn.commit()
+    conn.close()
+    return path
+
+
+@needs_db
+def test_the_page_renders_a_change_from_a_second_snapshot(tmp_path, monkeypatch):
+    """The daily case: the two files refresh on their own days, so the page reads each
+    family at its own snapshot, and a second snapshot's tile shows the real change."""
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    grew = [row if row[5] != "sent" or row[4] != "ALL" else row[:6] + (6373,) for row in WORCESTER]
+    requested_only = [("county", "Kent", "", "ALL", "ALL", "total", 900)]
+    db_path = _page_db(
+        tmp_path,
+        [
+            ("2026-10-08", ALLEGANY + WORCESTER),
+            ("2026-10-10", requested_only, "requests"),  # only the requests file refreshed
+            ("2026-10-12", ALLEGANY + grew),
+        ],
+    )
+    monkeypatch.setattr(web_db, "DB_PATH", db_path)
+    html = TestClient(create_app()).get("/turnout/gg26/").text
+
+    # the sent tile shows the real +1,000 change: the change is keyed by the measure
+    # ("total"/"sent"), whatever the requests family's key would have been
+    assert "+1,000" in html and "delta-up" in html
+    # the county joining reads each family at its own snapshot: Kent is requests-only
+    assert 'data-sort=""' in html  # absent values sort last, not as -1
+    assert "<td>Kent</td>" in html
+    assert "10,839" in html  # the whole state's ballots sent (4,466 + 6,373)
+    assert "1,442" in html  # Allegany's received back, from the latest snapshot
+    # the header says when each family was last updated
+    assert "October 12, 2026" in html and "October 10, 2026" in html
