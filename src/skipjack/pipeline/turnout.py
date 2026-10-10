@@ -83,13 +83,95 @@ def _gg26_files() -> list[FamilyFile]:
     ]
 
 
+# --- GP26 and the certified families ----------------------------------------------------------
+
+
+def _gp26_files() -> list[FamilyFile]:
+    """Every file published under press_room/2026_stats/GP26/ except the election-night
+    unofficial turnout report (see the press-room page). Both formats where both live;
+    the parse prefers the xlsx with the PDF twin as the fallback. The by-party early
+    voting and same-day files are their own geography ("county-party") so the two views
+    of the same counties cannot collide."""
+    base = f"{SBE_BASE}/press_room/2026_stats/GP26"
+    files: list[FamilyFile] = []
+    for family, geographies in (
+        ("requests", ("county",)),
+        ("requests-pdf-twin", ("county",)),
+        ("sent-returned", ("county", "congressional", "legislative")),
+        ("left-to-count", ("county", "congressional", "legislative")),
+        ("official-turnout", ("county", "congressional", "legislative")),
+        ("eligible-active", ("county", "congressional", "legislative", "councilmanic")),
+        ("eligible-inactive", ("county",)),
+    ):
+        for geo in geographies:
+            files.append(_gp26_xlsx(family, geo, base))
+    for family, geography, stem in (
+        ("early-voting", "county-party", "EarlyVoting  by Party"),  # two spaces, as published
+        ("early-voting", "county", "EarlyVoting by County"),
+        ("early-voting", "congressional", "EarlyVoting by Congressional District"),
+        ("early-voting", "legislative", "EarlyVoting  by Legislative District"),
+        ("early-voting", "councilmanic", "EarlyVoting  by Councilmanic District"),
+        ("early-voting", "location", "EarlyVoting  by Location"),
+        ("same-day", "county-party", "SameDayRegistration by Party"),
+        ("same-day", "county", "SameDayRegistration by County"),
+        ("same-day", "congressional", "SameDayRegistration by Congressional District"),
+        ("same-day", "legislative", "SameDayRegistration by Legislative District"),
+        ("same-day", "councilmanic", "SameDayRegistration by Councilmanic District"),
+        ("same-day", "location", "SameDayRegistration by Location"),
+    ):
+        files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
+    for family, geography, stem in (
+        ("county-canvass", "county", "Official County and Canvass"),
+        ("votes-accepted", "county", "Official Votes Accepted by County and Canvass"),
+        ("mail-voting", "county", "Official Mail-In Voting Voting"),
+        ("provisional", "county", "Official Provisional Voting"),
+    ):
+        files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
+    return files
+
+
+_GP26_XLSX_NAMES = {
+    ("requests", "county"): "Mail-in_Ballot_Request_Counts_with_Chart.xlsx",
+    ("sent-returned", "county"): "Absentees_Sent_and_Returned_by_County.xlsx",
+    ("sent-returned", "congressional"): "Absentees_Sent_and_Returned_by_Congressional.xlsx",
+    ("sent-returned", "legislative"): "Absentees_Sent_and_Returned_by_Legislative.xlsx",
+    ("left-to-count", "county"): "Absentees_Ballots_Left_To_Count_by_County.xlsx",
+    ("left-to-count", "congressional"): "Absentees_Ballots_Left_To_Count_by_Congressional.xlsx",
+    ("left-to-count", "legislative"): "Absentees_Ballots_Left_To_Count_by_Legislative.xlsx",
+    ("official-turnout", "county"): "Official_by_Party_and_County.xlsx",
+    ("official-turnout", "congressional"): "Official_by_Party_and_Congressional.xlsx",
+    ("official-turnout", "legislative"): "Official_by_Party_and_Legislative.xlsx",
+    ("eligible-active", "county"): "Eligible_Active_Voters_by_County_-_GP26.xlsx",
+    ("eligible-active", "congressional"): "Eligible_Active_Voters_by_Congressional_-_GP26.xlsx",
+    ("eligible-active", "legislative"): "Eligible_Active_Voters_by_Legislative_-_GP26.xlsx",
+    ("eligible-active", "councilmanic"): "Eligible_Active_Voters_by_Councilmanic_-_GP26.xlsx",
+    ("eligible-inactive", "county"): "Eligible_Inactive_Voters_-_GP26.xlsx",
+}
+
+
+def _gp26_xlsx(family: str, geography: str, base: str) -> FamilyFile:
+    """The xlsx of one GP26 file family, from the file names as published."""
+    if family == "requests-pdf-twin":
+        return FamilyFile(
+            "requests", "county", "pdf", f"{base}/Mail-in_Ballot_Request_Counts_with_Chart.pdf"
+        )
+    stem = _GP26_XLSX_NAMES[(family, geography)]
+    return FamilyFile(family, geography, "xlsx", f"{base}/{stem}")
+
+
 ELECTIONS: dict[str, Election] = {
     "GG26": Election(
         code="GG26",
         name="2026 general election",
         election_day="2026-11-03",
         files=_gg26_files(),
-    )
+    ),
+    "GP26": Election(
+        code="GP26",
+        name="2026 primary election",
+        election_day="2026-06-23",
+        files=_gp26_files(),
+    ),
 }
 
 AS_OF_RE = re.compile(r"As of:\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
@@ -234,6 +316,196 @@ def parse_requests_text(text: str, election: str) -> tuple[str, pl.DataFrame]:
                 f"County {measure} counts sum to {collected}, not the printed statewide total {printed}"
             )
     return as_of, pl.DataFrame(rows)
+
+
+# The request workbook's delivery-method header labels as printed, each to its measure.
+# The GG26 export spells the web column PRINT-AT-HOME (the PDF text above) and the GP26
+# workbooks print WEB DELIVERY where their fixtures re-print WEB DELIVERED; both web
+# spellings are one measure so a family's vocabulary does not fork on the SBE's wording.
+REQUESTS_METHOD_CELLS: dict[str, str] = {
+    "AGENT": "agent",
+    "FAXED": "faxed",
+    "IN PERSON": "in-person",
+    "MAILED": "mailed",
+    "OTHERS": "others",
+    "WEB DELIVERED": "web-delivered",
+    "WEB DELIVERY": "web-delivered",
+    "PRINT AT HOME": "print-at-home",
+    "PRINT-AT-HOME": "print-at-home",
+    "TOTAL": "total",
+}
+
+
+def parse_requests_bytes(data: bytes, election: str) -> tuple[str | None, pl.DataFrame]:
+    """One Mail-in Ballot Requests workbook as long rows, the way parse_requests_text
+    does its PDF.
+
+    The exports print the county table against a two-line header -- a COUNTY row (its
+    own next rows can carry only the merged HOW THE BALLOTS WILL BE DELIVERED caption)
+    and the delivery-method labels on a following line -- and shift every label from
+    column to column, so the county column and each method's column are read from the
+    header they were printed under, never by position. Rows are published for the
+    county rows alone (geography "county", party and category "ALL"). Nothing comes
+    out until the table has been reconciled: a county's methods must sum to its
+    printed total, and every printed totals row must equal the counties' column sums
+    (the totals rows omit columns they do not print; columns with no county data fail).
+    """
+    try:
+        workbook = CalamineWorkbook.from_object(io.BytesIO(data))
+    except (OSError, CalamineError) as err:
+        raise TurnoutParseError(f"the requests workbook could not be read: {err}") from err
+    as_of = None
+    published: list[dict] = []
+    seen: set[str] = set()  # per document: a repeated county table would publish twice
+    for sheet in workbook.sheet_names:
+        rows = workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
+        if as_of is None:
+            as_of = _first_as_of(rows)
+        published += _requests_sheet_rows(sheet, rows, election, as_of, seen)
+    if not published:
+        raise TurnoutParseError("the requests workbook has no county rows")
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def _requests_cells(
+    sheet: str, index: int, row: list, mapping: dict[int, str], *, strict: bool
+) -> dict[str, int]:
+    """One row's printed cells as integers.
+
+    A data row's cells are all required (strict: a blank or non-numeric cell is a
+    misread cell and fails); the printed totals row keeps only the cells it printed --
+    its own label cell and any blank cells are not totals -- but a cell that does carry
+    a number must still be an integer.
+    """
+    cells: dict[str, int] = {}
+    for position, measure in mapping.items():
+        raw = row[position] if position < len(row) else None
+        if raw in (None, ""):
+            if strict:
+                raise TurnoutParseError(f"{sheet} row {index}: the {measure} cell is blank")
+            continue
+        if not strict:
+            try:
+                as_float = float(str(raw))
+            except (TypeError, ValueError):
+                continue
+        else:
+            try:
+                as_float = float(str(raw))
+            except (TypeError, ValueError):
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the {measure} cell is not a number ({raw!r})"
+                ) from None
+        if as_float != int(as_float):
+            raise TurnoutParseError(
+                f"{sheet} row {index}: the {measure} cell is not an integer ({raw!r})"
+            )
+        cells[measure] = int(as_float)
+    return cells
+
+
+def _requests_sheet_rows(
+    sheet: str, rows: list[list], election: str, as_of: str | None, seen: set[str]
+) -> list[dict]:
+    """The county rows of one sheet, reconciled against the sheet's printed totals rows.
+
+    The totals row announces itself in whatever cell the export prints its label under
+    (the county cell in the GP26 file, a method column in the fixture's layout). A
+    county block left open by the sheet's end is missing its totals row and fails: rows
+    are published only against the totals they add up to.
+    """
+    published: list[dict] = []
+    mapping: dict[int, str] | None = None  # column -> measure, from the header row(s)
+    county_col: int | None = None
+    county_pending: int | None = None  # a COUNTY header row before the method-label row
+    run: list[dict[str, int]] = []  # county rows printed since the last totals row
+
+    for index, row in enumerate(rows, start=1):
+        row = row or []
+        labels = [_normalize_label(cell) for cell in row]
+        if mapping is None:
+            methods = {
+                position: REQUESTS_METHOD_CELLS[label]
+                for position, label in enumerate(labels)
+                if label in REQUESTS_METHOD_CELLS
+            }
+            if county_pending is None:
+                if "COUNTY" in labels:
+                    if len(methods) >= 3:  # one-line header: COUNTY and the labels together
+                        mapping, county_col = methods, labels.index("COUNTY")
+                    else:
+                        county_pending = labels.index("COUNTY")  # two-line header
+                continue
+            if len(methods) >= 3:  # the method-label row of a two-line header
+                mapping, county_col = methods, county_pending
+                county_pending = None
+            continue  # title rows, notes, and blank lines have no label to read
+
+        if any(label in ("TOTAL", "TOTALS") for label in labels):
+            if not run:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the printed TOTAL row has no county rows above it"
+                )
+            printed = _requests_cells(sheet, index, row, mapping, strict=False)
+            for measure, value in printed.items():
+                collected = sum(one[measure] for one in run)
+                if collected != value:
+                    raise TurnoutParseError(
+                        f"{sheet} row {index}: the printed {measure} total says {value}, "
+                        f"but the counties sum to {collected}"
+                    )
+            run = []
+            continue
+
+        county_raw = row[county_col] if county_col is not None and county_col < len(row) else None
+        if county_raw in (None, ""):
+            continue  # blank lines and the notes under the table have no county cell
+        cells = _requests_cells(sheet, index, row, mapping, strict=True)
+        county_text = str(county_raw).strip()
+        county = canonical_county(county_text)
+        if county not in CANONICAL_COUNTIES:
+            raise TurnoutParseError(
+                f"{sheet} row {index}: unrecognized county label {county_text!r}"
+            )
+        if county in seen:
+            raise TurnoutParseError(
+                f"{sheet} row {index}: a county row for {county} appears more than once"
+            )
+        seen.add(county)
+        methods_sum = sum(value for measure, value in cells.items() if measure != "total")
+        if methods_sum != cells["total"]:
+            raise TurnoutParseError(
+                f"{sheet} row {index}: {county}'s request counts do not add up "
+                f"({methods_sum} != {cells['total']})"
+            )
+        run.append(dict(cells))
+        published += _requests_rows(county, cells, election, as_of)
+    if run:
+        raise TurnoutParseError(
+            f"{sheet}: {len(run)} county rows at the sheet's end have no printed TOTAL row"
+        )
+    return published
+
+
+def _requests_rows(
+    county: str, cells: dict[str, int], election: str, as_of: str | None
+) -> list[dict]:
+    """The published rows of one county's request row set."""
+    return [
+        {
+            "as_of": as_of or "",
+            "election": election,
+            "family": "requests",
+            "geography": "county",
+            "county": county,
+            "district": "",
+            "category": "ALL",
+            "party": "ALL",
+            "measure": measure,
+            "value": value,
+        }
+        for measure, value in cells.items()
+    ]
 
 
 # --- the sent-returned family (xlsx) --------------------------------------------------------
@@ -818,8 +1090,11 @@ def _split_snapshot_name(path: Path) -> tuple[str, str, str, str]:
 def _parse_file(
     path: Path, record: SourceRecord, election_code: str, family: str, geography: str
 ) -> tuple[str | None, pl.DataFrame]:
-    """One archived file, by its family: the requests PDF or a sent-returned workbook."""
-    if family == "requests":
+    """One archived file, by its family.
+
+    The requests report parses from either format: the workbook where it is readable,
+    its PDF twin where not (the GG26 export is corrupt on SBE's side)."""
+    if family == "requests" and path.suffix == ".pdf":
         try:
             text = read_requests_pdf(path)
         except (
@@ -827,6 +1102,8 @@ def _parse_file(
         ) as err:  # natural-pdf has no error taxonomy; a broken PDF is a parse failure
             raise TurnoutParseError(f"could not read the requests PDF ({err})") from err
         return parse_requests_text(text, election_code)
+    if family == "requests":
+        return parse_requests_bytes(path.read_bytes(), election_code)
     if family == "sent-returned":
         return parse_sent_returned_bytes(path.read_bytes(), election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")

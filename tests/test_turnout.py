@@ -1261,9 +1261,11 @@ def with_as_of(as_of_text: str, rows: list) -> list:
 
 @pytest.fixture
 def turnout_env(tmp_path, monkeypatch):
-    """A turnout fetch/parse environment: manifest and archives under tmp_path."""
+    """A turnout fetch/parse environment: manifest and archives under tmp_path, and the
+    fetch sees only GG26's files (the GP26 files are their own tests)."""
     monkeypatch.setattr(turnout, "ARCHIVES_DIR", tmp_path / "archives")
     monkeypatch.setattr(turnout, "MANIFEST_PATH", tmp_path / "manifest.csv")
+    monkeypatch.setattr(turnout, "ELECTIONS", {"GG26": turnout.ELECTIONS["GG26"]})
     return tmp_path
 
 
@@ -1502,3 +1504,249 @@ def test_sidecar_precedes_the_csv(turnout_env, monkeypatch, live_bodies):
     )
     assert sidecar.source_id == manifest_row.source_id
     assert sidecar.sha256_original == manifest_row.sha256
+
+
+# --- GP26: the certified families ------------------------------------------------------------
+# Config and the requests workbook of the 2026 primary (the backfill increment).
+
+
+def test_gp26_config_matches_the_live_press_room():
+    gp26 = turnout.ELECTIONS["GP26"]
+    assert gp26.code == "GP26" and gp26.name == "2026 primary election"
+    assert gp26.election_day == "2026-06-23"
+    have = {(f.family, f.geography, f.kind): f.url for f in gp26.files}
+    base = "https://elections.maryland.gov/press_room/2026_stats/GP26"
+    # every report family but the election-night unofficial report is configured
+    assert (
+        have["requests", "county", "pdf"] == f"{base}/Mail-in_Ballot_Request_Counts_with_Chart.pdf"
+    )
+    assert (
+        have["requests", "county", "xlsx"]
+        == f"{base}/Mail-in_Ballot_Request_Counts_with_Chart.xlsx"
+    )
+    for geo in ("county", "congressional", "legislative"):
+        assert (
+            have["left-to-count", geo, "xlsx"]
+            == f"{base}/Absentees_Ballots_Left_To_Count_by_{geo.capitalize()}.xlsx"
+        )
+        assert (
+            have["official-turnout", geo, "xlsx"]
+            == f"{base}/Official_by_Party_and_{geo.capitalize()}.xlsx"
+        )
+        assert (
+            have["sent-returned", geo, "xlsx"]
+            == f"{base}/Absentees_Sent_and_Returned_by_{geo.capitalize()}.xlsx"
+        )
+    for geo in ("county", "congressional", "legislative", "councilmanic"):
+        assert (
+            have["eligible-active", geo, "xlsx"]
+            == f"{base}/Eligible_Active_Voters_by_{geo.capitalize()}_-_GP26.xlsx"
+        )
+    # the by-party early-voting file is its own geography so the two views can't collide
+    assert (
+        have["early-voting", "county-party", "pdf"] == f"{base}/EarlyVoting  by Party.pdf"
+    )  # two spaces, as published
+    assert have["early-voting", "county", "pdf"] == f"{base}/EarlyVoting by County.pdf"
+    assert have["same-day", "location", "pdf"] == f"{base}/SameDayRegistration by Location.pdf"
+    assert have["county-canvass", "county", "pdf"] == f"{base}/Official County and Canvass.pdf"
+    assert (
+        have["votes-accepted", "county", "pdf"]
+        == f"{base}/Official Votes Accepted by County and Canvass.pdf"
+    )
+    assert have["mail-voting", "county", "pdf"] == f"{base}/Official Mail-In Voting Voting.pdf"
+    assert have["provisional", "county", "pdf"] == f"{base}/Official Provisional Voting.pdf"
+    assert (
+        have["eligible-inactive", "county", "xlsx"]
+        == f"{base}/Eligible_Inactive_Voters_-_GP26.xlsx"
+    )
+    assert all("unofficial" not in url.lower() for url in have.values())
+
+
+GP26_REQUESTS_XLSX = [
+    ["", "", "", "Mail-in Ballot Requests by County", "", "", ""],
+    ["", "", "", "", "Election: 2026 Gubernatorial Primary Election"],
+    ["", "", "", "", "", "", "As of: June 19, 2026 1 PM"],
+    ["COUNTY", "", "HOW THE BALLOTS WILL BE DELIVERED", "", "", "", "", "", "", "", "", ""],
+    [
+        "",
+        "",
+        "AGENT",
+        "",
+        "FAXED",
+        "",
+        "IN PERSON",
+        "MAILED",
+        "OTHERS",
+        "WEB DELIVERED",
+        "",
+        "TOTAL",
+    ],
+    ["Allegany", "", 2, "", 0, "", 112, 4041, 0, 295, "", 4450],
+    ["Worcester", "", 1, "", 0, "", 14, 4881, 0, 599, "", 5495],
+    ["", "", "TOTAL", "", "", "", 126, 8922, 0, 894, "", 9945],
+]
+
+
+def test_gp26_requests_xlsx_parses():
+    as_of, df = turnout.parse_requests_bytes(sent_worksheet(GP26_REQUESTS_XLSX), "GP26")
+    assert as_of == "2026-06-19"
+    assert len(df) == 14  # 2 counties x 7 measures
+    allegany = df.filter((df["county"] == "Allegany") & (df["measure"] == "mailed"))
+    assert allegany["value"].item() == 4041
+    assert set(df["measure"]) == {
+        "agent",
+        "faxed",
+        "in-person",
+        "mailed",
+        "others",
+        "web-delivered",
+        "total",
+    }
+
+
+def test_gp26_requests_reconciliation():
+    # a county's delivery methods must sum to the county's printed total ...
+    torn = [r[:] for r in GP26_REQUESTS_XLSX]
+    torn[5][11] = 4451
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(torn), "GP26")
+    # ... and the printed TOTAL row must equal the counties' column sums
+    statewide = [r[:] for r in GP26_REQUESTS_XLSX]
+    statewide[7][9] = 895  # the WEB DELIVERED total no longer matches the counties
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(statewide), "GP26")
+
+
+# The request workbook's labels are read from the header row, never positionally: the
+# real file's header carries AGENT/FAXED/IN PERSON/MAILED/OTHERS/WEB DELIVERY/TOTAL
+# (the export later reprints the web column as WEB DELIVERED in the GG26 file, so both
+# spellings are the same measure), with spacer columns between every label. The printed
+# TOTAL row only prints the columns it cares about (this fixture omits the agent and
+# faxed totals); a column the totals row does not print is not checked.
+
+
+def test_gp26_requests_totals_row_is_not_data():
+    as_of, df = turnout.parse_requests_bytes(sent_worksheet(GP26_REQUESTS_XLSX), "GP26")
+    assert as_of == "2026-06-19"
+    assert "TOTAL" not in set(df["county"])  # the printed totals row never becomes a row
+    assert "Worcester" in set(df["county"])
+
+
+def test_gp26_requests_reads_the_real_web_delivery_label():
+    # the GP26 export prints WEB DELIVERY where the fixture and the GG26 file print
+    # WEB DELIVERED -- both are the same web-delivered measure, so a family's measure
+    # vocabulary does not fork on the SBE's spelling
+    rows = [r[:] for r in GP26_REQUESTS_XLSX]
+    rows[4][9] = "WEB DELIVERY"
+    as_of, df = turnout.parse_requests_bytes(sent_worksheet(rows), "GP26")
+    assert as_of == "2026-06-19"
+    assert "web-delivered" in set(df["measure"])
+    worcester = df.filter((df["county"] == "Worcester") & (df["measure"] == "web-delivered"))
+    assert worcester["value"].item() == 599
+
+
+def test_gp26_requests_reads_a_one_line_header():
+    # COUNTY and the delivery-method labels on the same row are the same table
+    rows = [r[:] for r in GP26_REQUESTS_XLSX[:3]]
+    rows.append(
+        [
+            "COUNTY",
+            "",
+            "AGENT",
+            "",
+            "FAXED",
+            "",
+            "IN PERSON",
+            "MAILED",
+            "OTHERS",
+            "WEB DELIVERED",
+            "",
+            "TOTAL",
+        ]
+    )
+    rows += [r[:] for r in GP26_REQUESTS_XLSX[5:]]
+    as_of, df = turnout.parse_requests_bytes(sent_worksheet(rows), "GP26")
+    assert as_of == "2026-06-19"
+    assert len(df) == 14
+
+
+def test_gp26_requests_tolerates_blank_rows_between_the_header_lines():
+    rows = [r[:] for r in GP26_REQUESTS_XLSX]
+    rows.insert(5, ["", "", "", "", "", "", "", "", "", "", "", ""])  # blank line
+    as_of, df = turnout.parse_requests_bytes(sent_worksheet(rows), "GP26")
+    assert as_of == "2026-06-19"
+    assert len(df) == 14
+
+
+def test_gp26_requests_tolerates_a_blank_row_in_the_county_block():
+    # the live file has one blank row between Wicomico and Worcester's county rows
+    rows = [r[:] for r in GP26_REQUESTS_XLSX]
+    rows.insert(7, ["", "", "", "", "", "", "", "", "", "", "", ""])
+    as_of, df = turnout.parse_requests_bytes(sent_worksheet(rows), "GP26")
+    assert as_of == "2026-06-19"
+    assert len(df) == 14
+
+
+def test_gp26_requests_frame_schema():
+    as_of, df = turnout.parse_requests_bytes(sent_worksheet(GP26_REQUESTS_XLSX), "GP26")
+    assert as_of == "2026-06-19"
+    assert df.schema == {
+        "as_of": pl.String,
+        "election": pl.String,
+        "family": pl.String,
+        "geography": pl.String,
+        "county": pl.String,
+        "district": pl.String,
+        "category": pl.String,
+        "party": pl.String,
+        "measure": pl.String,
+        "value": pl.Int64,
+    }
+    assert set(df["geography"]) == {"county"} and set(df["district"]) == {""}
+    assert set(df["party"]) == {"ALL"} and set(df["category"]) == {"ALL"}
+
+
+def test_gp26_requests_rejects_a_duplicated_county_row():
+    dup = [r[:] for r in GP26_REQUESTS_XLSX]
+    dup.append(dup[5][:])  # Allegany's row repeated after the totals row
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(dup), "GP26")
+
+
+def test_gp26_requests_rejects_an_unrecognized_county_label():
+    mangled = [r[:] for r in GP26_REQUESTS_XLSX]
+    mangled[6][0] = "Princes Georges"
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(mangled), "GP26")
+
+
+def test_gp26_requests_rejects_a_non_numeric_cell():
+    torn = [r[:] for r in GP26_REQUESTS_XLSX]
+    torn[5][7] = "n/a"
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(torn), "GP26")
+
+
+def test_gp26_requests_rejects_a_fractional_cell():
+    torn = [r[:] for r in GP26_REQUESTS_XLSX]
+    torn[6][7] = 4041.5  # Worcester's MAILED cell
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(torn), "GP26")
+
+
+def test_gp26_requests_rejects_a_totals_row_with_no_county_rows():
+    only = [r[:] for r in GP26_REQUESTS_XLSX[:5]]
+    only.append([r_c for r_c in GP26_REQUESTS_XLSX[7]])
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(only), "GP26")
+
+
+def test_gp26_requests_rejects_a_table_without_a_totals_row():
+    torn = [r[:] for r in GP26_REQUESTS_XLSX[:-1]]
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(sent_worksheet(torn), "GP26")
+
+
+def test_gp26_requests_rejects_a_corrupt_workbook():
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_bytes(b"PK garbage", "GP26")
