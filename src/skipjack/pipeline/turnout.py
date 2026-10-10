@@ -818,11 +818,18 @@ SENT_MEASURE_CELLS: dict[str, tuple[str, str]] = {
         ("TOTAL", "ALL"),
     )
 }
+# The left-to-count exports add one more printed column, as their own single count:
+# LEFT TO COUNT, with no DEM/REP/OTH breakdown to its name.
+SENT_LEFT_TO_COUNT_CELLS: dict[str, tuple[str, str]] = {"LEFT TO COUNT": ("ALL", "left-to-count")}
 SENT_IDENTITY_CELLS = {"CATEGORY": "category", "COUNTY NAME": "county", "DISTRICT": "district"}
 
 
 def parse_sent_returned_bytes(
-    data: bytes, election: str, geography: str
+    data: bytes,
+    election: str,
+    geography: str,
+    measures: tuple[str, ...] = SENT_MEASURES,
+    family: str = "sent-returned",
 ) -> tuple[str | None, pl.DataFrame]:
     """One Absentees Sent and Returned workbook as long rows.
 
@@ -833,6 +840,12 @@ def parse_sent_returned_bytes(
     ALL or nothing in the county cell); a district's county detail is reconciled
     against the district's printed total but never published. Nothing comes out until
     every printed total has been checked; a workbook that does not add up raises.
+
+    `measures` carries the printed columns to read: the sent-returned files' three, or
+    -- for the left-to-count files, the same shape re-printed wider -- the three plus
+    the LEFT TO COUNT column (then the row's own printed arithmetic -- left-to-count
+    equals the accepted total subtracted from the received total, negative where the
+    canvass sat between the two -- and the column's printed totals are checked too).
     """
     try:
         workbook = CalamineWorkbook.from_object(io.BytesIO(data))
@@ -846,10 +859,34 @@ def parse_sent_returned_bytes(
         rows = workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
         if as_of is None:
             as_of = _first_as_of(rows)
-        published += _sent_sheet_rows(sheet, rows, election, geography, as_of, seen)
+        published += _sent_sheet_rows(
+            sheet, rows, election, family, geography, as_of, seen, measures
+        )
     if not published:
-        raise TurnoutParseError("the sent-returned workbook has no county or district rows")
+        raise TurnoutParseError(f"the {family} workbook has no county or district rows")
     return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_left_to_count_bytes(
+    data: bytes, election: str, geography: str
+) -> tuple[str | None, pl.DataFrame]:
+    """One Mail-in Ballots Left To Count workbook: the sent-returned exports' shape plus
+    the 13th printed column, LEFT TO COUNT, which the SBE prints as one count without a
+    party breakdown. The sent-returned machinery reads it with the extra measure: the
+
+    column's totals are printed and reconciled at every printed Total row (366 of them
+    in the live GP26 files), and each row carries the file's own arithmetic -- the left
+    to count equals the row's accepted total subtracted from its received total, a
+    printed identity that sits at -52 in the live county file's Anne Arundel row. The
+    DEM+REP+OTH == ALL identity stays with the three tallied measures.
+    """
+    return parse_sent_returned_bytes(
+        data,
+        election,
+        geography,
+        measures=(*SENT_MEASURES, "left-to-count"),
+        family="left-to-count",
+    )
 
 
 def _first_as_of(rows: list[list]) -> str | None:
@@ -879,16 +916,21 @@ def _identity_cell(value: object) -> str:
     return "" if text.upper() in ("STATEWIDE", "ALL") else text
 
 
-def _sent_section(labels: list[str | None]) -> dict[int, tuple[str, object]]:
-    """One block's column map. Unknown labels (notes, headings) are ignored."""
+def _sent_section(
+    labels: list[str | None], measures: tuple[str, ...] = SENT_MEASURES
+) -> dict[int, tuple[str, object]]:
+    """One block's column map. Unknown labels (notes, headings) are ignored; the
+    left-to-count label maps only where the caller asks for its measure."""
     mapping: dict[int, tuple[str, object]] = {}
     for index, label in enumerate(labels):
         if label is None:
             continue
         if label in SENT_IDENTITY_CELLS:
             mapping[index] = ("id", SENT_IDENTITY_CELLS[label])
-        elif label in SENT_MEASURE_CELLS:
+        elif label in SENT_MEASURE_CELLS and SENT_MEASURE_CELLS[label][1] in measures:
             mapping[index] = ("cell", SENT_MEASURE_CELLS[label])
+        elif "left-to-count" in measures and label in SENT_LEFT_TO_COUNT_CELLS:
+            mapping[index] = ("cell", SENT_LEFT_TO_COUNT_CELLS["LEFT TO COUNT"])
     return mapping
 
 
@@ -927,9 +969,11 @@ def _sent_sheet_rows(
     sheet: str,
     rows: list[list],
     election: str,
+    family: str,
     geography: str,
     as_of: str | None,
     seen: set[tuple[str, str, str]],
+    measures: tuple[str, ...] = SENT_MEASURES,
 ) -> list[dict]:
     """All the data rows of one sheet, reconciled against the sheet's printed totals.
 
@@ -953,7 +997,7 @@ def _sent_sheet_rows(
         row = row or []
         labels = [_normalize_label(cell) for cell in row]
         if "CATEGORY" in labels:
-            mapping = _sent_section(labels)
+            mapping = _sent_section(labels, measures)
             run = []  # a new section resets what its "Total" rows will close
             continue
         if mapping is None:
@@ -1058,7 +1102,26 @@ def _sent_sheet_rows(
             raise TurnoutParseError(
                 f"{sheet} row {index}: a {category} row with no county or district"
             )
-        for measure in SENT_MEASURES:
+        for measure in measures:
+            if measure == "left-to-count":
+                # the left-to-count column is one count with no party breakdown; its
+                # printed identity is the row's own arithmetic, not a three-way sum
+                left = cells.get(("ALL", "left-to-count"))
+                if left is None:
+                    raise TurnoutParseError(
+                        f"{sheet} row {index}: the {category} left-to-count cell is blank"
+                    )
+                received_total = cells.get(("ALL", "received"))
+                accepted_total = cells.get(("ALL", "accepted"))
+                if None not in (received_total, accepted_total) and (
+                    left != received_total - accepted_total
+                ):
+                    raise TurnoutParseError(
+                        f"{sheet} row {index}: the {category} left-to-count cell says "
+                        f"{left}, but the row's received {received_total} minus its "
+                        f"accepted {accepted_total} is {received_total - accepted_total}"
+                    )
+                continue
             four = {party: cells.get((party, measure)) for party in ("DEM", "REP", "OTH", "ALL")}
             if any(value is None for value in four.values()):
                 raise TurnoutParseError(
@@ -1093,7 +1156,7 @@ def _sent_sheet_rows(
                     {
                         "as_of": as_of or "",
                         "election": election,
-                        "family": "sent-returned",
+                        "family": family,
                         "geography": geography,
                         "county": county,
                         "district": district,
@@ -1127,7 +1190,7 @@ def _sent_sheet_rows(
                         {
                             "as_of": as_of or "",
                             "election": election,
-                            "family": "sent-returned",
+                            "family": family,
                             "geography": geography,
                             "county": "",
                             "district": district,
@@ -1679,6 +1742,12 @@ def _parse_file(
         return parse_requests_bytes(path.read_bytes(), election_code)
     if family == "sent-returned":
         return parse_sent_returned_bytes(path.read_bytes(), election_code, geography)
+    if family == "left-to-count":
+        return parse_left_to_count_bytes(path.read_bytes(), election_code, geography)
+    if family == "official-turnout":
+        return parse_turnout_official_bytes(path.read_bytes(), election_code, geography)
+    if family in ("eligible-active", "eligible-inactive"):
+        return parse_eligible_bytes(path.read_bytes(), election_code, family, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
 
 

@@ -2172,21 +2172,19 @@ def test_eligible_county_values():
     }
 
 
+ELIGIBLE_INACTIVE_ROWS = [
+    ELIGIBLE_COUNTY_ROWS[0],
+    ELIGIBLE_COUNTY_ROWS[1],
+    ELIGIBLE_COUNTY_HEADER,
+    eligible_county_row("Allegany", 761, 1101, 4, 23, 281, 7, 2177),
+    eligible_county_row("Anne Arundel", 12138, 8893, 0, 0, 0, 0, 21031),
+    eligible_county_row("TOTAL", 12899, 9994, 4, 23, 281, 7, 23208),
+]
+
+
 def test_eligible_inactive_fixture():
     as_of, df = turnout.parse_eligible_bytes(
-        sent_worksheet(
-            [
-                ELIGIBLE_COUNTY_ROWS[0],
-                ELIGIBLE_COUNTY_ROWS[1],
-                ELIGIBLE_COUNTY_HEADER,
-                eligible_county_row("Allegany", 761, 1101, 4, 23, 281, 7, 2177),
-                eligible_county_row("Anne Arundel", 12138, 8893, 0, 0, 0, 0, 21031),
-                eligible_county_row("TOTAL", 12899, 9994, 4, 23, 281, 7, 23208),
-            ]
-        ),
-        "GP26",
-        "eligible-inactive",
-        "county",
+        sent_worksheet(ELIGIBLE_INACTIVE_ROWS), "GP26", "eligible-inactive", "county"
     )
     assert as_of == "2026-06-06"
     assert set(df["measure"]) == {"inactive"}
@@ -2614,3 +2612,244 @@ def test_eligible_councilmanic_grain_and_detail_reconcile():
         "WCP": 0,
         "ALL": 15,
     }
+
+
+# --- the left-to-count family --------------------------------------------------------------
+# The sent-returned exports' shape with one more printed column: LEFT TO COUNT sits at
+# the header's end with no DEM/REP/OTH breakdown and no party total -- LEFT TO COUNT is
+# its own single count. The live GP26 files print AND reconcile the column at every
+# printed Total row, and each row carries the file's own arithmetic
+# (LEFT TO COUNT = accepted's TOTAL ACCEPTED subtracted from ... received - accepted),
+# including negative cells (the county file's Anne Arundel row reads -52 while the
+# canvass sits between received and accepted counts). The fixture row set is the real
+# county Sheet1's first two ALL rows plus their printed Total.
+
+LEFT_TO_COUNT_HEADER = [
+    "CATEGORY",
+    "COUNTY NAME",
+    "DISTRICT",
+    "",
+    "",
+    "",
+    "DEM SENT",
+    "REP SENT",
+    "OTH SENT",
+    "TOTAL SENT",
+    "DEM RECEIVED",
+    "REP RECEIVED",
+    "OTH RECEIVED",
+    "TOTAL RECEIVED",
+    "DEM ACCEPTED",
+    "",
+    "",
+    "",
+    "REP ACCEPTED",
+    "OTH ACCEPTED",
+    "TOTAL ACCEPTED",
+    "LEFT TO COUNT",
+]
+
+
+def left_to_count_row(category, county, cells, lead=0):
+    """One county row and its printed cells; LEFT TO COUNT last."""
+    dem_s, rep_s, oth_s, tot_s, dem_r, rep_r, oth_r, tot_r, dem_a, rep_a, oth_a, tot_a, left = cells
+    return [
+        category,
+        county,
+        "",
+        "",
+        "",
+        "",
+        dem_s,
+        rep_s,
+        oth_s,
+        tot_s,
+        dem_r,
+        rep_r,
+        oth_r,
+        tot_r,
+        dem_a,
+        "",
+        "",
+        "",
+        rep_a,
+        oth_a,
+        tot_a,
+        left,
+    ]
+
+
+LEFT_TO_COUNT_ROWS = [
+    ["", "", "", "Mail-in Ballots Left To Count by County", "", ""],
+    ["", "", "", "", "As of: July 7, 2026 6 PM\nNote: ballots logged as received", "", ""],
+    LEFT_TO_COUNT_HEADER,
+    left_to_count_row(
+        "ALL",
+        "ALLEGANY",
+        (2041, 1723, 263, 4027, 1346, 1010, 100, 2456, 1333, 993, 97, 2423, 33),
+    ),
+    left_to_count_row(
+        "ALL",
+        "ANNE ARUNDEL",
+        (36060, 13162, 0, 49222, 23039, 5992, 0, 29031, 22952, 5961, 170, 29083, -52),
+    ),
+    left_to_count_row(
+        "",
+        "Total",
+        (38101, 14885, 263, 53249, 24385, 7002, 100, 31487, 24285, 6954, 267, 31506, -19),
+    ),
+]
+
+
+def test_left_to_count_parses_with_the_extra_measure():
+    as_of, df = turnout.parse_left_to_count_bytes(
+        sent_worksheet(LEFT_TO_COUNT_ROWS), "GP26", "county"
+    )
+    assert as_of == "2026-07-07"
+    assert set(df["family"]) == {"left-to-count"}
+    assert set(df["measure"]) == {"sent", "received", "accepted", "left-to-count"}
+    assert set(df["party"]) == {"DEM", "REP", "OTH", "ALL"}
+    assert len(df) == 26  # two counties x twelve tallied cells plus two left-to-count cells
+
+
+def test_left_to_count_keeps_the_negative_cells():
+    as_of, df = turnout.parse_left_to_count_bytes(
+        sent_worksheet(LEFT_TO_COUNT_ROWS), "GP26", "county"
+    )
+    left = df.filter((df["measure"] == "left-to-count") & (df["county"] == "Anne Arundel"))
+    assert left["value"].item() == -52  # the live file's own negative cell, as printed
+
+
+def test_left_to_count_rejects_a_torn_left_to_count_cell():
+    # the row's own arithmetic: LEFT TO COUNT must equal the accepted Total subtracted
+    torn = [row[:] for row in LEFT_TO_COUNT_ROWS]
+    torn[3][21] = 34  # Allegany's left-to-count says 34 over its received (2456) - accepted (2423)
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_left_to_count_bytes(sent_worksheet(torn), "GP26", "county")
+
+
+def test_left_to_count_reconciles_the_printed_column_totals():
+    torn = [row[:] for row in LEFT_TO_COUNT_ROWS]
+    torn[5][21] = -18  # the printed Total's left-to-count no longer equals its rows' sum
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_left_to_count_bytes(sent_worksheet(torn), "GP26", "county")
+
+
+def test_sent_returned_ignores_a_left_to_count_column():
+    # the sent-returned parser's own files have no LEFT TO COUNT column; a file that
+    # carries one parses anyway with the column ignored (the GP26 sent-returned files
+    # are theirs; the left-to-count files are the same shape re-printed wider)
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet(LEFT_TO_COUNT_ROWS), "GP26", "county"
+    )
+    assert as_of == "2026-07-07"
+    assert set(df["measure"]) == {"sent", "received", "accepted"}
+    assert len(df) == 24
+
+
+def test_left_to_count_skips_the_district_county_detail():
+    # the legislative file: the district roll-up rows publish, and the second section's
+    # district x county rows reconcile under their own printed district Total rows
+    header = [
+        "CATEGORY",
+        "DISTRICT",
+        "",
+        "COUNTY NAME",
+        "DEM SENT",
+        "REP SENT",
+        "OTH SENT",
+        "TOTAL SENT",
+        "DEM RECEIVED",
+        "REP RECEIVED",
+        "OTH RECEIVED",
+        "TOTAL RECEIVED",
+        "DEM ACCEPTED",
+        "REP ACCEPTED",
+        "OTH ACCEPTED",
+        "TOTAL ACCEPTED",
+        "LEFT TO COUNT",
+    ]
+
+    def cells(category, district, county, numbers):
+        return [category, district, "", county, *numbers]
+
+    rows = [
+        ["", "", "Mail-in Ballots Left To Count by Legislative District", ""],
+        ["", "", "", "As of: July 7, 2026 6 PM"],
+        header,
+        cells(
+            "ALL",
+            "Legislative District Code 01A",
+            "ALL",
+            (1079, 1209, 404, 2692, 407, 400, 115, 922, 0, 0, 0, 0, 922),
+        ),
+        cells(
+            "ALL",
+            "Legislative District Code 01B",
+            "ALL",
+            (1604, 1209, 560, 3373, 542, 394, 170, 1106, 0, 0, 0, 0, 1106),
+        ),
+        cells("", "Total", "", (2683, 2418, 964, 6065, 949, 794, 285, 2028, 0, 0, 0, 0, 2028)),
+        header,
+        cells(
+            "Civilian Overseas",
+            "Legislative District Code 01A",
+            "ALLEGANY",
+            (8, 0, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        ),
+        cells(
+            "Civilian Overseas",
+            "Legislative District Code 01A",
+            "GARRETT",
+            (13, 1, 5, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        ),
+        [
+            "",
+            "Legislative District Code 01A Total",
+            "",
+            "",
+            21,
+            1,
+            6,
+            28,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+        ],
+    ]
+    as_of, df = turnout.parse_left_to_count_bytes(sent_worksheet(rows), "GP26", "legislative")
+    assert as_of == "2026-07-07"
+    assert set(df["district"]) == {"Legislative District Code 01A", "Legislative District Code 01B"}
+    assert set(df["county"]) == {""}  # the detail's counties stay out of the frame
+    assert len(df) == 2 * 13
+    assert "Civilian Overseas" not in set(df["category"])
+    assert 28 not in set(df["value"])
+
+
+def test_parse_file_routes_the_new_families(tmp_path):
+    # the archived revisions parse through _parse_file by family: each new GP26
+    # family's workbook now has a parser the parse command can reach
+    import types
+
+    cases = (
+        ("left-to-count", "county", LEFT_TO_COUNT_ROWS, "left-to-count", "2026-07-07"),
+        ("official-turnout", "county", OFFICIAL_COUNTY_ROWS, "election-day", "2026-07-23"),
+        ("eligible-active", "county", ELIGIBLE_COUNTY_ROWS, "active", "2026-06-06"),
+        ("eligible-inactive", "county", ELIGIBLE_INACTIVE_ROWS, "inactive", "2026-06-06"),
+    )
+    for family, geography, rows, measure, date in cases:
+        path = tmp_path / f"{family}__{geography}__{date}__abc123.xlsx"
+        path.write_bytes(sent_worksheet(rows))
+        as_of, df = turnout._parse_file(
+            path, types.SimpleNamespace(source_id="x"), "GP26", family, geography
+        )
+        assert as_of == date, family
+        assert set(df["family"]) == {family}, family
+        assert measure in set(df["measure"]), family
