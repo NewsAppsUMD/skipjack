@@ -6,6 +6,8 @@ The xlsx fixtures are built with openpyxl in the same messy shape the SBE export
 
 from __future__ import annotations
 
+import io
+
 import openpyxl
 import polars as pl
 import pytest
@@ -26,7 +28,9 @@ def test_as_of_text_rejects_garbage():
 
 
 def test_as_of_text_rejects_unparseable_dates():
-    assert turnout.extract_as_of_text("As of: Sept 30, 2026") is None  # abbreviated month, regex still matches
+    assert (
+        turnout.extract_as_of_text("As of: Sept 30, 2026") is None
+    )  # abbreviated month, regex still matches
     assert turnout.extract_as_of_text("As of: October 32, 2026") is None  # no such day
 
 
@@ -90,7 +94,10 @@ def test_election_config_matches_the_live_press_room():
     assert gg26.election_day == "2026-11-03"
     urls = {(f.family, f.geography, f.kind): f.url for f in gg26.files}
     base = "https://elections.maryland.gov/press_room/2026_stats/GG26"
-    assert urls[("requests", "county", "pdf")] == f"{base}/Mail-in_Ballot_Request_Counts_with_Chart.pdf"
+    assert (
+        urls[("requests", "county", "pdf")]
+        == f"{base}/Mail-in_Ballot_Request_Counts_with_Chart.pdf"
+    )
     for geo in ("county", "congressional", "legislative"):
         assert (
             urls[("sent-returned", geo, "xlsx")]
@@ -163,7 +170,9 @@ def test_requests_rejects_a_statewide_total_that_does_not_add_up():
 
 def test_requests_rejects_text_without_an_as_of():
     with pytest.raises(turnout.TurnoutParseError):
-        turnout.parse_requests_text(REQUESTS_TEXT.replace("As of: October 9, 2026 6 PM", ""), "GG26")
+        turnout.parse_requests_text(
+            REQUESTS_TEXT.replace("As of: October 9, 2026 6 PM", ""), "GG26"
+        )
 
 
 def test_requests_rejects_a_duplicated_county_row():
@@ -258,7 +267,9 @@ def test_requests_rejects_text_whose_only_total_line_is_not_numeric():
 
 
 def test_requests_rejects_a_total_row_with_the_wrong_number_of_cells():
-    mangled = REQUESTS_TEXT.replace("TOTAL 2 2 234 85,064 7 10,032 95,341", "TOTAL 2 2 234 85,064 7 10,032")
+    mangled = REQUESTS_TEXT.replace(
+        "TOTAL 2 2 234 85,064 7 10,032 95,341", "TOTAL 2 2 234 85,064 7 10,032"
+    )
     with pytest.raises(turnout.TurnoutParseError):
         turnout.parse_requests_text(mangled, "GG26")
 
@@ -281,3 +292,955 @@ def test_requests_parses_a_header_without_the_wrapped_word():
     )
     assert as_of == "2026-10-09"
     assert len(df) == 21
+
+
+# --- the sent-returned xlsx family --------------------------------------------------------
+# Fixtures copy the real 2026-10-09 GG26 files' shapes, verified against the live
+# downloads: blank spacer cells in and around the header row, blank cells mid-row
+# between the received and accepted column groups, label spellings that vary between
+# files and even between a file's own repeated headers (REP/REP_SENT, OTH/OTHR
+# ACCEPTED), and every printed block total equal to the sum of its block's member
+# rows -- that last one is the arithmetic the parser enforces.
+
+
+def sent_worksheet(rows, sheet_name="Sheet1"):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = sheet_name
+    for row in rows:
+        ws.append(row)
+    buf = io.BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    return buf.read()
+
+
+# County-file shape (Sheet1): a title block that leaves the header lower than row 1,
+# then five category blocks of county rows each closed by a printed Total row. Two
+# of the five categories and two of the 24 counties are enough; ALL numbers are the
+# real Allegany/Worcester values of the October 9 snapshot.
+SENT_COUNTY_ROWS = [
+    ["", "", "", "Mail-in Sent and Returned ", "Election: 2026 Gubernatorial General Election"],
+    ["", "", "", "", ""],
+    [
+        "",
+        "",
+        "",
+        "",
+        "As of: October 9, 2026 6 PM\nNote: Data includes Print at Home ballots, "
+        "Replacement ballots and ballots issued by Local Boards of Elections.",
+    ],
+    # the real header: COUNTY NAME before DISTRICT, spacer cells inside it
+    [
+        "CATEGORY",
+        "COUNTY NAME",
+        "DISTRICT",
+        "",
+        "",
+        "DEM SENT",
+        "REP SENT",
+        "OTH SENT",
+        "TOTAL SENT",
+        "DEM RECEIVED",
+        "REP RECEIVED",
+        "OTH RECEIVED",
+        "TOTAL RECEIVED",
+        "",
+        "",
+        "",
+        "DEM ACCEPTED",
+        "REP ACCEPTED",
+        "OTHR ACCEPTED",
+        "TOTAL ACCEPTED",
+    ],
+    [
+        "ALL",
+        "ALLEGANY",
+        "Statewide",
+        "",
+        "",
+        2054,
+        1701,
+        711,
+        4466,
+        686,
+        544,
+        212,
+        1442,
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+    [
+        "ALL",
+        "WORCESTER",
+        "Statewide",
+        "",
+        "",
+        2602,
+        1816,
+        955,
+        5373,
+        1023,
+        641,
+        293,
+        1957,
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+    # the block's printed total: the sums of its member rows
+    [
+        "",
+        "Total",
+        "",
+        "",
+        "",
+        4656,
+        3517,
+        1666,
+        9839,
+        1709,
+        1185,
+        505,
+        3399,
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+    [
+        "Civilian Overseas",
+        "ALLEGANY",
+        "Statewide",
+        "",
+        "",
+        10,
+        8,
+        4,
+        22,
+        2,
+        1,
+        1,
+        4,
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+    [
+        "Civilian Overseas",
+        "WORCESTER",
+        "Statewide",
+        "",
+        "",
+        5,
+        3,
+        2,
+        10,
+        1,
+        0,
+        1,
+        2,
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+]
+
+# Congressional-file shape (Sheet1): DISTRICT second and COUNTY NAME reading ALL,
+# spacer columns inside the header, and the underscore spelling the file's later
+# blocks print. Values are the real District 1 and District 2 rows; the Total row is
+# the sum of the two. No As-of cell in this fixture (the None date path).
+SENT_CD_ROWS = [
+    [
+        "CATEGORY",
+        "DISTRICT",
+        "COUNTY NAME",
+        "DEM SENT",
+        "",
+        "",
+        "",
+        "REP_SENT",
+        "OTH SENT",
+        "TOTAL SENT",
+        "DEM RECEIVED",
+        "REP RECEIVED",
+        "OTH RECEIVED",
+        "",
+        "TOTAL RECEIVED",
+        "",
+        "",
+        "DEM ACCEPTED",
+        "REP ACCEPTED",
+        "OTHR ACCEPTED",
+        "TOTAL ACCEPTED",
+    ],
+    [
+        "ALL",
+        "Congressional District Code 01",
+        "ALL",
+        32040,
+        "",
+        "",
+        "",
+        19045,
+        11871,
+        62956,
+        10270,
+        5653,
+        3043,
+        "",
+        18966,
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+    [
+        "ALL",
+        "Congressional District Code 02",
+        "ALL",
+        55095,
+        "",
+        "",
+        "",
+        16131,
+        14067,
+        85293,
+        11686,
+        3664,
+        2437,
+        "",
+        17787,
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+    [
+        "",
+        "Total",
+        "",
+        87135,
+        "",
+        "",
+        "",
+        35176,
+        25938,
+        148249,
+        21956,
+        9317,
+        5480,
+        "",
+        36753,
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ],
+]
+
+# Legislative-file shape: a blank spacer COLUMN between every real column, the As-of
+# sentence in a row of its own at an odd position, values as the real District 01A and
+# 01B rows.
+SENT_LD_HEADER = [
+    "CATEGORY",
+    "DISTRICT",
+    "",
+    "",
+    "COUNTY NAME",
+    "",
+    "DEM SENT",
+    "",
+    "REP SENT",
+    "",
+    "OTH SENT",
+    "",
+    "TOTAL SENT",
+    "",
+    "DEM RECEIVED",
+    "",
+    "REP RECEIVED",
+    "",
+    "OTH RECEIVED",
+    "",
+    "TOTAL RECEIVED",
+    "",
+    "",
+    "DEM ACCEPTED",
+    "",
+    "",
+    "REP ACCEPTED",
+    "",
+    "",
+    "OTH ACCEPTED",
+    "",
+    "TOTAL ACCEPTED",
+    "",
+]
+SENT_LD_ROWS = [
+    ["", "", "Mail-in Sent and Returned by Legislative District", ""],
+    ["", "", "", "Election: 2026 Gubernatorial General Election"],
+    ["", "", "", "", "", "As of: October 9, 2026"],
+    SENT_LD_HEADER,
+    [
+        "ALL",
+        "Legislative District Code 01A",
+        "",
+        "",
+        "ALL",
+        "",
+        1079,
+        "",
+        1209,
+        "",
+        404,
+        "",
+        2692,
+        "",
+        407,
+        "",
+        400,
+        "",
+        115,
+        "",
+        922,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    [
+        "ALL",
+        "Legislative District Code 01B",
+        "",
+        "",
+        "ALL",
+        "",
+        1604,
+        "",
+        1209,
+        "",
+        560,
+        "",
+        3373,
+        "",
+        542,
+        "",
+        394,
+        "",
+        170,
+        "",
+        1106,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    [
+        "",
+        "Total",
+        "",
+        "",
+        "",
+        "",
+        2683,
+        "",
+        2418,
+        "",
+        964,
+        "",
+        6065,
+        "",
+        949,
+        "",
+        794,
+        "",
+        285,
+        "",
+        2028,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+]
+
+# The legislative file's second section, below the district table under its own header:
+# the same population broken down to district x county grain ("DEM SENT" sits one
+# column further right, COUNTY NAME carries a real county). The per-district Total
+# rows are the real file's values; the closing rows are this fixture's own sums.
+SENT_LD_DETAIL_ROWS = [
+    [
+        "CATEGORY",
+        "DISTRICT",
+        "",
+        "",
+        "COUNTY NAME",
+        "",
+        "",
+        "DEM SENT",
+        "",
+        "REP SENT",
+        "",
+        "OTH SENT",
+        "",
+        "TOTAL SENT",
+        "",
+        "DEM RECEIVED",
+        "",
+        "REP RECEIVED",
+        "",
+        "OTH RECEIVED",
+        "",
+        "TOTAL RECEIVED",
+        "",
+        "",
+        "DEM ACCEPTED",
+        "",
+        "",
+        "REP ACCEPTED",
+        "",
+        "",
+        "OTH ACCEPTED",
+        "",
+        "TOTAL ACCEPTED",
+        "",
+    ],
+    [
+        "Civilian Overseas",
+        "Legislative District Code 01A",
+        "",
+        "",
+        "ALLEGANY",
+        "",
+        "",
+        8,
+        "",
+        0,
+        "",
+        1,
+        "",
+        9,
+        "",
+        0,
+        "",
+        0,
+        "",
+        0,
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    [
+        "Civilian Overseas",
+        "Legislative District Code 01A",
+        "",
+        "",
+        "GARRETT",
+        "",
+        "",
+        13,
+        "",
+        1,
+        "",
+        5,
+        "",
+        19,
+        "",
+        0,
+        "",
+        0,
+        "",
+        0,
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    [
+        "",
+        "Legislative District Code 01A Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        21,
+        "",
+        1,
+        "",
+        6,
+        "",
+        28,
+        "",
+        0,
+        "",
+        0,
+        "",
+        0,
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    [
+        "Civilian Overseas",
+        "Legislative District Code 01B",
+        "",
+        "",
+        "ALLEGANY",
+        "",
+        "",
+        22,
+        "",
+        4,
+        "",
+        6,
+        "",
+        32,
+        "",
+        2,
+        "",
+        0,
+        "",
+        1,
+        "",
+        3,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    [
+        "",
+        "Legislative District Code 01B Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        22,
+        "",
+        4,
+        "",
+        6,
+        "",
+        32,
+        "",
+        2,
+        "",
+        0,
+        "",
+        1,
+        "",
+        3,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    # the category's printed section total, and the sheet's Grand Total
+    [
+        "Civilian Overseas Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        43,
+        "",
+        5,
+        "",
+        12,
+        "",
+        60,
+        "",
+        2,
+        "",
+        0,
+        "",
+        1,
+        "",
+        3,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+    [
+        "Grand Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        43,
+        "",
+        5,
+        "",
+        12,
+        "",
+        60,
+        "",
+        2,
+        "",
+        0,
+        "",
+        1,
+        "",
+        3,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+    ],
+]
+
+
+def test_sent_returned_county_fixture():
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet(SENT_COUNTY_ROWS), "GG26", "county"
+    )
+    assert as_of == "2026-10-09"
+    assert set(df["party"]) == {"DEM", "REP", "OTH", "ALL"}
+    assert set(df["measure"]) == {"sent", "received", "accepted"}
+    assert set(df["category"]) == {"ALL", "Civilian Overseas"}
+    # County rows carry no district: the file's DISTRICT cells all read "Statewide".
+    assert set(df["district"]) == {""}
+    # 2 categories x 2 counties x 3 measures x 4 parties; printed total rows are never data
+    assert len(df) == 48
+
+
+def test_sent_returned_values_by_measure():
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet(SENT_COUNTY_ROWS), "GG26", "county"
+    )
+    sent = df.filter(
+        (df["category"] == "ALL") & (df["measure"] == "sent") & (df["county"] == "Allegany")
+    )
+    assert dict(zip(sent["party"], sent["value"])) == {
+        "DEM": 2054,
+        "REP": 1701,
+        "OTH": 711,
+        "ALL": 4466,
+    }
+    accepted = df.filter(df["measure"] == "accepted")
+    assert set(accepted["value"]) == {0}
+
+
+def test_sent_returned_totals_are_not_data():
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet(SENT_COUNTY_ROWS), "GG26", "county"
+    )
+    # nothing carries the printed block totals (DEM and ALL sent of the first block)
+    assert 4656 not in set(df["value"])
+    assert 9839 not in set(df["value"])
+
+
+def test_sent_returned_rejects_a_torn_row():
+    torn = [r[:] for r in SENT_COUNTY_ROWS]
+    torn[4][8] = 4467  # Allegany's DEM+REP+OTH sent = 4466
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(torn), "GG26", "county")
+
+
+def test_sent_returned_rejects_a_block_total_that_lies():
+    bad = [r[:] for r in SENT_COUNTY_ROWS]
+    bad[6][5] = 4657  # the block total's DEM SENT no longer matches its member rows
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(bad), "GG26", "county")
+
+
+def test_sent_returned_labels_with_underscores_and_spacers_parse():
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet(SENT_CD_ROWS), "GG26", "congressional"
+    )
+    assert as_of is None  # no As-of cell in this sheet
+    # the district label is what the sheet prints, kept verbatim
+    d1 = df.filter(
+        (df["district"] == "Congressional District Code 01")
+        & (df["party"] == "DEM")
+        & (df["measure"] == "sent")
+    )
+    assert d1["value"].item() == 32040
+    # district rows say so by carrying no county
+    assert list(df["county"].unique()) == [""]
+    assert len(df) == 2 * 12
+    # the printed block total stays out of the frame
+    assert 148249 not in set(df["value"])
+
+
+def test_sent_returned_spacer_columns_in_the_legislative_layout():
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet(SENT_LD_ROWS), "GG26", "legislative"
+    )
+    assert as_of == "2026-10-09"  # found in row 2, an odd position, in this one-sheet file
+    d1 = df.filter(
+        (df["district"] == "Legislative District Code 01A")
+        & (df["party"] == "DEM")
+        & (df["measure"] == "sent")
+    )
+    assert d1["value"].item() == 1079
+    d2 = df.filter(
+        (df["district"] == "Legislative District Code 01B")
+        & (df["party"] == "REP")
+        & (df["measure"] == "received")
+    )
+    assert d2["value"].item() == 394
+    assert list(df["county"].unique()) == [""]  # the COUNTY NAME column reads ALL
+    assert 6065 not in set(df["value"])  # the block total is not data
+
+
+def test_sent_returned_skips_the_legislative_county_detail():
+    # the legislative file carries a second section under its own header: the same
+    # population at district x county grain. Its rows are reconciled like the rest
+    # (the printed per-district and category totals are checked) but not published --
+    # a row carrying both a county and a district is detail, and the data model keeps
+    # county and district grains apart the way each block-level table does.
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet([*SENT_LD_ROWS, *SENT_LD_DETAIL_ROWS]), "GG26", "legislative"
+    )
+    assert as_of == "2026-10-09"
+    assert set(df["county"]) == {""}
+    assert set(df["district"]) == {"Legislative District Code 01A", "Legislative District Code 01B"}
+    assert set(df["category"]) == {
+        "ALL"
+    }  # the detail section's Civilian Overseas rows are not published
+    assert len(df) == 2 * 12
+
+
+def test_sent_returned_rejects_a_corrupt_workbook():
+    # an unreadable workbook is a loud failure for this family, not a silent skip
+    # (the requests PDF fallback is a different file shape, parsed elsewhere)
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(b"PK garbage", "GG26", "county")
+
+
+def test_sent_returned_rejects_a_workbook_without_a_measure_header():
+    wb = openpyxl.Workbook()
+    wb.active["A1"] = "not a sent-returned export"
+    buf = io.BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(buf.read(), "GG26", "county")
+
+
+def test_sent_returned_frame_schema():
+    # the loader writes these rows straight into turnout_counts (Task 3's column contract)
+    as_of, df = turnout.parse_sent_returned_bytes(
+        sent_worksheet(SENT_COUNTY_ROWS), "GG26", "county"
+    )
+    assert as_of == "2026-10-09"
+    assert df.schema == {
+        "as_of": pl.String,
+        "election": pl.String,
+        "family": pl.String,
+        "geography": pl.String,
+        "county": pl.String,
+        "district": pl.String,
+        "category": pl.String,
+        "party": pl.String,
+        "measure": pl.String,
+        "value": pl.Int64,
+    }
+
+
+def test_sent_returned_rejects_an_unknown_category():
+    mangled = [r[:] for r in SENT_COUNTY_ROWS]
+    mangled[7][0] = "Federal Overseas"  # not one of the SBE's five categories
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(mangled), "GG26", "county")
+
+
+def test_sent_returned_rejects_an_unrecognized_county_label():
+    mangled = [r[:] for r in SENT_COUNTY_ROWS]
+    mangled[4][1] = "NOTACOUNTY"  # not one of Maryland's counties once canonicalized
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(mangled), "GG26", "county")
+
+
+def test_sent_returned_canonicalizes_the_all_caps_county_names():
+    # the files print ALLEGANY and SAINT MARY'S; the frame keeps the site's canonical
+    # spellings
+    member = [
+        "ALL",
+        "SAINT MARY'S",
+        "Statewide",
+        "",
+        "",
+        2054,
+        1701,
+        711,
+        4466,
+        686,
+        544,
+        212,
+        1442,
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ]
+    # the printed block total equals the lone member row's numbers, as the real rows do
+    total = [
+        "",
+        "Total",
+        "",
+        "",
+        "",
+        2054,
+        1701,
+        711,
+        4466,
+        686,
+        544,
+        212,
+        1442,
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+    ]
+    rows = [*SENT_COUNTY_ROWS[:4], member, total]
+    as_of, df = turnout.parse_sent_returned_bytes(sent_worksheet(rows), "GG26", "county")
+    assert as_of == "2026-10-09"
+    assert set(df["county"]) == {"St. Mary's"}
+
+
+def test_sent_returned_rejects_a_repeated_row():
+    # a repeated table would double up rows that every printed total still reconciles;
+    # like the requests parser, a repeated identity fails the parse outright. The
+    # repeat here ends the sheet, where no total row would notice.
+    dup = [r[:] for r in SENT_COUNTY_ROWS]
+    dup.append(dup[-1])  # the last Civilian Overseas county row twice
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(dup), "GG26", "county")
+
+
+def test_sent_returned_rejects_a_non_numeric_cell():
+    torn = [r[:] for r in SENT_COUNTY_ROWS]
+    torn[4][7] = "n/a"  # Allegany's OTH SENT cell
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_sent_returned_bytes(sent_worksheet(torn), "GG26", "county")
