@@ -22,10 +22,12 @@ dependencies = [
     "datasette-vega>=0.6",
     "llm-anthropic>=0.25.1",
     "rapidocr>=3.9.2",
+    "python-calamine>=0.8.3",
 ]
 
 [dependency-groups]
 dev = [
+    "openpyxl>=3.1.5",
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
     "ruff>=0.9",
