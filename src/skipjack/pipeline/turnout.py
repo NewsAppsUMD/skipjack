@@ -5,16 +5,33 @@ Each snapshot is identified by the "As of: <date>" the SBE prints in the documen
 
 from __future__ import annotations
 
+import logging
+
 import datetime
 import io
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import hashlib
+
 import polars as pl
 from python_calamine import CalamineError, CalamineWorkbook
 
 from skipjack.pipeline.vrar import COUNTY_NORMALIZE
+from skipjack.pipeline.fetch import (
+    ARCHIVES_DIR,
+    MANIFEST_PATH,
+    SOURCE_NAME,
+    append_to_manifest,
+)
+from skipjack.pipeline.provenance import (
+    ProvenanceSidecar,
+    SourceRecord,
+    read_manifest,
+)
+
+logger = logging.getLogger(__name__)
 
 # results.elections.maryland.gov redirects here.
 SBE_BASE = "https://elections.maryland.gov"
@@ -568,3 +585,194 @@ def _sent_sheet_rows(
         last_category = category
 
     return published
+
+
+TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
+PARSER_VERSION = "skipjack 0.2.0"
+
+
+def download(url: str, timeout: float = 30.0) -> bytes:
+    """One press-room file's bytes. SBE answers 200 with an HTML page for files that do
+    not exist yet, so the caller sniffs the content, not the status code."""
+    import httpx
+
+    response = httpx.get(url, timeout=timeout, follow_redirects=True)
+    response.raise_for_status()
+    return response.content
+
+
+def sniff(data: bytes) -> str | None:
+    """The file kind from its first bytes; None when it is SBE's HTML placeholder."""
+    if data.startswith(b"%PDF"):
+        return "pdf"
+    if data.startswith(b"PK"):
+        return "xlsx"
+    return None
+
+
+def extract_as_of_bytes(data: bytes, kind: str) -> str | None:
+    """A downloaded file's as-of date, read the way the parse command reads the file."""
+    if kind == "pdf":
+        return extract_as_of_text(data.decode("latin-1", errors="replace"))
+    workbook = CalamineWorkbook.from_object(io.BytesIO(data))
+    for sheet in workbook.sheet_names:
+        if found := _first_as_of(
+            workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
+        ):
+            return found
+    return None
+
+
+def turnout_fetch(force: bool = False, election: str | None = None) -> list[SourceRecord]:
+    """Download every configured turnout file whose content changed since the archive's
+    newest revision and record it.
+
+    An unchanged file (same bytes as the newest archived revision) is skipped, as is a
+    file SBE has not published yet (their server answers with an HTML page).
+    """
+    fetched: list[SourceRecord] = []
+    for e in ELECTIONS.values() if election is None else [ELECTIONS[election]]:
+        for f in e.files:
+            data = download(f.url)
+            kind = sniff(data)
+            if kind is None:
+                logger.info("Not published yet: %s", f.url)
+                continue
+            as_of = extract_as_of_bytes(data, kind)
+            digest = hashlib.sha256(data).hexdigest()
+            if not force and _latest_sha(e.code, f.family, f.geography, kind) == digest:
+                logger.info("Already archived: %s (%s)", f.family, f.geography)
+                continue
+            stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S")
+            dest = (
+                ARCHIVES_DIR
+                / "sbe"
+                / "campaign_stats"
+                / e.code
+                / f"{f.family}__{f.geography}__{as_of or 'unknown'}__{stamp}.{kind}"
+            )
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(data)
+            record = SourceRecord.create(
+                source_id=(
+                    f"sbe-turnout-{e.code.lower()}-{f.family}-{f.geography}-"
+                    f"{(as_of or 'unknown').replace('-', '')}-{stamp}"
+                ),
+                source_url=f.url,
+                source_name=SOURCE_NAME,
+                local_path=dest,
+                document_title=f"{e.code} {f.family} ({f.geography}) as of {as_of or 'unknown'}",
+            )
+            append_to_manifest(MANIFEST_PATH, record)
+            fetched.append(record)
+            logger.info("Archived %s (as of %s)", dest.name, as_of or "unknown")
+    return fetched
+
+
+def _latest_sha(election: str, family: str, geography: str, kind: str) -> str | None:
+    """The SHA-256 of the newest archived revision of this file, from the manifest."""
+    prefix = f"sbe-turnout-{election.lower()}-{family}-{geography}-"
+    for record in reversed(read_manifest(MANIFEST_PATH)):
+        if record.source_id.startswith(prefix) and record.local_path.rstrip(".").endswith(kind):
+            return record.sha256
+    return None
+
+
+def read_requests_pdf(path: Path) -> str:
+    """Every page's text of a requests PDF."""
+    from natural_pdf import PDF
+
+    return "\n".join(page.extract_text() or "" for page in PDF(str(path)).pages)
+
+
+def turnout_parse(
+    as_of: str | None = None,
+    force: bool = False,
+    data_dir: Path | None = None,
+) -> tuple[int, list[str]]:
+    """Every archived turnout revision that has not been parsed yet, as CSV snapshots.
+
+    Snapshots are keyed by the as-of date parsed from the document; when the manifest
+    has more than one revision of a snapshot the newest one is parsed. A CSV that
+    already exists is skipped unless force. Failures are reported and written nowhere.
+    Returns how many snapshots were written and the failures as strings.
+    """
+    data_dir = data_dir or TURNOUT_DATA_DIR
+    snapshots: dict[tuple[str, str, str, str], list[SourceRecord]] = {}
+    for record in read_manifest(MANIFEST_PATH):
+        if not record.source_id.startswith("sbe-turnout-"):
+            continue
+        try:
+            election_code, family, geography, snapshot = _split_snapshot_name(
+                Path(record.local_path)
+            )
+        except ValueError:
+            raise TurnoutParseError(
+                f"unexpected turnout archive name {record.local_path!r}"
+            ) from None
+        snapshots.setdefault((election_code, family, geography, snapshot), []).append(record)
+
+    written, failures = 0, []
+    for (election_code, family, geography, snapshot), revisions in sorted(snapshots.items()):
+        if as_of and snapshot not in (as_of, "unknown"):
+            continue
+        record = revisions[-1]  # the newest revision of this snapshot wins
+        path = Path(record.local_path)
+        out_dir = data_dir / "turnout" / election_code / family / geography
+        if snapshot != "unknown" and (out_dir / f"{snapshot}.csv").exists() and not force:
+            continue
+        if not path.exists():
+            failures.append(f"{record.source_id}: the archived file is missing ({path.name})")
+            continue
+        try:
+            snapshot_date, frame = _parse_file(path, record, election_code, family, geography)
+            if snapshot_date is None:
+                raise TurnoutParseError(f"no As-of date in {path.name}")
+            out_csv = out_dir / f"{snapshot_date}.csv"
+            if out_csv.exists() and not force:
+                continue
+            out_dir.mkdir(parents=True, exist_ok=True)
+            frame.write_csv(out_csv)
+            sidecar = ProvenanceSidecar.from_source(
+                record,
+                parser_version=PARSER_VERSION,
+                extraction_method=_extraction_of(path),
+                checks={"rows": frame.height, "as_of": snapshot_date},
+                notes=f"{election_code} {family} ({geography}) snapshot, reconciled against its printed totals.",
+            )
+            sidecar.election, sidecar.family, sidecar.geography = election_code, family, geography
+            sidecar.write(out_csv)
+            written += 1
+            logger.info("Parsed %s (%s rows)", out_csv.name, frame.height)
+        except TurnoutParseError as err:
+            failures.append(f"{record.source_id}: {err}")
+    return written, failures
+
+
+def _split_snapshot_name(path: Path) -> tuple[str, str, str, str]:
+    """An archived file's (election, family, geography, as-of): the layout turnout_fetch
+    writes, `<election>/<family>__<geography>__<as-of>__<stamp>.<ext>`."""
+    parts = path.name.split("__")
+    if len(parts) != 4 or not path.parent.parent.parent.name:
+        raise ValueError(str(path))
+    if not all(parts):
+        raise ValueError(str(path))
+    election = path.parent.name
+    if not election or " " in election:
+        raise ValueError(str(path))
+    return election, parts[0], parts[1], parts[2]
+
+
+def _parse_file(
+    path: Path, record: SourceRecord, election_code: str, family: str, geography: str
+) -> tuple[str | None, pl.DataFrame]:
+    """One archived file, by its family: the requests PDF or a sent-returned workbook."""
+    if family == "requests":
+        return parse_requests_text(read_requests_pdf(path), election_code)
+    if family == "sent-returned":
+        return parse_sent_returned_bytes(path.read_bytes(), election_code, geography)
+    raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
+
+
+def _extraction_of(path: Path) -> str:
+    return "ocr: none; pdf text" if path.suffix == ".pdf" else "xlsx (calamine)"

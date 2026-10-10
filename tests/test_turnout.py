@@ -7,6 +7,8 @@ The xlsx fixtures are built with openpyxl in the same messy shape the SBE export
 from __future__ import annotations
 
 import io
+import sqlite3
+from pathlib import Path
 
 import openpyxl
 import polars as pl
@@ -1244,3 +1246,131 @@ def test_sent_returned_rejects_a_non_numeric_cell():
     torn[4][7] = "n/a"  # Allegany's OTH SENT cell
     with pytest.raises(turnout.TurnoutParseError):
         turnout.parse_sent_returned_bytes(sent_worksheet(torn), "GG26", "county")
+
+
+# --- the turnout commands: fetch and parse -------------------------------------------------
+
+GG26 = turnout.ELECTIONS["GG26"]
+
+
+def with_as_of(as_of_text: str, rows: list) -> list:
+    """Rows of a sheet preceded by a title row carrying the As-of cell (as the real
+    files do), so the workbook has a snapshot date."""
+    return [["Election: 2026 Gubernatorial General Election", as_of_text], *rows]
+
+
+@pytest.fixture
+def turnout_env(tmp_path, monkeypatch):
+    """A turnout fetch/parse environment: manifest and archives under tmp_path."""
+    monkeypatch.setattr(turnout, "ARCHIVES_DIR", tmp_path / "archives")
+    monkeypatch.setattr(turnout, "MANIFEST_PATH", tmp_path / "manifest.csv")
+    return tmp_path
+
+
+@pytest.fixture
+def live_bodies(turnout_env):
+    """What SBE serves for the GG26 files today: the four live files' bytes."""
+    return {
+        GG26.files[
+            0
+        ].url: b"%PDF-1.4\nMail-in Ballot Requests by County\nAs of: October 9, 2026 6 PM\n",
+        GG26.files[1].url: sent_worksheet(with_as_of("As of: October 9, 2026", SENT_COUNTY_ROWS)),
+        GG26.files[2].url: sent_worksheet(with_as_of("As of: October 9, 2026", SENT_CD_ROWS)),
+        GG26.files[3].url: sent_worksheet(
+            with_as_of("As of: October 9, 2026", [*SENT_LD_ROWS, *SENT_LD_DETAIL_ROWS])
+        ),
+    }
+
+
+def test_turnout_fetch_archives_each_live_file_once(turnout_env, monkeypatch, live_bodies):
+    from skipjack.pipeline.provenance import read_manifest
+
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: live_bodies[url])
+    records = turnout.turnout_fetch()
+    assert len(records) == 4
+    rows = read_manifest(turnout.MANIFEST_PATH)
+    assert len(rows) == 4
+    for file in GG26.files:
+        match = [r for r in rows if r.source_url == file.url]
+        assert len(match) == 1
+        archived = Path(match[0].local_path)
+        assert archived.exists()
+        assert archived.name.startswith(f"{file.family}__{file.geography}__")
+
+    # unchanged files are not re-downloaded or re-archived
+    assert turnout.turnout_fetch() == []
+    assert len(read_manifest(turnout.MANIFEST_PATH)) == 4
+
+    # a changed file is archived as a new revision
+    live_bodies[GG26.files[0].url] = b"%PDF-1.4\nAs of: October 10, 2026 6 PM\n"
+    newer = turnout.turnout_fetch()
+    assert len(newer) == 1
+    assert newer[0].source_id != ""
+    assert len(read_manifest(turnout.MANIFEST_PATH)) == 5
+
+
+def test_turnout_fetch_skips_unpublished_files(turnout_env, monkeypatch):
+    monkeypatch.setattr(
+        turnout, "download", lambda url, timeout=30.0: b"<html>placeholder page</html>"
+    )
+    assert turnout.turnout_fetch() == []
+    from skipjack.pipeline.provenance import read_manifest
+
+    assert read_manifest(turnout.MANIFEST_PATH) == []
+
+
+def test_turnout_parse_writes_the_snapshots(turnout_env, monkeypatch, live_bodies):
+    from skipjack.pipeline.build_db import load_turnout
+    from skipjack.pipeline.provenance import ProvenanceSidecar
+
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: live_bodies[url])
+    turnout.turnout_fetch()
+    # the requests PDF gets its text by extraction; the fixture PDF above is not a real
+    # document, so the fake download's text stands in for what extraction would return
+    monkeypatch.setattr(turnout, "read_requests_pdf", lambda path: REQUESTS_TEXT)
+
+    written, failed = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert written == 4 and failed == []
+    for file in GG26.files:
+        stem = turnout_env / "data" / "turnout" / "GG26" / file.family / file.geography
+        assert (stem / "2026-10-09.csv").exists(), f"missing {stem / '2026-10-09.csv'}"
+        prov = ProvenanceSidecar.read(stem / "2026-10-09_provenance.json")
+        assert prov.election == "GG26" and prov.family == file.family
+        assert prov.geography == file.geography and prov.source_id.startswith("sbe-turnout-")
+
+    # a second run is a no-op (the CSV exists), and forcing rewrites it
+    written, _ = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert written == 0
+    written, _ = turnout.turnout_parse(data_dir=turnout_env / "data", force=True)
+    assert written == 4
+
+    # the CSVs flow through the build-db loader: every row lands in turnout_counts
+    from skipjack.models import SCHEMA_SQL
+
+    conn = sqlite3.connect(":memory:")
+    conn.row_factory = sqlite3.Row
+    conn.executescript(SCHEMA_SQL)
+    # 168 request cells (24 counties x x7), 48 county, 24 congressional and 24
+    # legislative cells (the fixtures carry two counties and two districts each)
+    assert (
+        load_turnout(conn, turnout_env / "data") == 117
+    )  # 21 requests + 48 county + 24 congressional + 24 legislative
+    conn.close()
+
+
+def test_turnout_parse_reports_failures(turnout_env, monkeypatch, live_bodies):
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: live_bodies[url])
+    turnout.turnout_fetch()
+    monkeypatch.setattr(
+        turnout, "read_requests_pdf", lambda path: REQUESTS_TEXT.replace("4,527", "9,9999")
+    )
+    written, failed = turnout.turnout_parse(data_dir=turnout_env / "data")
+    # the three workbook snapshots parse; the torn requests one does not
+    assert written == 3 and len(failed) == 1
+    assert "requests" in failed[0] and "county" in failed[0]
+    written_csvs = list((turnout_env / "data").glob("turnout/*/*/*/*.csv"))
+    assert sorted(csv.relative_to(turnout_env).as_posix() for csv in written_csvs) == [
+        "data/turnout/GG26/sent-returned/congressional/2026-10-09.csv",
+        "data/turnout/GG26/sent-returned/county/2026-10-09.csv",
+        "data/turnout/GG26/sent-returned/legislative/2026-10-09.csv",
+    ]

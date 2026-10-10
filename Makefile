@@ -1,10 +1,15 @@
-.PHONY: fetch parse voterfile build-db site serve test clean
+.PHONY: fetch parse turnout voterfile build-db site serve test clean
 
 fetch:
 	uv run skipjack fetch
 
 parse:
 	uv run skipjack parse
+
+# Usage: make turnout   (also run by the daily workflow)
+turnout:
+	uv run skipjack turnout-fetch
+	uv run skipjack turnout-parse
 
 # Usage: make voterfile VOTERFILE_DIR="/path/to/voter files"
 voterfile:

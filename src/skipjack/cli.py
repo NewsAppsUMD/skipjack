@@ -90,6 +90,25 @@ def cmd_parse(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
+def cmd_turnout_fetch(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.turnout import turnout_fetch
+
+    records = turnout_fetch(force=args.force, election=args.election)
+    print(f"Fetched {len(records)} new turnout snapshots")
+
+
+def cmd_turnout_parse(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.turnout import turnout_parse
+
+    written, failed = turnout_parse(as_of=args.as_of, force=args.force)
+    print(f"Parsed {written} turnout snapshots -> data/turnout/")
+    if failed:
+        print(f"{len(failed)} snapshots failed and were not written:")
+        for line in failed:
+            print(f"  {line}")
+        sys.exit(1)
+
+
 def cmd_voterfile(args: argparse.Namespace) -> None:
     from skipjack.pipeline.voterfile import VoterFileError, run
 
@@ -173,6 +192,14 @@ def main(argv: list[str] | None = None) -> None:
         "--month", action="append", metavar="YYYY-MM", help="Only parse these months"
     )
 
+    turnout_fetch_p = sub.add_parser("turnout-fetch", help="Download turnout stat files from SBE")
+    turnout_fetch_p.add_argument("--force", action="store_true")
+    turnout_fetch_p.add_argument("--election", help="Only one election's files (e.g. GG26)")
+
+    turnout_parse_p = sub.add_parser("turnout-parse", help="Parse archived turnout files into CSVs")
+    turnout_parse_p.add_argument("--as-of", dest="as_of", metavar="YYYY-MM-DD", help="Only this snapshot")
+    turnout_parse_p.add_argument("--force", action="store_true")
+
     vf_p = sub.add_parser("voterfile", help="Aggregate a statewide voter file into JSON")
     vf_p.add_argument(
         "--path",
@@ -209,6 +236,8 @@ def main(argv: list[str] | None = None) -> None:
     commands = {
         "fetch": cmd_fetch,
         "parse": cmd_parse,
+        "turnout-fetch": cmd_turnout_fetch,
+        "turnout-parse": cmd_turnout_parse,
         "voterfile": cmd_voterfile,
         "build-site": cmd_build_site,
         "build-db": cmd_build_db,
