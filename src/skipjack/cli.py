@@ -27,7 +27,7 @@ def cmd_fetch(args: argparse.Namespace) -> None:
 
 def cmd_parse(args: argparse.Namespace) -> None:
     from skipjack.pipeline.clean import normalize_parties
-    from skipjack.pipeline.fetch import MANIFEST_PATH
+    from skipjack.pipeline.fetch import MANIFEST_PATH, resolve_archived
     from skipjack.pipeline.provenance import ProvenanceSidecar, read_manifest
     from skipjack.pipeline.vrar import VrarParseError, parse_vrar
 
@@ -50,7 +50,7 @@ def cmd_parse(args: argparse.Namespace) -> None:
         year, month = (int(x) for x in source_id.removeprefix("sbe-vrar-").split("-"))
         if args.month and f"{year}-{month:02d}" not in args.month:
             continue
-        pdf_path = Path(record.local_path)
+        pdf_path = resolve_archived(record)
         if not pdf_path.exists():
             logging.warning("Missing file: %s", pdf_path)
             continue

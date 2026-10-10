@@ -38,6 +38,25 @@ def vrar_local_path(year: int, month: int) -> Path:
     return ARCHIVES_DIR / "sbe" / "voter_registration" / "monthly" / f"MSR-{year}_{month:02d}.pdf"
 
 
+def resolve_archived(record: SourceRecord) -> Path:
+    """Where a manifest row's file lives on this machine.
+
+    The manifest records absolute paths from whatever machine fetched the file, so a clone
+    elsewhere sees paths that do not exist. Anything under archives/ still sits in the same
+    place relative to this project root; paths outside the repo (the voter file, fetched
+    from elsewhere on purpose) are used as stored.
+    """
+    stored = Path(record.local_path)
+    if stored.exists():
+        return stored
+    parts = stored.parts
+    if "archives" in parts:
+        candidate = ARCHIVES_DIR / Path(*parts[parts.index("archives") + 1 :])
+        if candidate.exists():
+            return candidate
+    return stored
+
+
 def fetch_file(url: str, dest: Path, timeout: float = 30.0, expect_pdf: bool = False) -> bool:
     try:
         with httpx.Client(timeout=timeout, follow_redirects=True) as client:
@@ -61,7 +80,7 @@ def fetch_vrar(year: int, month: int, force: bool = False) -> SourceRecord | Non
 
     if not force:
         existing = find_source(MANIFEST_PATH, source_id)
-        if existing and Path(existing.local_path).exists():
+        if existing and resolve_archived(existing).exists():
             logger.info("Already archived: %s", source_id)
             return existing
 
@@ -85,7 +104,7 @@ def fetch_vrar(year: int, month: int, force: bool = False) -> SourceRecord | Non
 def fetch_voter_registration_xls(election: str, url: str) -> SourceRecord | None:
     source_id = f"sbe-vreg-district-{election}"
     existing = find_source(MANIFEST_PATH, source_id)
-    if existing and Path(existing.local_path).exists():
+    if existing and resolve_archived(existing).exists():
         logger.info("Already archived: %s", source_id)
         return existing
 
