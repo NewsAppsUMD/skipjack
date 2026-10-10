@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from skipjack.web.downloads import DOWNLOAD_ROOTS
-from skipjack.web.dates import month_label
+from skipjack.web.dates import day_label, month_label
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR, TEMPLATES_DIR
 from skipjack.web.routes import (
     about,
@@ -16,6 +16,7 @@ from skipjack.web.routes import (
     errata,
     home,
     trends,
+    turnout,
     voterfile,
     voters,
     young,
@@ -39,6 +40,7 @@ def configure_templates(
     templates.env.filters["slug"] = slugify
     templates.env.filters["signed"] = signed
     templates.env.filters["month_label"] = month_label
+    templates.env.filters["day_label"] = day_label
     templates.env.globals.update(base=base, static_site=static_site, db_download=db_download)
 
 
@@ -61,6 +63,7 @@ def create_app() -> FastAPI:
     application.include_router(trends.router)
     application.include_router(compare.router)
     application.include_router(young.router)
+    application.include_router(turnout.router)
     application.include_router(voterfile.router)
     application.include_router(data.router)
     application.include_router(errata.router)

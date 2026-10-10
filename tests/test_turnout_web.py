@@ -162,8 +162,43 @@ def test_previous_as_of(conn):
     assert turnout.previous_as_of(conn, "GG26", "sent-returned", "2026-10-10") == "2026-10-09"
 
 
-# ---------------------------------------------------------------------------
+# --- the pages, against the real built db -----------------------------------------------------
 needs_db = pytest.mark.skipif(not DB_PATH.exists(), reason="skipjack.db not built")
+
+
+@needs_db
+def test_turnout_pages_render_the_real_election():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    r = client.get("/turnout/")
+    assert r.status_code == 200
+    assert "2026 General Election" in r.text
+    r = client.get("/turnout/gg26/")
+    assert r.status_code == 200
+    assert "617,496" in r.text  # requests for the Oct 9 snapshot
+    assert "605,052" in r.text  # ballots sent
+    assert "132,362" in r.text  # received
+    assert "data-sortable" in r.text
+    assert 'id="turnout-data"' in r.text
+    assert 'src="' + "/static/turnout.js" in r.text
+    assert "November 3, 2026" in r.text
+    assert client.get("/turnout/nope/").status_code == 404
+
+
+@needs_db
+def test_turnout_nav_reaches_the_nav():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    assert client.get("/").text.find("/turnout/") != -1
+    r = client.get("/turnout/gg26/")
+    # the page links its downloads
+    assert "/downloads/" in r.text
 
 
 @needs_db
@@ -182,3 +217,37 @@ def test_real_gg26_headline_against_the_committed_data():
         allegany = rows["Allegany"]
         assert allegany["sent"] == 4466 and allegany["received"] == 1442
         assert allegany["return_rate"] is not None
+
+
+@needs_db
+def test_data_page_lists_the_turnout_snapshots():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    html = TestClient(create_app()).get("/data/").text
+    assert "/downloads/turnout/GG26/requests/county/2026-10-09.csv" in html
+    assert "/downloads/turnout/GG26/sent-returned/legislative/2026-10-09_provenance.json" in html
+
+
+@needs_db
+def test_about_page_lists_the_turnout_sources():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    html = TestClient(create_app()).get("/about").text
+    assert "sbe-turnout-gg26-requests-county-" in html
+    assert "sbe-turnout-gg26-sent-returned-legislative-" in html
+
+
+@needs_db
+def test_the_turnout_csv_download_route_serves_files():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    r = client.get("/downloads/turnout/GG26/requests/county/2026-10-09.csv")
+    assert r.status_code == 200
+    assert "Allegany" in r.text

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{# thousands-format with a dash for absent values #}
+{% macro num(v) -%}
+{%- if v is none %}<span class="muted">&mdash;</span>{% else %}{{ "{:,}".format(v) }}{% endif -%}
+{%- endmacro %}
+{% macro sortkey(v) -%}{% if v is none %}-1{% else %}{{ v }}{% endif %}{% endmacro %}
+
+{% block title %}{{ election.name.title() }} turnout{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<h1>{{ election.name.title() }}</h1>
+<p class="secondary">
+    Election day: {{ election.election_day|day_label }}. Mail-in ballot tracking from the
+    State Board's reports, as of {{ headline.latest|day_label }}
+    {%- if headline.previous %} (the report before: {{ headline.previous|day_label }}){% endif %}.
+</p>
+
+<p>Skipjack counts <em>mail-in ballots</em>, not votes: the request a voter makes, the ballot
+    the State Board sends, the envelope the State Board receives back, and — during the
+    canvass, which starts after election day — the ballots accepted and counted. As of
+    {{ headline.latest|day_label }}, {{ m.n(headline["sent-returned"].accepted) }} have been
+    accepted. Certified turnout percentages are published by the State Board after certification
+    and are not yet part of this page.</p>
+
+<div class="tiles">
+    <div class="tile">
+        <div class="v">{{ m.n(headline["requests"].requests_total) }}</div>
+        <div class="l">mail-in ballot requests{% if headline["requests"].change %}
+            &middot; {{ m.delta(headline["requests"].change.requests_total|default(0)) }}{% endif %}</div>
+    </div>
+    <div class="tile">
+        <div class="v">{{ m.n(headline["sent-returned"].sent) }}</div>
+        <div class="l">ballots sent{% if headline["sent-returned"].change %}
+            &middot; {{ m.delta(headline["sent-returned"].change.sent|default(0)) }}{% endif %}</div>
+    </div>
+    <div class="tile">
+        <div class="v">{{ m.n(headline["sent-returned"].received) }}</div>
+        <div class="l">received back{% if headline["sent-returned"].return_rate %}
+            &middot; {{ m.p(headline["sent-returned"].return_rate * 100, 0) }} of sent{% endif %}</div>
+    </div>
+    <div class="tile">
+        <div class="v">{{ m.n(headline["sent-returned"].accepted) }}</div>
+        <div class="l">accepted in the canvass</div>
+    </div>
+</div>
+
+{% if chart %}
+<div class="section-head"><h2>Day by day</h2></div>
+<section class="viz-card" aria-labelledby="turnout-chart-title">
+    <h2 id="turnout-chart-title" class="sr-only">Ballot activity over the campaign</h2>
+    <ul class="legend" id="turnout-legend"></ul>
+    <div id="turnout-chart"></div>
+</section>
+{% endif %}
+
+<div class="section-head"><h2>By county</h2></div>
+<div class="overflow-auto">
+<table data-sortable>
+    <thead>
+        <tr>
+            <th>County</th>
+            <th class="num">Requests</th>
+            <th class="num">Print-at-home</th>
+            <th class="num">Ballots sent</th>
+            <th class="num">Received back</th>
+            <th class="num">Return rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>{{ r.county }}</td>
+            <td class="num" data-sort="{{ sortkey(r.requests_total) }}">{{ num(r.requests_total) }}</td>
+            <td class="num" data-sort="{{ sortkey(r.print_at_home) }}">{{ num(r.print_at_home) }}</td>
+            <td class="num" data-sort="{{ sortkey(r.sent) }}">{{ num(r.sent) }}</td>
+            <td class="num" data-sort="{{ sortkey(r.received) }}">{{ num(r.received) }}</td>
+            <td class="num" data-sort="{% if r.return_rate is none %}-1{% else %}{{ r.return_rate }}{% endif %}">{% if r.return_rate is not none %}{{ m.p(r.return_rate * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<p class="note">Every row is one of the State Board's press-room snapshots, listed on the
+    <a href="{{ base }}/about">About</a> page; the numbers behind this page are
+    downloadable under <a href="{{ base }}/data/">Data</a>.</p>
+
+{% for s in sources %}
+<div class="source-strip">
+    <strong>Source:</strong>
+    <a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.title }}</a>,
+    downloaded {{ s.fetched|day_label }}, read by {{ s.method }},
+    fingerprint <code>{{ s.sha256 }}</code>
+    — <a href="{{ base }}/downloads/{{ s.csv }}">CSV</a> ·
+    <a href="{{ base }}/downloads/{{ s.provenance }}">provenance</a>
+</div>
+{% endfor %}
+
+<p class="note">"Ballots sent" and "received back" cover every voter
+    category (domestic, civilian and military, overseas and in-state); the county file does not
+    print them out by category, so the table above is the county table as published.
+    On voter-file pages the numbers are <em>participation among current voters</em> — not the
+    same thing; this page is the running official tally.</p>
+</div>
+
+{% if chart %}
+<script id="turnout-data" type="application/json">
+{{ chart | tojson }}
+</script>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if chart %}
+<script type="module" src="{{ base }}/static/turnout.js"></script>
+{% endif %}
+{% endblock %}

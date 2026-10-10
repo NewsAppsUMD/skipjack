@@ -70,6 +70,10 @@ def page_urls() -> list[str]:
             r[0] for r in conn.execute("SELECT snapshot_date FROM voter_file_snapshots")
         ]
         has_young_page = bool(snapshots_with_young(conn))
+        turnout_codes = [
+            r[0]
+            for r in conn.execute("SELECT DISTINCT election FROM turnout_counts ORDER BY election")
+        ]
     if not dates:
         raise SiteBuildError("skipjack.db has no registration data. Run `skipjack build-db` first.")
 
@@ -83,6 +87,9 @@ def page_urls() -> list[str]:
         "/voters/removals/",
         "/voters/party-switching/",
     ]
+    if turnout_codes:
+        urls.append("/turnout/")
+        urls += [f"/turnout/{code.lower()}/" for code in turnout_codes]
     urls += [f"/voters/month/{d}/" for d in dates]
     urls += ["/voters/county/"] + [f"/voters/county/{slugify(c)}/" for c in counties]
     if latest_snapshot:

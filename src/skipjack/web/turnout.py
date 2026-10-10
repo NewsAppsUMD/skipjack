@@ -207,3 +207,27 @@ def county_rows(conn: sqlite3.Connection, election: str, as_of: str) -> list[dic
         }
         out.append(row)
     return out
+
+
+def snapshot_sources(conn: sqlite3.Connection, election: str, as_of: str) -> list[dict]:
+    """The manifest records behind one snapshot, one per report family — for the page's
+    source strip, with its download links."""
+    return [
+        {
+            "family": r["family"],
+            "geography": r["geography"],
+            "url": r["source_url"],
+            "title": r["document_title"],
+            "sha256": r["sha256"],
+            "fetched": r["fetch_date"][:10],
+            "method": r["extraction_method"],
+            "csv": f"turnout/{election}/{r['family']}/{r['geography']}/{as_of}.csv",
+            "provenance": f"turnout/{election}/{r['family']}/{r['geography']}/{as_of}_provenance.json",
+        }
+        for r in conn.execute(
+            """SELECT * FROM turnout_sources
+               WHERE election = ? AND as_of = ?
+               ORDER BY family, geography""",
+            (election, as_of),
+        )
+    ]

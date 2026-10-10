@@ -37,6 +37,34 @@ its original document through our provenance system.</p>
     </tbody>
 </table>
 
+{% if turnout_sources %}
+<p>The <a href="{{ base }}/turnout/">turnout</a> pages read the State Board's press-room
+reports, one snapshot per day each file is changed.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Source ID</th>
+            <th>Document</th>
+            <th>As of</th>
+            <th>Fetched</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in turnout_sources %}
+        <tr>
+            <td><code>{{ s.source_id }}</code></td>
+            <td>{{ s.document_title }}</td>
+            <td>{{ s.as_of }}</td>
+            <td>{{ s.fetch_date[:10] }}</td>
+            <td><a href="{{ s.source_url }}" target="_blank" rel="noopener">Original</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
 <h2>Methodology</h2>
 
 <p>

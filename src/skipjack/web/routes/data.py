@@ -47,6 +47,37 @@ def monthly_listing(data_dir: Path, folder: str) -> list[dict]:
     return [{"year": y, "files": by_year[y]} for y in sorted(by_year, reverse=True)]
 
 
+def turnout_listing(data_dir: Path) -> list[dict]:
+    """Turnout snapshot CSVs, grouped by election, report family and geography (newest first)."""
+    blocks: list[dict] = []
+    root = data_dir / "turnout"
+    if not root.exists():
+        return blocks
+    for election_dir in sorted((p for p in root.iterdir() if p.is_dir())):
+        for family_dir in sorted(p for p in election_dir.iterdir() if p.is_dir()):
+            for geo_dir in sorted(p for p in family_dir.iterdir() if p.is_dir()):
+                files = [
+                    {
+                        "date": csv.stem,
+                        "path": csv.relative_to(data_dir).as_posix(),
+                        "provenance": csv.with_name(csv.stem + "_provenance.json")
+                        .relative_to(data_dir)
+                        .as_posix(),
+                    }
+                    for csv in sorted(geo_dir.glob("*.csv"), reverse=True)
+                ]
+                if files:
+                    blocks.append(
+                        {
+                            "election": election_dir.name,
+                            "family": family_dir.name.replace("-", " "),
+                            "geography": geo_dir.name,
+                            "files": files,
+                        }
+                    )
+    return blocks
+
+
 def voter_file_listing(data_dir: Path) -> list[dict]:
     snapshots = []
     root = data_dir / "voter_file"
@@ -87,6 +118,7 @@ async def data_page(request: Request):
             "datasets": datasets,
             "combined": [{"name": n, "description": DESCRIPTIONS[n]} for n in BULK_FILES],
             "snapshots": voter_file_listing(DATA_DIR),
+            "turnout_sections": turnout_listing(DATA_DIR),
             "discrepancies": "voter_registration/source_discrepancies.csv" in available,
         },
     )

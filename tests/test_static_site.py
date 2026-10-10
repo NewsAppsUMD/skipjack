@@ -93,7 +93,7 @@ def test_prepare_output_refuses_a_folder_that_is_not_a_built_site(tmp_path):
 def test_downloads_are_only_aggregates():
     files = download_files(DATA_DIR)
     assert all(f.suffix in DOWNLOAD_SUFFIXES for f in files)
-    assert all(f.parts[0] in {"voter_registration", "voter_file"} for f in files)
+    assert all(f.parts[0] in {"voter_registration", "voter_file", "turnout"} for f in files)
 
 
 # --- full build ----------------------------------------------------------------------
@@ -122,6 +122,30 @@ def test_every_page_in_the_plan_is_written(root_site):
     assert (out / "voters" / "month" / "2019-06" / "index.html").is_file()
     assert (out / "voters" / "county" / "prince-georges" / "index.html").is_file()
     assert (out / "voters" / "file" / "districts" / "legislative" / "index.html").is_file()
+
+
+@needs_db
+def test_the_turnout_pages_and_downloads_are_published(root_site, project_site):
+    for out, _ in (root_site, project_site):
+        assert (out / "turnout" / "index.html").is_file()
+        assert (out / "turnout" / "gg26" / "index.html").is_file()
+        assert (out / "static" / "turnout.js").is_file()
+        assert (
+            out / "downloads" / "turnout" / "GG26" / "requests" / "county" / "2026-10-09.csv"
+        ).is_file()
+        assert (
+            out
+            / "downloads"
+            / "turnout"
+            / "GG26"
+            / "requests"
+            / "county"
+            / "2026-10-09_provenance.json"
+        ).is_file()
+    html = (project_site[0] / "turnout" / "gg26" / "index.html").read_text()
+    assert "617,496" in html  # the requests statewide total
+    assert 'src="/skipjack/static/turnout.js"' in html
+    assert 'href="/skipjack/downloads/turnout/GG26/requests/county/2026-10-09.csv"' in html
 
 
 @needs_db

@@ -82,4 +82,23 @@
 </section>
 {% endfor %}
 {% endif %}
+
+{% if turnout_sections %}
+<h2>Turnout reports</h2>
+<p>
+    The mail-in ballot tracking files the State Board publishes during a campaign, snapshotted
+    under each report's own as-of date. Each snapshot is one day of one report.
+</p>
+{% for section in turnout_sections %}
+<section class="dataset">
+    <h3>{{ section.election }} — {{ section.family }} ({{ section.geography }})</h3>
+    <p>
+        {% for f in section.files %}
+        <a href="{{ base }}/downloads/{{ f.path }}">{{ f.date }}</a>
+        (<a href="{{ base }}/downloads/{{ f.provenance }}">provenance</a>)&nbsp;
+        {% endfor %}
+    </p>
+</section>
+{% endfor %}
+{% endif %}
 {% endblock %}

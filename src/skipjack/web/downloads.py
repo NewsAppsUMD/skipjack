@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-DOWNLOAD_ROOTS = ("voter_registration", "voter_file")
+DOWNLOAD_ROOTS = ("voter_registration", "voter_file", "turnout")
 DOWNLOAD_SUFFIXES = {".csv", ".json"}
 SQLITE_NAME = "skipjack.db"
 

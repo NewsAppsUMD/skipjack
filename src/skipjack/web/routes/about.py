@@ -13,9 +13,12 @@ router = APIRouter()
 async def about(request: Request):
     with get_db() as conn:
         sources = conn.execute("SELECT * FROM sources ORDER BY source_id").fetchall()
+        turnout_sources = conn.execute(
+            "SELECT * FROM turnout_sources ORDER BY source_id"
+        ).fetchall()
 
     return request.app.state.templates.TemplateResponse(
         request,
         "about.html",
-        {"sources": sources},
+        {"sources": sources, "turnout_sources": turnout_sources},
     )

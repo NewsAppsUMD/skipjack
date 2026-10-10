@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Turnout{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<h1>Turnout</h1>
+<p class="secondary">The official tally of who voted, tracked election by election from the
+    State Board's press-room reports.</p>
+
+<p>The figures come from <a href="https://elections.maryland.gov/press_room/index.html">the
+    State Board of Elections' campaign reports</a>: the daily mail-in files through the
+    campaign, then the certified turnout reports after the election. Terms follow the State
+    Board's <a href="https://elections.maryland.gov/press_room/Navigating_Official_Turnout_Statistics.pdf">turnout
+    guide</a>, which this section stays close to.</p>
+
+<div class="grid">
+    {% for e in elections %}
+    <article>
+        <h3><a href="{{ base }}/turnout/{{ e.slug }}/">{{ e.name.title() }}</a></h3>
+        <p>{% if e.election_day %}Election day: {{ e.election_day|day_label }}. {% endif %}Latest
+            snapshot: {{ e.latest|day_label }}.</p>
+        <a href="{{ base }}/turnout/{{ e.slug }}/" role="button">Explore</a>
+    </article>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
