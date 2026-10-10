@@ -20,6 +20,7 @@ Once GitHub Pages is switched on, the site publishes to
 | **Voter registration by county and party** | Jan 2010 to Sep 2026, 201 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
+| **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | Snapshots of the 2026 general election's press-room reports, daily as they change | SBE press-room statistical reports, PDF and XLSX |
 | **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
 ### The site
@@ -33,6 +34,10 @@ Once GitHub Pages is switched on, the site publishes to
 - **Errata**: every place the State Board's own report does not add up.
 - **Voter File**: participation among current voters, by party, age, county and district. Each county has
   a link between its registration trends and its voter file page.
+- **Turnout**: each election's running mail-in tally from the SBE's press-room reports — ballot
+  requests, ballots sent, envelopes received back, and (once the canvass starts) ballots accepted —
+  snapshotted under each report's own as-of date so the campaign's trend is visible day by day.
+  Certified turnout percentages join after certification.
 - **Young voters**: how many 18-to-22-year-olds registered for the first time from January 1 to the
   snapshot date, against the same stretch of earlier election years, which party they choose, and how it
   differs by county. Earlier years are undercounted because voters leave the list, so the page measures
@@ -69,6 +74,7 @@ make serve       # http://127.0.0.1:8000
 |---|---|
 | `make fetch` | Download any new monthly report PDFs from the SBE into `archives/` |
 | `make parse` | Parse the PDFs into CSVs under `data/voter_registration/`, checking each one |
+| `make turnout` | Snapshot the press-room turnout files (`turnout-fetch`, `turnout-parse`) into `data/turnout/` |
 | `make voterfile VOTERFILE_DIR="/path/to/voter files"` | Aggregate a statewide voter file into `data/voter_file/` |
 | `make build-db` | Build `skipjack.db` from everything in `data/` |
 | `make serve` | Run the site with auto-reload, with the Datasette explorer at `/explorer` |
@@ -119,6 +125,7 @@ the text was read directly or by OCR, and the checks that passed.
 data/voter_registration/monthly/YYYY-MM.csv    report_date, county, party, active_voters, party_name
 data/voter_registration/activity/YYYY-MM.csv   report_date, county, measure, party, value
 data/voter_registration/summary/YYYY-MM.csv    report_date, section, category, party, value
+data/turnout/<election>/<family>/<geography>/<as-of>.csv   one press-room snapshot
 data/voter_file/<snapshot>/*.json              suppressed aggregates, plus snapshot.json
 ```
 
@@ -166,6 +173,10 @@ lock file, builds the database, runs the tests, builds the site, and deploys onl
 passes. One-time setup: in the repository's **Settings > Pages**, set the source to
 **GitHub Actions**.
 
+During a campaign, `.github/workflows/turnout-daily.yml` snapshots the press-room turnout
+files once a day (fetch, parse, build, test), commits what changed, and pushes — which is
+what deploys the updated site. `make turnout` does the same by hand.
+
 Pages sites are public, even for a private repository.
 
 ## Project layout
@@ -174,12 +185,13 @@ Pages sites are public, even for a private repository.
 src/skipjack/
   cli.py              the `skipjack` command
   models.py           SQLite schema
-  pipeline/           fetch, vrar (PDF parsing), voterfile, provenance, build_db
+  pipeline/           fetch, vrar (PDF parsing), turnout (press-room stats), voterfile,
+                      provenance, build_db
   web/                FastAPI app, routes, templates, static files, static_site.py
 data/                 the committed CSV and JSON, with provenance files
 archives/             original PDFs and the download manifest
 tests/                pytest suite; the voter file tests use made-up data
-.github/workflows/    GitHub Pages deploy
+.github/workflows/    GitHub Pages deploy; the daily turnout snapshot
 ```
 
 ## License

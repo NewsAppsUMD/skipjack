@@ -1,0 +1,67 @@
+# Snapshots the press-room turnout files once a day during a campaign.
+#
+# What it does: fetch any changed turnout file (sha-deduped, so an unchanged day
+# downloads nothing new), parse the new snapshots into data/turnout/, rebuild the
+# database, run the tests, and commit what changed. The push to main is what deploys
+# the site (the Pages workflow runs on it), so this workflow does not deploy itself.
+#
+# A parse that does not reconcile fails the run (red) rather than publishing a wrong
+# number; the site keeps showing the previous day until someone looks at the file.
+# Every run is cheap once the files stop changing (the sha-dedupe skips re-archiving);
+# when the election is over and the last snapshots are in, disable this workflow.
+name: Turnout snapshot
+
+on:
+  schedule:
+    - cron: "37 17 * * *" # 1:37 pm Eastern, after the SBE's morning file refresh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: turnout
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Fetch and parse new snapshots
+        run: |
+          uv run skipjack turnout-fetch
+          uv run skipjack turnout-parse
+
+      - name: Check for changes
+        id: changed
+        # git diff --quiet sees only tracked files; a new snapshot day is new files,
+        # so the check is on the working tree's status
+        run: |
+          if [ -z "$(git status --porcelain -- data/turnout archives/sbe/campaign_stats archives/manifest.csv)" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the database and test
+        if: steps.changed.outputs.skip != 'true'
+        run: |
+          uv run skipjack build-db
+          uv run pytest -q -m "not slow"
+
+      - name: Commit the new snapshots (the push deploys the site)
+        if: steps.changed.outputs.skip != 'true'
+        run: |
+          git config user.name "skipjack bot"
+          git config user.email "noreply@github.com"
+          git add data/turnout archives/sbe/campaign_stats archives/manifest.csv
+          git commit -m "turnout snapshot $(date -u +%F)"
+          git push
