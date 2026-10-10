@@ -164,3 +164,120 @@ def test_requests_rejects_a_statewide_total_that_does_not_add_up():
 def test_requests_rejects_text_without_an_as_of():
     with pytest.raises(turnout.TurnoutParseError):
         turnout.parse_requests_text(REQUESTS_TEXT.replace("As of: October 9, 2026 6 PM", ""), "GG26")
+
+
+def test_requests_rejects_a_duplicated_county_row():
+    # a repeated county line doubles its counts in any per-county sum yet stays
+    # invisible to the statewide check through its per-county lookup, so a repeat
+    # fails the parse outright
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(REQUESTS_TEXT + "Allegany 1 0 122 4,119 0 285 4,527\n", "GG26")
+
+
+def test_requests_rejects_a_whole_table_repeated():
+    # a two-page repeat of the whole table must not reconcile and publish twice
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(REQUESTS_TEXT + REQUESTS_TEXT, "GG26")
+
+
+def test_requests_rejects_an_unrecognized_county_label():
+    # a truncated or misread county name must not publish under a label that is
+    # not one of Maryland's counties
+    mangled = REQUESTS_TEXT.replace("Prince George's", "Prince Georges")
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(mangled, "GG26")
+
+
+def test_requests_rejects_a_county_name_split_across_lines():
+    # the live PDF wraps the header onto a second line, so an extraction that
+    # wraps a county name the same way leaves a row whose label is not a county
+    split = REQUESTS_TEXT.replace("Prince George's 1 2 11", "Prince\nGeorge's 1 2 11")
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(split, "GG26")
+
+
+def test_requests_accepts_the_canonical_counties_with_their_schema():
+    # every canonical county spelling parses, and the frame carries exactly the
+    # columns and types the loader writes into turnout_counts
+    assert len(turnout.CANONICAL_COUNTIES) == 24  # the monthly reports' county set
+    lines = [f"{county} 1 1 2 3 1 2 10" for county in sorted(turnout.CANONICAL_COUNTIES)]
+    text = "\n".join(
+        [
+            "As of: October 9, 2026 6 PM",
+            "COUNTY AGENT FAXED IN PERSON MAILED OTHERS PRINT-AT- TOTAL\nHOME",
+            *lines,
+            "TOTAL 24 24 48 72 24 48 240",  # sums of uniform 1 1 2 3 1 2 10 rows
+        ]
+    )
+    as_of, df = turnout.parse_requests_text(text, "GG26")
+    assert as_of == "2026-10-09"
+    assert len(df) == 7 * len(turnout.CANONICAL_COUNTIES)
+    assert df.schema == {
+        "as_of": pl.String,
+        "election": pl.String,
+        "family": pl.String,
+        "geography": pl.String,
+        "county": pl.String,
+        "district": pl.String,
+        "category": pl.String,
+        "party": pl.String,
+        "measure": pl.String,
+        "value": pl.Int64,
+    }
+
+
+def test_requests_rejects_a_torn_single_column():
+    # not just the TOTAL column: every printed TOTAL cell must equal its column's sum
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(REQUESTS_TEXT.replace("85,064", "85,640"), "GG26")
+
+
+def test_requests_rejects_a_missing_county_row():
+    # a county row the regex cannot read is a missing county, never a smaller table
+    mangled = REQUESTS_TEXT.replace("Saint Mary's 0 0 101 7,603 0 883 8,587\n", "")
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(mangled, "GG26")
+
+
+def test_requests_skips_a_footnoted_total_line():
+    # a TOTAL-prefixed line that is not wholly numeric is noise beside the real row
+    as_of, df = turnout.parse_requests_text(REQUESTS_TEXT + "TOTAL 21 31 footnote\n", "GG26")
+    assert as_of == "2026-10-09"
+    assert len(df) == 21
+
+
+def test_requests_rejects_text_whose_only_total_line_is_not_numeric():
+    # when the ONLY TOTAL-prefixed line is not the numeric totals row, the missing
+    # totals row is an error, not a silently unreconciled parse
+    mangled = REQUESTS_TEXT.replace(
+        "TOTAL 2 2 234 85,064 7 10,032 95,341",
+        "TOTAL 2 2 234 85,064 7 10,032 footnote",
+    )
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(mangled, "GG26")
+
+
+def test_requests_rejects_a_total_row_with_the_wrong_number_of_cells():
+    mangled = REQUESTS_TEXT.replace("TOTAL 2 2 234 85,064 7 10,032 95,341", "TOTAL 2 2 234 85,064 7 10,032")
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(mangled, "GG26")
+
+
+def test_requests_rejects_text_without_a_total_row():
+    mangled = REQUESTS_TEXT.replace("TOTAL 2 2 234 85,064 7 10,032 95,341\n", "")
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(mangled, "GG26")
+
+
+def test_requests_parses_a_header_without_the_wrapped_word():
+    # the live header wraps "PRINT-AT-" / "HOME"; a variant that stays on one line
+    # is the same table and must parse identically
+    as_of, df = turnout.parse_requests_text(
+        REQUESTS_TEXT.replace(
+            "COUNTY AGENT FAXED IN PERSON MAILED OTHERS PRINT-AT- TOTAL\nHOME",
+            "COUNTY AGENT FAXED IN PERSON MAILED OTHERS PRINT AT HOME TOTAL",
+        ),
+        "GG26",
+    )
+    assert as_of == "2026-10-09"
+    assert len(df) == 21

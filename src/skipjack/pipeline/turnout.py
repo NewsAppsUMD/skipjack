@@ -13,6 +13,8 @@ from pathlib import Path
 import polars as pl
 from python_calamine import CalamineError, CalamineWorkbook
 
+from skipjack.pipeline.vrar import COUNTY_NORMALIZE
+
 # results.elections.maryland.gov redirects here.
 SBE_BASE = "https://elections.maryland.gov"
 
@@ -116,6 +118,11 @@ class TurnoutParseError(RuntimeError):
 # Mary's" in these files.
 COUNTY_FIXES = {"Saint Mary's": "St. Mary's"}
 
+# The canonical county spellings, as the monthly-report parser's SBE-label fixes
+# normalize to: a requests row whose county is not one of these is a misread cell,
+# not a 25th county.
+CANONICAL_COUNTIES = frozenset(COUNTY_NORMALIZE.values())
+
 
 def canonical_county(name: str) -> str:
     """Title-cased site spelling of a county name ("Saint Mary's" -> "St. Mary's").
@@ -140,11 +147,12 @@ def parse_requests_text(text: str, election: str) -> tuple[str, pl.DataFrame]:
     """The county x delivery-method table of one requests report's text.
 
     Returns the report's as-of date and one row per county and delivery method,
-    party and category always "ALL" (the delivery method is the measure). The table
-    is reconciled against itself: every county's methods must sum to that county's
-    printed total, and the county totals must sum to the printed TOTAL row — so a
-    missing, extra or misread county row fails the parse instead of publishing an
-    unreconcilable table.
+    party and category always "ALL" (the delivery method is the measure). The
+    table is reconciled against itself before anything is returned: every county's
+    methods must sum to that county's printed total, every printed TOTAL cell must
+    equal the sum of its column, and every county label must be one of Maryland's
+    canonical county names — a repeated, missing, mislabeled or misread county row
+    fails the parse instead of publishing an unreconcilable table.
     """
     as_of = extract_as_of_text(text)
     if as_of is None:
@@ -154,16 +162,21 @@ def parse_requests_text(text: str, election: str) -> tuple[str, pl.DataFrame]:
     for line in text.splitlines():
         line = line.strip()
         if line.startswith("TOTAL"):
-            nums = [int(n.replace(",", "")) for n in line.split()[1:]]
-            if len(nums) != len(REQUESTS_METHODS):
-                raise TurnoutParseError(f"Unexpected TOTAL row in the requests report: {line!r}")
-            state_total = nums
+            tokens = line.split()[1:]
+            # A TOTAL-prefixed line is the totals row only when every following
+            # token is a number; a footnote or heading that merely starts with
+            # TOTAL is skipped like other header noise, and a table whose real
+            # totals row never appears fails the guard below.
+            if tokens and all(t.replace(",", "").isdigit() for t in tokens):
+                state_total = [int(t.replace(",", "")) for t in tokens]
+                if len(state_total) != len(REQUESTS_METHODS):
+                    raise TurnoutParseError(f"Unexpected TOTAL row in the requests report: {line!r}")
             continue
         if matched := REQUESTS_ROW_RE.match(line):
             county = canonical_county(matched["county"])
+            if county not in CANONICAL_COUNTIES:
+                raise TurnoutParseError(f"Unrecognized county label {matched['county']!r} in the requests report")
             nums = [int(n.replace(",", "")) for n in matched["numbers"].split()]
-            if len(nums) != len(REQUESTS_METHODS):
-                raise TurnoutParseError(f"Unexpected county row in the requests report: {line!r}")
             if nums[-1] != sum(nums[:-1]):
                 raise TurnoutParseError(f"{county}'s request counts do not add up: {nums}")
             for measure, value in zip(REQUESTS_METHODS, nums, strict=True):
@@ -183,7 +196,14 @@ def parse_requests_text(text: str, election: str) -> tuple[str, pl.DataFrame]:
                 )
     if state_total is None or not rows:
         raise TurnoutParseError("The requests report has no county rows or no TOTAL row")
-    county_totals = {r["county"]: r["value"] for r in rows if r["measure"] == "total"}
-    if sum(county_totals.values()) != state_total[-1]:
-        raise TurnoutParseError("County totals do not sum to the printed statewide TOTAL")
+    # One row set per county: a repeated county line (say, a two-page repeat of the
+    # table) would reconcile through the per-county checks but publish duplicates.
+    if len(rows) != len(REQUESTS_METHODS) * len({r["county"] for r in rows}):
+        raise TurnoutParseError("A county row appears more than once in the requests report")
+    for measure, printed in zip(REQUESTS_METHODS, state_total, strict=True):
+        collected = sum(r["value"] for r in rows if r["measure"] == measure)
+        if collected != printed:
+            raise TurnoutParseError(
+                f"County {measure} counts sum to {collected}, not the printed statewide total {printed}"
+            )
     return as_of, pl.DataFrame(rows)

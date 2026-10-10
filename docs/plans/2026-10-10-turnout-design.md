@@ -100,7 +100,13 @@ as the monthly reports) and the provenance sidecar records both.
 
 Reconciliation, before anything is written:
 
-- requests: each county's methods sum to its TOTAL; counties sum to the statewide TOTAL.
+- requests: each county's methods sum to its TOTAL; every printed statewide TOTAL cell
+  (all seven delivery-method columns) equals the sum of its per-county column; a county
+  row may not repeat (a page printed twice publishes nothing); and every county label
+  must be one of the canonical county names the monthly reports normalize to, so a
+  misread name raises instead of publishing under it. One accepted limitation: two
+  counties whose counts happen to be identical could swap names without any check
+  noticing.
 - sent-returned: DEM+REP+OTH equals TOTAL within every row; each county's rows sum to its
   county total; categories sum to the grand total.
 - Anything that does not add up fails the parse (no row is written) — a new mismatch
