@@ -7,6 +7,8 @@ The xlsx fixtures are built with openpyxl in the same messy shape the SBE export
 from __future__ import annotations
 
 import openpyxl
+import polars as pl
+import pytest
 
 from skipjack.pipeline import turnout
 
@@ -94,3 +96,71 @@ def test_election_config_matches_the_live_press_room():
             urls[("sent-returned", geo, "xlsx")]
             == f"{base}/Absentees_Sent_and_Returned_by_{geo.capitalize()}.xlsx"
         )
+
+
+REQUESTS_TEXT = """
+Mail-in Ballot Requests by County
+Election: 2026 Gubernatorial General Election
+As of: October 9, 2026 6 PM
+HOW THE BALLOTS WILL BE DELIVERED
+COUNTY AGENT FAXED IN PERSON MAILED OTHERS PRINT-AT- TOTAL
+HOME
+Allegany 1 0 122 4,119 0 285 4,527
+Prince George's 1 2 11 73,342 7 8,864 82,227
+Saint Mary's 0 0 101 7,603 0 883 8,587
+TOTAL 2 2 234 85,064 7 10,032 95,341
+"""
+
+
+def test_parse_requests_text():
+    # The county rows are the real Allegany, Prince George's and Saint Mary's rows
+    # of the live 2026-10-09 file (a three-county excerpt; no TOTAL row reaches the
+    # frame). The live file's TOTAL covers all 24 counties, so the excerpt's TOTAL
+    # here is the sum of its own three counties -- which is what lets the statewide
+    # reconciliation hold, and what the does-not-add-up test below perturbs.
+    as_of, df = turnout.parse_requests_text(REQUESTS_TEXT, "GG26")
+    assert as_of == "2026-10-09"
+    assert len(df) == 21  # 3 counties x 7 measures
+    assert set(df["party"]) == {"ALL"}
+    assert set(df["category"]) == {"ALL"}
+    assert set(df["geography"]) == {"county"}
+    assert set(df["family"]) == {"requests"}
+    assert set(df["election"]) == {"GG26"}
+    assert set(df["district"]) == {""}  # county rows carry no district
+
+
+def test_requests_numbers_are_positional():
+    as_of, df = turnout.parse_requests_text(REQUESTS_TEXT, "GG26")
+    a = df.filter(pl.col("county") == "Allegany")
+    got = dict(zip(a["measure"], a["value"]))
+    assert got == {
+        "agent": 1,
+        "faxed": 0,
+        "in-person": 122,
+        "mailed": 4119,
+        "others": 0,
+        "print-at-home": 285,
+        "total": 4527,
+    }
+
+
+def test_requests_canonicalizes_saint_marys():
+    as_of, df = turnout.parse_requests_text(REQUESTS_TEXT, "GG26")
+    assert "St. Mary's" in set(df["county"])
+
+
+def test_requests_rejects_a_torn_county_row():
+    # a county's delivery-method counts must sum to the county's printed total
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(REQUESTS_TEXT.replace("285 4,527", "286 4,527"), "GG26")
+
+
+def test_requests_rejects_a_statewide_total_that_does_not_add_up():
+    # the printed TOTAL row must equal the sum of the county totals
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(REQUESTS_TEXT.replace("95,341", "95,342"), "GG26")
+
+
+def test_requests_rejects_text_without_an_as_of():
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_requests_text(REQUESTS_TEXT.replace("As of: October 9, 2026 6 PM", ""), "GG26")
