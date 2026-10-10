@@ -367,7 +367,7 @@ def parse_requests_bytes(data: bytes, election: str) -> tuple[str | None, pl.Dat
     return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
 
 
-def _requests_cells(
+def _printed_cells(
     sheet: str, index: int, row: list, mapping: dict[int, str], *, strict: bool
 ) -> dict[str, int]:
     """One row's printed cells as integers.
@@ -402,6 +402,280 @@ def _requests_cells(
             )
         cells[measure] = int(as_float)
     return cells
+
+
+# --- the certified official-turnout family (xlsx) -------------------------------------------
+# A certified snapshot: seven party blocks per sheet (the Statewide block plus one per
+# SBE party), each its own little table closed by a printed TOTAL(S) row. The block
+# label's text cell, the area column's header label and the measure columns all shift
+# between blocks, so every block is read from its own printed row names.
+
+AS_OF_CERTIFIED_RE = re.compile(r"As of:?\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
+
+
+def extract_as_of_cell(text: str) -> str | None:
+    """A certified report cell's snapshot date, "YYYY-MM-DD", else None.
+
+    The live-updated families print "As of: July 7, 2026 6 PM" (colon required, as
+    extract_as_of_text reads); the certified exports print the date either beside the
+    election date in the same cell ("Election Date: June 23, 2026\\nAs of: July 23,
+    2026") or colonless under its own asterisks ("Election Date: June 23, 2026\\n**As
+    of June 6, 2026"), so the colon is optional here. The election date itself is not
+    a snapshot: a cell that carries only "Election Date: ..." returns None, and an
+    unparseable month shape is no date, as in extract_as_of_text.
+    """
+    if not (found := AS_OF_CERTIFIED_RE.search(text)):
+        return None
+    try:
+        parsed = datetime.datetime.strptime(found.group(1), "%B %d, %Y")
+    except ValueError:
+        return None
+    return parsed.date().isoformat()
+
+
+def _first_snapshot_date(rows: list[list]) -> str | None:
+    """The first As-of cell of a certified sheet's header region, in reading order."""
+    for row in rows[:25]:
+        for cell in row[:25]:
+            if isinstance(cell, str) and "As of" in cell:
+                found = extract_as_of_cell(cell)
+                if found:
+                    return found
+    return None
+
+
+# A block's party code, from its label row as the live GP26 files print it (the county
+# file spells the Green block GRN; the congressional and legislative files spell Green).
+OFFICIAL_BLOCK_CELLS: dict[str, str] = {
+    "STATEWIDE": "ALL",
+    "DEMOCRAT": "DEM",
+    "REPUBLICAN": "REP",
+    "WCP": "WCP",
+    "OTHER PARTIES": "OTH",
+    "UNAFFILIATED": "UNA",
+    "GRN": "GRN",
+    "GREEN": "GRN",
+}
+# The area column's header label, one printed spelling per geography.
+OFFICIAL_AREA_CELLS: dict[str, str] = {
+    "LBE": "county",
+    "CONGRESSIONAL DISTRICT CODE": "district",
+    "LEGISLATIVE DISTRICT CODE": "district",
+}
+# The five printed measures; the TURNOUT column's printed shares are not a measure.
+OFFICIAL_MEASURE_CELLS: dict[str, str] = {
+    "ELECTION DAY": "election-day",
+    "EARLY VOTING": "early-voting",
+    "VOTE BY MAIL": "vote-by-mail",
+    "PROVISIONAL": "provisional",
+    "ELIGIBLE VOTERS": "eligible",
+}
+
+
+def parse_turnout_official_bytes(
+    data: bytes, election: str, geography: str
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official Turnout (By Party and ...) workbook as long rows.
+
+    Returns the snapshot date (None when no sheet carries one) and the rows. Nothing
+    comes out until every printed total has been checked: each block's TOTAL(S) row
+    must equal its area rows' column sums, and -- the identity the SBE prints its own
+    Statewide block against -- each area's Statewide row must equal the sum of the
+    party blocks' rows for that area within the sheet carrying them (verified against
+    the live GP26 files, including the congressional and legislative Undetermined rows,
+    whose provisional counts appear in every party block). A workbook that does not
+    add up, or a block label that is not one of the SBE's, raises.
+    """
+    if geography not in ("county", "congressional", "legislative"):
+        raise TurnoutParseError(f"no official-turnout files for geography {geography!r}")
+    try:
+        workbook = CalamineWorkbook.from_object(io.BytesIO(data))
+    except (OSError, CalamineError) as err:
+        raise TurnoutParseError(f"the official-turnout workbook could not be read: {err}") from err
+    as_of = None
+    published: list[dict] = []
+    seen: set[tuple[str, str]] = set()  # (party, area) per document, not per sheet
+    for sheet in workbook.sheet_names:
+        rows = workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
+        if as_of is None:
+            as_of = _first_snapshot_date(rows)
+        published += _official_sheet_rows(sheet, rows, election, geography, as_of, seen)
+    if not published:
+        raise TurnoutParseError("the official-turnout workbook has no area rows")
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def _official_sheet_rows(
+    sheet: str,
+    rows: list[list],
+    election: str,
+    geography: str,
+    as_of: str | None,
+    seen: set[tuple[str, str]],
+) -> list[dict]:
+    """The published rows of one sheet, party block by party block.
+
+    A block-label row carries one text cell and no numbers; its label must be one of
+    the SBE's (an unrecognized one fails, either at once or when the block's header
+    arrives). A block's header row carries the area label and at least three of the
+    five measures, and every other label in it must be one the SBE prints, so a
+    renamed column fails instead of going silently unread. An area row publishes its
+    measures; the block's TOTAL(S) row -- the label sits in the block's own area
+    column -- closes it against the rows it printed. A block that ends without its
+    totals row (the next block's label row, a new header, or the sheet's end) fails
+    the sheet.
+    """
+    published: list[dict] = []
+    party: str | None = None
+    bad_block_label: str | None = None  # an unrecognized block-label row, until a header
+    area_col: int | None = None
+    mapping: dict[int, str] | None = None
+    block_sums: dict[str, int] = {}  # measure -> the block's area rows printed so far
+    sheet_rows: dict[str, dict[str, dict[str, int]]] = {}  # party -> area -> measure -> value
+
+    def close_open_block(index: int, why: str) -> None:
+        if mapping is not None and block_sums:
+            raise TurnoutParseError(
+                f"{sheet} row {index}: the {party} block's rows are left without a "
+                f"printed TOTAL(S) row by {why}"
+            )
+
+    for index, row in enumerate(rows, start=1):
+        row = row or []
+        labels = [_normalize_label(cell) for cell in row]
+        text_labels = [label for label in labels if label]
+        one_label_row = len(text_labels) == 1 and not any(
+            isinstance(cell, (int, float)) for cell in row
+        )
+        measures = {
+            position: OFFICIAL_MEASURE_CELLS[label]
+            for position, label in enumerate(labels)
+            if label in OFFICIAL_MEASURE_CELLS
+        }
+        areas = {
+            position: OFFICIAL_AREA_CELLS[label]
+            for position, label in enumerate(labels)
+            if label in OFFICIAL_AREA_CELLS
+        }
+        if one_label_row:
+            if text_labels[0] in OFFICIAL_BLOCK_CELLS:
+                close_open_block(index, "the next block's label row")
+                party = OFFICIAL_BLOCK_CELLS[text_labels[0]]
+                bad_block_label = None
+            else:
+                # a title row above the first block, or a block label the parser does
+                # not know: it fails only if a header still claims it
+                bad_block_label = text_labels[0]
+            continue
+        if len(measures) >= 3 and len(areas) == 1:
+            close_open_block(index, "a new header row")
+            if party is None:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: "
+                    + (
+                        f"unrecognized party block label {bad_block_label!r}"
+                        if bad_block_label
+                        else "a header row with no party block label above it"
+                    )
+                )
+            bad_block_label = None
+            unknown = [
+                label
+                for label in labels
+                if label
+                and label not in OFFICIAL_MEASURE_CELLS
+                and label not in OFFICIAL_AREA_CELLS
+                and label != "TURNOUT"
+            ]
+            if unknown:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: unrecognized column label {unknown[0]!r} in "
+                    f"the {party} block's header"
+                )
+            (area_col, mapping) = (next(iter(areas)), measures)
+            block_sums = {}
+            continue
+        if mapping is None:
+            continue  # title rows, dates, and sheet notes before a block's header
+        area_raw = row[area_col] if area_col is not None and area_col < len(row) else None
+        if str(area_raw or "").strip().upper() in ("TOTAL", "TOTALS"):
+            printed = _printed_cells(sheet, index, row, mapping, strict=True)
+            missing = [measure for measure in block_sums if measure not in printed]
+            if missing:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the printed TOTAL row omits the {missing[0]} total"
+                )
+            for measure, value in printed.items():
+                collected = block_sums.get(measure, 0)
+                if collected != value:
+                    raise TurnoutParseError(
+                        f"{sheet} row {index}: the printed {measure} total says {value}, "
+                        f"but the block's rows sum to {collected}"
+                    )
+            block_sums = {}
+            continue
+        if not str(area_raw or "").strip():
+            if any(isinstance(cell, (int, float)) for cell in row):
+                raise TurnoutParseError(f"{sheet} row {index}: a row of counts with no area")
+            continue  # blank lines between blocks carry no cells
+        cells = _printed_cells(sheet, index, row, mapping, strict=True)
+        area = _identity_cell(area_raw)
+        if not area:
+            raise TurnoutParseError(f"{sheet} row {index}: an area row with no printed area")
+        if geography == "county":
+            area_key = canonical_county(area)
+            if area_key not in CANONICAL_COUNTIES:
+                raise TurnoutParseError(f"{sheet} row {index}: unrecognized county label {area!r}")
+            county, district = area_key, ""
+        else:
+            # the area keeps its printed text, down to the file's Undetermined rows
+            area_key, county, district = area, "", area
+        if (party, area_key) in seen:
+            raise TurnoutParseError(
+                f"{sheet} row {index}: a {party} row for {area!r} appears more than once"
+            )
+        seen.add((party, area_key))
+        for measure, value in cells.items():
+            block_sums[measure] = block_sums.get(measure, 0) + value
+        sheet_rows.setdefault(party, {})[area] = dict(cells)
+        for measure, value in cells.items():
+            published.append(
+                {
+                    "as_of": as_of or "",
+                    "election": election,
+                    "family": "official-turnout",
+                    "geography": geography,
+                    "county": county,
+                    "district": district,
+                    "category": "ALL",
+                    "party": party,
+                    "measure": measure,
+                    "value": value,
+                }
+            )
+    close_open_block(len(rows), "the end of the sheet")
+    # The Statewide block is the file's own arithmetic: each area's row there must
+    # equal the sum of the party blocks' rows for that area, per measure, within the
+    # sheet that carries the blocks together.
+    if (statewide := sheet_rows.get("ALL")) is not None:
+        for area in sorted({a for party_rows in sheet_rows.values() for a in party_rows}):
+            if area not in statewide:
+                raise TurnoutParseError(
+                    f"{sheet}: a party block prints {area!r} and the Statewide block does not"
+                )
+        for area, sw_row in statewide.items():
+            for measure, printed in sw_row.items():
+                collected = sum(
+                    party_rows[area][measure]
+                    for party, party_rows in sheet_rows.items()
+                    if party != "ALL" and area in party_rows and measure in party_rows[area]
+                )
+                if collected != printed:
+                    raise TurnoutParseError(
+                        f"{sheet}: the party blocks' {area} {measure} counts sum to "
+                        f"{collected}, not the Statewide block's {printed}"
+                    )
+    return published
 
 
 def _requests_sheet_rows(
@@ -446,7 +720,7 @@ def _requests_sheet_rows(
                 raise TurnoutParseError(
                     f"{sheet} row {index}: the printed TOTAL row has no county rows above it"
                 )
-            printed = _requests_cells(sheet, index, row, mapping, strict=False)
+            printed = _printed_cells(sheet, index, row, mapping, strict=False)
             for measure, value in printed.items():
                 collected = sum(one[measure] for one in run)
                 if collected != value:
@@ -460,7 +734,7 @@ def _requests_sheet_rows(
         county_raw = row[county_col] if county_col is not None and county_col < len(row) else None
         if county_raw in (None, ""):
             continue  # blank lines and the notes under the table have no county cell
-        cells = _requests_cells(sheet, index, row, mapping, strict=True)
+        cells = _printed_cells(sheet, index, row, mapping, strict=True)
         county_text = str(county_raw).strip()
         county = canonical_county(county_text)
         if county not in CANONICAL_COUNTIES:

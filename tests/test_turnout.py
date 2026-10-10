@@ -1750,3 +1750,356 @@ def test_gp26_requests_rejects_a_table_without_a_totals_row():
 def test_gp26_requests_rejects_a_corrupt_workbook():
     with pytest.raises(turnout.TurnoutParseError):
         turnout.parse_requests_bytes(b"PK garbage", "GP26")
+
+
+# --- the certified official-turnout family ---------------------------------------------------
+# Fixtures copy the real GP26 files' shape (verified against the live downloads): a
+# block-label row (Statewide/Democrat/...) whose one text cell sits at any column, then
+# a header row carrying the geography's area label (LBE, CONGRESSIONAL DISTRICT CODE,
+# LEGISLATIVE DISTRICT CODE) and the five measures plus TURNOUT -- the printed shares
+# and their column are never stored. A date cell reads the two-line
+# "Election Date: June 23, 2026\nAs of: July 23, 2026" the county file prints. Every
+# block closes with a printed TOTAL(S) row in its own area column, and the Statewide
+# block's row for an area equals the sum of the party blocks' rows for that area.
+# The area rows below carry the real Allegany/Worcester and district 01/02 values; the
+# Statewide block's rows are those sums, because a two-party excerpt cannot carry the
+# other four parties' share of the real Statewide rows.
+
+
+OFFICIAL_COUNTY_HEADER = [
+    "LBE",
+    "",
+    "",
+    "",
+    "Election Day",
+    "",
+    "",
+    "",
+    "Early Voting",
+    "",
+    "Vote By Mail",
+    "",
+    "Provisional",
+    "",
+    "Eligible Voters",
+    "",
+    "TURNOUT",
+]
+OFFICIAL_DISTRICT_HEADER = [
+    "CONGRESSIONAL DISTRICT CODE",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Election Day",
+    "",
+    "",
+    "",
+    "Early Voting",
+    "",
+    "",
+    "",
+    "Vote By Mail",
+    "",
+    "",
+    "",
+    "Provisional",
+    "",
+    "",
+    "",
+    "Eligible Voters",
+    "",
+    "",
+    "",
+    "TURNOUT",
+    "",
+    "",
+    "",
+]
+
+
+def spacers(text):
+    """A header row with a blank spacer column after every label, as the files print."""
+    row = [""]
+    for cell in text:
+        row += [cell]
+    return row
+
+
+def official_county_row(area, ed, ev, vbm, prov, elig, turnout=0.0, lead=0):
+    """A county area row, values a spacer apart from the area cell on."""
+    row = [""] * lead
+    return row + [area, "", "", "", ed, "", "", "", ev, "", vbm, "", prov, "", elig, "", turnout]
+
+
+def official_district_row(area, ed, ev, vbm, prov, elig, turnout=0.0, lead=0):
+    """A district area row of the real congressional layout (spacer columns between)."""
+    row = [""] * lead + [area] + [""] * 10
+    return row + [
+        ed,
+        "",
+        "",
+        "",
+        ev,
+        "",
+        "",
+        "",
+        vbm,
+        "",
+        "",
+        "",
+        prov,
+        "",
+        "",
+        "",
+        elig,
+        "",
+        "",
+        "",
+        turnout,
+        "",
+        "",
+        "",
+    ]
+
+
+def official_totals_row(label="TOTAL", lead=0):
+    """The block-closing printed totals row for the county shape."""
+    row = [""] * lead
+    return row + [label, "", "", "", "", "", "", "", "", "", "", ""]
+
+
+OFFICIAL_COUNTY_ROWS = [
+    ["", "", "", "Official Turnout (By Party and County)", "", "", "", ""],
+    ["", "", "", "Election Date: June 23, 2026\nAs of: July 23, 2026", "", "", "", ""],
+    ["Statewide"],
+    ["", *OFFICIAL_COUNTY_HEADER],  # the Statewide block's table starts a column in
+    official_county_row("Allegany", 6375, 1380, 2353, 231, 34366, 0.2797, lead=1),
+    official_county_row("Worcester", 5125, 1566, 2573, 245, 33718, 0.2824, lead=1),
+    official_county_row("TOTAL", 11500, 2946, 4926, 476, 68084, 0.2723, lead=1),
+    ["Democrat"],
+    OFFICIAL_COUNTY_HEADER,
+    official_county_row("Allegany", 1562, 418, 1343, 121, 10758),
+    official_county_row("Worcester", 1406, 484, 1610, 135, 13257),
+    official_county_row("TOTAL", 2968, 902, 2953, 256, 24015),
+    ["Republican"],
+    OFFICIAL_COUNTY_HEADER,
+    official_county_row("Allegany", 4813, 962, 1010, 110, 23608),
+    official_county_row("Worcester", 3719, 1082, 963, 110, 20461),
+    official_county_row("TOTAL", 8532, 2044, 1973, 220, 44069),
+]
+
+
+def test_official_turnout_county_fixture():
+    as_of, df = turnout.parse_turnout_official_bytes(
+        sent_worksheet(OFFICIAL_COUNTY_ROWS), "GP26", "county"
+    )
+    assert as_of == "2026-07-23"  # from the combined Election Date / As-of cell
+    assert set(df["party"]) == {"ALL", "DEM", "REP"}
+    assert set(df["measure"]) == {
+        "election-day",
+        "early-voting",
+        "vote-by-mail",
+        "provisional",
+        "eligible",
+    }
+    assert set(df["county"]) == {"Allegany", "Worcester"}
+    assert len(df) == 3 * 2 * 5  # three blocks x two counties x five measures
+
+
+def test_official_turnout_values():
+    as_of, df = turnout.parse_turnout_official_bytes(
+        sent_worksheet(OFFICIAL_COUNTY_ROWS), "GP26", "county"
+    )
+    dem = df.filter((df["party"] == "DEM") & (df["county"] == "Allegany"))
+    assert dict(zip(dem["measure"], dem["value"])) == {
+        "election-day": 1562,
+        "early-voting": 418,
+        "vote-by-mail": 1343,
+        "provisional": 121,
+        "eligible": 10758,
+    }
+    rep = df.filter((df["party"] == "REP") & (df["county"] == "Worcester"))
+    assert dict(zip(rep["measure"], rep["value"]))["eligible"] == 20461
+    sw = df.filter((df["party"] == "ALL") & (df["county"] == "Allegany"))
+    assert dict(zip(sw["measure"], sw["value"]))["election-day"] == 6375  # 1562 + 4813
+
+
+def test_official_turnout_shares_are_never_stored():
+    as_of, df = turnout.parse_turnout_official_bytes(
+        sent_worksheet(OFFICIAL_COUNTY_ROWS), "GP26", "county"
+    )
+    assert "turnout" not in set(df["measure"])
+    assert not any(round(v, 4) != v for v in df["value"])  # shares like 0.2797 are kept out
+    assert 0.2797 not in set(df["value"].to_list()) or 0.2797 == 0  # no float shares anywhere
+    assert df.schema["value"] == pl.Int64
+
+
+def test_official_turnout_rejects_a_bad_block_label():
+    bad = [r[:] for r in OFFICIAL_COUNTY_ROWS]
+    bad[12][0] = "Independents"  # the Republican block's label row
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(sent_worksheet(bad), "GP26", "county")
+
+
+def test_official_turnout_rejects_a_torn_block_total():
+    bad = [r[:] for r in OFFICIAL_COUNTY_ROWS]
+    bad[6][5] = 11501  # the Statewide block's printed Election Day total
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(sent_worksheet(bad), "GP26", "county")
+
+
+def test_official_turnout_rejects_a_statewide_row_that_forks_from_the_party_blocks():
+    bad = [r[:] for r in OFFICIAL_COUNTY_ROWS]
+    bad[4][5] = 6376  # the Statewide Allegany row no longer equals DEM + REP
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(sent_worksheet(bad), "GP26", "county")
+
+
+def test_official_turnout_rejects_a_block_without_a_totals_row():
+    bad = [r for i, r in enumerate(OFFICIAL_COUNTY_ROWS) if i != 6]  # drop the Statewide TOTAL
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(sent_worksheet(bad), "GP26", "county")
+
+
+def test_official_turnout_rejects_a_fractional_measure_cell():
+    bad = [r[:] for r in OFFICIAL_COUNTY_ROWS]
+    bad[9][4] = 1562.5  # a DEM election-day count printed with a fraction
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(sent_worksheet(bad), "GP26", "county")
+
+
+def test_official_turnout_ignores_a_fractional_share_cell():
+    # TURNOUT is the printed share column; a torn share is not a torn count and the
+    # share column is never stored, so a bad share does not fail the parse
+    bad = [r[:] for r in OFFICIAL_COUNTY_ROWS]
+    bad[4][16] = "shares are broken"
+    as_of, df = turnout.parse_turnout_official_bytes(sent_worksheet(bad), "GP26", "county")
+    assert as_of == "2026-07-23"
+    assert len(df) == 30
+
+
+def test_official_turnout_rejects_a_repeated_area_row():
+    dup = [r[:] for r in OFFICIAL_COUNTY_ROWS]
+    dup.insert(5, official_county_row("Allegany", 6375, 1380, 2353, 231, 34366, lead=1))
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(sent_worksheet(dup), "GP26", "county")
+
+
+def test_official_turnout_frame_schema():
+    as_of, df = turnout.parse_turnout_official_bytes(
+        sent_worksheet(OFFICIAL_COUNTY_ROWS), "GP26", "county"
+    )
+    assert as_of == "2026-07-23"
+    assert df.schema == {
+        "as_of": pl.String,
+        "election": pl.String,
+        "family": pl.String,
+        "geography": pl.String,
+        "county": pl.String,
+        "district": pl.String,
+        "category": pl.String,
+        "party": pl.String,
+        "measure": pl.String,
+        "value": pl.Int64,
+    }
+    assert set(df["geography"]) == {"county"} and set(df["district"]) == {""}
+    assert set(df["category"]) == {"ALL"}
+
+
+def test_official_turnout_rejects_a_corrupt_workbook():
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(b"PK garbage", "GP26", "county")
+
+
+# District shape (the congressional file): an area column that reads the district
+# codes (verbatim), and an Undetermined row per block for the provisional ballots whose
+# district could not be determined (the live file's carry 2155 in the Statewide block,
+# and their party shares in every party block).
+
+
+def test_official_turnout_district_rows_print_their_own_codes():
+    as_of, df = turnout.parse_turnout_official_bytes(
+        sent_worksheet(OFFICIAL_CD_ROWS), "GP26", "congressional"
+    )
+    assert as_of is None  # no date cell in this excerpt
+    assert {"01", "02", "Undetermined"} <= set(df["district"])  # verbatim, as printed
+    assert set(df["county"]) == {""}
+    assert len(df) == 3 * 3 * 5
+    dem1 = df.filter(
+        (df["district"] == "01") & (df["party"] == "DEM") & (df["measure"] == "vote-by-mail")
+    )
+    assert dem1["value"].item() == 18758
+    # the Statewide block's Undetermined provisional count is the sum of the parties'
+    parties = df.filter(
+        (df["district"] == "Undetermined")
+        & (df["party"].is_in(["DEM", "REP"]))
+        & (df["measure"] == "provisional")
+    )["value"].sum()
+    assert parties == 389
+    assert (
+        df.filter(
+            (df["district"] == "Undetermined")
+            & (df["party"] == "ALL")
+            & (df["measure"] == "provisional")
+        )["value"].item()
+        == 389
+    )
+
+
+def official_party_district_header():
+    """The party blocks' own header: the codes column one in, measures one column on."""
+    row = [""] + ["CONGRESSIONAL DISTRICT CODE"] + [""] * 10
+    return row + [
+        "Election Day",
+        "",
+        "",
+        "",
+        "Early Voting",
+        "",
+        "",
+        "",
+        "Vote By Mail",
+        "",
+        "",
+        "",
+        "Provisional",
+        "",
+        "",
+        "",
+        "Eligible Voters",
+        "",
+        "",
+        "",
+        "TURNOUT",
+        "",
+        "",
+    ]
+
+
+OFFICIAL_CD_ROWS = [
+    ["Statewide"],
+    OFFICIAL_DISTRICT_HEADER,
+    official_district_row("01", 58710, 28418, 29107, 2800, 432002),
+    official_district_row("02", 47226, 23224, 40582, 4329, 412553),
+    official_district_row("Undetermined", 0, 0, 0, 389, 0),
+    official_district_row("TOTALS", 105936, 51642, 69689, 7518, 844555),
+    ["Democrat"],
+    official_party_district_header(),
+    official_district_row("01", 18006, 10061, 18758, 1580, 184109, lead=1),
+    official_district_row("02", 28603, 15572, 33122, 3451, 262835, lead=1),
+    official_district_row("Undetermined", 0, 0, 0, 260, 0, lead=1),
+    official_district_row("TOTALS", 46609, 25633, 51880, 5291, 446944, lead=1),
+    ["Republican"],
+    official_party_district_header(),
+    official_district_row("01", 40704, 18357, 10349, 1220, 247893, lead=1),
+    official_district_row("02", 18623, 7652, 7460, 878, 149718, lead=1),
+    official_district_row("Undetermined", 0, 0, 0, 129, 0, lead=1),
+    official_district_row("TOTALS", 59327, 26009, 17809, 2227, 397611, lead=1),
+]
