@@ -2103,3 +2103,514 @@ OFFICIAL_CD_ROWS = [
     official_district_row("Undetermined", 0, 0, 0, 129, 0, lead=1),
     official_district_row("TOTALS", 59327, 26009, 17809, 2227, 397611, lead=1),
 ]
+
+
+# --- the eligible-voters family --------------------------------------------------------------
+# Header-driven like the rest: County / District / the six party columns / Total, with
+# spacer columns that move between sections. The district files' first section prints
+# the district grain against a COUNTY cell that reads STATEWIDE (collapsed to no
+# county); their second section prints the same population at district x county grain,
+# where the district's own label repeats on every row (the councilmanic file) or is
+# merged and reads only on the group's first row (the congressional/legislative files).
+# A blank party cell is a value the export did not print: the legislative file's
+# district 01C shows GRN blank with its Total 32 above the printed cells' sum (the
+# Statewide export prints the same 32), so blank cells publish nothing and a row's
+# checks hold only over the cells that did print. The grand totals' party columns are
+# the one layer the family does not reconcile -- the live inactive file's DEM total is
+# 1327 under its own rows while its total column and every county row add up -- so a
+# consistent total row and a torn one parse the same way (the county rows carry the
+# published data; the grand total is never data).
+
+ELIGIBLE_COUNTY_HEADER = ["County", "", "DEM", "", "REP", "GRN", "OTH", "UNA", "WCP", "", "Total"]
+
+
+def eligible_county_row(county, dem, rep, grn, oth, una, wcp, total):
+    """A county row of the county/inactive shape, spacer cells as printed."""
+    return [county, "", dem, "", rep, grn, oth, una, wcp, "", total]
+
+
+def eligible_values(dem=0, rep=0, grn=0, oth=0, una=0, wcp=0):
+    return dem, rep, grn, oth, una, wcp
+
+
+ELIGIBLE_COUNTY_ROWS = [
+    ["", "", "", "Eligible Active Voters on the Precinct Register - By County", "", ""],
+    ["", "", "", "Election Date: June 23, 2026\n**As of June 6, 2026", "", "", ""],
+    ELIGIBLE_COUNTY_HEADER,
+    eligible_county_row("Allegany", 10758, 23608, 32, 286, 3226, 36, 37946),
+    eligible_county_row("Anne Arundel", 172770, 128551, 0, 0, 0, 0, 301321),
+    eligible_county_row("TOTAL", 183528, 152159, 32, 286, 3226, 36, 339267),
+]
+
+
+def test_eligible_active_county_fixture():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(ELIGIBLE_COUNTY_ROWS), "GP26", "eligible-active", "county"
+    )
+    assert as_of == "2026-06-06"  # the colonless As of line the date cell ends with
+    assert set(df["family"]) == {"eligible-active"}
+    assert set(df["measure"]) == {"active"}
+    assert set(df["party"]) == {"DEM", "REP", "GRN", "OTH", "UNA", "WCP", "ALL"}
+    assert set(df["category"]) == {"ALL"}
+    assert "TOTAL" not in set(df["county"])  # the printed grand total is not a row
+    assert len(df) == 14  # two counties x seven printed cells
+
+
+def test_eligible_county_values():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(ELIGIBLE_COUNTY_ROWS), "GP26", "eligible-active", "county"
+    )
+    allegany = df.filter(df["county"] == "Allegany")
+    assert dict(zip(allegany["party"], allegany["value"])) == {
+        "DEM": 10758,
+        "REP": 23608,
+        "GRN": 32,
+        "OTH": 286,
+        "UNA": 3226,
+        "WCP": 36,
+        "ALL": 37946,
+    }
+
+
+def test_eligible_inactive_fixture():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(
+            [
+                ELIGIBLE_COUNTY_ROWS[0],
+                ELIGIBLE_COUNTY_ROWS[1],
+                ELIGIBLE_COUNTY_HEADER,
+                eligible_county_row("Allegany", 761, 1101, 4, 23, 281, 7, 2177),
+                eligible_county_row("Anne Arundel", 12138, 8893, 0, 0, 0, 0, 21031),
+                eligible_county_row("TOTAL", 12899, 9994, 4, 23, 281, 7, 23208),
+            ]
+        ),
+        "GP26",
+        "eligible-inactive",
+        "county",
+    )
+    assert as_of == "2026-06-06"
+    assert set(df["measure"]) == {"inactive"}
+    assert set(df["family"]) == {"eligible-inactive"}
+
+
+def test_eligible_tolerates_a_grand_total_cell_that_disagrees_with_its_rows():
+    # the live inactive export's DEM grand total is 1327 under the rows above it while
+    # its TOTAL column and every county row reconcile; the eligible family checks the
+    # rows and the total column, never the grand total's party cells (the DEM cell here
+    # prints the live file's wrong-looking 1327-under number for the same reason)
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(
+            [
+                ELIGIBLE_COUNTY_HEADER,
+                eligible_county_row("Allegany", 761, 1101, 4, 23, 281, 7, 2177),
+                eligible_county_row("TOTAL", 124383, 60650, 300, 2265, 35517, 140, 2177),
+            ]
+        ),
+        "GP26",
+        "eligible-inactive",
+        "county",
+    )
+    assert as_of is None
+    assert len(df) == 7  # the county row's printed cells, not the grand total's
+
+
+def test_eligible_rejects_a_row_total_that_understates_its_parties():
+    torn = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
+    torn[5][10] = 300  # Allegany's Total is 32 under its printed party cells
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "county")
+
+
+def test_eligible_rejects_a_section_total_that_omits_a_county():
+    torn = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
+    torn[5][10] = 30000  # the section's Total column no longer equals the rows' totals
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "county")
+
+
+def test_eligible_rejects_an_unknown_county_label():
+    torn = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
+    torn[4][0] = "Princes Georges"
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "county")
+
+
+def test_eligible_rejects_a_duplicated_county_row():
+    dup = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
+    dup.insert(5, eligible_county_row("Allegany", 700, 800, 0, 0, 0, 0, 1500))
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(dup), "GP26", "eligible-active", "county")
+
+
+def test_eligible_rejects_an_unknown_party_label():
+    torn = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
+    torn[2] = ["County", "", "DEM", "", "REP", "LIB", "OTH", "UNA", "WCP", "", "Total"]
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "county")
+
+
+def test_eligible_rejects_a_fractional_cell():
+    torn = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
+    torn[4][2] = 10758.5
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "county")
+
+
+def test_eligible_rejects_an_unknown_family():
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(
+            sent_worksheet(ELIGIBLE_COUNTY_ROWS), "GP26", "eligible-retired", "county"
+        )
+
+
+def test_eligible_frame_schema():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(ELIGIBLE_COUNTY_ROWS), "GP26", "eligible-active", "county"
+    )
+    assert as_of == "2026-06-06"
+    assert df.schema == {
+        "as_of": pl.String,
+        "election": pl.String,
+        "family": pl.String,
+        "geography": pl.String,
+        "county": pl.String,
+        "district": pl.String,
+        "category": pl.String,
+        "party": pl.String,
+        "measure": pl.String,
+        "value": pl.Int64,
+    }
+    assert set(df["geography"]) == {"county"} and set(df["district"]) == {""}
+
+
+def test_eligible_rejects_a_corrupt_workbook():
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(b"PK garbage", "GP26", "eligible-active", "county")
+
+
+# Legislative shape: the grain's header puts District in a column of its own with the
+# COUNTY cell reading STATEWIDE, and spacer cells move the party columns; the file's
+# second section prints the same population at district x county grain, where a
+# district's label repeats only on its group's first row. Values are the live district
+# 01A and 01C grain cells -- 01C's GRN cell is the blank one (its Total is 32 over its
+# printed cells' sum; the Statewide export prints the same 32), so 01C publishes six
+# cells and 01A all seven.
+
+ELIGIBLE_LD_GRAIN_HEADER = [
+    "District",
+    "",
+    "",
+    "",
+    "",
+    "County",
+    "",
+    "",
+    "DEM",
+    "",
+    "REP",
+    "GRN",
+    "",
+    "OTH",
+    "UNA",
+    "",
+    "WCP",
+    "",
+    "Total",
+]
+ELIGIBLE_LD_DETAIL_HEADER = [
+    "",
+    "District",
+    "",
+    "",
+    "County",
+    "",
+    "",
+    "DEM",
+    "",
+    "REP",
+    "",
+    "GRN",
+    "OTH",
+    "",
+    "UNA",
+    "WCP",
+    "",
+    "Total",
+    "",
+]
+
+
+def eligible_ld_grain_row(district, cells, total):
+    dem, rep, grn, oth, una, wcp = cells
+    return [
+        district,
+        "",
+        "",
+        "",
+        "",
+        "STATEWIDE",
+        "",
+        "",
+        dem,
+        "",
+        rep,
+        grn,
+        "",
+        oth,
+        una,
+        "",
+        wcp,
+        "",
+        total,
+    ]
+
+
+def eligible_ld_detail_row(district, county, cells, total):
+    dem, rep, grn, oth, una, wcp = cells
+    return [
+        "",
+        district,
+        "",
+        "",
+        county,
+        "",
+        "",
+        dem,
+        "",
+        rep,
+        "",
+        grn,
+        oth,
+        "",
+        una,
+        wcp,
+        "",
+        total,
+        "",
+    ]
+
+
+ELIGIBLE_LD_ROWS = [
+    ["", "Eligible Active Voters on the Precinct Register - By Legislative District", ""],
+    ELIGIBLE_LD_GRAIN_HEADER,
+    eligible_ld_grain_row(
+        "Legislative District Code 01A",
+        eligible_values(5253, 19234, 0, 0, 0, 0),
+        24487,
+    ),
+    eligible_ld_grain_row(
+        "Legislative District Code 01C",
+        (6653, 16694, None, 375, 5902, 41),
+        29697,
+    ),
+    eligible_ld_grain_row("TOTAL", (11906, 35928, 32, 375, 5902, 41), 54184),
+    ELIGIBLE_LD_DETAIL_HEADER,
+    eligible_ld_detail_row(
+        "Legislative District Code 01A", "Allegany", eligible_values(1891, 5231, 0, 0, 0, 0), 7122
+    ),
+    eligible_ld_detail_row("", "Garrett", (3362, 14003, None, None, None, 0), 17365),
+    eligible_ld_detail_row("TOTAL", "", (5253, 19234, 0, 0, 0, 0), 24487),
+]
+
+
+def test_eligible_district_grain_rows_publish_their_codes():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(ELIGIBLE_LD_ROWS), "GP26", "eligible-active", "legislative"
+    )
+    assert as_of is None  # a two-section excerpt; the live file carries the date cell
+    assert set(df["measure"]) == {"active"}
+    codes = set(df["district"])
+    assert codes == {"Legislative District Code 01A", "Legislative District Code 01C"}
+    assert set(df["county"]) == {""}  # STATEWIDE collapsed
+    assert len(df) == 13  # 01A: seven printed cells; 01C: six (the blank GRN)
+
+
+def test_eligible_01c_row_skips_the_blank_grn_cell():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(ELIGIBLE_LD_ROWS), "GP26", "eligible-active", "legislative"
+    )
+    one_c = df.filter(df["district"] == "Legislative District Code 01C")
+    got = dict(zip(one_c["party"], one_c["value"]))
+    assert got == {"DEM": 6653, "REP": 16694, "OTH": 375, "UNA": 5902, "WCP": 41, "ALL": 29697}
+
+
+def test_eligible_skips_the_district_county_detail():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(ELIGIBLE_LD_ROWS), "GP26", "eligible-active", "legislative"
+    )
+    # the detail section's counties are reconcile-only: the frame stays at district grain
+    assert set(df["county"]) == {""}
+    assert "Allegany" not in set(df["county"]) and "Garrett" not in set(df["county"])
+    assert "TOTAL" not in set(df["district"])
+    assert 7122 not in set(df["value"])  # the detail rows' own totals are not data
+    assert 17365 not in set(df["value"])
+    assert 24487 in set(df["value"])  # the grain row's own printed Total, at its grain
+
+
+def test_eligible_rejects_a_torn_detail_group():
+    torn = [row[:] for row in ELIGIBLE_LD_ROWS]
+    torn[6][7] = 1892  # the Allegany detail row's DEM no longer sums to the grain row
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "legislative")
+
+
+def test_eligible_rejects_a_detail_group_without_a_printed_grain_row():
+    torn = [row[:] for row in ELIGIBLE_LD_ROWS]
+    torn[6][1] = "Legislative District Code 99X"  # no such district row printed above
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "legislative")
+
+
+# Councilmanic shape: the grain section carries a leading statewide row (a blank
+# district cell with STATEWIDE in the county cell) whose numbers are the population the
+# councilmanic codes do not cover -- printed again in the file's detail section as those
+# counties' own rows -- and the grain's district label is spelled lowercase there
+# ("councilmanic District Code 000") while the detail section spells it capitalized; the
+# detail group still reconciles against the grain row by the label.
+
+ELIGIBLE_COUNCILMANIC_GRAIN_HEADER = [
+    "",
+    "",
+    "District",
+    "",
+    "",
+    "",
+    "",
+    "County",
+    "",
+    "DEM",
+    "",
+    "REP",
+    "",
+    "GRN",
+    "",
+    "OTH",
+    "",
+    "UNA",
+    "",
+    "WCP",
+    "",
+    "TOTAL",
+    "",
+]
+ELIGIBLE_COUNCILMANIC_DETAIL_HEADER = [
+    "District",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "County",
+    "",
+    "DEM",
+    "",
+    "REP",
+    "",
+    "GRN",
+    "",
+    "OTH",
+    "",
+    "UNA",
+    "",
+    "WCP",
+    "",
+    "TOTAL",
+    "",
+]
+
+
+def eligible_councilmanic_row(district, county, cells, total, lead=2):
+    """A row of the councilmanic file's grain section (District one column in)."""
+    dem, rep, grn, oth, una, wcp = cells
+    row = [""] * lead
+    return row + [
+        district,
+        "",
+        "",
+        "",
+        "",
+        county,
+        "",
+        dem,
+        "",
+        rep,
+        "",
+        grn,
+        "",
+        oth,
+        "",
+        una,
+        "",
+        wcp,
+        "",
+        total,
+        "",
+    ]
+
+
+def eligible_councilmanic_detail_row(district, county, cells, total):
+    """A row of the councilmanic file's detail section (District / County side by side)."""
+    dem, rep, grn, oth, una, wcp = cells
+    return [
+        district,
+        "",
+        "",
+        "",
+        "",
+        "",
+        county,
+        "",
+        dem,
+        "",
+        rep,
+        "",
+        grn,
+        "",
+        oth,
+        "",
+        una,
+        "",
+        wcp,
+        "",
+        total,
+        "",
+    ]
+
+
+ELIGIBLE_COUNCILMANIC_ROWS = [
+    ELIGIBLE_COUNCILMANIC_GRAIN_HEADER,
+    eligible_councilmanic_row("", "STATEWIDE", eligible_values(100, 50), 150),
+    eligible_councilmanic_row(
+        "councilmanic District Code 000", "STATEWIDE", eligible_values(10, 5), 15
+    ),
+    eligible_councilmanic_row("TOTAL", "", eligible_values(110, 55), 165),
+    ELIGIBLE_COUNCILMANIC_DETAIL_HEADER,
+    eligible_councilmanic_detail_row("", "Allegany", eligible_values(100, 50), 150),
+    eligible_councilmanic_detail_row(
+        "Councilmanic District Code 000", "Talbot", eligible_values(10, 5), 15
+    ),
+    eligible_councilmanic_detail_row("TOTAL", "", eligible_values(110, 55), 165),
+]
+
+
+def test_eligible_councilmanic_grain_and_detail_reconcile():
+    as_of, df = turnout.parse_eligible_bytes(
+        sent_worksheet(ELIGIBLE_COUNCILMANIC_ROWS), "GP26", "eligible-active", "councilmanic"
+    )
+    assert as_of is None
+    # published at the district grain; the detail rows and the statewide row stay out
+    assert set(df["district"]) == {"councilmanic District Code 000"}  # verbatim, lower-case
+    assert set(df["county"]) == {""}
+    assert len(df) == 7
+    got = dict(
+        zip(df.filter(df["district"] == "councilmanic District Code 000")["party"], df["value"])
+    )
+    assert got == {
+        "DEM": 10,
+        "REP": 5,
+        "GRN": 0,
+        "OTH": 0,
+        "UNA": 0,
+        "WCP": 0,
+        "ALL": 15,
+    }

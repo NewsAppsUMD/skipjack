@@ -1142,6 +1142,305 @@ def _sent_sheet_rows(
     return published
 
 
+# --- the eligible-voters family (xlsx) -------------------------------------------------------
+# One reader covers the county, inactive, and district files the press room publishes:
+# a header row (County, an optional District column for the district files, the six
+# party columns DEM..WCP, Total) read from wherever the export printed it, then rows
+# until the section's next header. The district files' first section prints the district
+# grain against a COUNTY cell that reads STATEWIDE; a later section re-prints the same
+# population at district x county grain, checked and never published -- the way the
+# sent-returned exports hand over their detail regions.
+
+ELIGIBLE_PARTIES = ("DEM", "REP", "GRN", "OTH", "UNA", "WCP")
+ELIGIBLE_MEASURES = {"eligible-active": "active", "eligible-inactive": "inactive"}
+ELIGIBLE_GEOGRAPHIES = ("county", "congressional", "legislative", "councilmanic")
+
+
+def parse_eligible_bytes(
+    data: bytes, election: str, family: str, geography: str
+) -> tuple[str | None, pl.DataFrame]:
+    """One Eligible Active/Inactive Voters workbook as long rows.
+
+    Returns the date the file prints ('**As of June 6, 2026' under the election date in
+    the live GP26 files; None when no sheet carries one) and the rows: one row per
+    printed cell of the file's own grain -- county rows for the county and inactive
+    files, district rows (verbatim codes, STATEWIDE county cell collapsed) for the
+    district files. Blank party cells publish nothing: the export suppresses cells, and
+    the legislative file's suppressed GRN cell for district 01C is a real 32 (the
+    Statewide export prints it), not a zero -- so the row checks hold only over the
+    cells that did print, a suppressed row staying under its printed Total. The grand
+    total rows' party columns are the one printed layer this family does not reconcile:
+    the live inactive file's DEM cell is 1327 under its own rows while its Total column
+    and every county row add up, so the rows and the Total columns are what is enforced.
+    """
+    if family not in ELIGIBLE_MEASURES:
+        raise TurnoutParseError(f"no eligible-voters family {family!r}")
+    if geography not in ELIGIBLE_GEOGRAPHIES:
+        raise TurnoutParseError(f"no eligible-voters files for geography {geography!r}")
+    try:
+        workbook = CalamineWorkbook.from_object(io.BytesIO(data))
+    except (OSError, CalamineError) as err:
+        raise TurnoutParseError(f"the eligible-voters workbook could not be read: {err}") from err
+    as_of = None
+    published: list[dict] = []
+    seen: set[tuple[str, str]] = set()  # (party, county) or (party, district), per document
+    for sheet in workbook.sheet_names:
+        rows = workbook.get_sheet_by_name(sheet).to_python(skip_empty_area=False)
+        if as_of is None:
+            as_of = _first_snapshot_date(rows)
+        published += _eligible_sheet_rows(
+            sheet, rows, election, family, ELIGIBLE_MEASURES[family], geography, as_of, seen
+        )
+    if not published:
+        raise TurnoutParseError("the eligible-voters workbook has no county or district rows")
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def _eligible_section(
+    labels: list[str | None],
+) -> tuple[dict[int, tuple[str, object]], int | None, int | None]:
+    """One section's column map: the identity cells and the party columns.
+
+    Returns the map and the district/county columns (None where the section has none).
+    A header must carry at least three party columns, one of the two identity labels,
+    and its Total column; every other label it carries fails -- a party the parser
+    does not know means a file the parser should not read.
+    """
+    mapping: dict[int, tuple[str, object]] = {}
+    district_col = county_col = None
+    for index, label in enumerate(labels):
+        if label is None:
+            continue
+        if label == "DISTRICT":
+            district_col, mapping[index] = index, ("id", "district")
+        elif label == "COUNTY":
+            county_col, mapping[index] = index, ("id", "county")
+        elif label == "TOTAL":
+            mapping[index] = ("cell", "ALL")
+        elif label in ELIGIBLE_PARTIES:
+            mapping[index] = ("cell", label)
+        else:
+            raise TurnoutParseError(f"unrecognized column label {label!r} in the header row")
+    if sum(1 for kind, _ in mapping.values() if kind == "cell") < 3:
+        raise TurnoutParseError("a header row with fewer than three party columns")
+    if district_col is None and county_col is None:
+        raise TurnoutParseError("a header row with no COUNTY or DISTRICT column")
+    if not any(mapping[index] == ("cell", "ALL") for index in mapping):
+        raise TurnoutParseError("a header row with no Total column")
+    return mapping, district_col, county_col
+
+
+def _eligible_sheet_rows(
+    sheet: str,
+    rows: list[list],
+    election: str,
+    family: str,
+    measure: str,
+    geography: str,
+    as_of: str | None,
+    seen: set[tuple[str, str]],
+) -> list[dict]:
+    """One sheet's published rows, section by section.
+
+    Within a section: the section's printed Total row (the label sits in the county or
+    district column) must equal the rows' Total column, exactly. The district files'
+    detail rows -- a district's label over its county rows -- are checked while they
+    open against the district's printed grain row wherever that is on the sheet, and
+    never published.
+    """
+    published: list[dict] = []
+    mapping: dict[int, tuple[str, object]] | None = None
+    district_col = county_col = None
+    grain: dict[str, dict[str, int]] = {}  # upper-cased district label -> party -> printed cell
+    open_group: tuple[str, str, dict[str, int], dict[str, bool]] | None = None
+    section_rows: list[dict[str, int]] = []
+
+    def close_group(index: int) -> None:
+        nonlocal open_group
+        if open_group is None:
+            return
+        label, _first_county, sums, full = open_group
+        open_group = None
+        if (grain_row := grain.get(label_upper(label))) is None:
+            raise TurnoutParseError(
+                f"{sheet} row {index}: the detail rows for {label!r} have no printed "
+                "district row above them"
+            )
+        for party, printed in grain_row.items():
+            if not full.get(party) or printed is None:
+                continue  # a suppressed cell on either side is not a count to compare
+            if sums.get(party, 0) != printed:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the detail rows sum to {sums.get(party, 0)} for "
+                    f"{party}, not the printed {label}'s {printed}"
+                )
+
+    def check_row_total(index: int, county_or_district: str, cells: dict[str, int]) -> None:
+        total = cells.get("ALL")
+        printed = {party: value for party, value in cells.items() if party != "ALL"}
+        if any(value is None for value in printed.values()):
+            collected = sum(value for value in printed.values() if value is not None)
+            if collected > total:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: {county_or_district}'s printed party cells sum to "
+                    f"{collected}, over the printed Total {total}"
+                )
+            return  # the row's Total covers cells the export did not print
+        collected = sum(printed.values())
+        if collected != total:
+            raise TurnoutParseError(
+                f"{sheet} row {index}: {county_or_district}'s party cells sum to {collected}, "
+                f"not the printed Total {total}"
+            )
+
+    def publish(kind_key: str, label: str, cells: dict[str, int]) -> None:
+        county, district = (label, "") if kind_key == "county" else ("", label)
+        for party, value in cells.items():
+            if value is None:
+                continue  # a cell the export did not print
+            published.append(
+                {
+                    "as_of": as_of or "",
+                    "election": election,
+                    "family": family,
+                    "geography": geography,
+                    "county": county,
+                    "district": district,
+                    "category": "ALL",
+                    "party": party,
+                    "measure": measure,
+                    "value": value,
+                }
+            )
+
+    for index, row in enumerate(rows, start=1):
+        row = row or []
+        labels = [_normalize_label(cell) for cell in row]
+        if sum(1 for label in labels if label and label in ELIGIBLE_PARTIES) >= 3:
+            mapping, district_col, county_col = _eligible_section(labels)
+            section_rows = []  # a new header closes what the last one reconciled
+            continue
+        if mapping is None:
+            continue  # title rows, the date cell, blank lines
+
+        cells: dict[str, int] = {}
+        for index_col, (kind, key) in mapping.items():
+            raw = row[index_col] if index_col < len(row) else None
+            if kind == "id":
+                cells[key] = raw if isinstance(raw, str) else None
+            elif raw in (None, ""):
+                cells[key] = None
+            elif isinstance(raw, (int, float)) and raw == int(raw):
+                cells[key] = int(raw)
+            else:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the {key} cell is not an integer ({raw!r})"
+                )
+
+        district_text = (cells["district"] or "").strip() if "district" in cells else ""
+        county_text = (cells["county"] or "").strip() if "county" in cells else ""
+        total_label = district_text.upper() in ("TOTAL", "TOTALS") or county_text.upper() in (
+            "TOTAL",
+            "TOTALS",
+        )
+        counts = {key: cells.get(key) for key, value in cells.items() if key in ELIGIBLE_PARTIES}  # type: ignore[union-attr]
+        counts["ALL"] = cells.get("ALL")
+        if total_label and "ALL" in counts and counts["ALL"] is not None:
+            close_group(index)
+            collected = sum(one["ALL"] or 0 for one in section_rows)
+            printed = counts["ALL"]
+            if collected != printed:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the printed Total row says {printed}, but the "
+                    f"section's rows sum to {collected}"
+                )
+            section_rows = []
+            continue
+        if counts["ALL"] is None:
+            if all(value is None for value in counts.values()):
+                continue  # a note row under the table carries no counts
+            raise TurnoutParseError(
+                f"{sheet} row {index}: the Total cell is blank over printed party cells"
+            )
+        district = _identity_cell(district_text)
+        county_text = _identity_cell(county_text)
+        if county_text:
+            county = canonical_county(county_text)
+            if county not in CANONICAL_COUNTIES:
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: unrecognized county label {county_text!r}"
+                )
+        else:
+            county = ""
+        if district and county:
+            # the file's detail grain: same population, finer breakdown, not published
+            if open_group is None or open_group[0].upper() != district.upper():
+                close_group(index)
+                open_group = (district, county, {}, {})
+            label, _county, sums, full = open_group
+            for party, value in counts.items():
+                if party == "ALL":
+                    continue
+                if value is not None:
+                    sums[party] = sums.get(party, 0) + value
+                full[party] = full.get(party, True) and value is not None
+            open_group = (label, _county, sums, full)
+            section_rows.append(dict(counts))
+        elif not district and county and open_group is not None:
+            # the district's label is merged to blank on the rows after its first row:
+            # the detail group continues
+            label, _county, sums, full = open_group
+            for party, value in counts.items():
+                if party == "ALL":
+                    continue
+                if value is not None:
+                    sums[party] = sums.get(party, 0) + value
+                full[party] = full.get(party, True) and value is not None
+            open_group = (label, _county, sums, full)
+            section_rows.append(dict(counts))
+        elif district:
+            close_group(index)
+            if geography == "county":
+                section_rows.append(dict(counts))
+                continue  # a district-grain row in a county file is not this file's grain
+            check_row_total(index, f"district {district!r}", counts)
+            grain[label_upper(district)] = {p: v for p, v in counts.items()}
+            for party in ELIGIBLE_PARTIES + ("ALL",):
+                if (party, district) in seen:
+                    raise TurnoutParseError(
+                        f"{sheet} row {index}: a {party} row for {district!r} appears more "
+                        "than once"
+                    )
+                seen.add((party, district))
+            publish("district", district, counts)
+            section_rows.append(dict(counts))
+        else:  # a county row (no district printed over it)
+            close_group(index)
+            if geography == "county":
+                check_row_total(index, county, counts)
+                for party in ELIGIBLE_PARTIES + ("ALL",):
+                    if (party, county) in seen:
+                        raise TurnoutParseError(
+                            f"{sheet} row {index}: a {party} row for {county} appears more "
+                            "than once"
+                        )
+                    seen.add((party, county))
+                publish("county", county, counts)
+            section_rows.append(dict(counts))
+    close_group(len(rows) + 1)
+    if section_rows:
+        raise TurnoutParseError(
+            f"{sheet}: {len(section_rows)} rows at the sheet's end have no printed Total row"
+        )
+    return published
+
+
+def label_upper(text: str) -> str:
+    """A district label's key for matching a file's own spellings of it (and for the
+    two sections that spell 'councilmanic' differently in the live file)."""
+    return " ".join(text.split()).upper()
+
+
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
