@@ -23,6 +23,11 @@ def test_as_of_text_rejects_garbage():
     assert turnout.extract_as_of_text("As of: 2026-10-09") is None  # SBE never prints it that way
 
 
+def test_as_of_text_rejects_unparseable_dates():
+    assert turnout.extract_as_of_text("As of: Sept 30, 2026") is None  # abbreviated month, regex still matches
+    assert turnout.extract_as_of_text("As of: October 32, 2026") is None  # no such day
+
+
 def test_as_of_xlsx_finds_the_cell(tmp_path):
     wb = openpyxl.Workbook()
     ws = wb.active
@@ -46,6 +51,35 @@ def test_as_of_xlsx_corrupt_file_returns_none(tmp_path):
     path = tmp_path / "corrupt.xlsx"
     path.write_bytes(b"PK\x03\x04 not really a zip")
     assert turnout.extract_as_of_xlsx(path) is None
+
+
+def test_as_of_xlsx_multi_line_cell(tmp_path):
+    # The real cell is multi-line: a "6 PM" suffix and a note follow the date on later lines,
+    # so the find-anywhere semantics (search, not a whole-string match) are load-bearing.
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Absentees_Sent_and_Returned_by_County"
+    ws.cell(
+        row=2,
+        column=5,
+        value="As of: October 9, 2026 6 PM\nNote: Data includes Print at Home ballots.",
+    )
+    path = tmp_path / "t.xlsx"
+    wb.save(path)
+    assert turnout.extract_as_of_xlsx(path) == "2026-10-09"
+
+
+def test_as_of_xlsx_first_sheet_wins(tmp_path):
+    # Sheets are scanned in workbook order: the first sheet's as-of date wins.
+    wb = openpyxl.Workbook()
+    first = wb.active
+    first.title = "County"
+    first.cell(row=2, column=5, value="As of: October 9, 2026")
+    second = wb.create_sheet("Legislative")
+    second.cell(row=3, column=7, value="As of: October 8, 2026")
+    path = tmp_path / "t.xlsx"
+    wb.save(path)
+    assert turnout.extract_as_of_xlsx(path) == "2026-10-09"
 
 
 def test_election_config_matches_the_live_press_room():

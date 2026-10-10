@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from python_calamine import CalamineWorkbook
+from python_calamine import CalamineError, CalamineWorkbook
 
 # results.elections.maryland.gov redirects here.
 SBE_BASE = "https://elections.maryland.gov"
@@ -39,19 +39,22 @@ class Election:
 def _gg26_files() -> list[FamilyFile]:
     """The files published under press_room/2026_stats/GG26/ (see the press-room page)."""
     base = f"{SBE_BASE}/press_room/2026_stats/GG26"
-    files = [
-        FamilyFile("requests", "county", "pdf", f"{base}/Mail-in_Ballot_Request_Counts_with_Chart.pdf")
+    return [
+        FamilyFile("requests", "county", "pdf", f"{base}/Mail-in_Ballot_Request_Counts_with_Chart.pdf"),
+        FamilyFile("sent-returned", "county", "xlsx", f"{base}/Absentees_Sent_and_Returned_by_County.xlsx"),
+        FamilyFile(
+            "sent-returned",
+            "congressional",
+            "xlsx",
+            f"{base}/Absentees_Sent_and_Returned_by_Congressional.xlsx",
+        ),
+        FamilyFile(
+            "sent-returned",
+            "legislative",
+            "xlsx",
+            f"{base}/Absentees_Sent_and_Returned_by_Legislative.xlsx",
+        ),
     ]
-    for geo in ("county", "congressional", "legislative"):
-        files.append(
-            FamilyFile(
-                "sent-returned",
-                geo,
-                "xlsx",
-                f"{base}/Absentees_Sent_and_Returned_by_{geo.capitalize()}.xlsx",
-            )
-        )
-    return files
 
 
 ELECTIONS: dict[str, Election] = {
@@ -67,10 +70,17 @@ AS_OF_RE = re.compile(r"As of:\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
 
 
 def extract_as_of_text(text: str) -> str | None:
-    """The as-of date "YYYY-MM-DD" from an "As of: October 9, 2026 6 PM" line, else None."""
+    """The as-of date "YYYY-MM-DD" from an "As of: October 9, 2026 6 PM" line, else None.
+
+    The regex accepts month/day shapes strptime rejects ("Sept 30, 2026", "October 32,
+    2026"); those are treated as no date, not a parse error.
+    """
     if not (found := AS_OF_RE.search(text)):
         return None
-    parsed = datetime.datetime.strptime(found.group(1), "%B %d, %Y")
+    try:
+        parsed = datetime.datetime.strptime(found.group(1), "%B %d, %Y")
+    except ValueError:
+        return None
     return parsed.date().isoformat()
 
 
@@ -78,17 +88,20 @@ def extract_as_of_xlsx(path: Path) -> str | None:
     """The as-of date from the header cells of an SBE xlsx, None when absent or unreadable.
 
     The exports put the header block in odd spots (observed: sheet named after the file,
-    the cell a few rows and columns in), and some are zip-corrupt, so scan every sheet's
-    first 20 rows x 20 columns and let any read error read as "no date".
+    the cell a few rows and columns in). Two failures mean "no date" and are caught here,
+    never propagated: OSError from the filesystem, CalamineError from a corrupt,
+    password-protected or malformed workbook (SBE's own exports are sometimes zip-corrupt,
+    raising "ZipError: could not find EOCD", a CalamineError subclass). A file with no
+    parseable date is not an error — the parse command decides later what it means.
     """
     try:
         wb = CalamineWorkbook.from_path(str(path))
         for sheet in wb.sheet_names:
             rows = wb.get_sheet_by_name(sheet).to_python(skip_empty_area=False)[:20]
-            for row in rows[:20]:
+            for row in rows:
                 for cell in row[:20]:
                     if isinstance(cell, str) and "As of" in cell:
                         return extract_as_of_text(cell)
-    except Exception:
+    except (OSError, CalamineError):
         return None
     return None
