@@ -8,10 +8,16 @@ import sqlite3
 from pathlib import Path
 
 import polars as pl
+from polars.exceptions import PolarsError
 
 from skipjack.models import SCHEMA_SQL
 
 logger = logging.getLogger(__name__)
+
+
+class TurnoutLoadError(RuntimeError):
+    """A turnout snapshot contradicts itself or has no provenance sidecar."""
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = PROJECT_ROOT / "data"
@@ -47,23 +53,27 @@ def load_provenance(csv_path: Path) -> dict | None:
     return None
 
 
+def _source_fields(prov: dict) -> tuple:
+    """The provenance every source row shares, after its key columns."""
+    return (
+        prov["source_url"],
+        prov["source_name"],
+        prov["document_title"],
+        prov["fetch_date"],
+        prov.get("sha256_original", ""),
+        prov.get("extraction_method", ""),
+        json.dumps(prov.get("checks", {})),
+        prov.get("notes", ""),
+    )
+
+
 def _upsert_source(conn: sqlite3.Connection, prov: dict) -> None:
     conn.execute(
         """INSERT OR REPLACE INTO sources
            (source_id, source_url, source_name, document_title, fetch_date, sha256,
             extraction_method, checks_json, notes)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-        (
-            prov["source_id"],
-            prov["source_url"],
-            prov["source_name"],
-            prov["document_title"],
-            prov["fetch_date"],
-            prov.get("sha256_original", ""),
-            prov.get("extraction_method", ""),
-            json.dumps(prov.get("checks", {})),
-            prov.get("notes", ""),
-        ),
+        (prov["source_id"], *_source_fields(prov)),
     )
 
 
@@ -153,16 +163,27 @@ def _upsert_turnout_source(conn: sqlite3.Connection, prov: dict, as_of: str) -> 
             prov["family"],
             prov["geography"],
             as_of,
-            prov["source_url"],
-            prov["source_name"],
-            prov["document_title"],
-            prov["fetch_date"],
-            prov.get("sha256_original", ""),
-            prov.get("extraction_method", ""),
-            json.dumps(prov.get("checks", {})),
-            prov.get("notes", ""),
+            *_source_fields(prov),
         ),
     )
+
+
+def _check_turnout_snapshot(df: pl.DataFrame, prov: dict, csv_path: Path) -> None:
+    """Every snapshot must agree with its file name and its provenance sidecar."""
+    as_of = csv_path.stem
+    bad_as_of = df.filter(pl.col("as_of").is_null() | (pl.col("as_of") != as_of))
+    if bad_as_of.height:
+        found = bad_as_of["as_of"].unique().to_list()
+        raise TurnoutLoadError(
+            f"{csv_path}: rows carry as_of {found} but the file name says {as_of!r}"
+        )
+    for col in ("election", "family", "geography"):
+        values = df[col].unique().to_list()
+        expected = prov.get(col, "")
+        if len(values) != 1 or values[0] != expected:
+            raise TurnoutLoadError(
+                f"{csv_path}: {col} column holds {values} but the sidecar says {expected!r}"
+            )
 
 
 def load_turnout(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
@@ -182,21 +203,26 @@ def load_turnout(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
         "measure",
         "value",
     ]
+    overrides = {c: pl.String for c in columns if c != "value"}
+    overrides["value"] = pl.Int64
     sql = (
         f"INSERT INTO turnout_counts (source_id, {', '.join(columns)}) "
         f"VALUES (?, {', '.join('?' * len(columns))})"
     )
     total = 0
     for csv_path in sorted(root.glob("*/*/*/*.csv")):
-        if csv_path.stem.endswith("_provenance"):
-            continue
         prov = load_provenance(csv_path)
         if not prov:
-            logger.warning("No provenance for %s — skipped", csv_path)
-            continue
+            raise TurnoutLoadError(
+                f"{csv_path}: no provenance sidecar; refusing to load an unattributable snapshot"
+            )
+        try:
+            df = pl.read_csv(csv_path, schema_overrides=overrides).select(columns)
+        except PolarsError as e:
+            raise TurnoutLoadError(f"{csv_path}: {e}") from e
+        _check_turnout_snapshot(df, prov, csv_path)
         _upsert_turnout_source(conn, prov, csv_path.stem)
-        df = pl.read_csv(csv_path, schema_overrides={c: pl.String for c in columns[:-1]})
-        conn.executemany(sql, ((prov["source_id"], *row) for row in df.select(columns).iter_rows()))
+        conn.executemany(sql, ((prov["source_id"], *row) for row in df.iter_rows()))
         total += len(df)
     logger.info("Loaded turnout: %d rows", total)
     return total

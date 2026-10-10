@@ -125,5 +125,5 @@ CREATE TABLE IF NOT EXISTS turnout_counts (
     value INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_turnout_counts_asof
-    ON turnout_counts (as_of, election, family, geography);
+    ON turnout_counts (election, family, geography, as_of);
 """

@@ -52,9 +52,12 @@ active/inactive voters, "Official by Party and {County,Congressional,Legislative
 - **Page grain**: one `/turnout/gg26/` page — statewide headline, trend charts, sortable
   county table. Congressional and legislative variants are parsed and published as
   downloads only. County subpages are a later increment.
-- **Reading the spreadsheets**: XLSX via calamine when the file is a valid zip; fall back
-  to the PDF twin (natural-pdf) otherwise — the live requests xlsx has corrupt zip
-  members on SBE's side, so the fallback is exercised from day one.
+- **Reading the spreadsheets** (amended 2026-10-10 after reading the real files): the
+  requests report is parsed from its **PDF only** — its live xlsx has corrupt zip members
+  and its correct shape is unknown, so the xlsx is never attempted. The sent-returned
+  family is parsed from its **xlsx**; if an xlsx is ever unreadable the parse fails
+  loudly (red CI) rather than silently skipping — congressional and legislative have no
+  PDF fallback at all.
 
 ## Data model
 
@@ -83,8 +86,8 @@ turnout_counts(
 CSV layout under `data/turnout/`:
 
 ```
-data/turnout/GG26/requests/2026-10-09.csv
-data/turnout/GG26/requests/2026-10-09_provenance.json
+data/turnout/GG26/requests/county/2026-10-09.csv
+data/turnout/GG26/requests/county/2026-10-09_provenance.json
 data/turnout/GG26/sent-returned/county/2026-10-09.csv
 data/turnout/GG26/sent-returned/county/2026-10-09_provenance.json
 data/turnout/GG26/sent-returned/congressional/2026-10-09.csv
@@ -103,6 +106,9 @@ Reconciliation, before anything is written:
 - Anything that does not add up fails the parse (no row is written) — a new mismatch
   requires looking at the PDF and recording it in `source_discrepancies.csv`, as the
   monthly reports do.
+- Reconciliation is strictly **within one document** (each table's own printed totals):
+  never cross-check the PDF against the xlsx, or one geography against another — the
+  county and congressional files have printed different totals for the same as-of date.
 
 ## Pipeline
 
