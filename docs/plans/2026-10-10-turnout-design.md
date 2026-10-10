@@ -112,6 +112,15 @@ Reconciliation, before anything is written:
 - Anything that does not add up fails the parse (no row is written) — a new mismatch
   requires looking at the PDF and recording it in `source_discrepancies.csv`, as the
   monthly reports do.
+
+  A real divergence to know (from the live 2026-10-09 files): the county workbook's
+  county table reconciles to 605,052 mail-in ballots sent statewide, while the same
+  file's councilmanic-district detail sheet reconciles internally to 524,248. The
+  detail omits what a councilmanic district table cannot hold (overseas and military
+  voters, and any county rows without a councilmanic district), so the two totals are
+  different grains on purpose. Reconciliation is strictly within one sheet of one
+  geography file — never the county table against the district detail, nor the PDF
+  against the xlsx, nor one geography against another.
 - Reconciliation is strictly **within one document** (each table's own printed totals):
   never cross-check the PDF against the xlsx, or one geography against another — the
   county and congressional files have printed different totals for the same as-of date.

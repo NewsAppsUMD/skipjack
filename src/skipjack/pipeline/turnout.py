@@ -833,4 +833,4 @@ def _parse_file(
 
 
 def _extraction_of(path: Path) -> str:
-    return "ocr: none; pdf text" if path.suffix == ".pdf" else "xlsx (calamine)"
+    return "pdf text" if path.suffix == ".pdf" else "xlsx (calamine)"
