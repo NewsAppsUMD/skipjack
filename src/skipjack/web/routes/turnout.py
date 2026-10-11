@@ -126,7 +126,7 @@ def _certified_tiles(cert: dict) -> list[dict]:
                 "label": "mail-in ballots received back",
                 "value": mail.get("received"),
                 "sub": (
-                    f"{mail['accepted']:,} counted, {mail['rejected']:,} rejected"
+                    f"{mail['accepted']:,} accepted, {mail['rejected']:,} rejected"
                     if mail.get("accepted") is not None and mail.get("rejected") is not None
                     else None
                 ),

@@ -490,6 +490,11 @@ def test_real_gp26_page_renders_the_certified_data():
     assert "891,567" in r.text  # votes counted
     assert "41.3%" in r.text  # election-day share of the cast ballots
     assert "3,281" in r.text  # mail-in ballots rejected
+    # the mail-in envelope tile carries the board's word for a canvass acceptance —
+    # "accepted", not "counted" (that word belongs to the counted-votes report) — and the
+    # page says the two mail-in figures measure different records
+    assert "295,400 accepted" in r.text and "295,400 counted" not in r.text
+    assert "envelopes returned" in r.text
     # a certified page carries only its figures of record: nothing from the board's
     # unofficial eight-day turnout files, not even their download links
     for forbidden in (

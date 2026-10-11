@@ -16,6 +16,17 @@
     </div>
     {% endfor %}
 </div>
+{% set mail = cert.get("mail-voting") %}
+{% if mail %}
+<p class="note">The two mail-in figures above are different certified records.
+    <em>Vote by mail</em> is the mode of voting: the turnout-by-mode report's count of
+    ballots cast by mail. <em>Mail-in ballots received back</em> is the certified
+    mail-in report's envelope count: {{ m.num(mail.received) }} envelopes returned,
+    dispositioned as {{ m.num(mail.accepted) }} accepted and {{ m.num(mail.rejected) }}
+    rejected. The report's note covers ballots requested or automatically sent, Federal
+    write-in absentee ballots included — ballots cast versus envelopes returned, so the
+    two figures are not the same measure.</p>
+{% endif %}
 {% endif %}
 
 {% if not cert.get("eligible") %}
