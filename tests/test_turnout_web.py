@@ -224,6 +224,18 @@ def test_data_page_lists_the_turnout_snapshots():
 
 
 @needs_db
+def test_the_data_page_does_not_list_a_certified_election_s_unofficial_tallies():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    html = TestClient(create_app()).get("/data/").text
+    assert "/downloads/turnout/GP26/early-voting/" not in html
+    assert "/downloads/turnout/GP26/same-day/" not in html
+    assert "/downloads/turnout/GP26/requests/" in html
+
+
+@needs_db
 def test_about_page_lists_the_turnout_sources():
     from fastapi.testclient import TestClient
 
@@ -244,6 +256,25 @@ def test_the_turnout_csv_download_route_serves_files():
     r = client.get("/downloads/turnout/GG26/requests/county/2026-10-09.csv")
     assert r.status_code == 200
     assert "Allegany" in r.text
+
+
+@needs_db
+def test_the_live_app_does_not_serve_a_certified_election_s_unofficial_tallies():
+    """Files under data/ must not leak through a static mount: the unofficial tallies
+    of a certified election 404 at direct download addresses too."""
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    r = client.get("/downloads/turnout/GP26/requests/county/2026-06-19.csv")
+    assert r.status_code == 200  # a publishable family still serves
+    for forbidden in (
+        "/downloads/turnout/GP26/early-voting/county/2026-06-23.csv",
+        "/downloads/turnout/GP26/same-day/county/2026-06-23.csv",
+        "/downloads/turnout/GP26/../../skipjack.db",
+    ):
+        assert client.get(forbidden).status_code == 404
 
 
 def test_zero_sent_counts_have_no_return_rate(conn):
@@ -404,6 +435,23 @@ def test_certified_county_rows_join_the_families(conn):
         ],
         family="mail-voting",
     )
+    # the unofficial tallies are in the data for the joining counties: a certified
+    # election's rows must not surface them
+    add(
+        conn,
+        "2026-07-23",
+        [("county", "Allegany", "", "ALL", "ALL", "total", 1308)],
+        family="early-voting",
+    )
+    add(
+        conn,
+        "2026-07-23",
+        [
+            ("county", "Allegany", "", "ALL", "ALL", m, v)
+            for m, v in [("new-total", 11), ("addrchg-total", 5), ("total", 16)]
+        ],
+        family="same-day",
+    )
     rows = turnout.certified_county_rows(
         conn,
         "GG26",
@@ -418,6 +466,8 @@ def test_certified_county_rows_join_the_families(conn):
     assert row["county"] == "Allegany"
     assert row["cast"] == 10615 and row["counted"] is None
     assert row["mail_voting"]["sent"] == 4027 and row["mail_voting"]["rejected"] == 33
+    assert "early_voting_total" not in row
+    assert "same_day" not in row
 
 
 # ---------------------------------------------------------------------------
@@ -440,8 +490,17 @@ def test_real_gp26_page_renders_the_certified_data():
     assert "891,567" in r.text  # votes counted
     assert "41.3%" in r.text  # election-day share of the cast ballots
     assert "3,281" in r.text  # mail-in ballots rejected
-    assert "185,031" in r.text  # early-voting total
-    assert "2,179" in r.text  # same-day new registrations
+    # a certified page carries only its figures of record: nothing from the board's
+    # unofficial eight-day turnout files, not even their download links
+    for forbidden in (
+        "185,031",  # the unofficial early-voting tally
+        "2,179",  # the unofficial same-day total
+        "Early voting (the EV tally)",
+        ">Same-day</th>",
+        "/downloads/turnout/GP26/early-voting",
+        "/downloads/turnout/GP26/same-day",
+    ):
+        assert forbidden not in r.text
     # the denominator files had not re-published when this snapshot was taken: the page
     # says so instead of claiming a turnout percentage
     assert "turnout percentage" in r.text

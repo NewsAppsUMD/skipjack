@@ -6,10 +6,12 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import FileResponse
 
+from skipjack.pipeline.turnout import may_publish
 from skipjack.web.bulk import BULK_FILES, DESCRIPTIONS
-from skipjack.web.downloads import download_files
+from skipjack.web.downloads import DOWNLOAD_SUFFIXES, download_files
 from skipjack.web.paths import DATA_DIR
 
 router = APIRouter()
@@ -47,6 +49,23 @@ def monthly_listing(data_dir: Path, folder: str) -> list[dict]:
     return [{"year": y, "files": by_year[y]} for y in sorted(by_year, reverse=True)]
 
 
+@router.get("/downloads/turnout/{relative:path}")
+async def turnout_download(relative: str):
+    """Serve a turnout snapshot's CSV or provenance file, gated per family: the
+    unofficial tallies of a certified election are not published."""
+    parts = Path(relative).parts
+    if (
+        parts
+        and not any(p in ("..", ".") for p in parts)
+        and len(parts) >= 3
+        and may_publish(parts[0], parts[1])
+    ):
+        target = DATA_DIR / "turnout" / relative
+        if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
+            return FileResponse(target)
+    raise HTTPException(404)
+
+
 def turnout_listing(data_dir: Path) -> list[dict]:
     """Turnout snapshot CSVs, grouped by election, report family and geography (newest first)."""
     blocks: list[dict] = []
@@ -55,6 +74,8 @@ def turnout_listing(data_dir: Path) -> list[dict]:
         return blocks
     for election_dir in sorted((p for p in root.iterdir() if p.is_dir())):
         for family_dir in sorted(p for p in election_dir.iterdir() if p.is_dir()):
+            if not may_publish(election_dir.name, family_dir.name):
+                continue
             for geo_dir in sorted(p for p in family_dir.iterdir() if p.is_dir()):
                 files = [
                     {

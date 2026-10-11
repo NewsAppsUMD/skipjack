@@ -39,8 +39,6 @@
             <th class="num">Provisional</th>
             <th class="num">Mail ballots accepted</th>
             <th class="num">Mail ballots rejected</th>
-            <th class="num">Early voting (the EV tally)</th>
-            <th class="num">Same-day</th>
         </tr>
     </thead>
     <tbody>
@@ -55,8 +53,6 @@
             <td class="num">{{ m.num(r.by_mode.get("provisional")) }}</td>
             <td class="num">{{ m.num(r.mail_voting.get("accepted")) }}</td>
             <td class="num">{{ m.num(r.mail_voting.get("rejected")) }}</td>
-            <td class="num">{{ m.num(r.early_voting_total) }}</td>
-            <td class="num">{{ m.num(r.same_day.get("total")) }}</td>
         </tr>
         {% endfor %}
     </tbody>

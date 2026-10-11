@@ -4593,3 +4593,16 @@ def test_same_day_location_grand_total_must_agree_with_its_locations():
     torn[-1][21] = "23"  # ... its total, so the row itself still adds up
     with pytest.raises(turnout.TurnoutParseError, match="county rows sum to 2"):
         turnout.parse_same_day_rows(torn, "GP26", "location", as_of="2026-06-23")
+
+
+def test_may_publish_which_report_families():
+    """A certified election publishes only its figures of record: the board's
+    unofficial eight-day turnout tallies (early-voting, same-day) stay out of the
+    pages and downloads of a previous election. An in-flight election keeps its
+    page, and the families a certified report uses are always publishable."""
+    assert turnout.may_publish("GP26", "county-canvass")
+    assert turnout.may_publish("GP26", "requests")
+    assert turnout.may_publish("GG26", "sent-returned")
+    assert turnout.may_publish("GG26", "early-voting")
+    assert not turnout.may_publish("GP26", "early-voting")
+    assert not turnout.may_publish("GP26", "same-day")

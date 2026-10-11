@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+from pathlib import Path
 
 import pytest
 
@@ -103,6 +104,31 @@ def test_the_tile_markup_is_styled():
     css = (STATIC_DIR / "style.css").read_text()
     for selector in (".tiles", ".tile .v", ".tile .l", ".tile .v.small"):
         assert selector in css
+
+
+def test_download_files_drops_unofficial_tallies_of_certified_elections(tmp_path):
+    """A previous election's downloads carry its figures of record; the unofficial
+    eight-day turnout tallies are neither linked nor downloadable."""
+    (tmp_path / "turnout" / "GP26" / "early-voting" / "county").mkdir(parents=True)
+    (tmp_path / "turnout" / "GP26" / "same-day" / "county").mkdir(parents=True)
+    (tmp_path / "turnout" / "GP26" / "requests" / "county").mkdir(parents=True)
+    (tmp_path / "turnout" / "GG26" / "sent-returned" / "county").mkdir(parents=True)
+    (tmp_path / "voter_registration" / "monthly").mkdir(parents=True)
+    for path, text in [
+        ("turnout/GP26/early-voting/county/2026-06-23.csv", "x"),
+        ("turnout/GP26/early-voting/county/2026-06-23_provenance.json", "{}"),
+        ("turnout/GP26/same-day/county/2026-06-23.csv", "x"),
+        ("turnout/GP26/requests/county/2026-06-19.csv", "x"),
+        ("turnout/GG26/sent-returned/county/2026-10-09.csv", "x"),
+        ("voter_registration/monthly/2026-08.csv", "x"),
+        ("voter_registration/notes.txt", "not a download"),
+    ]:
+        (tmp_path / path).write_text(text)
+    assert download_files(tmp_path) == [
+        Path("turnout/GG26/sent-returned/county/2026-10-09.csv"),
+        Path("turnout/GP26/requests/county/2026-06-19.csv"),
+        Path("voter_registration/monthly/2026-08.csv"),
+    ]
 
 
 # --- full build ----------------------------------------------------------------------

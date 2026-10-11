@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import sqlite3
 
-from skipjack.pipeline.turnout import ELECTIONS
+from skipjack.pipeline.turnout import ELECTIONS, may_publish
 
 _SENT_MEASURES = ("sent", "received", "accepted")
 
@@ -253,8 +253,18 @@ def snapshot_sources(
                 "sha256": r["sha256"],
                 "fetched": r["fetch_date"][:10],
                 "method": r["extraction_method"],
-                "csv": f"turnout/{election}/{r['family']}/{r['geography']}/{family_as_of}.csv",
-                "provenance": f"turnout/{election}/{r['family']}/{r['geography']}/{family_as_of}_provenance.json",
+                # a certified election does not publish its unofficial tally families:
+                # the strip still documents the read, but links to nothing unpublished
+                "csv": (
+                    f"turnout/{election}/{r['family']}/{r['geography']}/{family_as_of}.csv"
+                    if may_publish(election, r["family"])
+                    else None
+                ),
+                "provenance": (
+                    f"turnout/{election}/{r['family']}/{r['geography']}/{family_as_of}_provenance.json"
+                    if may_publish(election, r["family"])
+                    else None
+                ),
             }
         )
     return out
@@ -364,8 +374,6 @@ def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
     for family, measures in (
         ("mail-voting", ("sent", "received", "accepted", "rejected")),
         ("requests", ("total",)),
-        ("early-voting", ("total",)),
-        ("same-day", ("new-total", "addrchg-total", "total")),
     ):
         if family in dates:
             state = _family_state(conn, election, family, dates[family])
@@ -450,10 +458,6 @@ def certified_county_rows(
             else {}
         )
         requests = _family_county(conn, election, "requests", county, dates.get("requests", ""))
-        early = _family_county(
-            conn, election, "early-voting", county, dates.get("early-voting", "")
-        )
-        same_day = _family_county(conn, election, "same-day", county, dates.get("same-day", ""))
         if not canvass and not accepted and not mail_voting:
             continue
         out.append(
@@ -477,12 +481,6 @@ def certified_county_rows(
                     "received": mail_voting.get("received"),
                     "accepted": mail_voting.get("accepted"),
                     "rejected": mail_voting.get("rejected"),
-                },
-                "early_voting_total": early.get("total"),
-                "same_day": {
-                    "new": same_day.get("new-total"),
-                    "addrchg": same_day.get("addrchg-total"),
-                    "total": same_day.get("total"),
                 },
             }
         )

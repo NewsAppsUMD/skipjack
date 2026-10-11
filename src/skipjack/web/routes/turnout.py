@@ -78,16 +78,7 @@ def _certified_dates(cert: dict) -> dict[str, str]:
         family: as_of
         for family, as_of in cert["as_ofs"].items()
         if as_of
-        and family
-        in (
-            "county-canvass",
-            "votes-accepted",
-            "mail-voting",
-            "requests",
-            "early-voting",
-            "same-day",
-            "provisional",
-        )
+        and family in ("county-canvass", "votes-accepted", "mail-voting", "requests", "provisional")
     }
 
 
@@ -148,26 +139,6 @@ def _certified_tiles(cert: dict) -> list[dict]:
                 "label": "mail-in ballot requests",
                 "value": cert.get("requests", {}).get("total"),
                 "as_of": cert["as_ofs"].get("requests", ""),
-            }
-        )
-    if cert.get("early-voting", {}).get("total"):
-        tiles.append(
-            {
-                "label": "early-voting ballots cast",
-                "value": cert["early-voting"]["total"],
-                "as_of": cert["as_ofs"].get("early-voting", ""),
-            }
-        )
-    same_day = cert.get("same-day")
-    if same_day and same_day.get("total") is not None:
-        tiles.append(
-            {
-                "label": "same-day registrations at the polls",
-                "value": same_day.get("new-total"),
-                "sub": f"{same_day['addrchg-total']:,} address changes"
-                if same_day.get("addrchg-total") is not None
-                else None,
-                "as_of": cert["as_ofs"].get("same-day", ""),
             }
         )
     return tiles

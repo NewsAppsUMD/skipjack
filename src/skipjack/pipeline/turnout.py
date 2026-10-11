@@ -180,6 +180,20 @@ ELECTIONS: dict[str, Election] = {
     ),
 }
 
+# The board's eight-day early-voting and same-day registration files are campaign-time
+# tallies printed "Unofficial". A certified election's published figures come from its
+# certified canvass reports alone, so those families stay in the archive and out of the
+# pages and downloads of a previous election.
+UNOFFICIAL_TALLY_FAMILIES = ("early-voting", "same-day")
+
+
+def may_publish(election: str, family: str) -> bool:
+    """Whether the site may publish this report family's figures for the election."""
+    return family not in UNOFFICIAL_TALLY_FAMILIES or not (
+        election in ELECTIONS and ELECTIONS[election].certified
+    )
+
+
 AS_OF_RE = re.compile(r"As of:\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
 
 

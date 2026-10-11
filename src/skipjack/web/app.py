@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from skipjack.web.downloads import DOWNLOAD_ROOTS
+from skipjack.web.downloads import MOUNTED_ROOTS
 from skipjack.web.dates import day_label, month_label
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR, TEMPLATES_DIR
 from skipjack.web.routes import (
@@ -50,7 +50,9 @@ def create_app() -> FastAPI:
     application.state.templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
     configure_templates(application.state.templates)
     application.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
-    for folder in DOWNLOAD_ROOTS:
+    # the turnout files are not mounted: they are served gated per family so a certified
+    # election's unofficial tallies stay unpublished (see routes/data.py:turnout_download)
+    for folder in MOUNTED_ROOTS:
         if (DATA_DIR / folder).exists():
             application.mount(
                 f"/downloads/{folder}",
