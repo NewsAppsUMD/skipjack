@@ -3227,3 +3227,169 @@ def test_votes_accepted_rejects_an_unrecognized_county_label():
     bad[1][0] = "Prince Georges"
     with pytest.raises(turnout.TurnoutParseError, match="unrecognized county"):
         turnout.parse_votes_accepted_rows(bad, "GP26", "county", as_of="2026-07-23")
+
+
+# mail-voting: "Official Mail-In Voting Voting", one page at two tables. The county
+# table sends, receives, accepts and rejects ballots per county (each count, then the
+# % cell that shares it); the second table is the state's rejected mail-in ballots
+# broken down by their printed rejection reasons. Measures are the sent-returned
+# vocabulary (sent, received, accepted) plus 'rejected', which the reasons borrow for
+# their own rows: one row per printed reason, category = the reason as printed (the
+# line wrap the extraction carries inside a reason cell collapses), county and
+# district empty, so the reasons' sum IS the state's rejected cell.
+
+MAIL_HEADER = [
+    "County",
+    "Ballots Sent",
+    "Ballots Received",
+    "",
+    "Ballots Accepted",
+    "",
+    "Ballots Rejected",
+    "",
+]
+
+MAIL_VOTING_ROWS = [
+    MAIL_HEADER,
+    ["Allegany", "4,027", "2,456", "60.99%", "2,423", "98.66%", "33", "1.34%"],
+    ["Anne Arundel", "49,224", "29,206", "59.33%", "29,083", "99.58%", "123", "0.42%"],
+    ["Worcester", "4,419", "2,582", "58.43%", "2,546", "98.61%", "36", "1.39%"],
+    ["Statewide", "57,670", "34,244", "59.38%", "34,052", "99.44%", "192", "0.56%"],
+    # the second table: the state's 192 rejected ballots by their printed reason
+    ["Board Action", "35", "18.23%"],
+    ["Late for election", "100", "52.08%"],
+    ["No signature", "50", "26.04%"],
+    ["No mail-in ballot application", "2", "1.04%"],
+    ["Voted more than one ballot", "5", "2.60%"],
+    ["Total", "192", ""],
+]
+
+
+def test_mail_voting_parses_the_county_rows():
+    as_of, df = turnout.parse_mail_voting_rows(
+        MAIL_VOTING_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert as_of == "2026-07-23"
+    assert len(df) == 3 * 4 + 5  # three counties x four measures, plus five reasons
+    assert set(df["measure"]) == {"sent", "received", "accepted", "rejected"}
+    assert set(df["family"]) == {"mail-voting"}
+    assert set(df["geography"]) == {"county"}
+    allegany = df.filter((df["county"] == "Allegany") & (df["category"] == "ALL"))
+    assert dict(zip(allegany["measure"], allegany["value"])) == {
+        "sent": 4027,
+        "received": 2456,
+        "accepted": 2423,
+        "rejected": 33,
+    }
+
+
+def test_mail_voting_publishes_the_rejection_reasons():
+    as_of, df = turnout.parse_mail_voting_rows(
+        MAIL_VOTING_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    reasons = df.filter((df["category"] != "ALL"))
+    assert set(reasons["category"]) == {
+        "Board Action",
+        "Late for election",
+        "No signature",
+        "No mail-in ballot application",
+        "Voted more than one ballot",
+    }
+    assert set(reasons["measure"]) == {"rejected"}
+    assert set(reasons["county"]) == {""} and set(reasons["district"]) == {""}
+    assert set(reasons["party"]) == {"ALL"}
+    late = reasons.filter(reasons["category"] == "Late for election")
+    assert late["value"].item() == 100
+    # the reasons are the state's rejected mail-in ballots' breakdown: their sum is
+    # the state row's rejected cell
+    assert reasons["value"].sum() == 192
+
+
+def test_mail_voting_collapses_a_wrapped_reason_text():
+    # the live file wraps a long reason across the cell's lines
+    rows = [r[:] for r in MAIL_VOTING_ROWS]
+    rows[5] = [
+        "Identification was received but did not satisfy the identification\nrequirements",
+        "2",
+        "1.04%",
+    ]
+    rows[7] = ["No signature", "83", "43.23%"]  # takes the 33, so the table still adds up
+    as_of, df = turnout.parse_mail_voting_rows(rows, "GP26", "county", as_of="2026-07-23")
+    published = df.filter((df["category"] != "ALL"))["category"].to_list()
+    assert (
+        "Identification was received but did not satisfy the identification requirements"
+        in published
+    )
+
+
+def test_mail_voting_state_row_is_checked_not_published():
+    as_of, df = turnout.parse_mail_voting_rows(
+        MAIL_VOTING_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert set(df["county"]) <= {"", "Allegany", "Anne Arundel", "Worcester"}
+    received = df.filter((df["measure"] == "received") & (df["category"] == "ALL"))["value"].sum()
+    assert received == 34244  # what the state row's own arithmetic was checked against
+
+
+MAIL_VOTING_FAILURES = (
+    # an accepted count that its rejected no longer sums into the received cell
+    ((1, 4), "2,424", "do not add up"),
+    # a received share that is not the received count over the ballots sent
+    ((1, 3), "99.99%", "share"),
+    # a rejected share that is not the rejected count over the ballots received
+    ((1, 7), "9.99%", "share"),
+)
+
+
+def test_mail_voting_rejects_the_torn_arithmetic():
+    for (row, col), value, where in MAIL_VOTING_FAILURES:
+        torn = [r[:] for r in MAIL_VOTING_ROWS]
+        torn[row][col] = value
+        with pytest.raises(turnout.TurnoutParseError, match=where):
+            turnout.parse_mail_voting_rows(torn, "GP26", "county", as_of="2026-07-23")
+
+
+def test_mail_voting_rejects_reasons_that_do_not_add_up_to_the_state():
+    torn = [r[:] for r in MAIL_VOTING_ROWS]
+    torn[10][1] = "193"  # the printed reasons total
+    with pytest.raises(turnout.TurnoutParseError, match="reasons total|reasons sum"):
+        turnout.parse_mail_voting_rows(torn, "GP26", "county", as_of="2026-07-23")
+    under = [r[:] for r in MAIL_VOTING_ROWS]
+    under[5][1] = "36"  # a reason's count moves, off the printed total it feeds
+    with pytest.raises(turnout.TurnoutParseError, match="reasons total|reasons sum"):
+        turnout.parse_mail_voting_rows(under, "GP26", "county", as_of="2026-07-23")
+
+
+def test_mail_voting_rejects_a_duplicated_county_row():
+    dup = [r[:] for r in MAIL_VOTING_ROWS]
+    dup.insert(2, MAIL_VOTING_ROWS[1][:])
+    with pytest.raises(turnout.TurnoutParseError, match="more than once"):
+        turnout.parse_mail_voting_rows(dup, "GP26", "county", as_of="2026-07-23")
+
+
+def test_mail_voting_rejects_an_unrecognized_county_label():
+    bad = [r[:] for r in MAIL_VOTING_ROWS]
+    bad[1][0] = "Prince Georges"
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized county"):
+        turnout.parse_mail_voting_rows(bad, "GP26", "county", as_of="2026-07-23")
+
+
+def test_mail_voting_requires_the_reason_table():
+    missing = [r for r in MAIL_VOTING_ROWS if len(r) > 3]
+    with pytest.raises(turnout.TurnoutParseError, match="reason"):
+        turnout.parse_mail_voting_rows(missing, "GP26", "county", as_of="2026-07-23")
+
+
+def test_parse_file_reaches_the_mail_voting_pdf(tmp_path):
+    # the same dispatch proof as the canvass family's: a PDF the readers cannot open
+    # fails in the mail-voting reader, not the "no parser" fallthrough
+    import types
+
+    with pytest.raises(turnout.TurnoutParseError, match="could not read the mail-voting PDF"):
+        turnout._parse_file(
+            tmp_path / "no-such.pdf",
+            types.SimpleNamespace(source_id="x"),
+            "GP26",
+            "mail-voting",
+            "county",
+        )

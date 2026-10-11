@@ -1910,6 +1910,166 @@ def parse_votes_accepted_pdf(
     return parse_votes_accepted_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
 
 
+# The rejection-reason tables ("Reasons for Rejecting Mail-In Ballots",
+# "Reasons for Rejecting Provisional Ballots") print no header of their own: each row
+# is the reason's text, its count, and its share of the sheet's rejected ballots.
+
+REASON_TOTAL_CELLS = frozenset({"TOTAL", "GRAND TOTAL"})
+
+
+def _reason_text(text: str) -> str:
+    """A reason's text as the file prints it, the extraction's line wrap collapsed.
+
+    The live file wraps a long reason ("Identification was received but did not
+    satisfy the identification requirements") inside its cell; the wrap is an
+    artifact of the print, and the published reason is one line of the printed text.
+    """
+    return " ".join((text or "").split())
+
+
+def _rejection_rows(
+    family: str,
+    indexed_rows: list[tuple[int, list[str]]],
+    rejected_total: int,
+    election: str,
+    geography: str,
+    as_of: str | None,
+) -> list[dict]:
+    """One rejection-reason table as long rows.
+
+    The reasons are the sheet's own printed breakdown of its rejected ballots, so
+    their counts must sum to the printed rejected total the county table carries: the
+    table's printed Total row (checked against the reasons' sum and against that
+    printed rejected count) is not itself published. Every printed share must be its
+    reason's count over the sheet's rejected count, and a printed reason publishes a
+    row of its own -- county and district empty, category the reason's text -- so the
+    breakdown reads off the state's rejected cell.
+    """
+    published: list[dict] = []
+    collected = 0
+    for index, row in indexed_rows:
+        where = f"{family} row {index}"
+        label = str(row[0]).strip() if row else ""
+        count = _pdf_number(where, "rejected", row[1] if len(row) > 1 else "")
+        if label.upper() in REASON_TOTAL_CELLS:
+            if collected != count:
+                raise TurnoutParseError(
+                    f"{where}: the printed reasons total says {count}, but the reasons "
+                    f"above it sum to {collected}"
+                )
+            if count != rejected_total:
+                raise TurnoutParseError(
+                    f"{where}: the printed reasons total says {count}, not the sheet's "
+                    f"printed rejected count {rejected_total}"
+                )
+            continue
+        reason = _reason_text(label)
+        if not reason:
+            raise TurnoutParseError(f"{where}: a rejection row with no printed reason")
+        share = _pdf_share(where, "rejected", row[2] if len(row) > 2 else "")
+        if share is not None and not share_matches(count, rejected_total, share):
+            raise TurnoutParseError(
+                f"{where}: the printed share of the {reason!r} reasons is not "
+                f"{count} of {rejected_total} ({share:.2%} printed)"
+            )
+        collected += count
+        published.append(
+            {
+                "as_of": as_of or "",
+                "election": election,
+                "family": family,
+                "geography": geography,
+                "county": "",
+                "district": "",
+                "category": reason,
+                "party": "ALL",
+                "measure": "rejected",
+                "value": count,
+            }
+        )
+    if collected != rejected_total:
+        raise TurnoutParseError(
+            f"{family}: the printed rejection reasons sum to {collected}, not the "
+            f"sheet's printed rejected count {rejected_total}"
+        )
+    return published
+
+
+def _split_reason_table(
+    rows: list[list[str]],
+) -> tuple[list[tuple[int, list[str]]], list[tuple[int, list[str]]]]:
+    """A sheet's two tables, told apart by their printed widths.
+
+    The county tables print eight cells (the county and every count with its share);
+    the reason tables print three (the reason, its count, its share). A row of some
+    other width is a sheet the parser cannot read, not one to skip.
+    """
+    county_rows: list[tuple[int, list[str]]] = []
+    reason_rows: list[tuple[int, list[str]]] = []
+    for index, row in enumerate(rows, start=1):
+        if len(row) > 3:
+            county_rows.append((index, row))
+        else:
+            reason_rows.append((index, row))
+    return county_rows, reason_rows
+
+
+MAIL_VOTING_SHEET = PrintedSheet(
+    cells={
+        "BALLOTS SENT": "sent",
+        "BALLOTS RECEIVED": "received",
+        "BALLOTS ACCEPTED": "accepted",
+        "BALLOTS REJECTED": "rejected",
+    },
+    base="received",
+    modes=("accepted", "rejected"),
+    share_of={"received": "sent", "accepted": "received", "rejected": "received"},
+)
+
+
+def parse_mail_voting_rows(
+    rows: list[list[str]],
+    election: str,
+    geography: str = "county",
+    as_of: str | None = None,
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official Mail-In Voting PDF's two tables as long rows.
+
+    The county table's rows publish the sent, received, accepted and rejected counts
+    of each county's mail-in ballots: a county's accepted and rejected must sum to its
+    received, and the printed shares are the counts over the bases the file chooses
+    (received over sent, accepted and rejected over received). The state row is the
+    counties' sums, checked and not published. The reasons table (the state's rejected
+    ballots broken down by the rejection reasons) publishes one row per printed
+    reason, category the reason as printed; its counts must sum to the state's
+    rejected cell.
+    """
+    county_rows, reason_rows = _split_reason_table(rows)
+    state_rows, published = _tallied_rows(
+        "mail-voting", county_rows, election, geography, as_of, MAIL_VOTING_SHEET
+    )
+    rejected_total = (state_rows or {}).get("rejected", 0)
+    if rejected_total and not reason_rows:
+        raise TurnoutParseError(
+            "mail-voting: the sheet's rejected ballots have no printed reason table"
+        )
+    published += _rejection_rows(
+        "mail-voting", reason_rows, rejected_total, election, geography, as_of
+    )
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_mail_voting_pdf(
+    path: Path, election: str, geography: str = "county"
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official Mail-In Voting PDF, table rows first, its date from its text."""
+    try:
+        rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
+        raise TurnoutParseError(f"could not read the mail-voting PDF ({err})") from err
+    return parse_mail_voting_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+
+
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
@@ -2156,6 +2316,8 @@ def _parse_file(
         return parse_county_canvass_pdf(path, election_code, geography)
     if family == "votes-accepted":
         return parse_votes_accepted_pdf(path, election_code, geography)
+    if family == "mail-voting":
+        return parse_mail_voting_pdf(path, election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
 
 
