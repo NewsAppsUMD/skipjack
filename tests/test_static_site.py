@@ -161,26 +161,26 @@ def test_every_page_in_the_plan_is_written(root_site):
 
 @needs_db
 def test_the_turnout_pages_and_downloads_are_published(root_site, project_site):
+    """The published artifacts cover the committed snapshots — read from the db's own
+    latest day, since the in-flight files move daily (a pinned day went red on the
+    next snapshot)."""
+    from skipjack.web.db import get_db
+    from skipjack.web.turnout import headline as turnout_headline
+
+    with get_db() as conn:
+        headline = turnout_headline(conn, "GG26")
+    as_of = headline["requests"]["as_of"]
+    csv_stem = f"turnout/GG26/requests/county/{as_of}"
     for out, _ in (root_site, project_site):
         assert (out / "turnout" / "index.html").is_file()
         assert (out / "turnout" / "gg26" / "index.html").is_file()
         assert (out / "static" / "turnout.js").is_file()
-        assert (
-            out / "downloads" / "turnout" / "GG26" / "requests" / "county" / "2026-10-09.csv"
-        ).is_file()
-        assert (
-            out
-            / "downloads"
-            / "turnout"
-            / "GG26"
-            / "requests"
-            / "county"
-            / "2026-10-09_provenance.json"
-        ).is_file()
+        assert (out / "downloads" / f"{csv_stem}.csv").is_file()
+        assert (out / "downloads" / f"{csv_stem}_provenance.json").is_file()
     html = (project_site[0] / "turnout" / "gg26" / "index.html").read_text()
-    assert "617,496" in html  # the requests statewide total
+    assert f"{headline['requests']['requests_total']:,}" in html  # requests statewide
     assert 'src="/skipjack/static/turnout.js"' in html
-    assert 'href="/skipjack/downloads/turnout/GG26/requests/county/2026-10-09.csv"' in html
+    assert f'href="/skipjack/downloads/{csv_stem}.csv"' in html
 
 
 @needs_db

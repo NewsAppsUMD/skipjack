@@ -1,7 +1,9 @@
 """Tests for the web turnout module: queries over the turnout tables.
 
 The first half runs on made-up rows in an in-memory database. The db-backed section
-(skipjack.db must be built) pins real numbers from the committed GG26 snapshots.
+(skipjack.db must be built) checks the real GG26 data by consistency — the pages and
+headlines are read against whatever the committed rows sum to, since a certified
+election's figures are fixed but an in-flight election's move with every snapshot.
 """
 
 from __future__ import annotations
@@ -161,9 +163,14 @@ needs_db = pytest.mark.skipif(not DB_PATH.exists(), reason="skipjack.db not buil
 
 @needs_db
 def test_turnout_pages_render_the_real_election():
+    """The db-backed render check on the real data: the pages show what the committed
+    rows sum to, whatever day that is — the numbers' pins live in the parse's printed
+    reconciliation, not in tests (a pinned day went red on the next snapshot)."""
     from fastapi.testclient import TestClient
 
     from skipjack.web.app import create_app
+    from skipjack.web.dates import day_label
+    from skipjack.web.db import get_db
 
     client = TestClient(create_app())
     r = client.get("/turnout/")
@@ -171,13 +178,17 @@ def test_turnout_pages_render_the_real_election():
     assert "2026 General Election" in r.text
     r = client.get("/turnout/gg26/")
     assert r.status_code == 200
-    assert "617,496" in r.text  # requests for the Oct 9 snapshot
-    assert "605,052" in r.text  # ballots sent
-    assert "132,362" in r.text  # received
+    with get_db() as conn:
+        headline = turnout.headline(conn, "GG26")
+    requests_total = headline["requests"]["requests_total"]
+    sent_returned = headline["sent-returned"]
+    for value in (requests_total, sent_returned["sent"], sent_returned["received"]):
+        assert f"{value:,}" in r.text
+    assert day_label(sent_returned["as_of"]) in r.text  # the page says which day it shows
+    assert "November 3, 2026" in r.text
     assert "data-sortable" in r.text
     assert 'id="turnout-data"' in r.text
     assert 'src="' + "/static/turnout.js" in r.text
-    assert "November 3, 2026" in r.text
     assert client.get("/turnout/nope/").status_code == 404
 
 
@@ -196,20 +207,50 @@ def test_turnout_nav_reaches_the_nav():
 
 @needs_db
 def test_real_gg26_headline_against_the_committed_data():
+    """The headline reads each family at its own latest snapshot. The day and its
+    figures are read from the db (they move as snapshots land), and the check sums the
+    committed county rows independently — schema or query drift fails, a new snapshot
+    does not."""
     from skipjack.web.db import get_db
 
     with get_db() as conn:
         headline = turnout.headline(conn, "GG26")
-        assert headline["latest"] == "2026-10-09"
-        assert headline["sent-returned"]["sent"] == 605_052
-        assert headline["sent-returned"]["received"] == 132_362
-        assert headline["sent-returned"]["accepted"] == 2
-        assert headline["requests"]["requests_total"] == 617_496
-        rows = {r["county"]: r for r in turnout.county_rows(conn, "GG26", "2026-10-09")}
-        assert len(rows) == 24
-        allegany = rows["Allegany"]
-        assert allegany["sent"] == 4466 and allegany["received"] == 1442
-        assert allegany["return_rate"] is not None
+        latest = {
+            family: conn.execute(
+                "SELECT MAX(as_of) FROM turnout_counts WHERE election = 'GG26' AND family = ?",
+                (family,),
+            ).fetchone()[0]
+            for family in ("requests", "sent-returned")
+        }
+
+        def county_sum(family, measure, as_of):
+            return conn.execute(
+                """SELECT SUM(value) FROM turnout_counts
+                   WHERE election = 'GG26' AND family = ? AND measure = ? AND as_of = ?
+                     AND geography = 'county' AND district = '' AND category = 'ALL'
+                     AND party = 'ALL' AND county != ''""",
+                (family, measure, as_of),
+            ).fetchone()[0]
+
+        sent_returned = headline["sent-returned"]
+        assert headline["latest"] == max(latest.values())
+        assert sent_returned["as_of"] == latest["sent-returned"]
+        assert headline["requests"]["as_of"] == latest["requests"]
+        assert sent_returned["sent"] == county_sum(
+            "sent-returned", "sent", latest["sent-returned"]
+        )
+        assert sent_returned["received"] == county_sum(
+            "sent-returned", "received", latest["sent-returned"]
+        )
+        assert sent_returned["accepted"] == county_sum(
+            "sent-returned", "accepted", latest["sent-returned"]
+        )
+        assert headline["requests"]["requests_total"] == county_sum(
+            "requests", "total", latest["requests"]
+        )
+        rows = {r["county"]: r for r in turnout.county_rows(conn, "GG26", latest["sent-returned"])}
+        assert len(rows) == 24  # every county has published mail figures
+        assert rows["Allegany"]["return_rate"] is not None
 
 
 @needs_db
