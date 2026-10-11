@@ -331,6 +331,32 @@ def test_the_page_renders_a_change_from_a_second_snapshot(tmp_path, monkeypatch)
     assert "1,442" in html  # Allegany's received back, from the latest snapshot
     # the header says when each family was last updated
     assert "October 12, 2026" in html and "October 10, 2026" in html
+    # a differing second date is said once, not once per tile
+    assert html.count("(ballot figures as of") == 1
+
+
+@needs_db
+def test_the_as_of_sentence_says_a_shared_date_once(tmp_path, monkeypatch):
+    """When every tile's figures come from the same report (the common daily case), the
+    sentence says the date once: the published page repeated it once per tile."""
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    requested_only = [("county", "Kent", "", "ALL", "ALL", "total", 900)]
+    db_path = _page_db(
+        tmp_path,
+        [
+            ("2026-10-09", ALLEGANY + WORCESTER),
+            ("2026-10-09", requested_only, "requests"),
+        ],
+    )
+    monkeypatch.setattr(web_db, "DB_PATH", db_path)
+    html = TestClient(create_app()).get("/turnout/gg26/").text
+
+    assert "as of October 9, 2026." in html
+    assert "(ballot figures as of" not in html
 
 
 # --- the certified (final) election page: GP26 --------------------------------------------------

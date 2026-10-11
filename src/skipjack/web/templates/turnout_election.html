@@ -17,7 +17,10 @@
 <p class="secondary">
     Election day: {{ election.election_day|day_label }}. Mail-in ballot tracking from the
     State Board's reports, as of
-    {%- for t in tiles %}{% if loop.first %} {{ t.as_of|day_label }}{% else %} (ballot figures as of {{ t.as_of|day_label }}){% endif %}{% endfor %}{% if not tiles %} no published report yet{% endif %}.
+    {#- one date per distinct as-of day: the tiles carry per-family dates, and the common
+       daily case (both files from one report) would otherwise repeat the same date -#}
+    {%- set last = namespace(as_of="") -%}
+    {%- for t in tiles %}{% if t.as_of != last.as_of %}{% if last.as_of %} (ballot figures as of {{ t.as_of|day_label }}){% else %} {{ t.as_of|day_label }}{% endif %}{% set last.as_of = t.as_of %}{% endif %}{% endfor %}{% if not tiles %} no published report yet{% endif %}.
 </p>
 
 {% set sr = headline.get("sent-returned") %}

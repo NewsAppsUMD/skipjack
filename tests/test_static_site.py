@@ -12,7 +12,7 @@ from skipjack.web import static_site
 from skipjack.web.bulk import BULK_FILES
 from skipjack.web.db import DB_PATH
 from skipjack.web.downloads import DOWNLOAD_SUFFIXES, download_files
-from skipjack.web.paths import DATA_DIR
+from skipjack.web.paths import DATA_DIR, STATIC_DIR
 from skipjack.web.static_site import SiteBuildError, build_site, check_links, page_urls
 from skipjack.web.urls import normalize_base_path, resolve_slug, slugify
 
@@ -94,6 +94,15 @@ def test_downloads_are_only_aggregates():
     files = download_files(DATA_DIR)
     assert all(f.suffix in DOWNLOAD_SUFFIXES for f in files)
     assert all(f.parts[0] in {"voter_registration", "voter_file", "turnout"} for f in files)
+
+
+def test_the_tile_markup_is_styled():
+    """The .tiles headline markup is shared by the turnout pages and the voter-file
+    county pages; once it shipped with no CSS at all, so the tiles collapsed into
+    unstyled stacked text on the published site."""
+    css = (STATIC_DIR / "style.css").read_text()
+    for selector in (".tiles", ".tile .v", ".tile .l", ".tile .v.small"):
+        assert selector in css
 
 
 # --- full build ----------------------------------------------------------------------

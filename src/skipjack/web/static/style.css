@@ -133,6 +133,39 @@ th.sortable[aria-sort="descending"]::after {
     font-size: 0.95rem;
 }
 
+/* Headline figures as tiles: the turnout pages and the voter-file county pages share
+   this markup (value, then its label; a tile may also carry a change or a sub-label). */
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 0.75rem;
+    margin: 0 0 1.25rem;
+}
+
+.tile {
+    background: var(--pico-card-background-color);
+    border: 1px solid var(--pico-card-border-color);
+    border-radius: 6px;
+    padding: 0.75rem 0.9rem;
+}
+
+.tile .v {
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.tile .v.small {
+    font-size: 1rem;
+    padding-top: 0.2rem;
+}
+
+.tile .l {
+    font-size: 0.85rem;
+    color: var(--pico-muted-color);
+    margin-top: 0.25rem;
+}
+
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 
 .highlights { margin: 0 0 1rem; padding-left: 1.2rem; }
