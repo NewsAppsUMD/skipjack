@@ -357,3 +357,91 @@ def test_the_page_renders_a_change_from_a_second_snapshot(tmp_path, monkeypatch)
     assert "1,442" in html  # Allegany's received back, from the latest snapshot
     # the header says when each family was last updated
     assert "October 12, 2026" in html and "October 10, 2026" in html
+
+
+# --- the certified (final) election page: GP26 --------------------------------------------------
+
+
+def test_certified_headline_and_mode_shares(conn):
+    add(
+        conn,
+        "2026-07-23",
+        [
+            ("county", "Allegany", "", "ALL", "ALL", "election-day", 6478),
+            ("county", "Allegany", "", "ALL", "ALL", "early-voting", 1401),
+            ("county", "Allegany", "", "ALL", "ALL", "vote-by-mail", 2452),
+            ("county", "Allegany", "", "ALL", "ALL", "provisional", 284),
+            ("county", "Allegany", "", "ALL", "ALL", "total", 10615),
+            ("county", "Worcester", "", "ALL", "ALL", "election-day", 5125),
+            ("county", "Worcester", "", "ALL", "ALL", "early-voting", 1566),
+            ("county", "Worcester", "", "ALL", "ALL", "vote-by-mail", 2573),
+            ("county", "Worcester", "", "ALL", "ALL", "provisional", 260),
+            ("county", "Worcester", "", "ALL", "ALL", "total", 9524),
+        ],
+        family="county-canvass",
+    )
+    cert = turnout.certified_headline(conn, "GG26")
+    assert cert["cast"] == 20139  # 10615 + 9524
+    assert cert["by_mode"]["election-day"]["share"] == pytest.approx((6478 + 5125) / 20139)
+
+
+def test_certified_county_rows_join_the_families(conn):
+    add(
+        conn,
+        "2026-07-23",
+        [
+            ("county", "Allegany", "", "ALL", "ALL", m, v)
+            for m, v in [("total", 10615), ("election-day", 6478)]
+        ],
+        family="county-canvass",
+    )
+    add(
+        conn,
+        "2026-07-23",
+        [
+            ("county", "Allegany", "", "ALL", "ALL", m, v)
+            for m, v in [("sent", 4027), ("received", 2456), ("accepted", 2423), ("rejected", 33)]
+        ],
+        family="mail-voting",
+    )
+    rows = turnout.certified_county_rows(
+        conn,
+        "GG26",
+        {
+            "county-canvass": "2026-07-23",
+            "votes-accepted": "2026-07-23",
+            "mail-voting": "2026-07-23",
+            "requests": "2026-07-23",
+        },
+    )
+    [row] = rows
+    assert row["county"] == "Allegany"
+    assert row["cast"] == 10615 and row["counted"] is None
+    assert row["mail_voting"]["sent"] == 4027 and row["mail_voting"]["rejected"] == 33
+
+
+# ---------------------------------------------------------------------------
+needs_db = pytest.mark.skipif(not DB_PATH.exists(), reason="skipjack.db not built")
+
+
+@needs_db
+def test_real_gp26_page_renders_the_certified_data():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    r = client.get("/turnout/")
+    assert r.status_code == 200
+    assert "2026 Primary Election" in r.text and "2026 General Election" in r.text
+    r = client.get("/turnout/gp26/")
+    assert r.status_code == 200
+    assert "902,818" in r.text  # ballots cast, statewide
+    assert "891,567" in r.text  # votes counted
+    assert "41.3%" in r.text  # election-day share of the cast ballots
+    assert "3,281" in r.text  # mail-in ballots rejected
+    assert "185,031" in r.text  # early-voting total
+    assert "2,179" in r.text  # same-day new registrations
+    # the denominator files had not re-published when this snapshot was taken: the page
+    # says so instead of claiming a turnout percentage
+    assert "turnout percentage" in r.text

@@ -57,6 +57,9 @@ class Election:
     name: str  # "2026 general election"
     election_day: str  # "2026-11-03"
     files: list[FamilyFile] = field(default_factory=list)
+    # True when the election is over and certified, so its page shows the final
+    # turnout layout rather than the campaign's mail-in tracking
+    certified: bool = False
 
 
 def _gg26_files() -> list[FamilyFile]:
@@ -172,6 +175,7 @@ ELECTIONS: dict[str, Election] = {
         name="2026 primary election",
         election_day="2026-06-23",
         files=_gp26_files(),
+        certified=True,
     ),
 }
 

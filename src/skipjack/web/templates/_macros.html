@@ -137,3 +137,16 @@
 <td class="num" data-sort="{{ x|round(3) }}">{% if r > 0 %}<span aria-hidden="true">&#9650;</span> {% elif r < 0 %}<span aria-hidden="true">&#9660;</span> {% endif %}{{ x|signed(1) }} pts</td>
 {%- endif -%}
 {%- endmacro %}
+
+{# turnout section: thousands-format with a dash for absent values #}
+{% macro num(v) -%}
+{%- if v is none %}<span class="muted">&mdash;</span>{% else %}{{ "{:,}".format(v) }}{% endif -%}
+{%- endmacro %}
+{# a delta as a span (the delta macro below is a table cell) #}
+{% macro delta_span(n) -%}
+{%- if n is none or n == 0 %}<span class="delta-flat">no change</span>
+{%- elif n > 0 %}<span class="delta-up"><span aria-hidden="true">&#9650;</span> {{ n|signed }}</span>
+{%- else %}<span class="delta-down"><span aria-hidden="true">&#9660;</span> {{ n|signed }}</span>{% endif -%}
+{%- endmacro %}
+{# absent values sort last, per the sortable convention: an empty data-sort #}
+{% macro sortkey(v) -%}{{ "" if v is none else v }}{%- endmacro %}

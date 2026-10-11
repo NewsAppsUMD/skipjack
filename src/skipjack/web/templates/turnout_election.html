@@ -1,28 +1,19 @@
 {% extends "base.html" %}
 {% import "_macros.html" as m with context %}
-
-{# thousands-format with a dash for absent values #}
-{% macro num(v) -%}
-{%- if v is none %}<span class="muted">&mdash;</span>{% else %}{{ "{:,}".format(v) }}{% endif -%}
-{%- endmacro %}
-{# a delta as a span, for the tiles: the _macros one is a table cell #}
-{% macro delta_span(n) -%}
-{%- if n is none or n == 0 %}<span class="delta-flat">no change</span>
-{%- elif n > 0 %}<span class="delta-up"><span aria-hidden="true">&#9650;</span> {{ n|signed }}</span>
-{%- else %}<span class="delta-down"><span aria-hidden="true">&#9660;</span> {{ n|signed }}</span>{% endif -%}
-{%- endmacro %}
-{# absent values sort last, per the sortable convention: an empty data-sort #}
-{% macro sortkey(v) -%}{{ "" if v is none else v }}{%- endmacro %}
-
-{% block title %}{{ election.name.title() }} turnout{% endblock %}
-
 {% block head %}
 <link rel="stylesheet" href="{{ base }}/static/charts.css">
 {% endblock %}
 
+{% block title %}{{ election.name.title() }} turnout{% endblock %}
+
 {% block content %}
 <div class="viz-root">
 <h1>{{ election.name.title() }}</h1>
+
+{% if election.certified %}
+{% include "turnout_final.html" %}
+
+{% else %}
 <p class="secondary">
     Election day: {{ election.election_day|day_label }}. Mail-in ballot tracking from the
     State Board's reports, as of
@@ -33,7 +24,7 @@
 <p>Skipjack counts <em>mail-in ballots</em>, not votes: the request a voter makes, the ballot
     the State Board sends, the envelope the State Board receives back, and — during the
     canvass, which starts after election day — the ballots accepted and counted. {% if sr %}As of
-    {{ sr.as_of|day_label }}, {{ num(sr.accepted) }} have been accepted.{% endif %}
+    {{ sr.as_of|day_label }}, {{ m.num(sr.accepted) }} have been accepted.{% endif %}
     Certified turnout percentages are published by the State Board after certification
     and are not yet part of this page.</p>
 
@@ -41,21 +32,12 @@
 <div class="tiles">
     {% for t in tiles %}
     <div class="tile">
-        <div class="v">{{ num(t.value) }}</div>
-        <div class="l">{{ t.label }}{% if t.change is not none %} &middot; {{ delta_span(t.change) }}{% endif %}
-            {% if t.sub %}&middot; {{ t.sub }}{% endif %}</div>
+        <div class="v">{% if t.value_text %}{{ t.value_text }}{% else %}{{ m.num(t.value) }}{% endif %}</div>
+        <div class="l">{{ t.label }}{% if t.change is not none %} &middot; {{ m.delta_span(t.change) }}{% endif %}
+            {% if t.sub %} &middot; {{ t.sub }}{% endif %}</div>
     </div>
     {% endfor %}
 </div>
-{% endif %}
-
-{% if chart %}
-<div class="section-head"><h2>Day by day</h2></div>
-<section class="viz-card" aria-labelledby="turnout-chart-title">
-    <h2 id="turnout-chart-title" class="sr-only">Ballot activity over the campaign</h2>
-    <ul class="legend" id="turnout-legend"></ul>
-    <div id="turnout-chart"></div>
-</section>
 {% endif %}
 
 {% if rows %}
@@ -77,23 +59,28 @@
         {% for r in rows %}
         <tr>
             <td>{{ r.county }}</td>
-            <td class="num" data-sort="{{ sortkey(r.requests_total) }}">{{ num(r.requests_total) }}</td>
-            <td class="num" data-sort="{{ sortkey(r.print_at_home) }}">{{ num(r.print_at_home) }}</td>
-            <td class="num" data-sort="{{ sortkey(r.sent) }}">{{ num(r.sent) }}
-                {% if r.sent is not none %}<span class="muted">({{ num(r.dem_sent) }} / {{ num(r.rep_sent) }} / {{ num(r.oth_sent) }})</span>{% endif %}</td>
-            <td class="num" data-sort="{{ sortkey(r.received) }}">{{ num(r.received) }}
-                {% if r.received is not none %}<span class="muted">({{ num(r.dem_received) }} / {{ num(r.rep_received) }} / {{ num(r.oth_received) }})</span>{% endif %}</td>
-            <td class="num" data-sort="{{ sortkey(r.accepted) }}">{{ num(r.accepted) }}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.requests_total) }}">{{ m.num(r.requests_total) }}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.print_at_home) }}">{{ m.num(r.print_at_home) }}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.sent) }}">{{ m.num(r.sent) }}
+                {% if r.sent is not none %}<span class="muted">({{ m.num(r.dem_sent) }} / {{ m.num(r.rep_sent) }} / {{ m.num(r.oth_sent) }})</span>{% endif %}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.received) }}">{{ m.num(r.received) }}
+                {% if r.received is not none %}<span class="muted">({{ m.num(r.dem_received) }} / {{ m.num(r.rep_received) }} / {{ m.num(r.oth_received) }})</span>{% endif %}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.accepted) }}">{{ m.num(r.accepted) }}</td>
             <td class="num" data-sort="{% if r.return_rate is none %}{% else %}{{ r.return_rate }}{% endif %}">{% if r.return_rate is not none %}{{ m.p(r.return_rate * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 </div>
+{% endif %}
 
+{% endif %}
+
+{% if rows %}
 <p class="note">Every row is one of the State Board's press-room snapshots, listed on the
     <a href="{{ base }}/about">About</a> page; the numbers behind this page are
     downloadable under <a href="{{ base }}/data/">Data</a>.</p>
+{% endif %}
 
 {% for s in sources %}
 <div class="source-strip">
@@ -106,18 +93,22 @@
 </div>
 {% endfor %}
 
-<p class="note">"Ballots sent" and "received back" cover every voter
-    category (domestic, civilian and military, overseas and in-state), with the Democratic /
-    Republican / other-party counts in parentheses.
-    On voter-file pages the numbers are <em>participation among current voters</em> — not the
-    same thing; this page is the running official tally.</p>
-{% endif %}
-</div>
-
 {% if chart %}
+<div class="section-head"><h2>Day by day</h2></div>
+<section class="viz-card" aria-labelledby="turnout-chart-title">
+    <h2 id="turnout-chart-title" class="sr-only">Ballot activity over the campaign</h2>
+    <ul class="legend" id="turnout-legend"></ul>
+    <div id="turnout-chart"></div>
+</section>
+</div>
+<p class="note sr-only-end">The chart's day-by-day lines cover the whole campaign; the
+    county tables above hold the latest figures.</p>
+
 <script id="turnout-data" type="application/json">
 {{ chart | tojson }}
 </script>
+{% else %}
+</div>
 {% endif %}
 {% endblock %}
 

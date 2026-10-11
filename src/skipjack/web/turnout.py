@@ -294,3 +294,215 @@ def chart_data(conn: sqlite3.Connection, election: str) -> dict | None:
         if values is not None and any(values):
             out.append({"name": name, "values": values})
     return {"dates": all_dates, "series": out} if out else None
+
+
+# --- the certified (final) election figures ----------------------------------------------------
+
+CERTIFIED_CANVASS_FAMILIES = ("county-canvass", "votes-accepted")
+
+
+def _family_state(
+    conn: sqlite3.Connection, election: str, family: str, as_of: str
+) -> dict[str, int]:
+    """The state's counts for one certified family at one snapshot: summed over the
+    counties and the parties (the printed state rows are checked at parse time).
+    """
+    return {
+        r["measure"]: r["v"]
+        for r in conn.execute(
+            """SELECT measure, SUM(value) AS v FROM turnout_counts
+               WHERE election = ? AND family = ? AND geography = 'county'
+                 AND county != '' AND district = '' AND category = 'ALL'
+                 AND as_of = ?
+               GROUP BY measure""",
+            (election, family, as_of),
+        )
+    }
+
+
+def _family_county(
+    conn: sqlite3.Connection, election: str, family: str, county: str, as_of: str
+) -> dict[str, int]:
+    """One county's counts for one certified family at one snapshot."""
+    return {
+        r["measure"]: r["value"]
+        for r in conn.execute(
+            """SELECT measure, value FROM turnout_counts
+               WHERE election = ? AND family = ? AND geography = 'county'
+                 AND county = ? AND district = '' AND category = 'ALL' AND as_of = ?""",
+            (election, family, county, as_of),
+        )
+    }
+
+
+def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
+    """A certified election's statewide finals: ballots cast and counted, the four
+    modes with their shares, and the eligible-voter totals where the SBE's denominator
+    files have republished.
+
+    Every figure is summed from the county rows at each family's latest snapshot;
+    the printed state rows were checked against these at parse time and are not stored.
+    """
+    dates = {
+        r[0]: _snapshot_dates(conn, election, r[0])[-1]
+        for r in conn.execute(
+            "SELECT DISTINCT family FROM turnout_counts WHERE election = ?", (election,)
+        )
+    }
+    out: dict = {"as_ofs": dates}
+    canvass = (
+        _family_state(conn, election, "county-canvass", dates["county-canvass"])
+        if "county-canvass" in dates
+        else {}
+    )
+    accepted = (
+        _family_state(conn, election, "votes-accepted", dates["votes-accepted"])
+        if "votes-accepted" in dates
+        else {}
+    )
+    out["cast"] = canvass.get("total")
+    out["counted"] = accepted.get("total")
+    for family, measures in (
+        ("mail-voting", ("sent", "received", "accepted", "rejected")),
+        ("requests", ("total",)),
+        ("early-voting", ("total",)),
+        ("same-day", ("new-total", "addrchg-total", "total")),
+    ):
+        if family in dates:
+            state = _family_state(conn, election, family, dates[family])
+            out[family] = {m: state.get(m) for m in measures}
+    by_mode = {
+        m: {
+            "cast": canvass.get(m),
+            "counted": accepted.get(m),
+            "share": (
+                canvass[m] / canvass["total"]
+                if canvass.get("total") and canvass.get(m) is not None
+                else None
+            ),
+        }
+        for m in ("early-voting", "election-day", "vote-by-mail", "provisional")
+        if m in canvass or m in accepted
+    }
+    out["by_mode"] = by_mode
+    if "eligible-active" in dates:
+        active = _family_state(conn, election, "eligible-active", dates["eligible-active"])
+        inactive = (
+            _family_state(conn, election, "eligible-inactive", dates["eligible-inactive"])
+            if "eligible-inactive" in dates
+            else {}
+        )
+        eligible = (active.get("active") or 0) + (inactive.get("inactive") or 0)
+        if eligible:
+            eligible_dates = max(
+                dates["eligible-active"],
+                dates.get("eligible-inactive", ""),
+            )
+            out["eligible"] = {
+                "active": active.get("active"),
+                "inactive": inactive.get("inactive"),
+                "total": eligible,
+                "as_of": eligible_dates,
+            }
+            if out["cast"]:
+                out["turnout"] = {"value": out["cast"] / eligible, "as_of": eligible_dates}
+    return out
+
+
+def certified_county_rows(
+    conn: sqlite3.Connection, election: str, dates: dict[str, str]
+) -> list[dict]:
+    """One sortable row per county for a certified election, joining every published
+    family at that family's own snapshot: ballots by mode, the mail-in figures, and the
+    early-voting/same-day totals."""
+    counties = sorted(
+        {
+            r[0]
+            for r in conn.execute(
+                """SELECT DISTINCT county FROM turnout_counts
+                   WHERE election = ? AND geography = 'county' AND county != ''
+                     AND district = '' AND category = 'ALL'
+                     AND as_of IN (?,?,?,?)""",
+                (
+                    election,
+                    dates.get("county-canvass", ""),
+                    dates.get("votes-accepted", ""),
+                    dates.get("mail-voting", ""),
+                    dates.get("eligible-active", ""),
+                ),
+            )
+        }
+    )
+    out: list[dict] = []
+    for county in counties:
+        canvass = _family_county(
+            conn, election, "county-canvass", county, dates.get("county-canvass", "")
+        )
+        accepted = _family_county(
+            conn, election, "votes-accepted", county, dates.get("votes-accepted", "")
+        )
+        mail_voting = (
+            _family_county(
+                conn, election, "mail-voting", county, dates.get("mail-voting", "") or ""
+            )
+            if "mail-voting" in dates
+            else {}
+        )
+        requests = _family_county(conn, election, "requests", county, dates.get("requests", ""))
+        early = _family_county(
+            conn, election, "early-voting", county, dates.get("early-voting", "")
+        )
+        same_day = _family_county(conn, election, "same-day", county, dates.get("same-day", ""))
+        if not canvass and not accepted and not mail_voting:
+            continue
+        out.append(
+            {
+                "county": county,
+                "cast": canvass.get("total"),
+                "counted": accepted.get("total"),
+                "by_mode": {
+                    m: canvass.get(m)
+                    for m in ("early-voting", "election-day", "vote-by-mail", "provisional")
+                    if m in canvass
+                },
+                "counted_by_mode": {
+                    m: accepted.get(m)
+                    for m in ("early-voting", "election-day", "vote-by-mail", "provisional")
+                    if m in accepted
+                },
+                "mail_voting": {
+                    "requests": requests.get("total"),
+                    "sent": mail_voting.get("sent"),
+                    "received": mail_voting.get("received"),
+                    "accepted": mail_voting.get("accepted"),
+                    "rejected": mail_voting.get("rejected"),
+                },
+                "early_voting_total": early.get("total"),
+                "same_day": {
+                    "new": same_day.get("new-total"),
+                    "addrchg": same_day.get("addrchg-total"),
+                    "total": same_day.get("total"),
+                },
+            }
+        )
+    return out
+
+
+def rejection_reason_rows(
+    conn: sqlite3.Connection, election: str, family: str, as_of: str
+) -> list[dict]:
+    """A certified family's printed rejection breakdown, one row per reason."""
+    return [
+        {
+            "reason": r["category"],
+            "value": r["v"],
+        }
+        for r in conn.execute(
+            """SELECT category, SUM(value) AS v FROM turnout_counts
+               WHERE election = ? AND family = ? AND geography = 'county'
+                 AND county = '' AND district = '' AND category != 'ALL'
+                 AND measure = 'rejected' AND as_of = ?
+               GROUP BY category ORDER BY v DESC, category""",
+            (election, family, as_of),
+        )
+    ]
