@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-early-voting-councilmanic-20241105-5405b8c44b1a",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/EarlyVoting  by Councilmanic District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 early-voting (councilmanic) as of 2024-11-05",
+  "fetch_date": "2026-10-11T17:48:59+00:00",
+  "parse_date": "2026-10-11T18:14:43+00:00",
+  "sha256_original": "5405b8c44b1ac4395c68002d6f012c4339396e141f55b41fdf674388f2bb5848",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "early-voting",
+  "geography": "councilmanic",
+  "notes": "PG24 early-voting (councilmanic) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 877,
+    "as_of": "2024-11-05"
+  }
+}

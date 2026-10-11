@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-eligible-active-county-unknown-35ac172c8254",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/Eligible Active Voters by County - PG24.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 eligible-active (county) as of unknown",
+  "fetch_date": "2026-10-11T17:49:31+00:00",
+  "parse_date": "2026-10-11T18:14:49+00:00",
+  "sha256_original": "35ac172c82544d37bb64d634ac2ab548ea6fec6dd2681518bf6959b1b64dd529",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "eligible-active",
+  "geography": "county",
+  "notes": "PG24 eligible-active (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 192,
+    "as_of": "2024-10-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-sent-returned-legislative-20241207-4dacdfbfa7b8",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/Absentees Sent and Returned by Legislative.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 sent-returned (legislative) as of 2024-12-07",
+  "fetch_date": "2026-10-11T17:48:55+00:00",
+  "parse_date": "2026-10-11T18:15:36+00:00",
+  "sha256_original": "4dacdfbfa7b88bdb85e3755e263cbc4a57bccfc8f2b51a157ea2987124f79190",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "sent-returned",
+  "geography": "legislative",
+  "notes": "PG24 sent-returned (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 4260,
+    "as_of": "2024-12-07"
+  }
+}

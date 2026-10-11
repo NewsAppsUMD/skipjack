@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-early-voting-legislative-20241105-3b36e0c1b9e8",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/EarlyVoting  by Legislative District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 early-voting (legislative) as of 2024-11-05",
+  "fetch_date": "2026-10-11T17:48:59+00:00",
+  "parse_date": "2026-10-11T18:14:48+00:00",
+  "sha256_original": "3b36e0c1b9e8567e4f6b57c31ae5a950fa27aa8a76f07f07d66a9dbd7b8b632e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "early-voting",
+  "geography": "legislative",
+  "notes": "PG24 early-voting (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 910,
+    "as_of": "2024-11-05"
+  }
+}

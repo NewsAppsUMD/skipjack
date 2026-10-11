@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-early-voting-location-20241105-8f02f4cfbf33",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/EarlyVoting  by Location.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 early-voting (location) as of 2024-11-05",
+  "fetch_date": "2026-10-11T17:49:00+00:00",
+  "parse_date": "2026-10-11T18:14:49+00:00",
+  "sha256_original": "8f02f4cfbf33124856dca8c9e8d1c15fc64ec2871667dd76f1b17b6cc9a93c30",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "early-voting",
+  "geography": "location",
+  "notes": "PG24 early-voting (location) snapshot, reconciled against its printed totals.. No printed county rollup to reconcile the locations against.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 970,
+    "as_of": "2024-11-05"
+  }
+}

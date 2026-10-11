@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-same-day-congressional-20241105-5dfdae121a6b",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/SameDayRegistration by Congressional District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 same-day (congressional) as of 2024-11-05",
+  "fetch_date": "2026-10-11T17:49:02+00:00",
+  "parse_date": "2026-10-11T18:14:51+00:00",
+  "sha256_original": "5dfdae121a6b6c1fbff1403cdde88543aaf5e6e17f3a13df332c6faae73e44ff",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "same-day",
+  "geography": "congressional",
+  "notes": "PG24 same-day (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 640,
+    "as_of": "2024-11-05"
+  }
+}

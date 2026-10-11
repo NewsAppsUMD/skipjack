@@ -8,6 +8,7 @@ from __future__ import annotations
 import logging
 
 import datetime
+import functools
 import io
 import re
 from collections.abc import Callable
@@ -2588,12 +2589,39 @@ def parse_early_voting_pdf(
     return parse_early_voting_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
 
 
-def _same_day_check(where: str, county: str, printed: dict[str, int]) -> None:
+# PG24's same-day sheets: Prince George's address-change totals (and the sheets' own
+# totals over them) are higher than the printed day columns' sum — the totals carry the
+# election day's own address changes, which the sheets do not itemize in any column
+# (GP26's same sheets reconciled exactly). Every row below was checked against its
+# archived print: the key is (election, geography, the row's county label — the sheet
+# totals' own 'Total'/'Grand Total' — and the printed day cells' sum), the value is the
+# printed total the waiver asserts. A mismatch outside this registry still fails.
+_SAME_DAY_ADDRCHG_SURPLUS: dict[tuple[str, str, str, int], int] = {
+    ("PG24", "county", "Prince George's", 634): 643,
+    ("PG24", "county", "Total", 7520): 7529,
+    ("PG24", "county-party", "Prince George's", 497): 500,
+    ("PG24", "county-party", "Prince George's", 29): 30,
+    ("PG24", "county-party", "Prince George's", 101): 105,
+    ("PG24", "county-party", "Prince George's", 6): 7,
+    ("PG24", "congressional", "Prince George's", 483): 492,
+    ("PG24", "councilmanic", "Prince George's", 53): 61,
+    ("PG24", "councilmanic", "Prince George's", 64): 65,
+    ("PG24", "legislative", "Prince George's", 65): 74,
+    ("PG24", "location", "Prince George's", 45): 54,
+    ("PG24", "location", "Grand Total", 7520): 7529,
+}
+
+
+def _same_day_check(
+    where: str, county: str, printed: dict[str, int], election: str, geography: str
+) -> None:
     """One row's own arithmetic, as the same-day sheets print it.
 
     NEW TOTAL is the eight day counts' sum plus the election day's NEW registrations;
     ADDRCHG TOTAL is the eight address-change counts' sum (the sheet prints no
-    election-day column for them); TOTAL is the two totals together.
+    election-day column for them) — or, where the board's own print adds the election
+    day's unitemized address changes to it, the row's verified waiver (see
+    _SAME_DAY_ADDRCHG_SURPLUS); TOTAL is the two totals together.
     """
     days = sum(printed[f"new-day-{day}"] for day in range(1, 9))
     if days + printed["new-election-day"] != printed["new-total"]:
@@ -2602,7 +2630,11 @@ def _same_day_check(where: str, county: str, printed: dict[str, int]) -> None:
             f"({days} + {printed['new-election-day']} != {printed['new-total']})"
         )
     moved = sum(printed[f"addrchg-day-{day}"] for day in range(1, 9))
-    if moved != printed["addrchg-total"]:
+    if (
+        moved != printed["addrchg-total"]
+        and _SAME_DAY_ADDRCHG_SURPLUS.get((election, geography, county, moved))
+        != printed["addrchg-total"]
+    ):
         raise TurnoutParseError(
             f"{where}: {county}'s address-change counts do not add up "
             f"({moved} != {printed['addrchg-total']})"
@@ -2643,7 +2675,7 @@ def parse_same_day_rows(
         as_of,
         SAME_DAY_LABEL_CELLS,
         SAME_DAY_MEASURES,
-        _same_day_check,
+        functools.partial(_same_day_check, election=election, geography=geography),
     )
     return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
 

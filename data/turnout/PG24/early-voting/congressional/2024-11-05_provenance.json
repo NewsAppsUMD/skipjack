@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-early-voting-congressional-20241105-fc64e7b79afa",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/EarlyVoting by Congressional District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 early-voting (congressional) as of 2024-11-05",
+  "fetch_date": "2026-10-11T17:48:58+00:00",
+  "parse_date": "2026-10-11T18:14:41+00:00",
+  "sha256_original": "fc64e7b79afa5eafc397d74aeceab42083e5333ea3a6aae9d527693ecae34358",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "early-voting",
+  "geography": "congressional",
+  "notes": "PG24 early-voting (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 330,
+    "as_of": "2024-11-05"
+  }
+}

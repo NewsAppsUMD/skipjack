@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-votes-accepted-county-20241211-767671f250c1",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/Official_VotesAcceptedBy_CountyAndCanvass.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 votes-accepted (county) as of 2024-12-11",
+  "fetch_date": "2026-10-11T17:49:22+00:00",
+  "parse_date": "2026-10-11T18:15:37+00:00",
+  "sha256_original": "767671f250c1f5cf782e8510fad978c08e88688a66e4cc6fa2ad132ae34a116d",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "votes-accepted",
+  "geography": "county",
+  "notes": "PG24 votes-accepted (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 120,
+    "as_of": "2024-12-11"
+  }
+}

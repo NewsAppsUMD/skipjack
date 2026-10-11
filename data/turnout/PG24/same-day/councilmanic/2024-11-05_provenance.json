@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-same-day-councilmanic-20241105-bff864d63d8c",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/SameDayRegistration by Councilmanic District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 same-day (councilmanic) as of 2024-11-05",
+  "fetch_date": "2026-10-11T17:49:03+00:00",
+  "parse_date": "2026-10-11T18:14:52+00:00",
+  "sha256_original": "bff864d63d8c2bcff357c47694fffdc465757da82c16537672e108ca91b22c6b",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "same-day",
+  "geography": "councilmanic",
+  "notes": "PG24 same-day (councilmanic) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1500,
+    "as_of": "2024-11-05"
+  }
+}

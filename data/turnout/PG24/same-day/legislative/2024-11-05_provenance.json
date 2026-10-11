@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-same-day-legislative-20241105-e402dd0f493c",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/SameDayRegistration by Legislative District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 same-day (legislative) as of 2024-11-05",
+  "fetch_date": "2026-10-11T17:49:02+00:00",
+  "parse_date": "2026-10-11T18:14:55+00:00",
+  "sha256_original": "e402dd0f493ccc44645fa8c71b0526e7fb31fa6b5fc1af8a638eaf6ad5c84ec9",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "same-day",
+  "geography": "legislative",
+  "notes": "PG24 same-day (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1820,
+    "as_of": "2024-11-05"
+  }
+}

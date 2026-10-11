@@ -4747,6 +4747,285 @@ def test_official_turnout_reads_the_2024_block_labels():
     }
 
 
+# PG24's same-day county sheet, as printed (every county row and the sheet's TOTAL row):
+# the printed address-change totals carry the election day's own address changes, which
+# the printed day columns do not itemize (GP26's ED count was 0), so Prince George's and
+# the sheet total sit +9 over their cells.
+PG24_SAME_DAY_COUNTY_ROWS = [
+    SAME_DAY_HEADER,
+    same_day_row(
+        "Allegany",
+        None,
+        ("12", "15", "7", "2", "11", "7", "17", "27"),
+        ("7", "4", "5", "3", "18", "5", "18", "19"),
+        "335",
+        "433",
+        "79",
+        "512",
+    ),
+    same_day_row(
+        "Anne Arundel",
+        None,
+        ("105", "131", "88", "70", "152", "229", "288", "338"),
+        ("40", "55", "48", "37", "99", "89", "141", "202"),
+        "3749",
+        "5150",
+        "711",
+        "5861",
+    ),
+    same_day_row(
+        "Baltimore City",
+        None,
+        ("102", "73", "83", "67", "134", "200", "285", "408"),
+        ("55", "60", "44", "53", "92", "124", "176", "262"),
+        "6712",
+        "8064",
+        "866",
+        "8930",
+    ),
+    same_day_row(
+        "Baltimore County",
+        None,
+        ("117", "144", "99", "110", "199", "253", "348", "426"),
+        ("55", "59", "59", "36", "86", "113", "165", "233"),
+        "5450",
+        "7146",
+        "806",
+        "7952",
+    ),
+    same_day_row(
+        "Calvert",
+        None,
+        ("43", "33", "22", "24", "35", "25", "51", "89"),
+        ("7", "7", "6", "6", "5", "9", "22", "14"),
+        "514",
+        "836",
+        "76",
+        "912",
+    ),
+    same_day_row(
+        "Caroline",
+        None,
+        ("12", "8", "5", "3", "6", "10", "19", "17"),
+        ("7", "3", "5", "0", "4", "3", "5", "12"),
+        "199",
+        "279",
+        "39",
+        "318",
+    ),
+    same_day_row(
+        "Carroll",
+        None,
+        ("25", "40", "13", "26", "29", "54", "54", "90"),
+        ("20", "8", "12", "11", "9", "17", "21", "42"),
+        "774",
+        "1105",
+        "140",
+        "1245",
+    ),
+    same_day_row(
+        "Cecil",
+        None,
+        ("29", "30", "19", "8", "33", "45", "28", "61"),
+        ("3", "1", "3", "3", "15", "1", "9", "0"),
+        "801",
+        "1054",
+        "35",
+        "1089",
+    ),
+    same_day_row(
+        "Charles",
+        None,
+        ("37", "42", "35", "28", "57", "61", "64", "115"),
+        ("8", "10", "5", "14", "25", "40", "47", "47"),
+        "1130",
+        "1569",
+        "196",
+        "1765",
+    ),
+    same_day_row(
+        "Dorchester",
+        None,
+        ("8", "9", "1", "6", "8", "9", "11", "15"),
+        ("2", "6", "2", "0", "3", "7", "6", "14"),
+        "210",
+        "277",
+        "40",
+        "317",
+    ),
+    same_day_row(
+        "Frederick",
+        None,
+        ("31", "41", "40", "44", "64", "89", "104", "124"),
+        ("28", "35", "23", "16", "50", "56", "42", "96"),
+        "1510",
+        "2047",
+        "346",
+        "2393",
+    ),
+    same_day_row(
+        "Garrett",
+        None,
+        ("10", "7", "1", "2", "11", "8", "19", "14"),
+        ("7", "4", "1", "0", "2", "7", "6", "9"),
+        "114",
+        "186",
+        "36",
+        "222",
+    ),
+    same_day_row(
+        "Harford",
+        None,
+        ("33", "42", "25", "29", "54", "81", "102", "114"),
+        ("42", "32", "20", "27", "35", "74", "64", "105"),
+        "1204",
+        "1684",
+        "399",
+        "2083",
+    ),
+    same_day_row(
+        "Howard",
+        None,
+        ("57", "66", "44", "35", "106", "78", "148", "192"),
+        ("48", "30", "34", "32", "56", "61", "103", "155"),
+        "2004",
+        "2730",
+        "519",
+        "3249",
+    ),
+    same_day_row(
+        "Kent",
+        None,
+        ("5", "2", "0", "0", "2", "6", "4", "9"),
+        ("1", "3", "1", "0", "0", "5", "0", "5"),
+        "121",
+        "149",
+        "15",
+        "164",
+    ),
+    same_day_row(
+        "Montgomery",
+        None,
+        ("287", "269", "226", "213", "350", "445", "560", "902"),
+        ("143", "137", "121", "109", "198", "260", "382", "441"),
+        "7396",
+        "10648",
+        "1791",
+        "12439",
+    ),
+    same_day_row(
+        "Prince George's",
+        None,
+        ("158", "219", "167", "124", "267", "338", "503", "752"),
+        ("46", "45", "38", "24", "73", "86", "134", "188"),
+        "7734",
+        "10262",
+        "643",
+        "10905",
+    ),
+    same_day_row(
+        "Queen Anne's",
+        None,
+        ("9", "8", "7", "6", "13", "15", "26", "31"),
+        ("9", "5", "4", "3", "16", "15", "20", "19"),
+        "243",
+        "358",
+        "91",
+        "449",
+    ),
+    same_day_row(
+        "Saint Mary's",
+        None,
+        ("62", "37", "32", "18", "36", "50", "78", "99"),
+        ("15", "22", "14", "11", "31", "32", "45", "55"),
+        "714",
+        "1126",
+        "225",
+        "1351",
+    ),
+    same_day_row(
+        "Somerset",
+        None,
+        ("8", "2", "0", "3", "5", "5", "7", "8"),
+        ("0", "1", "0", "2", "1", "2", "1", "0"),
+        "124",
+        "162",
+        "7",
+        "169",
+    ),
+    same_day_row(
+        "Talbot",
+        None,
+        ("9", "12", "4", "4", "11", "18", "27", "22"),
+        ("9", "8", "2", "3", "4", "6", "6", "18"),
+        "221",
+        "328",
+        "56",
+        "384",
+    ),
+    same_day_row(
+        "Washington",
+        None,
+        ("43", "30", "20", "19", "39", "55", "72", "92"),
+        ("14", "14", "16", "14", "22", "31", "39", "55"),
+        "836",
+        "1206",
+        "205",
+        "1411",
+    ),
+    same_day_row(
+        "Wicomico",
+        None,
+        ("17", "19", "11", "11", "22", "23", "46", "36"),
+        ("18", "16", "10", "9", "19", "15", "27", "16"),
+        "541",
+        "726",
+        "130",
+        "856",
+    ),
+    same_day_row(
+        "Worcester",
+        None,
+        ("7", "13", "3", "5", "11", "18", "12", "13"),
+        ("8", "10", "1", "7", "8", "12", "13", "19"),
+        "295",
+        "377",
+        "78",
+        "455",
+    ),
+    same_day_row(
+        "TOTAL",
+        None,
+        ("1226", "1292", "952", "857", "1655", "2122", "2873", "3994"),
+        ("592", "575", "474", "420", "871", "1070", "1492", "2026"),
+        "42931",
+        "57902",
+        "7529",
+        "65431",
+    ),
+]
+
+
+def test_pg24_same_day_waives_the_print_errata_the_parser_verified():
+    """PG24's same-day sheets print Prince George's address-change totals (and the
+    sheets' own totals) higher than their day columns sum: the totals include the
+    election day's address changes, which the printed columns do not itemize. Each
+    waived row is checked against its archived print (this fixture is the county
+    sheet, as printed), keyed to the printed cells' sum, so a different mismatch still
+    fails the parse."""
+    _, df = turnout.parse_same_day_rows(PG24_SAME_DAY_COUNTY_ROWS, "PG24", "county")
+    pg = df.filter(pl.col("county") == "Prince George's")
+    assert dict(zip(pg["measure"], pg["value"]))["addrchg-total"] == 643  # what is printed
+    assert dict(zip(pg["measure"], pg["value"]))["new-total"] == 10262
+    assert df.filter(pl.col("county") == "Total").height == 0  # the state row is a check
+
+    # a mismatch outside the registry is still a print the parser will not sign
+    torn = [row[:] for row in PG24_SAME_DAY_COUNTY_ROWS]
+    torn[18][16] = "190"  # the board's Prince George's day-8 address change, +2
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_same_day_rows(torn, "PG24", "county")
+
+
 def test_turnout_parse_skips_a_revision_outside_the_file_set(turnout_env, monkeypatch):
     """Archived history beyond an election's file set (PG24's pdf prints of the two
     workbook families were dropped as not canonical) stays archived: the parse logs and

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-mail-voting-county-20241211-e82d7360256f",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/Official Vote-By-Mail Voting(NEW).pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 mail-voting (county) as of 2024-12-11",
+  "fetch_date": "2026-10-11T17:49:23+00:00",
+  "parse_date": "2026-10-11T18:14:50+00:00",
+  "sha256_original": "e82d7360256fee63c3fc0632afa52fe77c389a326ae06b4a10429018c802fd4c",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "mail-voting",
+  "geography": "county",
+  "notes": "PG24 mail-voting (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 108,
+    "as_of": "2024-12-11"
+  }
+}

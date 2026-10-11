@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-requests-county-20241206-962f226f9dbc",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/Mail-in Ballot Request Counts with Chart.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 requests (county) as of 2024-12-06",
+  "fetch_date": "2026-10-11T17:48:46+00:00",
+  "parse_date": "2026-10-11T18:14:50+00:00",
+  "sha256_original": "962f226f9dbc7686097d888d39a36f6d53e26b25754f42678a5a3d1918248a83",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "requests",
+  "geography": "county",
+  "notes": "PG24 requests (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 168,
+    "as_of": "2024-12-06"
+  }
+}

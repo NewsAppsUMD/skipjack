@@ -1,0 +1,641 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-1,7
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-2,4
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-3,5
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-4,3
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-5,18
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-6,5
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-7,18
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-day-8,19
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,addrchg-total,79
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-1,12
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-2,15
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-3,7
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-4,2
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-5,11
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-6,7
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-7,17
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-day-8,27
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-election-day,335
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,new-total,433
+2024-11-05,PG24,same-day,congressional,Allegany,06,ALL,ALL,total,512
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-1,28
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-2,28
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-3,28
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-4,21
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-5,67
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-6,76
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-7,104
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-day-8,153
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,addrchg-total,505
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-1,73
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-2,90
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-3,58
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-4,46
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-5,112
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-6,158
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-7,214
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-day-8,230
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-election-day,2616
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,new-total,3597
+2024-11-05,PG24,same-day,congressional,Anne Arundel,03,ALL,ALL,total,4102
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-1,12
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-2,27
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-3,20
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-4,16
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-5,32
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-6,13
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-7,37
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-day-8,49
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,addrchg-total,206
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-1,32
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-2,41
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-3,30
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-4,24
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-5,40
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-6,71
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-7,74
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-day-8,108
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-election-day,1133
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,new-total,1553
+2024-11-05,PG24,same-day,congressional,Anne Arundel,05,ALL,ALL,total,1759
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-1,2
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-2,5
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-3,2
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-4,2
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-5,3
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-6,6
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-7,3
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-day-8,5
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,addrchg-total,28
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-1,1
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-2,5
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-3,4
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-4,1
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-5,7
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-6,7
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-7,10
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-day-8,17
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-election-day,157
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,new-total,209
+2024-11-05,PG24,same-day,congressional,Baltimore City,02,ALL,ALL,total,237
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-1,53
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-2,55
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-3,42
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-4,51
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-5,89
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-6,118
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-7,173
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-day-8,257
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,addrchg-total,838
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-1,101
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-2,68
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-3,79
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-4,66
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-5,127
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-6,193
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-7,275
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-day-8,391
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-election-day,6555
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,new-total,7855
+2024-11-05,PG24,same-day,congressional,Baltimore City,07,ALL,ALL,total,8693
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-1,3
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-2,1
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-3,2
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-4,4
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-5,1
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-6,7
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-7,9
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-day-8,9
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,addrchg-total,36
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-1,4
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-2,6
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-3,8
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-4,13
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-5,19
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-6,18
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-7,12
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-day-8,24
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-election-day,206
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,new-total,310
+2024-11-05,PG24,same-day,congressional,Baltimore County,01,ALL,ALL,total,346
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-1,34
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-2,40
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-3,43
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-4,25
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-5,58
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-6,77
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-7,109
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-day-8,172
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,addrchg-total,558
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-1,77
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-2,101
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-3,64
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-4,73
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-5,128
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-6,165
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-7,228
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-day-8,282
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-election-day,3766
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,new-total,4884
+2024-11-05,PG24,same-day,congressional,Baltimore County,02,ALL,ALL,total,5442
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-1,18
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-2,18
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-3,14
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-4,7
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-5,27
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-6,29
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-7,47
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-day-8,52
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,addrchg-total,212
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-1,36
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-2,37
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-3,27
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-4,24
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-5,52
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-6,70
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-7,108
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-day-8,120
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-election-day,1478
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,new-total,1952
+2024-11-05,PG24,same-day,congressional,Baltimore County,07,ALL,ALL,total,2164
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-1,7
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-2,7
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-3,6
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-4,6
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-5,5
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-6,9
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-7,22
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-day-8,14
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,addrchg-total,76
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-1,43
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-2,33
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-3,22
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-4,24
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-5,35
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-6,25
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-7,51
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-day-8,89
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-election-day,514
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,new-total,836
+2024-11-05,PG24,same-day,congressional,Calvert,05,ALL,ALL,total,912
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-1,7
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-2,3
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-3,5
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-4,0
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-5,4
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-6,3
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-7,5
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-day-8,12
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,addrchg-total,39
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-1,12
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-2,8
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-3,5
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-4,3
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-5,6
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-6,10
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-7,19
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-day-8,17
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-election-day,199
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,new-total,279
+2024-11-05,PG24,same-day,congressional,Caroline,01,ALL,ALL,total,318
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-1,19
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-2,8
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-3,12
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-4,10
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-5,8
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-6,16
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-7,17
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-day-8,36
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,addrchg-total,126
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-1,24
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-2,36
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-3,12
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-4,22
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-5,26
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-6,47
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-7,45
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-day-8,82
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-election-day,703
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,new-total,997
+2024-11-05,PG24,same-day,congressional,Carroll,02,ALL,ALL,total,1123
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-1,1
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-2,0
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-3,0
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-4,1
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-5,1
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-6,1
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-7,4
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-day-8,6
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,addrchg-total,14
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-1,1
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-2,4
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-3,1
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-4,4
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-5,3
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-6,7
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-7,9
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-day-8,8
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-election-day,71
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,new-total,108
+2024-11-05,PG24,same-day,congressional,Carroll,03,ALL,ALL,total,122
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-1,3
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-2,1
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-3,3
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-4,3
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-5,15
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-6,1
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-7,9
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-day-8,0
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,addrchg-total,35
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-1,29
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-2,30
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-3,19
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-4,8
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-5,33
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-6,45
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-7,28
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-day-8,61
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-election-day,801
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,new-total,1054
+2024-11-05,PG24,same-day,congressional,Cecil,01,ALL,ALL,total,1089
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-1,8
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-2,10
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-3,5
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-4,14
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-5,25
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-6,40
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-7,47
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-day-8,47
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,addrchg-total,196
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-1,37
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-2,42
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-3,35
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-4,28
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-5,57
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-6,61
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-7,64
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-day-8,115
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-election-day,1130
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,new-total,1569
+2024-11-05,PG24,same-day,congressional,Charles,05,ALL,ALL,total,1765
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-1,2
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-2,6
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-3,2
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-4,0
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-5,3
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-6,7
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-7,6
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-day-8,14
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,addrchg-total,40
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-1,8
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-2,9
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-3,1
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-4,6
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-5,8
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-6,9
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-7,11
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-day-8,15
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-election-day,210
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,new-total,277
+2024-11-05,PG24,same-day,congressional,Dorchester,01,ALL,ALL,total,317
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-1,28
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-2,35
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-3,23
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-4,16
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-5,50
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-6,56
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-7,42
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-day-8,96
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,addrchg-total,346
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-1,31
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-2,41
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-3,40
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-4,44
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-5,64
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-6,89
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-7,104
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-day-8,124
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-election-day,1510
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,new-total,2047
+2024-11-05,PG24,same-day,congressional,Frederick,06,ALL,ALL,total,2393
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-1,7
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-2,4
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-3,1
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-4,0
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-5,2
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-6,7
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-7,6
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-day-8,9
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,addrchg-total,36
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-1,10
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-2,7
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-3,1
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-4,2
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-5,11
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-6,8
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-7,19
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-day-8,14
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-election-day,114
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,new-total,186
+2024-11-05,PG24,same-day,congressional,Garrett,06,ALL,ALL,total,222
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-1,42
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-2,32
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-3,20
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-4,27
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-5,35
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-6,74
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-7,64
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-day-8,105
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,addrchg-total,399
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-1,33
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-2,42
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-3,25
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-4,29
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-5,54
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-6,81
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-7,102
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-day-8,114
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-election-day,1204
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,new-total,1684
+2024-11-05,PG24,same-day,congressional,Harford,01,ALL,ALL,total,2083
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-1,48
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-2,30
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-3,34
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-4,32
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-5,56
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-6,61
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-7,103
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-day-8,155
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,addrchg-total,519
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-1,57
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-2,66
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-3,44
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-4,35
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-5,106
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-6,78
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-7,148
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-day-8,192
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-election-day,2004
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,new-total,2730
+2024-11-05,PG24,same-day,congressional,Howard,03,ALL,ALL,total,3249
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-1,1
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-2,3
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-3,1
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-4,0
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-5,0
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-6,5
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-7,0
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-day-8,5
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,addrchg-total,15
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-1,5
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-2,2
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-3,0
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-4,0
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-5,2
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-6,6
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-7,4
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-day-8,9
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-election-day,121
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,new-total,149
+2024-11-05,PG24,same-day,congressional,Kent,01,ALL,ALL,total,164
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-1,2
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-2,4
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-3,1
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-4,3
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-5,6
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-6,13
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-7,16
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-day-8,10
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,addrchg-total,55
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-1,11
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-2,11
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-3,9
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-4,4
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-5,20
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-6,17
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-7,22
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-day-8,47
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-election-day,289
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,new-total,430
+2024-11-05,PG24,same-day,congressional,Montgomery,04,ALL,ALL,total,485
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-1,31
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-2,30
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-3,23
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-4,20
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-5,52
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-6,63
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-7,86
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-day-8,95
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,addrchg-total,400
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-1,66
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-2,51
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-3,49
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-4,48
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-5,73
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-6,103
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-7,130
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-day-8,169
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-election-day,1772
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,new-total,2461
+2024-11-05,PG24,same-day,congressional,Montgomery,06,ALL,ALL,total,2861
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-1,110
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-2,103
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-3,97
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-4,86
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-5,140
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-6,184
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-7,280
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-day-8,336
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,addrchg-total,1336
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-1,210
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-2,207
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-3,168
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-4,161
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-5,257
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-6,325
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-7,408
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-day-8,686
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-election-day,5335
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,new-total,7757
+2024-11-05,PG24,same-day,congressional,Montgomery,08,ALL,ALL,total,9093
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-1,37
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-2,32
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-3,22
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-4,18
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-5,58
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-6,63
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-7,100
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-day-8,153
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,addrchg-total,492
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-1,112
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-2,164
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-3,123
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-4,88
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-5,181
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-6,242
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-7,358
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-day-8,551
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-election-day,6091
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,new-total,7910
+2024-11-05,PG24,same-day,congressional,Prince George's,04,ALL,ALL,total,8402
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-1,9
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-2,13
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-3,16
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-4,6
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-5,15
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-6,23
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-7,34
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-day-8,35
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,addrchg-total,151
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-1,46
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-2,55
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-3,44
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-4,36
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-5,86
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-6,96
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-7,145
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-day-8,201
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-election-day,1643
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,new-total,2352
+2024-11-05,PG24,same-day,congressional,Prince George's,05,ALL,ALL,total,2503
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-1,9
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-2,5
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-3,4
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-4,3
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-5,16
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-6,15
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-7,20
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-day-8,19
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,addrchg-total,91
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-1,9
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-2,8
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-3,7
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-4,6
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-5,13
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-6,15
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-7,26
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-day-8,31
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-election-day,243
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,new-total,358
+2024-11-05,PG24,same-day,congressional,Queen Anne's,01,ALL,ALL,total,449
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-1,15
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-2,22
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-3,14
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-4,11
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-5,31
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-6,32
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-7,45
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-day-8,55
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,addrchg-total,225
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-1,62
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-2,37
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-3,32
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-4,18
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-5,36
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-6,50
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-7,78
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-day-8,99
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-election-day,714
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,new-total,1126
+2024-11-05,PG24,same-day,congressional,St. Mary's,05,ALL,ALL,total,1351
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-1,0
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-2,1
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-3,0
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-4,2
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-5,1
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-6,2
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-7,1
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-day-8,0
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,addrchg-total,7
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-1,8
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-2,2
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-3,0
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-4,3
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-5,5
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-6,5
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-7,7
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-day-8,8
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-election-day,124
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,new-total,162
+2024-11-05,PG24,same-day,congressional,Somerset,01,ALL,ALL,total,169
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-1,9
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-2,8
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-3,2
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-4,3
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-5,4
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-6,6
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-7,6
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-day-8,18
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,addrchg-total,56
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-1,9
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-2,12
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-3,4
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-4,4
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-5,11
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-6,18
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-7,27
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-day-8,22
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-election-day,221
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,new-total,328
+2024-11-05,PG24,same-day,congressional,Talbot,01,ALL,ALL,total,384
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-1,14
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-2,14
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-3,16
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-4,14
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-5,22
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-6,31
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-7,39
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-day-8,55
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,addrchg-total,205
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-1,43
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-2,30
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-3,20
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-4,19
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-5,39
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-6,55
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-7,72
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-day-8,92
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-election-day,836
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,new-total,1206
+2024-11-05,PG24,same-day,congressional,Washington,06,ALL,ALL,total,1411
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-1,18
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-2,16
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-3,10
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-4,9
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-5,19
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-6,15
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-7,27
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-day-8,16
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,addrchg-total,130
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-1,17
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-2,19
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-3,11
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-4,11
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-5,22
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-6,23
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-7,46
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-day-8,36
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-election-day,541
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,new-total,726
+2024-11-05,PG24,same-day,congressional,Wicomico,01,ALL,ALL,total,856
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-1,8
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-2,10
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-3,1
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-4,7
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-5,8
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-6,12
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-7,13
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-day-8,19
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,addrchg-total,78
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-1,7
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-2,13
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-3,3
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-4,5
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-5,11
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-6,18
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-7,12
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-day-8,13
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-election-day,295
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,new-total,377
+2024-11-05,PG24,same-day,congressional,Worcester,01,ALL,ALL,total,455

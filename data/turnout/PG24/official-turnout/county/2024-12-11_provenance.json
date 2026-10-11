@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-official-turnout-county-20241211-e6c41136c326",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/PG24/Official by Party and County.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 official-turnout (county) as of 2024-12-11",
+  "fetch_date": "2026-10-11T17:49:25+00:00",
+  "parse_date": "2026-10-11T18:14:50+00:00",
+  "sha256_original": "e6c41136c32692bd394b38ad75d92d5c1d956b19b2214b205722b0ed00074f97",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "official-turnout",
+  "geography": "county",
+  "notes": "PG24 official-turnout (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 960,
+    "as_of": "2024-12-11"
+  }
+}
