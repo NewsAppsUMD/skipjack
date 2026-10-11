@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp26-mail-voting-county-20260723-98fb7999a749",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GP26/Official Mail-In Voting Voting.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 mail-voting (county) as of 2026-07-23",
+  "fetch_date": "2026-10-11T00:47:01+00:00",
+  "parse_date": "2026-10-11T00:47:17+00:00",
+  "sha256_original": "98fb7999a749feef3e47ff4cd4abca0169de810f776bc6a252fd19c8ea5695d8",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "mail-voting",
+  "geography": "county",
+  "notes": "GP26 mail-voting (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 106,
+    "as_of": "2026-07-23"
+  }
+}

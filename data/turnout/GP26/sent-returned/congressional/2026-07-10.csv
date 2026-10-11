@@ -1,0 +1,481 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,DEM,sent,31535
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,REP,sent,19196
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,OTH,sent,5075
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,ALL,sent,55806
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,DEM,received,18770
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,REP,received,10355
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,OTH,received,1316
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,ALL,received,30441
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,DEM,accepted,18485
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,REP,accepted,10181
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,OTH,accepted,1286
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,ALL,ALL,accepted,29952
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,DEM,sent,54528
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,REP,sent,15860
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,OTH,sent,550
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,ALL,sent,70938
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,DEM,received,33104
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,REP,received,7458
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,OTH,received,96
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,ALL,received,40658
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,DEM,accepted,32588
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,REP,accepted,7337
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,OTH,accepted,92
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,ALL,ALL,accepted,40017
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,DEM,sent,50655
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,REP,sent,15296
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,OTH,sent,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,ALL,sent,65951
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,DEM,received,31621
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,REP,received,6651
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,OTH,received,122
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,ALL,received,38394
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,DEM,accepted,31450
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,REP,accepted,6613
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,OTH,accepted,117
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,ALL,ALL,accepted,38180
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,DEM,sent,44810
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,REP,sent,2718
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,OTH,sent,1907
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,ALL,sent,49435
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,DEM,received,27319
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,REP,received,899
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,OTH,received,423
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,ALL,received,28641
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,DEM,accepted,26984
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,REP,accepted,886
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,OTH,accepted,414
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,ALL,ALL,accepted,28284
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,DEM,sent,52855
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,REP,sent,11940
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,OTH,sent,934
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,ALL,sent,65729
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,DEM,received,34022
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,REP,received,5309
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,OTH,received,295
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,ALL,received,39626
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,DEM,accepted,33798
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,REP,accepted,5282
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,OTH,accepted,292
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,ALL,ALL,accepted,39372
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,DEM,sent,40300
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,REP,sent,14614
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,OTH,sent,13448
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,ALL,sent,68362
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,DEM,received,25656
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,REP,received,7271
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,OTH,received,4033
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,ALL,received,36960
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,DEM,accepted,25333
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,REP,accepted,7140
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,OTH,accepted,3966
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,ALL,ALL,accepted,36439
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,DEM,sent,49814
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,REP,sent,4396
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,OTH,sent,5013
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,ALL,sent,59223
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,DEM,received,28610
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,REP,received,1630
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,OTH,received,917
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,ALL,received,31157
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,DEM,accepted,28242
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,REP,accepted,1607
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,OTH,accepted,897
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,ALL,ALL,accepted,30746
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,DEM,sent,73404
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,REP,sent,9477
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,OTH,sent,17933
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,ALL,sent,100814
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,DEM,received,45084
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,REP,received,3251
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,OTH,received,4433
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,ALL,received,52768
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,DEM,accepted,44730
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,REP,accepted,3223
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,OTH,accepted,4399
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,ALL,ALL,accepted,52352
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,DEM,sent,288
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,REP,sent,43
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,OTH,sent,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,ALL,sent,347
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,DEM,received,59
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,REP,received,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,OTH,received,3
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,ALL,received,70
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,DEM,accepted,57
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,REP,accepted,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,OTH,accepted,3
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,ALL,accepted,68
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,DEM,sent,475
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,REP,sent,69
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,OTH,sent,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,ALL,sent,548
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,DEM,received,86
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,REP,received,13
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,ALL,received,100
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,DEM,accepted,82
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,REP,accepted,11
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,ALL,accepted,94
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,DEM,sent,588
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,REP,sent,74
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,OTH,sent,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,ALL,sent,662
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,DEM,received,138
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,REP,received,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,ALL,received,147
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,DEM,accepted,137
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,REP,accepted,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,ALL,accepted,146
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,DEM,sent,307
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,REP,sent,26
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,OTH,sent,20
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,ALL,sent,353
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,DEM,received,59
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,REP,received,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,OTH,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,ALL,received,66
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,DEM,accepted,48
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,REP,accepted,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,OTH,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,ALL,accepted,55
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,DEM,sent,325
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,REP,sent,58
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,OTH,sent,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,ALL,sent,392
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,DEM,received,75
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,REP,received,15
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,ALL,received,90
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,DEM,accepted,68
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,REP,accepted,15
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,ALL,accepted,83
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,DEM,sent,479
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,REP,sent,61
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,OTH,sent,76
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,ALL,sent,616
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,DEM,received,100
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,REP,received,12
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,OTH,received,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,ALL,received,117
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,DEM,accepted,94
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,REP,accepted,12
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,OTH,accepted,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,ALL,accepted,111
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,DEM,sent,503
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,REP,sent,108
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,OTH,sent,45
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,ALL,sent,656
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,DEM,received,97
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,REP,received,7
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,ALL,received,105
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,DEM,accepted,92
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,REP,accepted,7
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,ALL,accepted,100
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,DEM,sent,2322
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,REP,sent,243
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,OTH,sent,292
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,ALL,sent,2857
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,DEM,received,464
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,REP,received,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,OTH,received,17
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,ALL,received,497
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,DEM,accepted,458
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,REP,accepted,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,OTH,accepted,17
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,ALL,accepted,491
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,DEM,sent,31201
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,REP,sent,19101
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,OTH,sent,5045
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,ALL,sent,55347
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,DEM,received,18701
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,REP,received,10335
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,OTH,received,1311
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,ALL,received,30347
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,DEM,accepted,18418
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,REP,accepted,10164
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,OTH,accepted,1281
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,ALL,accepted,29863
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,DEM,sent,54013
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,REP,sent,15769
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,OTH,sent,546
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,ALL,sent,70328
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,DEM,received,32999
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,REP,received,7441
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,OTH,received,95
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,ALL,received,40535
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,DEM,accepted,32488
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,REP,accepted,7322
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,OTH,accepted,91
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,ALL,accepted,39901
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,DEM,sent,49911
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,REP,sent,15173
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,OTH,sent,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,ALL,sent,65084
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,DEM,received,31434
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,REP,received,6629
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,OTH,received,122
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,ALL,received,38185
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,DEM,accepted,31266
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,REP,accepted,6591
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,OTH,accepted,117
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,ALL,accepted,37974
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,DEM,sent,44444
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,REP,sent,2679
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,OTH,sent,1880
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,ALL,sent,49003
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,DEM,received,27248
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,REP,received,893
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,OTH,received,419
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,ALL,received,28560
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,DEM,accepted,26928
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,REP,accepted,880
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,OTH,accepted,410
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,ALL,accepted,28218
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,DEM,sent,52323
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,REP,sent,11798
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,OTH,sent,919
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,ALL,sent,65040
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,DEM,received,33883
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,REP,received,5285
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,OTH,received,293
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,ALL,received,39461
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,DEM,accepted,33666
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,REP,accepted,5258
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,OTH,accepted,290
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,ALL,accepted,39214
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,DEM,sent,39747
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,REP,sent,14518
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,OTH,sent,13325
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,ALL,sent,67590
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,DEM,received,25535
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,REP,received,7255
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,OTH,received,4021
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,ALL,received,36811
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,DEM,accepted,25218
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,REP,accepted,7126
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,OTH,accepted,3955
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,ALL,accepted,36299
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,DEM,sent,49272
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,REP,sent,4283
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,OTH,sent,4951
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,ALL,sent,58506
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,DEM,received,28504
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,REP,received,1623
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,OTH,received,915
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,ALL,received,31042
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,DEM,accepted,28141
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,REP,accepted,1600
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,OTH,accepted,895
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,ALL,accepted,30636
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,DEM,sent,70964
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,REP,sent,9210
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,OTH,sent,17577
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,ALL,sent,97751
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,DEM,received,44595
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,REP,received,3231
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,OTH,received,4409
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,ALL,received,52235
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,DEM,accepted,44247
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,REP,accepted,3203
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,OTH,accepted,4375
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,ALL,accepted,51825
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,DEM,sent,14
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,REP,sent,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,OTH,sent,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,ALL,sent,35
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,DEM,received,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,REP,received,3
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,ALL,received,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,DEM,accepted,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,REP,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,ALL,accepted,7
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,DEM,sent,15
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,REP,sent,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,OTH,sent,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,ALL,sent,21
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,DEM,received,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,REP,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,ALL,received,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,DEM,accepted,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,REP,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,ALL,accepted,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,DEM,sent,33
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,REP,sent,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,OTH,sent,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,ALL,sent,42
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,DEM,received,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,REP,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,ALL,received,10
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,DEM,accepted,7
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,REP,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,ALL,accepted,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,DEM,sent,15
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,REP,sent,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,OTH,sent,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,ALL,sent,21
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,DEM,received,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,REP,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,ALL,received,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,DEM,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,REP,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,ALL,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,DEM,sent,38
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,REP,sent,19
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,OTH,sent,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,ALL,sent,59
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,DEM,received,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,REP,received,3
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,ALL,received,20
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,DEM,accepted,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,REP,accepted,3
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,ALL,accepted,20
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,DEM,sent,10
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,REP,sent,12
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,OTH,sent,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,ALL,sent,38
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,DEM,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,REP,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,ALL,received,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,DEM,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,REP,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,ALL,accepted,3
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,DEM,sent,11
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,REP,sent,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,OTH,sent,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,ALL,sent,17
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,DEM,received,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,REP,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,ALL,received,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,DEM,accepted,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,REP,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,ALL,accepted,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,DEM,sent,31
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,REP,sent,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,OTH,sent,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,ALL,sent,52
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,DEM,received,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,REP,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,OTH,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,ALL,received,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,DEM,accepted,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,REP,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,OTH,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,ALL,accepted,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,DEM,sent,32
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,REP,sent,36
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,OTH,sent,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,ALL,sent,77
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,DEM,received,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,REP,received,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,ALL,received,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,DEM,accepted,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,REP,accepted,7
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 01,Military US,ALL,accepted,14
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,DEM,sent,25
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,REP,sent,16
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,OTH,sent,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,ALL,sent,41
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,DEM,received,13
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,REP,received,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,ALL,received,17
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,DEM,accepted,13
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,REP,accepted,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 02,Military US,ALL,accepted,17
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,DEM,sent,123
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,REP,sent,40
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,OTH,sent,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,ALL,sent,163
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,DEM,received,41
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,REP,received,11
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,OTH,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,ALL,received,52
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,DEM,accepted,40
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,REP,accepted,11
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,OTH,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 03,Military US,ALL,accepted,51
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,DEM,sent,44
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,REP,sent,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,OTH,sent,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,ALL,sent,58
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,DEM,received,8
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,REP,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,OTH,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,ALL,received,11
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,DEM,accepted,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,REP,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,OTH,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 04,Military US,ALL,accepted,9
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,DEM,sent,169
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,REP,sent,65
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,OTH,sent,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,ALL,sent,238
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,DEM,received,48
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,REP,received,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,ALL,received,55
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,DEM,accepted,48
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,REP,accepted,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 05,Military US,ALL,accepted,55
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,DEM,sent,64
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,REP,sent,23
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,OTH,sent,31
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,ALL,sent,118
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,DEM,received,19
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,REP,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,OTH,received,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,ALL,received,27
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,DEM,accepted,19
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,REP,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,OTH,accepted,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 06,Military US,ALL,accepted,26
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,DEM,sent,28
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,REP,sent,4
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,OTH,sent,12
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,ALL,sent,44
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,DEM,received,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,REP,received,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,OTH,received,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,ALL,received,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,DEM,accepted,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,REP,accepted,0
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,OTH,accepted,1
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 07,Military US,ALL,accepted,6
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,DEM,sent,87
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,REP,sent,19
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,OTH,sent,48
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,ALL,sent,154
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,DEM,received,21
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,REP,received,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,OTH,received,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,ALL,received,28
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,DEM,accepted,21
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,REP,accepted,2
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,OTH,accepted,5
+2026-07-10,GP26,sent-returned,congressional,"",Congressional District Code 08,Military US,ALL,accepted,28

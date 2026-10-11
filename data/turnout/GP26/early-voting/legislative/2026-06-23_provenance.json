@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp26-early-voting-legislative-20260623-ff1c2f071b67",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GP26/EarlyVoting  by Legislative District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 early-voting (legislative) as of 2026-06-23",
+  "fetch_date": "2026-10-11T00:46:51+00:00",
+  "parse_date": "2026-10-11T00:47:15+00:00",
+  "sha256_original": "ff1c2f071b67d58f085085c15e4b650c2dc1598588179e7c285b199b510fd3af",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "early-voting",
+  "geography": "legislative",
+  "notes": "GP26 early-voting (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 910,
+    "as_of": "2026-06-23"
+  }
+}

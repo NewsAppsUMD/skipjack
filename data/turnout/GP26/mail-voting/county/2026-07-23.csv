@@ -1,0 +1,107 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2026-07-23,GP26,mail-voting,county,Allegany,"",ALL,ALL,sent,4027
+2026-07-23,GP26,mail-voting,county,Allegany,"",ALL,ALL,received,2456
+2026-07-23,GP26,mail-voting,county,Allegany,"",ALL,ALL,accepted,2423
+2026-07-23,GP26,mail-voting,county,Allegany,"",ALL,ALL,rejected,33
+2026-07-23,GP26,mail-voting,county,Anne Arundel,"",ALL,ALL,sent,49224
+2026-07-23,GP26,mail-voting,county,Anne Arundel,"",ALL,ALL,received,29206
+2026-07-23,GP26,mail-voting,county,Anne Arundel,"",ALL,ALL,accepted,29083
+2026-07-23,GP26,mail-voting,county,Anne Arundel,"",ALL,ALL,rejected,123
+2026-07-23,GP26,mail-voting,county,Baltimore City,"",ALL,ALL,sent,51418
+2026-07-23,GP26,mail-voting,county,Baltimore City,"",ALL,ALL,received,26324
+2026-07-23,GP26,mail-voting,county,Baltimore City,"",ALL,ALL,accepted,25945
+2026-07-23,GP26,mail-voting,county,Baltimore City,"",ALL,ALL,rejected,379
+2026-07-23,GP26,mail-voting,county,Baltimore County,"",ALL,ALL,sent,72770
+2026-07-23,GP26,mail-voting,county,Baltimore County,"",ALL,ALL,received,42190
+2026-07-23,GP26,mail-voting,county,Baltimore County,"",ALL,ALL,accepted,41528
+2026-07-23,GP26,mail-voting,county,Baltimore County,"",ALL,ALL,rejected,662
+2026-07-23,GP26,mail-voting,county,Calvert,"",ALL,ALL,sent,7586
+2026-07-23,GP26,mail-voting,county,Calvert,"",ALL,ALL,received,4607
+2026-07-23,GP26,mail-voting,county,Calvert,"",ALL,ALL,accepted,4579
+2026-07-23,GP26,mail-voting,county,Calvert,"",ALL,ALL,rejected,28
+2026-07-23,GP26,mail-voting,county,Caroline,"",ALL,ALL,sent,1330
+2026-07-23,GP26,mail-voting,county,Caroline,"",ALL,ALL,received,753
+2026-07-23,GP26,mail-voting,county,Caroline,"",ALL,ALL,accepted,741
+2026-07-23,GP26,mail-voting,county,Caroline,"",ALL,ALL,rejected,12
+2026-07-23,GP26,mail-voting,county,Carroll,"",ALL,ALL,sent,12932
+2026-07-23,GP26,mail-voting,county,Carroll,"",ALL,ALL,received,7209
+2026-07-23,GP26,mail-voting,county,Carroll,"",ALL,ALL,accepted,7098
+2026-07-23,GP26,mail-voting,county,Carroll,"",ALL,ALL,rejected,111
+2026-07-23,GP26,mail-voting,county,Cecil,"",ALL,ALL,sent,7134
+2026-07-23,GP26,mail-voting,county,Cecil,"",ALL,ALL,received,3272
+2026-07-23,GP26,mail-voting,county,Cecil,"",ALL,ALL,accepted,3227
+2026-07-23,GP26,mail-voting,county,Cecil,"",ALL,ALL,rejected,45
+2026-07-23,GP26,mail-voting,county,Charles,"",ALL,ALL,sent,12166
+2026-07-23,GP26,mail-voting,county,Charles,"",ALL,ALL,received,7081
+2026-07-23,GP26,mail-voting,county,Charles,"",ALL,ALL,accepted,7032
+2026-07-23,GP26,mail-voting,county,Charles,"",ALL,ALL,rejected,49
+2026-07-23,GP26,mail-voting,county,Dorchester,"",ALL,ALL,sent,1999
+2026-07-23,GP26,mail-voting,county,Dorchester,"",ALL,ALL,received,1235
+2026-07-23,GP26,mail-voting,county,Dorchester,"",ALL,ALL,accepted,1218
+2026-07-23,GP26,mail-voting,county,Dorchester,"",ALL,ALL,rejected,17
+2026-07-23,GP26,mail-voting,county,Frederick,"",ALL,ALL,sent,28405
+2026-07-23,GP26,mail-voting,county,Frederick,"",ALL,ALL,received,15830
+2026-07-23,GP26,mail-voting,county,Frederick,"",ALL,ALL,accepted,15538
+2026-07-23,GP26,mail-voting,county,Frederick,"",ALL,ALL,rejected,292
+2026-07-23,GP26,mail-voting,county,Garrett,"",ALL,ALL,sent,1605
+2026-07-23,GP26,mail-voting,county,Garrett,"",ALL,ALL,received,1049
+2026-07-23,GP26,mail-voting,county,Garrett,"",ALL,ALL,accepted,1037
+2026-07-23,GP26,mail-voting,county,Garrett,"",ALL,ALL,rejected,12
+2026-07-23,GP26,mail-voting,county,Harford,"",ALL,ALL,sent,19542
+2026-07-23,GP26,mail-voting,county,Harford,"",ALL,ALL,received,10345
+2026-07-23,GP26,mail-voting,county,Harford,"",ALL,ALL,accepted,10185
+2026-07-23,GP26,mail-voting,county,Harford,"",ALL,ALL,rejected,160
+2026-07-23,GP26,mail-voting,county,Howard,"",ALL,ALL,sent,29287
+2026-07-23,GP26,mail-voting,county,Howard,"",ALL,ALL,received,16764
+2026-07-23,GP26,mail-voting,county,Howard,"",ALL,ALL,accepted,16645
+2026-07-23,GP26,mail-voting,county,Howard,"",ALL,ALL,rejected,119
+2026-07-23,GP26,mail-voting,county,Kent,"",ALL,ALL,sent,1560
+2026-07-23,GP26,mail-voting,county,Kent,"",ALL,ALL,received,1009
+2026-07-23,GP26,mail-voting,county,Kent,"",ALL,ALL,accepted,1007
+2026-07-23,GP26,mail-voting,county,Kent,"",ALL,ALL,rejected,2
+2026-07-23,GP26,mail-voting,county,Montgomery,"",ALL,ALL,sent,126525
+2026-07-23,GP26,mail-voting,county,Montgomery,"",ALL,ALL,received,65436
+2026-07-23,GP26,mail-voting,county,Montgomery,"",ALL,ALL,accepted,64936
+2026-07-23,GP26,mail-voting,county,Montgomery,"",ALL,ALL,rejected,500
+2026-07-23,GP26,mail-voting,county,Prince George's,"",ALL,ALL,sent,72181
+2026-07-23,GP26,mail-voting,county,Prince George's,"",ALL,ALL,received,43036
+2026-07-23,GP26,mail-voting,county,Prince George's,"",ALL,ALL,accepted,42556
+2026-07-23,GP26,mail-voting,county,Prince George's,"",ALL,ALL,rejected,480
+2026-07-23,GP26,mail-voting,county,Queen Anne's,"",ALL,ALL,sent,4308
+2026-07-23,GP26,mail-voting,county,Queen Anne's,"",ALL,ALL,received,2147
+2026-07-23,GP26,mail-voting,county,Queen Anne's,"",ALL,ALL,accepted,2129
+2026-07-23,GP26,mail-voting,county,Queen Anne's,"",ALL,ALL,rejected,18
+2026-07-23,GP26,mail-voting,county,St. Mary's,"",ALL,ALL,sent,6507
+2026-07-23,GP26,mail-voting,county,St. Mary's,"",ALL,ALL,received,3829
+2026-07-23,GP26,mail-voting,county,St. Mary's,"",ALL,ALL,accepted,3820
+2026-07-23,GP26,mail-voting,county,St. Mary's,"",ALL,ALL,rejected,9
+2026-07-23,GP26,mail-voting,county,Somerset,"",ALL,ALL,sent,1159
+2026-07-23,GP26,mail-voting,county,Somerset,"",ALL,ALL,received,643
+2026-07-23,GP26,mail-voting,county,Somerset,"",ALL,ALL,accepted,623
+2026-07-23,GP26,mail-voting,county,Somerset,"",ALL,ALL,rejected,20
+2026-07-23,GP26,mail-voting,county,Talbot,"",ALL,ALL,sent,3330
+2026-07-23,GP26,mail-voting,county,Talbot,"",ALL,ALL,received,2076
+2026-07-23,GP26,mail-voting,county,Talbot,"",ALL,ALL,accepted,2046
+2026-07-23,GP26,mail-voting,county,Talbot,"",ALL,ALL,rejected,30
+2026-07-23,GP26,mail-voting,county,Washington,"",ALL,ALL,sent,11289
+2026-07-23,GP26,mail-voting,county,Washington,"",ALL,ALL,received,6260
+2026-07-23,GP26,mail-voting,county,Washington,"",ALL,ALL,accepted,6151
+2026-07-23,GP26,mail-voting,county,Washington,"",ALL,ALL,rejected,109
+2026-07-23,GP26,mail-voting,county,Wicomico,"",ALL,ALL,sent,5597
+2026-07-23,GP26,mail-voting,county,Wicomico,"",ALL,ALL,received,3342
+2026-07-23,GP26,mail-voting,county,Wicomico,"",ALL,ALL,accepted,3307
+2026-07-23,GP26,mail-voting,county,Wicomico,"",ALL,ALL,rejected,35
+2026-07-23,GP26,mail-voting,county,Worcester,"",ALL,ALL,sent,4419
+2026-07-23,GP26,mail-voting,county,Worcester,"",ALL,ALL,received,2582
+2026-07-23,GP26,mail-voting,county,Worcester,"",ALL,ALL,accepted,2546
+2026-07-23,GP26,mail-voting,county,Worcester,"",ALL,ALL,rejected,36
+2026-07-23,GP26,mail-voting,county,"","",Board Action,ALL,rejected,168
+2026-07-23,GP26,mail-voting,county,"","",Identification of DL# or SS# was not timely received,ALL,rejected,2
+2026-07-23,GP26,mail-voting,county,"","",Identification was received but did not satisfy the identification requirements,ALL,rejected,2
+2026-07-23,GP26,mail-voting,county,"","",Identifying Mark on Ballot,ALL,rejected,25
+2026-07-23,GP26,mail-voting,county,"","",Late for election,ALL,rejected,2750
+2026-07-23,GP26,mail-voting,county,"","",No mail-in ballot application,ALL,rejected,3
+2026-07-23,GP26,mail-voting,county,"","",No signature,ALL,rejected,313
+2026-07-23,GP26,mail-voting,county,"","",Original state mail-in ballot received (FWAB rejected),ALL,rejected,1
+2026-07-23,GP26,mail-voting,county,"","",Surrendered mail-in ballot at polls,ALL,rejected,1
+2026-07-23,GP26,mail-voting,county,"","",Voted more than one ballot,ALL,rejected,16

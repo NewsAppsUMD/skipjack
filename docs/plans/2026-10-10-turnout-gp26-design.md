@@ -45,3 +45,19 @@ using the same parsers.
   by mode, mail-in final figures with rejections, provisional outcomes, early-voting
   totals, denominators); `/turnout/gg26/` keeps its campaign-tracking layout. The index
   lists both elections.
+
+## Observed during the first ingest (2026-10-10)
+
+The eight certified-denominator files (official-turnout x 3, eligible-active x 4,
+eligible-inactive x 1) were live all day and stopped serving in the evening -- the State
+Board re-published its 2026_stats tree (files stamped that evening) and those URLs went
+back to HTML placeholders. The parsers are shipped and tested; they ingest on the next
+fetch once the files return. Nine of the twelve families are ingested: county-canvass,
+votes-accepted, mail-voting, provisional (report date 2026-07-23), early-voting and
+same-day (2026-06-23), requests (last campaign file, 2026-06-19), sent-returned
+(2026-07-10) and left-to-count (2026-07-07).
+
+The same-day by-Party workbook undercounts the same-day county workbook (2,162 new
+registrations vs 2,179: Baltimore County -6, Charles -3, Howard -3, Anne Arundel -2,
++1 elsewhere), with no state row in that file to check against; the ingest sidecar
+notes it. The early-voting by-Party file has no such gap.

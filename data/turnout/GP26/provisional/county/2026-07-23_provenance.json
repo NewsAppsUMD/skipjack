@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp26-provisional-county-20260723-3a9bd051aa68",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GP26/Official Provisional Voting.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 provisional (county) as of 2026-07-23",
+  "fetch_date": "2026-10-11T00:47:01+00:00",
+  "parse_date": "2026-10-11T00:47:17+00:00",
+  "sha256_original": "3a9bd051aa68c691bfca5ea710d00e02eabd551dc5dbca51f7949a8980813d31",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "provisional",
+  "geography": "county",
+  "notes": "GP26 provisional (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 109,
+    "as_of": "2026-07-23"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp26-left-to-count-county-20260707-ae561dd014fd",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GP26/Absentees_Ballots_Left_To_Count_by_County.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 left-to-count (county) as of 2026-07-07",
+  "fetch_date": "2026-10-11T00:46:48+00:00",
+  "parse_date": "2026-10-11T00:47:16+00:00",
+  "sha256_original": "ae561dd014fdfc4e7c6489e8b24c178e95e8250aa4e8030dcf21b8da0506af0b",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "left-to-count",
+  "geography": "county",
+  "notes": "GP26 left-to-count (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 1560,
+    "as_of": "2026-07-07"
+  }
+}

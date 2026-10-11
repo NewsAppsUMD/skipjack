@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp26-early-voting-councilmanic-20260623-bc96e0f06efa",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GP26/EarlyVoting  by Councilmanic District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 early-voting (councilmanic) as of 2026-06-23",
+  "fetch_date": "2026-10-11T00:46:52+00:00",
+  "parse_date": "2026-10-11T00:47:11+00:00",
+  "sha256_original": "bc96e0f06efa1272cb98499c75745d62a2acb20ecb4ad08a8d1e42a180fdb168",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "early-voting",
+  "geography": "councilmanic",
+  "notes": "GP26 early-voting (councilmanic) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 913,
+    "as_of": "2026-06-23"
+  }
+}
