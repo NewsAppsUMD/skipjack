@@ -89,7 +89,11 @@ def _certified_tiles(cert: dict) -> list[dict]:
     if cert.get("turnout"):
         tiles.append(
             {
-                "label": "turnout — ballots cast over eligible voters, counted or not",
+                "label": (
+                    "turnout — the board's own percentage, from its official turnout sheet"
+                    if cert["turnout"].get("printed")
+                    else "turnout — ballots cast over eligible voters, counted or not"
+                ),
                 "value_text": f"{cert['turnout']['value'] * 100:.1f}%",
                 "value": None,
                 "as_of": cert["turnout"]["as_of"],

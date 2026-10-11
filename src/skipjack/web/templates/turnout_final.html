@@ -3,9 +3,17 @@
 
 <p>Final turnout. The figures are the State Board's certified canvass reports: ballots
     <em>cast</em> (whether or not they were counted), the ballots counted, and the
-    certified turnout percentage — which the board itself computes as all ballots cast over
-    <em>eligible voters</em> (everyone registered who is not incomplete or cancelled, active
-    and inactive together).</p>
+    certified turnout percentage.
+    {% if cert.get("turnout", {}).get("printed") %}
+    The percentage is the board's own: its official turnout sheet's ballots cast over the
+    register that sheet itself prints. Registers moved between eras — 2024's sheets divide
+    by active registration alone; the 2026 turnout guide's
+    <em>eligible</em> is everyone registered who is not incomplete or cancelled, active and
+    inactive together.
+    {% else %}
+    The percentage is ballots cast over <em>eligible voters</em> — everyone registered who
+    is not incomplete or cancelled, active and inactive together.
+    {% endif %}</p>
 
 {% if tiles %}
 <div class="tiles">

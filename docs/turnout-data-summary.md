@@ -22,11 +22,12 @@ election-night unofficial turnout report**, and:
 - keeps every figure traceable: archive file + manifest row + provenance sidecar per
   document, and a `source_id` on every combined row.
 
-Two elections are live today:
+Three elections are live today:
 
 | Election | State | What the page shows |
 |---|---|---|
 | **2026 primary** (`/turnout/gp26/`) | Certified July 23, 2026 | The finals: ballots cast (902,818) and counted (891,567), the four voting modes with shares, mail-in ballots with rejection reasons, provisional outcomes, and mail-in ballot requests |
+| **2024 general** (`/turnout/pg24/`) | Certified (canvass as of 2024-12-11, re-posted April 2026) | The finals: ballots cast (3,067,931) and counted (3,062,158), the four voting modes with shares, mail-in ballots with rejection reasons, mail-in ballot requests, and the board's own turnout percentage as its official Turnout sheet printed it |
 | **2026 general** (`/turnout/gg26/`) | In progress (election day November 3) | The mid-campaign mail-in tracking: ballot requests, ballots sent, envelopes received back, and accepted-in-the-canvass (currently ~0) |
 
 ## Where the data comes from
@@ -46,7 +47,11 @@ defines the vocabulary; two of its points are easy to trip on:
 2. **The denominator is eligible voters, not active registration.** Eligible = registered
    voters not in "incomplete" or "cancelled" status — active, inactive **and** pending
    together. Skipjack's voter-file pages say "participation among current voters" for the
-   same reason; the Turnout section is the official side of that distinction.
+   same reason; the Turnout section is the official side of that distinction. What the
+   board *prints* as the percentage moved between eras: the 2024-era official turnout
+   sheets computed it over active registration alone (PG24's page shows that printed
+   percentage and says so); the 2026 guide's construction is what GP26's page uses while
+   the sheet has not republished.
 
 ## What the pipeline does
 

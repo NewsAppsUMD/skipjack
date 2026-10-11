@@ -314,7 +314,9 @@ def _family_state(
     conn: sqlite3.Connection, election: str, family: str, as_of: str
 ) -> dict[str, int]:
     """The state's counts for one certified family at one snapshot: summed over the
-    counties and the parties (the printed state rows are checked at parse time).
+    counties, at the row the county's own Total printed (the eligible workbooks publish
+    a row per party plus the Total column; the certified reports' single rows carry
+    'ALL' already) — the printed state rows are checked at parse time.
     """
     return {
         r["measure"]: r["v"]
@@ -322,6 +324,7 @@ def _family_state(
             """SELECT measure, SUM(value) AS v FROM turnout_counts
                WHERE election = ? AND family = ? AND geography = 'county'
                  AND county != '' AND district = '' AND category = 'ALL'
+                 AND party = 'ALL'
                  AND as_of = ?
                GROUP BY measure""",
             (election, family, as_of),
@@ -332,13 +335,15 @@ def _family_state(
 def _family_county(
     conn: sqlite3.Connection, election: str, family: str, county: str, as_of: str
 ) -> dict[str, int]:
-    """One county's counts for one certified family at one snapshot."""
+    """One county's counts for one certified family at one snapshot, at the row the
+    county's Total printed (see _family_state)."""
     return {
         r["measure"]: r["value"]
         for r in conn.execute(
             """SELECT measure, value FROM turnout_counts
                WHERE election = ? AND family = ? AND geography = 'county'
-                 AND county = ? AND district = '' AND category = 'ALL' AND as_of = ?""",
+                 AND county = ? AND district = '' AND category = 'ALL'
+                 AND party = 'ALL' AND as_of = ?""",
             (election, family, county, as_of),
         )
     }
@@ -392,6 +397,24 @@ def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
         if m in canvass or m in accepted
     }
     out["by_mode"] = by_mode
+    # the board's own printed percentage: its official turnout sheet's ballots cast
+    # over the eligible voters the sheet itself prints (both summed from the county
+    # rows the parse checked against its printed state rows). The sheet's register is
+    # what the board computed its percentage over — for the 2024-era sheets, active
+    # registration; the guide's construction below is the fallback while the sheet has
+    # not republished.
+    if sheet_dates := dates.get("official-turnout"):
+        sheet = _family_state(conn, election, "official-turnout", sheet_dates)
+        sheet_modes = sum(
+            sheet.get(m) or 0
+            for m in ("election-day", "early-voting", "vote-by-mail", "provisional")
+        )
+        if sheet.get("eligible") and sheet_modes:
+            out["turnout"] = {
+                "value": sheet_modes / sheet["eligible"],
+                "as_of": sheet_dates,
+                "printed": True,
+            }
     if "eligible-active" in dates:
         active = _family_state(conn, election, "eligible-active", dates["eligible-active"])
         inactive = (
@@ -413,8 +436,12 @@ def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
                 "total": eligible,
                 "as_of": eligible_dates,
             }
-            if out["cast"]:
-                out["turnout"] = {"value": out["cast"] / eligible, "as_of": eligible_dates}
+            if out["cast"] and "turnout" not in out:
+                out["turnout"] = {
+                    "value": out["cast"] / eligible,
+                    "as_of": eligible_dates,
+                    "printed": False,
+                }
     return out
 
 

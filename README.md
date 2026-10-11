@@ -35,12 +35,13 @@ Once GitHub Pages is switched on, the site publishes to
 - **Voter File**: participation among current voters, by party, age, county and district. Each county has
   a link between its registration trends and its voter file page.
 - **Turnout**: each election's official tally from the SBE's press-room reports. For a finished
-  election: the certified ballots cast and counted, the four voting modes, the certified turnout
-  percentage (cast over eligible voters, counted or not), mail-in ballots with their rejection
-  reasons, and provisional outcomes — its certified figures of record only, never the board's
-  unofficial eight-day tallies (early voting, same-day). For a running
-  election: the mail-in tracking (requests, sent, received back, accepted in the canvass),
-  snapshotted under each report's own as-of date so the trend is visible day by day.
+  election: the certified ballots cast and counted, the four voting modes, the board's own
+  certified turnout percentage (its official turnout sheet's figure, whose printed register moved
+  between eras — 2024's sheets divide by active registration, the 2026 guide by all eligible
+  voters), mail-in ballots with their rejection reasons, and provisional outcomes — its certified
+  figures of record only, never the board's unofficial eight-day tallies (early voting, same-day).
+  For a running election: the mail-in tracking (requests, sent, received back, accepted in the
+  canvass), snapshotted under each report's own as-of date so the trend is visible day by day.
 - **Young voters**: how many 18-to-22-year-olds registered for the first time from January 1 to the
   snapshot date, against the same stretch of earlier election years, which party they choose, and how it
   differs by county. Earlier years are undercounted because voters leave the list, so the page measures

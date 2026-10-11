@@ -236,9 +236,7 @@ def test_real_gg26_headline_against_the_committed_data():
         assert headline["latest"] == max(latest.values())
         assert sent_returned["as_of"] == latest["sent-returned"]
         assert headline["requests"]["as_of"] == latest["requests"]
-        assert sent_returned["sent"] == county_sum(
-            "sent-returned", "sent", latest["sent-returned"]
-        )
+        assert sent_returned["sent"] == county_sum("sent-returned", "sent", latest["sent-returned"])
         assert sent_returned["received"] == county_sum(
             "sent-returned", "received", latest["sent-returned"]
         )
@@ -511,8 +509,120 @@ def test_certified_county_rows_join_the_families(conn):
     assert "same_day" not in row
 
 
+@needs_db
+def test_real_pg24_page_renders_the_certified_data():
+    """The 2024 general's page of record, pinned to figures parsed from the committed
+    files (the April 2026 corrected re-posts superseded the December originals, so the
+    canvass figures read at their own latest snapshot); nothing comes from the board's
+    unofficial eight-day tallies."""
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    r = client.get("/turnout/")
+    assert "2024 General Election" in r.text
+    r = client.get("/turnout/pg24/")
+    assert r.status_code == 200
+    assert "3,067,931" in r.text  # ballots cast (the corrected canvass)
+    assert "3,062,158" in r.text  # votes counted
+    assert "72.4%" in r.text  # the board's own printed percentage (active registration)
+    assert "994,654" in r.text  # early voting
+    assert "1,158,770" in r.text  # election day
+    assert "765,695" in r.text  # vote by mail
+    assert "148,812" in r.text  # provisional
+    assert "766,522" in r.text  # mail-in received back
+    assert "762,971" in r.text  # mail-in accepted
+    assert "3,551" in r.text  # mail-in rejected
+    assert "882,938" in r.text  # mail-in ballot requests
+    # the 2024-era denominator is printed where the percentage is explained
+    assert "active registration alone" in r.text
+    # figures of record only: no unofficial tallies, no links to them
+    for forbidden in (
+        "(the EV tally)",
+        ">Same-day</th>",
+        "/downloads/turnout/PG24/early-voting",
+        "/downloads/turnout/PG24/same-day",
+    ):
+        assert forbidden not in r.text
+
+
 # ---------------------------------------------------------------------------
 needs_db = pytest.mark.skipif(not DB_PATH.exists(), reason="skipjack.db not built")
+
+
+def test_certified_headlines_read_the_total_column_not_the_party_rows(conn):
+    """The eligible workbooks publish one row per party plus each county's Total
+    column; the state's count is the Total column's sum, not every party cell's — the
+    turnout percentage hangs on the difference."""
+    for party, value in (("DEM", 3068), ("REP", 1133), ("ALL", 4202)):
+        add(
+            conn,
+            "2024-10-20",
+            [("county", "Allegany", "", "ALL", party, "active", value)],
+            family="eligible-active",
+        )
+        add(
+            conn,
+            "2024-10-20",
+            [("county", "Allegany", "", "ALL", party, "inactive", 500 if party == "ALL" else 0)],
+            family="eligible-inactive",
+        )
+    cert = turnout.certified_headline(conn, "GG26")
+    assert cert["eligible"]["active"] == 4202  # not 4202 + 3068 + 1133
+    assert cert["eligible"]["inactive"] == 500
+    assert (
+        turnout._family_county(conn, "GG26", "eligible-active", "Allegany", "2024-10-20")["active"]
+        == 4202
+    )
+
+
+def test_the_board_s_printed_percentage_comes_from_its_own_sheet(conn):
+    """The certified turnout percentage is the board's print: its official turnout
+    sheet's ballots cast over the eligible voters the sheet itself prints (each summed
+    from the county rows the parse checked). The site's guide-formula is the fallback
+    when the board's sheet has not republished."""
+    rows = [
+        ("county", "Allegany", "", "ALL", "ALL", measure, value)
+        for measure, value in [
+            ("election-day", 1145134),
+            ("early-voting", 984945),
+            ("vote-by-mail", 765783),
+            ("provisional", 149993),
+            ("eligible", 4204572),
+        ]
+    ]
+    add(conn, "2024-12-11", rows, family="official-turnout")
+    cert = turnout.certified_headline(conn, "GG26")
+    assert cert["turnout"]["value"] == pytest.approx(3045855 / 4204572)
+    assert cert["turnout"]["printed"]  # the board's own sheet computed this
+
+
+def test_the_guide_s_percentage_is_the_fallback_without_the_sheet(conn):
+    """No official-turnout sheet published, but the two eligible workbooks are: the
+    percentage computes per the guide — ballots cast over eligible voters (active and
+    inactive together)."""
+    add(
+        conn,
+        "2024-12-11",
+        [("county", "Allegany", "", "ALL", "ALL", "total", 6048)],
+        family="county-canvass",
+    )
+    add(
+        conn,
+        "2024-10-20",
+        [("county", "Allegany", "", "ALL", "ALL", "active", 8042)],
+        family="eligible-active",
+    )
+    add(
+        conn,
+        "2024-10-20",
+        [("county", "Allegany", "", "ALL", "ALL", "inactive", 700)],
+        family="eligible-inactive",
+    )
+    cert = turnout.certified_headline(conn, "GG26")
+    assert cert["turnout"]["value"] == pytest.approx(6048 / (8042 + 700))
+    assert not cert["turnout"]["printed"]
 
 
 @needs_db
