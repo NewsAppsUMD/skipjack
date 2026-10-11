@@ -2070,6 +2070,68 @@ def parse_mail_voting_pdf(
     return parse_mail_voting_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
 
 
+# Provisional: the same two-table sheet, at a county table whose columns are the
+# ballots cast and the three dispositions (their shares all cast ballots).
+PROVISIONAL_SHEET = PrintedSheet(
+    cells={
+        "PROVISIONAL BALLOTS CAST": "cast",
+        "# ACCEPTED IN FULL": "accepted-in-full",
+        "# ACCEPTED IN PART": "accepted-in-part",
+        "# REJECTED": "rejected",
+    },
+    base="cast",
+    modes=("accepted-in-full", "accepted-in-part", "rejected"),
+    share_of={
+        "accepted-in-full": "cast",
+        "accepted-in-part": "cast",
+        "rejected": "cast",
+    },
+)
+
+
+def parse_provisional_rows(
+    rows: list[list[str]],
+    election: str,
+    geography: str = "county",
+    as_of: str | None = None,
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official Provisional Voting PDF's two tables as long rows.
+
+    The county table's rows publish the ballots cast and the three dispositions --
+    accepted in full, accepted in part, rejected -- whose counts must sum to the row's
+    cast cell, with the printed shares checked at the same cast cell (the file prints
+    them at one decimal). The state row, printed as "State Totals", is the counties'
+    sums, checked and not published. The reasons table is the state's rejected
+    provisional ballots by their printed reason codes, published like the mail-in
+    sheet's: one row per reason, category the code as printed, their counts summing to
+    the sheet's rejected cell.
+    """
+    county_rows, reason_rows = _split_reason_table(rows)
+    state_rows, published = _tallied_rows(
+        "provisional", county_rows, election, geography, as_of, PROVISIONAL_SHEET
+    )
+    rejected_total = (state_rows or {}).get("rejected", 0)
+    if rejected_total and not reason_rows:
+        raise TurnoutParseError(
+            "provisional: the sheet's rejected ballots have no printed reason table"
+        )
+    published += _rejection_rows(
+        "provisional", reason_rows, rejected_total, election, geography, as_of
+    )
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_provisional_pdf(
+    path: Path, election: str, geography: str = "county"
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official Provisional Voting PDF, table rows first, its date from its text."""
+    try:
+        rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
+        raise TurnoutParseError(f"could not read the provisional PDF ({err})") from err
+    return parse_provisional_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+
+
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
@@ -2318,6 +2380,8 @@ def _parse_file(
         return parse_votes_accepted_pdf(path, election_code, geography)
     if family == "mail-voting":
         return parse_mail_voting_pdf(path, election_code, geography)
+    if family == "provisional":
+        return parse_provisional_pdf(path, election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
 
 

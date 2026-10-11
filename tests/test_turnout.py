@@ -3393,3 +3393,141 @@ def test_parse_file_reaches_the_mail_voting_pdf(tmp_path):
             "mail-voting",
             "county",
         )
+
+
+# provisional: "Official Provisional Voting", one page at two tables. The county table
+# casts, accepts in full, accepts in part and rejects ballots (the accepted/rejected
+# counts, each followed by its %); there is no Total column to read -- the row's
+# arithmetic is full + part + rejected == cast. Measures are cast, accepted-in-full,
+# accepted-in-part, rejected. The state row prints as "State Totals", the counties'
+# sums. The reasons table is the state's rejected provisionals by their printed codes
+# ("01 - Applicant is not registered to vote", "GP26 Other Rejection"), published like
+# the mail-in sheet's, with the shares the file prints at one decimal.
+
+PROVISIONAL_HEADER = [
+    "County",
+    "Provisional\nBallots Cast",
+    "# Accepted in Full",
+    "",
+    "# Accepted in Part",
+    "",
+    "# Rejected",
+    "",
+]
+
+PROVISIONAL_ROWS = [
+    PROVISIONAL_HEADER,
+    ["Allegany", "284", "220", "77.5%", "7", "2.5%", "57", "20.1%"],
+    ["Anne Arundel", "3,764", "2,422", "64.3%", "371", "9.9%", "971", "25.8%"],
+    ["Worcester", "263", "222", "84.4%", "20", "7.6%", "21", "8.0%"],
+    ["State Totals", "4,311", "2,864", "66.4%", "398", "9.2%", "1,049", "24.3%"],
+    # the second table: the state's 1,049 rejected provisionals (the excerpt's own three
+    # counties' rejected counts), by their printed reason codes
+    ["01 - Applicant is not registered to vote", "7", "0.7%"],
+    ["03 - Applicant voted the wrong party primary ballot", "371", "35.4%"],
+    ["05 - Applicant not eligible to receive a provisional ballot", "383", "36.5%"],
+    ["07 - Incomplete information was provided on the application", "66", "6.3%"],
+    ["GP26 Other Rejection", "222", "21.2%"],
+    ["Total", "1,049", ""],
+]
+
+
+def test_provisional_parses_the_county_rows():
+    as_of, df = turnout.parse_provisional_rows(
+        PROVISIONAL_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert as_of == "2026-07-23"
+    assert len(df) == 3 * 4 + 5  # three counties x four measures, plus five reasons
+    assert set(df["measure"]) == {"cast", "accepted-in-full", "accepted-in-part", "rejected"}
+    assert set(df["family"]) == {"provisional"}
+    assert set(df["geography"]) == {"county"} and set(df["district"]) == {""}
+    allegany = df.filter((df["county"] == "Allegany") & (df["category"] == "ALL"))
+    assert dict(zip(allegany["measure"], allegany["value"])) == {
+        "cast": 284,
+        "accepted-in-full": 220,
+        "accepted-in-part": 7,
+        "rejected": 57,
+    }
+
+
+def test_provisional_reasons_publish_their_printed_codes():
+    as_of, df = turnout.parse_provisional_rows(
+        PROVISIONAL_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    reasons = df.filter(df["category"] != "ALL")
+    assert set(reasons["category"]) == {
+        "01 - Applicant is not registered to vote",
+        "03 - Applicant voted the wrong party primary ballot",
+        "05 - Applicant not eligible to receive a provisional ballot",
+        "07 - Incomplete information was provided on the application",
+        "GP26 Other Rejection",
+    }
+    assert set(reasons["measure"]) == {"rejected"}
+    assert reasons["value"].sum() == 1049  # the state row's rejected cell
+
+
+def test_provisional_state_totals_are_checked_not_published():
+    as_of, df = turnout.parse_provisional_rows(
+        PROVISIONAL_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert "State Totals" not in set(df["county"])
+    cast = df.filter((df["measure"] == "cast") & (df["category"] == "ALL"))["value"].sum()
+    assert cast == 4311
+
+
+PROVISIONAL_FAILURES = (
+    # a cast count its full/part/rejected do not sum to
+    ((1, 1), "285", "do not add up"),
+    # an accepted-in-full share that is not the count over the cast
+    ((1, 3), "99.9%", "share"),
+    # a rejected share that is not the count over the cast
+    ((2, 7), "99.9%", "share"),
+)
+
+
+def test_provisional_rejects_the_torn_arithmetic():
+    for (row, col), value, where in PROVISIONAL_FAILURES:
+        torn = [r[:] for r in PROVISIONAL_ROWS]
+        torn[row][col] = value
+        with pytest.raises(turnout.TurnoutParseError, match=where):
+            turnout.parse_provisional_rows(torn, "GP26", "county", as_of="2026-07-23")
+
+
+def test_provisional_rejects_reasons_that_do_not_add_up_to_the_state():
+    torn = [r[:] for r in PROVISIONAL_ROWS]
+    torn[10][1] = "1,050"  # the printed reasons total no longer equals the counties' sum
+    with pytest.raises(turnout.TurnoutParseError, match="the printed reasons total says 1050"):
+        turnout.parse_provisional_rows(torn, "GP26", "county", as_of="2026-07-23")
+    short = [r[:] for r in PROVISIONAL_ROWS]
+    short[7] = ["05 - Applicant not eligible to receive a provisional ballot", "370", "35.3%"]
+    with pytest.raises(turnout.TurnoutParseError, match="the printed reasons total says 1049"):
+        turnout.parse_provisional_rows(short, "GP26", "county", as_of="2026-07-23")
+
+
+def test_provisional_rejects_a_duplicated_county_row():
+    dup = [r[:] for r in PROVISIONAL_ROWS]
+    dup.insert(2, PROVISIONAL_ROWS[1][:])
+    with pytest.raises(turnout.TurnoutParseError, match="more than once"):
+        turnout.parse_provisional_rows(dup, "GP26", "county", as_of="2026-07-23")
+
+
+def test_provisional_rejects_an_unrecognized_county_label():
+    bad = [r[:] for r in PROVISIONAL_ROWS]
+    bad[1][0] = "Prince Georges"
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized county"):
+        turnout.parse_provisional_rows(bad, "GP26", "county", as_of="2026-07-23")
+
+
+def test_parse_file_reaches_the_provisional_pdf(tmp_path):
+    # the same dispatch proof as the canvass family's: a PDF the readers cannot open
+    # fails in the provisional reader, not the "no parser" fallthrough
+    import types
+
+    with pytest.raises(turnout.TurnoutParseError, match="could not read the provisional PDF"):
+        turnout._parse_file(
+            tmp_path / "no-such.pdf",
+            types.SimpleNamespace(source_id="x"),
+            "GP26",
+            "provisional",
+            "county",
+        )
