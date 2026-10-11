@@ -10,6 +10,7 @@ import logging
 import datetime
 import io
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -2132,6 +2133,431 @@ def parse_provisional_pdf(
     return parse_provisional_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
 
 
+# --- the eight-day early-voting and same-day files (PDF) -------------------------------------
+# One printed sheet of eight days at five grains each: a county's rows at the county
+# grain, a county x party block (a PARTY CODE column, each county closed by a TOTAL
+# row) at the county-party grain, a county x district table at the three district
+# grains, and the county's early-voting centers at the location grain. The same-day
+# files print every day twice -- NEW registrations and ADDRCHG (registered voters with
+# an address change) -- plus three totals of their own.
+#
+# The grains' county cells print on a block's first row (and again after a page break)
+# and stay empty on the rows after it, so a block's county is its own cell or its
+# inherited one. The published rows are the printed detail rows and nothing else: the
+# rollups (a block's TOTAL row, a district file's county "Total" row, a sheet's
+# Statewide row) are reconciled against the rows they close, but the frame only ever
+# publishes one grain.
+
+DAILY_GEOGRAPHIES = (
+    "county",
+    "county-party",
+    "congressional",
+    "legislative",
+    "councilmanic",
+    "location",
+)
+
+# The county slot's own spellings of "the whole state".
+DAILY_STATE_CELLS = frozenset({"TOTAL", "GRAND TOTAL"})
+
+# A rollup row's label in the party column (a county block's TOTAL row) and in the
+# district or location column (a district file's county "Total" row).
+DAILY_ROLLUP_CELLS = frozenset({"TOTAL", "GRAND TOTAL"})
+
+DAILY_IDENTITY_CELLS = {
+    "COUNTY": "county",
+    "COUNTYNAME": "county",
+    "PARTYCODE": "party",
+    "CONGRESSIONALDISTRICT": "district",
+    "LEGISLATIVEDISTRICT": "district",
+    "COUNCILMANICDISTRICT": "district",
+    "COUNCILMANIACDISTRICT": "district",
+    "LOCATIONNAME": "district",
+}
+
+EARLY_VOTING_LABEL_CELLS = {
+    **DAILY_IDENTITY_CELLS,
+    **{f"DAY{day}": f"day-{day}" for day in range(1, 9)},
+    "TOTAL": "total",
+    "ELIGIBLEACTIVES": "eligible",
+}
+
+# The same-day measures, the family's own printed vocabulary: every printed column
+# names its population -- the NEW registrations and the ADDRCHG (registered voters
+# with an address change) per day, the election day's NEW registrations ("NEW ED"),
+# and the three printed totals.
+SAME_DAY_LABEL_CELLS = {
+    **DAILY_IDENTITY_CELLS,
+    **{f"NEWDAY{day}": f"new-day-{day}" for day in range(1, 9)},
+    **{f"ADDRCHGDAY{day}": f"addrchg-day-{day}" for day in range(1, 9)},
+    "NEWED": "new-election-day",
+    "NEWTOTAL": "new-total",
+    "ADDRCHGTOTAL": "addrchg-total",
+    "TOTAL": "total",
+}
+
+EARLY_VOTING_MEASURES = (*(f"day-{n}" for n in range(1, 9)), "total", "eligible")
+SAME_DAY_MEASURES = (
+    *(f"new-day-{n}" for n in range(1, 9)),
+    *(f"addrchg-day-{n}" for n in range(1, 9)),
+    "new-election-day",
+    "new-total",
+    "addrchg-total",
+    "total",
+)
+
+
+def _label_key(label: str) -> str:
+    """A header label's key, spelling out what the print's own spacing carries apart.
+
+    The "%" of a share cell stays in the key: "%Day5" and "DAY5" print as two different
+    columns and only one of them is a count.
+    """
+    return re.sub(r"[^A-Z0-9%]+", "", label.upper())
+
+
+def _daily_section(
+    where: str,
+    labels: list[str],
+    geography: str,
+    label_cells: dict[str, str],
+    expected: tuple[str, ...],
+) -> dict[int, str]:
+    """One daily sheet's header row: its identity columns and its count columns.
+
+    The identity columns are the geography's own: the county files print none but the
+    county, the county-party file adds a PARTY CODE, and the district and location
+    files print a district (or location) column instead of a party one. Every label
+    the file prints must be one of these, or one of the share cells ("%Day1", "%
+    Total"), which are accepted and not read -- these files' printed shares are parts
+    of their own eligible denominators per grain and do not reconcile with their rows
+    -- and every measure the family counts must sit in the map: a header that lost a
+    day's column is a sheet the parser cannot read.
+    """
+    mapped: dict[int, str] = {}
+    identity: set[str] = set()
+    for index, label in enumerate(labels):
+        if not label:
+            continue
+        key = _label_key(label)
+        if key.startswith("%"):
+            # a day share cell ("%DAY1", "% Day4") or the total's ("%Total")
+            if re.fullmatch(r"%DAY[1-8]", key) or key in ("%TOTAL", "%NEWTOTAL", "%ADDRCHGTOTAL"):
+                continue
+            raise TurnoutParseError(f"{where}: unrecognized column label {label!r}")
+        if key not in label_cells:
+            raise TurnoutParseError(f"{where}: unrecognized column label {label!r}")
+        mapped[index] = label_cells[key]
+        if key in DAILY_IDENTITY_CELLS:
+            identity.add(DAILY_IDENTITY_CELLS[key])
+    if "county" not in identity:
+        raise TurnoutParseError(f"{where}: a header row with no county column")
+    party = "party" in identity
+    district = "district" in identity
+    if geography == "county":
+        if party or district:
+            raise TurnoutParseError(
+                f"{where}: no county file prints a {'PARTY CODE' if party else 'district'} column"
+            )
+    elif geography == "county-party":
+        if district:
+            raise TurnoutParseError(f"{where}: no county-party file prints a district column")
+        if not party:
+            raise TurnoutParseError(f"{where}: a county-party header row with no PARTY CODE")
+    else:  # the district and location geographies
+        if party:
+            raise TurnoutParseError(f"{where}: no district file prints a PARTY CODE column")
+        if not district:
+            raise TurnoutParseError(f"{where}: a district header row with no district column")
+    counted = set(mapped.values())
+    if missing := [measure for measure in expected if measure not in counted]:
+        raise TurnoutParseError(f"{where}: a header row without the {missing[0]} column")
+    return mapped
+
+
+def _daily_rollup(
+    where: str,
+    label: str,
+    printed: dict[str, int],
+    sums: dict[str, int],
+    noun: str,
+) -> None:
+    """One printed rollup row against the rows it closes, per column."""
+    if not sums:
+        raise TurnoutParseError(f"{where}: the printed {label} row has no {noun} rows above it")
+    for measure, value in printed.items():
+        collected = sums.get(measure, 0)
+        if collected != value:
+            raise TurnoutParseError(
+                f"{where}: the printed {label} says the {measure} count is {value}, but "
+                f"its {noun} rows sum to {collected}"
+            )
+
+
+def _daily_rows(
+    family: str,
+    indexed_rows: list[tuple[int, list[str]]],
+    election: str,
+    geography: str,
+    as_of: str | None,
+    label_cells: dict[str, str],
+    expected: tuple[str, ...],
+    check_row: Callable[[str, str, dict[str, int]], None],
+) -> tuple[dict[str, int] | None, list[dict]]:
+    """One sheet's rows at its own grain, with the file's own checks.
+
+    A row's county is its own cell, or the county the sheet was already printing (the
+    county cell stays empty on the rows after a block's first row, and re-prints on a
+    block's first row after a page break). A row's counts are published at the file's
+    grain -- party by party at the county-party grain, district by district -- while
+    the rollups the sheet prints (a county block's TOTAL row, a district file's county
+    "Total" row, the sheet's own Statewide row) are reconciled against the rows above
+    them and not published. Nothing is returned until the printed totals agree.
+    """
+    if geography not in DAILY_GEOGRAPHIES:
+        raise TurnoutParseError(f"no {family} files for geography {geography!r}")
+    mapping: dict[int, str] | None = None
+    county = ""
+    county_sums: dict[str, dict[str, int]] = {}
+    state_sums: dict[str, int] = {}
+    seen: set[tuple[str, str, str]] = set()
+    published: list[dict] = []
+    state_cells: dict[str, int] | None = None
+    for index, row in indexed_rows:
+        where = f"{family} row {index}"
+        labels = [_normalize_label(cell) for cell in row]
+        if {_label_key(label) for label in labels if label} & {"COUNTY", "COUNTYNAME"}:
+            mapping = _daily_section(where, labels, geography, label_cells, expected)
+            county, state_sums = "", {}
+            continue
+        if mapping is None:
+            continue  # title rows, the date cell, and the footnotes print above
+        raw = {slot: (row[index] if index < len(row) else "") for index, slot in mapping.items()}
+        county_cell = str(raw.get("county") or "").strip()
+        printed = _daily_counts(where, raw)
+        if county_cell.upper() in DAILY_STATE_CELLS:
+            # the sheet's own state row: the counties' sums, checked and not published
+            check_row(where, county_cell.title(), printed)
+            _daily_rollup(where, county_cell.title(), printed, state_sums, "county")
+            state_cells = dict(printed)
+            state_sums = {}
+            continue
+        county = canonical_county(county_cell or county)
+        if county not in CANONICAL_COUNTIES:
+            raise TurnoutParseError(f"{where}: unrecognized county label {county_cell or county!r}")
+        rollup: str | None = None
+        party_cell = district_cell = ""
+        for slot, kind in (("party", "party"), ("district", "district")):
+            if slot not in raw:
+                continue
+            cell = " ".join(str(raw[slot] or "").split())
+            if cell.upper() in DAILY_ROLLUP_CELLS:
+                rollup = kind
+                break
+            if kind == "party":
+                party_cell = cell
+            else:
+                district_cell = cell
+        if rollup is not None:
+            # a county block's own rollup: the rows it closes, per column
+            check_row(where, f"the printed {county} {rollup} total", printed)
+            _daily_rollup(
+                where,
+                f"{county}'s printed {rollup} total",
+                printed,
+                county_sums.get(county, {}),
+                f"{rollup} detail",
+            )
+            county_sums[county] = {}
+            continue
+        if "party" in raw and party_cell.upper() not in ELIGIBLE_PARTIES:
+            raise TurnoutParseError(f"{where}: unrecognized party code {party_cell!r}")
+        check_row(where, county, printed)
+        sums = county_sums.setdefault(county, {})
+        for measure, value in printed.items():
+            state_sums[measure] = state_sums.get(measure, 0) + value
+            sums[measure] = sums.get(measure, 0) + value
+        if (county, party_cell, district_cell) in seen:
+            raise TurnoutParseError(
+                f"{where}: a {party_cell or 'ALL'} row for {county} {district_cell!r} "
+                "appears more than once"
+            )
+        seen.add((county, party_cell, district_cell))
+        published += _daily_published(
+            county, district_cell, party_cell, printed, election, family, geography, as_of
+        )
+    if state_cells is None and geography == "county":
+        raise TurnoutParseError(
+            f"{family}: the county rows have no printed Statewide row to reconcile them"
+        )
+    return state_cells, published
+
+
+def _daily_counts(where: str, raw: dict[str, str]) -> dict[str, int]:
+    """One row's printed counts: every day's cell as an integer, and the eligible cell
+    the one count a row may print without -- the live councilmanic file's rows leave
+    it blank where their county's eligible snapshot does not print."""
+    printed: dict[str, int] = {}
+    for measure in sorted(set(raw) - {"county", "party", "district"}):
+        cell = raw.get(measure, "")
+        if measure == "eligible" and not str(cell).strip():
+            continue
+        printed[measure] = _pdf_number(where, measure, cell)
+    return printed
+
+
+def _early_voting_check(where: str, county: str, printed: dict[str, int]) -> None:
+    """One row's own arithmetic: the eight day counts sum to the row's printed total."""
+    days = sum(printed[f"day-{day}"] for day in range(1, 9))
+    if days != printed["total"]:
+        raise TurnoutParseError(
+            f"{where}: {county}'s day counts do not add up ({days} != {printed['total']})"
+        )
+
+
+def parse_early_voting_rows(
+    rows: list[list[str]],
+    election: str,
+    geography: str,
+    as_of: str | None = None,
+) -> tuple[str | None, pl.DataFrame]:
+    """One EarlyVoting PDF's table rows as long rows, whatever grain the file prints.
+
+    Returns the snapshot date passed in (the file's election date, read from its text
+    by the pdf wrapper) and the rows of the file's own grain: the county rows publish
+    party ALL and no district; the by-Party file's rows publish one party per row;
+    the district files' rows publish their printed district code -- congressional
+    '06', legislative '01A', councilmanic '001' or 'A'; the location file's rows
+    publish the voting location, as the subcounty identity the district column is
+    for. Every row publishes its eight day counts (day-1 .. day-8), the row's total
+    and -- where the file prints the cell -- the eligible actives it is turned out
+    against. The printed shares are never stored, and neither are the printed
+    rollups: the state row (a by-County file's TOTAL row, required) and the county
+    blocks' rollups are the checks they are checked against.
+    """
+    _, published = _daily_rows(
+        "early-voting",
+        list(enumerate(rows, start=1)),
+        election,
+        geography,
+        as_of,
+        EARLY_VOTING_LABEL_CELLS,
+        EARLY_VOTING_MEASURES,
+        _early_voting_check,
+    )
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_early_voting_pdf(
+    path: Path, election: str, geography: str
+) -> tuple[str | None, pl.DataFrame]:
+    """One EarlyVoting PDF, table rows first, its date from its text."""
+    try:
+        rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
+        raise TurnoutParseError(f"could not read the early-voting PDF ({err})") from err
+    return parse_early_voting_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+
+
+def _same_day_check(where: str, county: str, printed: dict[str, int]) -> None:
+    """One row's own arithmetic, as the same-day sheets print it.
+
+    NEW TOTAL is the eight day counts' sum plus the election day's NEW registrations;
+    ADDRCHG TOTAL is the eight address-change counts' sum (the sheet prints no
+    election-day column for them); TOTAL is the two totals together.
+    """
+    days = sum(printed[f"new-day-{day}"] for day in range(1, 9))
+    if days + printed["new-election-day"] != printed["new-total"]:
+        raise TurnoutParseError(
+            f"{where}: {county}'s new registration counts do not add up "
+            f"({days} + {printed['new-election-day']} != {printed['new-total']})"
+        )
+    moved = sum(printed[f"addrchg-day-{day}"] for day in range(1, 9))
+    if moved != printed["addrchg-total"]:
+        raise TurnoutParseError(
+            f"{where}: {county}'s address-change counts do not add up "
+            f"({moved} != {printed['addrchg-total']})"
+        )
+    if printed["new-total"] + printed["addrchg-total"] != printed["total"]:
+        raise TurnoutParseError(
+            f"{where}: {county}'s new total {printed['new-total']} plus its "
+            f"address-change total {printed['addrchg-total']} is not the printed "
+            f"total {printed['total']}"
+        )
+
+
+def parse_same_day_rows(
+    rows: list[list[str]],
+    election: str,
+    geography: str,
+    as_of: str | None = None,
+) -> tuple[str | None, pl.DataFrame]:
+    """One SameDayRegistration PDF's table rows as long rows, at the file's grain.
+
+    Returns the snapshot date passed in (the file's election date, read from its text
+    by the pdf wrapper) and the rows of the file's own grain, as parse_early_voting_rows
+    does for the early-voting files. Every printed column names its own population, so
+    the measures are that vocabulary, and nothing else: new-day-1 .. new-day-8 (the day's
+    NEW registrations), addrchg-day-1 .. addrchg-day-8 (the day's currently registered
+    voters with an address change), new-election-day (the election day's NEW
+    registrations), new-total, addrchg-total, and total -- the row's two totals
+    together. The checks: each row's new counts (with its election day) sum to its new
+    total, its address-change counts sum to their printed total, and the two together
+    sum to the row's total; the state row (a county file's TOTAL row, the location
+    file's Grand Total) is the rows' sums, checked and not published.
+    """
+    _, published = _daily_rows(
+        "same-day",
+        list(enumerate(rows, start=1)),
+        election,
+        geography,
+        as_of,
+        SAME_DAY_LABEL_CELLS,
+        SAME_DAY_MEASURES,
+        _same_day_check,
+    )
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_same_day_pdf(
+    path: Path, election: str, geography: str
+) -> tuple[str | None, pl.DataFrame]:
+    """One SameDayRegistration PDF, table rows first, its date from its text."""
+    try:
+        rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
+        raise TurnoutParseError(f"could not read the same-day PDF ({err})") from err
+    return parse_same_day_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+
+
+def _daily_published(
+    county: str,
+    district: str,
+    party: str,
+    printed: dict[str, int],
+    election: str,
+    family: str,
+    geography: str,
+    as_of: str | None,
+) -> list[dict]:
+    """One printed detail row's cell values as long rows, at the family's grain."""
+    return [
+        {
+            "as_of": as_of or "",
+            "election": election,
+            "family": family,
+            "geography": geography,
+            "county": county,
+            "district": district,
+            "category": "ALL",
+            "party": party or "ALL",
+            "measure": measure,
+            "value": value,
+        }
+        for measure, value in printed.items()
+    ]
+
+
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
@@ -2382,6 +2808,8 @@ def _parse_file(
         return parse_mail_voting_pdf(path, election_code, geography)
     if family == "provisional":
         return parse_provisional_pdf(path, election_code, geography)
+    if family == "early-voting":
+        return parse_early_voting_pdf(path, election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
 
 

@@ -3531,3 +3531,614 @@ def test_parse_file_reaches_the_provisional_pdf(tmp_path):
             "provisional",
             "county",
         )
+
+
+# early-voting: the six "EarlyVoting ..." files, one parser over their five grains.
+# Every row prints its eight day counts (DAY1..DAY8), their total, and the eligible
+# actives the file's own footnote dates at an earlier day -- published as measures
+# day-1 .. day-8, 'total' and 'eligible'. The printed %DayN / %Total cells are shares
+# of the row's eligible actives and are never stored nor checked: the live CD file's
+# own per-county Total rows print shares against a different denominator than their
+# day counts (Allegany's Total row is 222 over the same 37,946 its county row shows,
+# and prints 0.57% where the county row prints 0.59%), so no single rule reproduces
+# the file's shares. The checks that do run: a row's eight days sum to its total, a
+# county-party block's TOTAL row and a district file's county "Total" row equal the
+# rows above them per column, and the by-County / same-day files' state row equals
+# the counties' column sums.
+
+EV_COUNTY_HEADER = [
+    "County Name",
+    "DAY1",
+    "%Day1",
+    "DAY2",
+    "%Day2",
+    "DAY3",
+    "%Day3",
+    "DAY4",
+    "%Day4",
+    "DAY5",
+    "%Day5",
+    "DAY6",
+    "%Day6",
+    "DAY7",
+    "%Day7",
+    "DAY8",
+    "%Day8",
+    "TOTAL",
+    "%Total",
+    "Eligible Actives",
+]
+
+
+def ev_county_row(county, d1, d2, d3, d4, d5, d6, d7, d8, total, eligible):
+    return [
+        county,
+        d1,
+        "%Day1",
+        d2,
+        "%Day2",
+        d3,
+        "%Day3",
+        d4,
+        "%Day4",
+        d5,
+        "%Day5",
+        d6,
+        "%Day6",
+        d7,
+        "%Day7",
+        d8,
+        "%Day8",
+        total,
+        "%Total",
+        eligible,
+    ]
+
+
+# The three real county rows (Allegany, Anne Arundel, Worcester as printed), and the
+# excerpt's own state row -- the three counties' sums, with its shares recomputed off
+# them, because the excerpt cannot carry the other 21 counties' share of the 185,031.
+
+EV_COUNTY_ROWS = [
+    EV_COUNTY_HEADER,
+    ev_county_row(
+        "Allegany", "222", "177", "63", "53", "169", "199", "216", "302", "1,401", "37,946"
+    ),
+    ev_county_row(
+        "Anne Arundel",
+        "1,764",
+        "1,497",
+        "814",
+        "739",
+        "1,596",
+        "1,845",
+        "2,219",
+        "3,354",
+        "13,828",
+        "301,320",
+    ),
+    ev_county_row(
+        "Worcester", "258", "199", "78", "45", "193", "241", "249", "303", "1,566", "33,718"
+    ),
+    ev_county_row(
+        "TOTAL",
+        "2,244",
+        "1,873",
+        "955",
+        "837",
+        "1,958",
+        "2,285",
+        "2,684",
+        "3,959",
+        "16,795",
+        "372,984",
+    ),
+]
+
+EV_PARTY_HEADER = [
+    "County",
+    "PARTY CODE",
+    "Day1",
+    "%Day1",
+    "Day2",
+    "%Day2",
+    "Day3",
+    "%Day3",
+    "Day4",
+    "% Day4",
+    "Day5",
+    "%Day5",
+    "Day6",
+    "%Day6",
+    "Day7",
+    "%Day7",
+    "Day8",
+    "%Day8",
+    "Total",
+    "%Total",
+    "Eligible Actives",
+]
+
+
+def ev_party_row(county, code, d1, d2, d3, d4, d5, d6, d7, d8, total, eligible):
+    return [
+        county,
+        code,
+        d1,
+        "%Day1",
+        d2,
+        "%Day2",
+        d3,
+        "%Day3",
+        d4,
+        "% Day4",
+        d5,
+        "%Day5",
+        d6,
+        "%Day6",
+        d7,
+        "%Day7",
+        d8,
+        "%Day8",
+        total,
+        "%Total",
+        eligible,
+    ]
+
+
+# Allegany's and Worcester's own blocks: the party rows as the file prints them, each
+# county's block closed by its PARTY CODE == TOTAL row
+EV_PARTY_ROWS = [
+    EV_PARTY_HEADER,
+    ev_party_row(
+        "Allegany", "DEM", "59", "67", "16", "17", "50", "43", "60", "106", "418", "10,758"
+    ),
+    ev_party_row("", "GRN", "0", "0", "0", "0", "0", "0", "0", "0", "0", "32"),
+    ev_party_row("", "OTH", "1", "0", "0", "0", "0", "0", "2", "2", "5", "286"),
+    ev_party_row("", "REP", "156", "110", "47", "36", "117", "156", "152", "188", "962", "23,608"),
+    ev_party_row("", "UNA", "6", "0", "0", "0", "2", "0", "2", "6", "16", "3,226"),
+    ev_party_row("", "WCP", "0", "0", "0", "0", "0", "0", "0", "0", "0", "36"),
+    ev_party_row(
+        "", "TOTAL", "222", "177", "63", "53", "169", "199", "216", "302", "1,401", "37,946"
+    ),
+    ev_party_row(
+        "Worcester", "DEM", "86", "69", "29", "17", "52", "58", "80", "93", "484", "13,257"
+    ),
+    # the live file re-prints the county on a block's first row after a page break
+    ev_party_row("Worcester", "GRN", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"),
+    ev_party_row("", "OTH", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"),
+    ev_party_row(
+        "", "REP", "172", "130", "49", "28", "141", "183", "169", "210", "1,082", "20,461"
+    ),
+    ev_party_row("", "UNA", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"),
+    ev_party_row("", "WCP", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"),
+    ev_party_row(
+        "", "TOTAL", "258", "199", "78", "45", "193", "241", "249", "303", "1,566", "33,718"
+    ),
+]
+
+EV_CD_HEADER = [
+    "County Name",
+    "CONGRESSIONAL\nDISTRICT",
+    *EV_COUNTY_HEADER[1:],
+]
+
+
+def ev_district_row(county, code, d1, d2, d3, d4, d5, d6, d7, d8, total, eligible):
+    return [
+        county,
+        code,
+        d1,
+        "%Day1",
+        d2,
+        "%Day2",
+        d3,
+        "%Day3",
+        d4,
+        "%Day4",
+        d5,
+        "%Day5",
+        d6,
+        "%Day6",
+        d7,
+        "%Day7",
+        d8,
+        "%Day8",
+        total,
+        "%Total",
+        eligible,
+    ]
+
+
+# The congressional file's grain: a county's district rows, closed by the county's own
+# "Total" row -- which is the by-County file's county row, as Anne Arundel's proves.
+EV_CONGRESSIONAL_ROWS = [
+    EV_CD_HEADER,
+    ev_district_row(
+        "Allegany", "06", "222", "177", "63", "53", "169", "199", "216", "302", "1,401", "37,946"
+    ),
+    ev_district_row(
+        "", "Total", "222", "177", "63", "53", "169", "199", "216", "302", "1,401", "37,946"
+    ),
+    ev_district_row(
+        "Anne Arundel",
+        "03",
+        "1,194",
+        "1,038",
+        "533",
+        "488",
+        "1,085",
+        "1,245",
+        "1,543",
+        "2,250",
+        "9,376",
+        "218,152",
+    ),
+    ev_district_row(
+        "", "05", "570", "459", "281", "251", "511", "600", "676", "1,104", "4,452", "83,168"
+    ),
+    ev_district_row(
+        "",
+        "Total",
+        "1,764",
+        "1,497",
+        "814",
+        "739",
+        "1,596",
+        "1,845",
+        "2,219",
+        "3,354",
+        "13,828",
+        "301,320",
+    ),
+]
+
+# The legislative file's grain, Allegany's three subdistricts and their county total.
+EV_LEGISLATIVE_ROWS = [
+    [x if x != "CONGRESSIONAL\nDISTRICT" else "LEGISLATIVE\nDISTRICT" for x in EV_CD_HEADER],
+    ev_district_row(
+        "Allegany", "01A", "28", "31", "9", "8", "27", "31", "30", "48", "212", "7,122"
+    ),
+    ev_district_row(
+        "", "01B", "178", "133", "51", "42", "125", "144", "155", "229", "1,057", "27,335"
+    ),
+    ev_district_row("", "01C", "16", "13", "3", "3", "17", "24", "31", "25", "132", "3,489"),
+    ev_district_row(
+        "", "Total", "222", "177", "63", "53", "169", "199", "216", "302", "1,401", "37,946"
+    ),
+]
+
+# The councilmanic file's grain: counties with councils print their districts (Harford
+# spells them A..F), counties without one print their county row at an empty district,
+# and some rows carry no eligible cell at all (the real file's) -- the days and total
+# publish without it.
+EV_COUNCILMANIC_ROWS = [
+    [x if x != "LEGISLATIVE\nDISTRICT" else "COUNCILMANICDIST\nRICT" for x in EV_CD_HEADER],
+    ev_district_row(
+        "Allegany", "", "222", "177", "63", "53", "169", "199", "216", "302", "1,401", "42,866"
+    ),
+    ev_district_row(
+        "Harford", "A", "207", "134", "80", "65", "158", "144", "180", "297", "1,265", "21,748"
+    ),
+    ev_district_row(
+        "", "B", "213", "214", "100", "98", "243", "263", "260", "390", "1,781", "25,880"
+    ),
+    ev_district_row(
+        "", "C", "295", "338", "138", "96", "276", "294", "342", "473", "2,252", "23,492"
+    ),
+    ev_district_row(
+        "Baltimore County",
+        "008",
+        "242",
+        "253",
+        "143",
+        "147",
+        "265",
+        "313",
+        "361",
+        "554",
+        "2,278",
+        "",
+    ),
+]
+
+EV_LOCATION_HEADER = [
+    "COUNTY",
+    "LOCATION NAME",
+    *EV_COUNTY_HEADER[1:],
+]
+
+# The location file's grain: the county prints on its first location's row and the
+# next locations inherit it.
+EV_LOCATION_ROWS = [
+    EV_LOCATION_HEADER,
+    ev_district_row(
+        "Allegany",
+        "Allegany County Office\nComplex",
+        "222",
+        "177",
+        "63",
+        "53",
+        "169",
+        "199",
+        "216",
+        "302",
+        "1,401",
+        "37,946",
+    ),
+    ev_district_row(
+        "Anne Arundel",
+        "Anne Arundel County Board of\nElections",
+        "252",
+        "178",
+        "119",
+        "90",
+        "209",
+        "229",
+        "273",
+        "447",
+        "1,797",
+        "301,320",
+    ),
+    ev_district_row(
+        "",
+        "Broadneck Library",
+        "118",
+        "91",
+        "38",
+        "54",
+        "91",
+        "144",
+        "158",
+        "190",
+        "884",
+        "301,320",
+    ),
+]
+
+
+EV_MEASURES = {f"day-{n}" for n in range(1, 9)} | {"total", "eligible"}
+
+
+def test_early_voting_county_rows_publish_their_days():
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_COUNTY_ROWS, "GP26", "county", as_of="2026-06-23"
+    )
+    assert as_of == "2026-06-23"
+    assert len(df) == 3 * 10  # three counties x ten measures
+    assert set(df["measure"]) == EV_MEASURES
+    assert set(df["family"]) == {"early-voting"} and set(df["geography"]) == {"county"}
+    assert set(df["district"]) == {""} and set(df["party"]) == {"ALL"}
+    assert set(df["category"]) == {"ALL"}
+    allegany = df.filter(df["county"] == "Allegany")
+    assert dict(zip(allegany["measure"], allegany["value"])) == {
+        "day-1": 222,
+        "day-2": 177,
+        "day-3": 63,
+        "day-4": 53,
+        "day-5": 169,
+        "day-6": 199,
+        "day-7": 216,
+        "day-8": 302,
+        "total": 1401,
+        "eligible": 37946,
+    }
+
+
+def test_early_voting_county_state_row_is_checked_not_published():
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_COUNTY_ROWS, "GP26", "county", as_of="2026-06-23"
+    )
+    assert "TOTAL" not in set(df["county"])
+    assert df.filter(df["measure"] == "day-1")["value"].sum() == 2244
+
+
+def test_early_voting_county_requires_its_state_row():
+    with pytest.raises(turnout.TurnoutParseError, match="TOTAL row|Statewide"):
+        turnout.parse_early_voting_rows(EV_COUNTY_ROWS[:-1], "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_county_state_row_must_agree_with_the_counties():
+    torn = [r[:] for r in EV_COUNTY_ROWS]
+    torn[4][1] = "2,245"  # the printed TOTAL row's D1, off by one
+    torn[4][17] = "16,796"  # ... and its total, so the row itself still adds up
+    with pytest.raises(turnout.TurnoutParseError, match="county rows sum to 2244"):
+        turnout.parse_early_voting_rows(torn, "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_rejects_a_row_whose_days_do_not_sum_to_its_total():
+    torn = [r[:] for r in EV_COUNTY_ROWS]
+    torn[1][17] = "1,402"  # Allegany's printed total
+    with pytest.raises(turnout.TurnoutParseError, match="do not add up"):
+        turnout.parse_early_voting_rows(torn, "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_rejects_a_duplicated_county_row():
+    dup = [r[:] for r in EV_COUNTY_ROWS]
+    dup.insert(2, EV_COUNTY_ROWS[1][:])
+    with pytest.raises(turnout.TurnoutParseError, match="more than once"):
+        turnout.parse_early_voting_rows(dup, "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_rejects_an_unrecognized_county_label():
+    bad = [r[:] for r in EV_COUNTY_ROWS]
+    bad[1][0] = "Prince Georges"
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized county"):
+        turnout.parse_early_voting_rows(bad, "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_rejects_a_blank_day_cell():
+    torn = [r[:] for r in EV_COUNTY_ROWS]
+    torn[2][1] = ""  # Anne Arundel's first day
+    with pytest.raises(turnout.TurnoutParseError, match="cell is blank"):
+        turnout.parse_early_voting_rows(torn, "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_party_rows_publish_by_party():
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_PARTY_ROWS, "GP26", "county-party", as_of="2026-06-23"
+    )
+    assert as_of == "2026-06-23"
+    assert set(df["party"]) == {"DEM", "GRN", "OTH", "REP", "UNA", "WCP"}
+    assert set(df["geography"]) == {"county-party"}
+    assert len(df) == 12 * 10  # twelve party rows x ten measures
+    dem = df.filter((df["county"] == "Allegany") & (df["party"] == "DEM"))
+    assert dict(zip(dem["measure"], dem["value"])) == {
+        "day-1": 59,
+        "day-2": 67,
+        "day-3": 16,
+        "day-4": 17,
+        "day-5": 50,
+        "day-6": 43,
+        "day-7": 60,
+        "day-8": 106,
+        "total": 418,
+        "eligible": 10758,
+    }
+    # the county's block TOTAL row is the party rows' sums, checked and not published
+    assert "TOTAL" not in set(df["party"])
+    assert set(df["county"]) <= {"Allegany", "Worcester"}
+
+
+def test_early_voting_party_blocks_recover_their_county():
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_PARTY_ROWS, "GP26", "county-party", as_of="2026-06-23"
+    )
+    worcester = set(df.filter(df["county"] == "Worcester")["party"])
+    assert worcester == {"DEM", "GRN", "OTH", "REP", "UNA", "WCP"}  # the blank county cells
+
+
+def test_early_voting_rejects_a_block_total_that_disagrees_with_its_party_rows():
+    torn = [r[:] for r in EV_PARTY_ROWS]
+    torn[7][2] = "223"  # Allegany's block TOTAL's printed day-1 count ...
+    torn[7][18] = "1,402"  # ... and its total, so the row itself still adds up
+    with pytest.raises(turnout.TurnoutParseError, match="party detail rows sum to 222"):
+        turnout.parse_early_voting_rows(torn, "GP26", "county-party", as_of="2026-06-23")
+
+
+def test_early_voting_congressional_rows_print_their_own_codes():
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_CONGRESSIONAL_ROWS, "GP26", "congressional", as_of="2026-06-23"
+    )
+    assert as_of == "2026-06-23"
+    assert set(df["district"]) == {"06", "03", "05"}  # verbatim, as printed
+    assert set(df["county"]) == {"Allegany", "Anne Arundel"}  # the rows carry their county
+    aa = df.filter((df["district"] == "03") & (df["measure"] == "total"))
+    assert aa["value"].item() == 9376
+    assert len(df) == 3 * 10  # three district rows x ten measures
+
+
+def test_early_voting_county_totals_are_checked_not_published():
+    # the congressional file's per-county "Total" row is the rows above it
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_CONGRESSIONAL_ROWS, "GP26", "congressional", as_of="2026-06-23"
+    )
+    assert "Total" not in set(df["district"])
+    torn = [r[:] for r in EV_CONGRESSIONAL_ROWS]
+    torn[5][2] = "1,765"  # Anne Arundel's printed county total's day-1 count ...
+    torn[5][18] = "13,829"  # ... and its total, so the row itself still adds up
+    with pytest.raises(turnout.TurnoutParseError, match="district detail rows sum to 1764"):
+        turnout.parse_early_voting_rows(torn, "GP26", "congressional", as_of="2026-06-23")
+
+
+def test_early_voting_legislative_rows_print_their_own_codes():
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_LEGISLATIVE_ROWS, "GP26", "legislative", as_of="2026-06-23"
+    )
+    assert set(df["district"]) == {"01A", "01B", "01C"}
+    c = df.filter((df["district"] == "01C") & (df["measure"].is_in(["total", "eligible"])))
+    assert dict(zip(c["measure"], c["value"])) == {"total": 132, "eligible": 3489}
+    # the counties' own total: 01A + 01B + 01C sum to the same 1,401 the county file
+    # prints for Allegany, per column -- which is the block's "Total" row (checked,
+    # and so never published)
+    day1 = df.filter(df["measure"] == "day-1")["value"].sum()
+    assert day1 == 222
+    eligible = df.filter(df["measure"] == "eligible")["value"].sum()
+    assert eligible == 37946
+
+
+def test_early_voting_councilmanic_rows_publish_blank_districts():
+    # the councilmanic file's rows carry the district codes as they print (Harford's
+    # council spells A..F); a county with no council prints its county row against an
+    # empty district, and a row whose eligible cell the file does not print publishes
+    # without it
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_COUNCILMANIC_ROWS, "GP26", "councilmanic", as_of="2026-06-23"
+    )
+    assert set(df["district"]) == {"", "A", "B", "C", "008"}
+    assert {"Allegany", "Harford", "Baltimore County"} <= set(df["county"])
+    blank = df.filter((df["district"] == "008") & (df["measure"] == "total"))
+    assert blank["value"].item() == 2278
+    assert df.filter((df["district"] == "008") & (df["measure"] == "eligible")).height == 0
+    assert df.filter((df["district"] == "008") & (df["measure"] == "day-7"))["value"].item() == 361
+
+
+def test_early_voting_location_rows_carry_their_location():
+    as_of, df = turnout.parse_early_voting_rows(
+        EV_LOCATION_ROWS, "GP26", "location", as_of="2026-06-23"
+    )
+    assert set(df["district"]) == {
+        "Allegany County Office Complex",
+        "Anne Arundel County Board of Elections",
+        "Broadneck Library",
+    }  # the line wrap inside a location cell collapses
+    anne_arundel = set(df.filter(df["county"] == "Anne Arundel")["district"])
+    assert anne_arundel == {
+        "Anne Arundel County Board of Elections",
+        "Broadneck Library",
+    }  # the continuation row inherited its county
+
+
+def test_early_voting_rejects_a_renamed_column():
+    bad = [r[:] for r in EV_COUNTY_ROWS]
+    bad[0][19] = "Eligible Activer"  # the eligible column's label, mangled
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized column label"):
+        turnout.parse_early_voting_rows(bad, "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_rejects_a_county_geography_file_at_the_party_grain():
+    # the by-Party file prints a PARTY CODE column; the county files print none
+    with pytest.raises(turnout.TurnoutParseError, match="PARTY CODE|party"):
+        turnout.parse_early_voting_rows(EV_PARTY_ROWS, "GP26", "county", as_of="2026-06-23")
+
+
+def test_early_voting_only_runs_at_its_geographies():
+    for geography in (
+        "county",
+        "county-party",
+        "congressional",
+        "legislative",
+        "councilmanic",
+        "location",
+    ):
+        as_of, df = turnout.parse_early_voting_rows(
+            {
+                "county": EV_COUNTY_ROWS,
+                "county-party": EV_PARTY_ROWS,
+                "congressional": EV_CONGRESSIONAL_ROWS,
+                "legislative": EV_LEGISLATIVE_ROWS,
+                "councilmanic": EV_COUNCILMANIC_ROWS,
+                "location": EV_LOCATION_ROWS,
+            }[geography],
+            "GP26",
+            geography,
+            as_of="2026-06-23",
+        )
+        assert as_of == "2026-06-23", geography
+    with pytest.raises(turnout.TurnoutParseError, match="geography"):
+        turnout.parse_early_voting_rows(EV_COUNTY_ROWS, "GP26", "statewide", as_of="2026-06-23")
+
+
+def test_parse_file_reaches_the_early_voting_pdfs(tmp_path):
+    # the same dispatch proof as the canvass family's: a PDF the readers cannot open
+    # fails in the early-voting reader, which is where the six files' grains go
+    import types
+
+    with pytest.raises(turnout.TurnoutParseError, match="could not read the early-voting PDF"):
+        turnout._parse_file(
+            tmp_path / "no-such.pdf",
+            types.SimpleNamespace(source_id="x"),
+            "GP26",
+            "early-voting",
+            "legislative",
+        )
