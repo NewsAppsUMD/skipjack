@@ -185,6 +185,9 @@ def test_turnout_pages_render_the_real_election():
     for value in (requests_total, sent_returned["sent"], sent_returned["received"]):
         assert f"{value:,}" in r.text
     assert day_label(sent_returned["as_of"]) in r.text  # the page says which day it shows
+    # the parenthesized party figures inside the sent and received cells are labelled
+    # where the table names them: the board's DEM / REP / OTH columns
+    assert r.text.count("(Dem / Rep / other)") == 2
     assert "November 3, 2026" in r.text
     assert "data-sortable" in r.text
     assert 'id="turnout-data"' in r.text
