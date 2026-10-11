@@ -20,7 +20,7 @@ Once GitHub Pages is switched on, the site publishes to
 | **Voter registration by county and party** | Jan 2010 to Sep 2026, 201 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
-| **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | Snapshots of the 2026 general election's press-room reports, daily as they change | SBE press-room statistical reports, PDF and XLSX |
+| **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The 2026 primary's certified reports and snapshots of the 2026 general election's, daily as they change | SBE press-room statistical reports, PDF and XLSX |
 | **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
 ### The site
@@ -34,10 +34,12 @@ Once GitHub Pages is switched on, the site publishes to
 - **Errata**: every place the State Board's own report does not add up.
 - **Voter File**: participation among current voters, by party, age, county and district. Each county has
   a link between its registration trends and its voter file page.
-- **Turnout**: each election's running mail-in tally from the SBE's press-room reports — ballot
-  requests, ballots sent, envelopes received back, and (once the canvass starts) ballots accepted —
-  snapshotted under each report's own as-of date so the campaign's trend is visible day by day.
-  Certified turnout percentages join after certification.
+- **Turnout**: each election's official tally from the SBE's press-room reports. For a finished
+  election: the certified ballots cast and counted, the four voting modes, the certified turnout
+  percentage (cast over eligible voters, counted or not), mail-in ballots with their rejection
+  reasons, provisional outcomes, early-voting totals and same-day registrations. For a running
+  election: the mail-in tracking (requests, sent, received back, accepted in the canvass),
+  snapshotted under each report's own as-of date so the trend is visible day by day.
 - **Young voters**: how many 18-to-22-year-olds registered for the first time from January 1 to the
   snapshot date, against the same stretch of earlier election years, which party they choose, and how it
   differs by county. Earlier years are undercounted because voters leave the list, so the page measures
