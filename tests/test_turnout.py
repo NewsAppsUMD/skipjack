@@ -2858,3 +2858,258 @@ def test_parse_file_routes_the_new_families(tmp_path):
         assert as_of == date, family
         assert set(df["family"]) == {family}, family
         assert measure in set(df["measure"]), family
+
+
+# --- the PDF families: the certified one-page canvass reports ---------------------------------
+# The GP26 four ("Official County and Canvass", "Official Votes Accepted by County and
+# Canvass", "Official Mail-In Voting Voting", "Official Provisional Voting") ship as
+# PDFs only, and the parsers take the rows natural-pdf's table extraction returns, as
+# lists of the cell strings the files print (counts keep their commas, the shares print
+# as "%"-suffixed fractions). Fixtures copy the real Allegany / Anne Arundel / Worcester
+# rows; each excerpt's Statewide row is its own three counties' sums, because a
+# three-county excerpt cannot carry the other 21 counties' share of the state row.
+
+# county-canvass: a county x canvass-mode sheet -- four modes, each count followed by
+# the unlabelled % cell that shares it, then the county's total. Measures are the
+# official-turnout vocabulary (early-voting, election-day, vote-by-mail, provisional)
+# plus the row's own 'total'; the state row reconciles the counties and is not published.
+
+CANVASS_HEADER = [
+    "County",
+    "Early Voting",
+    "",
+    "Election Day",
+    "",
+    "Vote by Mail",
+    "",
+    "Provisional",
+    "",
+    "Total",
+]
+
+
+def canvass_row(county, ev, ev_share, ed, ed_share, vbm, vbm_share, prov, prov_share, total):
+    return [county, ev, ev_share, ed, ed_share, vbm, vbm_share, prov, prov_share, total]
+
+
+CANVASS_ROWS = [
+    CANVASS_HEADER,
+    canvass_row(
+        "Allegany",
+        "1,401",
+        "13.20%",
+        "6,478",
+        "61.03%",
+        "2,452",
+        "23.10%",
+        "284",
+        "2.68%",
+        "10,615",
+    ),
+    canvass_row(
+        "Anne Arundel",
+        "13,827",
+        "18.13%",
+        "29,462",
+        "38.64%",
+        "29,206",
+        "38.30%",
+        "3,757",
+        "4.93%",
+        "76,252",
+    ),
+    canvass_row(
+        "Worcester",
+        "1,566",
+        "16.44%",
+        "5,125",
+        "53.81%",
+        "2,573",
+        "27.02%",
+        "260",
+        "2.73%",
+        "9,524",
+    ),
+    canvass_row(
+        "Statewide",
+        "16,794",
+        "17.42%",
+        "41,065",
+        "42.60%",
+        "34,231",
+        "35.51%",
+        "4,301",
+        "4.46%",
+        "96,391",
+    ),
+]
+
+
+def test_county_canvass_parses_the_county_rows():
+    as_of, df = turnout.parse_county_canvass_rows(
+        CANVASS_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert as_of == "2026-07-23"
+    assert len(df) == 3 * 5  # three counties x five measures
+    assert set(df["measure"]) == {
+        "early-voting",
+        "election-day",
+        "vote-by-mail",
+        "provisional",
+        "total",
+    }
+    assert set(df["family"]) == {"county-canvass"}
+    assert set(df["geography"]) == {"county"} and set(df["district"]) == {""}
+    assert set(df["party"]) == {"ALL"} and set(df["category"]) == {"ALL"}
+    assert set(df["county"]) == {"Allegany", "Anne Arundel", "Worcester"}
+
+
+def test_county_canvass_values_are_the_printed_counts():
+    as_of, df = turnout.parse_county_canvass_rows(
+        CANVASS_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    allegany = df.filter((df["county"] == "Allegany"))
+    assert dict(zip(allegany["measure"], allegany["value"])) == {
+        "early-voting": 1401,
+        "election-day": 6478,
+        "vote-by-mail": 2452,
+        "provisional": 284,
+        "total": 10615,
+    }
+
+
+def test_county_canvass_shares_are_never_stored():
+    as_of, df = turnout.parse_county_canvass_rows(
+        CANVASS_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert not (set(df["value"].to_list()) & {0.1320, 0.2797})  # the printed shares stay out
+    assert set(df["value"]) == {
+        1401,
+        6478,
+        2452,
+        284,
+        10615,
+        13827,
+        29462,
+        29206,
+        3757,
+        76252,
+        1566,
+        5125,
+        2573,
+        260,
+        9524,
+    }
+
+
+def test_county_canvass_state_row_is_checked_not_published():
+    as_of, df = turnout.parse_county_canvass_rows(
+        CANVASS_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert not any(("Statewide" in c) or c == "State Totals" for c in df["county"])
+    ev = df.filter(df["measure"] == "early-voting")["value"].sum()
+    assert ev == 16794  # the counties' own sum is what the state row is checked against
+
+
+def test_county_canvass_state_row_must_agree_with_the_counties():
+    torn = [r[:] for r in CANVASS_ROWS]
+    torn[4][9] = "96,392"  # the Statewide total no longer equals the counties'
+    with pytest.raises(turnout.TurnoutParseError, match="96,392|96392"):
+        turnout.parse_county_canvass_rows(torn, "GP26", "county", as_of="2026-07-23")
+
+
+def test_county_canvass_rejects_a_mode_that_does_not_sum_to_the_total():
+    for col, value in ((1, "1,402"), (5, "2,453")):
+        torn = [r[:] for r in CANVASS_ROWS]
+        torn[1][col] = value  # one of Allegany's mode counts, off by one
+        with pytest.raises(turnout.TurnoutParseError, match="do not add up"):
+            turnout.parse_county_canvass_rows(torn, "GP26", "county", as_of="2026-07-23")
+
+
+def test_county_canvass_rejects_a_share_that_is_not_its_count_over_the_total():
+    bad = [r[:] for r in CANVASS_ROWS]
+    bad[1][2] = "99.99%"  # Allegany's early-voting share
+    with pytest.raises(turnout.TurnoutParseError, match="share"):
+        turnout.parse_county_canvass_rows(bad, "GP26", "county", as_of="2026-07-23")
+
+
+def test_county_canvass_rejects_a_duplicated_county_row():
+    dup = [r[:] for r in CANVASS_ROWS]
+    dup.insert(2, CANVASS_ROWS[1][:])  # Allegany printed twice
+    with pytest.raises(turnout.TurnoutParseError, match="more than once"):
+        turnout.parse_county_canvass_rows(dup, "GP26", "county", as_of="2026-07-23")
+
+
+def test_county_canvass_rejects_an_unrecognized_county_label():
+    bad = [r[:] for r in CANVASS_ROWS]
+    bad[2][0] = "Princes Georges"
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized county"):
+        turnout.parse_county_canvass_rows(bad, "GP26", "county", as_of="2026-07-23")
+
+
+def test_county_canvass_requires_its_state_row():
+    no_state = CANVASS_ROWS[:-1]
+    with pytest.raises(turnout.TurnoutParseError, match="Statewide"):
+        turnout.parse_county_canvass_rows(no_state, "GP26", "county", as_of="2026-07-23")
+
+
+def test_county_canvass_rejects_a_renamed_column():
+    bad = [r[:] for r in CANVASS_ROWS]
+    bad[0][7] = "Provisionals"  # a label the file does not print
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized column"):
+        turnout.parse_county_canvass_rows(bad, "GP26", "county", as_of="2026-07-23")
+
+
+def test_county_canvass_only_runs_at_the_county_geography():
+    with pytest.raises(turnout.TurnoutParseError, match="geography"):
+        turnout.parse_county_canvass_rows(CANVASS_ROWS, "GP26", "congressional", as_of="2026-07-23")
+
+
+def test_parse_file_reaches_the_pdf_families(tmp_path):
+    # _parse_file dispatches the PDF families to their own readers: a path that no
+    # reader can open fails in that family's reader, not the "no parser" fallthrough
+    import types
+
+    missing = tmp_path / "no-such-file.pdf"
+    for family, geography in (("county-canvass", "county"),):
+        with pytest.raises(turnout.TurnoutParseError, match=f"could not read the {family} PDF"):
+            turnout._parse_file(
+                missing, types.SimpleNamespace(source_id="x"), "GP26", family, geography
+            )
+
+
+def test_report_date_reads_the_official_sheets():
+    # the four Official one-pagers date themselves by the day the report was run, as
+    # month/day/year -- a neither "As of" reader accepts
+    assert (
+        turnout.extract_report_date_text("2026 Gubernatorial Primary Report Date: 7/23/2026")
+        == "2026-07-23"
+    )
+    assert turnout.extract_report_date_text("no date here") is None
+    assert turnout.extract_report_date_text("Report Date: 13/32/2026") is None
+
+
+def test_election_date_reads_the_daily_files():
+    assert turnout.extract_election_date_text("Election Date: June 23, 2026") == "2026-06-23"
+    assert turnout.extract_election_date_text("no date here") is None
+
+
+def test_pdf_snapshot_date_prefers_the_report_date_then_the_as_of():
+    # the Official sheets carry only a report date; the requests reports' "As of"
+    # keeps the earlier rule; the eight-day files' date is their election date, and a
+    # lower-case footnote ("Eligible Active Voters are as of : June 18, 2026") must
+    # not win over it
+    text = (
+        "Unofficial Early Voting Turnout* (By Party)\n"
+        "Election: 2026 Gubernatorial Primary Election\n"
+        "Election Date: June 23, 2026\n"
+        "*Turnout Totals do not include Provisional or Absentee Voters "
+        "**County-Wide Eligible Active Voters are as of : June 18, 2026"
+    )
+    assert turnout.pdf_snapshot_date(text) == "2026-06-23"
+    assert (
+        turnout.pdf_snapshot_date("2026 Gubernatorial Primary Report Date: 7/23/2026")
+        == "2026-07-23"
+    )
+    assert turnout.pdf_snapshot_date("As of: October 9, 2026 6 PM") == "2026-10-09"
+    assert turnout.pdf_snapshot_date("") is None

@@ -1504,6 +1504,375 @@ def _eligible_sheet_rows(
     return published
 
 
+# --- the GP26 PDF families -------------------------------------------------------------------
+# Five of the GP26 report families ship as PDFs only, and the four one-page
+# "Official" sheets below (the two canvass tables, the mail-in sheet and the
+# provisional sheet) share one shape: a county column, printed count cells, and the
+# unlabelled % cell right of each count it is a share of. The cells come through
+# pdf_table_rows(), and the parsers take those rows -- lists of the strings the file
+# prints -- so the parse is testable against fixtures copied from the live files.
+
+
+def pdf_table_rows(path: Path) -> list[list[str]]:
+    """Every page's extracted tables' rows of a PDF, flattened, cells as strings.
+
+    natural-pdf has no error taxonomy; an unreadable page raises whatever its own
+    reader raises and the callers turn that into a TurnoutParseError. Every cell that
+    printed nothing reads as "", and a row of all-empty cells is dropped. The sheets'
+    header lines carry inside them ("# Accepted in Full", "ADDRCHG\\nDAY1"); the
+    parsers normalize them the way the workbook families do theirs.
+    """
+    from natural_pdf import PDF
+
+    rows: list[list[str]] = []
+    for page in PDF(str(path)).pages:
+        for table in page.extract_tables():
+            for row in table:
+                cells = ["" if cell is None else str(cell) for cell in row]
+                if any(cell.strip() for cell in cells):
+                    rows.append(cells)
+    return rows
+
+
+def read_pdf_text(path: Path) -> str:
+    """Every page's text of a PDF: the report and election dates print above its tables."""
+    from natural_pdf import PDF
+
+    return "\n".join(page.extract_text() or "" for page in PDF(str(path)).pages)
+
+
+REPORT_DATE_RE = re.compile(r"Report Date:\s*(\d{1,2}/\d{1,2}/\d{4})")
+ELECTION_DATE_RE = re.compile(r"Election Date:\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
+
+
+def extract_report_date_text(text: str) -> str | None:
+    """The date a "Report Date: 7/23/2026" line carries, "YYYY-MM-DD", else None.
+
+    The four Official one-pagers print the day they were run, as month/day/year --
+    a shape neither "As of" reader accepts -- and their snapshots carry no "As of" of
+    their own, so this is the date the parse reads.
+    """
+    if not (found := REPORT_DATE_RE.search(text)):
+        return None
+    try:
+        parsed = datetime.datetime.strptime(found.group(1), "%m/%d/%Y")
+    except ValueError:
+        return None
+    return parsed.date().isoformat()
+
+
+def extract_election_date_text(text: str) -> str | None:
+    """The date an "Election Date: June 23, 2026" line carries, "YYYY-MM-DD", else None.
+
+    The eight-day early-voting and same-day files print their election date and no
+    snapshot date of their own; the eligible-actives footnote under a file's header
+    ("County-Wide Eligible Active Voters are as of : June 18, 2026") is lower-case,
+    which a case-sensitive "As of" match lets pass.
+    """
+    if not (found := ELECTION_DATE_RE.search(text)):
+        return None
+    try:
+        parsed = datetime.datetime.strptime(found.group(1), "%B %d, %Y")
+    except ValueError:
+        return None
+    return parsed.date().isoformat()
+
+
+def pdf_snapshot_date(text: str) -> str | None:
+    """A GP26 PDF's snapshot date: its Report Date when it prints one, else its "As of",
+    else the Election Date the file is headed by.
+
+    The one date the four Official sheets print is the report's own; the eight-day
+    files print only their election date, which is both the period they cover and the
+    only snapshot they carry.
+    """
+    return (
+        extract_report_date_text(text)
+        or extract_as_of_text(text)
+        or extract_election_date_text(text)
+    )
+
+
+def _pdf_number(where: str, measure: str, cell: str) -> int:
+    """One printed count cell as an integer: the counts print with or without commas."""
+    text = (cell or "").strip()
+    if not text:
+        raise TurnoutParseError(f"{where}: the {measure} cell is blank")
+    try:
+        return int(text.replace(",", ""))
+    except ValueError:
+        raise TurnoutParseError(f"{where}: the {measure} cell is not a number ({cell!r})") from None
+
+
+def _pdf_share(where: str, measure: str, cell: str) -> float | None:
+    """One printed share cell as a fraction ("60.99%" -> 0.6099), None when not printed."""
+    text = (cell or "").strip()
+    if not text:
+        return None
+    try:
+        return float(text.rstrip("%")) / 100.0
+    except ValueError:
+        raise TurnoutParseError(
+            f"{where}: the {measure} share cell is not a percentage ({cell!r})"
+        ) from None
+
+
+def share_matches(count: int, denom: int, printed: float, tolerance: float = 0.01) -> bool:
+    """Whether a printed share equals count over denom, within the tolerance.
+
+    The printed shares are percentages read as fractions, so the tolerance is a
+    percentage point: it leaves room for the two printings' rounding (the live GP26
+    shares sit within 0.0005 of count/total) but not for a count over the wrong
+    denominator.
+    """
+    if denom == 0:
+        return printed == 0
+    return abs(printed - count / denom) <= tolerance
+
+
+# The county cell of the four sheets' own state rows ("Statewide" in the two canvass
+# sheets and the mail-in sheet, "State Totals" in the provisional sheet).
+PDF_STATE_CELLS = frozenset({"STATEWIDE", "STATE TOTALS"})
+
+
+class PrintedSheet:
+    """One printed sheet's columns: the labelled counts and what its shares are of.
+
+    The SBE prints a count cell, then the labelless % cell that belongs to it, so every
+    count's share column is the count column's own right neighbor unless another count
+    sits there. The "modes" counts make up the base count -- a canvass row's modes sum
+    to its printed total, a mail-in row's accepted and rejected sum to its received --
+    and the printed shares are checked against the count over the measure named here.
+    """
+
+    def __init__(
+        self,
+        cells: dict[str, str],
+        base: str,
+        modes: tuple[str, ...],
+        share_of: dict[str, str],
+    ) -> None:
+        self.cells = cells
+        self.base = base
+        self.modes = modes
+        self.share_of = share_of
+
+    def section(self, where: str, labels: list[str]) -> tuple[int, dict[int, str], dict[int, str]]:
+        """One header row's county column, count columns, and share columns.
+
+        Every non-empty label must be one the sheet prints: a renamed column is a sheet
+        the parser should not read, not a column to skip.
+        """
+        county_col: int | None = None
+        counts: dict[int, str] = {}
+        for index, label in enumerate(labels):
+            if not label:
+                continue
+            if label == "COUNTY":
+                county_col = index
+                continue
+            if label not in self.cells:
+                raise TurnoutParseError(f"{where}: unrecognized column label {label!r}")
+            counts[index] = self.cells[label]
+        if county_col is None or not counts:
+            raise TurnoutParseError(
+                f"{where}: a header row with no county column or no count column"
+            )
+        shares = {
+            index + 1: measure for index, measure in counts.items() if index + 1 not in counts
+        }
+        return county_col, counts, shares
+
+    def cells_of(
+        self, where: str, counts: dict[int, str], shares: dict[int, str], row: list[str]
+    ) -> tuple[dict[str, int], dict[str, float]]:
+        """One row's printed counts as integers and its printed shares as fractions."""
+        printed = {
+            measure: _pdf_number(where, measure, row[index] if index < len(row) else "")
+            for index, measure in counts.items()
+        }
+        printed_shares: dict[str, float] = {}
+        for index, measure in shares.items():
+            found = _pdf_share(where, measure, row[index] if index < len(row) else "")
+            if found is not None:
+                printed_shares[measure] = found
+        return printed, printed_shares
+
+
+CANVASS_SHEET = PrintedSheet(
+    cells={
+        "EARLY VOTING": "early-voting",
+        "ELECTION DAY": "election-day",
+        "VOTE BY MAIL": "vote-by-mail",
+        "PROVISIONAL": "provisional",
+        "TOTAL": "total",
+    },
+    base="total",
+    modes=("early-voting", "election-day", "vote-by-mail", "provisional"),
+    share_of={
+        "early-voting": "total",
+        "election-day": "total",
+        "vote-by-mail": "total",
+        "provisional": "total",
+    },
+)
+
+
+def _tallied_check(
+    where: str, county: str, cells: dict[str, int], shares: dict[str, float], sheet: PrintedSheet
+) -> None:
+    """One row's own arithmetic: its modes sum to its base count, and every printed share
+    is that count over the base's measure."""
+    modes_sum = sum(cells[measure] for measure in sheet.modes)
+    if modes_sum != cells[sheet.base]:
+        raise TurnoutParseError(
+            f"{where}: {county}'s counts do not add up ({modes_sum} != {cells[sheet.base]})"
+        )
+    for measure, printed in shares.items():
+        base = sheet.share_of[measure]
+        if not share_matches(cells[measure], cells[base], printed):
+            raise TurnoutParseError(
+                f"{where}: the printed {measure} share is not {cells[measure]} of "
+                f"{cells[base]} ({printed:.2%} printed)"
+            )
+
+
+def _tallied_rows(
+    family: str,
+    rows: list[tuple[int, list[str]]],
+    election: str,
+    geography: str,
+    as_of: str | None,
+    sheet: PrintedSheet,
+) -> tuple[dict[str, int] | None, list[dict]]:
+    """One sheet's county rows, read against its own header, with the file's own checks.
+
+    Every county row publishes one value per printed count, and the row's base count
+    must equal the sum of its modes; the state row is checked against the counties'
+    column sums and not published -- nothing is returned until the sheet adds up.
+    """
+    county_col: int | None = None
+    if geography != "county":
+        raise TurnoutParseError(f"no {family} files for geography {geography!r}")
+    counts: dict[int, str] = {}
+    shares: dict[int, str] = {}
+    sums: dict[str, int] = {}
+    seen: set[str] = set()
+    published: list[dict] = []
+    state_cells: dict[str, int] | None = None
+    for index, row in rows:
+        where = f"{family} row {index}"
+        labels = [_normalize_label(cell) for cell in row]
+        if "COUNTY" in labels:
+            county_col, counts, shares = sheet.section(where, labels)
+            sums = {}
+            continue
+        if county_col is None:
+            continue  # title and date lines print before any table
+        county_text = str(row[county_col] if county_col < len(row) else "").strip()
+        if county_text.upper() in PDF_STATE_CELLS:
+            printed, printed_shares = sheet.cells_of(where, counts, shares, row)
+            _tallied_check(where, county_text, printed, printed_shares, sheet)
+            if not sums:
+                raise TurnoutParseError(
+                    f"{where}: the printed {county_text} row has no county rows above it"
+                )
+            for measure, value in printed.items():
+                collected = sums.get(measure, 0)
+                if collected != value:
+                    raise TurnoutParseError(
+                        f"{where}: the counties' {measure} counts sum to {collected}, not "
+                        f"the printed {county_text} total {value}"
+                    )
+            state_cells = dict(printed)
+            sums = {}
+            continue
+        if state_cells is not None:
+            raise TurnoutParseError(f"{where}: a county row after the sheet's printed state row")
+        if not county_text:
+            raise TurnoutParseError(f"{where}: a row of counts with no county")
+        county = canonical_county(county_text)
+        if county not in CANONICAL_COUNTIES:
+            raise TurnoutParseError(f"{where}: unrecognized county label {county_text!r}")
+        if county in seen:
+            raise TurnoutParseError(f"{where}: a county row for {county} appears more than once")
+        seen.add(county)
+        printed, printed_shares = sheet.cells_of(where, counts, shares, row)
+        _tallied_check(where, county, printed, printed_shares, sheet)
+        for measure, value in printed.items():
+            sums[measure] = sums.get(measure, 0) + value
+        published += _county_rows(county, printed, election, family, geography, as_of)
+    if state_cells is None:
+        raise TurnoutParseError(
+            f"{family}: the county rows have no printed Statewide row to reconcile them"
+        )
+    return state_cells, published
+
+
+def _county_rows(
+    county: str,
+    printed: dict[str, int],
+    election: str,
+    family: str,
+    geography: str,
+    as_of: str | None,
+    district: str = "",
+    party: str = "ALL",
+) -> list[dict]:
+    """One printed row set as TURNOUT_COLUMNS long rows, category always ALL."""
+    return [
+        {
+            "as_of": as_of or "",
+            "election": election,
+            "family": family,
+            "geography": geography,
+            "county": county,
+            "district": district,
+            "category": "ALL",
+            "party": party,
+            "measure": measure,
+            "value": value,
+        }
+        for measure, value in printed.items()
+    ]
+
+
+def parse_county_canvass_rows(
+    rows: list[list[str]],
+    election: str,
+    geography: str = "county",
+    as_of: str | None = None,
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official County and Canvass PDF's table rows as long rows.
+
+    Returns the snapshot date passed in (the report's own date, read from the file's
+    text by the pdf wrapper) and the rows: one per county and printed measure -- the
+    four canvass modes plus the county's total, the official-turnout measures' shared
+    vocabulary. The published shares stay out of the frame; the printed Statewide row
+    is the counties' own sums and not a row of them.
+    """
+    _, published = _tallied_rows(
+        "county-canvass",
+        list(enumerate(rows, start=1)),
+        election,
+        geography,
+        as_of,
+        CANVASS_SHEET,
+    )
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_county_canvass_pdf(
+    path: Path, election: str, geography: str = "county"
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official County and Canvass PDF, table rows first, its date from its text."""
+    try:
+        rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
+        raise TurnoutParseError(f"could not read the county-canvass PDF ({err})") from err
+    return parse_county_canvass_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+
+
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
@@ -1622,10 +1991,8 @@ def _latest_sha(election: str, family: str, geography: str, kind: str) -> str | 
 
 
 def read_requests_pdf(path: Path) -> str:
-    """Every page's text of a requests PDF."""
-    from natural_pdf import PDF
-
-    return "\n".join(page.extract_text() or "" for page in PDF(str(path)).pages)
+    """Every page's text of a requests PDF, read the same way."""
+    return read_pdf_text(path)
 
 
 def turnout_parse(
@@ -1748,6 +2115,8 @@ def _parse_file(
         return parse_turnout_official_bytes(path.read_bytes(), election_code, geography)
     if family in ("eligible-active", "eligible-inactive"):
         return parse_eligible_bytes(path.read_bytes(), election_code, family, geography)
+    if family == "county-canvass":
+        return parse_county_canvass_pdf(path, election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
 
 
