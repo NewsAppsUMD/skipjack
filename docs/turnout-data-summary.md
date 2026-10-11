@@ -26,7 +26,7 @@ Two elections are live today:
 
 | Election | State | What the page shows |
 |---|---|---|
-| **2026 primary** (`/turnout/gp26/`) | Certified July 23, 2026 | The finals: ballots cast (902,818) and counted (891,567), the four voting modes with shares, mail-in ballots with rejection reasons, provisional outcomes, early-voting and same-day totals |
+| **2026 primary** (`/turnout/gp26/`) | Certified July 23, 2026 | The finals: ballots cast (902,818) and counted (891,567), the four voting modes with shares, mail-in ballots with rejection reasons, provisional outcomes, and mail-in ballot requests |
 | **2026 general** (`/turnout/gg26/`) | In progress (election day November 3) | The mid-campaign mail-in tracking: ballot requests, ballots sent, envelopes received back, and accepted-in-the-canvass (currently ~0) |
 
 ## Where the data comes from
@@ -102,6 +102,13 @@ Rules the parsers work under (all established in the first increment and carried
 | `early-voting` | pdf x {county, county-party, CD, LD, councilmanic, location} | `day-1`…`day-8` + `total` + `eligible` |
 | `same-day` | pdf x the same grains | new-registrations and address-changes per day + the election-day/election-totals arithmetic |
 
+The `early-voting` and `same-day` files are the board's campaign-time tallies, printed
+"Unofficial" — the eight-day early-voting turnout and the same-day registrations. A
+**certified election's page publishes none of them**: its figures of record come from the
+certified canvass reports alone (`may_publish()` in `skipjack.pipeline.turnout` gates every
+published surface — the page, the downloads, and the Data page). The elections still being
+tracked keep their snapshots; the files stay parsed and archived for the record either way.
+
 The county workbooks' district detail grain (councilmanic districts on Sheet2, the
 legislative file's county-expansion tail) is reconciled against its printed totals and
 **not published** — one grain per file, so nothing sums twice; the district files publish
@@ -115,11 +122,13 @@ the district grain.
   accepted on one axis), and a sortable county table.
 - `/turnout/gp26/` — the certified layout: turnout percentage (when the denominator files
   are up), ballots cast and counted, the four modes with shares, the by-county table (cast,
-  counted, each mode, mail-in accepted/rejected, early-voting, same-day), and the
-  rejection-reason tables for both ballot kinds.
+  counted, each mode, mail-in accepted/rejected), and the rejection-reason tables for both
+  ballot kinds.
 - Each snapshot gets a source strip: the original document's link, when it was downloaded,
   how it was read, and its fingerprint; the CSV and the provenance record are downloadable
-  by link and listed on the Data page; every archived source is on the About page.
+  by link and listed on the Data page; every archived source is on the About page. A strip
+  for an unofficial tally family of a certified election documents the read without links —
+  nothing for a previous election publishes an unofficial figure.
 
 ## Automation
 

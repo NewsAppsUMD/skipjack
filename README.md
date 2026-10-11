@@ -37,7 +37,8 @@ Once GitHub Pages is switched on, the site publishes to
 - **Turnout**: each election's official tally from the SBE's press-room reports. For a finished
   election: the certified ballots cast and counted, the four voting modes, the certified turnout
   percentage (cast over eligible voters, counted or not), mail-in ballots with their rejection
-  reasons, provisional outcomes, early-voting totals and same-day registrations. For a running
+  reasons, and provisional outcomes — its certified figures of record only, never the board's
+  unofficial eight-day tallies (early voting, same-day). For a running
   election: the mail-in tracking (requests, sent, received back, accepted in the canvass),
   snapshotted under each report's own as-of date so the trend is visible day by day.
 - **Young voters**: how many 18-to-22-year-olds registered for the first time from January 1 to the
