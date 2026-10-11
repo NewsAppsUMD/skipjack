@@ -1873,6 +1873,43 @@ def parse_county_canvass_pdf(
     return parse_county_canvass_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
 
 
+def parse_votes_accepted_rows(
+    rows: list[list[str]],
+    election: str,
+    geography: str = "county",
+    as_of: str | None = None,
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official Votes Accepted by County and Canvass PDF's table rows as long rows.
+
+    The canvass sheet's shape at its "Total Votes Counted" table: the same columns as
+    the county canvass, the same five measures, and the same checks against itself --
+    each county's modes must sum to its printed total (which this sheet prints with or
+    without a comma), the printed shares must still be their counts over the row's
+    total, and the printed Statewide row must be the counties' sums.
+    """
+    _, published = _tallied_rows(
+        "votes-accepted",
+        list(enumerate(rows, start=1)),
+        election,
+        geography,
+        as_of,
+        CANVASS_SHEET,
+    )
+    return as_of, pl.DataFrame(published, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_votes_accepted_pdf(
+    path: Path, election: str, geography: str = "county"
+) -> tuple[str | None, pl.DataFrame]:
+    """One Official Votes Accepted by County and Canvass PDF, rows first, its date from
+    its text."""
+    try:
+        rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
+        raise TurnoutParseError(f"could not read the votes-accepted PDF ({err})") from err
+    return parse_votes_accepted_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+
+
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
@@ -2117,6 +2154,8 @@ def _parse_file(
         return parse_eligible_bytes(path.read_bytes(), election_code, family, geography)
     if family == "county-canvass":
         return parse_county_canvass_pdf(path, election_code, geography)
+    if family == "votes-accepted":
+        return parse_votes_accepted_pdf(path, election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
 
 

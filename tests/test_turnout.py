@@ -3113,3 +3113,117 @@ def test_pdf_snapshot_date_prefers_the_report_date_then_the_as_of():
     )
     assert turnout.pdf_snapshot_date("As of: October 9, 2026 6 PM") == "2026-10-09"
     assert turnout.pdf_snapshot_date("") is None
+
+
+# votes-accepted: "Official Votes Accepted by County and Canvass", the same county x
+# canvass-mode sheet at the "Total Votes Counted" table -- same labels, same checks,
+# the same measure vocabulary as county-canvass and the official-turnout workbooks.
+# The real file prints its Total column without a comma where the canvass sheet keeps
+# them; both forms are one count.
+
+VOTES_ACCEPTED_ROWS = [
+    CANVASS_HEADER,
+    canvass_row(
+        "Allegany", "1,401", "13.31%", "6,478", "61.53%", "2,423", "23.01%", "227", "2.16%", "10529"
+    ),
+    canvass_row(
+        "Anne Arundel",
+        "13,827",
+        "18.40%",
+        "29,462",
+        "39.20%",
+        "29,083",
+        "38.69%",
+        "2,793",
+        "3.72%",
+        "75165",
+    ),
+    canvass_row(
+        "Worcester", "1,566", "16.52%", "5,125", "54.07%", "2,546", "26.86%", "242", "2.55%", "9479"
+    ),
+    canvass_row(
+        "Statewide",
+        "16,794",
+        "17.65%",
+        "41,065",
+        "43.19%",
+        "34,052",
+        "35.78%",
+        "3,262",
+        "3.43%",
+        "95173",
+    ),
+]
+
+
+def test_votes_accepted_parses_the_county_rows():
+    as_of, df = turnout.parse_votes_accepted_rows(
+        VOTES_ACCEPTED_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert as_of == "2026-07-23"
+    assert len(df) == 3 * 5  # three counties x five measures
+    assert set(df["measure"]) == {
+        "early-voting",
+        "election-day",
+        "vote-by-mail",
+        "provisional",
+        "total",
+    }
+    assert set(df["family"]) == {"votes-accepted"}
+    assert set(df["geography"]) == {"county"} and set(df["district"]) == {""}
+    assert set(df["party"]) == {"ALL"} and set(df["category"]) == {"ALL"}
+
+
+def test_votes_accepted_reads_an_unpunctuated_total():
+    as_of, df = turnout.parse_votes_accepted_rows(
+        VOTES_ACCEPTED_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    allegany = df.filter((df["county"] == "Allegany"))
+    assert dict(zip(allegany["measure"], allegany["value"])) == {
+        "early-voting": 1401,
+        "election-day": 6478,
+        "vote-by-mail": 2423,
+        "provisional": 227,
+        "total": 10529,
+    }
+
+
+def test_votes_accepted_state_row_is_checked_not_published():
+    as_of, df = turnout.parse_votes_accepted_rows(
+        VOTES_ACCEPTED_ROWS, "GP26", "county", as_of="2026-07-23"
+    )
+    assert not any(("Statewide" in c) or c == "State Totals" for c in df["county"])
+    accepted = df.filter(df["measure"] == "total")["value"].sum()
+    assert accepted == 95173
+
+
+def test_votes_accepted_rejects_its_own_bad_arithmetic():
+    # the same checks at the same names: a mode that does not sum, a share that lies,
+    # a state row that disagrees with the counties
+    torn = [r[:] for r in VOTES_ACCEPTED_ROWS]
+    torn[1][3] = "6,479"  # Allegany's election-day count
+    with pytest.raises(turnout.TurnoutParseError, match="do not add up"):
+        turnout.parse_votes_accepted_rows(torn, "GP26", "county", as_of="2026-07-23")
+    lying = [r[:] for r in VOTES_ACCEPTED_ROWS]
+    lying[2][4] = "9.99%"  # Anne Arundel's vote-by-mail share
+    with pytest.raises(turnout.TurnoutParseError, match="share"):
+        turnout.parse_votes_accepted_rows(lying, "GP26", "county", as_of="2026-07-23")
+    statewide = [r[:] for r in VOTES_ACCEPTED_ROWS]
+    statewide[4][3] = "41,066"  # the Statewide election-day count, off by one ...
+    statewide[4][9] = "95174"  # ... and its total, so the row itself still adds up
+    with pytest.raises(turnout.TurnoutParseError, match="counties' election-day counts"):
+        turnout.parse_votes_accepted_rows(statewide, "GP26", "county", as_of="2026-07-23")
+
+
+def test_votes_accepted_rejects_a_duplicated_county_row():
+    dup = [r[:] for r in VOTES_ACCEPTED_ROWS]
+    dup.insert(2, VOTES_ACCEPTED_ROWS[1][:])
+    with pytest.raises(turnout.TurnoutParseError, match="more than once"):
+        turnout.parse_votes_accepted_rows(dup, "GP26", "county", as_of="2026-07-23")
+
+
+def test_votes_accepted_rejects_an_unrecognized_county_label():
+    bad = [r[:] for r in VOTES_ACCEPTED_ROWS]
+    bad[1][0] = "Prince Georges"
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized county"):
+        turnout.parse_votes_accepted_rows(bad, "GP26", "county", as_of="2026-07-23")
