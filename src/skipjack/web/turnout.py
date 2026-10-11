@@ -13,7 +13,6 @@ import sqlite3
 from skipjack.pipeline.turnout import ELECTIONS
 
 _SENT_MEASURES = ("sent", "received", "accepted")
-_REQUEST_METHODS = ("agent", "faxed", "in-person", "mailed", "others", "print-at-home")
 
 
 def _snapshot_dates(conn: sqlite3.Connection, election: str, family: str) -> list[str]:
@@ -392,8 +391,10 @@ def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
             if "eligible-inactive" in dates
             else {}
         )
-        eligible = (active.get("active") or 0) + (inactive.get("inactive") or 0)
-        if eligible:
+        # a turnout percentage claims an "active and inactive together" denominator;
+        # show it only once both parts are published
+        if active.get("active") is not None and inactive.get("inactive") is not None:
+            eligible = active["active"] + inactive["inactive"]
             eligible_dates = max(
                 dates["eligible-active"],
                 dates.get("eligible-inactive", ""),

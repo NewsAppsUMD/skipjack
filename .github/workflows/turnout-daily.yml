@@ -7,8 +7,11 @@
 #
 # A parse that does not reconcile fails the run (red) rather than publishing a wrong
 # number; the site keeps showing the previous day until someone looks at the file.
-# Every run is cheap once the files stop changing (the sha-dedupe skips re-archiving);
-# when the election is over and the last snapshots are in, disable this workflow.
+# Every run is cheap once the files stop changing (the sha-dedupe skips re-archiving).
+# Keep it running while anything is still in flight: GG26's certified families appear
+# after its canvass, and GP26's denominator files (official-turnout, eligible) went back
+# to placeholder pages when the SBE re-published its tree on 2026-10-10 -- they ingest
+# automatically when the board re-publishes. Disable only when nothing is pending.
 name: Turnout snapshot
 
 on:

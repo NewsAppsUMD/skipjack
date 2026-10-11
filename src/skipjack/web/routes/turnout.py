@@ -86,6 +86,7 @@ def _certified_dates(cert: dict) -> dict[str, str]:
             "requests",
             "early-voting",
             "same-day",
+            "provisional",
         )
     }
 
@@ -170,41 +171,8 @@ def _certified_tiles(cert: dict) -> list[dict]:
             }
         )
     return tiles
-    tiles: list[dict] = []
-    if cert.get("turnout"):
-        tiles.append(
-            {
-                "label": "turnout (ballots cast over eligible voters, counted or not)",
-                "value": None,
-                "sub": f"{cert['turnout']['value'] * 100:.1f}%",
-                "as_of": cert["turnout"]["as_of"],
-            }
-        )
-    tiles.append(
-        {
-            "label": "ballots cast",
-            "value": cert.get("cast"),
-            "as_of": cert["as_ofs"].get("county-canvass", ""),
-        }
-    )
-    if cert.get("counted") is not None:
-        tiles.append(
-            {
-                "label": "votes counted in the canvass",
-                "value": cert.get("counted"),
-                "as_of": cert["as_ofs"].get("votes-accepted", ""),
-            }
-        )
-    for mode, entry in cert.get("by_mode", {}).items():
-        tiles.append(
-            {
-                "label": mode.replace("-", " ") + (" (share of ballots cast)" if False else ""),
-                "value": entry.get("cast"),
-                "sub": f"{entry['share'] * 100:.1f}% of cast" if entry.get("share") else None,
-                "as_of": cert["as_ofs"].get("county-canvass", ""),
-            }
-        )
-    return tiles
+
+
 def _tiles(headline: dict) -> list[dict]:
     """The headline figures, in the order the page shows them: each tile carries its
     family's own as-of day and the change from that family's previous snapshot."""

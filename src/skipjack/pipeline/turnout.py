@@ -26,6 +26,7 @@ from skipjack.pipeline.fetch import (
     MANIFEST_PATH,
     SOURCE_NAME,
     append_to_manifest,
+    resolve_archived,
 )
 from skipjack.pipeline.provenance import (
     ProvenanceSidecar,
@@ -878,7 +879,6 @@ def parse_left_to_count_bytes(
     """One Mail-in Ballots Left To Count workbook: the sent-returned exports' shape plus
     the 13th printed column, LEFT TO COUNT, which the SBE prints as one count without a
     party breakdown. The sent-returned machinery reads it with the extra measure: the
-
     column's totals are printed and reconciled at every printed Total row (366 of them
     in the live GP26 files), and each row carries the file's own arithmetic -- the left
     to count equals the row's accepted total subtracted from its received total, a
@@ -2570,12 +2570,21 @@ def _daily_published(
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
+# Notes the parsers know about a family's own numbers, recorded with its snapshots.
+FAMILY_SNAPSHOT_NOTES = {
+    (
+        "same-day",
+        "county-party",
+    ): ". The by-party file undercounts the county file it parallels (2162 vs 2179 new "
+    "registrations: Baltimore County -6, Charles -3, Howard -3, Anne Arundel -2, "
+    "+1 elsewhere); nothing printed in it checks the difference.",
+    ("early-voting", "location"): ". No printed county rollup to reconcile the locations against.",
+}
+
 
 def download(url: str, timeout: float = 30.0) -> bytes:
     """One press-room file's bytes. SBE answers 200 with an HTML page for files that do
     not exist yet, so the caller sniffs the content, not the status code."""
-    import httpx
-
     response = httpx.get(url, timeout=timeout, follow_redirects=True)
     response.raise_for_status()
     return response.content
@@ -2676,10 +2685,17 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
 
 
 def _latest_sha(election: str, family: str, geography: str, kind: str) -> str | None:
-    """The SHA-256 of the newest archived revision of this file, from the manifest."""
-    prefix = f"sbe-turnout-{election.lower()}-{family}-{geography}-"
+    """The SHA-256 of the newest archived revision of this file, from the manifest.
+
+    The id ends with a YYYYMMDD date segment and a sha prefix, so the geography is
+    anchored: "county" is not a prefix-collision of "county-party" here.
+    """
+    pattern = re.compile(
+        rf"^sbe-turnout-{re.escape(election.lower())}-{re.escape(family)}-"
+        rf"{re.escape(geography)}-(?:\d{{8}}|unknown)-[0-9a-f]{{12}}$"
+    )
     for record in reversed(read_manifest(MANIFEST_PATH)):
-        if record.source_id.startswith(prefix) and Path(record.local_path).suffix == "." + kind:
+        if pattern.fullmatch(record.source_id) and Path(record.local_path).suffix == "." + kind:
             return record.sha256
     return None
 
@@ -2720,8 +2736,19 @@ def turnout_parse(
     for (election_code, family, geography, snapshot), revisions in sorted(snapshots.items()):
         if as_of and snapshot not in (as_of, "unknown"):
             continue
-        record = revisions[-1]  # the newest revision of this snapshot wins
-        path = Path(record.local_path)
+        # within a snapshot, the workbook revision is the one to parse ahead of its
+        # PDF twin (workbook-first is the design's rule); the manifest keeps both
+        revisions = sorted(
+            revisions,
+            key=lambda r: (
+                0
+                if r.local_path.endswith(".xlsx")
+                else (1 if r.local_path.endswith(".pdf") else 2),
+                r.fetch_date,
+            ),
+        )
+        record = revisions[-1]  # the workbook revision wins when both exist
+        path = resolve_archived(record)
         out_dir = data_dir / "turnout" / election_code / family / geography
         if snapshot != "unknown" and not force:
             existing = out_dir / f"{snapshot}.csv"
@@ -2745,7 +2772,8 @@ def turnout_parse(
                 parser_version=PARSER_VERSION,
                 extraction_method=_extraction_of(path),
                 checks={"rows": frame.height, "as_of": snapshot_date},
-                notes=f"{election_code} {family} ({geography}) snapshot, reconciled against its printed totals.",
+                notes=f"{election_code} {family} ({geography}) snapshot, reconciled against its printed totals."
+                + FAMILY_SNAPSHOT_NOTES.get((family, geography), ""),
             )
             sidecar.election, sidecar.family, sidecar.geography = election_code, family, geography
             sidecar.write(out_csv)  # provenance first, so a crash leaves no bare CSV

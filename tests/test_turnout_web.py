@@ -278,32 +278,6 @@ def test_chart_data_drops_an_all_zero_series(conn):
     assert [s["name"] for s in chart["series"]] == ["Sent", "Received"]
 
 
-def _page_db(tmp_path, as_ofs):
-    """A built db file with GG26 snapshots at the given dates, one county each day."""
-    path = tmp_path / "skipjack.db"
-    conn = sqlite3.connect(path)
-    conn.row_factory = sqlite3.Row
-    conn.executescript(SCHEMA_SQL)
-    conn.executescript(
-        """
-        CREATE TABLE IF NOT EXISTS voter_registration (
-            id INTEGER PRIMARY KEY, source_id TEXT, report_date TEXT, county TEXT,
-            party TEXT, party_name TEXT, active_voters INTEGER
-        );
-        CREATE TABLE IF NOT EXISTS sources (
-            source_id TEXT PRIMARY KEY, source_url TEXT, source_name TEXT,
-            document_title TEXT, fetch_date TEXT, sha256 TEXT, extraction_method TEXT,
-            checks_json TEXT, notes TEXT
-        );
-        """
-    )
-    for i, as_of in enumerate(as_ofs):
-        add(conn, as_of, ALLEGANY + WORCESTER, source_id=f"s{i}")
-    conn.commit()
-    conn.close()
-    return path
-
-
 def _page_db(tmp_path, snapshots):
     """A db file with GG26 snapshots: (as_of, rows) pairs, plus the registration
     table's minimum so the app boots."""
