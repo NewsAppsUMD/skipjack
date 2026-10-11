@@ -2742,8 +2742,8 @@ def turnout_parse(
             revisions,
             key=lambda r: (
                 0
-                if r.local_path.endswith(".xlsx")
-                else (1 if r.local_path.endswith(".pdf") else 2),
+                if r.local_path.endswith(".pdf")
+                else (1 if r.local_path.endswith(".xlsx") else 2),
                 r.fetch_date,
             ),
         )

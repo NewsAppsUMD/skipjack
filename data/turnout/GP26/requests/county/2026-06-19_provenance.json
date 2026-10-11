@@ -1,17 +1,17 @@
 {
-  "source_id": "sbe-turnout-gp26-requests-county-20260619-243ff837aa55",
-  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GP26/Mail-in_Ballot_Request_Counts_with_Chart.pdf",
+  "source_id": "sbe-turnout-gp26-requests-county-20260619-32c55f2a91c8",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GP26/Mail-in_Ballot_Request_Counts_with_Chart.xlsx",
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 requests (county) as of 2026-06-19",
   "fetch_date": "2026-10-11T00:46:47+00:00",
-  "parse_date": "2026-10-11T00:47:17+00:00",
-  "sha256_original": "243ff837aa55b5583c598ee01832048d8d72d8c916c8d2db8f6489cf85a4bb0a",
+  "parse_date": "2026-10-11T01:12:43+00:00",
+  "sha256_original": "32c55f2a91c863214e4afbe3b5596ca1daffb9697b35cfcb7a5150db944f717a",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
   "family": "requests",
   "geography": "county",
   "notes": "GP26 requests (county) snapshot, reconciled against its printed totals.",
-  "extraction_method": "pdf text",
+  "extraction_method": "xlsx (calamine)",
   "checks": {
     "rows": 168,
     "as_of": "2026-06-19"
