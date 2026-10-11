@@ -164,6 +164,95 @@ def _gp26_xlsx(family: str, geography: str, base: str) -> FamilyFile:
     return FamilyFile(family, geography, "xlsx", f"{base}/{stem}")
 
 
+def _pg24_files() -> list[FamilyFile]:
+    """Every stat file published under press_room/2024_stats/PG24/ (see the press-room
+    page). The campaign mail-in reports; the certified reports and their Updated- re-posts
+    (the web reads each family's latest snapshot, so a corrected re-post becomes the newer
+    record and the correction history stays archived); and the unofficial eight-day
+    tallies, which a certified election parses and keeps but never publishes. Not
+    ingested: the RAW csvs, the precinct csv and the EOC report."""
+    base = f"{SBE_BASE}/press_room/2024_stats/PG24"
+    files: list[FamilyFile] = []
+    # pdf + xlsx twins of the same published sheet
+    for family, geography, stem in (
+        ("requests", "county", "Mail-in Ballot Request Counts with Chart"),
+        ("sent-returned", "county", "Absentees Sent and Returned by County"),
+        ("sent-returned", "congressional", "Absentees Sent and Returned by Congressional"),
+        ("sent-returned", "legislative", "Absentees Sent and Returned by Legislative"),
+    ):
+        for ext in ("pdf", "xlsx"):
+            files.append(FamilyFile(family, geography, ext, f"{base}/{stem}.{ext}"))
+    # the unofficial eight-day tallies: the published stems carry their own spacing
+    for family, geography, stem in (
+        ("early-voting", "county-party", "EarlyVoting  by Party"),  # two spaces, as published
+        ("early-voting", "county", "EarlyVoting by County"),
+        ("early-voting", "congressional", "EarlyVoting by Congressional District"),
+        ("early-voting", "legislative", "EarlyVoting  by Legislative District"),
+        ("early-voting", "councilmanic", "EarlyVoting  by Councilmanic District"),
+        ("early-voting", "location", "EarlyVoting  by Location"),
+        ("same-day", "county-party", "SameDayRegistration by Party"),
+        ("same-day", "county", "SameDayRegistration by County"),
+        ("same-day", "congressional", "SameDayRegistration by Congressional District"),
+        ("same-day", "legislative", "SameDayRegistration by Legislative District"),
+        ("same-day", "councilmanic", "SameDayRegistration by Councilmanic District"),
+        ("same-day", "location", "SameDayRegistration by Location"),
+    ):
+        files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
+    # the certified reports, first as originally published, then the Updated- re-posts
+    for family, geography, stem in (
+        ("county-canvass", "county", "Official_CountyAndCanvass"),
+        ("votes-accepted", "county", "Official_VotesAcceptedBy_CountyAndCanvass"),
+        ("mail-voting", "county", "Official Vote-By-Mail Voting(NEW)"),
+        ("provisional", "county", "Official Provisional Voting"),
+        ("county-canvass", "county", "Updated-Official_County_And_Canvass"),
+        ("votes-accepted", "county", "Updated-Official_Votes_Accepted_By_County_And_Canvass"),
+        ("mail-voting", "county", "Updated-Official_Mail-In_Voting"),
+        ("provisional", "county", "Updated-Official_Provisional_Voting"),
+    ):
+        files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
+    for geography, stem in (
+        ("county", "County"),
+        ("congressional", "Congressional"),
+        ("legislative", "Legislative"),
+    ):
+        for ext in ("pdf", "xlsx"):
+            files.append(
+                FamilyFile(
+                    "official-turnout", geography, ext, f"{base}/Official by Party and {stem}.{ext}"
+                )
+            )
+            files.append(
+                FamilyFile(
+                    "official-turnout",
+                    geography,
+                    ext,
+                    f"{base}/Updated-Official_by_Party_and_{stem}.{ext}",
+                )
+            )
+    for geography, stem in (
+        ("county", "County"),
+        ("congressional", "Congressional"),
+        ("legislative", "Legislative"),
+        ("councilmanic", "Councilmanic"),
+    ):
+        for ext in ("pdf", "xlsx"):
+            files.append(
+                FamilyFile(
+                    "eligible-active",
+                    geography,
+                    ext,
+                    f"{base}/Eligible Active Voters by {stem} - PG24.{ext}",
+                )
+            )
+    for ext in ("pdf", "xlsx"):  # the inactive file exists at the county grain alone
+        files.append(
+            FamilyFile(
+                "eligible-inactive", "county", ext, f"{base}/Eligible Inactive Voters - PG24.{ext}"
+            )
+        )
+    return files
+
+
 ELECTIONS: dict[str, Election] = {
     "GG26": Election(
         code="GG26",
@@ -176,6 +265,13 @@ ELECTIONS: dict[str, Election] = {
         name="2026 primary election",
         election_day="2026-06-23",
         files=_gp26_files(),
+        certified=True,
+    ),
+    "PG24": Election(
+        code="PG24",
+        name="2024 general election",
+        election_day="2024-11-05",
+        files=_pg24_files(),
         certified=True,
     ),
 }

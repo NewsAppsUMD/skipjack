@@ -4606,3 +4606,27 @@ def test_may_publish_which_report_families():
     assert turnout.may_publish("GG26", "early-voting")
     assert not turnout.may_publish("GP26", "early-voting")
     assert not turnout.may_publish("GP26", "same-day")
+
+
+def test_pg24_is_a_certified_election_whose_files_cover_its_families():
+    pg24 = turnout.ELECTIONS["PG24"]
+    assert pg24.name == "2024 general election"
+    assert pg24.election_day == "2024-11-05"
+    assert pg24.certified
+    families = {(f.family, f.geography) for f in pg24.files}
+    # the certified figures of record
+    for expected in (
+        ("county-canvass", "county"),
+        ("votes-accepted", "county"),
+        ("mail-voting", "county"),
+        ("provisional", "county"),
+        ("eligible-active", "county"),
+        ("eligible-inactive", "county"),
+        ("requests", "county"),
+        ("sent-returned", "county"),
+    ):
+        assert expected in families, expected
+    # the unofficial tallies are archived, gated by may_publish as everywhere else
+    assert ("early-voting", "county") in families and ("same-day", "county") in families
+    assert not turnout.may_publish("PG24", "early-voting")
+    assert turnout.may_publish("PG24", "county-canvass")
