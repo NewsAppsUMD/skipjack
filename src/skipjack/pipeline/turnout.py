@@ -210,46 +210,47 @@ def _pg24_files() -> list[FamilyFile]:
         ("provisional", "county", "Updated-Official_Provisional_Voting"),
     ):
         files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
+    # the two by-party workbook families are configured xlsx-only (as GP26 spells them);
+    # their pdf prints exist in the press room, and any revision the archive holds
+    # beyond the file set is skipped at parse time, recorded but never parsed
     for geography, stem in (
         ("county", "County"),
         ("congressional", "Congressional"),
         ("legislative", "Legislative"),
     ):
-        for ext in ("pdf", "xlsx"):
-            files.append(
-                FamilyFile(
-                    "official-turnout", geography, ext, f"{base}/Official by Party and {stem}.{ext}"
-                )
+        files.append(
+            FamilyFile(
+                "official-turnout", geography, "xlsx", f"{base}/Official by Party and {stem}.xlsx"
             )
-            files.append(
-                FamilyFile(
-                    "official-turnout",
-                    geography,
-                    ext,
-                    f"{base}/Updated-Official_by_Party_and_{stem}.{ext}",
-                )
+        )
+        files.append(
+            FamilyFile(
+                "official-turnout",
+                geography,
+                "xlsx",
+                f"{base}/Updated-Official_by_Party_and_{stem}.xlsx",
             )
+        )
     for geography, stem in (
         ("county", "County"),
         ("congressional", "Congressional"),
         ("legislative", "Legislative"),
         ("councilmanic", "Councilmanic"),
     ):
-        for ext in ("pdf", "xlsx"):
-            files.append(
-                FamilyFile(
-                    "eligible-active",
-                    geography,
-                    ext,
-                    f"{base}/Eligible Active Voters by {stem} - PG24.{ext}",
-                )
-            )
-    for ext in ("pdf", "xlsx"):  # the inactive file exists at the county grain alone
         files.append(
             FamilyFile(
-                "eligible-inactive", "county", ext, f"{base}/Eligible Inactive Voters - PG24.{ext}"
+                "eligible-active",
+                geography,
+                "xlsx",
+                f"{base}/Eligible Active Voters by {stem} - PG24.xlsx",
             )
         )
+    # the inactive file exists at the county grain alone
+    files.append(
+        FamilyFile(
+            "eligible-inactive", "county", "xlsx", f"{base}/Eligible Inactive Voters - PG24.xlsx"
+        )
+    )
     return files
 
 
@@ -290,14 +291,17 @@ def may_publish(election: str, family: str) -> bool:
     )
 
 
-AS_OF_RE = re.compile(r"As of:\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
+AS_OF_RE = re.compile(r"As of:?\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
 
 
 def extract_as_of_text(text: str) -> str | None:
     """The as-of date "YYYY-MM-DD" from an "As of: October 9, 2026 6 PM" line, else None.
 
-    The regex accepts month/day shapes strptime rejects ("Sept 30, 2026", "October 32,
-    2026"); those are treated as no date, not a parse error.
+    The colon is optional: the eligible exports print "**As of October 20, 2024" under
+    the election date. The match stays case-sensitive on the capital "As", so the
+    press-room footnotes' lowercase "are as of :" stays unread. The regex accepts
+    month/day shapes strptime rejects ("Sept 30, 2026", "October 32, 2026"); those are
+    treated as no date, not a parse error.
     """
     if not (found := AS_OF_RE.search(text)):
         return None
@@ -348,11 +352,12 @@ CANONICAL_COUNTIES = frozenset(COUNTY_NORMALIZE.values())
 def canonical_county(name: str) -> str:
     """Title-cased site spelling of a county name ("Saint Mary's" -> "St. Mary's").
 
-    str.title() capitalizes the letter after an apostrophe ("Prince George'S"), so
-    that is undone before the spelling fixes are applied; upper-case SBE spellings
-    reach the fixes in the same shape as title-cased ones.
+    The sheets wrap long labels inside one cell ("Baltimore\nCounty"), so whitespace
+    collapses first. str.title() capitalizes the letter after an apostrophe ("Prince
+    George'S"), so that is undone before the spelling fixes are applied; upper-case SBE
+    spellings reach the fixes in the same shape as title-cased ones.
     """
-    name = name.strip().title().replace("'S", "'s")
+    name = " ".join(name.split()).title().replace("'S", "'s")
     return COUNTY_FIXES.get(name, name)
 
 
@@ -562,11 +567,14 @@ def _first_snapshot_date(rows: list[list]) -> str | None:
 
 # A block's party code, from its label row as the live GP26 files print it (the county
 # file spells the Green block GRN; the congressional and legislative files spell Green).
+# 2024's presidential-general sheet spelled Libertarian out and added the NLM block.
 OFFICIAL_BLOCK_CELLS: dict[str, str] = {
     "STATEWIDE": "ALL",
     "DEMOCRAT": "DEM",
     "REPUBLICAN": "REP",
     "WCP": "WCP",
+    "NLM": "NLM",
+    "LIBERTARIAN": "LIB",
     "OTHER PARTIES": "OTH",
     "UNAFFILIATED": "UNA",
     "GRN": "GRN",
@@ -685,7 +693,7 @@ def _official_sheet_rows(
             continue
         if len(measures) >= 3 and len(areas) == 1:
             close_open_block(index, "a new header row")
-            if party is None:
+            if party is None or bad_block_label:
                 raise TurnoutParseError(
                     f"{sheet} row {index}: "
                     + (
@@ -1329,7 +1337,9 @@ def _sent_sheet_rows(
 # population at district x county grain, checked and never published -- the way the
 # sent-returned exports hand over their detail regions.
 
-ELIGIBLE_PARTIES = ("DEM", "REP", "GRN", "OTH", "UNA", "WCP")
+# 2024's sheet vocabulary grew by the parties Maryland added that cycle: Libertarian
+# (LIB) and No Labels (NLM). WCP is the 2026 vocabulary's write-in party column.
+ELIGIBLE_PARTIES = ("DEM", "REP", "LIB", "NLM", "GRN", "OTH", "UNA", "WCP")
 ELIGIBLE_MEASURES = {"eligible-active": "active", "eligible-inactive": "inactive"}
 ELIGIBLE_GEOGRAPHIES = ("county", "congressional", "legislative", "councilmanic")
 
@@ -2858,6 +2868,16 @@ def turnout_parse(
             ),
         )
         record = revisions[-1]  # the workbook revision wins when both exist
+        # the file set defines the parse surface: an archived revision outside it (a
+        # pdf print of a workbook family, or a file the config dropped) stays archived
+        # and is not parsed — logged here, no failure on any run
+        election = ELECTIONS.get(election_code)
+        configured = (
+            {(f.family, f.geography, f.kind) for f in election.files} if election else set()
+        )
+        if (family, geography, Path(record.local_path).suffix.strip(".")) not in configured:
+            logger.info("Skipped (outside the election's file set): %s", record.source_id)
+            continue
         path = resolve_archived(record)
         out_dir = data_dir / "turnout" / election_code / family / geography
         if snapshot != "unknown" and not force:

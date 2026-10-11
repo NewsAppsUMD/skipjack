@@ -2246,8 +2246,10 @@ def test_eligible_rejects_a_duplicated_county_row():
 
 
 def test_eligible_rejects_an_unknown_party_label():
+    """A party label the vocabulary does not know means a file the parser should not
+    read (the 2026 sheets had no LIB column; LIB joined the vocabulary with 2024)."""
     torn = [row[:] for row in ELIGIBLE_COUNTY_ROWS]
-    torn[2] = ["County", "", "DEM", "", "REP", "LIB", "OTH", "UNA", "WCP", "", "Total"]
+    torn[2] = ["County", "", "DEM", "", "REP", "WRK", "OTH", "UNA", "WCP", "", "Total"]
     with pytest.raises(turnout.TurnoutParseError):
         turnout.parse_eligible_bytes(sent_worksheet(torn), "GP26", "eligible-active", "county")
 
@@ -4630,3 +4632,145 @@ def test_pg24_is_a_certified_election_whose_files_cover_its_families():
     assert ("early-voting", "county") in families and ("same-day", "county") in families
     assert not turnout.may_publish("PG24", "early-voting")
     assert turnout.may_publish("PG24", "county-canvass")
+
+
+def test_the_2024_party_codes_are_in_the_shared_vocabulary():
+    """The 2024 presidential general printed Libertarian and No Labels columns; the
+    shared party vocabulary (eligible headers, the by-party daily sheets) reads them."""
+    assert "LIB" in turnout.ELIGIBLE_PARTIES
+    assert "NLM" in turnout.ELIGIBLE_PARTIES
+
+
+def test_as_of_text_reads_the_colonless_capitalized_footnote():
+    """The eligible exports print '**As of October 20, 2024' under the election date,
+    capital-A and no colon; the press-room footnotes' lowercase 'are as of :' stays
+    unread deliberately."""
+    cell = "Election Date: November 5, 2024\n**As of October 20, 2024"
+    assert turnout.extract_as_of_text(cell) == "2024-10-20"
+    assert (
+        turnout.extract_as_of_text("County-Wide Eligible Active Voters are as of : June 18, 2026")
+        is None
+    )
+
+
+def test_canonical_county_collapses_the_wrapped_label():
+    """The 2024 sheets wrap two-line labels inside one cell ('Baltimore\\nCounty')."""
+    assert turnout.canonical_county("Baltimore\nCounty") == "Baltimore County"
+
+
+def test_the_pg24_file_set_configures_workbooks_for_the_two_workbook_families():
+    """The eligible and official-turnout families' canonical format is the workbook
+    (GP26's config spells them xlsx-only); PG24's press room also publishes pdf prints
+    of both — archived, but not configured, so the data dir does not hold the same
+    population twice."""
+    pairs = {(f.family, f.geography, f.kind) for f in turnout.ELECTIONS["PG24"].files}
+    assert not any(
+        family == fam and kind == "pdf"
+        for family, _, kind in pairs
+        for fam in ("official-turnout", "eligible-active", "eligible-inactive")
+    )
+    for family, geography in (("official-turnout", "county"), ("eligible-active", "county")):
+        assert (family, geography, "xlsx") in pairs
+
+
+# The 2024 official-turnout county sheet's real block rows, one excerpt (Allegany and
+# Worcester) per party, with each block's TOTAL row closed against its own excerpt (the
+# excerpt cannot carry the other counties' share, as in the GP26 fixture). The
+# Statewide block is the party blocks' sums, which is the identity the sheet enforces.
+PG24_OFFICIAL_DEM_ROWS = [
+    official_county_row("Allegany", 3648, 1617, 2459, 423, 10812),
+    official_county_row("Worcester", 4176, 2487, 3259, 307, 13586),
+    official_county_row("TOTAL", 7824, 4104, 5718, 730, 24398),
+]
+PG24_OFFICIAL_REP_ROWS = [
+    official_county_row("Allegany", 11199, 4578, 2303, 549, 23016),
+    official_county_row("Worcester", 7749, 5745, 2452, 436, 19748),
+    official_county_row("TOTAL", 18948, 10323, 4755, 985, 42764),
+]
+PG24_OFFICIAL_NLM_ROWS = [
+    official_county_row("Allegany", 24, 3, 8, 8, 63),
+    official_county_row("Worcester", 20, 6, 11, 2, 56),
+    official_county_row("TOTAL", 44, 9, 19, 10, 119),
+]
+PG24_OFFICIAL_LIB_ROWS = [
+    official_county_row("Allegany", 36, 12, 30, 10, 191),
+    official_county_row("Worcester", 25, 8, 22, 8, 165),
+    official_county_row("TOTAL", 61, 20, 52, 18, 356),
+]
+PG24_OFFICIAL_COUNTY_ROWS = [
+    ["", "", "", "Official Turnout (By Party and County)", "", "", "", ""],
+    ["", "", "", "Election Date: November 5, 2024\nAs of: December 11, 2024", "", "", "", ""],
+    ["Statewide"],
+    ["", *OFFICIAL_COUNTY_HEADER],
+    official_county_row("Allegany", 14907, 6210, 4800, 990, 34082, lead=1),
+    official_county_row("Worcester", 11970, 8246, 5744, 753, 33555, lead=1),
+    official_county_row("TOTAL", 26877, 14456, 10544, 1743, 67637, lead=1),
+    ["Democrat"],
+    OFFICIAL_COUNTY_HEADER,
+    *PG24_OFFICIAL_DEM_ROWS,
+    ["Republican"],
+    OFFICIAL_COUNTY_HEADER,
+    *PG24_OFFICIAL_REP_ROWS,
+    ["NLM"],
+    OFFICIAL_COUNTY_HEADER,
+    *PG24_OFFICIAL_NLM_ROWS,
+    ["Libertarian"],
+    OFFICIAL_COUNTY_HEADER,
+    *PG24_OFFICIAL_LIB_ROWS,
+]
+
+
+def test_official_turnout_reads_the_2024_block_labels():
+    """2024's by-party sheet spells the NLM and Libertarian party blocks, labels the
+    2026 vocabulary has no cell for; each parses as its own party and the sheet's
+    printed totals keep enforcing."""
+    as_of, df = turnout.parse_turnout_official_bytes(
+        sent_worksheet(PG24_OFFICIAL_COUNTY_ROWS), "PG24", "county"
+    )
+    assert as_of == "2024-12-11"
+    assert set(df["party"]) == {"ALL", "DEM", "REP", "NLM", "LIB"}
+    nlm = df.filter((pl.col("party") == "NLM") & (pl.col("county") == "Allegany"))
+    assert dict(zip(nlm["measure"], nlm["value"])) == {
+        "election-day": 24,
+        "early-voting": 3,
+        "vote-by-mail": 8,
+        "provisional": 8,
+        "eligible": 63,
+    }
+    lib = df.filter((pl.col("party") == "LIB") & (pl.col("county") == "Worcester"))
+    assert dict(zip(lib["measure"], lib["value"])) == {
+        "election-day": 25,
+        "early-voting": 8,
+        "vote-by-mail": 22,
+        "provisional": 8,
+        "eligible": 165,
+    }
+
+
+def test_turnout_parse_skips_a_revision_outside_the_file_set(turnout_env, monkeypatch):
+    """Archived history beyond an election's file set (PG24's pdf prints of the two
+    workbook families were dropped as not canonical) stays archived: the parse logs and
+    skips it, so a daily run neither fails on it nor re-tries it."""
+    from skipjack.pipeline.provenance import append_to_manifest
+
+    archive = turnout_env / "archives" / "campaign_stats" / "GG26"
+    archive.mkdir(parents=True)
+    pdf = archive / "eligible-active__county__2024-11-05__123456789abc.pdf"
+    pdf.write_text("the archived pdf print of a workbook family")
+    append_to_manifest(
+        turnout.MANIFEST_PATH,
+        turnout.SourceRecord(
+            source_id="sbe-turnout-gg26-eligible-active-county-20241105-1234567890ab",
+            source_url="https://elections.maryland.gov/press_room/twin.pdf",
+            source_name="SBE",
+            fetch_date="2026-10-11T13:00:00+00:00",
+            local_path=str(pdf),
+            sha256="abc",
+        ),
+    )
+    written, failed = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert written == 0 and failed == []
+    # and the manifest record is still there, archived for the record
+    from skipjack.pipeline.provenance import read_manifest
+
+    assert len(read_manifest(turnout.MANIFEST_PATH)) == 1
