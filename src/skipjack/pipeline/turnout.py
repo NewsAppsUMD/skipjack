@@ -1506,12 +1506,13 @@ def _eligible_sheet_rows(
 
 
 # --- the GP26 PDF families -------------------------------------------------------------------
-# Five of the GP26 report families ship as PDFs only, and the four one-page
-# "Official" sheets below (the two canvass tables, the mail-in sheet and the
-# provisional sheet) share one shape: a county column, printed count cells, and the
-# unlabelled % cell right of each count it is a share of. The cells come through
+# Six of the GP26 report families ship as PDFs only: the four one-page "Official"
+# sheets (the two canvass tables, the mail-in sheet and the provisional sheet, which
+# share one shape -- a county column, printed count cells, and the unlabelled % cell
+# right of each count it is a share of), and the eight-day early-voting and same-day
+# files, one sheet per file at five grains each. The cells come through
 # pdf_table_rows(), and the parsers take those rows -- lists of the strings the file
-# prints -- so the parse is testable against fixtures copied from the live files.
+# prints -- so every parse is testable against fixtures copied from the live files.
 
 
 def pdf_table_rows(path: Path) -> list[list[str]]:
@@ -2327,8 +2328,11 @@ def _daily_rows(
         where = f"{family} row {index}"
         labels = [_normalize_label(cell) for cell in row]
         if {_label_key(label) for label in labels if label} & {"COUNTY", "COUNTYNAME"}:
+            # the sheet's header re-prints on every page of a multi-page file: the
+            # columns are re-read, the county region starts over, and the rows the
+            # pages below it carry keep accumulating into their rollups
             mapping = _daily_section(where, labels, geography, label_cells, expected)
-            county, state_sums = "", {}
+            county = ""
             continue
         if mapping is None:
             continue  # title rows, the date cell, and the footnotes print above
@@ -2377,7 +2381,8 @@ def _daily_rows(
         for measure, value in printed.items():
             state_sums[measure] = state_sums.get(measure, 0) + value
             sums[measure] = sums.get(measure, 0) + value
-        if (county, party_cell, district_cell) in seen:
+        unknown_subcounty = "district" in raw and not district_cell
+        if not unknown_subcounty and (county, party_cell, district_cell) in seen:
             raise TurnoutParseError(
                 f"{where}: a {party_cell or 'ALL'} row for {county} {district_cell!r} "
                 "appears more than once"
@@ -2595,7 +2600,7 @@ def extract_as_of_bytes(data: bytes, kind: str) -> str | None:
             fh.write(data)
             fh.flush()
             try:
-                return extract_as_of_text(read_requests_pdf(Path(fh.name)))
+                return pdf_snapshot_date(read_requests_pdf(Path(fh.name)))
             except Exception:  # natural-pdf has no error taxonomy; unreadable reads as unknown
                 return None
     try:
@@ -2810,11 +2815,10 @@ def _parse_file(
         return parse_provisional_pdf(path, election_code, geography)
     if family == "early-voting":
         return parse_early_voting_pdf(path, election_code, geography)
+    if family == "same-day":
+        return parse_same_day_pdf(path, election_code, geography)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
 
 
 def _extraction_of(path: Path) -> str:
     return "pdf text" if path.suffix == ".pdf" else "xlsx (calamine)"
-
-
-# --- GP26: the requests workbook -----------------------------------------------------------------

@@ -3571,6 +3571,10 @@ EV_COUNTY_HEADER = [
 
 
 def ev_county_row(county, d1, d2, d3, d4, d5, d6, d7, d8, total, eligible):
+    # the day counts sit where the file prints them; the printed %Day cells between
+    # them are shares of the row's eligible actives, which none of these files'
+    # shares reproduce from their own rows, so the fixture marks them as text where
+    # the real file prints a percentage -- the parser reads neither of them
     return [
         county,
         d1,
@@ -4142,3 +4146,450 @@ def test_parse_file_reaches_the_early_voting_pdfs(tmp_path):
             "early-voting",
             "legislative",
         )
+
+
+# same-day: the six "SameDayRegistration ..." files, the same five grains as the
+# early-voting ones, at a printed sheet whose columns print the same day twice over --
+# NEW registrations and ADDRCHG (currently registered voters with an address change)
+# -- plus the election day's NEW ("NEW ED") and the three printed totals. The measures
+# are the family's own printed vocabulary, and they are exactly these twenty:
+# new-day-1 .. new-day-8, addrchg-day-1 .. addrchg-day-8, new-election-day, new-total,
+# addrchg-total, total (the row's two totals together). A row's NEW day counts, with
+# its election day, must sum to its printed NEW TOTAL; its address-change counts sum
+# to the printed ADDRCHG TOTAL (the sheet prints them no election-day column, checked
+# only through the row's total); and the two totals sum to the row's printed total.
+# The state row is "TOTAL" in the county file's county cell and "Grand Total" in the
+# location file's -- the rows' sums, checked and not published.
+
+SAME_DAY_HEADER = [
+    "COUNTY",
+    "NEW\nDAY1",
+    "ADDRCHG\nDAY1",
+    "NEW\nDAY2",
+    "ADDRCHG\nDAY2",
+    "NEW\nDAY3",
+    "ADDRCHG\nDAY3",
+    "NEW\nDAY4",
+    "ADDRCHG\nDAY4",
+    "NEW\nDAY5",
+    "ADDRCHG\nDAY5",
+    "NEW\nDAY6",
+    "ADDRCHG\nDAY6",
+    "NEW\nDAY7",
+    "ADDRCHG\nDAY7",
+    "NEW\nDAY8",
+    "ADDRCHG\nDAY8",
+    "NEW\nED",
+    "NEW\nTOTAL",
+    "ADDRCHG\nTOTAL",
+    "TOTAL",
+]
+
+SAME_DAY_PARTY_HEADER = ["COUNTY", "PARTY\nCODE", *SAME_DAY_HEADER[1:]]
+
+SAME_DAY_MEASURE_VOCABULARY = (
+    "new-day-1",
+    "new-day-2",
+    "new-day-3",
+    "new-day-4",
+    "new-day-5",
+    "new-day-6",
+    "new-day-7",
+    "new-day-8",
+    "addrchg-day-1",
+    "addrchg-day-2",
+    "addrchg-day-3",
+    "addrchg-day-4",
+    "addrchg-day-5",
+    "addrchg-day-6",
+    "addrchg-day-7",
+    "addrchg-day-8",
+    "new-election-day",
+    "new-total",
+    "addrchg-total",
+    "total",
+)
+
+
+def same_day_row(county, code, new_days, addrchg_days, ed, new_total, addrchg_total, total):
+    # the county files print no party column; the by-Party file adds the PARTY CODE one
+    row = [county] if code is None else [county, code]
+    for new, moved in zip(new_days, addrchg_days, strict=True):
+        row += [new, moved]
+    return row + [ed, new_total, addrchg_total, total]
+
+
+# The county file's own Allegany row (the numbers the shape above pins), with Anne
+# Arundel's and Worcester's beside it -- and the excerpt's printed TOTAL row, the three
+# counties' sums, because the excerpt cannot carry the other 21 counties' cells.
+SAME_DAY_COUNTY_ROWS = [
+    SAME_DAY_HEADER,
+    same_day_row(
+        "Allegany",
+        None,
+        ("1", "0", "1", "2", "0", "0", "0", "1"),
+        ("0", "0", "0", "0", "3", "0", "1", "3"),
+        "4",
+        "9",
+        "7",
+        "16",
+    ),
+    same_day_row(
+        "Anne Arundel",
+        None,
+        ("3", "3", "1", "3", "2", "6", "4", "12"),
+        ("1", "4", "0", "0", "3", "5", "6", "8"),
+        "74",
+        "108",
+        "27",
+        "135",
+    ),
+    same_day_row(
+        "Worcester",
+        None,
+        ("1", "0", "0", "1", "0", "0", "0", "0"),
+        ("1", "0", "0", "0", "1", "1", "3", "0"),
+        "3",
+        "5",
+        "6",
+        "11",
+    ),
+    same_day_row(
+        "TOTAL",
+        None,
+        ("5", "3", "2", "6", "2", "6", "4", "13"),
+        ("2", "4", "0", "0", "7", "6", "10", "11"),
+        "81",
+        "122",
+        "40",
+        "162",
+    ),
+]
+
+# Allegany's own block of the by-Party file: the six party rows as it prints them, no
+# rollup and no state row of its own.
+SAME_DAY_PARTY_ROWS = [
+    SAME_DAY_PARTY_HEADER,
+    same_day_row(
+        "Allegany",
+        "DEM",
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        ("0", "0", "0", "0", "0", "0", "0", "1"),
+        "1",
+        "1",
+        "1",
+        "2",
+    ),
+    same_day_row(
+        "",
+        "REP",
+        ("1", "0", "1", "2", "0", "0", "0", "1"),
+        ("0", "0", "0", "0", "3", "0", "1", "0"),
+        "3",
+        "8",
+        "4",
+        "12",
+    ),
+    same_day_row(
+        "",
+        "GRN",
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        "0",
+        "0",
+        "0",
+        "0",
+    ),
+    same_day_row(
+        "",
+        "WCP",
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        "0",
+        "0",
+        "0",
+        "0",
+    ),
+    same_day_row(
+        "",
+        "UNA",
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        ("0", "0", "0", "0", "0", "0", "0", "2"),
+        "0",
+        "0",
+        "2",
+        "2",
+    ),
+    same_day_row(
+        "",
+        "OTH",
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        "0",
+        "0",
+        "0",
+        "0",
+    ),
+]
+
+
+def test_same_day_publishes_its_printed_measure_vocabulary():
+    as_of, df = turnout.parse_same_day_rows(
+        SAME_DAY_COUNTY_ROWS, "GP26", "county", as_of="2026-06-23"
+    )
+    assert as_of == "2026-06-23"
+    assert set(df["measure"]) == set(SAME_DAY_MEASURE_VOCABULARY)
+    assert set(df["family"]) == {"same-day"}
+    assert set(df["geography"]) == {"county"} and set(df["district"]) == {""}
+    assert set(df["party"]) == {"ALL"} and set(df["category"]) == {"ALL"}
+    assert len(df) == 3 * 20  # three counties x twenty measures
+
+
+def test_same_day_allegany_sums_as_the_file_prints_it():
+    # the real Allegany row: the new counts 1+0+1+2+0+0+0+1 = 5 with an election day of
+    # 4 for a NEW TOTAL of 9; the address-change counts 0+0+0+0+3+0+1+3 = 7 for their
+    # own total; and the two together 16
+    as_of, df = turnout.parse_same_day_rows(
+        SAME_DAY_COUNTY_ROWS, "GP26", "county", as_of="2026-06-23"
+    )
+    allegany = df.filter(df["county"] == "Allegany")
+    assert dict(zip(allegany["measure"], allegany["value"])) == {
+        "new-day-1": 1,
+        "addrchg-day-1": 0,
+        "new-day-2": 0,
+        "addrchg-day-2": 0,
+        "new-day-3": 1,
+        "addrchg-day-3": 0,
+        "new-day-4": 2,
+        "addrchg-day-4": 0,
+        "new-day-5": 0,
+        "addrchg-day-5": 3,
+        "new-day-6": 0,
+        "addrchg-day-6": 0,
+        "new-day-7": 0,
+        "addrchg-day-7": 1,
+        "new-day-8": 1,
+        "addrchg-day-8": 3,
+        "new-election-day": 4,
+        "new-total": 9,
+        "addrchg-total": 7,
+        "total": 16,
+    }
+
+
+def test_same_day_state_row_is_checked_not_published():
+    as_of, df = turnout.parse_same_day_rows(
+        SAME_DAY_COUNTY_ROWS, "GP26", "county", as_of="2026-06-23"
+    )
+    assert "TOTAL" not in set(df["county"]) and "Grand Total" not in set(df["county"])
+    new_total = df.filter(df["measure"] == "new-total")["value"].sum()
+    assert new_total == 122  # what the state row's own arithmetic is checked against
+    torn = [r[:] for r in SAME_DAY_COUNTY_ROWS]
+    torn[4][15] = "14"  # the printed TOTAL row's NEW day-8 count, off by one ...
+    torn[4][18] = "123"  # ... with its new total and ...
+    torn[4][20] = "163"  # ... its row total, so the row itself still adds up
+    with pytest.raises(turnout.TurnoutParseError, match="county rows sum to 13"):
+        turnout.parse_same_day_rows(torn, "GP26", "county", as_of="2026-06-23")
+
+
+def test_same_day_requires_the_county_files_state_row():
+    with pytest.raises(turnout.TurnoutParseError, match="Statewide|TOTAL row"):
+        turnout.parse_same_day_rows(SAME_DAY_COUNTY_ROWS[:-1], "GP26", "county", as_of="2026-06-23")
+
+
+def test_same_day_rejects_a_new_total_that_its_days_and_election_day_do_not_reach():
+    torn = [r[:] for r in SAME_DAY_COUNTY_ROWS]
+    torn[2][18] = "109"  # Anne Arundel's printed NEW TOTAL, off by one
+    with pytest.raises(turnout.TurnoutParseError, match="do not add up|not add up"):
+        turnout.parse_same_day_rows(torn, "GP26", "county", as_of="2026-06-23")
+
+
+def test_same_day_rejects_an_address_change_total_its_days_do_not_reach():
+    torn = [r[:] for r in SAME_DAY_COUNTY_ROWS]
+    torn[2][19] = "108"  # keep the printed NEW TOTAL ...
+    torn[2][12] = "6"  # ... move an address-change count off Anne Arundel's total
+    with pytest.raises(turnout.TurnoutParseError, match="address-change counts do not add up"):
+        turnout.parse_same_day_rows(torn, "GP26", "county", as_of="2026-06-23")
+
+
+def test_same_day_rejects_a_row_total_off_its_two_parts():
+    torn = [r[:] for r in SAME_DAY_COUNTY_ROWS]
+    torn[1][20] = "17"  # Allegany's printed total, off by one
+    with pytest.raises(turnout.TurnoutParseError, match="is not the printed total"):
+        turnout.parse_same_day_rows(torn, "GP26", "county", as_of="2026-06-23")
+
+
+def test_same_day_rejects_a_duplicated_county_row():
+    dup = [r[:] for r in SAME_DAY_COUNTY_ROWS]
+    dup.insert(2, SAME_DAY_COUNTY_ROWS[1][:])
+    with pytest.raises(turnout.TurnoutParseError, match="more than once"):
+        turnout.parse_same_day_rows(dup, "GP26", "county", as_of="2026-06-23")
+
+
+def test_same_day_rejects_an_unrecognized_county_label():
+    bad = [r[:] for r in SAME_DAY_COUNTY_ROWS]
+    bad[1][0] = "Prince Georges"
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized county"):
+        turnout.parse_same_day_rows(bad, "GP26", "county", as_of="2026-06-23")
+
+
+def test_same_day_party_rows_publish_by_party():
+    as_of, df = turnout.parse_same_day_rows(
+        SAME_DAY_PARTY_ROWS, "GP26", "county-party", as_of="2026-06-23"
+    )
+    assert as_of == "2026-06-23"
+    assert set(df["party"]) == {"DEM", "REP", "GRN", "WCP", "UNA", "OTH"}
+    assert set(df["geography"]) == {"county-party"} and set(df["district"]) == {""}
+    assert len(df) == 6 * 20  # six party rows x twenty measures
+    rep = df.filter(df["party"] == "REP")
+    assert rep["county"].unique().to_list() == ["Allegany"]  # the blank county cells
+
+    # the party rows add up to the county's by-County row -- not a printed layer here,
+    # but the arithmetic the two files share (Allegany's REP row's eight new days sum
+    # with its election day to the county's printed NEW TOTAL)
+    assert df.filter(df["measure"] == "new-total")["value"].sum() == 1 + 8 + 0 + 0 + 0 + 0
+
+
+def test_same_day_rejects_an_unrecognized_party_code():
+    bad = [r[:] for r in SAME_DAY_PARTY_ROWS]
+    bad[2][1] = "DEMOCRATS"
+    with pytest.raises(turnout.TurnoutParseError, match="unrecognized party code"):
+        turnout.parse_same_day_rows(bad, "GP26", "county-party", as_of="2026-06-23")
+
+
+def test_parse_file_reaches_the_same_day_pdfs(tmp_path):
+    # the same dispatch proof as the canvass family's: a PDF the readers cannot open
+    # fails in the same-day reader, which is where the six files' grains go
+    import types
+
+    with pytest.raises(turnout.TurnoutParseError, match="could not read the same-day PDF"):
+        turnout._parse_file(
+            tmp_path / "no-such.pdf",
+            types.SimpleNamespace(source_id="x"),
+            "GP26",
+            "same-day",
+            "location",
+        )
+
+
+# The congressional file's grain, Montgomery's three districts: a county re-prints on
+# the rows it starts (the live file prints Montgomery on its 04 and 06 rows, and leaves
+# its 08 row's county cell empty, which is the continuation the by-Party files carry).
+SD_CONGRESSIONAL_ROWS = [
+    ["COUNTY", "CONGRESSIONAL\nDISTRICT", *SAME_DAY_HEADER[1:]],
+    same_day_row(
+        "Montgomery",
+        "04",
+        ("1", "0", "0", "0", "2", "1", "0", "1"),
+        ("0", "0", "1", "0", "2", "0", "3", "3"),
+        "7",
+        "12",
+        "9",
+        "21",
+    ),
+    same_day_row(
+        "Montgomery",
+        "06",
+        ("3", "5", "2", "4", "1", "3", "6", "6"),
+        ("0", "6", "3", "4", "5", "3", "4", "12"),
+        "62",
+        "92",
+        "37",
+        "129",
+    ),
+    same_day_row(
+        "",
+        "08",
+        ("10", "11", "6", "7", "8", "15", "14", "28"),
+        ("12", "8", "11", "12", "9", "17", "14", "33"),
+        "252",
+        "351",
+        "116",
+        "467",
+    ),
+]
+
+# The location file's grain: the county, then the location it printed over -- and the
+# sheet's own Grand Total, the location rows' sums.
+SD_LOCATION_ROWS = [
+    ["COUNTY", "LOCATION NAME", *SAME_DAY_HEADER[1:]],
+    same_day_row(
+        "Allegany",
+        "Allegany County\nOffice Complex",
+        ("1", "0", "1", "2", "0", "0", "0", "1"),
+        ("0", "0", "0", "0", "3", "0", "1", "3"),
+        "0",
+        "5",
+        "7",
+        "12",
+    ),
+    same_day_row(
+        "",
+        "Eckhart School",
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        "1",
+        "1",
+        "0",
+        "1",
+    ),
+    same_day_row(
+        "Anne Arundel",
+        "Anne Arundel\nCounty Board of\nElections",
+        ("1", "1", "1", "1", "0", "1", "0", "4"),
+        ("0", "0", "0", "0", "0", "0", "0", "0"),
+        "0",
+        "9",
+        "0",
+        "9",
+    ),
+    # the same-day location file's own state row: "Grand Total" in the county cell,
+    # the location cell it prints over empty
+    same_day_row(
+        "Grand Total",
+        "",
+        ("2", "1", "2", "3", "0", "1", "0", "5"),
+        ("0", "0", "0", "0", "3", "0", "1", "3"),
+        "1",
+        "15",
+        "7",
+        "22",
+    ),
+]
+
+
+def test_same_day_congressional_rows_print_their_own_codes():
+    as_of, df = turnout.parse_same_day_rows(
+        SD_CONGRESSIONAL_ROWS, "GP26", "congressional", as_of="2026-06-23"
+    )
+    assert as_of == "2026-06-23"
+    assert set(df["district"]) == {"04", "06", "08"}  # verbatim, as printed
+    assert set(df["county"]) == {"Montgomery"}  # the county cell re-prints and carries
+    assert len(df) == 3 * 20
+
+
+def test_same_day_location_rows_carry_their_location_and_their_county():
+    as_of, df = turnout.parse_same_day_rows(
+        SD_LOCATION_ROWS, "GP26", "location", as_of="2026-06-23"
+    )
+    assert as_of == "2026-06-23"
+    assert set(df["district"]) == {
+        "Allegany County Office Complex",  # the wrapped location text, one line
+        "Eckhart School",
+        "Anne Arundel County Board of Elections",
+    }
+    assert set(df.filter(df["county"] == "Anne Arundel")["district"]) == {
+        "Anne Arundel County Board of Elections"
+    }
+    assert "Grand Total" not in set(df["county"])  # the state row is not published
+    total = df.filter(df["measure"] == "total")["value"].sum()
+    assert total == 22  # what the printed Grand Total row was checked against
+
+
+def test_same_day_location_grand_total_must_agree_with_its_locations():
+    torn = [r[:] for r in SD_LOCATION_ROWS]
+    torn[-1][2] = "3"  # the printed Grand Total's NEW day-1 count, off by one ...
+    torn[-1][19] = "16"  # ... with its new total and ...
+    torn[-1][21] = "23"  # ... its total, so the row itself still adds up
+    with pytest.raises(turnout.TurnoutParseError, match="county rows sum to 2"):
+        turnout.parse_same_day_rows(torn, "GP26", "location", as_of="2026-06-23")
