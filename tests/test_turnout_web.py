@@ -143,7 +143,7 @@ CD_TWO = [
     ("congressional", "", "02", "ALL", "ALL", "sent", 41000),
     ("congressional", "", "02", "ALL", "ALL", "received", 12000),
 ]
-UNDetermined = [
+UNDETERMINED = [
     ("congressional", "", "Undetermined", "ALL", "ALL", "sent", 900),
     ("congressional", "", "Undetermined", "ALL", "ALL", "received", 100),
 ]
@@ -161,6 +161,7 @@ def test_district_rows_join_the_two_printed_spellings(conn):
         r["district"]: r for r in turnout.district_rows(conn, "GG26", "2026-10-09", "2026-10-10")
     }
     assert set(rows) == {"District 1"}
+    assert len(rows) == 1
     row = rows["District 1"]
     # the xlsx-spelled sent-returned family and the pdf-spelled requests family met
     assert row["sent"] == 62956 and row["requests_total"] == 5300
@@ -170,9 +171,12 @@ def test_district_rows_join_the_two_printed_spellings(conn):
 def test_district_rows_order_and_undetermined(conn):
     """Rows come out District 1.. in number order whatever the spelling, Undetermined
     last."""
-    add(conn, "2026-10-09", CD_TWO + UNDetermined + CD_ONE_SENT)
+    add(conn, "2026-10-09", CD_TWO + UNDETERMINED + CD_ONE_SENT)
     rows = turnout.district_rows(conn, "GG26", "2026-10-09")
     assert [r["district"] for r in rows] == ["District 1", "District 2", "Undetermined"]
+    # the Undetermined row itself: mail-in figures, and no request figures to join
+    undetermined = rows[-1]
+    assert undetermined["sent"] == 900 and undetermined["requests_total"] is None
 
 
 def test_a_district_missing_from_a_snapshot_reads_as_unknown_not_zero(conn):
@@ -182,6 +186,130 @@ def test_a_district_missing_from_a_snapshot_reads_as_unknown_not_zero(conn):
     add(conn, "2026-10-10", CD_TWO, source_id="s2")
     rows = turnout.district_rows(conn, "GG26", "2026-10-10")
     assert [r["district"] for r in rows] == ["District 2"]
+
+
+# --- the certified CD table and the geography pages ---------------------------------------------
+
+
+# PG24-style official-turnout sheet at CD grain: per-CD ballots by mode and the sheet's
+# own eligible figure; a campaign-time sent-returned table that must stay off the page
+CD_SHEET = [
+    ("congressional", "", "01", "ALL", "ALL", m, v)
+    for m, v in [
+        ("election-day", 180852),
+        ("early-voting", 153234),
+        ("vote-by-mail", 81343),
+        ("provisional", 11627),
+        ("eligible", 562346),
+    ]
+]
+CD_SHEET_TWO = [
+    ("congressional", "", "Congressional District Code 02", "ALL", "ALL", m, v)
+    for m, v in [
+        ("election-day", 70000),
+        ("early-voting", 60000),
+        ("vote-by-mail", 50000),
+        ("provisional", 2000),
+        ("eligible", 500000),
+    ]
+]
+CD_SHEET_UNDETERMINED = [
+    ("congressional", "", "Undetermined", "ALL", "ALL", m, v)
+    for m, v in [("provisional", 6393), ("eligible", 0)]
+]
+CD_CAMPAIGN_TRACKING = [
+    ("congressional", "", "01", "ALL", "ALL", "sent", 300000),
+    ("congressional", "", "01", "ALL", "ALL", "received", 100000),
+]
+# one county's certified county report: the county grain's figures of record
+COUNTY_CANVASS = [("county", "Allegany", "", "ALL", "ALL", "total", 6048)]
+
+
+def test_certified_district_rows_read_the_sheet(conn):
+    """A certified election's CD table is its official-turnout sheet: ballots by mode,
+    the sheet's own eligible figure, and the modes-over-eligible share the board
+    computes itself. Campaign-time tallies at the same grain stay off the page."""
+    add(
+        conn,
+        "2024-12-11",
+        CD_SHEET + CD_SHEET_TWO + CD_SHEET_UNDETERMINED,
+        family="official-turnout",
+        election="PG24",
+    )
+    add(
+        conn,
+        "2024-12-07",
+        CD_CAMPAIGN_TRACKING,
+        family="sent-returned",
+        source_id="s2",
+        election="PG24",
+    )
+    rows = {
+        r["district"]: r
+        for r in turnout.certified_district_rows(
+            conn, "PG24", {"official-turnout": "2024-12-11", "sent-returned": "2024-12-07"}
+        )
+    }
+    assert set(rows) == {"District 1", "District 2", "Undetermined"}
+    one = rows["District 1"]
+    assert one["cast"] == 180852 + 153234 + 81343 + 11627
+    assert one["by_mode"]["election-day"] == 180852
+    assert one["eligible"] == 562346
+    # 427056 / 562346
+    assert one["turnout"] == (180852 + 153234 + 81343 + 11627) / 562346
+    # the two printed spellings joined: both districts, by number, Undetermined last
+    assert [r["district"] for r in rows.values()] == ["District 1", "District 2", "Undetermined"]
+    # a district whose sheet prints an eligible of 0 gets no percentage (Undetermined)
+    assert rows["Undetermined"]["turnout"] is None
+    assert rows["Undetermined"]["cast"] == 6393
+    # the certified page reads the sheet, not the campaign tracking file
+    assert all("sent" not in r for r in rows.values())
+
+
+def test_publishable_geographies_gate_on_the_records(conn):
+    """Which subpages an election gets: rows at the grain, and — for a certified
+    election — its figures of record there, not the campaign-time tallies."""
+    # the in-progress general: every campaign family publishes
+    add(conn, "2026-10-09", ALLEGANY)
+    add(conn, "2026-10-09", CD_ONE_SENT, source_id="s2")
+    assert turnout.publishable_geographies(conn, "GG26") == ["county", "congressional"]
+    # the certified primary: the sheet's CD table publishes, the campaign one does not
+    add(
+        conn,
+        "2024-12-11",
+        CD_SHEET,
+        family="official-turnout",
+        election="PG24",
+        source_id="s3",
+    )
+    add(
+        conn,
+        "2024-11-01",
+        CD_CAMPAIGN_TRACKING,
+        family="sent-returned",
+        election="GP26",
+        source_id="s4",
+    )
+    # both certified elections' county reports are figures of record at the county grain,
+    # so the county page publishes beside (or without) the CD one the sheet allows
+    add(
+        conn,
+        "2024-12-11",
+        COUNTY_CANVASS,
+        family="county-canvass",
+        election="PG24",
+        source_id="s5",
+    )
+    add(
+        conn,
+        "2024-11-01",
+        COUNTY_CANVASS,
+        family="county-canvass",
+        election="GP26",
+        source_id="s6",
+    )
+    assert turnout.publishable_geographies(conn, "GP26") == ["county"]
+    assert turnout.publishable_geographies(conn, "PG24") == ["county", "congressional"]
 
 
 def test_elections_lists_gg26_with_its_snapshots(conn):

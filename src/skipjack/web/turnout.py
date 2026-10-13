@@ -18,6 +18,9 @@ from skipjack.pipeline.turnout import ELECTIONS, may_publish
 
 _SENT_MEASURES = ("sent", "received", "accepted")
 
+# The four cast-ballot modes, in the order the certified pages show them.
+_MODES = ("early-voting", "election-day", "vote-by-mail", "provisional")
+
 _DISTRICT_RE = re.compile(r"(?:Congressional District Code )?(\d{1,2})")
 
 
@@ -236,7 +239,8 @@ def series(conn: sqlite3.Connection, election: str, family: str) -> dict:
 
 def _sent_row(label_key: str, label: str, sent: dict, method_cells: dict) -> dict:
     """The two families' counts as one table row: mail-in sent/received/accepted with
-    the party splits, and the request totals — keyed by the row's area label."""
+    the party splits, and the request totals — carrying the area's label under
+    ``label_key``."""
     row: dict = {
         label_key: label,
         "sent": sent.get(("ALL", "sent")),
@@ -321,9 +325,9 @@ def district_rows(
     family's own date — the district-grain mirror of county_rows.
 
     The two printed spellings of a district join on the normalized label (see
-    _district_areas); Undetermined sorts last. A district absent from a family's
-    snapshot is absent from the row (unknown, not zero); districts only in one family
-    read with the other family's columns empty.
+    _district_areas); Undetermined sorts last. A district present in one family's
+    snapshot but not the other's reads unknown there, not zero; a district in neither
+    family's snapshot is absent from the rows.
     """
     requests_as_of = requests_as_of or as_of
     if not (
@@ -333,6 +337,7 @@ def district_rows(
     ):
         return []
     out: list[dict] = []
+    # both spellings of a label sort identically: district_sort keys on the district number
     for label, spellings in sorted(
         areas.items(), key=lambda kv: district_sort(next(iter(kv[1].values())))
     ):
@@ -463,6 +468,19 @@ def chart_data(conn: sqlite3.Connection, election: str) -> dict | None:
 
 CERTIFIED_CANVASS_FAMILIES = ("county-canvass", "votes-accepted")
 
+# The certified record families the page tables read. A certified election's pages
+# show its figures of record — the canvass, the accepted-ballot count, the certified
+# mail-in and request reports, and the official turnout sheets — while the
+# campaign-time tracking files (sent-returned, early-voting, same-day,
+# left-to-count) stay in the archive and off the pages.
+CERTIFIED_PAGE_FAMILIES = (
+    "county-canvass",
+    "votes-accepted",
+    "mail-voting",
+    "requests",
+    "official-turnout",
+)
+
 
 def _family_state(
     conn: sqlite3.Connection, election: str, family: str, as_of: str
@@ -538,7 +556,7 @@ def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
                 else None
             ),
         }
-        for m in ("early-voting", "election-day", "vote-by-mail", "provisional")
+        for m in _MODES
         if m in canvass or m in accepted
     }
     out["by_mode"] = by_mode
@@ -550,10 +568,7 @@ def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
     # not republished.
     if sheet_dates := dates.get("official-turnout"):
         sheet = _family_state(conn, election, "official-turnout", sheet_dates)
-        sheet_modes = sum(
-            sheet.get(m) or 0
-            for m in ("election-day", "early-voting", "vote-by-mail", "provisional")
-        )
+        sheet_modes = sum(sheet.get(m) or 0 for m in _MODES)
         if sheet.get("eligible") and sheet_modes:
             out["turnout"] = {
                 "value": sheet_modes / sheet["eligible"],
@@ -637,16 +652,8 @@ def certified_county_rows(
                 "county": county,
                 "cast": canvass.get("total"),
                 "counted": accepted.get("total"),
-                "by_mode": {
-                    m: canvass.get(m)
-                    for m in ("early-voting", "election-day", "vote-by-mail", "provisional")
-                    if m in canvass
-                },
-                "counted_by_mode": {
-                    m: accepted.get(m)
-                    for m in ("early-voting", "election-day", "vote-by-mail", "provisional")
-                    if m in accepted
-                },
+                "by_mode": {m: canvass.get(m) for m in _MODES if m in canvass},
+                "counted_by_mode": {m: accepted.get(m) for m in _MODES if m in accepted},
                 "mail_voting": {
                     "requests": requests.get("total"),
                     "sent": mail_voting.get("sent"),
@@ -656,6 +663,106 @@ def certified_county_rows(
                 },
             }
         )
+    return out
+
+
+def certified_district_rows(
+    conn: sqlite3.Connection, election: str, dates: dict[str, str]
+) -> list[dict]:
+    """One sortable row per congressional district for a certified election: the
+    official turnout sheet's ballots by mode and eligible figure, plus the certified
+    envelope counts and counted ballots where a certified report carries the CD grain.
+
+    Each sheet's modes over its own printed eligible are that district's turnout
+    share — the board computes the statewide percentage the same way. The campaign-
+    time tallies at this grain (sent-returned, early-voting, same-day) stay off the
+    page (see CERTIFIED_PAGE_FAMILIES); Undetermined sorts last and, its sheet having
+    no eligible voters, prints no percentage.
+    """
+    wanted = {f: dates[f] for f in CERTIFIED_PAGE_FAMILIES if dates.get(f)}
+    if not (areas := _district_areas(conn, election, wanted)):
+        return []
+    out: list[dict] = []
+    for label, spellings in sorted(
+        areas.items(), key=lambda kv: district_sort(next(iter(kv[1].values())))
+    ):
+        sheet = (
+            _area_measures(
+                conn,
+                election,
+                "official-turnout",
+                "congressional",
+                spellings["official-turnout"],
+                wanted["official-turnout"],
+            )
+            if "official-turnout" in spellings
+            else {}
+        )
+        counted = (
+            _area_measures(
+                conn,
+                election,
+                "votes-accepted",
+                "congressional",
+                spellings["votes-accepted"],
+                wanted["votes-accepted"],
+            )
+            if "votes-accepted" in spellings
+            else {}
+        )
+        envelopes = (
+            _area_cells(
+                conn,
+                election,
+                "mail-voting",
+                "congressional",
+                spellings["mail-voting"],
+                wanted["mail-voting"],
+            )
+            if "mail-voting" in spellings
+            else {}
+        )
+        if not sheet and not counted and not envelopes:
+            continue
+        cast = sum(sheet.get(m) or 0 for m in _MODES) if sheet else None
+        out.append(
+            {
+                "district": label,
+                "cast": cast,
+                "by_mode": {m: sheet[m] for m in _MODES if m in sheet},
+                "eligible": sheet.get("eligible"),
+                "turnout": cast / sheet["eligible"] if sheet.get("eligible") else None,
+                "counted": counted.get("total"),
+                "mail_voting": {
+                    "accepted": envelopes.get(("ALL", "accepted")),
+                    "rejected": envelopes.get(("ALL", "rejected")),
+                },
+            }
+        )
+    return out
+
+
+def publishable_geographies(conn: sqlite3.Connection, election: str) -> list[str]:
+    """The geography subpages to publish for an election, in page order: some report
+    family has rows at that grain and, for a certified election, the family is one of
+    its figures of record — the campaign-time tallies stay in the archive."""
+    certified = election in ELECTIONS and ELECTIONS[election].certified
+    out: list[str] = []
+    for geography in ("county", "congressional"):
+        column = _GEOGRAPHY_FILTERS[geography][0]
+        families = {
+            r[0]
+            for r in conn.execute(
+                f"""SELECT DISTINCT family FROM turnout_counts
+                    WHERE election = ? AND geography = ?
+                      AND {column} != '' AND category = 'ALL'""",
+                (election, geography),
+            )
+        }
+        if certified:
+            families &= set(CERTIFIED_PAGE_FAMILIES)
+        if families:
+            out.append(geography)
     return out
 
 
