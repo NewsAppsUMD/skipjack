@@ -486,6 +486,13 @@ def test_the_district_subpages_read_the_report_that_published_their_grain():
     r = client.get("/turnout/gg26/congressional/")
     assert r.status_code == 200
     assert "District 1" in r.text and "District 8" in r.text
+    # the requests file covers the counties only: the CD table reads the mail-in file
+    # alone, so it carries no request columns
+    assert "Requests</th>" not in r.text
+    assert "Figures as of" in r.text and "Every row is one of the State Board's" in r.text
+    # the sibling-links line points at the county page, not back at this one
+    assert 'href="/turnout/gg26/county/"' in r.text
+    assert 'href="/turnout/gg26/congressional/"' not in r.text
 
     r = client.get("/turnout/pg24/congressional/")
     assert r.status_code == 200
@@ -496,6 +503,14 @@ def test_the_district_subpages_read_the_report_that_published_their_grain():
     r = client.get("/turnout/gp26/congressional/")
     assert r.status_code == 200
     assert "No congressional-district figures" in r.text
+    # the empty state says neither when the figures will show nor which days they are
+    assert "Figures as of" not in r.text
+    assert "Every row is one of the State Board's" not in r.text
+
+    r = client.get("/turnout/gp26/county/")
+    assert r.status_code == 200
+    # a single-geography election's subpage carries no sibling-links line
+    assert "The same figures" not in r.text
 
 
 @needs_db
@@ -665,9 +680,9 @@ def test_chart_data_drops_an_all_zero_series(conn):
     assert [s["name"] for s in chart["series"]] == ["Sent", "Received"]
 
 
-def _page_db(tmp_path, snapshots):
-    """A db file with GG26 snapshots: (as_of, rows) pairs, plus the registration
-    table's minimum so the app boots."""
+def _page_db(tmp_path, snapshots, election="GG26"):
+    """A db file with one election's snapshots: (as_of, rows) pairs, plus the
+    registration table's minimum so the app boots."""
     path = tmp_path / "skipjack.db"
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
@@ -680,7 +695,7 @@ def _page_db(tmp_path, snapshots):
     for i, snapshot in enumerate(snapshots):
         as_of, rows = snapshot[:2]
         family = snapshot[2] if len(snapshot) > 2 else "sent-returned"
-        add(conn, as_of, rows, source_id=f"s{i}", family=family)
+        add(conn, as_of, rows, source_id=f"s{i}", family=family, election=election)
     conn.commit()
     conn.close()
     return path
@@ -755,6 +770,95 @@ def test_the_as_of_sentence_says_a_shared_date_once(tmp_path, monkeypatch):
     assert "as of October 9, 2026." in hub
     assert "(ballot figures as of" not in hub
     assert "/turnout/gg26/county/" in hub
+
+
+@needs_db
+def test_the_district_page_grows_the_request_columns_its_file_publishes(tmp_path, monkeypatch):
+    """The requests file covers the counties only: the CD page drops the two request
+    columns and does not name the requests report's day. Made-up CD-grain request rows
+    bring both back."""
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    county_requests_only = [
+        ("2026-10-09", CD_ONE_SENT + ALLEGANY),
+        ("2026-10-10", [("county", "Allegany", "", "ALL", "ALL", "total", 900)], "requests"),
+    ]
+    monkeypatch.setattr(web_db, "DB_PATH", _page_db(tmp_path, county_requests_only))
+    html = TestClient(create_app()).get("/turnout/gg26/congressional/").text
+    # the mail-in file's day alone: the requests day is another geography's
+    assert "Figures as of October 9, 2026." in html
+    assert "Requests</th>" not in html
+
+    (tmp_path / "cd-requests").mkdir()
+    monkeypatch.setattr(
+        web_db,
+        "DB_PATH",
+        _page_db(
+            tmp_path / "cd-requests",
+            [("2026-10-09", CD_ONE_SENT), ("2026-10-10", CD_ONE_REQUESTED, "requests")],
+        ),
+    )
+    html = TestClient(create_app()).get("/turnout/gg26/congressional/").text
+    assert "Requests</th>" in html and "Print-at-home" in html
+    assert "5,300" in html
+    # each family's own day, now that the table reads both files at this grain
+    assert "Figures as of October 9, 2026, October 10, 2026." in html
+
+
+@needs_db
+def test_the_certified_district_page_names_the_days_its_columns_read(tmp_path, monkeypatch):
+    """The certified CD page names the sheet's day; the requests and canvass files'
+    days it does not read stay off the sentence — and when the counted-ballots and
+    envelope reports publish the CD grain, their columns and days appear with it."""
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    sheet_only = [
+        ("2024-12-11", CD_SHEET + CD_SHEET_TWO + CD_SHEET_UNDETERMINED, "official-turnout"),
+        # the requests and canvass reports published on their own days, other grains
+        ("2024-12-06", [("county", "Allegany", "", "ALL", "ALL", "total", 880000)], "requests"),
+        ("2026-04-30", COUNTY_CANVASS, "county-canvass"),
+    ]
+    monkeypatch.setattr(web_db, "DB_PATH", _page_db(tmp_path, sheet_only, election="PG24"))
+    html = TestClient(create_app()).get("/turnout/pg24/congressional/").text
+    assert "Figures as of December 11, 2024." in html
+    assert "December 6, 2024" not in html and "April 30, 2026" not in html
+    # the table reads the sheet alone: no counted or envelope columns
+    assert "Votes counted" not in html and "Mail ballots accepted" not in html
+    assert "District 1" in html and "Eligible voters" in html
+
+    (tmp_path / "grown").mkdir()
+    monkeypatch.setattr(
+        web_db,
+        "DB_PATH",
+        _page_db(
+            tmp_path / "grown",
+            sheet_only
+            + [
+                (
+                    "2024-12-05",
+                    [("congressional", "", "01", "ALL", "ALL", "total", 400000)],
+                    "votes-accepted",
+                ),
+                (
+                    "2024-12-09",
+                    [("congressional", "", "01", "ALL", "ALL", "accepted", 50000)],
+                    "mail-voting",
+                ),
+            ],
+            election="PG24",
+        ),
+    )
+    html = TestClient(create_app()).get("/turnout/pg24/congressional/").text
+    # the counted and envelope columns grew, and their reports' days joined the sentence
+    assert "Figures as of December 5, 2024, December 9, 2024, December 11, 2024." in html
+    assert "Votes counted" in html and "400,000" in html
+    assert "Mail ballots accepted" in html and "50,000" in html
 
 
 # --- the certified (final) election page: GP26 --------------------------------------------------
@@ -846,6 +950,8 @@ def test_real_pg24_page_renders_the_certified_data():
     from fastapi.testclient import TestClient
 
     from skipjack.web.app import create_app
+    from skipjack.web.dates import day_label
+    from skipjack.web.db import get_db
 
     client = TestClient(create_app())
     r = client.get("/turnout/")
@@ -867,11 +973,16 @@ def test_real_pg24_page_renders_the_certified_data():
     assert "active registration alone" in r.text
     # the county table moved to the county subpage; the hub links the area pages
     assert "By county" not in r.text
-    r = client.get("/turnout/pg24/county/")
-    assert r.status_code == 200
-    assert "Ballots cast" in r.text and "Mail ballots rejected" in r.text
+    county_html = client.get("/turnout/pg24/county/").text
+    assert "Ballots cast" in county_html and "Mail ballots rejected" in county_html
     r = client.get("/turnout/pg24/")
     assert "/turnout/pg24/county/" in r.text and "/turnout/pg24/congressional/" in r.text
+    # the county page names the days its columns read — the canvass, counted-ballots
+    # and envelope reports — not the requests report's day, older than all of them
+    with get_db() as conn:
+        cert = turnout.certified_headline(conn, "PG24")
+    assert day_label(cert["as_ofs"]["mail-voting"]) in county_html
+    assert day_label(cert["as_ofs"]["requests"]) not in county_html
     # figures of record only: no unofficial tallies, no links to them
     for forbidden in (
         "(the EV tally)",

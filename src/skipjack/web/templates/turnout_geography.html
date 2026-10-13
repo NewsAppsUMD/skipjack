@@ -15,9 +15,13 @@
     {{ geography_label }}. <a href="{{ base }}/turnout/{{ election.code|lower }}/">Statewide
     figures</a>.</p>
 {% endif %}
-{% if shown_dates %}<p class="secondary">Figures as of {{ shown_dates | map("day_label") | join(", ") }}.</p>{% endif %}
+{% if geographies|length > 1 %}
+<p class="secondary">The same figures
+    {% for g in geographies if g != geography %}<a href="{{ base }}/turnout/{{ election.code|lower }}/{{ g }}/">{{ "by county" if g == "county" else "by congressional district" }}</a>{% if not loop.last %} · {% endif %}{% endfor %}.</p>
+{% endif %}
 
 {% if rows %}
+{% if shown_dates %}<p class="secondary">Figures as of {{ shown_dates | map("day_label") | join(", ") }}.</p>{% endif %}
 {% if certified %}
 <div class="overflow-auto">
 <table data-sortable>
@@ -25,17 +29,18 @@
         <tr>
             <th>{{ "County" if geography == "county" else "District" }}</th>
             <th class="num">Ballots cast</th>
-            {% if geography == "county" %}
+            {% if geography == "county" or show_counted %}
             <th class="num">Votes counted</th>
             {% endif %}
             <th class="num">Early voting (cast)</th>
             <th class="num">Election day</th>
             <th class="num">Vote by mail</th>
             <th class="num">Provisional</th>
-            {% if geography == "county" %}
+            {% if geography == "county" or show_mail %}
             <th class="num">Mail ballots accepted</th>
             <th class="num">Mail ballots rejected</th>
-            {% else %}
+            {% endif %}
+            {% if geography == "congressional" %}
             <th class="num">Eligible voters</th>
             <th class="num">Turnout</th>
             {% endif %}
@@ -46,17 +51,18 @@
         <tr>
             <td>{{ r.county if geography == "county" else r.district }}</td>
             <td class="num" data-sort="{{ m.sortkey(r.cast) }}">{{ m.num(r.cast) }}</td>
-            {% if geography == "county" %}
+            {% if geography == "county" or show_counted %}
             <td class="num" data-sort="{{ m.sortkey(r.counted) }}">{{ m.num(r.counted) }}</td>
             {% endif %}
             <td class="num">{{ m.num(r.by_mode.get("early-voting")) }}</td>
             <td class="num">{{ m.num(r.by_mode.get("election-day")) }}</td>
             <td class="num">{{ m.num(r.by_mode.get("vote-by-mail")) }}</td>
             <td class="num">{{ m.num(r.by_mode.get("provisional")) }}</td>
-            {% if geography == "county" %}
+            {% if geography == "county" or show_mail %}
             <td class="num">{{ m.num(r.mail_voting.get("accepted")) }}</td>
             <td class="num">{{ m.num(r.mail_voting.get("rejected")) }}</td>
-            {% else %}
+            {% endif %}
+            {% if geography == "congressional" %}
             <td class="num" data-sort="{{ m.sortkey(r.eligible) }}">{{ m.num(r.eligible) }}</td>
             <td class="num" data-sort="{% if r.turnout is none %}{% else %}{{ r.turnout }}{% endif %}">{% if r.turnout is not none %}{{ m.p(r.turnout * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
             {% endif %}
@@ -107,16 +113,15 @@
 </table>
 </div>
 {% endif %}
+<p class="note">Every row is one of the State Board's press-room snapshots, listed on the
+    <a href="{{ base }}/about">About</a> page; the numbers behind this page are
+    downloadable under <a href="{{ base }}/data/">Data</a>.</p>
 {% else %}
 <p class="note">No {{ "congressional-district" if geography == "congressional" else geography }} figures are published for this election yet.
     {% if certified %}Its campaign-time tallies stay in the archive and off the site;
     the certified {{ geography_label }} report appears here when the State Board posts
     it.{% endif %}</p>
 {% endif %}
-
-<p class="note">Every row is one of the State Board's press-room snapshots, listed on the
-    <a href="{{ base }}/about">About</a> page; the numbers behind this page are
-    downloadable under <a href="{{ base }}/data/">Data</a>.</p>
 
 {% for s in sources %}
 <div class="source-strip">

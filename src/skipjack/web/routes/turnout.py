@@ -82,7 +82,13 @@ async def election_geography(request: Request, slug: str, geography: str):
         if certified:
             cert = qt.certified_headline(conn, code)
             if geography == "county":
-                dates = _certified_dates(cert)
+                # the county table keeps its fixed columns: its three record families
+                # publish for every certified election, so the page names those days
+                dates = {
+                    f: a
+                    for f, a in cert["as_ofs"].items()
+                    if f in ("county-canvass", "votes-accepted", "mail-voting") and a
+                }
                 rows = qt.certified_county_rows(conn, code, dates)
             else:
                 dates = {
@@ -93,6 +99,8 @@ async def election_geography(request: Request, slug: str, geography: str):
             headline = qt.headline(conn, code)
             sent_as_of = headline.get("sent-returned", {}).get("as_of")
             requests_as_of = headline.get("requests", {}).get("as_of")
+            # the two files refresh on their own schedules: read each family at its own
+            # latest snapshot so a day with only one new file keeps the other family's columns
             rows = (
                 qt.county_rows(
                     conn, code, sent_as_of or requests_as_of, requests_as_of=requests_as_of
@@ -107,7 +115,32 @@ async def election_geography(request: Request, slug: str, geography: str):
                 dates["sent-returned"] = sent_as_of
             if requests_as_of:
                 dates["requests"] = requests_as_of
+        # the flags read the rows, not the dates: each optional column renders only
+        # where a row carries its figure, and the page names a family's day on that
+        # same condition (below). The certified county table keeps its fixed columns
+        # and therefore its three families' days whatever the rows hold.
+        show_requests = any(r.get("requests_total") is not None for r in rows)
+        show_counted = any(r.get("counted") is not None for r in rows)
+        show_mail = any(
+            r.get("mail_voting", {}).get("accepted") is not None
+            or r.get("mail_voting", {}).get("rejected") is not None
+            for r in rows
+        )
+        # the sentence names only the days the table's columns read
+        if not certified:
+            if not show_requests:
+                dates.pop("requests", None)
+        elif geography == "congressional":
+            dates = {
+                f: a
+                for f, a in dates.items()
+                if f == "official-turnout"
+                or (f == "votes-accepted" and show_counted)
+                or (f == "mail-voting" and show_mail)
+            }
         sources = qt.snapshot_sources(conn, code)
+        # the page says which days it shows: its table's families' distinct as-ofs,
+        # oldest first
         shown_dates = sorted({d for d in dates.values() if d})
     return request.app.state.templates.TemplateResponse(
         request,
@@ -119,12 +152,13 @@ async def election_geography(request: Request, slug: str, geography: str):
             "certified": certified,
             "rows": rows,
             "sources": sources,
-            # the page says which days it shows: distinct as-ofs, oldest last
-            "shown_dates": shown_dates,
             # the election page links only to the grains with published figures and
-            # this page's table drops the two request columns when no row has one
+            # this page's table drops the columns whose rows carry no figure
             "geographies": geographies,
-            "show_requests": any(r.get("requests_total") is not None for r in rows),
+            "shown_dates": shown_dates,
+            "show_requests": show_requests,
+            "show_counted": show_counted,
+            "show_mail": show_mail,
         },
     )
 
