@@ -26,6 +26,7 @@ from skipjack.web.compare import snapshot_pairs
 from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
+from skipjack.web.turnout import publishable_geographies
 from skipjack.web.young import snapshots_with_young
 from skipjack.web.urls import normalize_base_path, slugify
 
@@ -74,6 +75,14 @@ def page_urls() -> list[str]:
             r[0]
             for r in conn.execute("SELECT DISTINCT election FROM turnout_counts ORDER BY election")
         ]
+        # The geography subpages are also planned from the counts, so they use this same
+        # connection: an election gets only the pages its figures reach.
+        turnout_urls: list[str] = []
+        for code in turnout_codes:
+            turnout_urls.append(f"/turnout/{code.lower()}/")
+            turnout_urls += [
+                f"/turnout/{code.lower()}/{g}/" for g in publishable_geographies(conn, code)
+            ]
     if not dates:
         raise SiteBuildError("skipjack.db has no registration data. Run `skipjack build-db` first.")
 
@@ -87,9 +96,9 @@ def page_urls() -> list[str]:
         "/voters/removals/",
         "/voters/party-switching/",
     ]
-    if turnout_codes:
+    if turnout_urls:
         urls.append("/turnout/")
-        urls += [f"/turnout/{code.lower()}/" for code in turnout_codes]
+        urls += turnout_urls
     urls += [f"/voters/month/{d}/" for d in dates]
     urls += ["/voters/county/"] + [f"/voters/county/{slugify(c)}/" for c in counties]
     if latest_snapshot:

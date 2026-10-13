@@ -184,6 +184,20 @@ def test_the_turnout_pages_and_downloads_are_published(root_site, project_site):
 
 
 @needs_db
+def test_the_turnout_geography_pages_are_published_per_grain():
+    """Each election's geography subpage is planned only where that grain has figures:
+    the general election gets both, the certified primary gets its county page only,
+    and the 2024 election's certified CD sheet gets a congressional page."""
+    urls = page_urls()
+    assert "/turnout/gg26/county/" in urls
+    assert "/turnout/gg26/congressional/" in urls
+    assert "/turnout/gp26/county/" in urls
+    assert "/turnout/gp26/congressional/" not in urls
+    assert "/turnout/pg24/county/" in urls
+    assert "/turnout/pg24/congressional/" in urls
+
+
+@needs_db
 def test_trend_pages_scripts_and_combined_downloads_are_published(root_site, project_site):
     for out, _ in (root_site, project_site):
         for page in ("voters/methods", "voters/removals", "voters/party-switching", "errata"):
