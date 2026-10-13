@@ -26,7 +26,7 @@ def conn():
     c.close()
 
 
-def add(conn, as_of, rows, source_id="s", family="sent-returned"):
+def add(conn, as_of, rows, source_id="s", family="sent-returned", election="GG26"):
     """Rows into the turnout tables; rows carry (geography, county, district, category,
     party, measure, value)."""
     for geography, county, district, category, party, measure, value in rows:
@@ -34,20 +34,21 @@ def add(conn, as_of, rows, source_id="s", family="sent-returned"):
             """INSERT INTO turnout_sources
                (source_id, election, family, geography, as_of, source_url, source_name,
                 document_title, fetch_date, sha256, extraction_method, checks_json, notes)
-               VALUES (?, 'GG26', ?, ?, ?, 'https://elections.maryland.gov/x.xlsx',
+               VALUES (?, ?, ?, ?, ?, 'https://elections.maryland.gov/x.xlsx',
                 'Maryland State Board of Elections', 'test', '2026-10-10T17:00:00+00:00',
                 '', 'xlsx (calamine)', '{}', '')
                ON CONFLICT(source_id) DO NOTHING""",
-            (source_id, family, geography, as_of),
+            (source_id, election, family, geography, as_of),
         )
         conn.execute(
             """INSERT INTO turnout_counts
                (source_id, as_of, election, family, geography, county, district, category,
                 party, measure, value)
-               VALUES (?, ?, 'GG26', ?, ?, ?, ?, ?, ?, ?, ?)""",
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 source_id,
                 as_of,
+                election,
                 family,
                 geography,
                 county,
@@ -89,6 +90,32 @@ WORCESTER = [
         ("ALL", "accepted", 0),
     ]
 ]
+
+
+# --- congressional-district labels ------------------------------------------------------------
+
+
+def test_the_district_label_normalizes_both_printed_spellings():
+    """The xlsx sheets print 'Congressional District Code 01' where the PDF tables print
+    '01'; both read as District 1. Anything not spelled as a numbered district passes
+    through (Undetermined keeps its own name)."""
+    assert turnout.district_label("Congressional District Code 01") == "District 1"
+    assert turnout.district_label("01") == "District 1"
+    assert turnout.district_label("Congressional District Code 08") == "District 8"
+    assert turnout.district_label("8") == "District 8"
+    assert turnout.district_label("Undetermined") == "Undetermined"
+
+
+def test_the_district_sort_puts_the_districts_in_order_undetermined_last():
+    """Districts sort by number whatever spelling the row prints; Undetermined is last."""
+    raws = [
+        "Congressional District Code 08",
+        "01",
+        "Undetermined",
+        "Congressional District Code 02",
+    ]
+    labels = [turnout.district_label(r) for r in sorted(raws, key=turnout.district_sort)]
+    assert labels == ["District 1", "District 2", "District 8", "Undetermined"]
 
 
 def test_elections_lists_gg26_with_its_snapshots(conn):

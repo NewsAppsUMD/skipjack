@@ -8,11 +8,33 @@ against these rows at parse time and are not stored.
 
 from __future__ import annotations
 
+import re
+
 import sqlite3
 
 from skipjack.pipeline.turnout import ELECTIONS, may_publish
 
 _SENT_MEASURES = ("sent", "received", "accepted")
+
+_DISTRICT_RE = re.compile(r"(?:Congressional District Code )?(\d{1,2})")
+
+
+def district_label(raw: str) -> str:
+    """A congressional-district row's printed code, as the page shows it: the xlsx
+    sheets spell 'Congressional District Code 01' where the PDF tables print '01' —
+    both read as 'District 1'. Anything the reports do not spell as a numbered
+    district (Undetermined) passes through as its own label."""
+    if m := _DISTRICT_RE.fullmatch(raw.strip()):
+        return f"District {int(m.group(1))}"
+    return raw.strip()
+
+
+def district_sort(raw: str) -> tuple:
+    """Sort key for the printed district codes: districts 1-8 by number whatever the
+    spelling, everything else (Undetermined) after them."""
+    if m := _DISTRICT_RE.fullmatch(raw.strip()):
+        return (0, int(m.group(1)), "")
+    return (1, 0, raw.strip())
 
 
 def _snapshot_dates(conn: sqlite3.Connection, election: str, family: str) -> list[str]:
