@@ -43,43 +43,11 @@
 </div>
 {% endif %}
 
-{% if rows %}
-<div class="section-head"><h2>By county</h2></div>
-<div class="overflow-auto">
-<table data-sortable>
-    <thead>
-        <tr>
-            <th>County</th>
-            <th class="num">Requests</th>
-            <th class="num">Print-at-home</th>
-            <th class="num">Ballots sent <span class="muted">(Dem / Rep / other)</span></th>
-            <th class="num">Received back <span class="muted">(Dem / Rep / other)</span></th>
-            <th class="num">Accepted</th>
-            <th class="num">Return rate</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for r in rows %}
-        <tr>
-            <td>{{ r.county }}</td>
-            <td class="num" data-sort="{{ m.sortkey(r.requests_total) }}">{{ m.num(r.requests_total) }}</td>
-            <td class="num" data-sort="{{ m.sortkey(r.print_at_home) }}">{{ m.num(r.print_at_home) }}</td>
-            <td class="num" data-sort="{{ m.sortkey(r.sent) }}">{{ m.num(r.sent) }}
-                {% if r.sent is not none %}<span class="muted">({{ m.num(r.dem_sent) }} / {{ m.num(r.rep_sent) }} / {{ m.num(r.oth_sent) }})</span>{% endif %}</td>
-            <td class="num" data-sort="{{ m.sortkey(r.received) }}">{{ m.num(r.received) }}
-                {% if r.received is not none %}<span class="muted">({{ m.num(r.dem_received) }} / {{ m.num(r.rep_received) }} / {{ m.num(r.oth_received) }})</span>{% endif %}</td>
-            <td class="num" data-sort="{{ m.sortkey(r.accepted) }}">{{ m.num(r.accepted) }}</td>
-            <td class="num" data-sort="{% if r.return_rate is none %}{% else %}{{ r.return_rate }}{% endif %}">{% if r.return_rate is not none %}{{ m.p(r.return_rate * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
 {% endif %}
 
-{% endif %}
-
-{% if rows %}
+{% if geographies %}
+<p class="secondary">The same figures by area:
+    {% for g in geographies %}<a href="{{ base }}/turnout/{{ election.code|lower }}/{{ g }}/">{{ "by county" if g == "county" else "by congressional district" }}</a>{% if not loop.last %} · {% endif %}{% endfor %}.</p>
 <p class="note">Every row is one of the State Board's press-room snapshots, listed on the
     <a href="{{ base }}/about">About</a> page; the numbers behind this page are
     downloadable under <a href="{{ base }}/data/">Data</a>.</p>
@@ -105,7 +73,7 @@
 </section>
 </div>
 <p class="note sr-only-end">The chart's day-by-day lines cover the whole campaign; the
-    county tables above hold the latest figures.</p>
+    by-area pages hold the latest figures.</p>
 
 <script id="turnout-data" type="application/json">
 {{ chart | tojson }}

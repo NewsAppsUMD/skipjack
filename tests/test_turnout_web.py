@@ -228,7 +228,9 @@ COUNTY_CANVASS = [("county", "Allegany", "", "ALL", "ALL", "total", 6048)]
 def test_certified_district_rows_read_the_sheet(conn):
     """A certified election's CD table is its official-turnout sheet: ballots by mode,
     the sheet's own eligible figure, and the modes-over-eligible share the board
-    computes itself. Campaign-time tallies at the same grain stay off the page."""
+    computes itself. Where a certified report carries the CD grain, the counted ballots
+    and the envelope dispositions join beside it. Campaign-time tallies at the same
+    grain stay off the page."""
     add(
         conn,
         "2024-12-11",
@@ -244,10 +246,34 @@ def test_certified_district_rows_read_the_sheet(conn):
         source_id="s2",
         election="PG24",
     )
+    # the certified counted-ballots and mail-in envelope reports, at their own days
+    add(
+        conn,
+        "2024-12-05",
+        [("congressional", "", "01", "ALL", "ALL", "total", 400000)],
+        family="votes-accepted",
+        source_id="s3",
+        election="PG24",
+    )
+    add(
+        conn,
+        "2024-12-09",
+        [("congressional", "", "01", "ALL", "ALL", "accepted", 50000)],
+        family="mail-voting",
+        source_id="s4",
+        election="PG24",
+    )
     rows = {
         r["district"]: r
         for r in turnout.certified_district_rows(
-            conn, "PG24", {"official-turnout": "2024-12-11", "sent-returned": "2024-12-07"}
+            conn,
+            "PG24",
+            {
+                "official-turnout": "2024-12-11",
+                "sent-returned": "2024-12-07",
+                "votes-accepted": "2024-12-05",
+                "mail-voting": "2024-12-09",
+            },
         )
     }
     assert set(rows) == {"District 1", "District 2", "Undetermined"}
@@ -257,6 +283,9 @@ def test_certified_district_rows_read_the_sheet(conn):
     assert one["eligible"] == 562346
     # 427056 / 562346
     assert one["turnout"] == (180852 + 153234 + 81343 + 11627) / 562346
+    # the certified reports at the CD grain read beside the sheet, each at its own day
+    assert one["counted"] == 400000
+    assert one["mail_voting"]["accepted"] == 50000
     # the two printed spellings joined: both districts, by number, Undetermined last
     assert [r["district"] for r in rows.values()] == ["District 1", "District 2", "Undetermined"]
     # a district whose sheet prints an eligible of 0 gets no percentage (Undetermined)
@@ -386,7 +415,9 @@ needs_db = pytest.mark.skipif(not DB_PATH.exists(), reason="skipjack.db not buil
 def test_turnout_pages_render_the_real_election():
     """The db-backed render check on the real data: the pages show what the committed
     rows sum to, whatever day that is — the numbers' pins live in the parse's printed
-    reconciliation, not in tests (a pinned day went red on the next snapshot)."""
+    reconciliation, not in tests (a pinned day went red on the next snapshot). The
+    election page is the hub now: the statewide figures stay on it and the county table
+    lives on its county subpage."""
     from fastapi.testclient import TestClient
 
     from skipjack.web.app import create_app
@@ -404,16 +435,78 @@ def test_turnout_pages_render_the_real_election():
     requests_total = headline["requests"]["requests_total"]
     sent_returned = headline["sent-returned"]
     for value in (requests_total, sent_returned["sent"], sent_returned["received"]):
-        assert f"{value:,}" in r.text
+        assert f"{value:,}" in r.text  # the tiles carry the statewide figures
     assert day_label(sent_returned["as_of"]) in r.text  # the page says which day it shows
-    # the parenthesized party figures inside the sent and received cells are labelled
-    # where the table names them: the board's DEM / REP / OTH columns
-    assert r.text.count("(Dem / Rep / other)") == 2
     assert "November 3, 2026" in r.text
-    assert "data-sortable" in r.text
     assert 'id="turnout-data"' in r.text
-    assert 'src="' + "/static/turnout.js" in r.text
+    # the hub links to the area pages and carries no sortable county table
+    assert "/turnout/gg26/county/" in r.text
+    assert "/turnout/gg26/congressional/" in r.text
+    assert "data-sortable" not in r.text
     assert client.get("/turnout/nope/").status_code == 404
+
+
+@needs_db
+def test_the_county_subpage_carries_the_county_table():
+    """The mail-in table, with its party-split headers, moved off the hub onto the
+    county subpage; it shows the county rows' own figures — the statewide totals stay
+    on the hub's tiles."""
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+    from skipjack.web.db import get_db
+
+    client = TestClient(create_app())
+    r = client.get("/turnout/gg26/county/")
+    assert r.status_code == 200
+    assert r.text.count("(Dem / Rep / other)") == 2
+    assert "data-sortable" in r.text
+    with get_db() as conn:
+        headline = turnout.headline(conn, "GG26")
+        rows = turnout.county_rows(
+            conn,
+            "GG26",
+            headline["sent-returned"]["as_of"],
+            requests_as_of=headline["requests"]["as_of"],
+        )
+    row = next(x for x in rows if x["sent"] is not None)
+    assert f"{row['sent']:,}" in r.text
+
+
+@needs_db
+def test_the_district_subpages_read_the_report_that_published_their_grain():
+    """GG26's CD page is campaign-time mail-in tracking; PG24's is the certified sheet
+    with the per-district turnout share; GP26 has no publishable CD records, so its
+    page says so."""
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    r = client.get("/turnout/gg26/congressional/")
+    assert r.status_code == 200
+    assert "District 1" in r.text and "District 8" in r.text
+
+    r = client.get("/turnout/pg24/congressional/")
+    assert r.status_code == 200
+    assert "District 1" in r.text and "Eligible voters" in r.text and "Turnout" in r.text
+    # a certified page reads the sheet: no campaign-time request columns
+    assert "Requests</th>" not in r.text
+
+    r = client.get("/turnout/gp26/congressional/")
+    assert r.status_code == 200
+    assert "No congressional-district figures" in r.text
+
+
+@needs_db
+def test_the_geography_routes_404_the_unknowns():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    assert client.get("/turnout/gg26/notageography/").status_code == 404
+    assert client.get("/turnout/nope/county/").status_code == 404
 
 
 @needs_db
@@ -595,8 +688,9 @@ def _page_db(tmp_path, snapshots):
 
 @needs_db
 def test_the_page_renders_a_change_from_a_second_snapshot(tmp_path, monkeypatch):
-    """The daily case: the two files refresh on their own days, so the page reads each
-    family at its own snapshot, and a second snapshot's tile shows the real change."""
+    """The daily case: the two files refresh on their own days, so the pages read each
+    family at its own snapshot, and a second snapshot's tile shows the real change. The
+    county joining shows on the county subpage; the tiles stayed on the hub."""
     from fastapi.testclient import TestClient
 
     import skipjack.web.db as web_db
@@ -613,26 +707,30 @@ def test_the_page_renders_a_change_from_a_second_snapshot(tmp_path, monkeypatch)
         ],
     )
     monkeypatch.setattr(web_db, "DB_PATH", db_path)
-    html = TestClient(create_app()).get("/turnout/gg26/").text
-
-    # the sent tile shows the real +1,000 change: the change is keyed by the measure
-    # ("total"/"sent"), whatever the requests family's key would have been
-    assert "+1,000" in html and "delta-up" in html
+    client = TestClient(create_app())
+    html = client.get("/turnout/gg26/county/").text
     # the county joining reads each family at its own snapshot: Kent is requests-only
     assert 'data-sort=""' in html  # absent values sort last, not as -1
     assert "<td>Kent</td>" in html
-    assert "10,839" in html  # the whole state's ballots sent (4,466 + 6,373)
     assert "1,442" in html  # Allegany's received back, from the latest snapshot
-    # the header says when each family was last updated
+    # the county page says when each family was last updated
     assert "October 12, 2026" in html and "October 10, 2026" in html
+
+    hub = client.get("/turnout/gg26/").text
+    # the sent tile shows the real +1,000 change: the change is keyed by the measure
+    # ("total"/"sent"), whatever the requests family's key would have been
+    assert "+1,000" in hub and "delta-up" in hub
+    assert "10,839" in hub  # the whole state's ballots sent (4,466 + 6,373)
     # a differing second date is said once, not once per tile
-    assert html.count("(ballot figures as of") == 1
+    assert hub.count("(ballot figures as of") == 1
+    # the hub links the county table it no longer carries
+    assert "/turnout/gg26/county/" in hub
 
 
 @needs_db
 def test_the_as_of_sentence_says_a_shared_date_once(tmp_path, monkeypatch):
-    """When every tile's figures come from the same report (the common daily case), the
-    sentence says the date once: the published page repeated it once per tile."""
+    """When every figure comes from the same report (the common daily case), the page
+    says the date once: the published page repeated it once per tile."""
     from fastapi.testclient import TestClient
 
     import skipjack.web.db as web_db
@@ -647,10 +745,16 @@ def test_the_as_of_sentence_says_a_shared_date_once(tmp_path, monkeypatch):
         ],
     )
     monkeypatch.setattr(web_db, "DB_PATH", db_path)
-    html = TestClient(create_app()).get("/turnout/gg26/").text
+    client = TestClient(create_app())
+    html = client.get("/turnout/gg26/county/").text
+    assert "as of October 9, 2026." in html  # the county page's as-of line
 
-    assert "as of October 9, 2026." in html
-    assert "(ballot figures as of" not in html
+    hub = client.get("/turnout/gg26/").text
+    # the hub's tile sentence names the shared day once — no parenthetical saying a
+    # second date — and the hub links the county table
+    assert "as of October 9, 2026." in hub
+    assert "(ballot figures as of" not in hub
+    assert "/turnout/gg26/county/" in hub
 
 
 # --- the certified (final) election page: GP26 --------------------------------------------------
@@ -761,6 +865,13 @@ def test_real_pg24_page_renders_the_certified_data():
     assert "882,938" in r.text  # mail-in ballot requests
     # the 2024-era denominator is printed where the percentage is explained
     assert "active registration alone" in r.text
+    # the county table moved to the county subpage; the hub links the area pages
+    assert "By county" not in r.text
+    r = client.get("/turnout/pg24/county/")
+    assert r.status_code == 200
+    assert "Ballots cast" in r.text and "Mail ballots rejected" in r.text
+    r = client.get("/turnout/pg24/")
+    assert "/turnout/pg24/county/" in r.text and "/turnout/pg24/congressional/" in r.text
     # figures of record only: no unofficial tallies, no links to them
     for forbidden in (
         "(the EV tally)",
@@ -884,3 +995,12 @@ def test_real_gp26_page_renders_the_certified_data():
     # the denominator files had not re-published when this snapshot was taken: the page
     # says so instead of claiming a turnout percentage
     assert "turnout percentage" in r.text
+    # the county table moved to the county subpage, the only area grain the certified
+    # records publish here: no campaign-time congressional page, so the hub links
+    # neither its CD page nor its unofficial tallies
+    assert "By county" not in r.text
+    assert "/turnout/gp26/county/" in r.text
+    assert "/turnout/gp26/congressional/" not in r.text
+    r = client.get("/turnout/gp26/county/")
+    assert r.status_code == 200
+    assert "Ballots cast" in r.text  # the certified county table, moved off the hub

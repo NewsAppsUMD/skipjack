@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% block title %}{{ election.name.title() }} turnout by {{ geography_label }}{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<h1>{{ election.name.title() }}</h1>
+
+{% if certified %}
+<p>Final turnout. The figures are the State Board's certified canvass reports —
+    the same records as the <a href="{{ base }}/turnout/{{ election.code|lower }}/">statewide
+    figures</a>, one row per {{ geography_label }}.</p>
+{% else %}
+<p class="secondary">Mail-in ballot tracking from the State Board's reports, one row per
+    {{ geography_label }}. <a href="{{ base }}/turnout/{{ election.code|lower }}/">Statewide
+    figures</a>.</p>
+{% endif %}
+{% if shown_dates %}<p class="secondary">Figures as of {{ shown_dates | map("day_label") | join(", ") }}.</p>{% endif %}
+
+{% if rows %}
+{% if certified %}
+<div class="overflow-auto">
+<table data-sortable>
+    <thead>
+        <tr>
+            <th>{{ "County" if geography == "county" else "District" }}</th>
+            <th class="num">Ballots cast</th>
+            {% if geography == "county" %}
+            <th class="num">Votes counted</th>
+            {% endif %}
+            <th class="num">Early voting (cast)</th>
+            <th class="num">Election day</th>
+            <th class="num">Vote by mail</th>
+            <th class="num">Provisional</th>
+            {% if geography == "county" %}
+            <th class="num">Mail ballots accepted</th>
+            <th class="num">Mail ballots rejected</th>
+            {% else %}
+            <th class="num">Eligible voters</th>
+            <th class="num">Turnout</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>{{ r.county if geography == "county" else r.district }}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.cast) }}">{{ m.num(r.cast) }}</td>
+            {% if geography == "county" %}
+            <td class="num" data-sort="{{ m.sortkey(r.counted) }}">{{ m.num(r.counted) }}</td>
+            {% endif %}
+            <td class="num">{{ m.num(r.by_mode.get("early-voting")) }}</td>
+            <td class="num">{{ m.num(r.by_mode.get("election-day")) }}</td>
+            <td class="num">{{ m.num(r.by_mode.get("vote-by-mail")) }}</td>
+            <td class="num">{{ m.num(r.by_mode.get("provisional")) }}</td>
+            {% if geography == "county" %}
+            <td class="num">{{ m.num(r.mail_voting.get("accepted")) }}</td>
+            <td class="num">{{ m.num(r.mail_voting.get("rejected")) }}</td>
+            {% else %}
+            <td class="num" data-sort="{{ m.sortkey(r.eligible) }}">{{ m.num(r.eligible) }}</td>
+            <td class="num" data-sort="{% if r.turnout is none %}{% else %}{{ r.turnout }}{% endif %}">{% if r.turnout is not none %}{{ m.p(r.turnout * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% if geography == "congressional" %}
+<p class="note">Turnout is each sheet's ballots by mode over the eligible figure that
+    same sheet prints for the district; where the sheet prints no eligible voters
+    (Undetermined) the column is left blank. The board computes its statewide
+    percentage the same way.</p>
+{% endif %}
+{% else %}
+<div class="overflow-auto">
+<table data-sortable>
+    <thead>
+        <tr>
+            <th>{{ "County" if geography == "county" else "District" }}</th>
+            {% if show_requests %}
+            <th class="num">Requests</th>
+            <th class="num">Print-at-home</th>
+            {% endif %}
+            <th class="num">Ballots sent <span class="muted">(Dem / Rep / other)</span></th>
+            <th class="num">Received back <span class="muted">(Dem / Rep / other)</span></th>
+            <th class="num">Accepted</th>
+            <th class="num">Return rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>{{ r.county if geography == "county" else r.district }}</td>
+            {% if show_requests %}
+            <td class="num" data-sort="{{ m.sortkey(r.requests_total) }}">{{ m.num(r.requests_total) }}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.print_at_home) }}">{{ m.num(r.print_at_home) }}</td>
+            {% endif %}
+            <td class="num" data-sort="{{ m.sortkey(r.sent) }}">{{ m.num(r.sent) }}
+                {% if r.sent is not none %}<span class="muted">({{ m.num(r.dem_sent) }} / {{ m.num(r.rep_sent) }} / {{ m.num(r.oth_sent) }})</span>{% endif %}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.received) }}">{{ m.num(r.received) }}
+                {% if r.received is not none %}<span class="muted">({{ m.num(r.dem_received) }} / {{ m.num(r.rep_received) }} / {{ m.num(r.oth_received) }})</span>{% endif %}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.accepted) }}">{{ m.num(r.accepted) }}</td>
+            <td class="num" data-sort="{% if r.return_rate is none %}{% else %}{{ r.return_rate }}{% endif %}">{% if r.return_rate is not none %}{{ m.p(r.return_rate * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+{% else %}
+<p class="note">No {{ "congressional-district" if geography == "congressional" else geography }} figures are published for this election yet.
+    {% if certified %}Its campaign-time tallies stay in the archive and off the site;
+    the certified {{ geography_label }} report appears here when the State Board posts
+    it.{% endif %}</p>
+{% endif %}
+
+<p class="note">Every row is one of the State Board's press-room snapshots, listed on the
+    <a href="{{ base }}/about">About</a> page; the numbers behind this page are
+    downloadable under <a href="{{ base }}/data/">Data</a>.</p>
+
+{% for s in sources %}
+<div class="source-strip">
+    <strong>Source:</strong>
+    <a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.title }}</a>,
+    downloaded {{ s.fetched|day_label }}, read by {{ s.method }},
+    fingerprint <code>{{ s.sha256 }}</code>
+    {%- if s.csv %} — <a href="{{ base }}/downloads/{{ s.csv }}">CSV</a> ·
+    <a href="{{ base }}/downloads/{{ s.provenance }}">provenance</a>{% endif %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

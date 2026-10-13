@@ -34,7 +34,6 @@ async def election(request: Request, slug: str):
         if certified:
             cert = qt.certified_headline(conn, code)
             dates = _certified_dates(cert)
-            rows = qt.certified_county_rows(conn, code, dates)
             reasons = {
                 family: qt.rejection_reason_rows(conn, code, family, as_of)
                 for family, as_of in dates.items()
@@ -42,17 +41,9 @@ async def election(request: Request, slug: str):
             }
             tiles = _certified_tiles(cert)
         else:
-            # the two files refresh on their own schedules: read each family at its own
-            # latest snapshot so a day with only one new file keeps the other family's columns
-            sent_as_of = headline.get("sent-returned", {}).get("as_of")
-            requests_as_of = headline.get("requests", {}).get("as_of")
-            rows = qt.county_rows(
-                conn,
-                code,
-                sent_as_of or requests_as_of,
-                requests_as_of=requests_as_of,
-            )
             tiles = _tiles(headline)
+        # the page links only to the grains whose reports publish figures
+        geographies = qt.publishable_geographies(conn, code)
         sources = qt.snapshot_sources(conn, code)
         chart = qt.chart_data(conn, code)
     return request.app.state.templates.TemplateResponse(
@@ -63,11 +54,77 @@ async def election(request: Request, slug: str):
             "headline": headline,
             "cert": cert,
             "tiles": tiles,
-            "rows": rows,
             "chart": chart,
             "sources": sources,
             "reasons": reasons,
             "dates": dates,
+            "geographies": geographies,
+        },
+    )
+
+
+_GEOGRAPHY_LABELS = {"county": "county", "congressional": "congressional district"}
+
+
+@router.get("/{slug}/{geography}/")
+async def election_geography(request: Request, slug: str, geography: str):
+    """One election's table at one geography: the county page the election page used
+    to carry, and the congressional-district page beside it."""
+    if geography not in _GEOGRAPHY_LABELS:
+        raise HTTPException(status_code=404)
+    with get_db() as conn:
+        available = {e["slug"]: e["code"] for e in qt.elections(conn)}
+        code = available.get(slug)
+        if code is None or code not in ELECTIONS:
+            raise HTTPException(status_code=404)
+        geographies = qt.publishable_geographies(conn, code)
+        certified = ELECTIONS[code].certified
+        if certified:
+            cert = qt.certified_headline(conn, code)
+            if geography == "county":
+                dates = _certified_dates(cert)
+                rows = qt.certified_county_rows(conn, code, dates)
+            else:
+                dates = {
+                    f: a for f, a in cert["as_ofs"].items() if f in qt.CERTIFIED_PAGE_FAMILIES and a
+                }
+                rows = qt.certified_district_rows(conn, code, dates)
+        else:
+            headline = qt.headline(conn, code)
+            sent_as_of = headline.get("sent-returned", {}).get("as_of")
+            requests_as_of = headline.get("requests", {}).get("as_of")
+            rows = (
+                qt.county_rows(
+                    conn, code, sent_as_of or requests_as_of, requests_as_of=requests_as_of
+                )
+                if geography == "county"
+                else qt.district_rows(
+                    conn, code, sent_as_of or requests_as_of, requests_as_of=requests_as_of
+                )
+            )
+            dates: dict[str, str] = {}
+            if sent_as_of:
+                dates["sent-returned"] = sent_as_of
+            if requests_as_of:
+                dates["requests"] = requests_as_of
+        sources = qt.snapshot_sources(conn, code)
+        shown_dates = sorted({d for d in dates.values() if d})
+    return request.app.state.templates.TemplateResponse(
+        request,
+        "turnout_geography.html",
+        {
+            "election": ELECTIONS[code],
+            "geography": geography,
+            "geography_label": _GEOGRAPHY_LABELS[geography],
+            "certified": certified,
+            "rows": rows,
+            "sources": sources,
+            # the page says which days it shows: distinct as-ofs, oldest last
+            "shown_dates": shown_dates,
+            # the election page links only to the grains with published figures and
+            # this page's table drops the two request columns when no row has one
+            "geographies": geographies,
+            "show_requests": any(r.get("requests_total") is not None for r in rows),
         },
     )
 

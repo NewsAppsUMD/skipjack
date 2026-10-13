@@ -43,42 +43,6 @@
     appears when those files return (the same daily snapshot keeps watching for them).</p>
 {% endif %}
 
-{% if rows %}
-<div class="section-head"><h2>By county</h2></div>
-<div class="overflow-auto">
-<table data-sortable>
-    <thead>
-        <tr>
-            <th>County</th>
-            <th class="num">Ballots cast</th>
-            <th class="num">Votes counted</th>
-            <th class="num">Early voting (cast)</th>
-            <th class="num">Election day</th>
-            <th class="num">Vote by mail</th>
-            <th class="num">Provisional</th>
-            <th class="num">Mail ballots accepted</th>
-            <th class="num">Mail ballots rejected</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for r in rows %}
-        <tr>
-            <td>{{ r.county }}</td>
-            <td class="num" data-sort="{{ m.sortkey(r.cast) }}">{{ m.num(r.cast) }}</td>
-            <td class="num" data-sort="{{ m.sortkey(r.counted) }}">{{ m.num(r.counted) }}</td>
-            <td class="num">{{ m.num(r.by_mode.get("early-voting")) }}</td>
-            <td class="num">{{ m.num(r.by_mode.get("election-day")) }}</td>
-            <td class="num">{{ m.num(r.by_mode.get("vote-by-mail")) }}</td>
-            <td class="num">{{ m.num(r.by_mode.get("provisional")) }}</td>
-            <td class="num">{{ m.num(r.mail_voting.get("accepted")) }}</td>
-            <td class="num">{{ m.num(r.mail_voting.get("rejected")) }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
-{% endif %}
-
 {% for family, table in reasons.items() %}
 {% if table %}
 <div class="section-head">

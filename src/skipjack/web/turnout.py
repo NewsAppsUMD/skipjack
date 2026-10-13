@@ -473,6 +473,10 @@ CERTIFIED_CANVASS_FAMILIES = ("county-canvass", "votes-accepted")
 # mail-in and request reports, and the official turnout sheets — while the
 # campaign-time tracking files (sent-returned, early-voting, same-day,
 # left-to-count) stay in the archive and off the pages.
+# Downloads gate differently: the pipeline's may_publish (UNOFFICIAL_TALLY_FAMILIES)
+# still lets a certified election publish its certified sent-returned CSVs. The two
+# lists differ on purpose — page tables read figures of record; the archive keeps the
+# campaign-time files.
 CERTIFIED_PAGE_FAMILIES = (
     "county-canvass",
     "votes-accepted",
