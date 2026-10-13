@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Skipjack{% endblock %} — Maryland Elections Data</title>
+    <title>{% block page_title %}{% block title %}Skipjack{% endblock %} — Maryland Elections Data{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="{{ base }}/static/style.css">
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
@@ -34,6 +34,7 @@
     <footer class="container">
         <p>
             <small>
+                A project of Derek Willis, lecturer in data and computational journalism at the <a href="https://merrill.umd.edu/">Philip Merrill College of Journalism</a> at the University of Maryland.
                 Data from the <a href="https://results.elections.maryland.gov">Maryland State Board of Elections</a>.
                 Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.
             </small>
