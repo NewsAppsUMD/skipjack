@@ -118,6 +118,72 @@ def test_the_district_sort_puts_the_districts_in_order_undetermined_last():
     assert labels == ["District 1", "District 2", "District 8", "Undetermined"]
 
 
+# congressional-district rows: one district xlsx-spelled (sent-returned) and the same
+# district PDF-spelled (requests), plus a second district and Undetermined
+CD_ONE_SENT = [
+    ("congressional", "", "Congressional District Code 01", "ALL", p, m, v)
+    for p, m, v in [
+        ("DEM", "sent", 32040),
+        ("REP", "sent", 19045),
+        ("OTH", "sent", 11871),
+        ("ALL", "sent", 62956),
+        ("DEM", "received", 10270),
+        ("REP", "received", 5653),
+        ("OTH", "received", 3043),
+        ("ALL", "received", 18966),
+        ("ALL", "accepted", 0),
+    ]
+]
+CD_ONE_REQUESTED = [
+    ("congressional", "", "01", "ALL", "ALL", "total", 5300),
+    ("congressional", "", "01", "ALL", "ALL", "mailed", 4100),
+    ("congressional", "", "01", "ALL", "ALL", "print-at-home", 250),
+]
+CD_TWO = [
+    ("congressional", "", "02", "ALL", "ALL", "sent", 41000),
+    ("congressional", "", "02", "ALL", "ALL", "received", 12000),
+]
+UNDetermined = [
+    ("congressional", "", "Undetermined", "ALL", "ALL", "sent", 900),
+    ("congressional", "", "Undetermined", "ALL", "ALL", "received", 100),
+]
+
+
+# --- congressional-district rows ---------------------------------------------------------------
+
+
+def test_district_rows_join_the_two_printed_spellings(conn):
+    """One election's files spell its districts two ways; the families join on the
+    normalized label, so District 1 carries both the mail-in and the request figures."""
+    add(conn, "2026-10-09", CD_ONE_SENT)
+    add(conn, "2026-10-10", CD_ONE_REQUESTED, family="requests", source_id="s2")
+    rows = {
+        r["district"]: r for r in turnout.district_rows(conn, "GG26", "2026-10-09", "2026-10-10")
+    }
+    assert set(rows) == {"District 1"}
+    row = rows["District 1"]
+    # the xlsx-spelled sent-returned family and the pdf-spelled requests family met
+    assert row["sent"] == 62956 and row["requests_total"] == 5300
+    assert row["mailed"] == 4100 and row["dem_sent"] == 32040
+
+
+def test_district_rows_order_and_undetermined(conn):
+    """Rows come out District 1.. in number order whatever the spelling, Undetermined
+    last."""
+    add(conn, "2026-10-09", CD_TWO + UNDetermined + CD_ONE_SENT)
+    rows = turnout.district_rows(conn, "GG26", "2026-10-09")
+    assert [r["district"] for r in rows] == ["District 1", "District 2", "Undetermined"]
+
+
+def test_a_district_missing_from_a_snapshot_reads_as_unknown_not_zero(conn):
+    """The county rule, at the district grain: an area absent from the newer snapshot
+    is absent from the rows, not zeroed."""
+    add(conn, "2026-10-09", CD_ONE_SENT + CD_TWO)
+    add(conn, "2026-10-10", CD_TWO, source_id="s2")
+    rows = turnout.district_rows(conn, "GG26", "2026-10-10")
+    assert [r["district"] for r in rows] == ["District 2"]
+
+
 def test_elections_lists_gg26_with_its_snapshots(conn):
     add(conn, "2026-10-09", ALLEGANY + WORCESTER)
     add(conn, "2026-10-10", ALLEGANY + WORCESTER, source_id="s2")

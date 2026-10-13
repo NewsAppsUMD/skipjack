@@ -1,7 +1,9 @@
 """Turnout data for the site, read from the turnout tables.
 
 The queries all read one grain at a time. County-level rows in the county geography
-carry a county and no district. The statewide figures the site shows are those county
+carry a county and no district. The congressional-district rows in the congressional
+geography carry a district and no county, and the two printed spellings of a district
+join on district_label. The statewide figures the site shows are those county
 rows summed, per family and snapshot; the totals the State Board prints were checked
 against these rows at parse time and are not stored.
 """
@@ -86,7 +88,7 @@ def _area_cells(
     ``area`` is the county's or district's value as the report prints it — for
     districts that may be either printed spelling (see district_label).
     """
-    column, area_filter = _GEOGRAPHY_FILTERS[geography]
+    area_filter = _GEOGRAPHY_FILTERS[geography][1]
     return {
         (r["party"], r["measure"]): r["value"]
         for r in conn.execute(
@@ -232,6 +234,30 @@ def series(conn: sqlite3.Connection, election: str, family: str) -> dict:
     return {"dates": dates, "series": series}
 
 
+def _sent_row(label_key: str, label: str, sent: dict, method_cells: dict) -> dict:
+    """The two families' counts as one table row: mail-in sent/received/accepted with
+    the party splits, and the request totals — keyed by the row's area label."""
+    row: dict = {
+        label_key: label,
+        "sent": sent.get(("ALL", "sent")),
+        "received": sent.get(("ALL", "received")),
+        "accepted": sent.get(("ALL", "accepted")),
+        "dem_sent": sent.get(("DEM", "sent")),
+        "rep_sent": sent.get(("REP", "sent")),
+        "oth_sent": sent.get(("OTH", "sent")),
+        "dem_received": sent.get(("DEM", "received")),
+        "rep_received": sent.get(("REP", "received")),
+        "oth_received": sent.get(("OTH", "received")),
+        "return_rate": (
+            sent[("ALL", "received")] / sent[("ALL", "sent")] if sent.get(("ALL", "sent")) else None
+        ),
+        "requests_total": method_cells.get(("ALL", "total")),
+        "mailed": method_cells.get(("ALL", "mailed")),
+        "print_at_home": method_cells.get(("ALL", "print-at-home")),
+    }
+    return row
+
+
 def county_rows(
     conn: sqlite3.Connection, election: str, as_of: str, requests_as_of: str | None = None
 ) -> list[dict]:
@@ -263,27 +289,80 @@ def county_rows(
         method_cells = _area_cells(conn, election, "requests", "county", county, requests_as_of)
         if not sent and not method_cells:
             continue  # the county reports on the other day only
-        row: dict = {
-            "county": county,
-            "sent": sent.get(("ALL", "sent")),
-            "received": sent.get(("ALL", "received")),
-            "accepted": sent.get(("ALL", "accepted")),
-            "dem_sent": sent.get(("DEM", "sent")),
-            "rep_sent": sent.get(("REP", "sent")),
-            "oth_sent": sent.get(("OTH", "sent")),
-            "dem_received": sent.get(("DEM", "received")),
-            "rep_received": sent.get(("REP", "received")),
-            "oth_received": sent.get(("OTH", "received")),
-            "return_rate": (
-                sent[("ALL", "received")] / sent[("ALL", "sent")]
-                if sent.get(("ALL", "sent"))
-                else None
-            ),
-            "requests_total": method_cells.get(("ALL", "total")),
-            "mailed": method_cells.get(("ALL", "mailed")),
-            "print_at_home": method_cells.get(("ALL", "print-at-home")),
-        }
-        out.append(row)
+        out.append(_sent_row("county", county, sent, method_cells))
+    return out
+
+
+def _district_areas(
+    conn: sqlite3.Connection, election: str, family_dates: dict[str, str]
+) -> dict[str, dict[str, str]]:
+    """The districts found in the given families' snapshots at congressional grain,
+    keyed by the normalized label, each mapping family → the spelling that family
+    prints. One election's files spell the districts two ways (the xlsx sheets print
+    'Congressional District Code 01' where the PDF tables print '01'), so the families
+    join on the normalized label, not on the raw code."""
+    out: dict[str, dict[str, str]] = {}
+    for family, as_of in family_dates.items():
+        for (district,) in conn.execute(
+            """SELECT DISTINCT district FROM turnout_counts
+               WHERE election = ? AND family = ? AND geography = 'congressional'
+                 AND county = '' AND district != '' AND category = 'ALL'
+                 AND as_of = ?""",
+            (election, family, as_of),
+        ):
+            out.setdefault(district_label(district), {})[family] = district
+    return out
+
+
+def district_rows(
+    conn: sqlite3.Connection, election: str, as_of: str, requests_as_of: str | None = None
+) -> list[dict]:
+    """One sortable row per congressional district, joining both families at each
+    family's own date — the district-grain mirror of county_rows.
+
+    The two printed spellings of a district join on the normalized label (see
+    _district_areas); Undetermined sorts last. A district absent from a family's
+    snapshot is absent from the row (unknown, not zero); districts only in one family
+    read with the other family's columns empty.
+    """
+    requests_as_of = requests_as_of or as_of
+    if not (
+        areas := _district_areas(
+            conn, election, {"sent-returned": as_of, "requests": requests_as_of}
+        )
+    ):
+        return []
+    out: list[dict] = []
+    for label, spellings in sorted(
+        areas.items(), key=lambda kv: district_sort(next(iter(kv[1].values())))
+    ):
+        sent = (
+            _area_cells(
+                conn,
+                election,
+                "sent-returned",
+                "congressional",
+                spellings["sent-returned"],
+                as_of,
+            )
+            if "sent-returned" in spellings
+            else {}
+        )
+        method_cells = (
+            _area_cells(
+                conn,
+                election,
+                "requests",
+                "congressional",
+                spellings["requests"],
+                requests_as_of,
+            )
+            if "requests" in spellings
+            else {}
+        )
+        if not sent and not method_cells:
+            continue
+        out.append(_sent_row("district", label, sent, method_cells))
     return out
 
 
