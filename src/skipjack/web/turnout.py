@@ -64,17 +64,70 @@ def _statewide(conn: sqlite3.Connection, election: str, family: str, as_of: str)
     }
 
 
-def _county_cells(
-    conn: sqlite3.Connection, election: str, family: str, county: str, as_of: str
+# The area column and its match filter, per geography: county rows carry a county and
+# no district; congressional rows the reverse.
+_GEOGRAPHY_FILTERS = {
+    "county": ("county", "county = :area AND district = ''"),
+    "congressional": ("district", "county = '' AND district = :area"),
+}
+
+
+def _area_cells(
+    conn: sqlite3.Connection,
+    election: str,
+    family: str,
+    geography: str,
+    area: str,
+    as_of: str,
 ) -> dict[tuple[str, str], int]:
-    """One county's party x measure counts for one family at one snapshot (ALL category)."""
+    """One area's (a county's or a district's) party x measure counts for one family at
+    one snapshot (ALL category).
+
+    ``area`` is the county's or district's value as the report prints it — for
+    districts that may be either printed spelling (see district_label).
+    """
+    column, area_filter = _GEOGRAPHY_FILTERS[geography]
     return {
         (r["party"], r["measure"]): r["value"]
         for r in conn.execute(
-            """SELECT party, measure, value FROM turnout_counts
-               WHERE election = ? AND family = ? AND geography = 'county'
-                 AND county = ? AND district = '' AND category = 'ALL' AND as_of = ?""",
-            (election, family, county, as_of),
+            f"""SELECT party, measure, value FROM turnout_counts
+               WHERE election = :election AND family = :family AND geography = :geography
+                 AND {area_filter} AND category = 'ALL' AND as_of = :as_of""",
+            {
+                "election": election,
+                "family": family,
+                "geography": geography,
+                "area": area,
+                "as_of": as_of,
+            },
+        )
+    }
+
+
+def _area_measures(
+    conn: sqlite3.Connection,
+    election: str,
+    family: str,
+    geography: str,
+    area: str,
+    as_of: str,
+) -> dict[str, int]:
+    """One area's measure values for one family, at the row the area's Total printed
+    (party and category ALL)."""
+    return {
+        r["measure"]: r["value"]
+        for r in conn.execute(
+            f"""SELECT measure, value FROM turnout_counts
+               WHERE election = :election AND family = :family AND geography = :geography
+                 AND {_GEOGRAPHY_FILTERS[geography][1]} AND category = 'ALL'
+                 AND party = 'ALL' AND as_of = :as_of""",
+            {
+                "election": election,
+                "family": family,
+                "geography": geography,
+                "area": area,
+                "as_of": as_of,
+            },
         )
     }
 
@@ -206,8 +259,8 @@ def county_rows(
     )
     out: list[dict] = []
     for county in counties:
-        sent = _county_cells(conn, election, "sent-returned", county, as_of)
-        method_cells = _county_cells(conn, election, "requests", county, requests_as_of)
+        sent = _area_cells(conn, election, "sent-returned", "county", county, as_of)
+        method_cells = _area_cells(conn, election, "requests", "county", county, requests_as_of)
         if not sent and not method_cells:
             continue  # the county reports on the other day only
         row: dict = {
@@ -359,16 +412,7 @@ def _family_county(
 ) -> dict[str, int]:
     """One county's counts for one certified family at one snapshot, at the row the
     county's Total printed (see _family_state)."""
-    return {
-        r["measure"]: r["value"]
-        for r in conn.execute(
-            """SELECT measure, value FROM turnout_counts
-               WHERE election = ? AND family = ? AND geography = 'county'
-                 AND county = ? AND district = '' AND category = 'ALL'
-                 AND party = 'ALL' AND as_of = ?""",
-            (election, family, county, as_of),
-        )
-    }
+    return _area_measures(conn, election, family, "county", county, as_of)
 
 
 def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
