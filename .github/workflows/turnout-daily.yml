@@ -23,6 +23,8 @@ on:
 
 permissions:
   contents: write
+  actions: write
+  # actions: write lets the publish step below start the pages workflow with this run's own token.
 
 concurrency:
   group: turnout
