@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-requests-county-20261013-38a857906b10",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/Mail-in_Ballot_Request_Counts_with_Chart.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 requests (county) as of 2026-10-13",
+  "fetch_date": "2026-10-14T17:43:44+00:00",
+  "parse_date": "2026-10-14T17:45:41+00:00",
+  "sha256_original": "38a857906b10d9bc3954c11aed43ab86bcb793cb7286f8c36cb584999a27ad17",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "requests",
+  "geography": "county",
+  "notes": "GG26 requests (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 168,
+    "as_of": "2026-10-13"
+  }
+}
