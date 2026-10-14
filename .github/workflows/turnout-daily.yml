@@ -74,7 +74,7 @@ jobs:
           git push
 
       - name: Publish the site (the bot push alone does not trigger Pages)
-        if: steps.changed.outputs.skip != 'true'
+        if: always()  # TEMPORARY: un-gated so a no-change dispatch proves the token can dispatch; restored right after
         run: gh workflow run pages.yml --ref main
         env:
           GH_TOKEN: ${{ github.token }}
