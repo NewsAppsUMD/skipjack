@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="{{ base }}/static/style.css">
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <link rel="icon" href="{{ base }}/static/img/favicon.ico" sizes="48x48 32x32 16x16">
+    <link rel="apple-touch-icon" href="{{ base }}/static/img/apple-touch-icon.png">
     {% block head %}{% endblock %}
 </head>
 <body>
     <header class="container">
         <nav>
             <ul>
-                <li><a href="{{ base }}/" class="brand"><strong>Skipjack</strong></a></li>
+                <li><a href="{{ base }}/" class="brand"><img class="brand-logo" src="{{ base }}/static/img/skipjack.webp" alt="" width="24" height="24"><strong>Skipjack</strong></a></li>
             </ul>
             <ul>
                 <li><a href="{{ base }}/voters/">Voter Registration</a></li>

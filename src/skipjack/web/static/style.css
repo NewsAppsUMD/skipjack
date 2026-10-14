@@ -14,8 +14,17 @@
 }
 
 .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     color: #1B3A4B !important;
     text-decoration: none;
+}
+
+.brand-logo {
+    width: 1.5rem;
+    height: auto;
+    border-radius: 50%;
 }
 
 footer {

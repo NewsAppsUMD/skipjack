@@ -77,3 +77,21 @@ def test_overall_series():
     assert county["new_registrations"] is None  # only reported statewide
     assert "only reported statewide" in r.text
     assert county["inactive"][i] == 820
+
+
+def test_every_page_carries_the_favicon_and_brand_logo():
+    html = client.get("/about").text
+    assert '<link rel="icon" href="/static/img/favicon.ico"' in html
+    assert '<link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">' in html
+    assert 'class="brand-logo"' in html
+
+
+def test_the_favicon_assets_derive_from_the_logo():
+    from PIL import Image
+
+    from skipjack.web.paths import STATIC_DIR
+
+    ico = Image.open(STATIC_DIR / "img" / "favicon.ico")
+    assert ico.info["sizes"] == {(48, 48), (32, 32), (16, 16)}
+    touch = Image.open(STATIC_DIR / "img" / "apple-touch-icon.png")
+    assert touch.size == (180, 180)
