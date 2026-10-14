@@ -142,9 +142,11 @@ Expected: a new *Publish site* run appears with event `workflow_dispatch` and go
 (about 1.5 minutes).
 
 **Step 5: Record the closed-loop test** — the full loop cannot be proven without a real
-data change. On the next actual change (tomorrow's 17:37Z scheduled run, or any
-`make turnout` run that lands new snapshots), verify a *Publish site* run starts with
-event `workflow_dispatch` about a minute after the bot push, with no human dispatch.
+data change. Only the scheduled 17:37Z run can prove it fully: its bot push must be
+followed by a *Publish site* run with event `workflow_dispatch`, about a minute after
+the push, with no human dispatch. A `make turnout` change that lands new snapshots is
+committed and pushed by a person instead; its publish (if any) arrives via event `push`
+and proves nothing about the token path.
 The design doc documents this expectation under Verification step 4; confirm it in the
 next session's summary.
 

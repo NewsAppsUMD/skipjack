@@ -61,10 +61,10 @@ commits + dispatches; human pushes still publish).
 2. Dispatch `Turnout snapshot` by hand on a no-change day: no commit, no publish.
 3. Run the step's exact command by hand once (`gh workflow run pages.yml --ref main`) and
    confirm a *Publish site* run starts.
-4. The loop closes on the next real data change — the next scheduled 1:37pm ET run, or
-   the next `make turnout` (whose snapshots a human then commits and pushes, so that
-   only the scheduled path proves it fully) — which must produce a *Publish site* run
-   with no human step.
+4. The loop closes on the next real data change. Only the scheduled 1:37pm ET run
+   proves it fully: its bot push must be followed by a *Publish site* run with no human
+   step. A `make turnout` change publishes the ordinary way instead — a person commits
+   and pushes its snapshots, whose push triggers `pages.yml`.
 
 ## Out of scope
 
