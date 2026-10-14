@@ -62,7 +62,9 @@ commits + dispatches; human pushes still publish).
 3. Run the step's exact command by hand once (`gh workflow run pages.yml --ref main`) and
    confirm a *Publish site* run starts.
 4. The loop closes on the next real data change — the next scheduled 1:37pm ET run, or
-   the next `make turnout` — which must produce a *Publish site* run with no human step.
+   the next `make turnout` (whose snapshots a human then commits and pushes, so that
+   only the scheduled path proves it fully) — which must produce a *Publish site* run
+   with no human step.
 
 ## Out of scope
 
