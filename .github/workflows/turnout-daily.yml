@@ -2,8 +2,10 @@
 #
 # What it does: fetch any changed turnout file (sha-deduped, so an unchanged day
 # downloads nothing new), parse the new snapshots into data/turnout/, rebuild the
-# database, run the tests, and commit what changed. The push to main is what deploys
-# the site (the Pages workflow runs on it), so this workflow does not deploy itself.
+# database, run the tests, and commit what changed. The token push cannot start the
+# Pages workflow (GitHub ignores pushes made by a workflow's own token), so after
+# committing the snapshot dispatches the publish itself; a person's push deploys the
+# ordinary way.
 #
 # A parse that does not reconcile fails the run (red) rather than publishing a wrong
 # number; the site keeps showing the previous day until someone looks at the file.
@@ -60,7 +62,7 @@ jobs:
           uv run skipjack build-db
           uv run pytest -q -m "not slow"
 
-      - name: Commit the new snapshots (the push deploys the site)
+      - name: Commit the new snapshots
         if: steps.changed.outputs.skip != 'true'
         run: |
           git config user.name "skipjack bot"
@@ -68,3 +70,9 @@ jobs:
           git add data/turnout archives/sbe/campaign_stats archives/manifest.csv
           git commit -m "turnout snapshot $(date -u +%F)"
           git push
+
+      - name: Publish the site (the bot push alone does not trigger Pages)
+        if: steps.changed.outputs.skip != 'true'
+        run: gh workflow run pages.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
