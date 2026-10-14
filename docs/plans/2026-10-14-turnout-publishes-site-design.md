@@ -30,7 +30,9 @@ One step in `turnout-daily.yml`, after the commit step, gated by the same
 Why this works: `gh` is preinstalled on the runner; `workflow_dispatch` is one of the two
 events exempt from the `GITHUB_TOKEN` no-trigger rule, and `pages.yml` already declares
 `workflow_dispatch`; the workflow's existing `contents: write` permission is enough to
-dispatch it; ordering is guaranteed because the dispatch happens only after the data push
+dispatch it (amended during implementation: the dispatches endpoint requires an
+`actions: write` grant for the workflow token, so the permissions block gained it);
+ordering is guaranteed because the dispatch happens only after the data push
 succeeded, and the fresh publish run checks out main with the new data. No new secrets,
 no changes to `pages.yml`.
 

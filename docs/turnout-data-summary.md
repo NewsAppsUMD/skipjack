@@ -142,8 +142,10 @@ the district grain.
 general's mail-in files until the canvass ends, GP26's certified-denominator workbooks when
 the board re-publishes them (see the sidebar below), and the general's certified families
 when they appear after certification. The sha-dedupe keeps an unchanged day cheap; a
-non-reconciling file makes the run red rather than publishing a wrong number; a `git push`
-is what deploys the site (the Pages workflow runs on it). `make turnout` runs the same.
+non-reconciling file makes the run red rather than publishing a wrong number; the
+snapshot commits what changed and pushes, then starts the Pages workflow itself
+(GitHub ignores pushes made by a workflow's own token); a person's push deploys the
+ordinary way. `make turnout` runs the same.
 
 ## Known data quirks (the SBE's own numbers, documented honestly)
 
