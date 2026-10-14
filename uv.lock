@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.13"
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'win32'",
@@ -2423,6 +2423,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "openpyxl" },
+    { name = "pillow" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
@@ -2450,6 +2451,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "openpyxl", specifier = ">=3.1.5" },
+    { name = "pillow", specifier = ">=12.2.0" },
     { name = "pytest", specifier = ">=8.0" },
     { name = "pytest-asyncio", specifier = ">=0.24" },
     { name = "ruff", specifier = ">=0.9" },

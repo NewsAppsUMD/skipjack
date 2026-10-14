@@ -84,6 +84,7 @@ def test_every_page_carries_the_favicon_and_brand_logo():
     assert '<link rel="icon" href="/static/img/favicon.ico"' in html
     assert '<link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">' in html
     assert 'class="brand-logo"' in html
+    assert 'src="/static/img/skipjack.webp"' in html
 
 
 def test_the_favicon_assets_derive_from_the_logo():
@@ -95,3 +96,13 @@ def test_the_favicon_assets_derive_from_the_logo():
     assert ico.info["sizes"] == {(48, 48), (32, 32), (16, 16)}
     touch = Image.open(STATIC_DIR / "img" / "apple-touch-icon.png")
     assert touch.size == (180, 180)
+
+
+def test_the_home_page_carries_the_hero_logo_and_enlarged_title():
+    html = client.get("/").text
+    assert 'class="hero-logo"' in html
+    assert '<img class="hero-logo" src="/static/img/skipjack.webp" width="128" height="128"' in html
+    assert 'class="hero"' in html
+    assert "Navigating the Maryland electorate through data" in html
+    # the nav brand keeps its own size: the hero class comes from the hgroup alone
+    assert html.count('class="hero"') == 1

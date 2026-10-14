@@ -27,6 +27,23 @@
     border-radius: 50%;
 }
 
+/* The homepage's brand block: the README's logo over the title over the tagline. */
+hgroup.hero {
+    text-align: center;
+}
+
+hgroup.hero h1 {
+    font-size: 2.75rem;
+    margin-bottom: 0;
+}
+
+.hero-logo {
+    display: block;
+    width: 8rem;
+    height: auto;
+    margin: 0 auto 1rem;
+}
+
 footer {
     margin-top: 3rem;
     padding-top: 1rem;

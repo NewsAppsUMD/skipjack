@@ -28,6 +28,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "openpyxl>=3.1.5",
+    "pillow>=12.2.0",
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
     "ruff>=0.9",
