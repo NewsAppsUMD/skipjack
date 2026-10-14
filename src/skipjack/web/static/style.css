@@ -27,12 +27,12 @@
     border-radius: 50%;
 }
 
-/* The homepage's brand block: the README's logo over the title over the tagline. */
-hgroup.hero {
+/* The homepage's brand block: the README's logo over the title over the tagline. The h1's `margin-bottom: 0` restates Pico's hgroup rule on purpose: it locks the look when the CDN's @2 tag moves. */
+.hero {
     text-align: center;
 }
 
-hgroup.hero h1 {
+.hero h1 {
     font-size: 2.75rem;
     margin-bottom: 0;
 }

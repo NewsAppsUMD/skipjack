@@ -85,6 +85,7 @@ def test_every_page_carries_the_favicon_and_brand_logo():
     assert '<link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">' in html
     assert 'class="brand-logo"' in html
     assert 'src="/static/img/skipjack.webp"' in html
+    assert 'class="hero"' not in html  # the hero belongs to the home page alone
 
 
 def test_the_favicon_assets_derive_from_the_logo():
@@ -104,5 +105,5 @@ def test_the_home_page_carries_the_hero_logo_and_enlarged_title():
     assert '<img class="hero-logo" src="/static/img/skipjack.webp" width="128" height="128"' in html
     assert 'class="hero"' in html
     assert "Navigating the Maryland electorate through data" in html
-    # the nav brand keeps its own size: the hero class comes from the hgroup alone
+    # the nav brand keeps its own size: the hero class comes from the hero div alone
     assert html.count('class="hero"') == 1

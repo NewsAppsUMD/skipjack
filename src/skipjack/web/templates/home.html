@@ -7,12 +7,14 @@
 {% endblock %}
 
 {% block content %}
-<hgroup class="hero">
+<div class="hero">
     <img class="hero-logo" src="{{ base }}/static/img/skipjack.webp" width="128" height="128"
         alt="Line drawing of a Chesapeake Bay skipjack sailing on blue waves, inside a circle">
-    <h1>Skipjack</h1>
-    <p>Navigating the Maryland electorate through data</p>
-</hgroup>
+    <hgroup>
+        <h1>Skipjack</h1>
+        <p>Navigating the Maryland electorate through data</p>
+    </hgroup>
+</div>
 
 {% if summary.sentences %}
 <section>

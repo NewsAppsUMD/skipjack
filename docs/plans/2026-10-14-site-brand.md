@@ -140,7 +140,7 @@ def test_the_home_page_carries_the_hero_logo_and_enlarged_title():
     )
     assert 'class="hero"' in html
     assert "Navigating the Maryland electorate through data" in html
-    # the nav brand keeps its own size: the hero class comes from the hgroup alone
+    # the nav brand keeps its own size: the hero class comes from the hero div alone
     assert html.count('class="hero"') == 1
 ```
 
@@ -161,23 +161,28 @@ Expected: FAIL (no hero-logo markup yet).
 with:
 
 ```html
-<hgroup class="hero">
+<div class="hero">
     <img class="hero-logo" src="{{ base }}/static/img/skipjack.webp" width="128" height="128"
         alt="Line drawing of a Chesapeake Bay skipjack sailing on blue waves, inside a circle">
-    <h1>Skipjack</h1>
-    <p>Navigating the Maryland electorate through data</p>
-</hgroup>
+    <hgroup>
+        <h1>Skipjack</h1>
+        <p>Navigating the Maryland electorate through data</p>
+    </hgroup>
+</div>
 ```
+
+(amended during implementation: the img must not be a child of hgroup — the wrapper div
+carries the hero class)
 
 **Step 4: The hero CSS** — in `style.css`, directly after the `.brand-logo` rule:
 
 ```css
-/* The homepage's brand block: the README's logo over the title over the tagline. */
-hgroup.hero {
+/* The homepage's brand block: the README's logo over the title over the tagline. The h1's `margin-bottom: 0` restates Pico's hgroup rule on purpose: it locks the look when the CDN's @2 tag moves. */
+.hero {
     text-align: center;
 }
 
-hgroup.hero h1 {
+.hero h1 {
     font-size: 2.75rem;
     margin-bottom: 0;
 }

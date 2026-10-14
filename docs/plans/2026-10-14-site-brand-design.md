@@ -18,9 +18,11 @@ only by `home.html`.
 
 ### 1. Homepage hero (mirrors the README)
 
-`home.html`'s hgroup: the logo image above the title, both centered, tagline under them.
-Sizes: logo display block ~8rem; the h1 ~2.75rem (from Pico's hgroup default) via a scoped
-class on the hgroup so no other page's headings move.
+`home.html`'s hero: the logo image above the title, both centered, tagline under them — a
+`div.hero` wrapper holding the logo img and an inner, plain hgroup (amended during
+implementation: the img must not be a child of hgroup — the wrapper div carries the hero
+class). Sizes: logo display block ~8rem; the h1 ~2.75rem (from Pico's hgroup default) via a
+scoped class on the wrapper so no other page's headings move.
 
 ### 2. Header nav brand (every page)
 
