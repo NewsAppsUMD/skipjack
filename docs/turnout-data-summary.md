@@ -145,7 +145,8 @@ when they appear after certification. The sha-dedupe keeps an unchanged day chea
 non-reconciling file makes the run red rather than publishing a wrong number; the
 snapshot commits what changed and pushes, then starts the Pages workflow itself
 (GitHub ignores pushes made by a workflow's own token); a person's push deploys the
-ordinary way. `make turnout` runs the same.
+ordinary way. `make turnout` runs the fetch and parse by hand; commit and push what
+it produces and the ordinary human push triggers the Pages workflow.
 
 ## Known data quirks (the SBE's own numbers, documented honestly)
 

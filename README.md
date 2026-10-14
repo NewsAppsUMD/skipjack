@@ -180,8 +180,8 @@ passes. One-time setup: in the repository's **Settings > Pages**, set the source
 During a campaign, `.github/workflows/turnout-daily.yml` snapshots the press-room turnout
 files once a day (fetch, parse, build, test), commits what changed, and pushes — then
 starts the Pages workflow itself, because GitHub ignores pushes made by a workflow's own
-token. `make turnout` does the same by hand, and publishes the ordinary way: your push is
-a person's push, which triggers `pages.yml` on its own.
+token. `make turnout` runs the fetching and parsing by hand: commit and push what it
+produces, and — because your push is a person's push — `pages.yml` runs on its own.
 
 Pages sites are public, even for a private repository.
 
