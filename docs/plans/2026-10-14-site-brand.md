@@ -4,7 +4,7 @@
 
 **Goal:** Put the README's skipjack logo on the site (header nav + homepage hero), enlarge the hero title, and ship the logo as a favicon.
 
-**Architecture:** Template + CSS only for markup (the build already copies `static/`); two derived icon assets generated once from `skipjack.webp` with Pillow (already in the environment) and committed. All styling in `style.css`; scoping keeps every other page's headings untouched.
+**Architecture:** Template + CSS only for markup (the build already copies `static/`); two derived icon assets generated once from `skipjack.webp` with Pillow (already in the environment — promoted to an explicit dev dependency during implementation, Task 2's fold-in) and committed. All styling in `style.css`; scoping keeps every other page's headings untouched.
 
 **Tech Stack:** Jinja2 templates (`src/skipjack/web/templates/`), `style.css`, FastAPI TestClient tests, Pillow for the one-off icon generation.
 
@@ -111,6 +111,14 @@ and the brand link (line 16) becomes:
 
 Run: `uv run pytest tests/test_web.py -q`
 Expected: all pass (the two new ones green; the pre-existing smoke tests untouched).
+
+*Amended during implementation (from the review loops, landed with this task's commits):
+(a) `tests/test_static_site.py`'s published-suffix allowlist (the publish safety net) gains
+`.ico` and `.png` — the static copytree ships the committed icons, so the set must admit
+them; (b) the first test also pins the brand img's `src` and, after Task 2, that the hero
+class stays off other pages. (c) The plan's white-flatten step turned out to be a no-op:
+`skipjack.webp` is opaque (mode RGB), so the touch icon simply carries the logo's own
+cream background.*
 
 **Step 7: Commit**
 

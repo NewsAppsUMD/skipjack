@@ -43,7 +43,9 @@ rejected (machinery/bloat for two committed assets).
 
 Template + CSS only for the markup: no Python changes, no build changes — the existing
 `copytree` ships the new committed icons. All styling lives in `style.css`
-(`.hero-logo`, the scoped hero size, `.brand-logo`).
+(`.hero-logo`, the scoped hero size, `.brand-logo`). (Amended during implementation: the
+new tests import Pillow directly, so pillow was promoted to an explicit dev dependency in
+`pyproject.toml`/`uv.lock`.)
 
 ## Verification
 
