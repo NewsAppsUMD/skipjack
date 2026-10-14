@@ -56,15 +56,25 @@ commits + dispatches; human pushes still publish).
 
 ## Verification
 
+Statuses as recorded after implementation day (2026-10-14):
+
 1. Syntax check both workflows (actionlint if available; otherwise the push plus a manual
-   dispatch proves GitHub parses them).
+   dispatch proves GitHub parses them). — DONE (PyYAML + both workflows green on GitHub).
 2. Dispatch `Turnout snapshot` by hand on a no-change day: no commit, no publish.
+    — NOT EXERCISABLE yet: the fetcher re-records every file's manifest row each run
+   (pre-existing, out of scope), so each dispatch looks changed; the gate's skip
+   direction is spec-verified (byte-identical to the commit step's gate) but has had no
+   live run.
 3. Run the step's exact command by hand once (`gh workflow run pages.yml --ref main`) and
-   confirm a *Publish site* run starts.
+   confirm a *Publish site* run starts. — SUPERSEDED by stronger evidence: two
+   bot-token dispatches created *Publish site* runs (triggering_actor =
+   github-actions[bot]), both green.
 4. The loop closes on the next real data change. Only the scheduled 1:37pm ET run
    proves it fully: its bot push must be followed by a *Publish site* run with no human
    step. A `make turnout` change publishes the ordinary way instead — a person commits
    and pushes its snapshots, whose push triggers `pages.yml`.
+    — The dispatch-driven path was proven live twice on day one with genuinely changed
+   data; the first scheduled run (tomorrow's) is the final proof.
 
 ## Out of scope
 

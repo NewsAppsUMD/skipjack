@@ -135,11 +135,19 @@ snapshot is the latest data and the board has not refreshed since), exits succes
 assertion that matters — **no new *Publish site* run is created** (check
 `gh run list --workflow=pages.yml --limit 2`; the newest entry is still the push from
 Step 1).
+*Outcome (recorded 2026-10-14): not exercisable — the fetcher re-records every file's
+manifest row each run (pre-existing quirk, out of scope), so every dispatch looks changed.
+Two dispatch attempts both found genuinely changed data and proved the changed→commit→
+push→token-dispatch→green-deploy path twice instead. The gate's skip direction stands by
+spec review (byte-identical to the commit step's gate) until a live run can hit it.*
 
 **Step 4: Prove the trigger with the step's exact command** —
 `gh workflow run pages.yml --ref main`.
 Expected: a new *Publish site* run appears with event `workflow_dispatch` and goes green
 (about 1.5 minutes).
+*Outcome (recorded 2026-10-14): superseded by stronger evidence — the snapshot run's
+own token dispatched two *Publish site* runs (triggering_actor = github-actions[bot]),
+both green; a hand dispatch was unnecessary.*
 
 **Step 5: Record the closed-loop test** — the full loop cannot be proven without a real
 data change. Only the scheduled 17:37Z run can prove it fully: its bot push must be
