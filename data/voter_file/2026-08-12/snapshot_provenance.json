@@ -4,9 +4,12 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "Statewide voter registration list with voter history (2026-08-12)",
   "fetch_date": "2026-09-21T14:19:56+00:00",
-  "parse_date": "2026-10-07T16:20:22+00:00",
+  "parse_date": "2026-10-15T16:46:36+00:00",
   "sha256_original": "3601757cca6ced4713bd347e81623f14897961e6eaa9b52392451439095e2bc2",
   "parser_version": "skipjack 0.3.0",
+  "election": "",
+  "family": "",
+  "geography": "",
   "notes": "Aggregated with polars; no row-level data is written.",
   "extraction_method": "polars",
   "checks": {
@@ -20,9 +23,586 @@
       "I": 285544,
       "A": 4275582
     },
+    "race_unmatched_share": 0.0,
     "latest_registration_date": "2026-08-12",
     "reconciled": true,
     "elections_not_yet_held": [],
+    "race": {
+      "method": "BISG (wru predict_race, model = BISG)",
+      "names_used": "surname, first, middle",
+      "conditioned_on": "ZIP code tabulation area, county where there is none",
+      "census_year": "2020",
+      "wru_version": "3.1.0",
+      "share_zcta": 0.999944,
+      "share_county_fallback": 5.6e-05,
+      "share_surname_on_2010_list": 0.863605,
+      "predictions_sha256": "10d484e6cbce5b8f1f117dbc9255fe1dd684bcb11653b44d3ee03784f9c55e24",
+      "census_source_id": "census-pl94171-2020-md-county-vap",
+      "census_county_csv": "archives/census/md_county_vap_2020.csv",
+      "unmatched_share": 0.0,
+      "calibration": {
+        "Maryland": {
+          "white": {
+            "estimated_pct": 52.3,
+            "census_vap_pct": 49.9
+          },
+          "black": {
+            "estimated_pct": 29.7,
+            "census_vap_pct": 28.8
+          },
+          "hispanic": {
+            "estimated_pct": 7.2,
+            "census_vap_pct": 10.2
+          },
+          "asian": {
+            "estimated_pct": 5.9,
+            "census_vap_pct": 6.9
+          },
+          "other": {
+            "estimated_pct": 4.9,
+            "census_vap_pct": 4.2
+          }
+        },
+        "counties": {
+          "Allegany": {
+            "white": {
+              "estimated_pct": 91.4,
+              "census_vap_pct": 85.5
+            },
+            "black": {
+              "estimated_pct": 4.8,
+              "census_vap_pct": 8.7
+            },
+            "hispanic": {
+              "estimated_pct": 0.7,
+              "census_vap_pct": 1.5
+            },
+            "asian": {
+              "estimated_pct": 0.6,
+              "census_vap_pct": 1.1
+            },
+            "other": {
+              "estimated_pct": 2.6,
+              "census_vap_pct": 3.2
+            }
+          },
+          "Anne Arundel": {
+            "white": {
+              "estimated_pct": 68.7,
+              "census_vap_pct": 65.6
+            },
+            "black": {
+              "estimated_pct": 17.3,
+              "census_vap_pct": 17.1
+            },
+            "hispanic": {
+              "estimated_pct": 5.5,
+              "census_vap_pct": 8.0
+            },
+            "asian": {
+              "estimated_pct": 3.3,
+              "census_vap_pct": 4.5
+            },
+            "other": {
+              "estimated_pct": 5.2,
+              "census_vap_pct": 4.7
+            }
+          },
+          "Baltimore City": {
+            "white": {
+              "estimated_pct": 31.4,
+              "census_vap_pct": 29.4
+            },
+            "black": {
+              "estimated_pct": 58.7,
+              "census_vap_pct": 55.8
+            },
+            "hispanic": {
+              "estimated_pct": 3.4,
+              "census_vap_pct": 6.7
+            },
+            "asian": {
+              "estimated_pct": 2.1,
+              "census_vap_pct": 4.1
+            },
+            "other": {
+              "estimated_pct": 4.4,
+              "census_vap_pct": 3.9
+            }
+          },
+          "Baltimore County": {
+            "white": {
+              "estimated_pct": 55.5,
+              "census_vap_pct": 55.2
+            },
+            "black": {
+              "estimated_pct": 31.3,
+              "census_vap_pct": 28.5
+            },
+            "hispanic": {
+              "estimated_pct": 3.8,
+              "census_vap_pct": 6.0
+            },
+            "asian": {
+              "estimated_pct": 4.6,
+              "census_vap_pct": 6.3
+            },
+            "other": {
+              "estimated_pct": 4.7,
+              "census_vap_pct": 4.0
+            }
+          },
+          "Calvert": {
+            "white": {
+              "estimated_pct": 79.3,
+              "census_vap_pct": 76.0
+            },
+            "black": {
+              "estimated_pct": 12.2,
+              "census_vap_pct": 13.4
+            },
+            "hispanic": {
+              "estimated_pct": 2.5,
+              "census_vap_pct": 3.7
+            },
+            "asian": {
+              "estimated_pct": 1.0,
+              "census_vap_pct": 1.7
+            },
+            "other": {
+              "estimated_pct": 5.1,
+              "census_vap_pct": 5.2
+            }
+          },
+          "Caroline": {
+            "white": {
+              "estimated_pct": 80.6,
+              "census_vap_pct": 75.8
+            },
+            "black": {
+              "estimated_pct": 12.3,
+              "census_vap_pct": 12.9
+            },
+            "hispanic": {
+              "estimated_pct": 3.1,
+              "census_vap_pct": 6.6
+            },
+            "asian": {
+              "estimated_pct": 0.7,
+              "census_vap_pct": 0.9
+            },
+            "other": {
+              "estimated_pct": 3.2,
+              "census_vap_pct": 3.7
+            }
+          },
+          "Carroll": {
+            "white": {
+              "estimated_pct": 89.5,
+              "census_vap_pct": 86.9
+            },
+            "black": {
+              "estimated_pct": 3.1,
+              "census_vap_pct": 3.7
+            },
+            "hispanic": {
+              "estimated_pct": 2.4,
+              "census_vap_pct": 3.6
+            },
+            "asian": {
+              "estimated_pct": 1.6,
+              "census_vap_pct": 2.1
+            },
+            "other": {
+              "estimated_pct": 3.5,
+              "census_vap_pct": 3.6
+            }
+          },
+          "Cecil": {
+            "white": {
+              "estimated_pct": 84.9,
+              "census_vap_pct": 82.8
+            },
+            "black": {
+              "estimated_pct": 7.3,
+              "census_vap_pct": 7.1
+            },
+            "hispanic": {
+              "estimated_pct": 2.7,
+              "census_vap_pct": 4.2
+            },
+            "asian": {
+              "estimated_pct": 0.8,
+              "census_vap_pct": 1.3
+            },
+            "other": {
+              "estimated_pct": 4.3,
+              "census_vap_pct": 4.6
+            }
+          },
+          "Charles": {
+            "white": {
+              "estimated_pct": 35.2,
+              "census_vap_pct": 37.2
+            },
+            "black": {
+              "estimated_pct": 53.1,
+              "census_vap_pct": 47.7
+            },
+            "hispanic": {
+              "estimated_pct": 4.2,
+              "census_vap_pct": 5.8
+            },
+            "asian": {
+              "estimated_pct": 1.9,
+              "census_vap_pct": 3.5
+            },
+            "other": {
+              "estimated_pct": 5.7,
+              "census_vap_pct": 5.7
+            }
+          },
+          "Dorchester": {
+            "white": {
+              "estimated_pct": 64.9,
+              "census_vap_pct": 65.1
+            },
+            "black": {
+              "estimated_pct": 28.8,
+              "census_vap_pct": 26.0
+            },
+            "hispanic": {
+              "estimated_pct": 2.6,
+              "census_vap_pct": 4.3
+            },
+            "asian": {
+              "estimated_pct": 0.7,
+              "census_vap_pct": 1.1
+            },
+            "other": {
+              "estimated_pct": 3.1,
+              "census_vap_pct": 3.5
+            }
+          },
+          "Frederick": {
+            "white": {
+              "estimated_pct": 72.7,
+              "census_vap_pct": 71.3
+            },
+            "black": {
+              "estimated_pct": 9.6,
+              "census_vap_pct": 9.5
+            },
+            "hispanic": {
+              "estimated_pct": 8.0,
+              "census_vap_pct": 10.0
+            },
+            "asian": {
+              "estimated_pct": 4.5,
+              "census_vap_pct": 4.8
+            },
+            "other": {
+              "estimated_pct": 5.1,
+              "census_vap_pct": 4.3
+            }
+          },
+          "Garrett": {
+            "white": {
+              "estimated_pct": 97.3,
+              "census_vap_pct": 95.6
+            },
+            "black": {
+              "estimated_pct": 0.7,
+              "census_vap_pct": 0.8
+            },
+            "hispanic": {
+              "estimated_pct": 0.4,
+              "census_vap_pct": 0.9
+            },
+            "asian": {
+              "estimated_pct": 0.2,
+              "census_vap_pct": 0.3
+            },
+            "other": {
+              "estimated_pct": 1.5,
+              "census_vap_pct": 2.5
+            }
+          },
+          "Harford": {
+            "white": {
+              "estimated_pct": 76.1,
+              "census_vap_pct": 74.8
+            },
+            "black": {
+              "estimated_pct": 14.0,
+              "census_vap_pct": 13.3
+            },
+            "hispanic": {
+              "estimated_pct": 3.1,
+              "census_vap_pct": 4.5
+            },
+            "asian": {
+              "estimated_pct": 2.3,
+              "census_vap_pct": 3.1
+            },
+            "other": {
+              "estimated_pct": 4.5,
+              "census_vap_pct": 4.3
+            }
+          },
+          "Howard": {
+            "white": {
+              "estimated_pct": 51.2,
+              "census_vap_pct": 50.6
+            },
+            "black": {
+              "estimated_pct": 18.5,
+              "census_vap_pct": 18.5
+            },
+            "hispanic": {
+              "estimated_pct": 5.3,
+              "census_vap_pct": 7.2
+            },
+            "asian": {
+              "estimated_pct": 19.1,
+              "census_vap_pct": 19.3
+            },
+            "other": {
+              "estimated_pct": 5.9,
+              "census_vap_pct": 4.4
+            }
+          },
+          "Kent": {
+            "white": {
+              "estimated_pct": 83.2,
+              "census_vap_pct": 77.4
+            },
+            "black": {
+              "estimated_pct": 11.9,
+              "census_vap_pct": 13.6
+            },
+            "hispanic": {
+              "estimated_pct": 1.8,
+              "census_vap_pct": 4.7
+            },
+            "asian": {
+              "estimated_pct": 0.5,
+              "census_vap_pct": 1.4
+            },
+            "other": {
+              "estimated_pct": 2.6,
+              "census_vap_pct": 3.0
+            }
+          },
+          "Montgomery": {
+            "white": {
+              "estimated_pct": 44.7,
+              "census_vap_pct": 43.4
+            },
+            "black": {
+              "estimated_pct": 16.6,
+              "census_vap_pct": 17.7
+            },
+            "hispanic": {
+              "estimated_pct": 16.1,
+              "census_vap_pct": 18.6
+            },
+            "asian": {
+              "estimated_pct": 16.1,
+              "census_vap_pct": 15.9
+            },
+            "other": {
+              "estimated_pct": 6.5,
+              "census_vap_pct": 4.3
+            }
+          },
+          "Prince George's": {
+            "white": {
+              "estimated_pct": 12.9,
+              "census_vap_pct": 12.9
+            },
+            "black": {
+              "estimated_pct": 68.5,
+              "census_vap_pct": 60.3
+            },
+            "hispanic": {
+              "estimated_pct": 11.6,
+              "census_vap_pct": 18.4
+            },
+            "asian": {
+              "estimated_pct": 2.9,
+              "census_vap_pct": 4.6
+            },
+            "other": {
+              "estimated_pct": 4.1,
+              "census_vap_pct": 3.7
+            }
+          },
+          "Queen Anne's": {
+            "white": {
+              "estimated_pct": 89.3,
+              "census_vap_pct": 85.6
+            },
+            "black": {
+              "estimated_pct": 4.9,
+              "census_vap_pct": 5.8
+            },
+            "hispanic": {
+              "estimated_pct": 2.0,
+              "census_vap_pct": 4.0
+            },
+            "asian": {
+              "estimated_pct": 0.8,
+              "census_vap_pct": 1.2
+            },
+            "other": {
+              "estimated_pct": 3.0,
+              "census_vap_pct": 3.4
+            }
+          },
+          "Somerset": {
+            "white": {
+              "estimated_pct": 63.6,
+              "census_vap_pct": 53.7
+            },
+            "black": {
+              "estimated_pct": 30.1,
+              "census_vap_pct": 38.8
+            },
+            "hispanic": {
+              "estimated_pct": 1.9,
+              "census_vap_pct": 3.3
+            },
+            "asian": {
+              "estimated_pct": 0.8,
+              "census_vap_pct": 1.0
+            },
+            "other": {
+              "estimated_pct": 3.7,
+              "census_vap_pct": 3.1
+            }
+          },
+          "St. Mary's": {
+            "white": {
+              "estimated_pct": 76.2,
+              "census_vap_pct": 72.8
+            },
+            "black": {
+              "estimated_pct": 13.8,
+              "census_vap_pct": 14.1
+            },
+            "hispanic": {
+              "estimated_pct": 3.2,
+              "census_vap_pct": 4.9
+            },
+            "asian": {
+              "estimated_pct": 1.7,
+              "census_vap_pct": 3.1
+            },
+            "other": {
+              "estimated_pct": 5.0,
+              "census_vap_pct": 5.2
+            }
+          },
+          "Talbot": {
+            "white": {
+              "estimated_pct": 82.9,
+              "census_vap_pct": 78.2
+            },
+            "black": {
+              "estimated_pct": 10.3,
+              "census_vap_pct": 10.9
+            },
+            "hispanic": {
+              "estimated_pct": 3.3,
+              "census_vap_pct": 6.7
+            },
+            "asian": {
+              "estimated_pct": 0.9,
+              "census_vap_pct": 1.3
+            },
+            "other": {
+              "estimated_pct": 2.6,
+              "census_vap_pct": 2.8
+            }
+          },
+          "Washington": {
+            "white": {
+              "estimated_pct": 79.9,
+              "census_vap_pct": 77.6
+            },
+            "black": {
+              "estimated_pct": 9.7,
+              "census_vap_pct": 10.9
+            },
+            "hispanic": {
+              "estimated_pct": 4.6,
+              "census_vap_pct": 5.4
+            },
+            "asian": {
+              "estimated_pct": 1.3,
+              "census_vap_pct": 1.9
+            },
+            "other": {
+              "estimated_pct": 4.4,
+              "census_vap_pct": 4.2
+            }
+          },
+          "Wicomico": {
+            "white": {
+              "estimated_pct": 64.1,
+              "census_vap_pct": 62.1
+            },
+            "black": {
+              "estimated_pct": 26.3,
+              "census_vap_pct": 25.3
+            },
+            "hispanic": {
+              "estimated_pct": 3.2,
+              "census_vap_pct": 5.6
+            },
+            "asian": {
+              "estimated_pct": 2.3,
+              "census_vap_pct": 3.1
+            },
+            "other": {
+              "estimated_pct": 4.0,
+              "census_vap_pct": 3.9
+            }
+          },
+          "Worcester": {
+            "white": {
+              "estimated_pct": 84.5,
+              "census_vap_pct": 81.4
+            },
+            "black": {
+              "estimated_pct": 9.9,
+              "census_vap_pct": 11.0
+            },
+            "hispanic": {
+              "estimated_pct": 1.8,
+              "census_vap_pct": 3.2
+            },
+            "asian": {
+              "estimated_pct": 0.9,
+              "census_vap_pct": 1.3
+            },
+            "other": {
+              "estimated_pct": 3.0,
+              "census_vap_pct": 3.1
+            }
+          }
+        }
+      },
+      "limitations": [
+        "Race is estimated, not recorded. Maryland's voter file has no race or ethnicity field. Each voter's race is estimated from their surname, first and middle names and ZIP code with Bayesian Improved Surname Geocoding (BISG, the wru package). The estimate for one voter is a set of probabilities, never a fact about that person.",
+        "Counts are expected values: the sum of the probabilities for each group, rounded. They describe groups of voters and are most reliable for large groups. A cell of 1 to 9 is hidden like any other.",
+        "BISG is known to err in a pattern. In integrated areas it tends to place Black voters in the white group, and it identifies multiracial voters, Native Americans and Pacific Islanders poorly: all of them land in 'other' or in another group. Hispanic and Asian estimates rest heavily on surname.",
+        "ZIP code is coarser than a census block, so the geographic part of the estimate is weaker than in studies that geocode addresses. Voters with no usable ZIP code are placed using their county.",
+        "The estimate does not use party, age or sex, so the race by party and race by age tables do not repeat what the model was given. Active and inactive registrants are both counted.",
+        "The comparison with the Census is rough: it sets the estimated race of registered voters against the 2020 voting-age population, and registration rates differ by group."
+      ]
+    },
     "vrar_cross_check": {
       "vrar_month": "2026-08",
       "file_active": 4275582,

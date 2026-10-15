@@ -122,6 +122,7 @@ def cmd_voterfile(args: argparse.Namespace) -> None:
             snapshot_date=args.snapshot_date,
             suppress_below=args.suppress_below,
             force=args.force,
+            race_predictions=args.race_predictions,
         )
     except VoterFileError as e:
         print(f"voterfile: {e}", file=sys.stderr)
@@ -133,6 +134,24 @@ def cmd_voterfile(args: argparse.Namespace) -> None:
         f"(readme: {checks['readme_total_records'] or 'none'}); {checks['rows_rejected']} malformed rows "
         f"rejected; {checks['parts']} parts, {checks['duplicates_skipped']} duplicate skipped"
     )
+
+
+def cmd_race_input(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.race import build_input
+    from skipjack.pipeline.voterfile import VoterFileError
+
+    try:
+        summary = build_input(args.path, args.out, snapshot_date=args.snapshot_date)
+    except VoterFileError as e:
+        print(f"race-input: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Wrote {summary['rows_written']:,} voters to {summary['input_path']}")
+    print(
+        f"  {summary['blank_surname']:,} without a surname, {summary['blank_zcta']:,} without a "
+        "ZIP code. This file is personal data: keep it outside the repository."
+    )
+    print("Next: Rscript scripts/race/predict_race.R", Path(summary["input_path"]).parent)
 
 
 def cmd_build_site(args: argparse.Namespace) -> None:
@@ -216,6 +235,19 @@ def main(argv: list[str] | None = None) -> None:
     vf_p.add_argument("--out", type=Path, default=Path("data/voter_file"))
     vf_p.add_argument("--suppress-below", type=int, default=10)
     vf_p.add_argument("--force", action="store_true", help="Rebuild an existing snapshot")
+    vf_p.add_argument(
+        "--race-predictions",
+        type=Path,
+        metavar="DIR",
+        help="Directory holding predictions.csv and run.json from scripts/race/predict_race.R",
+    )
+
+    race_p = sub.add_parser(
+        "race-input", help="Write the names and ZIP codes for race estimation, outside the repo"
+    )
+    race_p.add_argument("--path", required=True, type=Path, help="Voter file directory or file")
+    race_p.add_argument("--snapshot-date", metavar="YYYY-MM-DD", help="Override the readme date")
+    race_p.add_argument("--out", required=True, type=Path, help="Directory outside this repository")
 
     site_p = sub.add_parser("build-site", help="Render the site as static files")
     site_p.add_argument("--out", type=Path, default=Path("site"))
@@ -244,6 +276,7 @@ def main(argv: list[str] | None = None) -> None:
         "turnout-fetch": cmd_turnout_fetch,
         "turnout-parse": cmd_turnout_parse,
         "voterfile": cmd_voterfile,
+        "race-input": cmd_race_input,
         "build-site": cmd_build_site,
         "build-db": cmd_build_db,
         "serve": cmd_serve,

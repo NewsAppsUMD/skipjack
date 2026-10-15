@@ -103,9 +103,9 @@ def load_table(conn: sqlite3.Connection, subdir: str, data_dir: Path = DATA_DIR)
 VOTER_FILE_DIMS = [
     "county", "party_group", "party", "status", "election", "age_band", "generation",
     "reg_year", "district_type", "district", "gender", "voter_type", "eligible_elections",
-    "reg_window", "reg_week",
+    "reg_window", "reg_week", "race",
 ]  # fmt: skip
-VOTER_FILE_COLUMNS = ["snapshot_date", "metric", *VOTER_FILE_DIMS, "count", "eligible"]
+VOTER_FILE_COLUMNS = ["snapshot_date", "metric", *VOTER_FILE_DIMS, "count", "eligible", "voters"]
 
 
 def load_voter_file(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
@@ -140,6 +140,7 @@ def load_voter_file(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
                     **dict.fromkeys(VOTER_FILE_DIMS),
                     "count": None,
                     "eligible": None,
+                    "voters": None,
                     **row,
                 }
                 for row in payload["rows"]

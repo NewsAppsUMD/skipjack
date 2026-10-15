@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}Estimated race of voters{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+<style>
+    .race-note { background: #f3f1ea; border-left: 4px solid #52514e; border-radius: 4px; padding: 0.75rem 1rem; margin: 0 0 1rem; font-size: 0.95rem; }
+    .race-note p { margin: 0 0 0.5rem; }
+    .race-note p:last-child { margin: 0; }
+    .about li { margin-bottom: 0.4rem; }
+</style>
+{% endblock %}
+
+{% macro shares_table(rows, first_heading, key, link=false) %}
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>{{ first_heading }}</th>
+            <th>Registered</th>
+            {% for race in r.races %}<th>{{ r.race_labels[race] }}</th>{% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr{% if row.get("group") == "ALL" or row.get("county") == "Maryland" %} style="font-weight:600"{% endif %}>
+            <td>{{ row[key] }}</td>
+            <td>{{ m.n(row.voters) }}</td>
+            {% for race in r.races %}{{ m.bar(row.shares[race], digits=1) }}{% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endmacro %}
+
+{% block content %}
+<div class="viz-root">
+<p><a href="{{ base }}/voters/file/">&larr; Voter file</a></p>
+<h1>Estimated race of Maryland voters</h1>
+<p class="secondary">Maryland does not record a voter's race. These figures are <strong>estimates</strong>, made from each
+    registered voter's name and ZIP code, for the State Board of Elections' statewide voter list as of
+    {{ r.snapshot|day_label }}.</p>
+
+<div class="race-note" role="note">
+    <p><strong>An estimate for a group, never a fact about a person.</strong>
+        Each voter's race is a set of probabilities (Bayesian Improved Surname Geocoding, the
+        <a href="https://github.com/kosukeimai/wru" target="_blank" rel="noopener">wru</a> package), built from their surname,
+        first and middle names and the share of each race in their ZIP code. A count here is the sum of those probabilities
+        for a group of voters, rounded. The method is least reliable for Black voters in integrated areas,
+        for multiracial voters, and for small groups.</p>
+    <p>No individual estimate is published, and counts of 1 to {{ r.suppress_below - 1 }} are hidden.
+        <a href="#about">How the estimate works and where it errs</a>.</p>
+</div>
+
+<div class="section-head" id="statewide"><h2>Statewide</h2></div>
+<p>Estimated race of the {{ m.n(r.statewide.voters) }} registered voters on the list, active and inactive, next to the share of
+    each group among Maryland adults in the 2020 Census.</p>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>Estimated race</th>
+            <th>Expected voters</th>
+            <th>Share of registered voters</th>
+            <th>Share of adults, 2020 Census</th>
+            <th>Difference (points)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in r.calibration %}
+        <tr>
+            <td>{{ c.label }}</td>
+            <td>{{ m.n(r.statewide.counts[c.race]) }}</td>
+            {{ m.bar(c.estimated, digits=1) }}
+            {{ m.bar(c.census, digits=1) }}
+            <td>{{ "%+.1f"|format(c.difference) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The two shares measure different groups, and registration rates differ, so a gap is not an error in either.
+    It is a rough check: a large gap in a county is a reason to trust that county's estimate less.</p>
+
+<div class="section-head" id="party"><h2>Race and party</h2></div>
+<p>The estimate does not use party registration, so these tables are not circular.</p>
+<h3 style="font-size:1.05rem">Estimated race of each party's voters</h3>
+{{ shares_table(r.party_rows, "Party", "label") }}
+
+<h3 style="font-size:1.05rem">Party of each estimated race's voters</h3>
+<div class="overflow-auto">
+<table class="year-table">
+    <thead>
+        <tr>
+            <th>Estimated race</th>
+            <th>Expected voters</th>
+            <th>Democratic</th>
+            <th>Republican</th>
+            <th>Unaffiliated</th>
+            <th>Other parties</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in r.race_rows %}
+        <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ m.n(row.total) }}</td>
+            {{ m.bar(row.DEM, "#2a78d6", 1) }}{{ m.bar(row.REP, "#e34948", 1) }}{{ m.bar(row.UNA, "#4a3aa7", 1) }}
+            <td>{{ m.p(row.other, 1) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="section-head" id="age"><h2>Race and age</h2></div>
+<p>Age is age on the date of the voter list. The estimate does not use age.</p>
+{{ shares_table(r.ages, "Age", "band") }}
+
+<div class="section-head" id="counties"><h2>By county</h2></div>
+{{ shares_table(r.counties, "County", "county") }}
+
+<div class="section-head" id="districts"><h2>By district</h2></div>
+<details><summary>Congressional districts</summary>
+{{ shares_table(r.districts.congressional, "District", "district") }}
+</details>
+<details><summary>Legislative districts</summary>
+{{ shares_table(r.districts.legislative, "District", "district") }}
+</details>
+
+<div class="section-head" id="about"><h2>About these numbers</h2></div>
+<ul class="about">
+    {% for text in r.info.limitations %}<li>{% if loop.first %}<strong>{{ text }}</strong>{% else %}{{ text }}{% endif %}</li>{% endfor %}
+    <li>Method: {{ r.info.method }}, using {{ r.info.names_used }}, conditioned on {{ r.info.conditioned_on }}
+        ({{ r.info.census_year }} Census, wru {{ r.info.wru_version }}).
+        {% if r.info.share_zcta is not none %}{{ "%.1f"|format(r.info.share_zcta * 100) }}% of voters were placed by ZIP code
+        and {{ "%.1f"|format(r.info.share_county_fallback * 100) }}% by county.{% endif %}</li>
+    <li>Source: Maryland State Board of Elections voter registration list and the U.S. Census Bureau's 2020 redistricting data, aggregated by Skipjack.
+        Downloads and the provenance record are on the <a href="{{ base }}/data/">Data page</a>.</li>
+</ul>
+</div>
+{% endblock %}

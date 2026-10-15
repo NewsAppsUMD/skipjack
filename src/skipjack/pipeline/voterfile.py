@@ -57,6 +57,20 @@ PARSER_VERSION = "skipjack 0.3.0"
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = PROJECT_ROOT / "data"
+ARCHIVES_DIR = PROJECT_ROOT / "archives"
+CENSUS_NAME = "U.S. Census Bureau"
+CENSUS_URL = "https://api.census.gov/data/2020/dec/pl"
+
+# wru's five categories, by the column each is predicted in. "Other" holds every voter the
+# model does not place in one of the four: multiracial, Native American, Pacific Islander.
+RACES = {
+    "pred_whi": "white",
+    "pred_bla": "black",
+    "pred_his": "hispanic",
+    "pred_asi": "asian",
+    "pred_oth": "other",
+}
+MAX_UNMATCHED_RACE = 0.005  # share of voters without a prediction before the run stops
 
 STATEWIDE = "Maryland"
 ALL_PARTIES = "ALL"
@@ -64,6 +78,16 @@ COUNTIES = sorted(set(COUNTY_NORMALIZE.values()))
 # The voter file spells some counties differently from the monthly reports.
 COUNTY_FIXES = {"Saint Mary's": "St. Mary's"}
 STATUSES = ["A", "I"]
+
+# Census county FIPS codes (the three digits after the state's 24).
+COUNTY_FIPS = {
+    "Allegany": "001", "Anne Arundel": "003", "Baltimore County": "005", "Calvert": "009",
+    "Caroline": "011", "Carroll": "013", "Cecil": "015", "Charles": "017", "Dorchester": "019",
+    "Frederick": "021", "Garrett": "023", "Harford": "025", "Howard": "027", "Kent": "029",
+    "Montgomery": "031", "Prince George's": "033", "Queen Anne's": "035", "St. Mary's": "037",
+    "Somerset": "039", "Talbot": "041", "Washington": "043", "Wicomico": "045",
+    "Worcester": "047", "Baltimore City": "510",
+}  # fmt: skip
 
 FIXED_COLUMNS = [
     "VTR_ID", "LastName", "FirstName", "MiddleName", "Suffix", "HouseNumber", "HouseSuffix",
@@ -370,8 +394,34 @@ def scan_part(part: Part, names: list[str], elections: list[Election], snapshot:
     )
 
 
+def read_race_predictions(directory: Path) -> tuple[pl.DataFrame, dict]:
+    """Read ``predictions.csv`` and ``run.json`` from a ``predict_race.R`` run."""
+    directory = Path(directory).expanduser().resolve()
+    predictions, run_json = directory / "predictions.csv", directory / "run.json"
+    for p in (predictions, run_json):
+        if not p.exists():
+            raise VoterFileError(f"No {p.name} in {directory}; run scripts/race/predict_race.R")
+    schema = {"vtr_id": pl.String, "geo_level": pl.String, **{c: pl.Float64 for c in RACES}}
+    df = pl.read_csv(predictions, schema_overrides=schema).select(["vtr_id", *RACES, "geo_level"])
+    if df["vtr_id"].n_unique() != df.height:
+        raise VoterFileError("predictions.csv has duplicate vtr_id values")
+    total = df.select(pl.sum_horizontal(list(RACES))).to_series()
+    if df.select(pl.any_horizontal(pl.col(c).is_null() for c in RACES)).to_series().any():
+        raise VoterFileError("predictions.csv has blank probabilities")
+    if (total - 1).abs().max() > 1e-4:
+        raise VoterFileError("predictions.csv has rows whose probabilities do not sum to 1")
+    return df, {
+        "run": json.loads(run_json.read_text()),
+        "predictions_sha256": compute_sha256(predictions),
+    }
+
+
 def load_voterfile(
-    parts: list[Part], names: list[str], elections: list[Election], readme: Readme
+    parts: list[Part],
+    names: list[str],
+    elections: list[Election],
+    readme: Readme,
+    race: pl.DataFrame | None = None,
 ) -> tuple[pl.DataFrame, dict]:
     snapshot = date.fromisoformat(readme.snapshot_date)
     frames = []
@@ -405,6 +455,17 @@ def load_voterfile(
     if duplicate_ids:
         logger.warning("%d duplicate voter IDs; keeping the first of each", duplicate_ids)
         df = df.unique(subset="vtr_id", keep="first", maintain_order=True)
+    race_unmatched = None
+    if race is not None:
+        # Predictions are joined by ID and only the probabilities are kept; the ID is dropped
+        # right after, like every other identifier.
+        df = df.join(race.drop("geo_level"), on="vtr_id", how="left")
+        race_unmatched = df["pred_whi"].null_count() / max(df.height, 1)
+        if race_unmatched > MAX_UNMATCHED_RACE:
+            raise VoterFileError(
+                f"{race_unmatched:.2%} of voters have no race prediction; the predictions do "
+                "not come from this voter file (rebuild with skipjack race-input)"
+            )
     df = df.drop("vtr_id")
 
     # Categoricals are cast after concatenation so the parts share one set of categories.
@@ -422,6 +483,8 @@ def load_voterfile(
         "unrecognized_counties": unrecognized,
         "status_counts": dict(df["status"].cast(pl.String).value_counts().iter_rows()),
     }
+    if race_unmatched is not None:
+        checks["race_unmatched_share"] = race_unmatched
     checks["latest_registration_date"] = (
         str(df["reg_date"].max()) if df["reg_date"].null_count() < df.height else None
     )
@@ -615,7 +678,125 @@ def build_metrics(df: pl.DataFrame, elections: list[Election]) -> list[Metric]:
         )
         add("new_voters_voted", dims, ["count", "eligible"], frame)
 
+    if "pred_whi" in df.columns:
+        metrics.extend(build_race_metrics(df))
+
     return metrics
+
+
+def race_long(df: pl.DataFrame, by: list[str]) -> pl.DataFrame:
+    """Expected voters of each estimated race per group: the sum of their probabilities.
+
+    ``count`` stays fractional here so statewide and all-party rows add up before rounding;
+    ``voters`` is the number of registrants in the group, the denominator.
+    """
+    g = df.filter(pl.col("pred_whi").is_not_null()).group_by(by).agg(
+        *[pl.col(c).sum() for c in RACES], pl.len().cast(pl.Int64).alias("voters")
+    )  # fmt: skip
+    long = pl.concat(
+        [
+            g.select(*by, pl.lit(race).alias("race"), pl.col(col).alias("count"), "voters")
+            for col, race in RACES.items()
+        ]
+    )
+    return _strings(long, by)
+
+
+def build_race_metrics(df: pl.DataFrame) -> list[Metric]:
+    """Estimated race (see scripts/race/predict_race.R) by party, age and district."""
+    out: list[Metric] = []
+    values = ["count", "voters"]
+
+    def add(name: str, dims: list[str], frame: pl.DataFrame):
+        if "party_group" in dims:
+            frame = with_all_parties(frame, dims, values)
+        if "county" in dims:
+            frame = with_statewide(frame, dims, values)
+        frame = frame.with_columns(pl.col("count").round().cast(pl.Int64))
+        out.append(Metric(name, dims, values, _count_cols(frame, dims, values)))
+
+    dims = ["county", "party_group", "race"]
+    add("race_by_party", dims, race_long(df, ["county", "party_group"]).select(dims + values))
+
+    dims = ["county", "party_group", "age_band", "race"]
+    add("race_by_age", dims, race_long(df, ["county", "party_group", "age_band"]).select(dims + values))  # fmt: skip
+
+    district_frames = []
+    for kind in ("congressional", "legislative"):
+        g = race_long(df, [kind]).rename({kind: "district"})
+        district_frames.append(g.with_columns(pl.lit(kind).alias("district_type")))
+    dims = ["district_type", "district", "race"]
+    add("race_by_district", dims, pl.concat(district_frames).select(dims + values))
+    return out
+
+
+CENSUS_SOURCE_ID = "census-pl94171-2020-md-county-vap"
+CENSUS_COUNTY_CSV = ARCHIVES_DIR / "census" / "md_county_vap_2020.csv"
+
+RACE_LIMITATIONS = [
+    "Race is estimated, not recorded. Maryland's voter file has no race or ethnicity field. "
+    "Each voter's race is estimated from their surname, first and middle names and ZIP code "
+    "with Bayesian Improved Surname Geocoding (BISG, the wru package). The estimate for one "
+    "voter is a set of probabilities, never a fact about that person.",
+    "Counts are expected values: the sum of the probabilities for each group, rounded. They "
+    "describe groups of voters and are most reliable for large groups. A cell of 1 to 9 is "
+    "hidden like any other.",
+    "BISG is known to err in a pattern. In integrated areas it tends to place Black voters in "
+    "the white group, and it identifies multiracial voters, Native Americans and Pacific "
+    "Islanders poorly: all of them land in 'other' or in another group. Hispanic and Asian "
+    "estimates rest heavily on surname.",
+    "ZIP code is coarser than a census block, so the geographic part of the estimate is weaker "
+    "than in studies that geocode addresses. Voters with no usable ZIP code are placed using "
+    "their county.",
+    "The estimate does not use party, age or sex, so the race by party and race by age tables "
+    "do not repeat what the model was given. Active and inactive registrants are both counted.",
+    "The comparison with the Census is rough: it sets the estimated race of registered voters "
+    "against the 2020 voting-age population, and registration rates differ by group.",
+]
+
+
+def _repo_relative(path: Path) -> str:
+    """The path from the repository root, so published records carry no home directory."""
+    path = Path(path).resolve()
+    return str(path.relative_to(PROJECT_ROOT)) if PROJECT_ROOT in path.parents else path.name
+
+
+def race_calibration(df: pl.DataFrame, census_csv: Path = CENSUS_COUNTY_CSV) -> dict:
+    """Estimated share of registrants by race next to the 2020 Census voting-age population."""
+    census = pl.read_csv(census_csv, schema_overrides={"county_fips": pl.String})
+    fips = {code: county for county, code in COUNTY_FIPS.items()}
+    cols = {"white": "vap_white", "black": "vap_black", "hispanic": "vap_hispanic",
+            "asian": "vap_asian", "other": "vap_other"}  # fmt: skip
+    census = census.with_columns(pl.col("county_fips").replace(fips).alias("county"))
+    if census["county"].n_unique() != 24 or not set(census["county"]) <= set(COUNTIES):
+        raise VoterFileError(f"{census_csv} does not hold the 24 Maryland counties")
+
+    estimated = (
+        df.filter(pl.col("pred_whi").is_not_null())
+        .group_by(pl.col("county").cast(pl.String))
+        .agg(*[pl.col(c).sum() for c in RACES], pl.len().alias("voters"))
+    )
+    est = {r["county"]: r for r in estimated.iter_rows(named=True)}
+    cen = {r["county"]: r for r in census.iter_rows(named=True)}
+
+    def shares(est_row: dict, cen_row: dict) -> dict:
+        return {
+            race: {
+                "estimated_pct": round(100 * est_row[col] / est_row["voters"], 1),
+                "census_vap_pct": round(100 * cen_row[cols[race]] / cen_row["vap_total"], 1),
+            }
+            for col, race in RACES.items()
+        }
+
+    def combine(rows: list[dict], keys: list[str]) -> dict:
+        return {k: sum(r[k] for r in rows) for k in keys}
+
+    est_total = combine(list(est.values()), [*RACES, "voters"])
+    cen_total = combine(list(cen.values()), ["vap_total", *cols.values()])
+    return {
+        STATEWIDE: shares(est_total, cen_total),
+        "counties": {c: shares(est[c], cen[c]) for c in COUNTIES if c in est and c in cen},
+    }
 
 
 def vrar_cross_check(df: pl.DataFrame, snapshot: str, data_dir: Path | None = None) -> dict | None:
@@ -751,6 +932,7 @@ def write_outputs(
     snapshot: str,
     below: int,
     manifest_path: Path | None = None,
+    census_csv: Path | None = None,
 ) -> list[Path]:
     manifest_path = manifest_path or MANIFEST_PATH
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -784,6 +966,7 @@ def write_outputs(
         },
         "vrar_cross_check": checks.get("vrar_cross_check"),
         "electorate_coverage": checks.get("electorate_coverage", {}),
+        **({"race": checks["race"]} if "race" in checks else {}),
         "metrics": {
             m.name: {"dims": m.dims, "values": m.values, "rows": m.df.height} for m in metrics
         },  # fmt: skip
@@ -839,6 +1022,20 @@ def write_outputs(
         ).write(snapshot_path)
     )
 
+    race = checks.get("race")
+    if race and not find_source(manifest_path, CENSUS_SOURCE_ID):
+        census_path = census_csv or CENSUS_COUNTY_CSV
+        append_to_manifest(
+            manifest_path,
+            SourceRecord.create(
+                source_id=CENSUS_SOURCE_ID,
+                source_url=CENSUS_URL,
+                source_name=CENSUS_NAME,
+                local_path=census_path,
+                document_title="2020 Census P.L. 94-171 table P4: voting-age population by race, Maryland counties",
+                notes="Written by scripts/race/predict_race.R for the race estimate calibration.",
+            ),
+        )
     for p in parts:
         part_id = f"{source_id}-part-{p.number:02d}"
         if find_source(manifest_path, part_id):
@@ -865,6 +1062,8 @@ def run(
     force: bool = False,
     manifest_path: Path | None = None,
     data_dir: Path | None = None,
+    race_predictions: Path | None = None,
+    census_csv: Path | None = None,
 ) -> dict:
     """Aggregate the voter file in ``path`` into ``out_root/<snapshot_date>/``."""
     directory = Path(path).expanduser().resolve()
@@ -894,12 +1093,35 @@ def run(
     elections = [e for e in elections if e.date <= snapshot]
     if not elections:
         raise VoterFileError(f"No election in the header took place on or before {snapshot}")
-    df, checks = load_voterfile(parts, names, elections, readme)
+    race = race_info = None
+    if race_predictions is not None:
+        race, race_info = read_race_predictions(race_predictions)
+    df, checks = load_voterfile(parts, names, elections, readme, race)
     checks["elections_not_yet_held"] = [e.key for e in not_yet_held]
     if not checks["reconciled"]:
         raise VoterFileError(
             f"Voter file does not match its readme: {json.dumps(checks, default=str)}"
         )
+
+    if race_info is not None:
+        census_csv = census_csv or CENSUS_COUNTY_CSV
+        run_record = race_info["run"]
+        checks["race"] = {
+            "method": run_record.get("method"),
+            "names_used": run_record.get("names_used"),
+            "conditioned_on": run_record.get("conditioned_on"),
+            "census_year": run_record.get("census_year"),
+            "wru_version": run_record.get("wru_version"),
+            "share_zcta": run_record.get("share_zcta"),
+            "share_county_fallback": run_record.get("share_county_fallback"),
+            "share_surname_on_2010_list": run_record.get("share_surname_on_2010_list"),
+            "predictions_sha256": race_info["predictions_sha256"],
+            "census_source_id": CENSUS_SOURCE_ID,
+            "census_county_csv": _repo_relative(census_csv),
+            "unmatched_share": checks.get("race_unmatched_share"),
+            "calibration": race_calibration(df, census_csv),
+            "limitations": RACE_LIMITATIONS,
+        }
 
     checks["vrar_cross_check"] = vrar_cross_check(df, snapshot, data_dir)
     checks["electorate_coverage"] = electorate_coverage(df, elections, data_dir)
@@ -915,6 +1137,7 @@ def run(
         snapshot,
         suppress_below,
         manifest_path,
+        census_csv,
     )
     checks["out_dir"] = str(out_dir)
     checks["parts"] = len(parts)

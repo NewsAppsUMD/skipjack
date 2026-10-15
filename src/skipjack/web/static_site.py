@@ -27,6 +27,7 @@ from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
 from skipjack.web.turnout import publishable_geographies
+from skipjack.web.race import snapshots_with_race
 from skipjack.web.young import snapshots_with_young
 from skipjack.web.urls import normalize_base_path, slugify
 
@@ -71,6 +72,7 @@ def page_urls() -> list[str]:
             r[0] for r in conn.execute("SELECT snapshot_date FROM voter_file_snapshots")
         ]
         has_young_page = bool(snapshots_with_young(conn))
+        has_race_page = bool(snapshots_with_race(conn))
         turnout_codes = [
             r[0]
             for r in conn.execute("SELECT DISTINCT election FROM turnout_counts ORDER BY election")
@@ -108,6 +110,8 @@ def page_urls() -> list[str]:
         urls += [f"/voters/file/districts/{kind}/" for kind in DISTRICT_TYPES]
     if has_young_page:
         urls.append("/voters/young/")
+    if has_race_page:
+        urls.append("/voters/race/")
     # The comparison of the two newest snapshots lives at /voters/file/compare/; older pairs
     # get their own addresses.
     pairs = snapshot_pairs(snapshot_dates)

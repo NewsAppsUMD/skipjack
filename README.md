@@ -170,6 +170,27 @@ before an election has an empty column for it.
   malformed lines.
 - A test runs before every deploy to confirm the committed aggregates follow these rules.
 
+### Estimated race
+
+Maryland's voter file has no race field. `/voters/race/` shows **estimated** race, made from each
+voter's surname, first and middle names and ZIP code with Bayesian Improved Surname Geocoding
+([wru](https://github.com/kosukeimai/wru), run from R). The estimate for a voter is a set of
+probabilities that never leaves your machine; only expected counts by county, district, party and age
+are published, rounded and suppressed like every other cell. Three steps, all outside the repository:
+
+```bash
+# once: a free Census API key (api.census.gov/data/key_signup.html) and the R packages
+export CENSUS_API_KEY=...
+Rscript -e 'install.packages(c("wru", "tidycensus", "jsonlite"))'   # wru fetches its name lists on first use
+
+make race VOTERFILE_DIR="/path/to/voter files" RACE_DIR="/path/outside/the/repo/race"
+```
+
+`make race` writes the slim name-and-ZIP input (`skipjack race-input`), runs
+`scripts/race/predict_race.R`, then rebuilds the snapshot with `--race-predictions`. The R step also
+saves the 2020 Census voting-age population by county to `archives/census/`, which the page uses to
+show how far the estimates sit from the Census.
+
 ## Publishing
 
 `.github/workflows/pages.yml` publishes the site on every push to `main`. It installs from the

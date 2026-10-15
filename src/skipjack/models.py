@@ -59,6 +59,8 @@ CREATE TABLE IF NOT EXISTS voter_file_snapshots (
 -- One row per cell of every metric. Columns a metric does not use are NULL.
 -- count is NULL where the cell was suppressed (1 to suppress_below - 1 voters).
 -- eligible is the number of registrants eligible for the election (turnout metrics).
+-- race is an estimate (BISG); count is then an expected number and voters the registrants in
+-- the cell (race metrics).
 CREATE TABLE IF NOT EXISTS voter_file_counts (
     id INTEGER PRIMARY KEY,
     snapshot_date TEXT NOT NULL REFERENCES voter_file_snapshots(snapshot_date),
@@ -78,8 +80,10 @@ CREATE TABLE IF NOT EXISTS voter_file_counts (
     eligible_elections INTEGER,
     reg_window TEXT,
     reg_week INTEGER,
+    race TEXT,
     count INTEGER,
-    eligible INTEGER
+    eligible INTEGER,
+    voters INTEGER
 );
 
 CREATE INDEX IF NOT EXISTS idx_vfc_metric ON voter_file_counts(snapshot_date, metric, county);
