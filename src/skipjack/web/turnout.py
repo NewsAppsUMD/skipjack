@@ -409,7 +409,6 @@ def snapshot_sources(
                 "as_of": family_as_of,
                 "url": r["source_url"],
                 "title": r["document_title"],
-                "sha256": r["sha256"],
                 "fetched": r["fetch_date"][:10],
                 "method": r["extraction_method"],
                 # a certified election does not publish its unofficial tally families:

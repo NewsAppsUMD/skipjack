@@ -57,8 +57,7 @@
 <div class="source-strip">
     <strong>Source:</strong>
     <a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.title }}</a>,
-    downloaded {{ s.fetched|day_label }}, read by {{ s.method }},
-    fingerprint <code>{{ s.sha256 }}</code>
+    downloaded {{ s.fetched|day_label }}, read by {{ s.method }}
     {%- if s.csv %} — <a href="{{ base }}/downloads/{{ s.csv }}">CSV</a> ·
     <a href="{{ base }}/downloads/{{ s.provenance }}">provenance</a>{% endif %}
 </div>

@@ -171,7 +171,6 @@ def _source(conn, report_date: str) -> dict | None:
     return {
         "url": row["source_url"],
         "fetched": (row["fetch_date"] or "")[:10],
-        "sha256": (row["sha256"] or "")[:12],
         "method": "optical character recognition"
         if (row["extraction_method"] or "").startswith("ocr")
         else "the PDF's own text",

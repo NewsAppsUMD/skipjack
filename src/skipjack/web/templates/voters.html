@@ -59,7 +59,6 @@
     <a href="{{ source.url }}" target="_blank" rel="noopener">State Board of Elections report for {{ selected_date }} (PDF)</a>,
     downloaded {{ source.fetched }}, read from {{ source.method }}{% if source.reconciled %} and checked: each county's parties add up to its total and the
     {{ source.counties }} counties add up to the statewide row{% endif %}.
-    Original file fingerprint <code>{{ source.sha256 }}</code>.
     Download this month as <a href="{{ base }}/downloads/{{ source.csv }}">CSV</a> or see its
     <a href="{{ base }}/downloads/{{ source.provenance }}">provenance record</a>.
     {% if source.errors %}

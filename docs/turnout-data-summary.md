@@ -1,7 +1,7 @@
 # The Turnout data: what Skipjack built, and how to read it
 
 *Written 2026-10-10, after the first two turnout increments. Everything here traces to an
-archived file with a SHA-256 fingerprint and a provenance sidecar — see the
+archived file with a provenance sidecar — see the
 [design docs](#the-papers) for the term definitions and decisions.*
 
 ## In one page
@@ -130,7 +130,7 @@ the district grain.
   counted, each mode, mail-in accepted/rejected), and the rejection-reason tables for both
   ballot kinds.
 - Each snapshot gets a source strip: the original document's link, when it was downloaded,
-  how it was read, and its fingerprint; the CSV and the provenance record are downloadable
+  and how it was read; the CSV and the provenance record are downloadable
   by link and listed on the Data page; every archived source is on the About page. A strip
   for an unofficial tally family of a certified election documents the read without links —
   nothing for a previous election publishes an unofficial figure.
