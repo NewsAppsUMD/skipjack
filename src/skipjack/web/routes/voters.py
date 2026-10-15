@@ -8,8 +8,9 @@ from fastapi.responses import RedirectResponse
 import json
 
 from skipjack.web import errata
-from skipjack.web.dates import shift_month
+from skipjack.web.dates import month_label, shift_month
 from skipjack.web.db import get_db
+from skipjack.web.maps import registration_maps
 from skipjack.web.urls import resolve_slug, slugify
 
 router = APIRouter(prefix="/voters")
@@ -25,6 +26,25 @@ async def voters_index(request: Request, report_date: str | None = Query(None)):
 @router.get("/month/{report_date}/")
 async def voters_month(request: Request, report_date: str):
     return _month_page(request, report_date)
+
+
+def county_registration(conn, report_date: str) -> tuple[list, list[dict]]:
+    """The report's rows, and each county's active voters by party code with its total."""
+    rows = conn.execute(
+        """SELECT county, party, party_name, active_voters
+           FROM voter_registration
+           WHERE report_date = ?
+           ORDER BY county""",
+        (report_date,),
+    ).fetchall()
+    county_data = {}
+    for row in rows:
+        c = row["county"]
+        if c not in county_data:
+            county_data[c] = {"county": c, "total": 0, "parties": {}}
+        county_data[c]["parties"][row["party"]] = row["active_voters"]
+        county_data[c]["total"] += row["active_voters"]
+    return rows, sorted(county_data.values(), key=lambda r: r["county"])
 
 
 def _month_page(request: Request, report_date: str | None):
@@ -64,23 +84,7 @@ def _month_page(request: Request, report_date: str | None):
         }
         parties_in_date = [p for p in PARTY_ORDER if p in raw_parties]
 
-        rows = conn.execute(
-            """SELECT county, party, party_name, active_voters
-               FROM voter_registration
-               WHERE report_date = ?
-               ORDER BY county""",
-            (selected_date,),
-        ).fetchall()
-
-        county_data = {}
-        for row in rows:
-            c = row["county"]
-            if c not in county_data:
-                county_data[c] = {"county": c, "total": 0, "parties": {}}
-            county_data[c]["parties"][row["party"]] = row["active_voters"]
-            county_data[c]["total"] += row["active_voters"]
-
-        county_list = sorted(county_data.values(), key=lambda r: r["county"])
+        rows, county_list = county_registration(conn, selected_date)
 
         statewide = {}
         statewide_total = 0
@@ -99,6 +103,13 @@ def _month_page(request: Request, report_date: str | None):
             ),
         }
         source = _source(conn, selected_date)
+        year = changes["year"]
+        county_maps = registration_maps(
+            county_list,
+            year["counties"] if year else None,
+            month_label(selected_date),
+            month_label(year["since"]) if year else None,
+        )
 
     return request.app.state.templates.TemplateResponse(
         request,
@@ -112,6 +123,7 @@ def _month_page(request: Request, report_date: str | None):
             "statewide_total": statewide_total,
             "changes": changes,
             "source": source,
+            "county_maps": county_maps,
         },
     )
 

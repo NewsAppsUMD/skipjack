@@ -6,7 +6,9 @@ from fastapi import APIRouter, HTTPException, Request
 
 from skipjack.pipeline.turnout import ELECTIONS
 from skipjack.web import turnout as qt
+from skipjack.web.dates import day_label
 from skipjack.web.db import get_db
+from skipjack.web.maps import turnout_certified_maps, turnout_live_maps
 
 router = APIRouter(prefix="/turnout")
 
@@ -79,6 +81,7 @@ async def election_geography(request: Request, slug: str, geography: str):
             raise HTTPException(status_code=404)
         geographies = qt.publishable_geographies(conn, code)
         certified = ELECTIONS[code].certified
+        county_maps: list[dict] = []
         if certified:
             cert = qt.certified_headline(conn, code)
             if geography == "county":
@@ -90,6 +93,10 @@ async def election_geography(request: Request, slug: str, geography: str):
                     if f in ("county-canvass", "votes-accepted", "mail-voting") and a
                 }
                 rows = qt.certified_county_rows(conn, code, dates)
+                county_maps = turnout_certified_maps(
+                    rows,
+                    qt.certified_county_turnout(conn, code, cert["as_ofs"].get("official-turnout")),
+                )
             else:
                 dates = {
                     f: a for f, a in cert["as_ofs"].items() if f in qt.CERTIFIED_PAGE_FAMILIES and a
@@ -110,6 +117,8 @@ async def election_geography(request: Request, slug: str, geography: str):
                     conn, code, sent_as_of or requests_as_of, requests_as_of=requests_as_of
                 )
             )
+            if geography == "county" and sent_as_of:
+                county_maps = turnout_live_maps(rows, day_label(sent_as_of))
             dates: dict[str, str] = {}
             if sent_as_of:
                 dates["sent-returned"] = sent_as_of
@@ -159,6 +168,7 @@ async def election_geography(request: Request, slug: str, geography: str):
             "show_requests": show_requests,
             "show_counted": show_counted,
             "show_mail": show_mail,
+            "county_maps": county_maps,
         },
     )
 

@@ -1,0 +1,45 @@
+{# County choropleth maps (see web/maps.py). Import with context, since links use `base`:
+   {% import "_maps.html" as maps with context %}
+   Call map_defs() once per page, before any county_map(). #}
+
+{% macro map_defs() -%}
+<link rel="stylesheet" href="{{ base }}/static/maps.css">
+<svg class="map-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+        <pattern id="map-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="6" height="6" fill="#f3f1ea"></rect>
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#c3c2b7" stroke-width="2"></line>
+        </pattern>
+        {% for name, c in county_shapes()["counties"].items() %}<path id="md-{{ c.fips }}" d="{{ c.d }}"></path>
+        {% endfor %}
+    </defs>
+</svg>
+<script type="module" src="{{ base }}/static/maps.js"></script>
+{%- endmacro %}
+
+{% macro county_map(m) -%}
+<figure class="county-map" data-map="{{ m.id }}" data-title="{{ m.title }}" id="map-{{ m.id }}">
+    <figcaption><strong>{{ m.title }}</strong>{% if m.caption %} <span class="map-caption">{{ m.caption }}</span>{% endif %}</figcaption>
+    <svg viewBox="{{ m.view_box }}" role="group" aria-label="{{ m.title }}, by county">
+        {% for c in m.counties %}
+        {% if m.link == "county_page" %}<a href="{{ base }}/voters/county/{{ c.slug }}/" aria-label="{{ c.label }}">
+        {%- elif m.link == "row" %}<a href="#county-{{ c.slug }}" aria-label="{{ c.label }}">
+        {%- else %}<g aria-label="{{ c.label }}" role="img">{% endif %}
+            <use href="#md-{{ c.fips }}" class="map-county {{ c.css }}"><title>{{ c.label }}</title></use>
+        {%- if m.link %}</a>{% else %}</g>{% endif %}
+        {% endfor %}
+    </svg>
+    <p class="map-readout" aria-hidden="true"></p>
+    <ul class="map-legend">
+        {% for item in m.legend %}<li><span class="map-key {{ item.css }}"></span>{{ item.text }}</li>{% endfor %}
+        {% if m.none %}<li><span class="map-key map-none"></span>{{ m.none }}</li>{% endif %}
+    </ul>
+</figure>
+{%- endmacro %}
+
+{# Several maps of the same counties; maps.js shows one at a time with buttons. #}
+{% macro map_group(maps_list, label="Map") -%}
+<div class="map-group" data-map-group aria-label="{{ label }}">
+    {% for m in maps_list %}{{ county_map(m) }}{% endfor %}
+</div>
+{%- endmacro %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "_macros.html" as m with context %}
+{% import "_maps.html" as maps with context %}
 
 {% block title %}Young voters{% endblock %}
 
@@ -158,6 +159,10 @@
     {{ "%.0f"|format(gap_range[1]) }} points more unaffiliated than voters 23 and older in every one of Maryland's
     {{ gap_range[2] }} counties.</p>
 {% endif %}
+{% if county_maps %}
+{{ maps.map_defs() }}
+{{ maps.map_group(county_maps, "County map") }}
+{% endif %}
 <div class="overflow-auto">
 <table class="year-table" data-sortable>
     <thead>
@@ -171,7 +176,7 @@
     </thead>
     <tbody>
         {% for c in counties %}
-        <tr>
+        <tr id="county-{{ c.county|slug }}">
             <td><a href="{{ base }}/voters/file/county/{{ c.county|slug }}/">{{ c.county }}</a></td>
             <td>{{ m.n(c.young_then) }}</td><td>{{ m.n(c.young_now) }}</td>
             {{ m.change_pct(c.young_change|round|int if c.young_change is not none else none) }}

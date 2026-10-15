@@ -5,6 +5,7 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, Request
 
 from skipjack.web.db import get_db
+from skipjack.web.maps import young_maps
 from skipjack.web.young import build_young
 
 router = APIRouter(prefix="/voters/young")
@@ -135,5 +136,8 @@ async def young_voters(request: Request):
             "chart": chart,
             "gap_range": (min(gaps), max(gaps), len(gaps)) if gaps else None,
             "hidden_weeks": sum(s["hidden"] for s in data["series"]),
+            "county_maps": young_maps(data["counties"], data["year"], data["prior"])
+            if data["counties"]
+            else [],
         },
     )

@@ -22,6 +22,7 @@ from skipjack.web.routes import (
     race,
     young,
 )
+from skipjack.web.maps import load_shapes
 from skipjack.web.summary import signed
 from skipjack.web.urls import slugify
 
@@ -42,7 +43,9 @@ def configure_templates(
     templates.env.filters["signed"] = signed
     templates.env.filters["month_label"] = month_label
     templates.env.filters["day_label"] = day_label
-    templates.env.globals.update(base=base, static_site=static_site, db_download=db_download)
+    templates.env.globals.update(
+        base=base, static_site=static_site, db_download=db_download, county_shapes=load_shapes
+    )
 
 
 def create_app() -> FastAPI:

@@ -608,6 +608,31 @@ def certified_headline(conn: sqlite3.Connection, election: str) -> dict:
     return out
 
 
+def certified_county_turnout(
+    conn: sqlite3.Connection, election: str, as_of: str | None
+) -> dict[str, float]:
+    """Turnout by county from the State Board's official turnout sheet: ballots in the four
+    modes as a percent of eligible voters. Empty when the election has no such sheet."""
+    if not as_of:
+        return {}
+    counties = [
+        r[0]
+        for r in conn.execute(
+            """SELECT DISTINCT county FROM turnout_counts
+               WHERE election = ? AND family = 'official-turnout' AND geography = 'county'
+                 AND county != '' AND as_of = ?""",
+            (election, as_of),
+        )
+    ]
+    out = {}
+    for county in counties:
+        sheet = _family_county(conn, election, "official-turnout", county, as_of)
+        modes = sum(sheet.get(m) or 0 for m in _MODES)
+        if sheet.get("eligible") and modes:
+            out[county] = 100 * modes / sheet["eligible"]
+    return out
+
+
 def certified_county_rows(
     conn: sqlite3.Connection, election: str, dates: dict[str, str]
 ) -> list[dict]:

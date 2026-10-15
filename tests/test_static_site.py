@@ -241,6 +241,18 @@ def test_the_young_voters_page_is_published_with_its_script(root_site, project_s
 
 
 @needs_db
+def test_county_maps_ship_their_script_and_styles_under_the_base_path(root_site, project_site):
+    for out, _ in (root_site, project_site):
+        assert (out / "static" / "maps.js").is_file()
+        assert (out / "static" / "maps.css").is_file()
+    home = (project_site[0] / "index.html").read_text()
+    assert 'src="/skipjack/static/maps.js"' in home
+    assert 'href="/skipjack/static/maps.css"' in home
+    assert 'href="/skipjack/voters/county/montgomery/"' in home
+    assert '<use href="#md-031"' in home
+
+
+@needs_db
 def test_build_has_no_broken_links(root_site, project_site):
     assert root_site[1].problems == []
     assert project_site[1].problems == []

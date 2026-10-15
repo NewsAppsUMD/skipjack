@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "_macros.html" as m with context %}
+{% import "_maps.html" as maps with context %}
 
 {% block title %}Estimated race of voters{% endblock %}
 
@@ -13,7 +14,7 @@
 </style>
 {% endblock %}
 
-{% macro shares_table(rows, first_heading, key, link=false) %}
+{% macro shares_table(rows, first_heading, key, row_ids=false) %}
 <div class="overflow-auto">
 <table class="year-table">
     <thead>
@@ -25,7 +26,7 @@
     </thead>
     <tbody>
         {% for row in rows %}
-        <tr{% if row.get("group") == "ALL" or row.get("county") == "Maryland" %} style="font-weight:600"{% endif %}>
+        <tr{% if row_ids and row[key] != "Maryland" %} id="county-{{ row[key]|slug }}"{% endif %}{% if row.get("group") == "ALL" or row.get("county") == "Maryland" %} style="font-weight:600"{% endif %}>
             <td>{{ row[key] }}</td>
             <td>{{ m.n(row.voters) }}</td>
             {% for race in r.races %}{{ m.bar(row.shares[race], digits=1) }}{% endfor %}
@@ -121,7 +122,15 @@
 {{ shares_table(r.ages, "Age", "band") }}
 
 <div class="section-head" id="counties"><h2>By county</h2></div>
-{{ shares_table(r.counties, "County", "county") }}
+{{ maps.map_defs() }}
+<div class="map-multiples">
+    {% for mp in race_maps.per_race %}{{ maps.county_map(mp) }}{% endfor %}
+</div>
+<p>Where the estimate runs below the Census, it is likely placing Black voters in another group, the method's
+    best-known weakness. The Census counts every adult, registered or not, and Somerset's includes a large state prison,
+    so some gap is expected everywhere.</p>
+{{ maps.county_map(race_maps.gap) }}
+{{ shares_table(r.counties, "County", "county", row_ids=true) }}
 
 <div class="section-head" id="districts"><h2>By district</h2></div>
 <details><summary>Congressional districts</summary>

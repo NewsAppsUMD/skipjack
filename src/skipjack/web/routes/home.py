@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Request
 
+from skipjack.web.dates import month_label
 from skipjack.web.db import get_db
+from skipjack.web.maps import locator_map
+from skipjack.web.routes.voters import county_registration
 from skipjack.web.summary import highlights
 
 router = APIRouter()
@@ -28,6 +31,10 @@ async def home(request: Request):
 
         total_voters = sum(r["total"] for r in totals) if totals else 0
         summary = highlights(conn)
+        locator = None
+        if latest:
+            _, county_list = county_registration(conn, latest["report_date"])
+            locator = locator_map(county_list, month_label(latest["report_date"]))
 
     return request.app.state.templates.TemplateResponse(
         request,
@@ -37,5 +44,6 @@ async def home(request: Request):
             "totals": totals,
             "total_voters": total_voters,
             "summary": summary,
+            "locator": locator,
         },
     )

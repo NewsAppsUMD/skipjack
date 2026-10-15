@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_maps.html" as maps with context %}
 
 {% block page_title %}Skipjack — Navigating the Maryland Electorate Through Data{% endblock %}
 
@@ -37,6 +38,11 @@
 <section>
     <h2>Current Registration</h2>
     <p>As of <strong>{{ latest_date }}</strong> — <strong>{{ "{:,}".format(total_voters) }}</strong> active registered voters</p>
+
+    {% if locator %}
+    {{ maps.map_defs() }}
+    {{ maps.county_map(locator) }}
+    {% endif %}
 
     <div class="overflow-auto">
         <table>

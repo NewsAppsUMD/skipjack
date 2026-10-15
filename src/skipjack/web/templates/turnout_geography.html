@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "_macros.html" as m with context %}
+{% import "_maps.html" as maps with context %}
 {% block title %}{{ election.name.title() }} turnout by {{ geography_label }}{% endblock %}
 
 {% block content %}
@@ -22,6 +23,10 @@
 
 {% if rows %}
 {% if shown_dates %}<p class="secondary">Figures as of {{ shown_dates | map("day_label") | join(", ") }}.</p>{% endif %}
+{% if county_maps %}
+{{ maps.map_defs() }}
+{{ maps.map_group(county_maps, "County map") }}
+{% endif %}
 {% if certified %}
 <div class="overflow-auto">
 <table data-sortable>
@@ -48,7 +53,7 @@
     </thead>
     <tbody>
         {% for r in rows %}
-        <tr>
+        <tr{% if geography == "county" %} id="county-{{ r.county|slug }}"{% endif %}>
             <td>{{ r.county if geography == "county" else r.district }}</td>
             <td class="num" data-sort="{{ m.sortkey(r.cast) }}">{{ m.num(r.cast) }}</td>
             {% if geography == "county" or show_counted %}
@@ -95,7 +100,7 @@
     </thead>
     <tbody>
         {% for r in rows %}
-        <tr>
+        <tr{% if geography == "county" %} id="county-{{ r.county|slug }}"{% endif %}>
             <td>{{ r.county if geography == "county" else r.district }}</td>
             {% if show_requests %}
             <td class="num" data-sort="{{ m.sortkey(r.requests_total) }}">{{ m.num(r.requests_total) }}</td>

@@ -5,6 +5,7 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, Request
 
 from skipjack.web.db import get_db
+from skipjack.web.maps import race_maps
 from skipjack.web.race import build_race
 
 router = APIRouter(prefix="/voters/race")
@@ -17,5 +18,13 @@ async def race(request: Request):
     if data is None:
         raise HTTPException(404, "No voter file snapshot has estimated race")
     return request.app.state.templates.TemplateResponse(
-        request, "race.html", {"r": data, "suppress_below": data["suppress_below"]}
+        request,
+        "race.html",
+        {
+            "r": data,
+            "suppress_below": data["suppress_below"],
+            "race_maps": race_maps(
+                data["counties"], data["info"]["calibration"]["counties"], data["race_labels"]
+            ),
+        },
     )
