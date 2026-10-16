@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Frederick results (non)",
   "fetch_date": "2026-10-16T00:28:31+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "54137f8b3727c7b6bc4a1c72da23fb58cabfe4fec67c90b9fbdc42d0900305b2",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 16,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+    "statewide_check": "n/a: GP22_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PG20 Worcester results (all)",
   "fetch_date": "2026-10-16T00:34:06+00:00",
-  "parse_date": "2026-10-16T00:34:20+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "1f6e199f6d5623095e8eec392a5166a976ee9a6f90609c21fcdb368c5aa07f29",
   "parser_version": "skipjack 0.2.0",
   "election": "PG20",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 46,
     "row_totals": "ok",
-    "statewide_check": "ok: 68 statewide contest rows match All_State_2020_General"
+    "statewide_check": "ok: 75 statewide contest rows match All_State_2020_General.csv"
   }
 }

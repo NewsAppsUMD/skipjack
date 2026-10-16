@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PP24 Queen Anne's results (dem)",
   "fetch_date": "2026-10-16T00:28:21+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "a771fd8593ad90c174333a8c3054381a4b236626183182ce830e609c18dc13ab",
   "parser_version": "skipjack 0.2.0",
   "election": "PP24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 29,
     "row_totals": "ok",
-    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDownDemocratic.csv"
   }
 }

@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PP24 Frederick results (non)",
   "fetch_date": "2026-10-16T00:28:18+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "bca052c83c79c9611624d828825a2a3068671876aa13e7fb0b3639a88cd1895b",
   "parser_version": "skipjack 0.2.0",
   "election": "PP24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 17,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match PP24_CongressionalBreakDown"
+    "statewide_check": "n/a: PP24_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

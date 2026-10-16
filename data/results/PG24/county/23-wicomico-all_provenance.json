@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PG24 Wicomico results (all)",
   "fetch_date": "2026-10-16T00:28:13+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "25baf0a94e0fa424760cd36973dd9ea56e5b58776e6d1d39eb08cbfdb82edcd4",
   "parser_version": "skipjack 0.2.0",
   "election": "PG24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 51,
     "row_totals": "ok",
-    "statewide_check": "ok: 81 statewide contest rows match PG24_CongressionalBreakDown"
+    "statewide_check": "ok: 90 statewide contest rows match PG24_CongressionalBreakDown.csv"
   }
 }

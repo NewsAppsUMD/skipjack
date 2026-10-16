@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PP24 Anne Arundel results (non)",
   "fetch_date": "2026-10-16T00:28:14+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "fb3c4317b80201d938b9f9996be64364cc133e443cc3d93d1736591bfb6d9d41",
   "parser_version": "skipjack 0.2.0",
   "election": "PP24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 14,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match PP24_CongressionalBreakDown"
+    "statewide_check": "n/a: PP24_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

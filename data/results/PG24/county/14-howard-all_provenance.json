@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PG24 Howard results (all)",
   "fetch_date": "2026-10-16T00:28:11+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "fb1c8558f76335a2afea4cbfb37eeef3cdffc04a5bcc74f5df4d9727c1dfcf77",
   "parser_version": "skipjack 0.2.0",
   "election": "PG24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 67,
     "row_totals": "ok",
-    "statewide_check": "ok: 81 statewide contest rows match PG24_CongressionalBreakDown"
+    "statewide_check": "ok: 90 statewide contest rows match PG24_CongressionalBreakDown.csv"
   }
 }

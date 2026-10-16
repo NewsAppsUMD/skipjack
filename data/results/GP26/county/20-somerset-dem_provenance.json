@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Somerset results (dem)",
   "fetch_date": "2026-10-16T00:28:08+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "283191aef615227f305358c88aa1b96e6ce98c3f78b291a8ab6ec515fc1ba428",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 19,
     "row_totals": "ok",
-    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDown"
+    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDownDemocratic.csv"
   }
 }

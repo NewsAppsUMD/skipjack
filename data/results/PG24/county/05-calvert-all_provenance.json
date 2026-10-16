@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PG24 Calvert results (all)",
   "fetch_date": "2026-10-16T00:28:10+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "7a08bc32911728662f712c973d67cfd9ee6e539e021d8754a96c88eadc24ff17",
   "parser_version": "skipjack 0.2.0",
   "election": "PG24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 58,
     "row_totals": "ok",
-    "statewide_check": "ok: 81 statewide contest rows match PG24_CongressionalBreakDown"
+    "statewide_check": "ok: 90 statewide contest rows match PG24_CongressionalBreakDown.csv"
   }
 }

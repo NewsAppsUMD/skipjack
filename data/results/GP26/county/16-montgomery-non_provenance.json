@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Montgomery results (non)",
   "fetch_date": "2026-10-16T00:28:06+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "5ee8086ee53bb4ec0e301685726a5f103b3cfc86d28f8934e26fec09a57d9b6e",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 9,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match GP26_CongressionalBreakDown"
+    "statewide_check": "n/a: GP26_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

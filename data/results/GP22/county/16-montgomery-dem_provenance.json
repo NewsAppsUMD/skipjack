@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Montgomery results (dem)",
   "fetch_date": "2026-10-16T00:28:33+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "ce1916afa72e4fa4e87c6dd7603cedfb6be077ac3414fcef77240a8900031388",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 186,
     "row_totals": "ok",
-    "statewide_check": "ok: 306 statewide contest rows match GP22_CongressionalBreakDown"
+    "statewide_check": "ok: 306 statewide contest rows match GP22_CongressionalBreakDownDemocratic.csv"
   }
 }

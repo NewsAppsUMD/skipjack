@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Kent results (non)",
   "fetch_date": "2026-10-16T00:28:33+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "5b6195768a6154b49b71e7daf36236db6b59f8d6ea8a0d9ff55ed75bfb2fba06",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 8,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+    "statewide_check": "n/a: GP22_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

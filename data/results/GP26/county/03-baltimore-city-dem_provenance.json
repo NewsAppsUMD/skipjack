@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Baltimore City results (dem)",
   "fetch_date": "2026-10-16T00:28:00+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "278522b14ab06658f26b7f22a914e81e85e80da3a98834178460483844c534a0",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 130,
     "row_totals": "ok",
-    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDown"
+    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDownDemocratic.csv"
   }
 }

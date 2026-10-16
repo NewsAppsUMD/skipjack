@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GG22 Charles results (all)",
   "fetch_date": "2026-10-16T00:28:25+00:00",
-  "parse_date": "2026-10-16T00:29:21+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "ce164da47c9cf527c4c4109a1ad7096887943eebc395ac2fb13e0ac96e99a12b",
   "parser_version": "skipjack 0.2.0",
   "election": "GG22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 93,
     "row_totals": "ok",
-    "statewide_check": "ok: 456 statewide contest rows match GG22_CongressionalBreakDown"
+    "statewide_check": "ok: 461 statewide contest rows match GG22_CongressionalBreakDown.csv"
   }
 }

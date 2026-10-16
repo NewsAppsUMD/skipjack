@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Garrett results (non)",
   "fetch_date": "2026-10-16T00:28:32+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "3334f5c63380285652466a7c13c7b8f85fecdb0c43766dbcdc769a5e96f307ae",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 3,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+    "statewide_check": "n/a: GP22_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

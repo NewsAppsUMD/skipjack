@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PP24 Talbot results (dem)",
   "fetch_date": "2026-10-16T00:28:22+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "9e8d92a1c4fcb7af34b4e2854319c06a7710813d0f9836bd86bf20869442af7a",
   "parser_version": "skipjack 0.2.0",
   "election": "PP24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 29,
     "row_totals": "ok",
-    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDownDemocratic.csv"
   }
 }

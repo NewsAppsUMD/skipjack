@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Howard results (non)",
   "fetch_date": "2026-10-16T00:28:33+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "441aa3245536f8f353bf5e6828571ac64918441f571022b25f48aefec41e4b89",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 8,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+    "statewide_check": "n/a: GP22_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

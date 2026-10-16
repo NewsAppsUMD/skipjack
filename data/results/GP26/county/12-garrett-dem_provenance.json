@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Garrett results (dem)",
   "fetch_date": "2026-10-16T00:28:04+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "44cd93c4ff0778470362e1078c2a537c64d11e039aed5370e86c1c42b45e9897",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 25,
     "row_totals": "ok",
-    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDown"
+    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDownDemocratic.csv"
   }
 }

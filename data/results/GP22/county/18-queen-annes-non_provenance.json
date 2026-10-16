@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Queen Anne's results (non)",
   "fetch_date": "2026-10-16T00:28:34+00:00",
-  "parse_date": "2026-10-16T00:29:05+00:00",
+  "parse_date": "2026-10-16T00:38:48+00:00",
   "sha256_original": "a589c3964a4f0f652ea1c2beb0d22230e4a11b9b44688d6331b904994efd789c",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 4,
     "row_totals": "ok",
-    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+    "statewide_check": "n/a: GP22_CongressionalBreakDownNon-Partisian.csv carries no statewide rows"
   }
 }

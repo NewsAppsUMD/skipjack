@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Kent results (dem)",
   "fetch_date": "2026-10-16T00:28:05+00:00",
-  "parse_date": "2026-10-16T00:29:04+00:00",
+  "parse_date": "2026-10-16T00:38:47+00:00",
   "sha256_original": "ce328c10cbc2eb096acdbfb01ff2c364d3767f673e24eabd19354b78f9b84ef9",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 30,
     "row_totals": "ok",
-    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDown"
+    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDownDemocratic.csv"
   }
 }
