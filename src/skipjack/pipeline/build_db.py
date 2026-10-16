@@ -240,9 +240,12 @@ _RESULTS_TEXT = ["election", "county", "party_file", "office", "district", "cand
 def _normalize_district(district: str) -> str:
     """A purely numeric district drops its leading zeros ("01" -> "1"); "1A" and "" stay.
 
-    PP20's Dorchester file prints "01" where the other counties print "1".
+    PP20's Dorchester file prints "01" where the other counties print "1". Only ASCII digits
+    count (str.isdigit alone accepts "²", which int() rejects). "00" becomes "0": no contest
+    uses it as a district (00 is the statewide *county* code), so it is only normalized, not
+    given a meaning.
     """
-    return str(int(district)) if district.isdigit() else district
+    return str(int(district)) if district.isascii() and district.isdigit() else district
 
 
 def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
@@ -286,22 +289,35 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
         if df.height == 0:
             raise ResultsLoadError(f"{csv_path}: no rows")
         _check_results_file(df, prov, csv_path, code)
+        _check_results_cells(df, csv_path)
         df = df.with_columns(
             pl.col("district").map_elements(_normalize_district, return_dtype=pl.String)
         )
         _upsert_source(conn, prov)
 
         county_rows, vote_rows = [], []
-        for row in df.iter_rows(named=True):
+        for row in df.with_row_index("_line", offset=2).iter_rows(named=True):
             vote_sum = 0
             for stem in stems:
                 votes = row[f"{stem}_votes"]
                 if votes is None:
-                    raise ResultsLoadError(f"{csv_path}: blank {stem}_votes for {row['candidate']}")
+                    raise ResultsLoadError(
+                        f"{csv_path}: blank {stem}_votes for {row['candidate']} "
+                        f"(row {row['_line']})"
+                    )
                 vote_sum += votes
                 vote_rows.append(
                     (next_id, stem, votes, row[f"{stem}_against"] if against else None)
                 )
+            if against:
+                seen = [row[f"{stem}_against"] for stem in stems]
+                seen = [a for a in seen if a is not None]
+                total_against = row["total_against"]
+                if seen and sum(seen) != (total_against or 0):
+                    raise ResultsLoadError(
+                        f"{csv_path}: row {row['_line']} ({row['candidate']}): total against "
+                        f"{total_against} != sum of vote types against {sum(seen)}"
+                    )
             if vote_sum != row["total_votes"]:
                 raise ResultsLoadError(
                     f"{csv_path}: {row['candidate']}: total votes {row['total_votes']} "
@@ -336,6 +352,17 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
     return total
 
 
+def _check_results_cells(df: pl.DataFrame, csv_path: Path) -> None:
+    """Cells the schema needs must not be blank (they would reach SQLite as NULL)."""
+    for column in ("winner", "write_in", "total_votes"):
+        blank = df.with_row_index("_line", offset=2).filter(pl.col(column).is_null())
+        if blank.height:
+            first = blank.row(0, named=True)
+            raise ResultsLoadError(
+                f"{csv_path}: blank {column} for {first['candidate']!r} (row {first['_line']})"
+            )
+
+
 def _check_results_file(df: pl.DataFrame, prov: dict, csv_path: Path, code: str) -> None:
     """The CSV must agree with its sidecar, its directory and its file name."""
     elections = df["election"].unique().to_list()
@@ -354,6 +381,17 @@ def _check_results_file(df: pl.DataFrame, prov: dict, csv_path: Path, code: str)
             f"{csv_path}: county column holds {counties} but the file is {county!r}"
         )
     party_file = rest[len(county_slug(county)) + 1 :]
+    expected_id = f"sbe-results-{code}-county-{number}-{party_file}"
+    if prov.get("source_id") != expected_id:
+        raise ResultsLoadError(
+            f"{csv_path}: sidecar source_id {prov.get('source_id')!r} does not match the file "
+            f"name (expected {expected_id!r})"
+        )
+    rows = (prov.get("checks") or {}).get("rows")
+    if rows is not None and rows != df.height:
+        raise ResultsLoadError(
+            f"{csv_path}: {df.height} data rows but the sidecar's checks say {rows}"
+        )
     party_files = df["party_file"].unique().to_list()
     if party_files != [party_file]:
         raise ResultsLoadError(

@@ -11,6 +11,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import os
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -94,7 +95,9 @@ class ProvenanceSidecar:
 
     def write(self, csv_path: Path) -> Path:
         sidecar_path = csv_path.with_name(csv_path.stem + "_provenance.json")
-        sidecar_path.write_text(json.dumps(asdict(self), indent=2) + "\n")
+        tmp = sidecar_path.with_name(sidecar_path.name + ".tmp")
+        tmp.write_text(json.dumps(asdict(self), indent=2) + "\n")
+        os.replace(tmp, sidecar_path)
         return sidecar_path
 
     @classmethod

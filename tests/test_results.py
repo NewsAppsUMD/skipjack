@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -164,7 +165,7 @@ def test_statewide_check_passes_and_fails():
         ]
     )
     n = results._check_statewide(e, "dem", list(frames.values()), good)
-    assert n == 2
+    assert n == (2, 0)
     bad = good.replace(b'"100"', b'"101"')
     with pytest.raises(results.ResultsParseError, match="Wes Moore"):
         results._check_statewide(e, "dem", list(frames.values()), bad)
@@ -191,7 +192,7 @@ def test_statewide_check_general_uses_for_rows_only():
         ],
         general=True,
     )
-    assert results._check_statewide(e, "all", frames, good) == 1
+    assert results._check_statewide(e, "all", frames, good) == (1, 0)
 
 
 # ---- parse and fetch on a fake archive -----------------------------------------------------
@@ -512,7 +513,7 @@ def _g20_frames(rows_by_county):
 
 def test_statewide_check_all_state():
     frames = _g20_frames({"Allegany": G20_ROWS, "Kent": G20_ROWS})
-    assert results._check_statewide_all_state(PG20, frames, GOOD_ALL_STATE) == 3
+    assert results._check_statewide_all_state(PG20, frames, GOOD_ALL_STATE) == (3, 0)
     bad = GOOD_ALL_STATE.replace(b'"140"', b'"141"')
     with pytest.raises(results.ResultsParseError, match="Trump"):
         results._check_statewide_all_state(PG20, frames, bad)
@@ -527,7 +528,7 @@ def test_statewide_check_all_state_skips_offices_it_lacks():
         + '"Local Person","DEM","Sheriff","","Y","","1","","1","","1","","0","","0","","3",""\n'
     )
     frames = _g20_frames({"Allegany": rows, "Kent": rows})
-    assert results._check_statewide_all_state(PG20, frames, GOOD_ALL_STATE) == 3
+    assert results._check_statewide_all_state(PG20, frames, GOOD_ALL_STATE) == (3, 0)
 
 
 def fill2020(env, election, skip=(), all_state_data=GOOD_ALL_STATE):
@@ -562,7 +563,7 @@ def test_parse_pg20(env):
     side = json.loads(out.with_name("03-baltimore-city-all_provenance.json").read_text())
     assert side["election"] == "PG20" and side["geography"] == "county"
     assert side["checks"]["row_totals"] == "ok"
-    assert side["checks"]["statewide_check"].startswith("ok: 3")
+    assert side["checks"]["statewide_check"].startswith("ok: 3 statewide rows (3 for, 0 against)")
     assert "All_State_2020_General" in side["checks"]["statewide_check"]
     assert results.results_parse("PG20", data_dir=env / "data")[0] == 0
 
@@ -766,7 +767,7 @@ def test_vacuous_statewide_check_is_n_a_and_names_the_check_file(env):
         "n/a: GP26_CongressionalBreakDownDemocratic.csv carries no statewide rows"
     )
     assert _sidecar(env, "01-allegany-rep")["checks"]["statewide_check"].startswith(
-        "ok: 1 statewide contest rows match GP26_CongressionalBreakDownRepublican.csv"
+        "ok: 1 statewide rows (1 for, 0 against) match GP26_CongressionalBreakDownRepublican.csv"
     )
 
 
@@ -774,7 +775,7 @@ def test_ok_statewide_check_names_the_real_file(env):
     fill(env, results.RESULTS_ELECTIONS["GP26"])
     results.results_parse("GP26", data_dir=env / "data")
     assert _sidecar(env, "01-allegany-dem")["checks"]["statewide_check"] == (
-        "ok: 2 statewide contest rows match GP26_CongressionalBreakDownDemocratic.csv"
+        "ok: 2 statewide rows (2 for, 0 against) match GP26_CongressionalBreakDownDemocratic.csv"
     )
 
 
@@ -804,7 +805,7 @@ def _judge_breakdown(for_total, against_total):
 def test_statewide_check_against_totals_match_and_mismatch():
     e, frames = _judge_frames()
     # both blank-party county rows; counties sum to 20 FOR and 6 AGAINST
-    assert results._check_statewide(e, "all", frames, _judge_breakdown(20, 6)) == 2
+    assert results._check_statewide(e, "all", frames, _judge_breakdown(20, 6)) == (1, 1)
     with pytest.raises(results.ResultsParseError, match="against"):
         results._check_statewide(e, "all", frames, _judge_breakdown(20, 7))
 
@@ -817,7 +818,7 @@ def test_district_level_mismatch_fails():
             '"00","State of Maryland","U.S. Congress","06","April McClain Delaney","DEM","Y","6","4" \n'
         ]
     )
-    assert results._check_statewide(e, "dem", frames, ok) == 1
+    assert results._check_statewide(e, "dem", frames, ok) == (1, 0)
     with pytest.raises(results.ResultsParseError, match="April McClain Delaney"):
         results._check_statewide(e, "dem", frames, ok.replace(b'"6","4"', b'"6","5"'))
 
@@ -847,3 +848,155 @@ def test_missing_columns_message_names_election_layout_and_file():
         results._read_coded(bad, results.RESULTS_ELECTIONS["GP26"], "Kent", "dem")
     msg = str(exc.value)
     assert "GP26" in msg and "coded" in msg and "GP26_15DemocraticResults.csv" in msg
+
+
+# ---- hardening: archive integrity, crash safety, n/a, against path ---------------------------
+
+
+def test_parse_refuses_archive_bytes_that_do_not_match_the_manifest(env):
+    e = results.RESULTS_ELECTIONS["GP26"]
+    fill(env, e)
+    f = next(x for x in results.county_files(e) if x.source_id.endswith("county-01-dem"))
+    # a crash after write_bytes but before append_to_manifest: new bytes, old manifest row
+    (env / "archives" / "sbe" / "results" / "GP26" / f.file_name).write_bytes(
+        primary_csv(PRIMARY_ROWS + '"U.S. Senator","","Z","DEM","","1","0","0","0","0","1" \n')
+    )
+    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    assert written == 0 and len(failed) == 1
+    assert "re-fetch" in failed[0] and f.file_name in failed[0]
+    assert not (env / "data" / "results" / "GP26").exists()
+
+
+def test_fetch_writes_archives_atomically(env, monkeypatch):
+    replaced = []
+    real = results.os.replace
+    monkeypatch.setattr(results.os, "replace", lambda a, b: (replaced.append(b), real(a, b))[1])
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(lambda url: primary_csv()))
+    results.results_fetch("PP24")
+    archive_dir = env / "archives" / "sbe" / "results" / "PP24"
+    assert list(archive_dir.glob("*.tmp")) == []
+    assert {Path(p).name for p in replaced} == {p.name for p in archive_dir.iterdir()}
+    assert len(replaced) == len(list(archive_dir.iterdir())) > 0
+
+
+def test_crash_before_sidecar_leaves_a_state_the_next_parse_repairs(env, monkeypatch):
+    e = results.RESULTS_ELECTIONS["GP26"]
+    fill(env, e)
+    data = env / "data"
+    assert results.results_parse("GP26", data_dir=data)[0] == 48
+    county = data / "results" / "GP26" / "county"
+    side = county / "01-allegany-dem_provenance.json"
+    side.unlink()  # what a crash between the CSV and the sidecar leaves
+    assert results.results_parse("GP26", data_dir=data) == (1, [])
+    assert side.exists()
+
+
+def test_sidecar_is_written_after_the_csv_and_no_temp_files_remain(env, monkeypatch):
+    fill(env, results.RESULTS_ELECTIONS["GP26"])
+    order = []
+    real = results.os.replace
+    monkeypatch.setattr(results.os, "replace", lambda a, b: (order.append(str(b)), real(a, b))[1])
+    real_write = results.ProvenanceSidecar.write
+
+    def write(self, csv_path):
+        order.append("sidecar-write")
+        return real_write(self, csv_path)
+
+    monkeypatch.setattr(results.ProvenanceSidecar, "write", write)
+    results.results_parse("GP26", data_dir=env / "data")
+    first = order.index("sidecar-write")
+    assert order[first - 1].endswith("01-allegany-dem.csv")  # the CSV was replaced just before
+    county = env / "data" / "results" / "GP26" / "county"
+    assert list(county.glob("*.tmp")) == []
+
+
+def test_non_partisan_county_file_without_published_breakdown_is_n_a(env):
+    e = results.RESULTS_ELECTIONS["GP26"]
+    fill(env, e)
+    non = next(x for x in results.county_files(e) if x.source_id.endswith("county-05-non"))
+    archive(
+        env,
+        e,
+        non,
+        primary_csv('"Board of Education","","N N","NON","Y","1","0","0","0","0","1" \n'),
+    )
+    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    assert failed == [] and written == 49
+    assert _sidecar(env, "05-calvert-non")["checks"]["statewide_check"] == (
+        "n/a: GP26_CongressionalBreakDownNon-Partisian.csv not published"
+    )
+    assert _sidecar(env, "05-calvert-dem")["checks"]["statewide_check"].startswith("ok:")
+
+
+def test_missing_dem_breakdown_still_fails_the_election(env):
+    e = results.RESULTS_ELECTIONS["GP26"]
+    fill(env, e, skip={"sbe-results-GP26-check-dem"})
+    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    assert written == 0 and failed and "CongressionalBreakDownDemocratic" in failed[0]
+
+
+def test_statewide_text_reports_for_and_against_separately(env):
+    e = results.RESULTS_ELECTIONS["PG24"]
+    row = (
+        '"Judge Court of Appeals","01","Jane Roe","BOT","Y","","3","1","3","1","3","1","0","0",'
+        '"1","0","10","3" \n'
+        '"President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","1","","2","",'
+        '"3","","1","","3","","10","" \n'
+    )
+    head = (
+        '"Vote Type (FOR=1,AGAINST=2)","County","County Name","Office Name","Office District",'
+        '"Candidate Name","Party","Winner","Congressional District 1","Congressional District 2" \n'
+    )
+    base = '"{}","00","State of Maryland","{}","{}","{}","{}","","{}","0" \n'
+    check = (
+        BOM
+        + head
+        + base.format(1, "Judge Court of Appeals", "01", "Jane Roe", "BOT", 240)
+        + base.format(2, "Judge Court of Appeals", "01", "Jane Roe", "BOT", 72)
+        + base.format(1, "President - Vice Pres", "", "Kamala D. Harris and Tim Walz", "DEM", 240)
+    ).encode()
+    for f in results.county_files(e):
+        archive(env, e, f, check if f.role == "check" else (BOM + GENERAL_HEAD + row).encode())
+    written, failed = results.results_parse("PG24", data_dir=env / "data")
+    assert failed == [] and written == 24
+    side = json.loads(
+        (env / "data/results/PG24/county/01-allegany-all_provenance.json").read_text()
+    )
+    assert side["checks"]["statewide_check"] == (
+        "ok: 3 statewide rows (2 for, 1 against) match PG24_CongressionalBreakDown.csv"
+    )
+
+
+G20_JUDGE_ROWS = (
+    '"Jane Roe","","Judge Court of Appeals","01","Y","","3","1","3","1","3","1","0","0","1","0",'
+    '"10","3"\n'
+)
+
+
+def _all_state_judge(for_total, against_total):
+    return all_state(
+        [
+            f'"00","Jane Roe","","Judge Court of Appeals","01","Y","","{for_total}","","0","","0",'
+            f'"","0","","0","","{for_total}","{against_total}"\n'
+        ]
+    )
+
+
+def test_all_state_check_compares_against_totals():
+    frames = _g20_frames({"Allegany": G20_JUDGE_ROWS, "Kent": G20_JUDGE_ROWS})
+    assert results._check_statewide_all_state(PG20, frames, _all_state_judge(20, 6)) == (1, 1)
+    with pytest.raises(results.ResultsParseError, match="against"):
+        results._check_statewide_all_state(PG20, frames, _all_state_judge(20, 7))
+
+
+def test_force_refetch_of_identical_bytes_rewrites_a_missing_archive_without_a_new_row(
+    env, monkeypatch
+):
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(lambda url: primary_csv()))
+    results.results_fetch("PP24")
+    n = len(read_manifest(results.MANIFEST_PATH))
+    gone = next((env / "archives" / "sbe" / "results" / "PP24").glob("*.csv"))
+    gone.unlink()
+    assert results.results_fetch("PP24", force=True) == []
+    assert gone.exists() and gone.read_bytes() == primary_csv()
+    assert len(read_manifest(results.MANIFEST_PATH)) == n

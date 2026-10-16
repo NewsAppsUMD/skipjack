@@ -37,7 +37,17 @@ def columns_for(code):
 
 
 def write_county(
-    data_dir, code, number, county, party_file, rows, sidecar=True, election=None, csv_county=None
+    data_dir,
+    code,
+    number,
+    county,
+    party_file,
+    rows,
+    sidecar=True,
+    election=None,
+    csv_county=None,
+    checks=None,
+    source_id=None,
 ):
     """One county CSV (rows are lists in the election's column order after the id columns)."""
     d = data_dir / "results" / code / "county"
@@ -52,7 +62,7 @@ def write_county(
         (d / f"{stem}_provenance.json").write_text(
             json.dumps(
                 {
-                    "source_id": f"sbe-results-{code}-county-{number}-{party_file}",
+                    "source_id": source_id or f"sbe-results-{code}-county-{number}-{party_file}",
                     "election": code,
                     "family": "results",
                     "geography": "county",
@@ -65,7 +75,7 @@ def write_county(
                     "parser_version": "skipjack 0.2.0",
                     "notes": "test",
                     "extraction_method": "csv",
-                    "checks": {},
+                    "checks": checks or {},
                 }
             )
         )
@@ -232,3 +242,76 @@ def test_rejects_total_that_is_not_the_sum(conn, tmp_path):
     write_county(tmp_path, "GP26", "01", "Allegany", "dem", bad)
     with pytest.raises(ResultsLoadError, match="sum of vote types"):
         load_results(conn, tmp_path)
+
+
+def test_rejects_row_count_that_disagrees_with_the_sidecar(conn, tmp_path):
+    write_county(tmp_path, "GP26", "01", "Allegany", "dem", PRIMARY, checks={"rows": 2})
+    with pytest.raises(ResultsLoadError, match=r"01-allegany-dem\.csv.*3 data rows"):
+        load_results(conn, tmp_path)
+
+
+def test_accepts_matching_row_count(conn, tmp_path):
+    write_county(tmp_path, "GP26", "01", "Allegany", "dem", PRIMARY, checks={"rows": 3})
+    assert load_results(conn, tmp_path) == 3
+
+
+def test_rejects_sidecar_for_another_source(conn, tmp_path):
+    write_county(
+        tmp_path, "GP26", "01", "Allegany", "dem", PRIMARY,
+        source_id="sbe-results-GP26-county-02-dem",
+    )  # fmt: skip
+    with pytest.raises(ResultsLoadError, match="source_id"):
+        load_results(conn, tmp_path)
+
+
+def test_rejects_votes_against_that_do_not_sum_to_total_against(conn, tmp_path):
+    bad = [
+        [
+            "Judge Court of Appeals",
+            "01",
+            "Jane Roe",
+            "BOT",
+            1,
+            0,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            0,
+            0,
+            1,
+            0,
+            10,
+            4,
+        ]
+    ]
+    write_county(tmp_path, "PG24", "03", "Baltimore City", "all", bad)
+    with pytest.raises(ResultsLoadError, match="against"):
+        load_results(conn, tmp_path)
+
+
+@pytest.mark.parametrize("column", ["winner", "write_in", "total_votes"])
+def test_blank_required_cell_names_file_and_row(conn, tmp_path, column):
+    write_county(tmp_path, "GP26", "01", "Allegany", "dem", PRIMARY)
+    path = tmp_path / "results" / "GP26" / "county" / "01-allegany-dem.csv"
+    lines = path.read_text().splitlines()
+    header = lines[0].split(",")
+    cells = lines[2].split(",")
+    cells[header.index(column)] = ""
+    lines[2] = ",".join(cells)
+    path.write_text("\n".join(lines) + "\n")
+    with pytest.raises(ResultsLoadError, match=rf"01-allegany-dem\.csv.*blank {column}.*row 3"):
+        load_results(conn, tmp_path)
+
+
+def test_non_ascii_digit_district_is_left_alone(conn, tmp_path):
+    from skipjack.pipeline.build_db import _normalize_district
+
+    assert _normalize_district("\u00b2") == "\u00b2"
+    assert _normalize_district("00") == "0"
+    assert _normalize_district("01") == "1" and _normalize_district("1A") == "1A"
+    rows = [["U.S. Congress", "\u00b2", "A B", "DEM", 1, 0, 1, 0, 0, 0, 0, 1]]
+    write_county(tmp_path, "GP26", "01", "Allegany", "dem", rows)
+    assert load_results(conn, tmp_path) == 1

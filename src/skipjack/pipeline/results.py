@@ -11,6 +11,7 @@ import csv
 import hashlib
 import io
 import logging
+import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -233,6 +234,14 @@ def county_slug(county: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", county.lower().replace("'", "")).strip("-")
 
 
+def _write_atomic(path: Path, data: bytes) -> None:
+    """Write via a temp file in the same directory and os.replace, so a crash never leaves a
+    half-written file at `path`."""
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_bytes(data)
+    os.replace(tmp, path)
+
+
 def newest_source(manifest_path: Path, source_id: str) -> SourceRecord | None:
     """The newest manifest row for a source id (`results_fetch --force` appends a row per change;
     provenance.find_source returns the first, which is the oldest)."""
@@ -383,7 +392,7 @@ def _read_wide(
 
 def _check_statewide(
     election: ResultsElection, party_file: str, frames: list[pl.DataFrame], breakdown: bytes
-) -> int:
+) -> tuple[int, int]:
     """Compare the county sums with the breakdown file's statewide (County 00) rows.
 
     The breakdown files carry the statewide, congressional and legislative contests, not county
@@ -392,7 +401,7 @@ def _check_statewide(
     directions; district contests are compared when present; other offices are not checked.
     Generals compare FOR rows (Vote Type 1) with the counties' total_votes, and, for contests the
     breakdown carries AGAINST rows (Vote Type 2) for (judges' retention questions), those with
-    the counties' total_against. Returns how many contest rows were compared.
+    the counties' total_against. Returns (FOR rows compared, AGAINST rows compared).
     """
     where = f"{election.code} {party_file} breakdown"
     raw = _frame(breakdown, where)
@@ -422,7 +431,7 @@ def _check_statewide(
 
 def _check_statewide_all_state(
     election: ResultsElection, frames: list[pl.DataFrame], all_state: bytes
-) -> int:
+) -> tuple[int, int]:
     """2020 general: compare the county sums with All_State_2020_General's County 00 rows.
 
     That file carries the statewide totals directly (FOR votes in Total Votes; the judges'
@@ -452,7 +461,8 @@ def _compare_statewide(
     frames: list[pl.DataFrame],
     state: dict[tuple[str, str, str, str], int],
     state_against: dict[tuple[str, str, str, str], int] | None = None,
-) -> int:
+) -> tuple[int, int]:
+    """Compare county sums with the statewide rows; returns (FOR rows, AGAINST rows) compared."""
     sums: dict[tuple[str, str, str, str], int] = {}
     sums_against: dict[tuple[str, str, str, str], int] = {}
     for frame in frames:
@@ -473,7 +483,7 @@ def _compare_statewide(
     # would be a latent collision: it would be summed into the statewide office. No such case in
     # the 2020-2026 files; the statewide comparison would flag it if one appeared.
     statewide = {k[0] for k in state if k[1] == ""}
-    compared = 0
+    compared, compared_against = 0, 0
     for key, total in sorted(sums.items()):
         if key not in state:
             if key[1] == "" and key[0] in statewide:
@@ -495,13 +505,13 @@ def _compare_statewide(
                 f"{where}: {key[0]} {key[1]} / {key[2]}: counties' votes against sum to "
                 f"{sums_against.get(key, 0)}, statewide AGAINST row is {total}"
             )
-        compared += 1
+        compared_against += 1
     for key in state:
         if key not in sums and key[1] == "" and key[0] in statewide:
             raise ResultsParseError(
                 f"{where}: statewide row for {key[0]} / {key[2]} has no county rows"
             )
-    return compared
+    return compared, compared_against
 
 
 # ---- fetch ----------------------------------------------------------------------------------
@@ -568,7 +578,7 @@ def results_fetch(
             same = newest is not None and newest.sha256 == hashlib.sha256(body).hexdigest()
             if not same or not f.local_path.exists():
                 f.local_path.parent.mkdir(parents=True, exist_ok=True)
-                f.local_path.write_bytes(body)
+                _write_atomic(f.local_path, body)
             if same:
                 continue
             record = SourceRecord.create(
@@ -643,6 +653,14 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
                 continue
             raise ResultsParseError(f"missing required file {f.file_name} ({f.source_id})")
         data = path.read_bytes()
+        record = newest_source(MANIFEST_PATH, f.source_id)
+        assert record is not None
+        if hashlib.sha256(data).hexdigest() != record.sha256:
+            raise ResultsParseError(
+                f"{f.file_name}: archived bytes do not match the newest manifest sha256 "
+                f"({f.source_id}); the archive and manifest are out of step, so re-fetch with "
+                f"`skipjack results-fetch --force`"
+            )
         if f.role == "check":
             breakdowns[f.party_file] = data
             continue
@@ -650,11 +668,9 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
             frame = READERS[e.layout](data, e, f.county, f.party_file)
         except ResultsParseError as err:
             raise ResultsParseError(f"{f.file_name}: {err}") from None
-        record = newest_source(MANIFEST_PATH, f.source_id)
-        assert record is not None
         county_frames.setdefault(f.party_file, []).append((f, record, frame))
 
-    compared: dict[str, int] = {}
+    compared: dict[str, tuple[int, int]] = {}
     has_check = any(f.role == "check" for f in files)
     for pf, items in county_frames.items():
         if not has_check:
@@ -666,6 +682,8 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
             compared[pf] = _check_statewide_all_state(e, frames, breakdowns["all"])
             continue
         if pf not in breakdowns:
+            if pf == "non":
+                continue  # the SBE has not published that breakdown; recorded as n/a below
             raise ResultsParseError(f"no breakdown file for the {pf} county files")
         compared[pf] = _check_statewide(e, pf, frames, breakdowns[pf])
 
@@ -690,12 +708,16 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
                 if c.role == "check"
                 and c.party_file == ("all" if e.layout == "named2020" else f.party_file)
             )
-            n = compared[f.party_file]
-            statewide = (
-                f"ok: {n} statewide contest rows match {check_file}"
-                if n
-                else f"n/a: {check_file} carries no statewide rows"
-            )
+            counts = compared.get(f.party_file)
+            if counts is None:
+                statewide = f"n/a: {check_file} not published"
+            elif sum(counts):
+                statewide = (
+                    f"ok: {sum(counts)} statewide rows ({counts[0]} for, {counts[1]} against) "
+                    f"match {check_file}"
+                )
+            else:
+                statewide = f"n/a: {check_file} carries no statewide rows"
         sidecar = ProvenanceSidecar.from_source(
             record,
             parser_version=PARSER_VERSION,
@@ -708,7 +730,11 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
             notes=f"{e.code} {f.county} county results ({f.party_file}), totals checked per row.",
         )
         sidecar.election, sidecar.family, sidecar.geography = e.code, "results", "county"
-        sidecar.write(out_csv)  # provenance first, so a crash leaves no bare CSV
-        frame.write_csv(out_csv)
+        # CSV first (temp file + replace), sidecar last: a missing sidecar means "re-parse" in
+        # _revision_updated, so a crash between the two is repaired by the next parse
+        tmp_csv = out_csv.with_name(out_csv.name + ".tmp")
+        frame.write_csv(tmp_csv)
+        os.replace(tmp_csv, out_csv)
+        sidecar.write(out_csv)
     logger.info("%s: parsed %d files", e.code, len(targets))
     return len(targets)
