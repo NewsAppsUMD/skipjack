@@ -164,7 +164,9 @@ def test_contest_page_candidates_county_table_and_map(client):
     garrett = re.search(r'<tr id="county-garrett">.*?</tr>', html, re.S).group(0)
     assert garrett.count("> leads</span>") == 1
     assert garrett.index("60") < garrett.index("leads")
-    assert "Mail-In Ballot 2" in html and "second canvass of mail-in ballots" in html
+    assert "Mail-In Ballot 2" in html
+    assert "two separate counts of mail-in ballots" in " ".join(html.split())
+    assert "second canvass" not in html
     assert "elections.maryland.gov/x/sbe-results-GP26-county-01-dem.csv" in html
 
 
@@ -309,6 +311,111 @@ def test_pages_use_the_base_path(data):
         assert 'href="/skipjack/results/' in html
         assert 'href="/results/' not in html
         assert 'src="/static' not in html and 'href="/static' not in html
+
+
+def _article(html, anchor):
+    art = html[html.index(f'id="{anchor}"') :]
+    return art[: art.index("</article>")]
+
+
+def test_district_map_links_only_counties_that_have_a_row(client):
+    html = client.get("/results/gp26/state-senator-1-dem/").text  # Allegany only
+    assert 'id="county-allegany"' in html and 'id="county-garrett"' not in html
+    assert 'href="#county-allegany"' in html
+    assert 'href="#county-garrett"' not in html
+    assert 'aria-label="Garrett: not on the ballot, or no votes cast"' in html  # still drawn
+
+
+def test_other_maps_keep_their_links_and_markup(client):
+    from skipjack.web.maps import Scale, county_map
+
+    scale = Scale("seq", [1, 2, 3, 4])
+    assert all("linked" not in c for c in county_map("x", "T", {}, scale, str)["counties"])
+    linked = county_map("x", "T", {}, scale, str, linked_counties={"Garrett"})["counties"]
+    assert {c["name"] for c in linked if c["linked"]} == {"Garrett"}
+
+
+def test_district_contest_is_headed_totals_not_statewide(client):
+    senate = client.get("/results/gp26/state-senator-1-dem/").text
+    assert "<h2>Totals</h2>" in senate and "<h2>Statewide</h2>" not in senate
+    assert "statewide" not in senate.lower()
+    assert "<h2>Statewide</h2>" in client.get("/results/gp26/governor-lt-governor-dem/").text
+
+
+def test_hub_does_not_call_district_totals_statewide(client, data):
+    add(data, "GP26", "Allegany", "dem", "Representative in Congress", "1",
+        [("Rep One", "DEM", True, {"early": 5})])  # fmt: skip
+    html = client.get("/results/gp26/").text
+    assert "Representative in Congress, District 1 (Democratic), totals" in html
+    assert "District 1 (Democratic), statewide" not in html
+    assert "Governor / Lt. Governor (Democratic), statewide totals" in html
+
+
+def test_retention_contest_notes_and_labels(client):
+    html = client.get("/results/pg24/appeals-judge-md-at-lrg-all/").text
+    assert "retained" in html and "won statewide" not in html
+    assert '>Early <span class="muted">for</span>' in html
+    assert "retention result" in html
+    assert "votes cast, not of voters" not in html
+
+
+def test_two_candidate_races_show_the_mail_note_once_and_softened(client):
+    html = " ".join(client.get("/results/gp26/county/allegany/").text.split())
+    assert html.count("two separate counts of mail-in ballots, as labelled") == 1
+    assert "second canvass" not in html
+
+
+def test_county_page_explains_the_check_mark_once(client):
+    html = " ".join(client.get("/results/gp26/county/garrett/").text.split())
+    assert "State Board's winner flag for the contest in this county" not in html
+    assert html.count("a check mark is the result of the whole contest") == 1
+    assert "won statewide, won the district, or retained" in html
+    assert "retained" in client.get("/results/pg24/county/allegany/").text
+
+
+def test_county_page_marks_no_leader_on_local_or_multi_winner_contests(client, data):
+    html = client.get("/results/gp26/county/garrett/").text
+    assert "leads here" not in _article(html, "sheriff-dem")  # local: leader is the winner
+    add(data, "GP26", "Allegany", "dem", "House of Delegates", "2A",
+        [("Del A", "DEM", True, {"early": 9}), ("Del B", "DEM", True, {"early": 9}),
+         ("Del C", "DEM", False, {"early": 3})])  # fmt: skip
+    add(data, "GP26", "Garrett", "dem", "House of Delegates", "2A",
+        [("Del A", "DEM", True, {"early": 4}), ("Del B", "DEM", True, {"early": 4}),
+         ("Del C", "DEM", False, {"early": 1})])  # fmt: skip
+    county = _article(
+        client.get("/results/gp26/county/allegany/").text, "house-of-delegates-2a-dem"
+    )
+    assert "leads here" not in county and "tied for the most" not in county
+    page = client.get("/results/gp26/house-of-delegates-2a-dem/").text
+    assert "tied for the most" not in page and 'class="num leader"' not in page
+    assert "votes cast, not of voters" in page
+    assert "a dot marks" not in page
+
+
+def test_hub_shows_each_winners_own_votes(client, data):
+    add(data, "GP26", "Allegany", "dem", "House of Delegates", "2A",
+        [("Del A", "DEM", True, {"early": 4010}), ("Del B", "DEM", True, {"early": 4093})])  # fmt: skip
+    html = client.get("/results/gp26/").text
+    row = re.search(r"<th scope=\"row\"><a[^>]*>2A</a></th>\s*<td>.*?</td>", html, re.S).group(0)
+    assert "4,010" in row and "4,093" in row and "8,103" not in html
+    assert ">Votes<" not in html.split("district-list")[1]
+
+
+def test_hub_cards_list_named_candidates_and_count_write_ins(client):
+    html = client.get("/results/pg24/").text
+    president = html[html.index("President / Vice President") :]
+    president = president[: president.index("</article>")]
+    assert "Write-ins" not in president
+    assert "and 2 write-in candidates" in president or "and 1 write-in candidate<" in president
+    assert "(write-in)" in client.get("/results/pg24/president-vice-pres-all/").text
+
+
+def test_index_and_county_index_copy(client):
+    index = client.get("/results/").text
+    assert "election data page" in index and "elections.maryland.gov" in index
+    county_index = client.get("/results/gp26/county/").text
+    assert "with the vote counts by way of voting" in county_index
+    assert "Every contest on a county's ballot, with" not in county_index
 
 
 # --- real data ---------------------------------------------------------------------------

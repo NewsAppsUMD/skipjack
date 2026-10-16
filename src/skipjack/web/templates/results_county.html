@@ -6,18 +6,17 @@
 <div class="viz-root">
 {{ r.breadcrumb(election, [("By county", base ~ "/results/" ~ election.slug ~ "/county/"), (county, none)]) }}
 <h1>{{ county }}</h1>
-<p class="secondary">{{ election.name.title() }}: every contest on the county's ballot. A check
-    mark is the State Board's winner flag for the contest in this county.</p>
+<p class="secondary">{{ election.name.title() }}: every contest on the county's ballot.</p>
 
-{% set mail_2 = vote_types|selectattr("label", "in", ["Mail-In Ballot 2", "By Mail 2"])|map(attribute="label")|list %}
-{% if mail_2 %}
-<p class="note">"{{ mail_2[0] }}" is the second canvass of mail-in ballots.</p>
+<p class="note">On a contest that has its own page, a check mark is the result of the whole
+    contest (won statewide, won the district, or retained), not this county's; a dot marks who
+    has the most votes in {{ county }}. On a county office the check mark is this county's own
+    result.</p>
+
+{% if mail_pair %}
+<p class="note">"{{ mail_pair[0] }}" and "{{ mail_pair[1] }}" are the State Board's two
+    separate counts of mail-in ballots, as labelled in its results files.</p>
 {% endif %}
-
-<p class="note">On a contest that has its own page, a check mark is the State Board's flag for
-    the whole contest (the statewide or district winner), not this county's result; a dot
-    marks who has the most votes in {{ county }}. On a county office the check mark is the
-    county's own winner.</p>
 
 <nav class="subnav" aria-label="Sections of this page">
     {% for g in groups %}<a href="#section-{{ g.party_file }}">{{ g.label + " ballot" if g.label else "Contests" }} ({{ g.contests|length }})</a>{% endfor %}

@@ -376,11 +376,17 @@ def _top(cells: list[int | None]) -> tuple[int | None, list[int]]:
     return (top[0], []) if len(top) == 1 else (None, top)
 
 
-def _county_row(county: str, rows: list[dict], candidates: list[dict], has_against: bool) -> dict:
+def _county_row(
+    county: str,
+    rows: list[dict],
+    candidates: list[dict],
+    has_against: bool,
+    mark_leader: bool = True,
+) -> dict:
     by_name = {(r["candidate"], r["party"]): r for r in rows}
     keys = [(c["name"], c["party"]) for c in candidates]
     cells = [by_name[k]["total"] if k in by_name else None for k in keys]
-    leader, tied = (None, []) if has_against else _top(cells)
+    leader, tied = _top(cells) if mark_leader and not has_against else (None, [])
     row = {
         "county": county,
         "slug": slugify(county),
@@ -412,8 +418,11 @@ def contest(conn: sqlite3.Connection, code: str, slug: str) -> dict | None:
     by_county: dict[str, list[dict]] = {}
     for r in rows:
         by_county.setdefault(r["county"], []).append(r)
+    # more than one flagged winner (a multi-seat contest, a convention-delegate slate where
+    # everyone ties): who "leads" a county is meaningless, so no leader or tie is marked
+    multi_winner = sum(c["winner"] for c in candidates) > 1
     county_rows = [
-        _county_row(county, by_county[county], candidates, has_against)
+        _county_row(county, by_county[county], candidates, has_against, not multi_winner)
         for county in COUNTY_CODES.values()
         if county in by_county
     ]
@@ -428,6 +437,7 @@ def contest(conn: sqlite3.Connection, code: str, slug: str) -> dict | None:
         "total": sum(c["total"] for c in candidates),
         "counties_reporting": len(county_rows),
         "has_against": has_against,
+        "multi_winner": multi_winner,
         "county_rows": county_rows,
         "source_ids": [sources[c["county"]] for c in county_rows],
     }
@@ -503,7 +513,14 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
         page = page_info.get((office, district, party_file))
         candidates = _candidates(contest_rows, stems)
         has_against = any(r["against"] is not None for r in contest_rows)
-        leader, tied = (None, []) if has_against else _top([c["total"] for c in candidates])
+        scope = page["scope"] if page else "local"
+        # on a local contest the county's leader and the flagged winner are the same, and a
+        # multi-winner contest has no single leader to mark
+        leader, tied = (None, [])
+        if not has_against and sum(c["winner"] for c in candidates) <= 1:
+            leader, tied = _top([c["total"] for c in candidates])
+            if scope == "local":
+                leader = None
         by_party.setdefault(party_file, []).append(
             {
                 "title": contest_title(office, district, party_file),
@@ -515,7 +532,7 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
                 "page_slug": page["slug"] if page else None,
                 # the SBE's winner flag is the contest-wide result: for a contest with a page
                 # it is the statewide / district winner, for a local one it is this county's
-                "scope": page["scope"] if page else "local",
+                "scope": scope,
                 "candidates": candidates,
                 "has_against": has_against,
                 "leader": leader,

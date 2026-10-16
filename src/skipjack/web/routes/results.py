@@ -65,6 +65,16 @@ def _election_sources(conn: sqlite3.Connection, code: str) -> list[dict]:
     return source_links(conn, ids)
 
 
+def mail_pair(vote_types: list[dict]) -> tuple[str, str] | None:
+    """Labels of the two mail columns when an election's files have two (Mail-In Ballot 1 and
+    2, By Mail and By Mail 2), else None. The one place the pages decide to explain them."""
+    by_stem = {v["stem"]: v["label"] for v in vote_types}
+    for first, second in (("mail_in_1", "mail_in_2"), ("by_mail", "by_mail_2")):
+        if first in by_stem and second in by_stem:
+            return by_stem[first], by_stem[second]
+    return None
+
+
 def _render(request: Request, template: str, context: dict):
     return request.app.state.templates.TemplateResponse(request, template, context)
 
@@ -77,7 +87,10 @@ async def index(request: Request):
     for e in elections:  # newest first already
         years.setdefault(e["year"], {"year": e["year"], "primary": None, "general": None})
         years[e["year"]][e["kind"]] = e
-    return _render(request, "results_index.html", {"years": list(years.values())})
+    data_page = RESULTS_ELECTIONS[elections[0]["code"]].base_url if elections else ""
+    return _render(
+        request, "results_index.html", {"years": list(years.values()), "data_page": data_page}
+    )
 
 
 @router.get("/{slug}/")
@@ -136,6 +149,7 @@ async def county(request: Request, slug: str, county_slug: str):
             "election": data["election"],
             "county": data["county"],
             "vote_types": data["vote_types"],
+            "mail_pair": mail_pair(data["vote_types"]),
             "groups": data["groups"],
             "sources": sources,
             "data_page": RESULTS_ELECTIONS[code].base_url,
@@ -151,7 +165,6 @@ async def contest(request: Request, slug: str, contest_slug: str):
         if data is None:
             raise HTTPException(status_code=404)
         sources = source_links(conn, data["source_ids"])
-    counties = {r["county"]: s for r, s in zip(data["county_rows"], sources)}
     return _render(
         request,
         "results_contest.html",
@@ -160,15 +173,7 @@ async def contest(request: Request, slug: str, contest_slug: str):
             "election": data["election"],
             "county_maps": results_map(data),
             "sources": sources,
-            "county_sources": counties,
-            "mail_2": next(
-                (
-                    v["label"]
-                    for v in data["vote_types"]
-                    if v["stem"].endswith("mail_in_2") or v["stem"].endswith("by_mail_2")
-                ),
-                None,
-            ),
+            "mail_pair": mail_pair(data["vote_types"]),
             "data_page": RESULTS_ELECTIONS[code].base_url,
         },
     )

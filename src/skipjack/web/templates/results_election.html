@@ -7,7 +7,7 @@
 {{ r.breadcrumb(election) }}
 <h1>{{ election.name.title() }}</h1>
 <p class="secondary">{{ election.kind.title() }} election{% if election.election_day %}, {{ election.election_day|day_label }}{% endif %}.
-    Statewide totals are the county results added up; a check mark is the State Board's own
+    Totals are the county results added up; a check mark is the State Board's own
     winner flag. <a href="{{ base }}/results/{{ election.slug }}/county/">Results by county</a>.</p>
 
 {% if groups %}
@@ -23,7 +23,10 @@
 {% for c in g.contests %}
 <article class="contest-card">
     <h3><a href="{{ base }}/results/{{ election.slug }}/{{ c.slug }}/">{{ c.title }}</a></h3>
-    {{ r.candidate_table(c.candidates, c.title ~ ", statewide totals", has_against=c.has_against, compact=true) }}
+    {% set named = c.candidates|rejectattr("write_in")|list %}
+    {% set n_write_ins = c.candidates|length - named|length %}
+    {{ r.candidate_table(named if named else c.candidates, c.title ~ (", statewide totals" if g.scope == "statewide" else ", totals"), has_against=c.has_against, compact=true) }}
+    {% if named and n_write_ins %}<p class="note">and {{ n_write_ins }} write-in candidate{{ "s" if n_write_ins != 1 }}</p>{% endif %}
     <p class="note"><a href="{{ base }}/results/{{ election.slug }}/{{ c.slug }}/">County results and map</a></p>
 </article>
 {% endfor %}
@@ -35,13 +38,12 @@
         ({{ g.contests|selectattr("party_label", "equalto", party)|list|length }} contests)</summary>
     <table class="results-table compact">
         <caption class="sr-only">{{ g.label }}{% if party %}, {{ party }}{% endif %}: winners by district</caption>
-        <thead><tr><th scope="col">District</th><th scope="col">Winner{{ "s" if g.scope == "delegates" }}</th><th scope="col" class="num">Votes</th></tr></thead>
+        <thead><tr><th scope="col">District</th><th scope="col">Winner{{ "s" if g.scope == "delegates" }} and votes</th></tr></thead>
         <tbody>
         {% for c in g.contests if c.party_label == party %}
         <tr>
             <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/{{ c.slug }}/">{{ c.district }}</a></th>
-            <td>{% for w in c.candidates if w.winner %}{{ w.name }}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.winner() }}{% if not loop.last %}; {% endif %}{% else %}<span class="muted">no winner flagged</span>{% endfor %}</td>
-            <td class="num">{{ r.votes(c.candidates|selectattr("winner")|map(attribute="total")|sum) if c.candidates|selectattr("winner")|list else "" }}</td>
+            <td>{% for w in c.candidates if w.winner %}{{ w.name }}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.winner() }} {{ r.votes(w.total) }}{% if not loop.last %}; {% endif %}{% else %}<span class="muted">no winner flagged</span>{% endfor %}</td>
         </tr>
         {% endfor %}
         </tbody>

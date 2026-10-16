@@ -9,12 +9,14 @@
 <h1>{{ contest.title }}</h1>
 <p class="secondary">{{ contest.scope_label }}{% if contest.party_label %}, {{ contest.party_label }} primary{% endif %}.
     {{ election.name.title() }}, {{ contest.counties_reporting }} count{{ 'y' if contest.counties_reporting == 1 else 'ies' }}.
-    Totals are the county results added up; a check mark is the State Board's winner flag.</p>
+    Totals are the county results added up; a check mark is the State Board's {{ "retention result" if contest.has_against else "winner flag" }}.</p>
 
-<h2>Statewide</h2>
-{{ r.candidate_table(contest.candidates, contest.title ~ ", statewide totals by way of voting", contest.vote_types, contest.has_against) }}
-{% if mail_2 %}
-<p class="note">"{{ mail_2 }}" is the second canvass of mail-in ballots.</p>
+{% set totals_label = "Statewide" if contest.scope == "statewide" else "Totals" %}
+<h2>{{ totals_label }}</h2>
+{{ r.candidate_table(contest.candidates, contest.title ~ ", " ~ totals_label|lower ~ " by way of voting", contest.vote_types, contest.has_against) }}
+{% if mail_pair %}
+<p class="note">"{{ mail_pair[0] }}" and "{{ mail_pair[1] }}" are the State Board's two separate
+    counts of mail-in ballots, as labelled in its results files.</p>
 {% endif %}
 
 {% if county_maps %}
@@ -22,14 +24,14 @@
 {% for m in county_maps %}{{ maps.county_map(m) }}{% endfor %}
 {% endif %}
 
-{% if contest.candidates|selectattr("winner")|list|length > 1 %}
+{% if contest.multi_winner and not contest.has_against %}
 <p class="note">This contest elects more than one candidate, so a candidate's share is of the
     votes cast, not of voters.</p>
 {% endif %}
 <h2>By county</h2>
 <div class="overflow-auto">
 <table data-sortable class="results-table county-table">
-    <caption class="sr-only">{{ contest.title }} by county{% if not contest.has_against %}; a dot marks the candidate with the most votes in the county, an equals sign a tie{% endif %}</caption>
+    <caption class="sr-only">{{ contest.title }} by county{% if not contest.has_against and not contest.multi_winner %}; a dot marks the candidate with the most votes in the county, an equals sign a tie{% endif %}</caption>
     <thead>
         <tr>
             <th scope="col">County</th>

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Callable
+from collections.abc import Callable, Collection
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -134,25 +134,30 @@ def county_map(
     link: str = "row",
     caption: str = "",
     none_text: str = "not shown",
+    linked_counties: Collection[str] | None = None,
 ) -> dict:
     """Everything templates/_maps.html needs to draw one map.
 
     ``link`` is "county_page" (each county links to /voters/county/<slug>/), "row" (to the
-    ``#county-<slug>`` row of the table on the same page) or "" (no links).
+    ``#county-<slug>`` row of the table on the same page) or "" (no links). With
+    ``linked_counties`` only those counties are linked and the rest are drawn without a link
+    (a "row" link to a row the table does not have would be dead); without it the ``linked``
+    key is absent from the county dicts, so the other pages' markup is unchanged.
     """
     shapes = load_shapes()["counties"]
     counties = []
     for name, shape in shapes.items():
         value = values.get(name)
-        counties.append(
-            {
-                "name": name,
-                "fips": shape["fips"],
-                "slug": slugify(name),
-                "css": scale.css(value),
-                "label": f"{name}: {none_text if value is None else fmt(value)}",
-            }
-        )
+        county = {
+            "name": name,
+            "fips": shape["fips"],
+            "slug": slugify(name),
+            "css": scale.css(value),
+            "label": f"{name}: {none_text if value is None else fmt(value)}",
+        }
+        if linked_counties is not None:
+            county["linked"] = name in linked_counties
+        counties.append(county)
     return {
         "id": map_id,
         "title": title,
@@ -360,7 +365,7 @@ def results_map(contest: dict) -> list[dict]:
     leader). A general shows the Democratic minus Republican margin when the contest has both
     parties, else the leader's share. Counties outside the contest are None (hatched). A
     retention question (for / against) has no meaningful map and returns []. Rows link to
-    ``#county-<slug>`` on the same page.
+    ``#county-<slug>`` on the same page; counties with no row are hatched and not linked.
     """
     candidates, rows = contest["candidates"], contest["county_rows"]
     if contest.get("has_against") or not candidates or not rows:
@@ -384,7 +389,7 @@ def results_map(contest: dict) -> list[dict]:
                 "results-margin", "Democratic minus Republican", values,
                 party_margin(list(values.values())), fmt_margin, link="row",
                 caption="share of the county's votes in this contest, in points",
-                none_text="not on the ballot, or no votes cast",
+                none_text="not on the ballot, or no votes cast", linked_counties=cells,
             )
         ]  # fmt: skip
     top = next((i for i, c in enumerate(candidates) if c["winner"]), 0)
@@ -397,12 +402,8 @@ def results_map(contest: dict) -> list[dict]:
         county_map(
             "results-share", f"{label}: {name}", values,
             sequential(list(values.values()), "%"), fmt_pct(1), link="row",
-            caption=(
-                "winner's share of the votes cast in the county"
-                if label.startswith("Winner")
-                else "leader's share of the votes cast in the county"
-            ),
+            caption="share of the votes cast in the county",
             # a county with no votes cast at all is hatched with the counties off the ballot
-            none_text="not on the ballot, or no votes cast",
+            none_text="not on the ballot, or no votes cast", linked_counties=cells,
         )
     ]  # fmt: skip

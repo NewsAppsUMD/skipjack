@@ -31,6 +31,8 @@
 {# win_label names what the State Board's flag means here; leader / tied (indices) mark who
    has the most votes in a county page's county. #}
 {% macro candidate_table(candidates, caption, vote_types=[], has_against=false, compact=false, win_label="winner", leader=none, tied_ix=[]) -%}
+{# a retention question's flag means "retained", wherever the table appears #}
+{% set win_label = "retained" if has_against else win_label %}
 <div class="overflow-auto">
 <table class="results-table{% if compact %} compact{% endif %}">
     <caption class="sr-only">{{ caption }}</caption>
@@ -38,7 +40,7 @@
         <tr>
             <th scope="col">Candidate</th>
             <th scope="col">Party</th>
-            {% for v in vote_types %}<th scope="col" class="num">{{ v.label }}</th>{% endfor %}
+            {% for v in vote_types %}<th scope="col" class="num">{{ v.label }}{% if has_against %} <span class="muted">for</span>{% endif %}</th>{% endfor %}
             <th scope="col" class="num">{{ "For" if has_against else "Total" }}</th>
             {% if has_against %}<th scope="col" class="num">Against</th>{% endif %}
             <th scope="col" class="num">{{ "Share of for and against" if has_against else "Share" }}</th>
