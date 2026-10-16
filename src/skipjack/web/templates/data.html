@@ -101,4 +101,24 @@
 </section>
 {% endfor %}
 {% endif %}
+
+{% if results_sections %}
+<h2>Election results</h2>
+<p>
+    The State Board's county results files, one CSV per county and party file (a primary has
+    Democratic, Republican and non-partisan files; a general has one), each with a provenance
+    file recording its source, checksum and checks. Winner marks are the Board's flag.
+</p>
+{% for section in results_sections %}
+<section class="dataset">
+    <h3>{{ section.code }} — {{ section.name }}</h3>
+    <p>
+        {% for f in section.files %}
+        <a href="{{ base }}/downloads/{{ f.path }}" style="white-space:nowrap">{{ f.name }}</a>
+        (<a href="{{ base }}/downloads/{{ f.provenance }}">provenance</a>)&nbsp;
+        {% endfor %}
+    </p>
+</section>
+{% endfor %}
+{% endif %}
 {% endblock %}

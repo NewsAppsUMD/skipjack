@@ -11,7 +11,8 @@ from fastapi.responses import FileResponse
 
 from skipjack.pipeline.turnout import may_publish
 from skipjack.web.bulk import BULK_FILES, DESCRIPTIONS
-from skipjack.web.downloads import DOWNLOAD_SUFFIXES, download_files
+from skipjack.pipeline.results import RESULTS_ELECTIONS
+from skipjack.web.downloads import DOWNLOAD_SUFFIXES, download_files, results_published
 from skipjack.web.paths import DATA_DIR
 
 router = APIRouter()
@@ -64,6 +65,45 @@ async def turnout_download(relative: str):
         if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
             return FileResponse(target)
     raise HTTPException(404)
+
+
+@router.get("/downloads/results/{relative:path}")
+async def results_download(relative: str):
+    """Serve a results CSV or provenance file, only for elections the registry publishes."""
+    parts = Path(relative).parts
+    if len(parts) >= 2 and not any(p in ("..", ".") for p in parts) and results_published(parts[0]):
+        target = DATA_DIR / "results" / relative
+        if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
+            return FileResponse(target)
+    raise HTTPException(404)
+
+
+def results_listing(data_dir: Path) -> list[dict]:
+    """One block per published election with files: each county results CSV with the
+    provenance file beside it, in county order."""
+    blocks: list[dict] = []
+    root = data_dir / "results"
+    if not root.exists():
+        return blocks
+    for code, election in sorted(
+        RESULTS_ELECTIONS.items(), key=lambda kv: (-kv[1].year, kv[1].kind != "general")
+    ):
+        county_dir = root / code / "county"
+        if not election.published or not county_dir.is_dir():
+            continue
+        files = [
+            {
+                "name": csv.stem,
+                "path": csv.relative_to(data_dir).as_posix(),
+                "provenance": csv.with_name(csv.stem + "_provenance.json")
+                .relative_to(data_dir)
+                .as_posix(),
+            }
+            for csv in sorted(county_dir.glob("*.csv"))
+        ]
+        if files:
+            blocks.append({"code": code, "name": election.name, "files": files})
+    return blocks
 
 
 def turnout_listing(data_dir: Path) -> list[dict]:
@@ -144,6 +184,7 @@ async def data_page(request: Request):
             "combined": [{"name": n, "description": DESCRIPTIONS[n]} for n in BULK_FILES],
             "snapshots": voter_file_listing(DATA_DIR),
             "turnout_sections": turnout_listing(DATA_DIR),
+            "results_sections": results_listing(DATA_DIR),
             "discrepancies": "voter_registration/source_discrepancies.csv" in available,
         },
     )

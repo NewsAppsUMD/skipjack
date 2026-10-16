@@ -94,7 +94,9 @@ def test_prepare_output_refuses_a_folder_that_is_not_a_built_site(tmp_path):
 def test_downloads_are_only_aggregates():
     files = download_files(DATA_DIR)
     assert all(f.suffix in DOWNLOAD_SUFFIXES for f in files)
-    assert all(f.parts[0] in {"voter_registration", "voter_file", "turnout"} for f in files)
+    assert all(
+        f.parts[0] in {"voter_registration", "voter_file", "turnout", "results"} for f in files
+    )
 
 
 def test_the_tile_markup_is_styled():
@@ -129,6 +131,80 @@ def test_download_files_drops_unofficial_tallies_of_certified_elections(tmp_path
         Path("turnout/GP26/requests/county/2026-06-19.csv"),
         Path("voter_registration/monthly/2026-08.csv"),
     ]
+
+
+def test_download_files_offers_results_only_for_published_elections(tmp_path):
+    """GG26 is registered unpublished: its files would be neither listed nor copied."""
+    for code in ("GP26", "GG26", "ZZ99"):
+        (tmp_path / "results" / code / "county").mkdir(parents=True)
+        (tmp_path / "results" / code / "county" / "01-allegany-dem.csv").write_text("x")
+        (tmp_path / "results" / code / "county" / "01-allegany-dem_provenance.json").write_text(
+            "{}"
+        )
+    assert download_files(tmp_path) == [
+        Path("results/GP26/county/01-allegany-dem.csv"),
+        Path("results/GP26/county/01-allegany-dem_provenance.json"),
+    ]
+
+
+@needs_db
+def test_page_urls_include_every_results_page_per_election():
+    from skipjack.web.db import get_db
+    from skipjack.web.results import contest_slugs, county_slugs, elections
+
+    urls = set(page_urls())
+    assert "/results/" in urls
+    with get_db() as conn:
+        found = elections(conn)
+        assert found
+        for e in found:
+            base = f"/results/{e['slug']}/"
+            assert {base, base + "county/"} <= urls
+            for c in county_slugs(conn, e["code"]):
+                assert f"{base}county/{c}/" in urls
+            for c in contest_slugs(conn, e["code"]):
+                assert f"{base}{c}/" in urls
+
+
+def test_page_urls_have_no_results_pages_when_the_tables_are_empty(tmp_path, monkeypatch):
+    from contextlib import contextmanager
+
+    from skipjack.models import SCHEMA_SQL
+
+    @contextmanager
+    def fake_db():
+        conn = sqlite3.connect(":memory:")
+        conn.row_factory = sqlite3.Row
+        conn.executescript(SCHEMA_SQL)
+        conn.execute(
+            "INSERT INTO voter_registration (report_date, county, party, party_name, active_voters)"
+            " VALUES ('2026-01-01', 'Allegany', 'DEM', 'Democratic', 1)"
+        )
+        try:
+            yield conn
+        finally:
+            conn.close()
+
+    monkeypatch.setattr(static_site, "get_db", fake_db)
+    assert not [u for u in page_urls() if u.startswith("/results")]
+
+    @contextmanager
+    def bare_db():  # a database from before the results tables existed
+        conn = sqlite3.connect(":memory:")
+        conn.row_factory = sqlite3.Row
+        conn.executescript(
+            "CREATE TABLE voter_registration (report_date, county, party, active_voters);"
+            "INSERT INTO voter_registration VALUES ('2026-01-01', 'Allegany', 'DEM', 1);"
+            "CREATE TABLE voter_file_snapshots (snapshot_date, meta_json);"
+            "CREATE TABLE turnout_counts (election);"
+        )
+        try:
+            yield conn
+        finally:
+            conn.close()
+
+    monkeypatch.setattr(static_site, "get_db", bare_db)
+    assert not [u for u in page_urls() if u.startswith("/results")]
 
 
 # --- full build ----------------------------------------------------------------------
@@ -181,6 +257,33 @@ def test_the_turnout_pages_and_downloads_are_published(root_site, project_site):
     assert f"{headline['requests']['requests_total']:,}" in html  # requests statewide
     assert 'src="/skipjack/static/turnout.js"' in html
     assert f'href="/skipjack/downloads/{csv_stem}.csv"' in html
+
+
+@needs_db
+def test_the_results_pages_and_downloads_are_published(root_site, project_site):
+    from skipjack.web.db import get_db
+    from skipjack.web.results import contest_slugs, county_slugs
+
+    with get_db() as conn:
+        contest = contest_slugs(conn, "GP26")[0]
+        county = county_slugs(conn, "GP26")[0]
+    for out in (root_site[0], project_site[0]):
+        for rel in (
+            "results",
+            "results/gp26",
+            "results/gp26/county",
+            f"results/gp26/county/{county}",
+            f"results/gp26/{contest}",
+        ):
+            assert (out / rel / "index.html").is_file(), rel
+        assert (out / "downloads/results/GP26/county/01-allegany-dem.csv").is_file()
+        assert (out / "downloads/results/GP26/county/01-allegany-dem_provenance.json").is_file()
+    html = (project_site[0] / "data" / "index.html").read_text()
+    assert 'href="/skipjack/downloads/results/GP26/county/01-allegany-dem.csv"' in html
+    about = (project_site[0] / "about" / "index.html").read_text()
+    assert "elections/2026/election_data/index.html" in about
+    assert "elections/archive/2024/election_data/index.html" in about
+    assert "sbe-results-" not in about
 
 
 @needs_db

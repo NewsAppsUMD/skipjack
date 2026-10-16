@@ -15,6 +15,7 @@ import json
 import logging
 import re
 import shutil
+import sqlite3
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -26,6 +27,7 @@ from skipjack.web.compare import snapshot_pairs
 from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
+from skipjack.web.results import contest_slugs, county_slugs, elections
 from skipjack.web.turnout import publishable_geographies
 from skipjack.web.race import snapshots_with_race
 from skipjack.web.young import snapshots_with_young
@@ -85,6 +87,16 @@ def page_urls() -> list[str]:
             turnout_urls += [
                 f"/turnout/{code.lower()}/{g}/" for g in publishable_geographies(conn, code)
             ]
+        results_urls: list[str] = []
+        try:
+            found = elections(conn)
+            for e in found:
+                base = f"/results/{e['slug']}/"
+                results_urls += [base, base + "county/"]
+                results_urls += [f"{base}county/{c}/" for c in county_slugs(conn, e["code"])]
+                results_urls += [f"{base}{c}/" for c in contest_slugs(conn, e["code"])]
+        except sqlite3.OperationalError:  # no results tables in an older database
+            results_urls = []
     if not dates:
         raise SiteBuildError("skipjack.db has no registration data. Run `skipjack build-db` first.")
 
@@ -101,6 +113,9 @@ def page_urls() -> list[str]:
     if turnout_urls:
         urls.append("/turnout/")
         urls += turnout_urls
+    if results_urls:
+        urls.append("/results/")
+        urls += results_urls
     urls += [f"/voters/month/{d}/" for d in dates]
     urls += ["/voters/county/"] + [f"/voters/county/{slugify(c)}/" for c in counties]
     if latest_snapshot:
