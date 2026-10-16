@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-06-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Caroline_County_Democratic_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Caroline results (dem)",
+  "fetch_date": "2026-10-16T00:34:09+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "d4bc172e53e00f889634925c68a4f7d00f1f152f0dcaa2be11e3a9a4478138f4",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Caroline county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 77,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

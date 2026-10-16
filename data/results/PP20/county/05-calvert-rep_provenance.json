@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-05-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Calvert_County_Republican_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Calvert results (rep)",
+  "fetch_date": "2026-10-16T00:34:08+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "15a214f0c2327761dcb5956295e0c299c3b1078ea51fbbf6234971ff14560477",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Calvert county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 17,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

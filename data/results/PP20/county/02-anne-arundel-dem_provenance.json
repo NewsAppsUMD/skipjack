@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-02-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Anne_Arundel_County_Democratic_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Anne Arundel results (dem)",
+  "fetch_date": "2026-10-16T00:34:07+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "73b97f503c104f3c3a780ed2a048db41496c19e19f33926a6d1a5bfb012a902e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Anne Arundel county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 328,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

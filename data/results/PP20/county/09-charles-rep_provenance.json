@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-09-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Charles_County_Republican_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Charles results (rep)",
+  "fetch_date": "2026-10-16T00:34:11+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "754f3bb967873a724e1fff230298727a5fa071d25dfe153bca71380161c203d5",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Charles county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 18,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

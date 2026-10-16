@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-01-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Allegany_County_Democratic_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Allegany results (dem)",
+  "fetch_date": "2026-10-16T00:34:06+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "348d2e91470e7262e477410854fe067e51a78451e1b57371f77d4371d3874102",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Allegany county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 91,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

@@ -1,0 +1,78 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,vote_by_mail_votes,in_person_voting_votes,provisional_votes,total_votes
+PP20,Kent,dem,President - Vice Pres,"",Michael Bennet,DEM,0,0,10,1,0,11
+PP20,Kent,dem,President - Vice Pres,"",Joe Biden,DEM,1,0,2390,30,10,2430
+PP20,Kent,dem,President - Vice Pres,"",Michael Bloomberg,DEM,0,0,20,0,0,20
+PP20,Kent,dem,President - Vice Pres,"",Cory Booker,DEM,0,0,5,1,0,6
+PP20,Kent,dem,President - Vice Pres,"",Pete Buttigieg,DEM,0,0,28,2,1,31
+PP20,Kent,dem,President - Vice Pres,"",Julian Castro,DEM,0,0,1,1,0,2
+PP20,Kent,dem,President - Vice Pres,"",Tulsi Gabbard,DEM,0,0,5,0,0,5
+PP20,Kent,dem,President - Vice Pres,"",Amy Klobuchar,DEM,0,0,15,0,0,15
+PP20,Kent,dem,President - Vice Pres,"",Deval Patrick,DEM,0,0,1,0,0,1
+PP20,Kent,dem,President - Vice Pres,"",Bernie Sanders,DEM,0,0,177,4,0,181
+PP20,Kent,dem,President - Vice Pres,"",Tom Steyer,DEM,0,0,1,1,0,2
+PP20,Kent,dem,President - Vice Pres,"",Elizabeth Warren,DEM,0,0,80,4,2,86
+PP20,Kent,dem,President - Vice Pres,"",Marianne Williamson,DEM,0,0,2,0,0,2
+PP20,Kent,dem,President - Vice Pres,"",Andrew Yang,DEM,0,0,10,0,0,10
+PP20,Kent,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,131,1,0,132
+PP20,Kent,dem,President - Vice Pres,1,Michael Bennet,DEM,0,0,10,1,0,11
+PP20,Kent,dem,President - Vice Pres,1,Joe Biden,DEM,1,0,2390,30,10,2430
+PP20,Kent,dem,President - Vice Pres,1,Michael Bloomberg,DEM,0,0,20,0,0,20
+PP20,Kent,dem,President - Vice Pres,1,Cory Booker,DEM,0,0,5,1,0,6
+PP20,Kent,dem,President - Vice Pres,1,Pete Buttigieg,DEM,0,0,28,2,1,31
+PP20,Kent,dem,President - Vice Pres,1,Julian Castro,DEM,0,0,1,1,0,2
+PP20,Kent,dem,President - Vice Pres,1,Tulsi Gabbard,DEM,0,0,5,0,0,5
+PP20,Kent,dem,President - Vice Pres,1,Amy Klobuchar,DEM,0,0,15,0,0,15
+PP20,Kent,dem,President - Vice Pres,1,Deval Patrick,DEM,0,0,1,0,0,1
+PP20,Kent,dem,President - Vice Pres,1,Bernie Sanders,DEM,0,0,177,4,0,181
+PP20,Kent,dem,President - Vice Pres,1,Tom Steyer,DEM,0,0,1,1,0,2
+PP20,Kent,dem,President - Vice Pres,1,Elizabeth Warren,DEM,0,0,80,4,2,86
+PP20,Kent,dem,President - Vice Pres,1,Marianne Williamson,DEM,0,0,2,0,0,2
+PP20,Kent,dem,President - Vice Pres,1,Andrew Yang,DEM,0,0,10,0,0,10
+PP20,Kent,dem,President - Vice Pres,1,Uncommitted To Any Presidential Candidate,DEM,0,0,131,1,0,132
+PP20,Kent,dem,Representative in Congress,1,Allison Galbraith,DEM,0,0,888,12,2,902
+PP20,Kent,dem,Representative in Congress,1,Mia Mason,DEM,1,0,937,26,6,969
+PP20,Kent,dem,Representative in Congress,1,Jennifer Pingley,DEM,0,0,472,4,2,478
+PP20,Kent,dem,Female Delegates,1,Elise Rose Bean,DEM,0,0,273,14,0,287
+PP20,Kent,dem,Female Delegates,1,Allison Berkowitz,DEM,0,0,168,3,3,174
+PP20,Kent,dem,Female Delegates,1,Katherine B. Dalton,DEM,1,0,1963,22,8,1993
+PP20,Kent,dem,Female Delegates,1,Katie Dott,DEM,0,0,159,7,0,166
+PP20,Kent,dem,Female Delegates,1,Lesley L. Israel,DEM,1,0,1805,20,8,1833
+PP20,Kent,dem,Female Delegates,1,Sydney Jacobs,DEM,0,0,227,15,0,242
+PP20,Kent,dem,Female Delegates,1,Bernadette Velleda Jones,DEM,0,0,123,3,1,127
+PP20,Kent,dem,Female Delegates,1,M. Patricia Lockett,DEM,1,0,1821,18,7,1846
+PP20,Kent,dem,Female Delegates,1,Kris Martin,DEM,0,0,89,2,1,92
+PP20,Kent,dem,Female Delegates,1,Sarah Meyers,DEM,0,0,108,2,1,111
+PP20,Kent,dem,Female Delegates,1,Briana Murphy,DEM,0,0,230,9,0,239
+PP20,Kent,dem,Female Delegates,1,Nina Park,DEM,0,0,58,5,0,63
+PP20,Kent,dem,Female Delegates,1,Constance Weaver Pullen,DEM,0,0,241,9,1,251
+PP20,Kent,dem,Female Delegates,1,Joan Marie St. Ours,DEM,0,0,33,1,0,34
+PP20,Kent,dem,Female Delegates,1,Emily K. Thompson,DEM,0,0,163,4,3,170
+PP20,Kent,dem,Female Delegates,1,Vicki Tillman,DEM,0,0,117,2,1,120
+PP20,Kent,dem,Female Delegates,1,Raquel L. Walsh,DEM,0,0,113,3,2,118
+PP20,Kent,dem,Female Delegates,1,Kara Welker,DEM,0,0,99,3,2,104
+PP20,Kent,dem,Female Delegates,1,Lee Whaley,DEM,1,0,1766,20,7,1793
+PP20,Kent,dem,Female Delegates,1,Leslie Tamarra Yarmo,DEM,0,0,87,1,1,89
+PP20,Kent,dem,Male Delegates,1,Bob Bashore,DEM,0,0,51,0,0,51
+PP20,Kent,dem,Male Delegates,1,Stephen Paul Baylis,DEM,0,0,84,3,1,88
+PP20,Kent,dem,Male Delegates,1,Eric M. Bromwell,DEM,1,0,1829,23,6,1858
+PP20,Kent,dem,Male Delegates,1,Jake Burdett,DEM,0,0,229,9,0,238
+PP20,Kent,dem,Male Delegates,1,Gene W. Counihan,DEM,1,0,1670,19,6,1695
+PP20,Kent,dem,Male Delegates,1,Daniel C. Diedriech,DEM,0,0,38,1,1,40
+PP20,Kent,dem,Male Delegates,1,Michael John-Leon Donoghue,DEM,0,0,33,1,1,35
+PP20,Kent,dem,Male Delegates,1,Cody K. Drinkwater,DEM,0,0,118,4,1,123
+PP20,Kent,dem,Male Delegates,1,Philip Carey Foster,DEM,1,0,1758,20,6,1784
+PP20,Kent,dem,Male Delegates,1,William C. Hatala,DEM,0,0,56,3,1,60
+PP20,Kent,dem,Male Delegates,1,William John Knapton,DEM,0,0,24,0,0,24
+PP20,Kent,dem,Male Delegates,1,Christopher A. Koch,DEM,0,0,73,1,1,75
+PP20,Kent,dem,Male Delegates,1,Tavis Lemm,DEM,0,0,90,3,1,94
+PP20,Kent,dem,Male Delegates,1,Joseph E. Letts,DEM,0,0,21,0,0,21
+PP20,Kent,dem,Male Delegates,1,Gerard F. Petrik,DEM,0,0,9,0,0,9
+PP20,Kent,dem,Male Delegates,1,Michael Pullen,DEM,0,0,236,7,1,244
+PP20,Kent,dem,Male Delegates,1,"Gene M. Ransom, III",DEM,0,0,89,0,2,91
+PP20,Kent,dem,Male Delegates,1,Philip Roby,DEM,0,0,44,0,0,44
+PP20,Kent,dem,Male Delegates,1,Jared Schablein,DEM,0,0,179,6,0,185
+PP20,Kent,dem,Male Delegates,1,"Ivory Pernell Smith, Sr.",DEM,0,0,99,6,0,105
+PP20,Kent,dem,Male Delegates,1,"Nathaniel L. Veals, Jr.",DEM,0,0,44,2,0,46
+PP20,Kent,dem,Male Delegates,1,Michael Ian Welker,DEM,0,0,66,2,0,68
+PP20,Kent,dem,Male Delegates,1,Emerson Wen,DEM,0,0,48,2,1,51
+PP20,Kent,dem,Male Delegates,1,Weston S. Young,DEM,0,0,13,0,0,13

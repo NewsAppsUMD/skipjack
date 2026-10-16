@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-18-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Queen_Annes_County_Democratic_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Queen Anne's results (dem)",
+  "fetch_date": "2026-10-16T00:34:13+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "ef6d7b4bd45067112187948e2aee5a2e351b4a4b49a357ee85603a5e00c141ff",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Queen Anne's county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 78,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

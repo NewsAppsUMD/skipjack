@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-07-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Carroll_County_NonPartisan_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Carroll results (non)",
+  "fetch_date": "2026-10-16T00:34:09+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "af3ed1366d4714704969a313dba1323984e22afd93efbb9249b6d1c97f484c7e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Carroll county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 5,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

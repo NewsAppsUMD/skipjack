@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-17-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Prince_Georges_County_NonPartisan_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Prince George's results (non)",
+  "fetch_date": "2026-10-16T00:34:13+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "1c8b5fdc1dbb8506031a5be73b75852f354948fd0dfb6ba5dd647b30bdca1e44",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Prince George's county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 8,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

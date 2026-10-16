@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-16-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Montgomery_County_Democratic_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Montgomery results (dem)",
+  "fetch_date": "2026-10-16T00:34:13+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "3ecc16dc453ad919a09842db1130a29f5aa254d759cda6fc8e2097a6e447176e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Montgomery county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 285,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

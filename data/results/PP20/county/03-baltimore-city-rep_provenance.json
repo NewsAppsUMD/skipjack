@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP20-county-03-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Baltimore_City_County_Republican_2020_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP20 Baltimore City results (rep)",
+  "fetch_date": "2026-10-16T00:34:08+00:00",
+  "parse_date": "2026-10-16T00:34:42+00:00",
+  "sha256_original": "c0cf071fa1cc18c314746ba7f5d3fd567dd8456ba0460f9f4cc6293607a23d65",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP20 Baltimore City county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 67,
+    "row_totals": "ok",
+    "statewide_check": "no statewide file published"
+  }
+}

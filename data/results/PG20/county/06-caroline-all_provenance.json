@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG20-county-06-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Caroline_County_2020_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Caroline results (all)",
+  "fetch_date": "2026-10-16T00:34:04+00:00",
+  "parse_date": "2026-10-16T00:34:20+00:00",
+  "sha256_original": "15a6d2e093274a41be014c798a8171feb3e191d48e014b9f75bd10a7ba9b6046",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG20 Caroline county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 45,
+    "row_totals": "ok",
+    "statewide_check": "ok: 68 statewide contest rows match All_State_2020_General"
+  }
+}

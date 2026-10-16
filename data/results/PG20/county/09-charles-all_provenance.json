@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG20-county-09-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Charles_County_2020_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Charles results (all)",
+  "fetch_date": "2026-10-16T00:34:04+00:00",
+  "parse_date": "2026-10-16T00:34:20+00:00",
+  "sha256_original": "101f890471fc4dbe6dee7e133ec937c7fec357fcb7e3b6e052e7d14063120818",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG20",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG20 Charles county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 40,
+    "row_totals": "ok",
+    "statewide_check": "ok: 68 statewide contest rows match All_State_2020_General"
+  }
+}
