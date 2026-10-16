@@ -220,9 +220,10 @@ def test_results_map_primary_shows_the_winners_share_and_hatches_missing_countie
     assert _county(m, "Allegany")["css"] != _county(m, "Garrett")["css"]
     montgomery = _county(m, "Montgomery")
     assert (
-        montgomery["css"] == "map-none" and montgomery["label"] == "Montgomery: not on the ballot"
+        montgomery["css"] == "map-none"
+        and montgomery["label"] == "Montgomery: not on the ballot, or no votes cast"
     )
-    assert m["none"] == "not on the ballot"
+    assert m["none"] == "not on the ballot, or no votes cast"
 
 
 def test_results_map_general_shows_the_party_margin():

@@ -384,7 +384,7 @@ def results_map(contest: dict) -> list[dict]:
                 "results-margin", "Democratic minus Republican", values,
                 party_margin(list(values.values())), fmt_margin, link="row",
                 caption="share of the county's votes in this contest, in points",
-                none_text="not on the ballot",
+                none_text="not on the ballot, or no votes cast",
             )
         ]  # fmt: skip
     top = next((i for i, c in enumerate(candidates) if c["winner"]), 0)
@@ -397,7 +397,12 @@ def results_map(contest: dict) -> list[dict]:
         county_map(
             "results-share", f"{label}: {name}", values,
             sequential(list(values.values()), "%"), fmt_pct(1), link="row",
-            caption="share of the county's votes in this contest",
-            none_text="not on the ballot",
+            caption=(
+                "winner's share of the votes cast in the county"
+                if label.startswith("Winner")
+                else "leader's share of the votes cast in the county"
+            ),
+            # a county with no votes cast at all is hatched with the counties off the ballot
+            none_text="not on the ballot, or no votes cast",
         )
     ]  # fmt: skip

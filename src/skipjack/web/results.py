@@ -250,10 +250,12 @@ def _vote_types(code: str) -> list[dict]:
 
 def _candidates(rows: list[dict], vote_stems: list[str]) -> list[dict]:
     """One row per candidate, summed over ``rows``, most votes first (SBE order breaks ties)."""
-    by_name: dict[str, dict] = {}
+    # keyed by (name, party): a candidate listed under two parties in one contest (a
+    # cross-filed judge, say) is two ballot lines and is never merged
+    by_name: dict[tuple, dict] = {}
     for r in rows:
         c = by_name.setdefault(
-            r["candidate"],
+            (r["candidate"], r["party"]),
             {
                 "name": r["candidate"],
                 "party": r["party"],
@@ -363,23 +365,32 @@ def hub(conn: sqlite3.Connection, code: str) -> dict | None:
     return {"election": _election_record(code), "groups": groups}
 
 
+def _top(cells: list[int | None]) -> tuple[int | None, list[int]]:
+    """(leader index, tied indices) of the votes in one county: the most votes among the
+    contest's candidates, not the SBE's flag. A county with no votes cast has no leader, and
+    candidates level on the top count are ``tied`` with no single leader."""
+    present = [n for n in cells if n is not None]
+    if not present or max(present) == 0:
+        return None, []
+    top = [i for i, n in enumerate(cells) if n == max(present)]
+    return (top[0], []) if len(top) == 1 else (None, top)
+
+
 def _county_row(county: str, rows: list[dict], candidates: list[dict], has_against: bool) -> dict:
-    by_name = {r["candidate"]: r for r in rows}
-    cells = [by_name[c["name"]]["total"] if c["name"] in by_name else None for c in candidates]
-    present = [(n, i) for i, n in enumerate(cells) if n is not None]
-    leader = None if has_against or not present else max(present, key=lambda p: (p[0], -p[1]))[1]
+    by_name = {(r["candidate"], r["party"]): r for r in rows}
+    keys = [(c["name"], c["party"]) for c in candidates]
+    cells = [by_name[k]["total"] if k in by_name else None for k in keys]
+    leader, tied = (None, []) if has_against else _top(cells)
     row = {
         "county": county,
         "slug": slugify(county),
         "cells": cells,
-        "total": sum(n for n, _ in present),
-        # most votes among the contest's candidates in this county, not the SBE's flags
+        "total": sum(n for n in cells if n is not None),
         "leader": leader,
+        "tied": tied,
     }
     if has_against:
-        row["against"] = [
-            by_name[c["name"]]["against"] if c["name"] in by_name else None for c in candidates
-        ]
+        row["against"] = [by_name[k]["against"] if k in by_name else None for k in keys]
     return row
 
 
@@ -476,24 +487,39 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
         return None
     vote_types = _vote_types(code)
     stems = [v["stem"] for v in vote_types]
-    page_slugs = {
-        (c["office"], c["district"], c["party_file"]): c["slug"] for c in _pages(conn, code)
-    }
+    page_info = {(c["office"], c["district"], c["party_file"]): c for c in _pages(conn, code)}
     grouped: dict[tuple, list[dict]] = {}
     for r in rows:  # dicts keep the SBE's order of first appearance
         grouped.setdefault((r["party_file"], r["office"], r["district"]), []).append(r)
     by_party: dict[str, list[dict]] = {}
+    used: set[str] = set()
     for (party_file, office, district), contest_rows in grouped.items():
+        slug = contest_slug(office, district, party_file)
+        anchor, n = slug, 1
+        while anchor in used:  # two local contests can slug alike ("DEM Cent Comm at Large")
+            n += 1
+            anchor = f"{slug}-{n}"
+        used.add(anchor)
+        page = page_info.get((office, district, party_file))
+        candidates = _candidates(contest_rows, stems)
+        has_against = any(r["against"] is not None for r in contest_rows)
+        leader, tied = (None, []) if has_against else _top([c["total"] for c in candidates])
         by_party.setdefault(party_file, []).append(
             {
                 "title": contest_title(office, district, party_file),
                 "office": office,
                 "district": district,
                 "party_file": party_file,
-                "slug": contest_slug(office, district, party_file),
-                "page_slug": page_slugs.get((office, district, party_file)),
-                "candidates": _candidates(contest_rows, stems),
-                "has_against": any(r["against"] is not None for r in contest_rows),
+                "slug": slug,
+                "anchor": anchor,
+                "page_slug": page["slug"] if page else None,
+                # the SBE's winner flag is the contest-wide result: for a contest with a page
+                # it is the statewide / district winner, for a local one it is this county's
+                "scope": page["scope"] if page else "local",
+                "candidates": candidates,
+                "has_against": has_against,
+                "leader": leader,
+                "tied": tied,
             }
         )
     groups = [

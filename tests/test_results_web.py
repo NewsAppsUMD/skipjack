@@ -505,3 +505,70 @@ def test_local_offices_mixing_blank_and_district_rows_are_shown_as_published(con
     page = results.county_page(conn, "GG22", "howard")
     got = [(c["district"], c["candidates"][0]["total"]) for c in page["groups"][0]["contests"]]
     assert got == [("", 5), ("1", 7)]
+
+
+# --- leaders, ties, parties and the county page's winner semantics -----------------------
+
+
+def test_county_with_no_votes_has_no_leader(general):
+    add(general, "PG24", "Allegany", "all", "U.S. Congress", "8",
+        [("A", "REP", True, {"early": 0}), ("B", "REP", False, {"early": 0})])  # fmt: skip
+    add(general, "PG24", "Garrett", "all", "U.S. Congress", "8",
+        [("A", "REP", True, {"early": 4}), ("B", "REP", False, {"early": 2})])  # fmt: skip
+    rows = {
+        r["county"]: r
+        for r in results.contest(general, "PG24", "u-s-congress-8-all")["county_rows"]
+    }
+    assert rows["Allegany"]["total"] == 0 and rows["Allegany"]["leader"] is None
+    assert rows["Allegany"]["tied"] == []
+    assert rows["Garrett"]["leader"] == 0
+
+
+def test_county_leaders_level_on_votes_are_tied_not_led(primary):
+    add(primary, "GP26", "Allegany", "dem", "U.S. Senator", "",
+        [("A", "DEM", True, {"early": 5}), ("B", "DEM", False, {"early": 5}),
+         ("C", "DEM", False, {"early": 1})])  # fmt: skip
+    add(primary, "GP26", "Garrett", "dem", "U.S. Senator", "",
+        [("A", "DEM", True, {"early": 5}), ("B", "DEM", False, {"early": 2}),
+         ("C", "DEM", False, {"early": 1})])  # fmt: skip
+    c = results.contest(primary, "GP26", "u-s-senator-dem")
+    allegany, garrett = c["county_rows"]
+    assert allegany["leader"] is None and allegany["tied"] == [0, 1]
+    assert garrett["leader"] == 0 and garrett["tied"] == []
+    page = results.county_page(primary, "GP26", "allegany")
+    sen = next(x for x in page["groups"][0]["contests"] if x["office"] == "U.S. Senator")
+    assert sen["leader"] is None and sen["tied"] == [0, 1]
+
+
+def test_same_name_under_two_parties_is_two_candidates(general):
+    for county, d, r in (("Allegany", 3, 4), ("Garrett", 5, 6)):
+        add(general, "PG24", county, "all", "U.S. Congress", "1",
+            [("Pat Lee", "DEM", False, {"early": d}), ("Pat Lee", "REP", True, {"early": r})])  # fmt: skip
+    c = results.contest(general, "PG24", "u-s-congress-1-all")
+    assert [(x["name"], x["party"], x["total"]) for x in c["candidates"]] == [
+        ("Pat Lee", "REP", 10), ("Pat Lee", "DEM", 8),
+    ]  # fmt: skip
+    assert [r["cells"] for r in c["county_rows"]] == [[4, 3], [6, 5]]
+    page = results.county_page(general, "PG24", "allegany")
+    cong = next(x for x in page["groups"][0]["contests"] if x["district"] == "1")
+    assert [(x["party"], x["total"]) for x in cong["candidates"]] == [("REP", 4), ("DEM", 3)]
+
+
+def test_county_page_flag_is_contest_wide_and_leader_is_local(primary):
+    # Garrett: Felber leads (60 to 20) though the SBE flags Moore, the statewide winner
+    page = results.county_page(primary, "GP26", "garrett")
+    gov = next(x for x in page["groups"][0]["contests"] if x["office"] == "Governor / Lt. Governor")
+    assert gov["scope"] == "statewide" and gov["page_slug"] == "governor-lt-governor-dem"
+    assert [c["name"] for c in gov["candidates"]] == ["Eric Felber", "Wes Moore"]
+    assert gov["leader"] == 0
+    assert [c["winner"] for c in gov["candidates"]] == [False, True]
+    sheriff = next(x for x in page["groups"][0]["contests"] if x["office"] == "Sheriff")
+    assert sheriff["scope"] == "local" and sheriff["page_slug"] is None
+
+
+def test_county_page_anchors_are_unique_where_local_slugs_collide(conn):
+    for office in ("DEM Cent Comm at Large", "Dem Cent Comm at Large"):
+        add(conn, "GP26", "Allegany", "dem", office, "", [("X", "DEM", True, {"early": 1})])
+    page = results.county_page(conn, "GP26", "allegany")
+    anchors = [c["anchor"] for c in page["groups"][0]["contests"]]
+    assert len(set(anchors)) == 2 and anchors[0] == "dem-cent-comm-at-large-dem"
