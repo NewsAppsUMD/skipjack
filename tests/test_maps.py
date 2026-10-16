@@ -182,3 +182,112 @@ def test_young_and_race_maps():
     assert_outlines_once(race)
     for slug in set(re.findall(r'href="#county-([a-z-]+)"', race)):
         assert f'id="county-{slug}"' in race
+
+
+# --- results maps --------------------------------------------------------------------
+
+
+def _contest(kind, candidates, county_rows, has_against=False):
+    return {
+        "election": {"kind": kind},
+        "candidates": candidates,
+        "county_rows": county_rows,
+        "has_against": has_against,
+    }
+
+
+def _county(m, name):
+    return next(c for c in m["counties"] if c["name"] == name)
+
+
+def test_results_map_primary_shows_the_winners_share_and_hatches_missing_counties():
+    contest = _contest(
+        "primary",
+        [
+            {"name": "Moore", "party": "DEM", "winner": True},
+            {"name": "Felber", "party": "DEM", "winner": False},
+        ],
+        [
+            {"county": "Allegany", "cells": [75, 25], "total": 100},
+            {"county": "Garrett", "cells": [30, 70], "total": 100},
+        ],
+    )
+    (m,) = maps.results_map(contest)
+    assert m["id"] == "results-share" and m["title"] == "Winner's share: Moore"
+    assert m["link"] == "row" and len(m["counties"]) == 24
+    assert _county(m, "Allegany")["label"] == "Allegany: 75.0%"
+    assert _county(m, "Garrett")["label"] == "Garrett: 30.0%"  # the SBE's winner, not the leader
+    assert _county(m, "Allegany")["css"] != _county(m, "Garrett")["css"]
+    montgomery = _county(m, "Montgomery")
+    assert (
+        montgomery["css"] == "map-none" and montgomery["label"] == "Montgomery: not on the ballot"
+    )
+    assert m["none"] == "not on the ballot"
+
+
+def test_results_map_general_shows_the_party_margin():
+    contest = _contest(
+        "general",
+        [
+            {"name": "Harris", "party": "DEM", "winner": True},
+            {"name": "Trump", "party": "REP", "winner": False},
+            {"name": "Write-ins", "party": "", "winner": False},
+        ],
+        [
+            {"county": "Allegany", "cells": [30, 60, 10], "total": 100},
+            {"county": "Montgomery", "cells": [80, 10, 10], "total": 100},
+            {"county": "Garrett", "cells": [0, 0, 0], "total": 0},
+        ],
+    )
+    (m,) = maps.results_map(contest)
+    assert m["id"] == "results-margin"
+    assert _county(m, "Allegany")["label"] == "Allegany: Republicans +30 points"
+    assert _county(m, "Montgomery")["label"] == "Montgomery: Democrats +70 points"
+    assert _county(m, "Garrett")["css"] == "map-none"  # no votes: not a zero margin
+    assert _county(m, "Allegany")["css"].startswith("map-party-")
+    assert any("Republican" in item["text"] for item in m["legend"])
+
+
+def test_results_map_general_without_two_parties_shows_the_leaders_share():
+    contest = _contest(
+        "general",
+        [
+            {"name": "A", "party": "DEM", "winner": True},
+            {"name": "B", "party": "UNA", "winner": False},
+        ],
+        [{"county": "Allegany", "cells": [60, 40], "total": 100}],
+    )
+    (m,) = maps.results_map(contest)
+    assert m["id"] == "results-share" and m["title"] == "Winner's share: A".replace(
+        "Winner", "Leader"
+    )
+    assert _county(m, "Allegany")["label"] == "Allegany: 60.0%"
+
+
+def test_results_map_retention_questions_have_no_map():
+    contest = _contest("general", [{"name": "J", "party": "JUD", "winner": True}],
+                       [{"county": "Allegany", "cells": [5], "total": 5}], has_against=True)  # fmt: skip
+    assert maps.results_map(contest) == []
+    assert maps.results_map(_contest("general", [], [])) == []
+
+
+def test_results_map_on_real_contests():
+    if not DB_PATH.exists():
+        pytest.skip("skipjack.db is not built")
+    import sqlite3
+
+    from skipjack.web import results
+
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        if not conn.execute("SELECT 1 FROM results_county LIMIT 1").fetchone():
+            pytest.skip("no results rows")
+        pres = results.contest(conn, "PG24", "president-vice-pres-all")
+        gov = results.contest(conn, "GP26", "governor-lt-governor-dem")
+    finally:
+        conn.close()
+    (margin,) = maps.results_map(pres)
+    assert _county(margin, "Montgomery")["label"].startswith("Montgomery: Democrats +")
+    assert _county(margin, "Garrett")["label"].startswith("Garrett: Republicans +")
+    (share,) = maps.results_map(gov)
+    assert not any(c["css"] == "map-none" for c in share["counties"])

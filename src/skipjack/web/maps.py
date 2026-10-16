@@ -351,3 +351,53 @@ def race_maps(counties: list[dict], calibration: dict, labels: dict[str, str]) -
         caption="estimated share of registered voters minus the 2020 Census share of adults",
     )  # fmt: skip
     return {"per_race": per_race, "gap": gap_map}
+
+
+def results_map(contest: dict) -> list[dict]:
+    """The map on a results contest page (``results.contest()``'s dict), as a list of one.
+
+    A primary shows the winner's share of the vote in each county (the SBE's winner, else the
+    leader). A general shows the Democratic minus Republican margin when the contest has both
+    parties, else the leader's share. Counties outside the contest are None (hatched). A
+    retention question (for / against) has no meaningful map and returns []. Rows link to
+    ``#county-<slug>`` on the same page.
+    """
+    candidates, rows = contest["candidates"], contest["county_rows"]
+    if contest.get("has_against") or not candidates or not rows:
+        return []
+    kind = contest["election"]["kind"]
+    parties = {c["party"] for c in candidates}
+    cells = {r["county"]: r for r in rows}
+
+    if kind == "general" and {"DEM", "REP"} <= parties:
+
+        def margin(r: dict) -> float | None:
+            by = {"DEM": 0, "REP": 0}
+            for c, n in zip(candidates, r["cells"]):
+                if c["party"] in by and n:
+                    by[c["party"]] += n
+            return 100 * (by["DEM"] - by["REP"]) / r["total"] if r["total"] else None
+
+        values = {county: margin(r) for county, r in cells.items()}
+        return [
+            county_map(
+                "results-margin", "Democratic minus Republican", values,
+                party_margin(list(values.values())), fmt_margin, link="row",
+                caption="share of the county's votes in this contest, in points",
+                none_text="not on the ballot",
+            )
+        ]  # fmt: skip
+    top = next((i for i, c in enumerate(candidates) if c["winner"]), 0)
+    name = candidates[top]["name"]
+    values = {county: _ratio(r["cells"][top], r["total"]) for county, r in cells.items()}
+    label = (
+        "Winner's share" if kind == "primary" and candidates[top]["winner"] else "Leader's share"
+    )
+    return [
+        county_map(
+            "results-share", f"{label}: {name}", values,
+            sequential(list(values.values()), "%"), fmt_pct(1), link="row",
+            caption="share of the county's votes in this contest",
+            none_text="not on the ballot",
+        )
+    ]  # fmt: skip
