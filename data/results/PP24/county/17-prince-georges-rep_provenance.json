@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-17-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_17RepublicanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Prince George's results (rep)",
+  "fetch_date": "2026-10-16T00:28:20+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "680a40b4986aec016d89025fdcb38df2ef1c8374f856f936310b5ee1ef9f53e6",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Prince George's county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 60,
+    "row_totals": "ok",
+    "statewide_check": "ok: 144 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

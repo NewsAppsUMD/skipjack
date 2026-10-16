@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG22-county-06-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_06CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Caroline results (all)",
+  "fetch_date": "2026-10-16T00:28:24+00:00",
+  "parse_date": "2026-10-16T00:29:21+00:00",
+  "sha256_original": "25ca625a75d8c42d478f66e8f53f90fb5988abb3c1410c929bcdd6a90d7991d5",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG22 Caroline county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 59,
+    "row_totals": "ok",
+    "statewide_check": "ok: 456 statewide contest rows match GG22_CongressionalBreakDown"
+  }
+}

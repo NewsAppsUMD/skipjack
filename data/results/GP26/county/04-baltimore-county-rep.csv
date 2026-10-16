@@ -1,0 +1,96 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,mail_in_1_votes,provisional_votes,mail_in_2_votes,total_votes
+GP26,Baltimore County,rep,Governor / Lt. Governor,"","Carl A. Brunner, Jr. and Kevin L. Rhodes, Sr.",REP,0,0,173,439,65,34,337,1048
+GP26,Baltimore County,rep,Governor / Lt. Governor,"",L. D. Burkindine and Jeremy M. Shifflett,REP,0,0,89,165,18,13,112,397
+GP26,Baltimore County,rep,Governor / Lt. Governor,"",Dan Cox and Rob Krop,REP,1,0,1800,4189,165,181,1094,7429
+GP26,Baltimore County,rep,Governor / Lt. Governor,"","Ed Hale and Tyrone Keys, Jr.",REP,0,0,4240,9380,738,471,3225,18054
+GP26,Baltimore County,rep,Governor / Lt. Governor,"",Douglas Larcomb and Martina D. Duncan,REP,0,0,31,94,13,6,61,205
+GP26,Baltimore County,rep,Governor / Lt. Governor,"",John A. Myrick and Brenda J. Thiam,REP,0,0,386,699,51,41,264,1441
+GP26,Baltimore County,rep,Governor / Lt. Governor,"",Michael Oakes and Ronald W. Abend,REP,0,0,50,140,8,8,62,268
+GP26,Baltimore County,rep,Governor / Lt. Governor,"","Nancy Jane Taylor and Rachel Hannah ""Mohawk"" Swift",REP,0,0,52,147,22,23,80,324
+GP26,Baltimore County,rep,Governor / Lt. Governor,"",Shannon Wright and Reba A. Hawkins,REP,0,0,86,204,31,17,133,471
+GP26,Baltimore County,rep,Comptroller,"",Sonya Dunn,REP,1,0,5205,11381,862,577,3816,21841
+GP26,Baltimore County,rep,Attorney General,"","James B. Rutledge, III",REP,1,0,5268,11517,855,582,3882,22104
+GP26,Baltimore County,rep,U.S. Congress,01,Chris Bruneau,REP,0,0,184,418,37,17,212,868
+GP26,Baltimore County,rep,U.S. Congress,01,Andy Harris,REP,1,0,1246,1996,115,60,623,4040
+GP26,Baltimore County,rep,U.S. Congress,02,Nnabu Eze,REP,0,0,389,1039,74,48,443,1993
+GP26,Baltimore County,rep,U.S. Congress,02,Dave Wallace,REP,1,0,3464,7796,631,447,2995,15333
+GP26,Baltimore County,rep,U.S. Congress,07,Scott M. Collier,REP,1,0,937,2375,158,90,517,4077
+GP26,Baltimore County,rep,State Senator,06,Daniel Eisenhart,REP,0,0,502,1408,72,49,225,2256
+GP26,Baltimore County,rep,State Senator,06,Johnny Ray Salling,REP,1,0,773,1927,87,58,331,3176
+GP26,Baltimore County,rep,State Senator,07,J. B. Jennings,REP,1,0,1326,2391,169,100,824,4810
+GP26,Baltimore County,rep,State Senator,08,Yahu Blackwell,REP,1,0,607,1221,86,79,427,2420
+GP26,Baltimore County,rep,State Senator,11,Jim Simpson,REP,1,0,485,1099,149,84,592,2409
+GP26,Baltimore County,rep,State Senator,42,Kevin Ford,REP,1,0,817,1984,71,59,560,3491
+GP26,Baltimore County,rep,State Senator,42,Matt Fox,REP,0,0,331,729,56,31,258,1405
+GP26,Baltimore County,rep,State Senator,42,Adam Wood,REP,0,0,207,500,49,21,220,997
+GP26,Baltimore County,rep,House of Delegates,06,Bobby Al Jolson Berger,REP,0,0,335,768,36,30,118,1287
+GP26,Baltimore County,rep,House of Delegates,06,Henry J. Ciezkowski,REP,0,0,585,1689,61,54,207,2596
+GP26,Baltimore County,rep,House of Delegates,06,Robin L. Grammer,REP,1,0,818,1966,91,52,359,3286
+GP26,Baltimore County,rep,House of Delegates,06,Bob Long,REP,1,0,831,2116,114,66,367,3494
+GP26,Baltimore County,rep,House of Delegates,06,Ric Metzgar,REP,1,0,746,1867,116,60,374,3163
+GP26,Baltimore County,rep,House of Delegates,07A,Ryan Nawrocki,REP,1,0,1374,2486,171,102,826,4959
+GP26,Baltimore County,rep,House of Delegates,07A,Kathy Szeliga,REP,1,0,1425,2510,185,103,872,5095
+GP26,Baltimore County,rep,House of Delegates,08,Zulieka A. Baysmore,REP,0,0,91,192,6,14,101,404
+GP26,Baltimore County,rep,House of Delegates,08,Brian A. Campbell,REP,1,0,550,1092,82,73,378,2175
+GP26,Baltimore County,rep,House of Delegates,08,Glen Geelhaar,REP,1,0,468,936,58,65,352,1879
+GP26,Baltimore County,rep,House of Delegates,08,Steven J. Riemer,REP,1,0,542,1013,74,66,350,2045
+GP26,Baltimore County,rep,House of Delegates,08,Jacqueline Stevenson,REP,0,0,417,786,49,50,290,1592
+GP26,Baltimore County,rep,House of Delegates,11B,John C. Gordon,REP,1,0,411,933,127,75,512,2058
+GP26,Baltimore County,rep,House of Delegates,42A,Alexander Harlan,REP,0,0,363,653,31,24,239,1310
+GP26,Baltimore County,rep,House of Delegates,42A,Dan Katz,REP,0,0,249,831,48,26,229,1383
+GP26,Baltimore County,rep,House of Delegates,42A,"Charles Edward Murphy, III",REP,1,0,346,811,27,19,188,1391
+GP26,Baltimore County,rep,House of Delegates,42B,Jeffry K. McDonald,REP,1,0,254,526,33,24,219,1056
+GP26,Baltimore County,rep,House of Delegates,42B,Larry A. Novak,REP,0,0,96,280,30,19,115,540
+GP26,Baltimore County,rep,House of Delegates,44A,Chuck Linton,REP,1,0,150,401,47,18,141,757
+GP26,Baltimore County,rep,House of Delegates,44B,Domonic Martin,REP,1,0,258,423,31,22,170,904
+GP26,Baltimore County,rep,County Executive,"",Patrick V. Dyer,REP,1,0,4190,9578,634,470,2978,17850
+GP26,Baltimore County,rep,County Executive,"",Kimberley Stansbury,REP,0,0,2312,4804,403,248,1929,9696
+GP26,Baltimore County,rep,County Council,001,Rheagan Kindle,REP,1,0,439,873,76,48,318,1754
+GP26,Baltimore County,rep,County Council,002,James Amos,REP,1,0,224,463,44,27,180,938
+GP26,Baltimore County,rep,County Council,003,Chike Anyanwu,REP,1,0,171,281,47,24,192,715
+GP26,Baltimore County,rep,County Council,004,Gary Schuman,REP,1,0,198,482,76,30,276,1062
+GP26,Baltimore County,rep,County Council,005,Theaux M. LeGardeur,REP,0,0,366,936,73,67,464,1906
+GP26,Baltimore County,rep,County Council,005,Nino Mangione,REP,1,0,1212,2812,143,108,851,5126
+GP26,Baltimore County,rep,County Council,006,Christine L. Vondersmith,REP,1,0,301,919,75,50,366,1711
+GP26,Baltimore County,rep,County Council,007,David Marks,REP,1,0,1366,2294,208,129,943,4940
+GP26,Baltimore County,rep,County Council,008,Josh Sines,REP,1,0,906,2009,91,77,431,3514
+GP26,Baltimore County,rep,County Council,009,Tim Fazenbaker,REP,1,0,347,989,38,30,135,1539
+GP26,Baltimore County,rep,County Council,009,"Russ ""No Tax"" Mirabile",REP,0,0,205,498,26,22,97,848
+GP26,Baltimore County,rep,County Council,009,"Jake J. Mohorovic, III",REP,0,0,102,273,24,5,79,483
+GP26,Baltimore County,rep,County Council,009,J. D. Urbach,REP,0,0,246,608,31,16,87,988
+GP26,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Jan Marshall Alexander,REP,1,0,4350,9101,722,482,3172,17827
+GP26,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Sherrie R. Bailey,REP,1,0,4312,8989,725,482,3187,17695
+GP26,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Evelyn Lombardo Cusson,REP,1,0,4175,8648,691,461,3111,17086
+GP26,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Ralph Sapia,REP,1,0,4194,8788,686,455,3089,17212
+GP26,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,"Thomas R. Tompsett, Jr.",REP,1,0,4392,9187,705,474,3140,17898
+GP26,Baltimore County,rep,Clerk Circuit Court,"",Christina Mulligan,REP,1,0,5060,11044,827,557,3696,21184
+GP26,Baltimore County,rep,Register of Wills,"",Nicole Schroeder,REP,1,0,5131,11169,831,568,3745,21444
+GP26,Baltimore County,rep,Sheriff,"",Michael F. Burke,REP,1,0,5227,11334,840,569,3787,21757
+GP26,Baltimore County,rep,REP Cent Committee,001,Jan Watson Grim,REP,1,0,423,785,74,41,303,1626
+GP26,Baltimore County,rep,REP Cent Committee,001,Ray Smith,REP,1,0,435,826,70,47,303,1681
+GP26,Baltimore County,rep,REP Cent Committee,002,James Amos,REP,1,0,202,412,38,22,165,839
+GP26,Baltimore County,rep,REP Cent Committee,002,Alfred Mendelsohn,REP,1,0,206,393,44,24,161,828
+GP26,Baltimore County,rep,REP Cent Committee,002,Charlene Merrill,REP,1,0,209,396,44,18,161,828
+GP26,Baltimore County,rep,REP Cent Committee,003,Chike Anyanwu,REP,1,0,159,243,42,21,159,624
+GP26,Baltimore County,rep,REP Cent Committee,003,Ronald J. Calabrese,REP,1,0,176,272,43,23,185,699
+GP26,Baltimore County,rep,REP Cent Committee,003,Timothy Lloyd Tilghman,REP,1,0,168,276,44,23,191,702
+GP26,Baltimore County,rep,REP Cent Committee,004,John C. Gordon,REP,1,0,187,471,71,21,260,1010
+GP26,Baltimore County,rep,REP Cent Committee,004,Alec Posner,REP,1,0,184,452,73,22,246,977
+GP26,Baltimore County,rep,REP Cent Committee,004,Neil S. Posner,REP,1,0,186,446,75,25,245,977
+GP26,Baltimore County,rep,REP Cent Committee,005,Patricia R. Fallon,REP,1,0,849,1920,147,103,744,3763
+GP26,Baltimore County,rep,REP Cent Committee,005,Craig A. Lewis,REP,1,0,869,1958,133,80,635,3675
+GP26,Baltimore County,rep,REP Cent Committee,005,Angela Sudano-Marcellino,REP,0,0,511,1144,66,65,452,2238
+GP26,Baltimore County,rep,REP Cent Committee,005,Adam Wood,REP,1,0,1093,2608,165,108,844,4818
+GP26,Baltimore County,rep,REP Cent Committee,006,Aaron Joshua Brave,REP,1,0,276,836,62,38,323,1535
+GP26,Baltimore County,rep,REP Cent Committee,006,Christine L. Vondersmith,REP,1,0,288,847,71,48,332,1586
+GP26,Baltimore County,rep,REP Cent Committee,006,Katy A. Wolfe,REP,1,0,277,852,65,45,327,1566
+GP26,Baltimore County,rep,REP Cent Committee,007,Bradley L. Lang,REP,1,0,1032,1635,155,100,625,3547
+GP26,Baltimore County,rep,REP Cent Committee,007,Kevin A. Olkowski,REP,0,0,864,1430,136,83,575,3088
+GP26,Baltimore County,rep,REP Cent Committee,007,Kate Strauch Sullivan,REP,1,0,895,1463,135,90,632,3215
+GP26,Baltimore County,rep,REP Cent Committee,007,Garrett L. Zahner,REP,1,0,924,1424,131,79,562,3120
+GP26,Baltimore County,rep,REP Cent Committee,008,Paul M. Blitz,REP,1,0,859,1863,89,78,409,3298
+GP26,Baltimore County,rep,REP Cent Committee,009,Daniel Eisenhart,REP,1,0,517,1317,64,32,212,2142
+GP26,Baltimore County,rep,REP Cent Committee,009,Tim Fazenbaker,REP,1,0,551,1423,77,45,240,2336
+GP26,Baltimore County,rep,REP Cent Committee,009,Kenneth Michael Langston,REP,0,0,350,833,47,26,141,1397
+GP26,Baltimore County,rep,REP Cent Committee,009,C. O. Bud Staigerwald,REP,0,0,336,876,50,22,123,1407
+GP26,Baltimore County,rep,REP Cent Committee,009,Deb Sullivan,REP,1,0,425,1011,58,36,204,1734

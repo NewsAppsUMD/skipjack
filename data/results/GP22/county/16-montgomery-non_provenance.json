@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-16-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_16Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Montgomery results (non)",
+  "fetch_date": "2026-10-16T00:28:33+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "b1e41e332eec07a1003427326cdade7ecd78091f1e49c66deee26fc6e6af55fc",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Montgomery county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 14,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

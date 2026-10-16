@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-14-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_14DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Howard results (dem)",
+  "fetch_date": "2026-10-16T00:28:19+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "7094ec933f7dfe25aad408cfd0adf8e522249694dee789ab934828c57b432456",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Howard county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 50,
+    "row_totals": "ok",
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

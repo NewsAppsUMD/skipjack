@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-16-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_16DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Montgomery results (dem)",
+  "fetch_date": "2026-10-16T00:28:20+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "0e9763ba5c1f6f20e89d5c8dca9c3e5a7d5f6882ddc09e38fa868efff6c3cc59",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Montgomery county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 85,
+    "row_totals": "ok",
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

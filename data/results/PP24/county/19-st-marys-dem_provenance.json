@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-19-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_19DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 St. Mary's results (dem)",
+  "fetch_date": "2026-10-16T00:28:21+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "9c27f5b6a667fb82a822ca28a42d09e468469829cf7269b75fd127811430fa7c",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 St. Mary's county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 34,
+    "row_totals": "ok",
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

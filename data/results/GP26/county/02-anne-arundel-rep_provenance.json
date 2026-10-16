@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-02-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_02RepublicanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Anne Arundel results (rep)",
+  "fetch_date": "2026-10-16T00:28:00+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "89d75546e6948abe4b705c1b229b962068a808554c3bc794f02043cbb548fbf1",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 Anne Arundel county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 73,
+    "row_totals": "ok",
+    "statewide_check": "ok: 152 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

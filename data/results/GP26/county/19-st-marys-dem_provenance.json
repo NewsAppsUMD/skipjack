@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-19-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_19DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 St. Mary's results (dem)",
+  "fetch_date": "2026-10-16T00:28:07+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "7b6554844f23972bfc4fc48b23ea32972523322812f8720654035773b8f16ae1",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 St. Mary's county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 56,
+    "row_totals": "ok",
+    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

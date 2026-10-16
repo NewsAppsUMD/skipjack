@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-09-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_09DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Charles results (dem)",
+  "fetch_date": "2026-10-16T00:28:30+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "abb205d6953215f4183fcd7b8550d82771699d422acb21aa1ec703ccde2da08e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Charles county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 83,
+    "row_totals": "ok",
+    "statewide_check": "ok: 306 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

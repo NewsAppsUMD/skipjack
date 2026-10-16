@@ -1,0 +1,89 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,mail_in_1_votes,provisional_votes,mail_in_2_votes,total_votes
+GP22,Frederick,rep,Governor / Lt. Governor,"",Dan Cox and Gordana Schifanelli,REP,1,0,1388,8342,613,148,404,10895
+GP22,Frederick,rep,Governor / Lt. Governor,"","Robin Ficker and LeRoy F. Yegge, Jr.",REP,0,0,45,210,91,18,54,418
+GP22,Frederick,rep,Governor / Lt. Governor,"",Kelly Schulz and Jeff Woolford,REP,0,0,1286,6083,1201,190,905,9665
+GP22,Frederick,rep,Governor / Lt. Governor,"",Joe Werner and Minh Thanh Luong,REP,0,0,31,128,35,12,23,229
+GP22,Frederick,rep,Comptroller,"",Barry Glassman,REP,1,0,2196,11278,1553,279,1010,16316
+GP22,Frederick,rep,Attorney General,"",Michael Anthony Peroutka,REP,1,0,1279,6538,577,134,410,8938
+GP22,Frederick,rep,Attorney General,"",Jim Shalleck,REP,0,0,970,5198,950,148,635,7901
+GP22,Frederick,rep,U.S. Senator,"",Chris Chaffee,REP,1,0,423,2270,263,56,132,3144
+GP22,Frederick,rep,U.S. Senator,"",George Davis,REP,0,0,145,910,106,36,80,1277
+GP22,Frederick,rep,U.S. Senator,"",Nnabu Eze,REP,0,0,106,554,61,12,51,784
+GP22,Frederick,rep,U.S. Senator,"",Lorie R. Friend,REP,0,0,363,1670,210,26,132,2401
+GP22,Frederick,rep,U.S. Senator,"",Reba A. Hawkins,REP,0,0,137,718,164,43,95,1157
+GP22,Frederick,rep,U.S. Senator,"",Jon McGreevey,REP,0,0,154,824,99,21,50,1148
+GP22,Frederick,rep,U.S. Senator,"",Joseph Perez,REP,0,0,240,1568,158,29,147,2142
+GP22,Frederick,rep,U.S. Senator,"",Todd A. Puglisi,REP,0,0,165,652,78,9,47,951
+GP22,Frederick,rep,U.S. Senator,"",James Tarantin,REP,0,0,164,714,151,14,114,1157
+GP22,Frederick,rep,U.S. Senator,"",John Thormann,REP,0,0,370,1912,241,36,191,2750
+GP22,Frederick,rep,U.S. Congress,06,Colt M. Black,REP,0,0,295,1373,187,53,112,2020
+GP22,Frederick,rep,U.S. Congress,06,Matthew Foldi,REP,0,0,400,2388,310,27,214,3339
+GP22,Frederick,rep,U.S. Congress,06,Jonathan Jenkins,REP,0,0,177,962,161,34,66,1400
+GP22,Frederick,rep,U.S. Congress,06,Neil C. Parrott,REP,1,0,1437,7465,799,151,600,10452
+GP22,Frederick,rep,U.S. Congress,06,Robert Poissonnier,REP,0,0,20,71,25,5,11,132
+GP22,Frederick,rep,U.S. Congress,06,Mariela Roca,REP,0,0,260,1524,253,43,208,2288
+GP22,Frederick,rep,State Senator,02,Paul D. Corderman,REP,1,0,195,817,69,12,43,1136
+GP22,Frederick,rep,State Senator,03,Angela Ariel McIntosh,REP,1,0,566,2576,597,87,367,4193
+GP22,Frederick,rep,State Senator,04,Stephen Barrett,REP,0,0,441,2471,342,72,227,3553
+GP22,Frederick,rep,State Senator,04,"William ""Bill"" Folden",REP,1,0,1213,6695,592,101,459,9060
+GP22,Frederick,rep,State Senator,05,Justin Ready,REP,1,0,27,224,19,5,15,290
+GP22,Frederick,rep,House of Delegates,02A,Bradley Belmont,REP,0,0,47,244,26,2,7,326
+GP22,Frederick,rep,House of Delegates,02A,William Valentine,REP,1,0,175,685,61,7,35,963
+GP22,Frederick,rep,House of Delegates,02A,Seth Edward Wilson,REP,0,0,40,165,11,7,7,230
+GP22,Frederick,rep,House of Delegates,02A,William Joseph Wivell,REP,1,0,139,575,48,9,31,802
+GP22,Frederick,rep,House of Delegates,03,Kathy Diener,REP,1,0,512,2340,552,80,329,3813
+GP22,Frederick,rep,House of Delegates,03,Justin Wages,REP,1,0,530,2410,546,74,333,3893
+GP22,Frederick,rep,House of Delegates,04,Heath S. Barnes,REP,0,0,767,3765,463,90,313,5398
+GP22,Frederick,rep,House of Delegates,04,Barrie S. Ciliberti,REP,1,0,969,5405,529,76,382,7361
+GP22,Frederick,rep,House of Delegates,04,April Fleming Miller,REP,1,0,1116,5831,589,104,415,8055
+GP22,Frederick,rep,House of Delegates,04,Jesse T. Pippy,REP,1,0,1336,7755,726,126,507,10450
+GP22,Frederick,rep,House of Delegates,05,Christopher Eric Bouchat,REP,1,0,14,152,12,1,8,187
+GP22,Frederick,rep,House of Delegates,05,Dennis E. Frazier,REP,0,0,5,33,3,5,9,55
+GP22,Frederick,rep,House of Delegates,05,Scott Jendrek,REP,0,0,1,27,3,2,4,37
+GP22,Frederick,rep,House of Delegates,05,April Rose,REP,1,0,24,150,13,5,11,203
+GP22,Frederick,rep,House of Delegates,05,Sallie B. Taylor,REP,0,0,7,54,6,2,3,72
+GP22,Frederick,rep,House of Delegates,05,Chris Tomlinson,REP,1,0,16,132,8,2,7,165
+GP22,Frederick,rep,House of Delegates,05,Stephen A. Wantz,REP,0,0,2,38,7,2,9,58
+GP22,Frederick,rep,House of Delegates,05,Scott Willens,REP,0,0,5,35,3,1,4,48
+GP22,Frederick,rep,County Executive,"",Michael Joseph Hough,REP,1,0,2322,12017,1569,278,1023,17209
+GP22,Frederick,rep,County Council At Large,"",Tony Chmelik,REP,1,0,1317,6550,839,155,549,9410
+GP22,Frederick,rep,County Council At Large,"",Philip Dacey,REP,1,0,1775,8610,1211,220,742,12558
+GP22,Frederick,rep,County Council At Large,"",Dylan Diggs,REP,0,0,1178,5895,814,147,592,8626
+GP22,Frederick,rep,County Council,001,John A. Distel,REP,1,0,331,1565,153,24,107,2180
+GP22,Frederick,rep,County Council,001,Bill Miskell,REP,0,0,300,1271,167,31,102,1871
+GP22,Frederick,rep,County Council,002,Casie Chang,REP,0,0,263,1310,102,12,89,1776
+GP22,Frederick,rep,County Council,002,Steven J. McKay,REP,1,0,270,1578,259,41,173,2321
+GP22,Frederick,rep,County Council,003,Shelley Aloi,REP,1,0,229,1048,300,38,172,1787
+GP22,Frederick,rep,County Council,004,John Fer,REP,1,0,136,588,142,9,88,963
+GP22,Frederick,rep,County Council,004,Chaz Packan,REP,0,0,84,501,69,12,48,714
+GP22,Frederick,rep,County Council,004,Steve Valentino,REP,0,0,68,414,67,12,48,609
+GP22,Frederick,rep,County Council,005,Michael J. Blue,REP,0,0,330,1738,200,51,150,2469
+GP22,Frederick,rep,County Council,005,Mason Carter,REP,1,0,394,2193,125,33,96,2841
+GP22,Frederick,rep,Judge Circuit Court,Frederick County Circuit Court 06,Kathleen Diane English,REP,1,0,2148,10904,1482,260,965,15759
+GP22,Frederick,rep,State's Attorney,"",Charlie Smith,REP,1,0,2295,11624,1601,285,1033,16838
+GP22,Frederick,rep,Clerk Circuit Court,"",Sandra K. Dalton,REP,1,0,2278,11505,1598,288,1036,16705
+GP22,Frederick,rep,Register of Wills,"",Mary C. Rolle,REP,1,0,1542,8099,1207,203,745,11796
+GP22,Frederick,rep,Register of Wills,"",Nate Wilson,REP,0,0,831,4017,448,96,314,5706
+GP22,Frederick,rep,Judge Orphans' Court,"",Wesley T. Gregory,REP,1,0,1836,8894,1234,189,803,12956
+GP22,Frederick,rep,Judge Orphans' Court,"",Jimmy W. Trout,REP,1,0,1995,9635,1313,219,850,14012
+GP22,Frederick,rep,Judge Orphans' Court,"",Susan W. Wilson,REP,1,0,1885,9192,1320,211,837,13445
+GP22,Frederick,rep,Sheriff,"",Chuck Jenkins,REP,1,0,2505,13104,1617,305,1083,18614
+GP22,Frederick,rep,REP Cent Committee,"",Shelley Aloi,REP,1,0,923,4532,745,126,476,6802
+GP22,Frederick,rep,REP Cent Committee,"",Colt M. Black,REP,1,0,1090,5599,576,109,366,7740
+GP22,Frederick,rep,REP Cent Committee,"",Kevin P. Buker,REP,0,0,553,2715,322,71,181,3842
+GP22,Frederick,rep,REP Cent Committee,"",Rebecca W. Chmelik,REP,1,0,1109,5376,646,114,374,7619
+GP22,Frederick,rep,REP Cent Committee,"",Pamela J. Ciliberti,REP,1,0,1089,5489,583,100,362,7623
+GP22,Frederick,rep,REP Cent Committee,"",Karen Dacey,REP,1,0,1172,5665,784,140,421,8182
+GP22,Frederick,rep,REP Cent Committee,"",Dylan Diggs,REP,1,0,1207,5987,778,141,514,8627
+GP22,Frederick,rep,REP Cent Committee,"",John Fer,REP,0,0,554,2796,354,65,241,4010
+GP22,Frederick,rep,REP Cent Committee,"",Rob Gossweiler,REP,0,0,446,2455,260,58,136,3355
+GP22,Frederick,rep,REP Cent Committee,"","James ""Mr. Boomstick"" Grose",REP,0,0,497,2630,288,52,185,3652
+GP22,Frederick,rep,REP Cent Committee,"",Kat Harper,REP,0,0,431,2251,306,75,208,3271
+GP22,Frederick,rep,REP Cent Committee,"",Kelly A. McGuire,REP,1,0,695,3889,460,102,237,5383
+GP22,Frederick,rep,REP Cent Committee,"",Teresa A. Mena,REP,0,0,501,2209,282,63,196,3251
+GP22,Frederick,rep,REP Cent Committee,"",Jason Miller,REP,1,0,868,4224,493,105,313,6003
+GP22,Frederick,rep,REP Cent Committee,"",Cary Moorman,REP,0,0,303,1645,186,46,118,2298
+GP22,Frederick,rep,REP Cent Committee,"",Connie Onspaugh,REP,0,0,455,1871,307,65,196,2894
+GP22,Frederick,rep,REP Cent Committee,"",Jesse T. Pippy,REP,1,0,1503,8359,863,154,584,11463
+GP22,Frederick,rep,REP Cent Committee,"","Patricia ""Patti"" Price",REP,0,0,624,3091,403,87,262,4467
+GP22,Frederick,rep,REP Cent Committee,"",Ralph S. Siegrist,REP,0,0,390,1849,320,55,172,2786

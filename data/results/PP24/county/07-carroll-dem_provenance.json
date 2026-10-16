@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-07-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_07DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Carroll results (dem)",
+  "fetch_date": "2026-10-16T00:28:16+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "7aeb8aa016402e8e8b54810a0a6503db02d3ab2ffbc2acf9132fc4a03cc3cffd",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Carroll county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 67,
+    "row_totals": "ok",
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

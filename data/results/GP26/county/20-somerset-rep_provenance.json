@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-20-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_20RepublicanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Somerset results (rep)",
+  "fetch_date": "2026-10-16T00:28:08+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "9761af9b83b948f7b78cd549fe78405a3726c19e4a68b8d3a1a01c3219a06869",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 Somerset county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 37,
+    "row_totals": "ok",
+    "statewide_check": "ok: 152 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-05-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_05Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Calvert results (non)",
+  "fetch_date": "2026-10-16T00:28:29+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "35c7f61b7af65239a1323f8aee7899146f22cee5ac82879e2d07dfaf582810eb",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Calvert county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 9,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

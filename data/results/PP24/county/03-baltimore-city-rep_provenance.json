@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-03-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_03RepublicanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Baltimore City results (rep)",
+  "fetch_date": "2026-10-16T00:28:14+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "41736f7733f5535bc18febee3a29a8ca2bc0a7c63e06c13732227237df452f0a",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Baltimore City county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 53,
+    "row_totals": "ok",
+    "statewide_check": "ok: 144 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

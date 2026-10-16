@@ -1,0 +1,54 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,mail_in_1_votes,provisional_votes,mail_in_2_votes,total_votes
+PP24,Baltimore City,rep,President - Vice Pres,"",Nikki R. Haley,REP,0,0,122,486,508,52,89,1257
+PP24,Baltimore City,rep,President - Vice Pres,"",Donald J. Trump,REP,1,0,308,1709,770,156,129,3072
+PP24,Baltimore City,rep,President - Vice Pres,02,Nikki R. Haley,REP,0,0,5,68,65,1,19,158
+PP24,Baltimore City,rep,President - Vice Pres,02,Donald J. Trump,REP,1,0,5,171,86,9,9,280
+PP24,Baltimore City,rep,President - Vice Pres,07,Nikki R. Haley,REP,0,0,117,418,443,51,70,1099
+PP24,Baltimore City,rep,President - Vice Pres,07,Donald J. Trump,REP,1,0,303,1538,684,147,120,2792
+PP24,Baltimore City,rep,U.S. Senator,"",Moe H. Barakat,REP,0,0,7,27,24,6,3,67
+PP24,Baltimore City,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,9,45,24,5,5,88
+PP24,Baltimore City,rep,U.S. Senator,"",Robin Ficker,REP,0,0,122,618,167,45,25,977
+PP24,Baltimore City,rep,U.S. Senator,"",Lorie R. Friend,REP,0,0,17,40,27,7,8,99
+PP24,Baltimore City,rep,U.S. Senator,"",Larry Hogan,REP,1,0,272,1439,986,138,169,3004
+PP24,Baltimore City,rep,U.S. Senator,"",John A. Myrick,REP,0,0,14,42,22,2,6,86
+PP24,Baltimore City,rep,U.S. Senator,"",Laban Y. Seyoum,REP,0,0,3,9,14,2,1,29
+PP24,Baltimore City,rep,U.S. Congress,02,Kim Klacik,REP,1,0,1,144,80,3,11,239
+PP24,Baltimore City,rep,U.S. Congress,02,John Thormann,REP,0,0,3,21,21,1,2,48
+PP24,Baltimore City,rep,U.S. Congress,02,Dave Wallace,REP,0,0,4,60,21,1,5,91
+PP24,Baltimore City,rep,U.S. Congress,07,Scott M. Collier,REP,1,0,165,764,364,52,67,1412
+PP24,Baltimore City,rep,U.S. Congress,07,"Wayne ""For Freedom"" McNeal",REP,0,0,113,553,225,56,26,973
+PP24,Baltimore City,rep,U.S. Congress,07,Lorrie A. Sigley,REP,0,0,82,336,225,41,45,729
+PP24,Baltimore City,rep,Mayor,"",Michael Moore,REP,0,0,116,715,357,68,48,1304
+PP24,Baltimore City,rep,Mayor,"",Donald E. Scoggins,REP,0,0,78,468,249,37,55,887
+PP24,Baltimore City,rep,Mayor,"",Shannon Wright,REP,1,0,183,761,396,61,67,1468
+PP24,Baltimore City,rep,President City Council,"",Emmanuel Digman,REP,1,0,304,1565,757,141,121,2888
+PP24,Baltimore City,rep,Member City Council,002,Andy Zipay,REP,1,0,29,110,62,10,4,215
+PP24,Baltimore City,rep,Member City Council,006,Ronday Wilson,REP,1,0,11,67,39,9,10,136
+PP24,Baltimore City,rep,Member City Council,007,Christopher Michael Anderson,REP,1,0,15,74,41,3,8,141
+PP24,Baltimore City,rep,Member City Council,013,Alexander Artis,REP,1,0,17,82,31,6,8,144
+PP24,Baltimore City,rep,Judge Circuit Court,Baltimore City Circuit Court 08,Nicole K. Barmore,REP,1,0,224,1122,567,104,97,2114
+PP24,Baltimore City,rep,Judge Circuit Court,Baltimore City Circuit Court 08,Yvette Michelle Bryant,REP,1,0,210,1059,514,93,93,1969
+PP24,Baltimore City,rep,Judge Circuit Court,Baltimore City Circuit Court 08,Paul J. Cucuzzella,REP,1,0,214,1113,550,92,99,2068
+PP24,Baltimore City,rep,Judge Circuit Court,Baltimore City Circuit Court 08,Troy K. Hill,REP,1,0,223,1066,520,99,99,2007
+PP24,Baltimore City,rep,Judge Circuit Court,Baltimore City Circuit Court 08,Alan Carl Lazerow,REP,1,0,211,1073,519,94,98,1995
+PP24,Baltimore City,rep,Judge Circuit Court,Baltimore City Circuit Court 08,La Zette C. Ringgold-Kirksey,REP,1,0,192,974,473,81,89,1809
+PP24,Baltimore City,rep,Judge Circuit Court,Baltimore City Circuit Court 08,"Martin H. Schreiber, II",REP,1,0,222,1126,543,101,98,2090
+PP24,Baltimore City,rep,REP Delegates,02,Ric Metzgar (Trump),REP,1,0,3,145,67,4,11,230
+PP24,Baltimore City,rep,REP Delegates,02,Linda Preece (Trump),REP,1,0,3,141,72,4,13,233
+PP24,Baltimore City,rep,REP Delegates,02,Douglas B. Riley (Haley),REP,0,0,6,77,64,1,15,163
+PP24,Baltimore City,rep,REP Delegates,02,Johnny Ray Salling (Trump),REP,1,0,3,136,62,4,10,215
+PP24,Baltimore City,rep,REP Delegates,07,Christopher Michael Anderson (Trump),REP,1,0,247,1355,589,99,98,2388
+PP24,Baltimore City,rep,REP Delegates,07,Matthew Christopher Brokamp (Haley),REP,0,0,105,374,393,44,64,980
+PP24,Baltimore City,rep,REP Delegates,07,Robert M. Cooper (Haley),REP,0,0,107,377,388,40,61,973
+PP24,Baltimore City,rep,REP Delegates,07,Tom Kennedy (Trump),REP,1,0,262,1334,582,98,101,2377
+PP24,Baltimore City,rep,REP Delegates,07,Don Murphy (Trump),REP,1,0,238,1273,564,93,88,2256
+PP24,Baltimore City,rep,REP Delegates,07,Gloria Bell Murphy (Haley),REP,0,0,124,401,400,43,65,1033
+PP24,Baltimore City,rep,REP Alternates,02,Saul B. Abrams (Haley),REP,0,0,5,74,62,1,20,162
+PP24,Baltimore City,rep,REP Alternates,02,Paul M. Blitz (Trump),REP,1,0,2,143,71,4,9,229
+PP24,Baltimore City,rep,REP Alternates,02,J. Michael Collins (Trump),REP,1,0,5,144,65,4,10,228
+PP24,Baltimore City,rep,REP Alternates,02,Patricia R. Fallon (Trump),REP,1,0,4,143,67,3,11,228
+PP24,Baltimore City,rep,REP Alternates,07,Henry J. Ciezkowski (Trump),REP,1,0,257,1312,581,91,95,2336
+PP24,Baltimore City,rep,REP Alternates,07,Andrew J. Creech (Haley),REP,0,0,107,379,374,44,61,965
+PP24,Baltimore City,rep,REP Alternates,07,Blaire Freed (Trump),REP,1,0,255,1242,567,85,95,2244
+PP24,Baltimore City,rep,REP Alternates,07,Janice Watson Grim (Trump),REP,1,0,236,1236,560,91,96,2219
+PP24,Baltimore City,rep,REP Alternates,07,Barbara Sherry Posner (Haley),REP,0,0,126,415,389,51,67,1048

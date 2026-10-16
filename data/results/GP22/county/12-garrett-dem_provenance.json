@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-12-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_12DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Garrett results (dem)",
+  "fetch_date": "2026-10-16T00:28:32+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "fc62cb35df55742512250f3620d6913dc3675a343ae699c79404c04a267fbecf",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Garrett county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 32,
+    "row_totals": "ok",
+    "statewide_check": "ok: 306 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

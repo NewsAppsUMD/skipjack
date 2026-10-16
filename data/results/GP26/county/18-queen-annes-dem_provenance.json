@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-18-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_18DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Queen Anne's results (dem)",
+  "fetch_date": "2026-10-16T00:28:06+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "a5959c755cae8c1133a719009282da0717916fdc118c176c92c72acbba8b303d",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 Queen Anne's county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 28,
+    "row_totals": "ok",
+    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

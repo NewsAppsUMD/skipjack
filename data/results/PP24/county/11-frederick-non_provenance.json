@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-11-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_11Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Frederick results (non)",
+  "fetch_date": "2026-10-16T00:28:18+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "bca052c83c79c9611624d828825a2a3068671876aa13e7fb0b3639a88cd1895b",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Frederick county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 17,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

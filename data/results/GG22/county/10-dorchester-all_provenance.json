@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG22-county-10-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_10CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Dorchester results (all)",
+  "fetch_date": "2026-10-16T00:28:25+00:00",
+  "parse_date": "2026-10-16T00:29:21+00:00",
+  "sha256_original": "4b74345f8e5cbcbe78b599955a671fb391403de4c9ec953acdaefd15994008f2",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG22 Dorchester county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 72,
+    "row_totals": "ok",
+    "statewide_check": "ok: 456 statewide contest rows match GG22_CongressionalBreakDown"
+  }
+}

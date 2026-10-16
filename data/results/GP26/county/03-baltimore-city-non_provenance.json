@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-03-non",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_03Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Baltimore City results (non)",
+  "fetch_date": "2026-10-16T00:28:00+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "6122eec3e7660b656cb8463f098d8f0a0dafb662636b1fbe6af2aedfb30a05e3",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 Baltimore City county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 7,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

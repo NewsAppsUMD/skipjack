@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-24-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_24RepublicanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Worcester results (rep)",
+  "fetch_date": "2026-10-16T00:28:36+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "4f3abe898e01f73a4fae80aa0a5c7cf9edc90b7d9407deb4e075609cd501978a",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Worcester county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 58,
+    "row_totals": "ok",
+    "statewide_check": "ok: 231 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

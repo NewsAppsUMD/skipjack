@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG24-county-09-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PG24_09CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 Charles results (all)",
+  "fetch_date": "2026-10-16T00:28:11+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "37fdd28158d8957510999bec690502e07c38991dae0f987f35eb0dec0d75e7c2",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG24 Charles county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 52,
+    "row_totals": "ok",
+    "statewide_check": "ok: 81 statewide contest rows match PG24_CongressionalBreakDown"
+  }
+}

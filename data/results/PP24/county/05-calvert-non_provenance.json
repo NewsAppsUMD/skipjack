@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-05-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_05Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Calvert results (non)",
+  "fetch_date": "2026-10-16T00:28:15+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "644601e2761065b7b4a495a80b25b0586020f4439e581f1b3a5ded50280f3274",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Calvert county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

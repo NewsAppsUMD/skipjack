@@ -1,0 +1,26 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,mail_in_1_votes,provisional_votes,mail_in_2_votes,total_votes
+PP24,St. Mary's,rep,President - Vice Pres,"",Nikki R. Haley,REP,0,0,460,934,657,44,36,2131
+PP24,St. Mary's,rep,President - Vice Pres,"",Donald J. Trump,REP,1,0,2323,4852,1151,137,79,8542
+PP24,St. Mary's,rep,President - Vice Pres,05,Nikki R. Haley,REP,0,0,460,934,657,44,36,2131
+PP24,St. Mary's,rep,President - Vice Pres,05,Donald J. Trump,REP,1,0,2323,4852,1151,137,79,8542
+PP24,St. Mary's,rep,U.S. Senator,"",Moe H. Barakat,REP,0,0,16,40,13,2,2,73
+PP24,St. Mary's,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,242,490,106,10,1,849
+PP24,St. Mary's,rep,U.S. Senator,"",Robin Ficker,REP,0,0,847,1663,195,39,21,2765
+PP24,St. Mary's,rep,U.S. Senator,"",Lorie R. Friend,REP,0,0,63,108,53,1,1,226
+PP24,St. Mary's,rep,U.S. Senator,"",Larry Hogan,REP,1,0,1564,3379,1431,121,93,6588
+PP24,St. Mary's,rep,U.S. Senator,"",John A. Myrick,REP,0,0,57,82,32,6,0,177
+PP24,St. Mary's,rep,U.S. Senator,"",Laban Y. Seyoum,REP,0,0,3,9,8,0,0,20
+PP24,St. Mary's,rep,U.S. Congress,05,Michelle Talkington,REP,1,0,2117,4310,1225,125,80,7857
+PP24,St. Mary's,rep,Judge Circuit Court,Saint Mary's County Circuit Court 07,Sue Ann Armitage,REP,0,0,1308,2683,790,73,45,4899
+PP24,St. Mary's,rep,Judge Circuit Court,Saint Mary's County Circuit Court 07,Amy Lorenzini,REP,1,0,1469,3073,948,103,69,5662
+PP24,St. Mary's,rep,REP Delegates,05,Deena B. Fisher (Trump),REP,1,0,1965,4093,951,108,64,7181
+PP24,St. Mary's,rep,REP Delegates,05,Dirk Haire (Trump),REP,1,0,1805,3703,842,96,65,6511
+PP24,St. Mary's,rep,REP Delegates,05,J. T. Mastranadi (Trump),REP,1,0,1779,3620,810,94,59,6362
+PP24,St. Mary's,rep,REP Delegates,05,Deb Rey,REP,0,0,794,1561,647,54,37,3093
+PP24,St. Mary's,rep,REP Delegates,05,Crystal Michelle Zorbaugh (Haley),REP,0,0,489,930,620,38,35,2112
+PP24,St. Mary's,rep,REP Alternates,05,James Emerson Ashburn (Trump),REP,1,0,1939,3984,881,104,65,6973
+PP24,St. Mary's,rep,REP Alternates,05,Jennifer Hayden Boyd (Trump),REP,1,0,2074,4227,970,116,69,7456
+PP24,St. Mary's,rep,REP Alternates,05,Daniel Paul Creighton (Haley),REP,0,0,456,860,589,42,34,1981
+PP24,St. Mary's,rep,REP Alternates,05,Brendan D. O'Leary (Haley),REP,0,0,470,881,619,40,36,2046
+PP24,St. Mary's,rep,REP Alternates,05,Robert Tyler Seawell (Haley),REP,0,0,419,794,583,34,32,1862
+PP24,St. Mary's,rep,REP Alternates,05,Jason Trott (Trump),REP,1,0,1882,3815,864,96,63,6720

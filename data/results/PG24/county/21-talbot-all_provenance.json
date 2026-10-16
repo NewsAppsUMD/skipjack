@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG24-county-21-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PG24_21CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 Talbot results (all)",
+  "fetch_date": "2026-10-16T00:28:13+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "7b61a234e891dbc1016d5312d5447d27ede1ac34fa52426361622cc41a586796",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG24 Talbot county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 60,
+    "row_totals": "ok",
+    "statewide_check": "ok: 81 statewide contest rows match PG24_CongressionalBreakDown"
+  }
+}

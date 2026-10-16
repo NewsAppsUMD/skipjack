@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-01-non",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_01Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Allegany results (non)",
+  "fetch_date": "2026-10-16T00:27:59+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "ce751d9bcfeadd403d4c492000591b33a76860216d55d81fcfa5dd9cc1e5feba",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 Allegany county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 4,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

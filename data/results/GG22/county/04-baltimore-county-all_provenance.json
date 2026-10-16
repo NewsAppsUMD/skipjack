@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG22-county-04-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_04CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Baltimore County results (all)",
+  "fetch_date": "2026-10-16T00:28:24+00:00",
+  "parse_date": "2026-10-16T00:29:21+00:00",
+  "sha256_original": "8ef3c59282589ac6b42589d8f579eb61c2ca546aa030e72e304cf956717c84e9",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG22 Baltimore County county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 160,
+    "row_totals": "ok",
+    "statewide_check": "ok: 456 statewide contest rows match GG22_CongressionalBreakDown"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-22-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_22DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Washington results (dem)",
+  "fetch_date": "2026-10-16T00:28:08+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "45e1da7e3373c21dbf9f22a2eda65936563191f52e8d12ea23241811b4fa0ed9",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 Washington county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 43,
+    "row_totals": "ok",
+    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

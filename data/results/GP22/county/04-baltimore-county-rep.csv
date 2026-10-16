@@ -1,0 +1,125 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,mail_in_1_votes,provisional_votes,mail_in_2_votes,total_votes
+GP22,Baltimore County,rep,Governor / Lt. Governor,"",Dan Cox and Gordana Schifanelli,REP,1,0,3377,11824,1963,582,383,18129
+GP22,Baltimore County,rep,Governor / Lt. Governor,"","Robin Ficker and LeRoy F. Yegge, Jr.",REP,0,0,138,353,247,60,44,842
+GP22,Baltimore County,rep,Governor / Lt. Governor,"",Kelly Schulz and Jeff Woolford,REP,0,0,3106,9623,3924,911,683,18247
+GP22,Baltimore County,rep,Governor / Lt. Governor,"",Joe Werner and Minh Thanh Luong,REP,0,0,91,299,174,55,30,649
+GP22,Baltimore County,rep,Comptroller,"",Barry Glassman,REP,1,0,5544,17364,4980,1266,931,30085
+GP22,Baltimore County,rep,Attorney General,"",Michael Anthony Peroutka,REP,1,0,3616,11953,2521,672,445,19207
+GP22,Baltimore County,rep,Attorney General,"",Jim Shalleck,REP,0,0,2432,7364,2705,698,493,13692
+GP22,Baltimore County,rep,U.S. Senator,"",Chris Chaffee,REP,1,0,1002,3180,683,191,159,5215
+GP22,Baltimore County,rep,U.S. Senator,"",George Davis,REP,0,0,419,1613,375,100,67,2574
+GP22,Baltimore County,rep,U.S. Senator,"",Nnabu Eze,REP,0,0,230,695,182,55,43,1205
+GP22,Baltimore County,rep,U.S. Senator,"",Lorie R. Friend,REP,0,0,970,2715,933,214,155,4987
+GP22,Baltimore County,rep,U.S. Senator,"",Reba A. Hawkins,REP,0,0,410,1404,442,145,79,2480
+GP22,Baltimore County,rep,U.S. Senator,"",Jon McGreevey,REP,0,0,363,1266,233,103,51,2016
+GP22,Baltimore County,rep,U.S. Senator,"",Joseph Perez,REP,0,0,688,2367,594,154,109,3912
+GP22,Baltimore County,rep,U.S. Senator,"",Todd A. Puglisi,REP,0,0,405,1324,313,110,47,2199
+GP22,Baltimore County,rep,U.S. Senator,"",James Tarantin,REP,0,0,461,1148,420,95,55,2179
+GP22,Baltimore County,rep,U.S. Senator,"",John Thormann,REP,0,0,850,2552,812,153,141,4508
+GP22,Baltimore County,rep,U.S. Congress,01,Andy Harris,REP,1,0,1106,3084,733,108,68,5099
+GP22,Baltimore County,rep,U.S. Congress,02,Nicolee Ambrose,REP,1,0,1334,3900,1134,280,176,6824
+GP22,Baltimore County,rep,U.S. Congress,02,Berney Flowers,REP,0,0,491,1458,391,103,61,2504
+GP22,Baltimore County,rep,U.S. Congress,02,Michael A. Geppi,REP,0,0,697,2249,878,196,143,4163
+GP22,Baltimore County,rep,U.S. Congress,02,Lance Griffin,REP,0,0,348,835,543,128,97,1951
+GP22,Baltimore County,rep,U.S. Congress,02,"Ellen ""EJ"" McNulty",REP,0,0,446,1557,537,147,113,2800
+GP22,Baltimore County,rep,U.S. Congress,02,Dave Wallace,REP,0,0,571,2300,446,121,89,3527
+GP22,Baltimore County,rep,U.S. Congress,07,Ray Bly,REP,0,0,167,524,69,38,24,822
+GP22,Baltimore County,rep,U.S. Congress,07,Scott M. Collier,REP,1,0,391,1398,156,58,52,2055
+GP22,Baltimore County,rep,U.S. Congress,07,Michael Pearson,REP,0,0,163,703,110,62,39,1077
+GP22,Baltimore County,rep,U.S. Congress,07,Lorrie A. Sigley,REP,0,0,269,877,170,76,53,1445
+GP22,Baltimore County,rep,State Senator,06,Charles C. Collins,REP,0,0,149,572,102,39,23,885
+GP22,Baltimore County,rep,State Senator,06,Michael S. Myers,REP,0,0,106,491,95,33,23,748
+GP22,Baltimore County,rep,State Senator,06,Johnny Ray Salling,REP,1,0,892,2894,326,117,79,4308
+GP22,Baltimore County,rep,State Senator,07,J. B. Jennings,REP,1,0,1471,3317,1037,154,119,6098
+GP22,Baltimore County,rep,State Senator,08,Ken Fitch,REP,1,0,758,2012,556,165,107,3598
+GP22,Baltimore County,rep,State Senator,10,William Newton,REP,1,0,408,1199,342,121,96,2166
+GP22,Baltimore County,rep,State Senator,11,Ruth Goetz,REP,1,0,447,1991,847,185,158,3628
+GP22,Baltimore County,rep,State Senator,42,Jimmy Mathis,REP,0,0,168,808,187,42,24,1229
+GP22,Baltimore County,rep,State Senator,42,Zach Tomlin,REP,0,0,55,339,100,17,11,522
+GP22,Baltimore County,rep,State Senator,42,Chris West,REP,1,0,704,2782,828,150,111,4575
+GP22,Baltimore County,rep,House of Delegates,06,Chike Anyanwu,REP,0,0,42,133,28,9,4,216
+GP22,Baltimore County,rep,House of Delegates,06,Robert H. Bird,REP,0,0,104,341,71,32,25,573
+GP22,Baltimore County,rep,House of Delegates,06,Tim Fazenbaker,REP,0,0,362,1359,110,49,32,1912
+GP22,Baltimore County,rep,House of Delegates,06,Robin Grammer,REP,1,0,788,2422,353,100,65,3728
+GP22,Baltimore County,rep,House of Delegates,06,Bob Long,REP,1,0,695,2302,336,105,73,3511
+GP22,Baltimore County,rep,House of Delegates,06,Valerie McDonough,REP,0,0,326,1085,172,76,42,1701
+GP22,Baltimore County,rep,House of Delegates,06,Ric Metzgar,REP,1,0,784,2549,372,120,77,3902
+GP22,Baltimore County,rep,House of Delegates,07A,"Joseph C. Boteler, III",REP,0,0,443,1085,369,44,46,1987
+GP22,Baltimore County,rep,House of Delegates,07A,Ryan Nawrocki,REP,1,0,915,1964,680,95,65,3719
+GP22,Baltimore County,rep,House of Delegates,07A,Steve Redmer,REP,0,0,604,1663,416,70,39,2792
+GP22,Baltimore County,rep,House of Delegates,07A,Kathy Szeliga,REP,1,0,1218,2536,992,127,106,4979
+GP22,Baltimore County,rep,House of Delegates,08,Glen Geelhaar,REP,1,0,567,1431,422,107,82,2609
+GP22,Baltimore County,rep,House of Delegates,08,Manpreet K. Hundal,REP,0,0,319,802,189,57,37,1404
+GP22,Baltimore County,rep,House of Delegates,08,Timothy M. Neubauer,REP,1,0,581,1506,392,120,73,2672
+GP22,Baltimore County,rep,House of Delegates,08,Kathleen A. Smero,REP,1,0,558,1446,436,115,74,2629
+GP22,Baltimore County,rep,House of Delegates,10,Patricia R. Fallon,REP,1,0,387,1112,311,116,95,2021
+GP22,Baltimore County,rep,House of Delegates,10,Jordan Porompyae,REP,1,0,341,989,273,99,82,1784
+GP22,Baltimore County,rep,House of Delegates,11B,Jim Simpson,REP,1,0,319,1583,673,135,105,2815
+GP22,Baltimore County,rep,House of Delegates,11B,Tyler A. Stiff,REP,1,0,312,1471,644,124,101,2652
+GP22,Baltimore County,rep,House of Delegates,42A,Nino Mangione,REP,1,0,543,2344,526,102,75,3590
+GP22,Baltimore County,rep,House of Delegates,42B,Todd Huff,REP,1,0,146,579,248,49,30,1052
+GP22,Baltimore County,rep,House of Delegates,42B,Jay Walton,REP,0,0,143,593,202,26,18,982
+GP22,Baltimore County,rep,House of Delegates,44A,"Joseph D. ""Joe"" Hooe",REP,1,0,127,485,139,40,33,824
+GP22,Baltimore County,rep,House of Delegates,44A,Brian J. Noon,REP,0,0,47,215,82,25,16,385
+GP22,Baltimore County,rep,County Executive,"",Darren M. Badillo,REP,0,0,898,2650,563,148,111,4370
+GP22,Baltimore County,rep,County Executive,"",Henry Ciezkowski,REP,0,0,1185,3410,727,180,133,5635
+GP22,Baltimore County,rep,County Executive,"",Thilo August Albert Gluck,REP,0,0,211,881,206,57,34,1389
+GP22,Baltimore County,rep,County Executive,"",Pat McDonough,REP,1,0,2575,8181,2284,577,424,14041
+GP22,Baltimore County,rep,County Executive,"",A. Scott Pappas,REP,0,0,501,1791,559,125,105,3081
+GP22,Baltimore County,rep,County Executive,"",Kimberley Stansbury,REP,0,0,984,3141,1153,306,185,5769
+GP22,Baltimore County,rep,County Council,001,"Albert ""Al"" Nalley",REP,1,0,532,1648,400,146,103,2829
+GP22,Baltimore County,rep,County Council,002,James Amos,REP,1,0,274,1110,457,123,96,2060
+GP22,Baltimore County,rep,County Council,003,Wade Kach,REP,1,0,1003,3931,1412,240,168,6754
+GP22,Baltimore County,rep,County Council,003,Roberto Zanotta,REP,0,0,349,1606,356,86,54,2451
+GP22,Baltimore County,rep,County Council,004,Kim Bryant,REP,1,0,253,844,229,102,85,1513
+GP22,Baltimore County,rep,County Council,005,Philip DePalo,REP,0,0,333,901,252,46,39,1571
+GP22,Baltimore County,rep,County Council,005,David Marks,REP,1,0,1663,3424,1142,203,135,6567
+GP22,Baltimore County,rep,County Council,006,Tony Campbell,REP,1,0,521,1706,559,153,118,3057
+GP22,Baltimore County,rep,County Council,007,Todd K. Crandell,REP,1,0,731,2794,346,117,77,4065
+GP22,Baltimore County,rep,County Council,007,Donna Eve Sekora,REP,0,0,328,1000,128,63,35,1554
+GP22,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Robert E. Cahill,REP,1,0,4474,13636,3940,978,725,23753
+GP22,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Judith C. Ensor,REP,1,0,4393,13109,3880,952,700,23034
+GP22,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Wendy S. Epstein,REP,1,0,4125,12148,3624,900,659,21456
+GP22,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,"Garret P. Glennon, Jr.",REP,1,0,3946,11686,3455,835,618,20540
+GP22,Baltimore County,rep,Judge Circuit Court,Baltimore County Circuit Court 03,Stacy A. Mayer,REP,1,0,4123,12231,3638,879,663,21534
+GP22,Baltimore County,rep,State's Attorney,"",James A. Haynes,REP,1,0,3039,10037,2634,674,515,16899
+GP22,Baltimore County,rep,State's Attorney,"",Deborah Hill,REP,0,0,2680,7944,2321,618,393,13956
+GP22,Baltimore County,rep,Clerk Circuit Court,"",Brian A. Campbell,REP,1,0,5018,15405,4332,1121,805,26681
+GP22,Baltimore County,rep,Register of Wills,"",Lauren Castro,REP,1,0,3313,10402,2814,770,532,17831
+GP22,Baltimore County,rep,Register of Wills,"",Jonathan S. Stark,REP,0,0,2075,6599,1794,446,315,11229
+GP22,Baltimore County,rep,Sheriff,"",Andy Kuhl,REP,1,0,5070,15747,4351,1114,800,27082
+GP22,Baltimore County,rep,REP Cent Committee,001,"John C. Lerch, Jr.",REP,1,0,444,1287,336,107,78,2252
+GP22,Baltimore County,rep,REP Cent Committee,001,Paul D. Lubell,REP,1,0,436,1272,339,115,80,2242
+GP22,Baltimore County,rep,REP Cent Committee,001,Brandon Michael,REP,1,0,445,1319,341,106,87,2298
+GP22,Baltimore County,rep,REP Cent Committee,002,James Amos,REP,1,0,156,650,236,66,46,1154
+GP22,Baltimore County,rep,REP Cent Committee,002,Gregory Certeza,REP,0,0,152,514,210,49,44,969
+GP22,Baltimore County,rep,REP Cent Committee,002,Ruth Goetz,REP,1,0,235,955,392,90,67,1739
+GP22,Baltimore County,rep,REP Cent Committee,002,John C. Gordon,REP,1,0,167,705,277,78,52,1279
+GP22,Baltimore County,rep,REP Cent Committee,002,Neil S. Posner,REP,1,0,188,770,324,90,65,1437
+GP22,Baltimore County,rep,REP Cent Committee,003,Raymond C. Boccelli,REP,1,0,656,2554,714,134,106,4164
+GP22,Baltimore County,rep,REP Cent Committee,003,Tony De Cesare,REP,0,0,493,1890,471,105,63,3022
+GP22,Baltimore County,rep,REP Cent Committee,003,Deborah Hill,REP,1,0,806,3077,970,170,110,5133
+GP22,Baltimore County,rep,REP Cent Committee,003,Angela Sudano-Marcellino,REP,1,0,605,2334,757,123,96,3915
+GP22,Baltimore County,rep,REP Cent Committee,003,Kate Strauch Sullivan,REP,1,0,809,3046,957,160,121,5093
+GP22,Baltimore County,rep,REP Cent Committee,003,Leo R. Thuman,REP,0,0,595,2357,722,131,89,3894
+GP22,Baltimore County,rep,REP Cent Committee,004,Kim Bryant,REP,1,0,222,720,208,88,77,1315
+GP22,Baltimore County,rep,REP Cent Committee,004,Patricia R. Fallon,REP,1,0,219,695,200,85,79,1278
+GP22,Baltimore County,rep,REP Cent Committee,004,Alfred Mendelsohn,REP,1,0,205,657,195,86,79,1222
+GP22,Baltimore County,rep,REP Cent Committee,004,Charlene Merrill,REP,1,0,204,655,185,82,77,1203
+GP22,Baltimore County,rep,REP Cent Committee,005,Bradley L. Lang,REP,1,0,1429,2896,917,166,122,5530
+GP22,Baltimore County,rep,REP Cent Committee,005,Kevin A. Olkowski,REP,1,0,1371,2827,924,168,121,5411
+GP22,Baltimore County,rep,REP Cent Committee,005,Kathleen A. Smero,REP,1,0,1444,2920,957,175,124,5620
+GP22,Baltimore County,rep,REP Cent Committee,005,Garrett L. Zahner,REP,1,0,1364,2699,888,153,115,5219
+GP22,Baltimore County,rep,REP Cent Committee,006,Timothy M. Neubauer,REP,1,0,465,1496,473,115,100,2649
+GP22,Baltimore County,rep,REP Cent Committee,006,Jay Payne,REP,1,0,413,1327,457,118,92,2407
+GP22,Baltimore County,rep,REP Cent Committee,006,James P. Randisi,REP,1,0,408,1316,455,111,84,2374
+GP22,Baltimore County,rep,REP Cent Committee,006,Deb Sullivan,REP,1,0,442,1412,484,126,95,2559
+GP22,Baltimore County,rep,REP Cent Committee,007,Russell D. Badolato,REP,0,0,244,916,129,52,27,1368
+GP22,Baltimore County,rep,REP Cent Committee,007,Paul M. Blitz,REP,1,0,392,1422,166,60,58,2098
+GP22,Baltimore County,rep,REP Cent Committee,007,Allan James Brzowsky,REP,0,0,193,764,114,38,20,1129
+GP22,Baltimore County,rep,REP Cent Committee,007,Virginia L. Deise,REP,1,0,354,1229,199,71,45,1898
+GP22,Baltimore County,rep,REP Cent Committee,007,Tim Fazenbaker,REP,1,0,516,1931,177,83,51,2758
+GP22,Baltimore County,rep,REP Cent Committee,007,Andy Kuhl,REP,0,0,412,1244,151,53,34,1894
+GP22,Baltimore County,rep,REP Cent Committee,007,Linda Preece,REP,1,0,399,1287,198,78,43,2005
+GP22,Baltimore County,rep,REP Cent Committee,007,Robert D. Schweitzer,REP,0,0,340,1081,130,41,21,1613
+GP22,Baltimore County,rep,REP Cent Committee,007,Lorrie A. Sigley,REP,0,0,351,1175,193,80,54,1853

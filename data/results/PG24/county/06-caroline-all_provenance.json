@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG24-county-06-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PG24_06CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 Caroline results (all)",
+  "fetch_date": "2026-10-16T00:28:10+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "34dab1bd9587c6446e002a36546a781c0fa141e5209a54904220435ffb8add6b",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG24 Caroline county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 55,
+    "row_totals": "ok",
+    "statewide_check": "ok: 81 statewide contest rows match PG24_CongressionalBreakDown"
+  }
+}

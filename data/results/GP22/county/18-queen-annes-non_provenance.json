@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-18-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_18Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Queen Anne's results (non)",
+  "fetch_date": "2026-10-16T00:28:34+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "a589c3964a4f0f652ea1c2beb0d22230e4a11b9b44688d6331b904994efd789c",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Queen Anne's county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 4,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

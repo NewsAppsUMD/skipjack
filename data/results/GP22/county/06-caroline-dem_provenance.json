@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-06-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_06DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Caroline results (dem)",
+  "fetch_date": "2026-10-16T00:28:29+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "6227b9870c4c6623999a4e4d5f4e6df7245f167a7691068afc8d4ca817337716",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Caroline county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 26,
+    "row_totals": "ok",
+    "statewide_check": "ok: 306 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

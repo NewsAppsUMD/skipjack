@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-10-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_10DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Dorchester results (dem)",
+  "fetch_date": "2026-10-16T00:28:17+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "59c35f125f382eaffefca595c536c0b65704faadc327df4900c34939f4aeb07f",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Dorchester county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 29,
+    "row_totals": "ok",
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

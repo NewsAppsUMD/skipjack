@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP22-county-14-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_14RepublicanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Howard results (rep)",
+  "fetch_date": "2026-10-16T00:28:32+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "1f6ece3de813766b17aecf018ec5265d0d5c96031fccc3c6fb1f6f768e971c21",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP22 Howard county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 57,
+    "row_totals": "ok",
+    "statewide_check": "ok: 231 statewide contest rows match GP22_CongressionalBreakDown"
+  }
+}

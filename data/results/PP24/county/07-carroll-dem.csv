@@ -1,0 +1,68 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,mail_in_1_votes,provisional_votes,mail_in_2_votes,total_votes
+PP24,Carroll,dem,President - Vice Pres,"",Joe Biden,DEM,1,0,1230,3052,4516,322,117,9237
+PP24,Carroll,dem,President - Vice Pres,"",Dean Phillips,DEM,0,0,33,107,50,9,2,201
+PP24,Carroll,dem,President - Vice Pres,"",Marianne Williamson,DEM,0,0,45,162,112,15,5,339
+PP24,Carroll,dem,President - Vice Pres,"",Uncommitted to any Presidential Candidate,DEM,0,0,174,568,545,63,23,1373
+PP24,Carroll,dem,President - Vice Pres,02,Joe Biden,DEM,1,0,1127,2604,4013,297,103,8144
+PP24,Carroll,dem,President - Vice Pres,02,Dean Phillips,DEM,0,0,32,90,41,8,1,172
+PP24,Carroll,dem,President - Vice Pres,02,Marianne Williamson,DEM,0,0,42,145,105,14,4,310
+PP24,Carroll,dem,President - Vice Pres,02,Uncommitted to any Presidential Candidate,DEM,0,0,158,487,497,55,21,1218
+PP24,Carroll,dem,President - Vice Pres,03,Joe Biden,DEM,1,0,103,448,503,25,14,1093
+PP24,Carroll,dem,President - Vice Pres,03,Dean Phillips,DEM,0,0,1,17,9,1,1,29
+PP24,Carroll,dem,President - Vice Pres,03,Marianne Williamson,DEM,0,0,3,17,7,1,1,29
+PP24,Carroll,dem,President - Vice Pres,03,Uncommitted to any Presidential Candidate,DEM,0,0,16,81,48,8,2,155
+PP24,Carroll,dem,U.S. Senator,"",Angela Alsobrooks,DEM,1,0,555,1715,1721,158,64,4213
+PP24,Carroll,dem,U.S. Senator,"","Michael W. Cobb, Sr.",DEM,0,0,16,37,23,5,0,81
+PP24,Carroll,dem,U.S. Senator,"",Marcellus Crews,DEM,0,0,5,24,21,2,3,55
+PP24,Carroll,dem,U.S. Senator,"",Brian E. Frydenborg,DEM,0,0,5,36,48,1,1,91
+PP24,Carroll,dem,U.S. Senator,"",Scottie J. Griffin,DEM,0,0,14,36,31,5,0,86
+PP24,Carroll,dem,U.S. Senator,"",Robert K. Houton,DEM,0,0,7,19,15,2,0,43
+PP24,Carroll,dem,U.S. Senator,"",Joseph Perez,DEM,0,0,10,45,25,6,0,86
+PP24,Carroll,dem,U.S. Senator,"",Steven Henry Seuferer,DEM,0,0,6,12,15,1,0,34
+PP24,Carroll,dem,U.S. Senator,"",David J. Trone,DEM,0,0,837,1881,3116,223,72,6129
+PP24,Carroll,dem,U.S. Senator,"",Andrew Jaye Wildman,DEM,0,0,12,25,24,0,1,62
+PP24,Carroll,dem,U.S. Congress,02,Harry Bhandari,DEM,0,0,62,282,302,22,11,679
+PP24,Carroll,dem,U.S. Congress,02,Sia Kyriakakos,DEM,0,0,63,258,344,30,13,708
+PP24,Carroll,dem,U.S. Congress,02,"John ""Johnny O"" Olszewski, Jr.",DEM,1,0,1047,2143,3223,240,82,6735
+PP24,Carroll,dem,U.S. Congress,02,Sharron Reed-Burns,DEM,0,0,60,202,211,25,4,502
+PP24,Carroll,dem,U.S. Congress,02,Jessica Sjoberg,DEM,0,0,46,165,122,14,3,350
+PP24,Carroll,dem,U.S. Congress,02,"Clint Spellman, Jr.",DEM,0,0,44,102,111,15,1,273
+PP24,Carroll,dem,U.S. Congress,03,Mark S. Chang,DEM,0,0,2,16,10,2,0,30
+PP24,Carroll,dem,U.S. Congress,03,Michael Coburn,DEM,0,0,0,2,3,1,0,6
+PP24,Carroll,dem,U.S. Congress,03,Malcolm Thomas Colombo,DEM,0,0,0,4,11,1,0,16
+PP24,Carroll,dem,U.S. Congress,03,Abigail Diehl,DEM,0,0,1,10,12,3,0,26
+PP24,Carroll,dem,U.S. Congress,03,Juan Dominguez,DEM,0,0,2,7,9,0,0,18
+PP24,Carroll,dem,U.S. Congress,03,Lindsay Donahue,DEM,0,0,1,17,14,2,1,35
+PP24,Carroll,dem,U.S. Congress,03,Harry Anthony Dunn,DEM,0,0,49,124,192,7,1,373
+PP24,Carroll,dem,U.S. Congress,03,Sarah Elfreth,DEM,1,0,43,218,204,8,10,483
+PP24,Carroll,dem,U.S. Congress,03,Mark Steven Gosnell,DEM,0,0,0,5,5,0,1,11
+PP24,Carroll,dem,U.S. Congress,03,Terri Hill,DEM,0,0,3,22,10,1,0,36
+PP24,Carroll,dem,U.S. Congress,03,Aisha Khan,DEM,0,0,0,19,5,1,0,25
+PP24,Carroll,dem,U.S. Congress,03,Clarence Lam,DEM,0,0,11,37,29,1,2,80
+PP24,Carroll,dem,U.S. Congress,03,Matt Libber,DEM,0,0,2,6,0,0,0,8
+PP24,Carroll,dem,U.S. Congress,03,Kristin Anne Lyman Nabors,DEM,0,0,1,8,2,0,0,11
+PP24,Carroll,dem,U.S. Congress,03,"John H. Morse, III",DEM,0,0,1,15,7,1,1,25
+PP24,Carroll,dem,U.S. Congress,03,Jake Pretot,DEM,0,0,2,1,0,0,0,3
+PP24,Carroll,dem,U.S. Congress,03,Don Quinn,DEM,0,0,0,2,2,1,0,5
+PP24,Carroll,dem,U.S. Congress,03,Mike Rogers,DEM,0,0,0,10,6,2,0,18
+PP24,Carroll,dem,U.S. Congress,03,Danny Craig Rupli,DEM,0,0,0,1,1,0,0,2
+PP24,Carroll,dem,U.S. Congress,03,Gary Schuman,DEM,0,0,0,4,1,1,0,6
+PP24,Carroll,dem,U.S. Congress,03,Stewart Fred Silver,DEM,0,0,0,0,0,0,0,0
+PP24,Carroll,dem,U.S. Congress,03,Jeff Woodard,DEM,0,0,2,7,2,0,0,11
+PP24,Carroll,dem,Democratic Delegates,02,Ruben Amaya (Biden),DEM,1,0,849,1963,2873,225,78,5988
+PP24,Carroll,dem,Democratic Delegates,02,Lela Blue-Campbell (Biden),DEM,1,0,996,2333,3245,260,74,6908
+PP24,Carroll,dem,Democratic Delegates,02,Robert C. Brooking (Williamson),DEM,0,0,241,711,560,57,18,1587
+PP24,Carroll,dem,Democratic Delegates,02,Corynne B. Courpas (Biden),DEM,1,0,1040,2359,3422,268,79,7168
+PP24,Carroll,dem,Democratic Delegates,02,Alex Friedman (Biden),DEM,1,0,887,1970,2875,222,68,6022
+PP24,Carroll,dem,Democratic Delegates,02,Shelly L. Hettleman (Biden),DEM,1,0,1026,2375,3376,268,79,7124
+PP24,Carroll,dem,Democratic Delegates,02,Sharonda L. Huffman (Biden),DEM,1,0,934,2189,3243,253,76,6695
+PP24,Carroll,dem,Democratic Delegates,02,Louis Gregory Pecoraro (Biden),DEM,1,0,880,1865,3008,229,70,6052
+PP24,Carroll,dem,Democratic Delegates,03,Dylan Behler (Biden),DEM,1,0,85,334,353,23,9,804
+PP24,Carroll,dem,Democratic Delegates,03,Jennifer Chang (Biden),DEM,1,0,93,422,429,24,10,978
+PP24,Carroll,dem,Democratic Delegates,03,"Freddie Donald Dickson, Jr. (Phillips)",DEM,0,0,25,130,74,5,1,235
+PP24,Carroll,dem,Democratic Delegates,03,Guy Guzzone (Biden),DEM,1,0,81,323,342,20,10,776
+PP24,Carroll,dem,Democratic Delegates,03,Dana Jones (Biden),DEM,1,0,93,409,427,27,9,965
+PP24,Carroll,dem,Democratic Delegates,03,Jennifer Laszlo Mizrahi (Biden),DEM,1,0,88,395,419,26,9,937
+PP24,Carroll,dem,Democratic Delegates,03,Henry G. Snurr (Biden),DEM,1,0,72,287,324,17,8,708
+PP24,Carroll,dem,Democratic Delegates,03,Matthew Verghese (Biden),DEM,1,0,79,311,344,19,8,761
+PP24,Carroll,dem,Democratic Delegates,03,Lucinda-Marie Ware (Biden),DEM,1,0,85,373,417,24,9,908

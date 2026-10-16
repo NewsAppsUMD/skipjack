@@ -1,0 +1,68 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,mail_in_1_votes,provisional_votes,mail_in_2_votes,total_votes
+GP22,Wicomico,rep,Governor / Lt. Governor,"",Dan Cox and Gordana Schifanelli,REP,1,0,846,3121,289,150,111,4517
+GP22,Wicomico,rep,Governor / Lt. Governor,"","Robin Ficker and LeRoy F. Yegge, Jr.",REP,0,0,43,99,42,22,21,227
+GP22,Wicomico,rep,Governor / Lt. Governor,"",Kelly Schulz and Jeff Woolford,REP,0,0,534,1390,272,116,121,2433
+GP22,Wicomico,rep,Governor / Lt. Governor,"",Joe Werner and Minh Thanh Luong,REP,0,0,23,52,17,9,8,109
+GP22,Wicomico,rep,Comptroller,"",Barry Glassman,REP,1,0,1178,3795,487,250,197,5907
+GP22,Wicomico,rep,Attorney General,"",Michael Anthony Peroutka,REP,1,0,682,2244,196,111,100,3333
+GP22,Wicomico,rep,Attorney General,"",Jim Shalleck,REP,0,0,575,1663,270,119,111,2738
+GP22,Wicomico,rep,U.S. Senator,"",Chris Chaffee,REP,1,0,360,1044,106,52,53,1615
+GP22,Wicomico,rep,U.S. Senator,"",George Davis,REP,0,0,127,430,66,40,20,683
+GP22,Wicomico,rep,U.S. Senator,"",Nnabu Eze,REP,0,0,43,140,13,9,4,209
+GP22,Wicomico,rep,U.S. Senator,"",Lorie R. Friend,REP,0,0,130,577,62,29,26,824
+GP22,Wicomico,rep,U.S. Senator,"",Reba A. Hawkins,REP,0,0,71,263,37,24,12,407
+GP22,Wicomico,rep,U.S. Senator,"",Jon McGreevey,REP,0,0,54,181,9,12,4,260
+GP22,Wicomico,rep,U.S. Senator,"",Joseph Perez,REP,0,0,75,308,28,10,11,432
+GP22,Wicomico,rep,U.S. Senator,"",Todd A. Puglisi,REP,0,0,42,128,16,8,8,202
+GP22,Wicomico,rep,U.S. Senator,"",James Tarantin,REP,0,0,142,332,48,18,27,567
+GP22,Wicomico,rep,U.S. Senator,"",John Thormann,REP,0,0,154,457,80,33,33,757
+GP22,Wicomico,rep,U.S. Congress,01,Andy Harris,REP,1,0,1297,4210,520,255,206,6488
+GP22,Wicomico,rep,State Senator,37,"Adelaide ""Addie"" Eckardt",REP,0,0,193,561,129,76,51,1010
+GP22,Wicomico,rep,State Senator,37,Johnny Mautz,REP,1,0,344,1285,98,56,33,1816
+GP22,Wicomico,rep,State Senator,38,Mary Beth Carozza,REP,1,0,833,2531,359,151,146,4020
+GP22,Wicomico,rep,House of Delegates,37A,Donna Bradshaw,REP,1,0,144,473,54,56,23,750
+GP22,Wicomico,rep,House of Delegates,37B,Nicole L. Acle,REP,0,0,180,725,71,26,20,1022
+GP22,Wicomico,rep,House of Delegates,37B,Christopher T. Adams,REP,1,0,255,789,94,42,37,1217
+GP22,Wicomico,rep,House of Delegates,37B,Tom Hutchinson,REP,1,0,131,437,70,28,23,689
+GP22,Wicomico,rep,House of Delegates,37B,Ron James,REP,0,0,28,107,9,8,6,158
+GP22,Wicomico,rep,House of Delegates,38A,Charles James Otto,REP,1,0,118,257,51,15,23,464
+GP22,Wicomico,rep,House of Delegates,38B,"Carl L. Anderton, Jr.",REP,1,0,487,1298,219,86,91,2181
+GP22,Wicomico,rep,House of Delegates,38C,Wayne A. Hartman,REP,1,0,189,829,64,39,29,1150
+GP22,Wicomico,rep,County Executive,"",Julie Giordano,REP,1,0,703,2554,274,141,102,3774
+GP22,Wicomico,rep,County Executive,"",John Psota,REP,0,0,748,2055,367,165,160,3495
+GP22,Wicomico,rep,County Council At Large,"",John T. Cannon,REP,1,0,951,2693,435,198,147,4424
+GP22,Wicomico,rep,County Council At Large,"",Katherine Jones,REP,0,0,502,1553,228,118,93,2494
+GP22,Wicomico,rep,County Council At Large,"",Dutch Schwemlein,REP,0,0,311,901,121,64,59,1456
+GP22,Wicomico,rep,County Council At Large,"",James Winn,REP,1,0,669,2168,229,111,108,3285
+GP22,Wicomico,rep,County Council,001,Kyle E. Cole,REP,1,0,66,251,25,33,19,394
+GP22,Wicomico,rep,County Council,002,Jasmine Knorr,REP,0,0,88,347,24,15,11,485
+GP22,Wicomico,rep,County Council,002,Jeff Merritt,REP,1,0,265,868,110,44,40,1327
+GP22,Wicomico,rep,County Council,002,David Louis Snyder,REP,0,0,44,186,28,15,7,280
+GP22,Wicomico,rep,County Council,003,Shane T. Baker,REP,1,0,227,625,76,40,44,1012
+GP22,Wicomico,rep,County Council,003,Larry W. Dodd,REP,0,0,189,405,87,26,27,734
+GP22,Wicomico,rep,County Council,004,Kyle Lamonte Brown,REP,1,0,109,316,69,29,16,539
+GP22,Wicomico,rep,County Council,005,AJ Angello,REP,0,0,89,335,31,17,11,483
+GP22,Wicomico,rep,County Council,005,Joe Holloway,REP,1,0,243,899,104,44,46,1336
+GP22,Wicomico,rep,Judge Circuit Court,Wicomico County Circuit Court 01,Karen M. Dean,REP,1,0,1176,3742,481,244,194,5837
+GP22,Wicomico,rep,State's Attorney,"","James L. ""Lee"" Britt",REP,0,0,395,1230,146,66,75,1912
+GP22,Wicomico,rep,State's Attorney,"",Jamie Dykes,REP,1,0,1055,3392,480,237,181,5345
+GP22,Wicomico,rep,Judge Orphans' Court,"","Grover G. Cantwell, Jr.",REP,1,0,1118,3422,472,228,177,5417
+GP22,Wicomico,rep,Judge Orphans' Court,"",Jim Jester,REP,1,0,1029,3046,411,202,167,4855
+GP22,Wicomico,rep,Sheriff,"",Mike Lewis,REP,1,0,1341,4331,576,290,232,6770
+GP22,Wicomico,rep,REP Cent Committee,"",Wendy Anspacher,REP,1,0,426,1126,162,86,71,1871
+GP22,Wicomico,rep,REP Cent Committee,"",Barry S. Beauchamp,REP,1,0,695,2218,254,124,101,3392
+GP22,Wicomico,rep,REP Cent Committee,"",John T. Cannon,REP,1,0,908,2488,376,186,142,4100
+GP22,Wicomico,rep,REP Cent Committee,"",Paul Chesnik,REP,0,0,203,646,76,30,27,982
+GP22,Wicomico,rep,REP Cent Committee,"","David L. Cooper, II",REP,0,0,344,1116,113,70,51,1694
+GP22,Wicomico,rep,REP Cent Committee,"",Larry W. Dodd,REP,1,0,721,1962,261,111,103,3158
+GP22,Wicomico,rep,REP Cent Committee,"",David Ennis,REP,1,0,507,1456,198,94,81,2336
+GP22,Wicomico,rep,REP Cent Committee,"",Linda J. Forristal,REP,0,0,215,616,107,55,31,1024
+GP22,Wicomico,rep,REP Cent Committee,"",Julie Giordano,REP,1,0,790,2702,300,164,116,4072
+GP22,Wicomico,rep,REP Cent Committee,"","Ralph C. Giordano, Jr.",REP,1,0,432,1387,144,76,52,2091
+GP22,Wicomico,rep,REP Cent Committee,"",Jessica R. Hughes,REP,0,0,309,1088,141,78,62,1678
+GP22,Wicomico,rep,REP Cent Committee,"",Patrick J. Kerr,REP,0,0,329,966,82,48,48,1473
+GP22,Wicomico,rep,REP Cent Committee,"",Linda Raye Luffman,REP,0,0,327,867,146,76,52,1468
+GP22,Wicomico,rep,REP Cent Committee,"",Mark G. McIver,REP,0,0,397,1008,136,52,45,1638
+GP22,Wicomico,rep,REP Cent Committee,"",John Palmer,REP,1,0,478,1287,202,99,90,2156
+GP22,Wicomico,rep,REP Cent Committee,"",James Parsons,REP,0,0,288,1017,135,68,56,1564
+GP22,Wicomico,rep,REP Cent Committee,"",James Winn,REP,1,0,726,2227,254,131,116,3454

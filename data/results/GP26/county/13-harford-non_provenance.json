@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP26-county-13-non",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_13Non-PartisanResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Harford results (non)",
+  "fetch_date": "2026-10-16T00:28:05+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "1162980cafb35b58d6453bda653a97a5734f060b6b885227278938e1b8eecf29",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP26 Harford county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 12,
+    "row_totals": "ok",
+    "statewide_check": "ok: 0 statewide contest rows match GP26_CongressionalBreakDown"
+  }
+}

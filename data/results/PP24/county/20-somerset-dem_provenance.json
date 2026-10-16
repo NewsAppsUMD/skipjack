@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-20-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_20DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Somerset results (dem)",
+  "fetch_date": "2026-10-16T00:28:21+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "7d08cbe1096ea1b12367c6903700dcb96d8e6a294b96b9a9adc0bc165d6688d3",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Somerset county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 29,
+    "row_totals": "ok",
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

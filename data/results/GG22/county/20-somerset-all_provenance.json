@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG22-county-20-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_20CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Somerset results (all)",
+  "fetch_date": "2026-10-16T00:28:26+00:00",
+  "parse_date": "2026-10-16T00:29:21+00:00",
+  "sha256_original": "7ac265176104f26030cdbf344df6d8e5868a6f72c170caa3c69636f0fa6fe8c6",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG22 Somerset county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 62,
+    "row_totals": "ok",
+    "statewide_check": "ok: 456 statewide contest rows match GG22_CongressionalBreakDown"
+  }
+}

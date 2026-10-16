@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG24-county-03-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PG24_03CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 Baltimore City results (all)",
+  "fetch_date": "2026-10-16T00:28:10+00:00",
+  "parse_date": "2026-10-16T00:29:04+00:00",
+  "sha256_original": "19c32cb5ba0feba1b1c8e43e35571b27f1b1d67f49976cb65b516f23acb625a0",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG24 Baltimore City county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 104,
+    "row_totals": "ok",
+    "statewide_check": "ok: 81 statewide contest rows match PG24_CongressionalBreakDown"
+  }
+}

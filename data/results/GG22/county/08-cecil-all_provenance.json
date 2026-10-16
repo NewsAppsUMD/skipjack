@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG22-county-08-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_08CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Cecil results (all)",
+  "fetch_date": "2026-10-16T00:28:24+00:00",
+  "parse_date": "2026-10-16T00:29:21+00:00",
+  "sha256_original": "81e229be271cf767294238ab88b0a633531b635b7530f490c8befa9779553ef3",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG22 Cecil county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 66,
+    "row_totals": "ok",
+    "statewide_check": "ok: 456 statewide contest rows match GG22_CongressionalBreakDown"
+  }
+}

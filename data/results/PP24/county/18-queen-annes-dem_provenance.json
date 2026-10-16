@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP24-county-18-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_18DemocraticResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Queen Anne's results (dem)",
+  "fetch_date": "2026-10-16T00:28:21+00:00",
+  "parse_date": "2026-10-16T00:29:05+00:00",
+  "sha256_original": "a771fd8593ad90c174333a8c3054381a4b236626183182ce830e609c18dc13ab",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP24 Queen Anne's county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 29,
+    "row_totals": "ok",
+    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDown"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG22-county-01-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_01CountyResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Allegany results (all)",
+  "fetch_date": "2026-10-16T00:28:23+00:00",
+  "parse_date": "2026-10-16T00:29:21+00:00",
+  "sha256_original": "3a69ebdfcca9f2226856f954198b2cc2af37bcaf56d978710e5c8698122d90fd",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG22 Allegany county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 67,
+    "row_totals": "ok",
+    "statewide_check": "ok: 456 statewide contest rows match GG22_CongressionalBreakDown"
+  }
+}
