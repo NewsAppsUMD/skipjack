@@ -21,6 +21,7 @@ Once GitHub Pages is switched on, the site publishes to
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
 | **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The 2026 primary's certified reports and snapshots of the 2026 general election's, daily as they change | SBE press-room statistical reports, PDF and XLSX |
+| **Election results by county** (every contest, candidate and vote type) | The primaries and generals of 2020, 2022 and 2024 and the 2026 primary | SBE election data pages, county CSV files |
 | **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
 ### The site
@@ -42,6 +43,11 @@ Once GitHub Pages is switched on, the site publishes to
   figures of record only, never the board's unofficial eight-day tallies (early voting, same-day).
   For a running election: the mail-in tracking (requests, sent, received back, accepted in the
   canvass), snapshotted under each report's own as-of date so the trend is visible day by day.
+- **Results**: a hub per election, contest pages with a county table and map, and county pages with
+  every contest on that county's ballot. Winner marks are the State Board's flag; statewide totals are
+  summed from the county files and checked against the board's statewide breakdown files. 2018 and
+  earlier are not on the SBE's data pages as county CSVs, and precinct and ballot-question files are not
+  loaded yet.
 - **Young voters**: how many 18-to-22-year-olds registered for the first time from January 1 to the
   snapshot date, against the same stretch of earlier election years, which party they choose, and how it
   differs by county. Earlier years are undercounted because voters leave the list, so the page measures
@@ -51,7 +57,8 @@ Once GitHub Pages is switched on, the site publishes to
   registration year are still on the list. It compares counts only and says so.
 - **Data**: every CSV and JSON file as a download, each with its provenance file, plus all months of each
   table combined into one file with a `source_id` on every row.
-- **About**: every source document, with a link to the original.
+- **About**: every source document, with a link to the original (the results files are summarized
+  per election, with a link to the board's election data page).
 
 > **Participation is not turnout.** The voter file lists the people registered today. Voters who
 > have since moved, died or been removed are missing, so past elections are undercounted: the
@@ -79,13 +86,17 @@ make serve       # http://127.0.0.1:8000
 | `make fetch` | Download any new monthly report PDFs from the SBE into `archives/` |
 | `make parse` | Parse the PDFs into CSVs under `data/voter_registration/`, checking each one |
 | `make turnout` | Snapshot the press-room turnout files (`turnout-fetch`, `turnout-parse`) into `data/turnout/` |
+| `make results` | Download and parse the SBE's county results files (`results-fetch`, `results-parse`) into `data/results/`; `uv run skipjack results-fetch --election GP26` does one election |
 | `make voterfile VOTERFILE_DIR="/path/to/voter files"` | Aggregate a statewide voter file into `data/voter_file/` |
 | `make build-db` | Build `skipjack.db` from everything in `data/` |
 | `make serve` | Run the site with auto-reload, with the Datasette explorer at `/explorer` |
 | `make site SITE_BASE=/skipjack` | Render the whole site as static files into `site/` |
 | `make test` | Run the tests |
 
-`make all` runs fetch, parse and build-db. Each make target wraps `uv run skipjack <command>`;
+`make all` runs fetch, parse and build-db. Results are not part of the daily workflow: run
+`make results` once, and again when the board corrects a file. The 2026 general (GG26) is
+registered but not yet published by the SBE, so `make results` skips it until it is posted; flip
+`published` in the registry (`pipeline/results.py`) then. Each make target wraps `uv run skipjack <command>`;
 run `uv run skipjack --help` for the options.
 
 ## How it works
@@ -102,6 +113,10 @@ SBE website ──fetch──▶ archives/          original PDFs; SHA-256 of ea
                            ▼
                       skipjack.db ──▶ FastAPI site + Datasette explorer
                            └───────▶ build-site ──▶ site/ ──▶ GitHub Pages
+
+SBE election data pages ──results-fetch──▶ archives/sbe/results/ ──results-parse──▶ data/results/
+                                                          (county CSVs; statewide totals checked
+                                                          against the board's breakdown files)
 
 voter file (kept outside the repo) ──voterfile──▶ data/voter_file/<snapshot>/*.json
 ```
@@ -130,6 +145,7 @@ data/voter_registration/monthly/YYYY-MM.csv    report_date, county, party, activ
 data/voter_registration/activity/YYYY-MM.csv   report_date, county, measure, party, value
 data/voter_registration/summary/YYYY-MM.csv    report_date, section, category, party, value
 data/turnout/<election>/<family>/<geography>/<as-of>.csv   one press-room snapshot
+data/results/<CODE>/county/<NN>-<county>-<party>.csv   one county's results file
 data/voter_file/<snapshot>/*.json              suppressed aggregates, plus snapshot.json
 ```
 
@@ -212,7 +228,8 @@ Pages sites are public, even for a private repository.
 src/skipjack/
   cli.py              the `skipjack` command
   models.py           SQLite schema
-  pipeline/           fetch, vrar (PDF parsing), turnout (press-room stats), voterfile,
+  pipeline/           fetch, vrar (PDF parsing), turnout (press-room stats), results (county
+                      results), voterfile,
                       provenance, build_db
   web/                FastAPI app, routes, templates, static files, static_site.py
 data/                 the committed CSV and JSON, with provenance files

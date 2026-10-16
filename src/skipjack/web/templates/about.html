@@ -66,6 +66,32 @@ reports, one snapshot per day each file is changed.</p>
 </table>
 {% endif %}
 
+{% if results_sources %}
+<p>The <a href="{{ base }}/results/">results</a> pages read the State Board's county results
+CSV files, one per county and party file. They are not listed one by one here; each
+election's files are on the Board's election data page for its year, and every file's
+source link is in its provenance sidecar on the <a href="{{ base }}/data/">data page</a>.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Election</th>
+            <th>Files</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in results_sources %}
+        <tr>
+            <td>{{ r.code }} &mdash; {{ r.name }}</td>
+            <td>{{ r.files }}</td>
+            <td><a href="{{ r.url }}" target="_blank" rel="noopener">Election data index</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
 <h2>Methodology</h2>
 
 <p>
