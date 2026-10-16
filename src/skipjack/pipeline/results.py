@@ -8,21 +8,22 @@ and the county sums must equal the SBE's statewide rows in the congressional bre
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import httpx
 import polars as pl
 
-from skipjack.pipeline import fetch
 from skipjack.pipeline.fetch import ARCHIVES_DIR, MANIFEST_PATH, SOURCE_NAME, resolve_archived
 from skipjack.pipeline.provenance import (
     ProvenanceSidecar,
     SourceRecord,
     append_to_manifest,
-    find_source,
+    read_manifest,
 )
 
 logger = logging.getLogger(__name__)
@@ -232,6 +233,16 @@ def county_slug(county: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", county.lower().replace("'", "")).strip("-")
 
 
+def newest_source(manifest_path: Path, source_id: str) -> SourceRecord | None:
+    """The newest manifest row for a source id (`results_fetch --force` appends a row per change;
+    provenance.find_source returns the first, which is the oldest)."""
+    found = None
+    for record in read_manifest(manifest_path):
+        if record.source_id == source_id:
+            found = record
+    return found
+
+
 # ---- reading --------------------------------------------------------------------------------
 
 
@@ -304,7 +315,14 @@ def _read_wide(
         need += ["Write-In?", "Total Votes Against"]
     missing = [c for c in need if c not in raw.columns]
     if missing:
-        raise ResultsParseError(f"{where}: missing columns {missing}")
+        code = next((c for c, n in COUNTY_CODES.items() if n == county), "00")
+        expected = ResultsFile(election, code, county, party_file, "county").file_name
+        raise ResultsParseError(
+            f"{where}: expected {election.code} {election.layout} layout columns in {expected}; "
+            f"missing {missing}"
+        )
+    if raw.height == 0:
+        raise ResultsParseError(f"{where}: no data rows (header only)")
 
     rows = []
     for r in raw.iter_rows(named=True):
@@ -372,7 +390,9 @@ def _check_statewide(
     offices (sheriff, school board), and not every office on the ballot in all 24 counties. So an
     office the breakdown carries with a blank district must match candidate by candidate in both
     directions; district contests are compared when present; other offices are not checked.
-    Generals use FOR rows only (Vote Type == 1). Returns how many contest rows were compared.
+    Generals compare FOR rows (Vote Type 1) with the counties' total_votes, and, for contests the
+    breakdown carries AGAINST rows (Vote Type 2) for (judges' retention questions), those with
+    the counties' total_against. Returns how many contest rows were compared.
     """
     where = f"{election.code} {party_file} breakdown"
     raw = _frame(breakdown, where)
@@ -380,8 +400,12 @@ def _check_statewide(
         vt = "Vote Type (FOR=1,AGAINST=2)"
         if vt not in raw.columns:
             raise ResultsParseError(f"{where}: no Vote Type column")
+        against_raw = raw.filter(pl.col(vt) == "2")
         raw = raw.filter(pl.col(vt) == "1")
+    else:
+        against_raw = raw.clear()
     state: dict[tuple[str, str, str, str], int] = {}
+    state_against: dict[tuple[str, str, str, str], int] = {}
     district_cols = [c for c in raw.columns if c.startswith("Congressional District")]
     if not district_cols:
         raise ResultsParseError(f"{where}: no district columns")
@@ -389,7 +413,11 @@ def _check_statewide(
         key = (r["Office Name"], r["Office District"], r["Candidate Name"], r["Party"])
         total = sum(_int(r[c], where, c) or 0 for c in district_cols)
         state[key] = state.get(key, 0) + total
-    return _compare_statewide(where, frames, state)
+    for r in against_raw.filter(pl.col("County") == "00").iter_rows(named=True):
+        key = (r["Office Name"], r["Office District"], r["Candidate Name"], r["Party"])
+        total = sum(_int(r[c], where, c) or 0 for c in district_cols)
+        state_against[key] = state_against.get(key, 0) + total
+    return _compare_statewide(where, frames, state, state_against)
 
 
 def _check_statewide_all_state(
@@ -408,23 +436,42 @@ def _check_statewide_all_state(
     if missing:
         raise ResultsParseError(f"{where}: missing columns {missing}")
     state: dict[tuple[str, str, str, str], int] = {}
+    state_against: dict[tuple[str, str, str, str], int] = {}
     for r in raw.filter(pl.col("County") == "00").iter_rows(named=True):
         key = (r["Office Name"], r["Office District"], r["Candidate Name"], r["Party"])
         state[key] = state.get(key, 0) + (_int(r["Total Votes"], where, "Total Votes") or 0)
-    return _compare_statewide(where, frames, state)
+        if "Total Votes Against" in raw.columns:
+            against = _int(r["Total Votes Against"], where, "Total Votes Against")
+            if against is not None:
+                state_against[key] = state_against.get(key, 0) + against
+    return _compare_statewide(where, frames, state, state_against)
 
 
 def _compare_statewide(
-    where: str, frames: list[pl.DataFrame], state: dict[tuple[str, str, str, str], int]
+    where: str,
+    frames: list[pl.DataFrame],
+    state: dict[tuple[str, str, str, str], int],
+    state_against: dict[tuple[str, str, str, str], int] | None = None,
 ) -> int:
     sums: dict[tuple[str, str, str, str], int] = {}
+    sums_against: dict[tuple[str, str, str, str], int] = {}
     for frame in frames:
         for r in frame.select(
             "office", "district", "candidate", "party", "total_votes"
         ).iter_rows():
             key = r[:4]
             sums[key] = sums.get(key, 0) + r[4]
+        if "total_against" in frame.columns:
+            for r in frame.select(
+                "office", "district", "candidate", "party", "total_against"
+            ).iter_rows():
+                if r[4] is not None:
+                    sums_against[r[:4]] = sums_against.get(r[:4], 0) + r[4]
 
+    # An office is "statewide" when the check file carries it with a blank district. A county
+    # office that shares a statewide office's name (Baltimore City's local Comptroller, say)
+    # would be a latent collision: it would be summed into the statewide office. No such case in
+    # the 2020-2026 files; the statewide comparison would flag it if one appeared.
     statewide = {k[0] for k in state if k[1] == ""}
     compared = 0
     for key, total in sorted(sums.items()):
@@ -438,6 +485,15 @@ def _compare_statewide(
             raise ResultsParseError(
                 f"{where}: {key[0]} {key[1]} / {key[2]}: counties sum to {total}, "
                 f"statewide row is {state[key]}"
+            )
+        compared += 1
+    for key, total in sorted((state_against or {}).items()):
+        if key not in sums:
+            continue  # an AGAINST row for a contest no county file carries is not checked
+        if sums_against.get(key, 0) != total:
+            raise ResultsParseError(
+                f"{where}: {key[0]} {key[1]} / {key[2]}: counties' votes against sum to "
+                f"{sums_against.get(key, 0)}, statewide AGAINST row is {total}"
             )
         compared += 1
     for key in state:
@@ -457,25 +513,63 @@ def _selected(election: str | None) -> list[ResultsElection]:
     return [RESULTS_ELECTIONS[election]]
 
 
-def results_fetch(election: str | None = None, force: bool = False) -> list[SourceRecord]:
-    """Archive every county and check file not yet archived; returns the new manifest rows."""
+def _download(url: str, timeout: float = 30.0) -> tuple[str, bytes, str]:
+    """(status, body, detail): "ok", "unpublished" (the SBE's HTML page or a 404) or "error".
+
+    A network failure, timeout or 5xx is an error, not "not published": for a Non-Partisan file
+    the two would otherwise look alike and a transient failure would silently drop a county.
+    """
+    try:
+        with httpx.Client(timeout=timeout, follow_redirects=True) as client:
+            resp = client.get(url)
+            resp.raise_for_status()
+            body = resp.content
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code in (404, 410):
+            return "unpublished", b"", f"HTTP {e.response.status_code}"
+        return "error", b"", f"HTTP {e.response.status_code}"
+    except httpx.HTTPError as e:
+        return "error", b"", f"{type(e).__name__}: {e}"
+    if body.removeprefix(b"\xef\xbb\xbf").lstrip()[:1] in (b"<", b""):
+        return "unpublished", b"", "HTML or empty body"
+    return "ok", body, ""
+
+
+def results_fetch(
+    election: str | None = None, force: bool = False, failures: list[str] | None = None
+) -> list[SourceRecord]:
+    """Archive every county and check file not yet archived; returns the new manifest rows.
+
+    A file whose bytes equal the newest recorded revision adds no manifest row (a forced
+    re-fetch of unchanged files is a no-op). Download errors (as opposed to files the SBE has not
+    published) are appended to `failures` when given, and the caller should treat them as fatal.
+    """
     fetched: list[SourceRecord] = []
+    failures = failures if failures is not None else []
     for e in _selected(election):
         if not e.published:
             logger.info("%s: not published", e.code)
             continue
-        missing = 0
         for f in county_files(e):
-            if not force:
-                existing = find_source(MANIFEST_PATH, f.source_id)
-                if existing and resolve_archived(existing).exists():
-                    continue
-            if not fetch.fetch_file(f.url, f.local_path, expect_csv=True):
-                missing += 1
+            newest = newest_source(MANIFEST_PATH, f.source_id)
+            if not force and newest and resolve_archived(newest).exists():
+                continue
+            status, body, detail = _download(f.url)
+            if status == "error":
+                failures.append(f"{e.code}: could not download {f.url} ({detail})")
+                logger.warning("%s: download failed: %s (%s)", e.code, f.url, detail)
+                continue
+            if status == "unpublished":
                 if f.party_file == "non" and f.role == "county":
                     logger.info("%s: no non-partisan file for %s (normal)", e.code, f.county)
                 else:
                     logger.warning("%s: not available: %s", e.code, f.url)
+                continue
+            same = newest is not None and newest.sha256 == hashlib.sha256(body).hexdigest()
+            if not same or not f.local_path.exists():
+                f.local_path.parent.mkdir(parents=True, exist_ok=True)
+                f.local_path.write_bytes(body)
+            if same:
                 continue
             record = SourceRecord.create(
                 source_id=f.source_id,
@@ -500,7 +594,8 @@ def results_parse(
     """Parse each election's archived files into data/results/<CODE>/county/.
 
     All-or-nothing per election: any failed check or missing required file writes nothing for
-    it. An election whose outputs all exist is skipped unless force. Returns (files written,
+    it. A file whose CSV exists and was parsed from the newest archived revision is skipped
+    unless force. Returns (files written,
     failures).
     """
     data_dir = data_dir or RESULTS_DATA_DIR
@@ -519,11 +614,20 @@ def results_parse(
 
 
 def _archived(f: ResultsFile) -> Path | None:
-    record = find_source(MANIFEST_PATH, f.source_id)
+    record = newest_source(MANIFEST_PATH, f.source_id)
     if record is None:
         return None
     path = resolve_archived(record)
     return path if path.exists() else None
+
+
+def _revision_updated(csv_path: Path, record: SourceRecord) -> bool:
+    """Whether the CSV is missing or was parsed from different bytes than the newest revision
+    (mirrors turnout's helper of the same name)."""
+    sidecar_path = csv_path.with_name(csv_path.stem + "_provenance.json")
+    if not csv_path.exists() or not sidecar_path.exists():
+        return True
+    return ProvenanceSidecar.read(sidecar_path).sha256_original != record.sha256
 
 
 def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
@@ -531,13 +635,11 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
     files = county_files(e)
     county_frames: dict[str, list[tuple[ResultsFile, SourceRecord, pl.DataFrame]]] = {}
     breakdowns: dict[str, bytes] = {}
-    skipped_non = []
     for f in files:
         path = _archived(f)
         if path is None:
             if f.party_file == "non":
                 # not every county has non-partisan contests; the breakdown may be absent too
-                skipped_non.append(f.source_id)
                 continue
             raise ResultsParseError(f"missing required file {f.file_name} ({f.source_id})")
         data = path.read_bytes()
@@ -548,7 +650,7 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
             frame = READERS[e.layout](data, e, f.county, f.party_file)
         except ResultsParseError as err:
             raise ResultsParseError(f"{f.file_name}: {err}") from None
-        record = find_source(MANIFEST_PATH, f.source_id)
+        record = newest_source(MANIFEST_PATH, f.source_id)
         assert record is not None
         county_frames.setdefault(f.party_file, []).append((f, record, frame))
 
@@ -572,20 +674,27 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
         for items in county_frames.values()
         for f, rec, fr in items
     ]
-    if not force and all(t[0].exists() for t in targets):
+    # a CSV is current when its sidecar was written from the newest archived revision
+    if not force:
+        targets = [t for t in targets if _revision_updated(t[0], t[2])]
+    if not targets:
         return 0
     out_dir.mkdir(parents=True, exist_ok=True)
     for out_csv, f, record, frame in targets:
         if not has_check:
             statewide = "no statewide file published"
-        elif e.layout == "named2020":
-            statewide = (
-                f"ok: {compared[f.party_file]} statewide contest rows match All_State_2020_General"
-            )
         else:
+            check_file = next(
+                c.file_name
+                for c in files
+                if c.role == "check"
+                and c.party_file == ("all" if e.layout == "named2020" else f.party_file)
+            )
+            n = compared[f.party_file]
             statewide = (
-                f"ok: {compared[f.party_file]} statewide contest rows "
-                f"match {f.election.code}_CongressionalBreakDown"
+                f"ok: {n} statewide contest rows match {check_file}"
+                if n
+                else f"n/a: {check_file} carries no statewide rows"
             )
         sidecar = ProvenanceSidecar.from_source(
             record,

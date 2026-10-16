@@ -109,8 +109,14 @@ def cmd_results_fetch(args: argparse.Namespace) -> None:
     for e in RESULTS_ELECTIONS.values():
         if (not args.election or args.election == e.code) and not e.published:
             print(f"{e.code}: not published")
-    records = results_fetch(election=args.election, force=args.force)
+    failures: list[str] = []
+    records = results_fetch(election=args.election, force=args.force, failures=failures)
     print(f"Fetched {len(records)} new results files")
+    if failures:
+        print(f"{len(failures)} downloads failed (not the same as unpublished):")
+        for line in failures:
+            print(f"  {line}")
+        sys.exit(1)
 
 
 def cmd_results_parse(args: argparse.Namespace) -> None:

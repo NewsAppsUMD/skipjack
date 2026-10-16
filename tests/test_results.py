@@ -187,7 +187,7 @@ def test_statewide_check_general_uses_for_rows_only():
     good = breakdown(
         [
             '"1","00","State of Maryland","President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","15","5" \n',
-            '"2","00","State of Maryland","President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","999","1" \n',
+            '"2","00","State of Maryland","Judge Elsewhere","","Some Judge","BOT","Y","","999","1" \n',
         ],
         general=True,
     )
@@ -629,3 +629,221 @@ def test_coded_still_rejects_blank_vote_cell():
             "Kent",
             "dem",
         )
+
+
+# ---- review fixes: revisions, download failures, vacuous and against checks -------------------
+
+
+def _sidecar(env, name):
+    path = env / "data" / "results" / "GP26" / "county" / f"{name}_provenance.json"
+    return json.loads(path.read_text())
+
+
+def test_newest_source_is_the_last_manifest_row(env):
+    e = results.RESULTS_ELECTIONS["GP26"]
+    f = results.county_files(e)[0]
+    archive(env, e, f, primary_csv())
+    archive(
+        env,
+        e,
+        f,
+        primary_csv(PRIMARY_ROWS + '"U.S. Senator","","Z","DEM","","1","0","0","0","0","1" \n'),
+    )
+    rows = [r for r in read_manifest(results.MANIFEST_PATH) if r.source_id == f.source_id]
+    assert len(rows) == 2 and rows[0].sha256 != rows[1].sha256
+    assert results.newest_source(results.MANIFEST_PATH, f.source_id).sha256 == rows[1].sha256
+    assert results.newest_source(results.MANIFEST_PATH, "nope") is None
+
+
+def test_changed_archived_file_is_reparsed_and_unchanged_is_skipped(env):
+    e = results.RESULTS_ELECTIONS["GP26"]
+    fill(env, e)
+    data = env / "data"
+    assert results.results_parse("GP26", data_dir=data)[0] == 48
+    assert results.results_parse("GP26", data_dir=data)[0] == 0  # same bytes: skipped
+    before = _sidecar(env, "01-allegany-dem")["sha256_original"]
+    # a re-fetch changes Allegany's Democratic file (a contest the breakdown does not carry)
+    changed = primary_csv(
+        PRIMARY_ROWS.replace(
+            '"Someone Else","DEM","Y","0","0","0","0","0","0"',
+            '"Someone Else","DEM","Y","0","0","0","0","1","1"',
+        )
+    )
+    allegany = next(f for f in results.county_files(e) if f.source_id.endswith("county-01-dem"))
+    archive(env, e, allegany, changed)
+    assert results.results_parse("GP26", data_dir=data) == (1, [])
+    after = _sidecar(env, "01-allegany-dem")["sha256_original"]
+    assert after != before
+    newest = results.newest_source(results.MANIFEST_PATH, allegany.source_id)
+    assert after == newest.sha256
+    assert _sidecar(env, "02-anne-arundel-dem")["sha256_original"] != after
+    assert results.results_parse("GP26", data_dir=data)[0] == 0
+
+
+def test_force_refetch_with_identical_bytes_adds_no_manifest_row(env, monkeypatch):
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(lambda url: primary_csv()))
+    first = results.results_fetch("PP24")
+    n = len(read_manifest(results.MANIFEST_PATH))
+    assert first and n == len(first)
+    assert results.results_fetch("PP24", force=True) == []
+    assert len(read_manifest(results.MANIFEST_PATH)) == n
+    # changed bytes do add a row
+    monkeypatch.setattr(
+        fetch.httpx, "Client", fake_client(lambda url: primary_csv(PRIMARY_ROWS[:-1] + " \n"))
+    )
+    again = results.results_fetch("PP24", force=True)
+    assert again and len(read_manifest(results.MANIFEST_PATH)) == n + len(again)
+
+
+def failing_client(fail):
+    class Client(fake_client(lambda url: primary_csv())):
+        def get(self, url):
+            if "05Non-Partisan" in url:
+                raise fail(url)
+            if "Non-Parti" in url:
+                return FakeResp(b"<html>nope</html>")
+            return FakeResp(primary_csv())
+
+    return Client
+
+
+def _timeout(url):
+    return fetch.httpx.ConnectTimeout("timed out")
+
+
+def _http_503(url):
+    req = fetch.httpx.Request("GET", url)
+    return fetch.httpx.HTTPStatusError("boom", request=req, response=fetch.httpx.Response(503))
+
+
+def _http_404(url):
+    req = fetch.httpx.Request("GET", url)
+    return fetch.httpx.HTTPStatusError("gone", request=req, response=fetch.httpx.Response(404))
+
+
+@pytest.mark.parametrize("fail", [_timeout, _http_503])
+def test_transient_failure_on_non_file_is_a_failure_not_unpublished(env, monkeypatch, fail):
+    monkeypatch.setattr(fetch.httpx, "Client", failing_client(fail))
+    failures: list[str] = []
+    records = results.results_fetch("GP26", failures=failures)
+    assert len(records) == 50  # everything else still archives
+    assert len(failures) == 1 and "05Non-Partisan" in failures[0]
+
+
+def test_html_or_404_on_non_file_is_not_a_failure(env, monkeypatch):
+    monkeypatch.setattr(fetch.httpx, "Client", failing_client(_http_404))
+    failures: list[str] = []
+    results.results_fetch("GP26", failures=failures)
+    assert failures == []
+
+
+def test_cli_results_fetch_exits_nonzero_on_download_failure(env, monkeypatch, capsys):
+    import argparse
+
+    from skipjack import cli
+
+    monkeypatch.setattr(fetch.httpx, "Client", failing_client(_timeout))
+    with pytest.raises(SystemExit) as exc:
+        cli.cmd_results_fetch(argparse.Namespace(election="GP26", force=False))
+    assert exc.value.code == 1
+    assert "05Non-Partisan" in capsys.readouterr().out
+
+
+def test_fetch_file_expect_csv_rejects_empty_body(tmp_path, monkeypatch):
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(lambda url: b""))
+    dest = tmp_path / "x.csv"
+    assert fetch.fetch_file("http://x/y.csv", dest, expect_csv=True) is False
+    assert not dest.exists()
+
+
+def test_vacuous_statewide_check_is_n_a_and_names_the_check_file(env):
+    e = results.RESULTS_ELECTIONS["GP26"]
+    # a breakdown with no contest in common with the counties compares nothing
+    other = breakdown(['"00","State of Maryland","Other Office","07","Y","DEM","Y","1","0" \n'])
+    fill(env, e, breakdown_data=other)
+    assert results.results_parse("GP26", data_dir=env / "data")[1] == []
+    assert _sidecar(env, "01-allegany-dem")["checks"]["statewide_check"] == (
+        "n/a: GP26_CongressionalBreakDownDemocratic.csv carries no statewide rows"
+    )
+    assert _sidecar(env, "01-allegany-rep")["checks"]["statewide_check"].startswith(
+        "ok: 1 statewide contest rows match GP26_CongressionalBreakDownRepublican.csv"
+    )
+
+
+def test_ok_statewide_check_names_the_real_file(env):
+    fill(env, results.RESULTS_ELECTIONS["GP26"])
+    results.results_parse("GP26", data_dir=env / "data")
+    assert _sidecar(env, "01-allegany-dem")["checks"]["statewide_check"] == (
+        "ok: 2 statewide contest rows match GP26_CongressionalBreakDownDemocratic.csv"
+    )
+
+
+JUDGE = '"Judge Court of Appeals","01","Jane Roe","BOT","Y","","3","1","3","1","3","1","0","0","1","0","10","3" \n'
+JUDGE_HEAD = (
+    '"Vote Type (FOR=1,AGAINST=2)","County","County Name","Office Name","Office District",'
+    '"Candidate Name","Party","Winner","Congressional District 1","Congressional District 2" \n'
+)
+
+
+def _judge_frames():
+    e = results.RESULTS_ELECTIONS["PG24"]
+    row = '"Judge Court of Appeals","01","Jane Roe","","","","3","1","3","1","3","1","0","0","1","0","10","3" \n'
+    return e, [
+        results._read_coded((BOM + GENERAL_HEAD + row).encode(), e, c, "all")
+        for c in ("Allegany", "Kent")
+    ]
+
+
+def _judge_breakdown(for_total, against_total):
+    base = (
+        '"{}","00","State of Maryland","Judge Court of Appeals","01","Jane Roe","","","{}","0" \n'
+    )
+    return (BOM + JUDGE_HEAD + base.format(1, for_total) + base.format(2, against_total)).encode()
+
+
+def test_statewide_check_against_totals_match_and_mismatch():
+    e, frames = _judge_frames()
+    # both blank-party county rows; counties sum to 20 FOR and 6 AGAINST
+    assert results._check_statewide(e, "all", frames, _judge_breakdown(20, 6)) == 2
+    with pytest.raises(results.ResultsParseError, match="against"):
+        results._check_statewide(e, "all", frames, _judge_breakdown(20, 7))
+
+
+def test_district_level_mismatch_fails():
+    e = results.RESULTS_ELECTIONS["GP26"]
+    frames = list(_frames(e, {"Allegany": PRIMARY_ROWS, "Kent": PRIMARY_ROWS}).values())
+    ok = breakdown(
+        [
+            '"00","State of Maryland","U.S. Congress","06","April McClain Delaney","DEM","Y","6","4" \n'
+        ]
+    )
+    assert results._check_statewide(e, "dem", frames, ok) == 1
+    with pytest.raises(results.ResultsParseError, match="April McClain Delaney"):
+        results._check_statewide(e, "dem", frames, ok.replace(b'"6","4"', b'"6","5"'))
+
+
+def test_statewide_row_with_no_county_rows_fails():
+    e = results.RESULTS_ELECTIONS["GP26"]
+    frames = list(_frames(e, {"Allegany": PRIMARY_ROWS}).values())
+    extra = breakdown(
+        [
+            '"00","State of Maryland","Governor / Lt. Governor","","Wes Moore and Aruna Miller","DEM","Y","50","19" \n',
+            '"00","State of Maryland","Governor / Lt. Governor","","Eric S. Felber and LaTrece Hawkins Lytes","DEM","","5","2" \n',
+            '"00","State of Maryland","Governor / Lt. Governor","","Ghost Candidate","DEM","","1","0" \n',
+        ]
+    )
+    with pytest.raises(results.ResultsParseError, match="Ghost Candidate"):
+        results._check_statewide(e, "dem", frames, extra)
+
+
+def test_header_only_county_file_fails():
+    with pytest.raises(results.ResultsParseError, match="no data rows"):
+        results._read_coded(primary_csv(""), results.RESULTS_ELECTIONS["GP26"], "Kent", "dem")
+
+
+def test_missing_columns_message_names_election_layout_and_file():
+    bad = (BOM + '"Office Name","Total Votes"\n"x","1"\n').encode()
+    with pytest.raises(results.ResultsParseError) as exc:
+        results._read_coded(bad, results.RESULTS_ELECTIONS["GP26"], "Kent", "dem")
+    msg = str(exc.value)
+    assert "GP26" in msg and "coded" in msg and "GP26_15DemocraticResults.csv" in msg
