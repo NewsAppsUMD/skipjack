@@ -40,11 +40,14 @@ def primary_csv(rows: str = PRIMARY_ROWS) -> bytes:
 
 
 def test_registry():
-    assert set(results.RESULTS_ELECTIONS) == {"GP22", "GG22", "PP24", "PG24", "GP26", "GG26"}
+    assert set(results.RESULTS_ELECTIONS) == {
+        "GP22", "GG22", "PP24", "PG24", "GP26", "GG26", "PG20", "PP20",
+    }  # fmt: skip
     gg26 = results.RESULTS_ELECTIONS["GG26"]
     assert gg26.published is False
     assert all(e.published for c, e in results.RESULTS_ELECTIONS.items() if c != "GG26")
-    assert all(e.layout == "coded" for e in results.RESULTS_ELECTIONS.values())
+    named = {c for c, e in results.RESULTS_ELECTIONS.items() if e.layout == "named2020"}
+    assert named == {"PG20", "PP20"}
     assert results.RESULTS_ELECTIONS["GP26"].kind == "primary"
     assert results.RESULTS_ELECTIONS["PG24"].kind == "general"
     labels = [lab for lab, _ in results.RESULTS_ELECTIONS["PG24"].vote_types]
@@ -346,3 +349,283 @@ def test_results_fetch(env, monkeypatch):
 def test_fetch_unpublished_election_fetches_nothing(env, monkeypatch):
     monkeypatch.setattr(fetch.httpx, "Client", fake_client(lambda u: pytest.fail(u)))
     assert results.results_fetch("GG26") == []
+
+
+# ---- the 2020 layout -----------------------------------------------------------------------
+
+G20_HEAD = (
+    '"Candidate Name","Party","Office Name","Office District","Winner","Write-In?",'
+    '"Early Voting Votes","Early Voting Votes Against","Election Day Votes",'
+    '"Election Day Votes Against","By Mail Votes","By Mail Votes Against","Prov. Votes",'
+    '"Prov. Votes Against","By Mail 2 Votes","By Mail 2 Votes Against","Total Votes",'
+    '"Total Votes Against"\n'
+)
+P20_HEAD = (
+    "Candidate Name,Party,Office Name,Office District,Winner,Vote By Mail Votes,"
+    "In Person Voting Votes,Provisional Votes,Total Votes\n"
+)
+G20_ROWS = (
+    '"Donald J. Trump","REP","President - Vice Pres","","","","10","","20","","30","","4","","6","","70",""\n'
+    '"Joe Biden","DEM","President - Vice Pres","","Y","","1","","2","","3","","0","","1","","7",""\n'
+    '"Other Write-Ins","","President - Vice Pres","","","Y","0","","1","","0","","0","","0","","1",""\n'
+)
+ALL_STATE_HEAD = (
+    '"County","Candidate Name","Party","Office Name","Office District","Winner","Write-In?",'
+    '"Early Voting Votes","Early Voting Votes Against","Election Day Votes",'
+    '"Election Day Votes Against","By Mail Votes","By Mail Votes Against","Prov. Votes",'
+    '"Prov. Votes Against","By Mail 2 Votes","By Mail 2 Votes Against","Total Votes",'
+    '"Total Votes Against"\n'
+)
+PG20 = results.RESULTS_ELECTIONS["PG20"]
+PP20 = results.RESULTS_ELECTIONS["PP20"]
+
+
+def g20_csv(rows: str = G20_ROWS) -> bytes:
+    return (G20_HEAD + rows).encode()
+
+
+def p20_csv(rows: str = "Joe Biden,DEM,President - Vice Pres,,Y,3,2,1,6\n") -> bytes:
+    return (P20_HEAD + rows).encode()
+
+
+def all_state(rows: list[str]) -> bytes:
+    return (ALL_STATE_HEAD + "".join(rows)).encode()
+
+
+GOOD_ALL_STATE = all_state(
+    [
+        '"00","Donald J. Trump","REP","President - Vice Pres","","","","20","","40","","60","","8","","12","","140",""\n',
+        '"00","Joe Biden","DEM","President - Vice Pres","","Y","","2","","4","","6","","0","","2","","14",""\n',
+        '"00","Other Write-Ins","","President - Vice Pres","","","Y","0","","2","","0","","0","","0","","2",""\n',
+        # a county's own rows in the all-state file are not statewide rows
+        '"03","Joe Biden","DEM","President - Vice Pres","","Y","","1","","1","","1","","0","","0","","3",""\n',
+    ]
+)
+
+
+def test_registry_2020_vote_types_and_urls():
+    assert [s for _, s in PG20.vote_types] == [
+        "early_voting", "election_day", "by_mail", "prov", "by_mail_2",
+    ]  # fmt: skip
+    assert [lab for lab, _ in PG20.vote_types][3] == "Prov."
+    assert [lab for lab, _ in PP20.vote_types] == [
+        "Vote By Mail", "In Person Voting", "Provisional",
+    ]  # fmt: skip
+    assert PG20.base_url == "https://elections.maryland.gov/elections/archive/2020/election_data"
+    assert PG20.election_day == "2020-11-03" and PP20.election_day == "2020-06-02"
+    assert PG20.kind == "general" and PP20.kind == "primary"
+
+
+def test_urls_2020():
+    base = PG20.base_url
+    g = {f.source_id: f for f in results.county_files(PG20)}
+    assert len(g) == 25
+    assert g["sbe-results-PG20-county-01-all"].url == f"{base}/Allegany_County_2020_General.csv"
+    assert g["sbe-results-PG20-county-03-all"].url.endswith(
+        "/Baltimore_City_County_2020_General.csv"
+    )
+    assert g["sbe-results-PG20-county-04-all"].url.endswith("/Baltimore_County_2020_General.csv")
+    assert g["sbe-results-PG20-county-17-all"].url.endswith(
+        "/Prince_Georges_County_2020_General.csv"
+    )
+    assert g["sbe-results-PG20-county-18-all"].url.endswith("/Queen_Annes_County_2020_General.csv")
+    assert g["sbe-results-PG20-county-19-all"].url.endswith("/St._Marys_County_2020_General.csv")
+    assert g["sbe-results-PG20-county-19-all"].county == "St. Mary's"
+    assert g["sbe-results-PG20-check-all"].url == f"{base}/All_State_2020_General.csv"
+    assert g["sbe-results-PG20-check-all"].role == "check"
+    p = {f.source_id: f for f in results.county_files(PP20)}
+    assert len(p) == 72  # no statewide file is published for the primary
+    assert not any(f.role == "check" for f in p.values())
+    b = PP20.base_url
+    assert p["sbe-results-PP20-county-01-dem"].url == (
+        f"{b}/Allegany_County_Democratic_2020_Primary.csv"
+    )
+    assert p["sbe-results-PP20-county-03-rep"].url.endswith(
+        "/Baltimore_City_County_Republican_2020_Primary.csv"
+    )
+    assert p["sbe-results-PP20-county-04-dem"].url.endswith(
+        "/Baltimore_County_Democratic_2020_Primary.csv"
+    )
+    assert p["sbe-results-PP20-county-19-non"].url.endswith(
+        "/St._Marys_County_NonPartisan_2020_Primary.csv"
+    )
+    assert p["sbe-results-PP20-county-18-dem"].url.endswith(
+        "/Queen_Annes_County_Democratic_2020_Primary.csv"
+    )
+
+
+def test_read_2020_general():
+    frame = results._read_named2020(g20_csv(), PG20, "Allegany", "all")
+    assert frame.columns[:9] == results.OUTPUT_ID_COLUMNS
+    assert frame.columns[9:] == [
+        "early_voting_votes", "early_voting_against", "election_day_votes",
+        "election_day_against", "by_mail_votes", "by_mail_against", "prov_votes",
+        "prov_against", "by_mail_2_votes", "by_mail_2_against", "total_votes", "total_against",
+    ]  # fmt: skip
+    assert frame["candidate"].to_list() == ["Donald J. Trump", "Joe Biden", "Other Write-Ins"]
+    assert frame["winner"].to_list() == [0, 1, 0]
+    assert frame["write_in"].to_list() == [0, 0, 1]
+    assert frame["total_votes"].to_list() == [70, 7, 1]
+    assert frame["prov_votes"].to_list() == [4, 0, 0]
+    assert frame["total_against"].to_list() == [None, None, None]
+    assert frame.row(0, named=True)["election"] == "PG20"
+
+
+def test_read_2020_general_bad_total():
+    bad = G20_ROWS.replace('"6","","70"', '"6","","71"')
+    with pytest.raises(results.ResultsParseError, match="Donald J. Trump"):
+        results._read_named2020(g20_csv(bad), PG20, "Allegany", "all")
+
+
+def test_read_2020_primary_unquoted():
+    rows = (
+        "Joe Biden,DEM,President - Vice Pres,,Y,3,2,1,6\n"
+        "Delegates Person,DEM,Board of Education     ,001,,1,1,0,2\n"
+    )
+    frame = results._read_named2020(p20_csv(rows), PP20, "Kent", "dem")
+    assert frame.columns[9:] == [
+        "vote_by_mail_votes", "in_person_voting_votes", "provisional_votes", "total_votes",
+    ]  # fmt: skip
+    assert frame["office"].to_list() == ["President - Vice Pres", "Board of Education"]
+    assert frame["district"].to_list() == ["", "001"]
+    assert frame["write_in"].to_list() == [0, 0]
+    assert frame["in_person_voting_votes"].to_list() == [2, 1]
+    with pytest.raises(results.ResultsParseError, match="Joe Biden"):
+        results._read_named2020(p20_csv(rows.replace(",3,2,1,6", ",3,2,1,7")), PP20, "Kent", "dem")
+
+
+def test_read_2020_primary_duplicate_unused_columns_and_cp1252():
+    # Dorchester's Democratic file has two blank "N/A Votes" columns and is quoted; some counties'
+    # files hold a cp1252 byte (an n with tilde)
+    head = P20_HEAD.replace("Total Votes", '"N/A Votes","N/A Votes",Total Votes')
+    row = "Ni\xf1o Person,DEM,President - Vice Pres,,Y,3,2,1,,,6\n"
+    data = (head + row).encode("latin-1")
+    frame = results._read_named2020(data, PP20, "Dorchester", "dem")
+    assert frame["candidate"].to_list() == ["Ni\xf1o Person"]
+    assert frame["total_votes"].to_list() == [6]
+    assert "N/A Votes" not in frame.columns
+
+
+def _g20_frames(rows_by_county):
+    return [results._read_named2020(g20_csv(r), PG20, c, "all") for c, r in rows_by_county.items()]
+
+
+def test_statewide_check_all_state():
+    frames = _g20_frames({"Allegany": G20_ROWS, "Kent": G20_ROWS})
+    assert results._check_statewide_all_state(PG20, frames, GOOD_ALL_STATE) == 3
+    bad = GOOD_ALL_STATE.replace(b'"140"', b'"141"')
+    with pytest.raises(results.ResultsParseError, match="Trump"):
+        results._check_statewide_all_state(PG20, frames, bad)
+    short = all_state([GOOD_ALL_STATE.decode().splitlines()[1] + "\n"])
+    with pytest.raises(results.ResultsParseError, match="no statewide row"):
+        results._check_statewide_all_state(PG20, frames, short)
+
+
+def test_statewide_check_all_state_skips_offices_it_lacks():
+    rows = (
+        G20_ROWS
+        + '"Local Person","DEM","Sheriff","","Y","","1","","1","","1","","0","","0","","3",""\n'
+    )
+    frames = _g20_frames({"Allegany": rows, "Kent": rows})
+    assert results._check_statewide_all_state(PG20, frames, GOOD_ALL_STATE) == 3
+
+
+def fill2020(env, election, skip=(), all_state_data=GOOD_ALL_STATE):
+    for f in results.county_files(election):
+        if f.source_id in skip or f.party_file == "non":
+            continue
+        if f.role == "check":
+            data = all_state_data
+        elif election.kind == "general":
+            data = g20_csv()
+        elif f.party_file == "dem":
+            data = p20_csv()
+        else:
+            data = p20_csv("Donald J. Trump,REP,President - Vice Pres,,Y,1,1,0,2\n")
+        archive(env, election, f, data)
+
+
+def test_parse_pg20(env):
+    # two counties' rows must add up to the statewide rows: use 24 identical counties
+    totals = all_state(
+        [
+            f'"00","Donald J. Trump","REP","President - Vice Pres","","","","{240}","","{480}","","{720}","","{96}","","{144}","","{1680}",""\n',
+            f'"00","Joe Biden","DEM","President - Vice Pres","","Y","","{24}","","{48}","","{72}","","0","","{24}","","{168}",""\n',
+            f'"00","Other Write-Ins","","President - Vice Pres","","","Y","0","","{24}","","0","","0","","0","","{24}",""\n',
+        ]
+    )
+    fill2020(env, PG20, all_state_data=totals)
+    written, failed = results.results_parse("PG20", data_dir=env / "data")
+    assert failed == [] and written == 24
+    out = env / "data" / "results" / "PG20" / "county" / "03-baltimore-city-all.csv"
+    assert out.exists()
+    side = json.loads(out.with_name("03-baltimore-city-all_provenance.json").read_text())
+    assert side["election"] == "PG20" and side["geography"] == "county"
+    assert side["checks"]["row_totals"] == "ok"
+    assert side["checks"]["statewide_check"].startswith("ok: 3")
+    assert "All_State_2020_General" in side["checks"]["statewide_check"]
+    assert results.results_parse("PG20", data_dir=env / "data")[0] == 0
+
+
+def test_parse_pg20_mismatch_writes_nothing(env):
+    fill2020(env, PG20)  # GOOD_ALL_STATE is for two counties, not 24
+    written, failed = results.results_parse("PG20", data_dir=env / "data")
+    assert written == 0 and failed and "Trump" in failed[0]
+    assert not (env / "data" / "results" / "PG20").exists()
+
+
+def test_parse_pp20_has_no_statewide_check(env):
+    fill2020(env, PP20)
+    written, failed = results.results_parse("PP20", data_dir=env / "data")
+    assert failed == [] and written == 48
+    out = env / "data" / "results" / "PP20" / "county" / "19-st-marys-dem.csv"
+    side = json.loads(out.with_name("19-st-marys-dem_provenance.json").read_text())
+    assert side["checks"]["statewide_check"] == "no statewide file published"
+    assert side["checks"]["row_totals"] == "ok"
+
+
+def test_parse_pp20_row_total_still_checked(env):
+    fill2020(env, PP20)
+    f = next(x for x in results.county_files(PP20) if x.source_id.endswith("county-05-dem"))
+    archive(env, PP20, f, p20_csv("Joe Biden,DEM,President - Vice Pres,,Y,3,2,1,9\n"))
+    written, failed = results.results_parse("PP20", data_dir=env / "data")
+    assert written == 0 and failed and "Joe Biden" in failed[0]
+
+
+def test_fetch_pp20(env, monkeypatch):
+    def body(url):
+        return b"<html>nope</html>" if "NonPartisan" in url else p20_csv()
+
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(body))
+    records = results.results_fetch("PP20")
+    assert len(records) == 48  # no statewide file, and the missing NP files are normal
+    assert (
+        env / "archives/sbe/results/PP20/Baltimore_City_County_Democratic_2020_Primary.csv"
+    ).exists()
+
+
+def test_read_2020_primary_blank_vote_cell_is_zero_but_total_still_checked():
+    # Frederick's file leaves some zero cells blank; the total must still add up
+    frame = results._read_named2020(
+        p20_csv("Deval Patrick,DEM,President - Vice Pres,8,,,1,,1\n"), PP20, "Frederick", "dem"
+    )
+    assert frame.row(0, named=True)["vote_by_mail_votes"] == 0
+    assert frame.row(0, named=True)["total_votes"] == 1
+    with pytest.raises(results.ResultsParseError, match="Deval Patrick"):
+        results._read_named2020(
+            p20_csv("Deval Patrick,DEM,President - Vice Pres,8,,,1,,2\n"), PP20, "Frederick", "dem"
+        )
+    with pytest.raises(results.ResultsParseError, match="total votes None"):
+        results._read_named2020(
+            p20_csv("Deval Patrick,DEM,President - Vice Pres,8,,,1,,\n"), PP20, "Frederick", "dem"
+        )
+
+
+def test_coded_still_rejects_blank_vote_cell():
+    with pytest.raises(results.ResultsParseError, match="blank"):
+        results._read_coded(
+            primary_csv('"Governor / Lt. Governor","","X","DEM","","","20","30","4","5","59" \n'),
+            results.RESULTS_ELECTIONS["GP26"],
+            "Kent",
+            "dem",
+        )
