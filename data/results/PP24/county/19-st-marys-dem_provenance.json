@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PP24 St. Mary's results (dem)",
   "fetch_date": "2026-10-16T00:28:21+00:00",
-  "parse_date": "2026-10-16T00:38:47+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "9c27f5b6a667fb82a822ca28a42d09e468469829cf7269b75fd127811430fa7c",
   "parser_version": "skipjack 0.2.0",
   "election": "PP24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 34,
     "row_totals": "ok",
-    "statewide_check": "ok: 181 statewide contest rows match PP24_CongressionalBreakDownDemocratic.csv"
+    "statewide_check": "ok: 181 statewide rows (181 for, 0 against) match PP24_CongressionalBreakDownDemocratic.csv"
   }
 }

@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PP24 Cecil results (rep)",
   "fetch_date": "2026-10-16T00:28:16+00:00",
-  "parse_date": "2026-10-16T00:38:47+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "975b7a7a8942398d0720957afc641a19db799f5e9952c75e50849c7fa8fb80a5",
   "parser_version": "skipjack 0.2.0",
   "election": "PP24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 33,
     "row_totals": "ok",
-    "statewide_check": "ok: 144 statewide contest rows match PP24_CongressionalBreakDownRepublican.csv"
+    "statewide_check": "ok: 144 statewide rows (144 for, 0 against) match PP24_CongressionalBreakDownRepublican.csv"
   }
 }

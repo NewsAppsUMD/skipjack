@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Dorchester results (dem)",
   "fetch_date": "2026-10-16T00:28:03+00:00",
-  "parse_date": "2026-10-16T00:38:47+00:00",
+  "parse_date": "2026-10-16T00:46:31+00:00",
   "sha256_original": "41221dbf8c5dc81fa259db2708af4363b913f887378720cf79712dcfef929d2b",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 32,
     "row_totals": "ok",
-    "statewide_check": "ok: 337 statewide contest rows match GP26_CongressionalBreakDownDemocratic.csv"
+    "statewide_check": "ok: 337 statewide rows (337 for, 0 against) match GP26_CongressionalBreakDownDemocratic.csv"
   }
 }

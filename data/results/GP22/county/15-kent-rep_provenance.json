@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Kent results (rep)",
   "fetch_date": "2026-10-16T00:28:33+00:00",
-  "parse_date": "2026-10-16T00:38:48+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "0a6ee6acd790d1f3ab1447406d19dd29539ec1361a5657b9f376afbd325ec378",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 38,
     "row_totals": "ok",
-    "statewide_check": "ok: 231 statewide contest rows match GP22_CongressionalBreakDownRepublican.csv"
+    "statewide_check": "ok: 231 statewide rows (231 for, 0 against) match GP22_CongressionalBreakDownRepublican.csv"
   }
 }

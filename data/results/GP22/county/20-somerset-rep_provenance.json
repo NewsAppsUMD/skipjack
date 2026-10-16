@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Somerset results (rep)",
   "fetch_date": "2026-10-16T00:28:34+00:00",
-  "parse_date": "2026-10-16T00:38:48+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "c7da81d9046dcd2938050ca5a27c2f5daca66873728166d9c5c9e979f9e1718b",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 43,
     "row_totals": "ok",
-    "statewide_check": "ok: 231 statewide contest rows match GP22_CongressionalBreakDownRepublican.csv"
+    "statewide_check": "ok: 231 statewide rows (231 for, 0 against) match GP22_CongressionalBreakDownRepublican.csv"
   }
 }

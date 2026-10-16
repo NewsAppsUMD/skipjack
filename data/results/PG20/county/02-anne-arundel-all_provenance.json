@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PG20 Anne Arundel results (all)",
   "fetch_date": "2026-10-16T00:34:04+00:00",
-  "parse_date": "2026-10-16T00:38:48+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "ae0f7f89578d27a367f652eaceea7686afc2eb8c8ce46b02aa87e52ea3dfbb1a",
   "parser_version": "skipjack 0.2.0",
   "election": "PG20",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 60,
     "row_totals": "ok",
-    "statewide_check": "ok: 75 statewide contest rows match All_State_2020_General.csv"
+    "statewide_check": "ok: 75 statewide rows (68 for, 7 against) match All_State_2020_General.csv"
   }
 }

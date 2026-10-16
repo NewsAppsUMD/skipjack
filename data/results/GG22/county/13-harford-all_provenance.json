@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GG22 Harford results (all)",
   "fetch_date": "2026-10-16T00:28:25+00:00",
-  "parse_date": "2026-10-16T00:38:48+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "7fa4d0b5a60e5436c4bd9359a3ad88b6928c80e9c03efd156efda1545a58ffb9",
   "parser_version": "skipjack 0.2.0",
   "election": "GG22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 97,
     "row_totals": "ok",
-    "statewide_check": "ok: 461 statewide contest rows match GG22_CongressionalBreakDown.csv"
+    "statewide_check": "ok: 461 statewide rows (456 for, 5 against) match GG22_CongressionalBreakDown.csv"
   }
 }

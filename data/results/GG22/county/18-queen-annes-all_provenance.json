@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GG22 Queen Anne's results (all)",
   "fetch_date": "2026-10-16T00:28:26+00:00",
-  "parse_date": "2026-10-16T00:38:48+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "9789841343a8606956c963c150a5c0110c18febfa83ea15be4b2b60531a882a9",
   "parser_version": "skipjack 0.2.0",
   "election": "GG22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 66,
     "row_totals": "ok",
-    "statewide_check": "ok: 461 statewide contest rows match GG22_CongressionalBreakDown.csv"
+    "statewide_check": "ok: 461 statewide rows (456 for, 5 against) match GG22_CongressionalBreakDown.csv"
   }
 }

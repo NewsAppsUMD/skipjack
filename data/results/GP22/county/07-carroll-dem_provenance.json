@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Carroll results (dem)",
   "fetch_date": "2026-10-16T00:28:29+00:00",
-  "parse_date": "2026-10-16T00:38:48+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "6dd59b160a469e306148445e069720a9280148910ca7169da69c5b7904d4d542",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 31,
     "row_totals": "ok",
-    "statewide_check": "ok: 306 statewide contest rows match GP22_CongressionalBreakDownDemocratic.csv"
+    "statewide_check": "ok: 306 statewide rows (306 for, 0 against) match GP22_CongressionalBreakDownDemocratic.csv"
   }
 }

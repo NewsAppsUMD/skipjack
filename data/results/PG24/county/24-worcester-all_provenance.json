@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "PG24 Worcester results (all)",
   "fetch_date": "2026-10-16T00:28:13+00:00",
-  "parse_date": "2026-10-16T00:38:47+00:00",
+  "parse_date": "2026-10-16T00:46:31+00:00",
   "sha256_original": "bba28be422f36a7d3bbb9b65548cb4b0782a89ec702492ac95bc8681acf6298e",
   "parser_version": "skipjack 0.2.0",
   "election": "PG24",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 60,
     "row_totals": "ok",
-    "statewide_check": "ok: 90 statewide contest rows match PG24_CongressionalBreakDown.csv"
+    "statewide_check": "ok: 90 statewide rows (81 for, 9 against) match PG24_CongressionalBreakDown.csv"
   }
 }

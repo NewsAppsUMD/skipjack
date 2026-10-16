@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP22 Wicomico results (dem)",
   "fetch_date": "2026-10-16T00:28:36+00:00",
-  "parse_date": "2026-10-16T00:38:48+00:00",
+  "parse_date": "2026-10-16T00:46:32+00:00",
   "sha256_original": "69f131dcdf901f19d75ab8e41ff424f98e77282f1a4d3b5fd5d679916829519d",
   "parser_version": "skipjack 0.2.0",
   "election": "GP22",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 46,
     "row_totals": "ok",
-    "statewide_check": "ok: 306 statewide contest rows match GP22_CongressionalBreakDownDemocratic.csv"
+    "statewide_check": "ok: 306 statewide rows (306 for, 0 against) match GP22_CongressionalBreakDownDemocratic.csv"
   }
 }

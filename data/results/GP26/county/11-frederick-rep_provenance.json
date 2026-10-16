@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Frederick results (rep)",
   "fetch_date": "2026-10-16T00:28:04+00:00",
-  "parse_date": "2026-10-16T00:38:47+00:00",
+  "parse_date": "2026-10-16T00:46:31+00:00",
   "sha256_original": "dada1af866c2dfc341c6fe1e5f64a98a360cf3bb5c13f81ac279a2e9c3079693",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 65,
     "row_totals": "ok",
-    "statewide_check": "ok: 152 statewide contest rows match GP26_CongressionalBreakDownRepublican.csv"
+    "statewide_check": "ok: 152 statewide rows (152 for, 0 against) match GP26_CongressionalBreakDownRepublican.csv"
   }
 }

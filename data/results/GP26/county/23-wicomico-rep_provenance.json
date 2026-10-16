@@ -4,7 +4,7 @@
   "source_name": "Maryland State Board of Elections",
   "document_title": "GP26 Wicomico results (rep)",
   "fetch_date": "2026-10-16T00:28:09+00:00",
-  "parse_date": "2026-10-16T00:38:47+00:00",
+  "parse_date": "2026-10-16T00:46:31+00:00",
   "sha256_original": "606c5b30fbac7bbb9157245bda9277abfd031c412ed7b2b06f83c203347c9913",
   "parser_version": "skipjack 0.2.0",
   "election": "GP26",
@@ -15,6 +15,6 @@
   "checks": {
     "rows": 54,
     "row_totals": "ok",
-    "statewide_check": "ok: 152 statewide contest rows match GP26_CongressionalBreakDownRepublican.csv"
+    "statewide_check": "ok: 152 statewide rows (152 for, 0 against) match GP26_CongressionalBreakDownRepublican.csv"
   }
 }
