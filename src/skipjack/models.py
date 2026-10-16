@@ -130,4 +130,38 @@ CREATE TABLE IF NOT EXISTS turnout_counts (
 );
 CREATE INDEX IF NOT EXISTS idx_turnout_counts_asof
     ON turnout_counts (election, family, geography, as_of);
+
+-- One candidate's county-level result in one contest (a row of the SBE's county results CSV).
+-- party_file is dem / rep / non for a primary and all for a general. district is text ('' when
+-- the contest has none), with leading zeros dropped from numeric districts. winner and write_in
+-- are 0/1, winner always the SBE's own Y flag. total_against is set only for judges'
+-- retention questions.
+CREATE TABLE IF NOT EXISTS results_county (
+    id INTEGER PRIMARY KEY,
+    source_id TEXT REFERENCES sources(source_id),
+    election TEXT NOT NULL,
+    county TEXT NOT NULL,
+    party_file TEXT NOT NULL,
+    office TEXT NOT NULL,
+    district TEXT NOT NULL,
+    candidate TEXT NOT NULL,
+    party TEXT,
+    winner INTEGER NOT NULL,
+    write_in INTEGER NOT NULL,
+    total_votes INTEGER NOT NULL,
+    total_against INTEGER
+);
+
+-- A results_county row's votes by vote type (stem as the registry names it, e.g. early,
+-- election_night, mail_in_1). votes_against is NULL where the SBE left it blank (all primaries).
+CREATE TABLE IF NOT EXISTS results_votes (
+    result_id INTEGER NOT NULL REFERENCES results_county(id),
+    vote_type TEXT NOT NULL,
+    votes INTEGER NOT NULL,
+    votes_against INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_results_county_contest
+    ON results_county (election, office, district, party_file);
+CREATE INDEX IF NOT EXISTS idx_results_county_county ON results_county (election, county);
+CREATE INDEX IF NOT EXISTS idx_results_votes_result ON results_votes (result_id);
 """

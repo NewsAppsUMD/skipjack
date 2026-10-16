@@ -11,12 +11,17 @@ import polars as pl
 from polars.exceptions import PolarsError
 
 from skipjack.models import SCHEMA_SQL
+from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS, county_slug
 
 logger = logging.getLogger(__name__)
 
 
 class TurnoutLoadError(RuntimeError):
     """A turnout snapshot contradicts itself or has no provenance sidecar."""
+
+
+class ResultsLoadError(RuntimeError):
+    """A county results CSV contradicts its sidecar or the registry, or has no sidecar."""
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -229,6 +234,133 @@ def load_turnout(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
     return total
 
 
+_RESULTS_TEXT = ["election", "county", "party_file", "office", "district", "candidate", "party"]
+
+
+def _normalize_district(district: str) -> str:
+    """A purely numeric district drops its leading zeros ("01" -> "1"); "1A" and "" stay.
+
+    PP20's Dorchester file prints "01" where the other counties print "1".
+    """
+    return str(int(district)) if district.isdigit() else district
+
+
+def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
+    """Load every data/results/<CODE>/county/*.csv, melting the vote-type columns.
+
+    Returns the number of results_county rows loaded.
+    """
+    root = data_dir / "results"
+    if not root.exists():
+        return 0
+    next_id = conn.execute("SELECT COALESCE(MAX(id), 0) FROM results_county").fetchone()[0] + 1
+    total = 0
+    for csv_path in sorted(root.glob("*/county/*.csv")):
+        prov = load_provenance(csv_path)
+        if not prov:
+            raise ResultsLoadError(
+                f"{csv_path}: no provenance sidecar; refusing to load an unattributable file"
+            )
+        code = csv_path.parent.parent.name
+        election = RESULTS_ELECTIONS.get(code)
+        if election is None:
+            raise ResultsLoadError(f"{csv_path}: unknown election code {code!r}")
+        stems = [stem for _, stem in election.vote_types]
+        against = election.kind == "general"
+        overrides = {c: pl.String for c in _RESULTS_TEXT}
+        overrides |= {"winner": pl.Int64, "write_in": pl.Int64, "total_votes": pl.Int64}
+        overrides |= {f"{stem}_votes": pl.Int64 for stem in stems}
+        if against:
+            overrides |= {f"{stem}_against": pl.Int64 for stem in stems}
+            overrides["total_against"] = pl.Int64
+        try:
+            df = pl.read_csv(
+                csv_path, schema_overrides=overrides, missing_utf8_is_empty_string=True
+            )
+        except PolarsError as e:
+            raise ResultsLoadError(f"{csv_path}: {e}") from e
+        needed = [*overrides]
+        missing = [c for c in needed if c not in df.columns]
+        if missing:
+            raise ResultsLoadError(f"{csv_path}: missing columns {missing} for {code}")
+        if df.height == 0:
+            raise ResultsLoadError(f"{csv_path}: no rows")
+        _check_results_file(df, prov, csv_path, code)
+        df = df.with_columns(
+            pl.col("district").map_elements(_normalize_district, return_dtype=pl.String)
+        )
+        _upsert_source(conn, prov)
+
+        county_rows, vote_rows = [], []
+        for row in df.iter_rows(named=True):
+            vote_sum = 0
+            for stem in stems:
+                votes = row[f"{stem}_votes"]
+                if votes is None:
+                    raise ResultsLoadError(f"{csv_path}: blank {stem}_votes for {row['candidate']}")
+                vote_sum += votes
+                vote_rows.append(
+                    (next_id, stem, votes, row[f"{stem}_against"] if against else None)
+                )
+            if vote_sum != row["total_votes"]:
+                raise ResultsLoadError(
+                    f"{csv_path}: {row['candidate']}: total votes {row['total_votes']} "
+                    f"!= sum of vote types {vote_sum}"
+                )
+            county_rows.append(
+                (
+                    next_id,
+                    prov["source_id"],
+                    *(row[c] for c in _RESULTS_TEXT),
+                    row["winner"],
+                    row["write_in"],
+                    row["total_votes"],
+                    row["total_against"] if against else None,
+                )
+            )
+            next_id += 1
+        conn.executemany(
+            """INSERT INTO results_county
+               (id, source_id, election, county, party_file, office, district, candidate, party,
+                winner, write_in, total_votes, total_against)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            county_rows,
+        )
+        conn.executemany(
+            "INSERT INTO results_votes (result_id, vote_type, votes, votes_against) "
+            "VALUES (?, ?, ?, ?)",
+            vote_rows,
+        )
+        total += len(county_rows)
+    logger.info("Loaded results: %d rows", total)
+    return total
+
+
+def _check_results_file(df: pl.DataFrame, prov: dict, csv_path: Path, code: str) -> None:
+    """The CSV must agree with its sidecar, its directory and its file name."""
+    elections = df["election"].unique().to_list()
+    if elections != [prov.get("election", "")] or elections != [code]:
+        raise ResultsLoadError(
+            f"{csv_path}: election column holds {elections} but the sidecar says "
+            f"{prov.get('election', '')!r} and the directory says {code!r}"
+        )
+    number, _, rest = csv_path.stem.partition("-")
+    county = COUNTY_CODES.get(number)
+    if county is None or not rest.startswith(county_slug(county) + "-"):
+        raise ResultsLoadError(f"{csv_path}: file name does not match a registry county")
+    counties = df["county"].unique().to_list()
+    if counties != [county]:
+        raise ResultsLoadError(
+            f"{csv_path}: county column holds {counties} but the file is {county!r}"
+        )
+    party_file = rest[len(county_slug(county)) + 1 :]
+    party_files = df["party_file"].unique().to_list()
+    if party_files != [party_file]:
+        raise ResultsLoadError(
+            f"{csv_path}: party_file column holds {party_files} but the file name says {party_file!r}"
+        )
+
+
 def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     if db_path.exists():
         db_path.unlink()
@@ -238,6 +370,7 @@ def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     counts = {subdir: load_table(conn, subdir, data_dir) for subdir in TABLES}
     counts["voter_file"] = load_voter_file(conn, data_dir)
     counts["turnout"] = load_turnout(conn, data_dir)
+    counts["results"] = load_results(conn, data_dir)
     conn.commit()
     conn.close()
 
