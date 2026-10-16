@@ -100,6 +100,34 @@ def cmd_turnout_fetch(args: argparse.Namespace) -> None:
     print(f"Fetched {len(records)} new turnout snapshots")
 
 
+def cmd_results_fetch(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.results import RESULTS_ELECTIONS, results_fetch
+
+    if args.election and args.election not in RESULTS_ELECTIONS:
+        print(f"known elections: {', '.join(RESULTS_ELECTIONS)}", file=sys.stderr)
+        sys.exit(1)
+    for e in RESULTS_ELECTIONS.values():
+        if (not args.election or args.election == e.code) and not e.published:
+            print(f"{e.code}: not published")
+    records = results_fetch(election=args.election, force=args.force)
+    print(f"Fetched {len(records)} new results files")
+
+
+def cmd_results_parse(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.results import RESULTS_ELECTIONS, results_parse
+
+    if args.election and args.election not in RESULTS_ELECTIONS:
+        print(f"known elections: {', '.join(RESULTS_ELECTIONS)}", file=sys.stderr)
+        sys.exit(1)
+    written, failed = results_parse(election=args.election, force=args.force)
+    print(f"Parsed {written} results files -> data/results/")
+    if failed:
+        print(f"{len(failed)} elections failed and were not written:")
+        for line in failed:
+            print(f"  {line}")
+        sys.exit(1)
+
+
 def cmd_turnout_parse(args: argparse.Namespace) -> None:
     from skipjack.pipeline.turnout import turnout_parse
 
@@ -218,6 +246,18 @@ def main(argv: list[str] | None = None) -> None:
     turnout_fetch_p.add_argument("--force", action="store_true")
     turnout_fetch_p.add_argument("--election", help="Only one election's files (e.g. GG26)")
 
+    results_fetch_p = sub.add_parser(
+        "results-fetch", help="Download county election results CSVs from SBE"
+    )
+    results_fetch_p.add_argument("--force", action="store_true")
+    results_fetch_p.add_argument("--election", help="Only one election's files (e.g. GP26)")
+
+    results_parse_p = sub.add_parser(
+        "results-parse", help="Check and parse archived results into CSVs"
+    )
+    results_parse_p.add_argument("--force", action="store_true")
+    results_parse_p.add_argument("--election", help="Only one election (e.g. GP26)")
+
     turnout_parse_p = sub.add_parser("turnout-parse", help="Parse archived turnout files into CSVs")
     turnout_parse_p.add_argument(
         "--as-of", dest="as_of", metavar="YYYY-MM-DD", help="Only this snapshot"
@@ -275,6 +315,8 @@ def main(argv: list[str] | None = None) -> None:
         "parse": cmd_parse,
         "turnout-fetch": cmd_turnout_fetch,
         "turnout-parse": cmd_turnout_parse,
+        "results-fetch": cmd_results_fetch,
+        "results-parse": cmd_results_parse,
         "voterfile": cmd_voterfile,
         "race-input": cmd_race_input,
         "build-site": cmd_build_site,

@@ -1,4 +1,4 @@
-.PHONY: fetch parse turnout voterfile race build-db site serve test clean
+.PHONY: fetch parse turnout results voterfile race build-db site serve test clean
 
 fetch:
 	uv run skipjack fetch
@@ -10,6 +10,12 @@ parse:
 turnout:
 	uv run skipjack turnout-fetch
 	uv run skipjack turnout-parse
+
+# County election results from the SBE (one-time, re-runnable; not part of the daily workflow)
+# Usage: make results
+results:
+	uv run skipjack results-fetch
+	uv run skipjack results-parse
 
 # Usage: make voterfile VOTERFILE_DIR="/path/to/voter files"
 voterfile:

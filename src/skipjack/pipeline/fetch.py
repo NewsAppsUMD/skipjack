@@ -57,7 +57,13 @@ def resolve_archived(record: SourceRecord) -> Path:
     return stored
 
 
-def fetch_file(url: str, dest: Path, timeout: float = 30.0, expect_pdf: bool = False) -> bool:
+def fetch_file(
+    url: str,
+    dest: Path,
+    timeout: float = 30.0,
+    expect_pdf: bool = False,
+    expect_csv: bool = False,
+) -> bool:
     try:
         with httpx.Client(timeout=timeout, follow_redirects=True) as client:
             resp = client.get(url)
@@ -65,6 +71,13 @@ def fetch_file(url: str, dest: Path, timeout: float = 30.0, expect_pdf: bool = F
             # SBE answers 200 with an HTML page for reports that do not exist yet.
             if expect_pdf and not resp.content.startswith(b"%PDF"):
                 logger.info("Not published (no PDF at %s)", url)
+                return False
+            # ... and for CSVs (an HTML body starts with "<", after an optional BOM).
+            if expect_csv and resp.content.removeprefix(b"\xef\xbb\xbf").lstrip()[:1] in (
+                b"<",
+                b"",
+            ):
+                logger.info("Not published (no CSV at %s)", url)
                 return False
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_bytes(resp.content)
