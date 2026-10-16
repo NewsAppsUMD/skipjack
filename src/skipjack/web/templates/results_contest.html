@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% import "_results.html" as r with context %}
+{% import "_maps.html" as maps with context %}
+{% block title %}{{ contest.title }}, {{ election.name.title() }}{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ r.breadcrumb(election, [(contest.title, none)]) }}
+<h1>{{ contest.title }}</h1>
+<p class="secondary">{{ contest.scope_label }}{% if contest.party_label %}, {{ contest.party_label }} primary{% endif %}.
+    {{ election.name.title() }}, {{ contest.counties_reporting }} count{{ 'y' if contest.counties_reporting == 1 else 'ies' }}.
+    Totals are the county results added up; a check mark is the State Board's winner flag.</p>
+
+<h2>Statewide</h2>
+{{ r.candidate_table(contest.candidates, contest.title ~ ", statewide totals by way of voting", contest.vote_types, contest.has_against) }}
+{% if mail_2 %}
+<p class="note">"{{ mail_2 }}" is the second canvass of mail-in ballots.</p>
+{% endif %}
+
+{% if county_maps %}
+{{ maps.map_defs() }}
+{% for m in county_maps %}{{ maps.county_map(m) }}{% endfor %}
+{% endif %}
+
+{% if contest.candidates|selectattr("winner")|list|length > 1 %}
+<p class="note">This contest elects more than one candidate, so a candidate's share is of the
+    votes cast, not of voters.</p>
+{% endif %}
+<h2>By county</h2>
+<div class="overflow-auto">
+<table data-sortable class="results-table county-table">
+    <caption class="sr-only">{{ contest.title }} by county{% if not contest.has_against %}; a dot marks the candidate with the most votes in the county, an equals sign a tie{% endif %}</caption>
+    <thead>
+        <tr>
+            <th scope="col">County</th>
+            {% for c in contest.candidates %}
+            <th scope="col" class="num">{{ c.name }}{% if c.party %} <span class="muted">({{ c.party }})</span>{% endif %}{% if c.write_in %} <span class="muted">write-in</span>{% endif %}{% if contest.has_against %} for{% endif %}</th>
+            {% if contest.has_against %}<th scope="col" class="num">{{ c.name }} against</th>{% endif %}
+            {% endfor %}
+            {% if not contest.has_against %}<th scope="col" class="num">Total</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in contest.county_rows %}
+        <tr id="county-{{ row.slug }}">
+            <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/county/{{ row.slug }}/">{{ row.county }}</a></th>
+            {% for n in row.cells %}
+            <td class="num{% if loop.index0 == row.leader %} leader{% endif %}" data-sort="{{ '' if n is none else n }}">{{ r.votes(n) }}{% if loop.index0 == row.leader %} {{ r.leads() }}{% elif loop.index0 in row.tied %} {{ r.tied() }}{% endif %}</td>
+            {% if contest.has_against %}<td class="num" data-sort="{{ '' if row.against[loop.index0] is none else row.against[loop.index0] }}">{{ r.votes(row.against[loop.index0]) }}</td>{% endif %}
+            {% endfor %}
+            {% if not contest.has_against %}<td class="num" data-sort="{{ row.total }}">{{ r.votes(row.total) }}</td>{% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{{ r.source_strip(sources, data_page, "this contest") }}
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% import "_results.html" as r with context %}
+{% block title %}{{ county }}: {{ election.name.title() }} results{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ r.breadcrumb(election, [("By county", base ~ "/results/" ~ election.slug ~ "/county/"), (county, none)]) }}
+<h1>{{ county }}</h1>
+<p class="secondary">{{ election.name.title() }}: every contest on the county's ballot. A check
+    mark is the State Board's winner flag for the contest in this county.</p>
+
+{% set mail_2 = vote_types|selectattr("label", "in", ["Mail-In Ballot 2", "By Mail 2"])|map(attribute="label")|list %}
+{% if mail_2 %}
+<p class="note">"{{ mail_2[0] }}" is the second canvass of mail-in ballots.</p>
+{% endif %}
+
+<p class="note">On a contest that has its own page, a check mark is the State Board's flag for
+    the whole contest (the statewide or district winner), not this county's result; a dot
+    marks who has the most votes in {{ county }}. On a county office the check mark is the
+    county's own winner.</p>
+
+<nav class="subnav" aria-label="Sections of this page">
+    {% for g in groups %}<a href="#section-{{ g.party_file }}">{{ g.label + " ballot" if g.label else "Contests" }} ({{ g.contests|length }})</a>{% endfor %}
+</nav>
+
+{% for g in groups %}
+<section aria-labelledby="section-{{ g.party_file }}">
+<h2 id="section-{{ g.party_file }}">{{ g.label + " ballot" if g.label else "Contests" }}</h2>
+<details>
+    <summary>Contests in this section ({{ g.contests|length }})</summary>
+    <ul class="toc">
+        {% for c in g.contests %}<li><a href="#{{ c.anchor }}">{{ c.title }}</a></li>
+        {% endfor %}
+    </ul>
+</details>
+{% for c in g.contests %}
+{% set contest_wide = c.page_slug is not none %}
+{% set win_label = ("won statewide" if c.scope == "statewide" else "won the district") if contest_wide else "winner" %}
+<article class="contest-card" id="{{ c.anchor }}">
+    <h3>{% if c.page_slug %}<a href="{{ base }}/results/{{ election.slug }}/{{ c.page_slug }}/">{{ c.title }}</a>{% else %}{{ c.title }} <span class="tag">county office</span>{% endif %}</h3>
+    {{ r.candidate_table(c.candidates, c.title ~ " in " ~ county, vote_types, c.has_against, compact=true, win_label=win_label, leader=c.leader, tied_ix=c.tied) }}
+</article>
+{% endfor %}
+</section>
+{% endfor %}
+
+{{ r.source_strip(sources, data_page, "this page") }}
+</div>
+{% endblock %}

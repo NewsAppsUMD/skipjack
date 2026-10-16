@@ -1,0 +1,88 @@
+{# Shared pieces of the results pages. Import with context: {% import "_results.html" as r with context %} #}
+
+{# A winner is always the State Board's winner flag, never computed here. #}
+{% macro winner(label="winner") -%}
+<span class="mark" aria-hidden="true" title="{{ label }}">&#10003;</span><span class="sr-only"> {{ label }}</span>
+{%- endmacro %}
+
+{# The leader among a county's candidates is the most votes there, not the SBE's flag. #}
+{% macro leads(label="leads") -%}
+<span class="mark" aria-hidden="true" title="{{ label }}">&#9679;</span><span class="sr-only"> {{ label }}</span>
+{%- endmacro %}
+
+{# Level on the most votes: no single leader. #}
+{% macro tied() -%}
+<span class="mark" aria-hidden="true" title="tied for the most votes">=</span><span class="sr-only"> tied</span>
+{%- endmacro %}
+
+{% macro name(c, win_label="winner", lead=false, tie=false, lead_label="leads here") -%}
+{{ c.name }}{% if c.write_in %} <span class="muted">(write-in)</span>{% endif %}{% if c.winner %} {{ winner(win_label) }}{% endif %}{% if lead %} {{ leads(lead_label) }}{% endif %}{% if tie %} {{ tied() }}{% endif %}
+{%- endmacro %}
+
+{% macro votes(v) -%}
+{%- if v is none %}<span class="muted">&mdash;</span>{% else %}{{ "{:,}".format(v) }}{% endif -%}
+{%- endmacro %}
+
+{% macro share(c) -%}
+{%- if c.share is none %}<span class="muted">&mdash;</span>{% else %}{{ "%.1f"|format(c.share) }}%{% endif -%}
+{%- endmacro %}
+
+{# Candidates with totals and share; vote_types adds a column per way of voting. #}
+{# win_label names what the State Board's flag means here; leader / tied (indices) mark who
+   has the most votes in a county page's county. #}
+{% macro candidate_table(candidates, caption, vote_types=[], has_against=false, compact=false, win_label="winner", leader=none, tied_ix=[]) -%}
+<div class="overflow-auto">
+<table class="results-table{% if compact %} compact{% endif %}">
+    <caption class="sr-only">{{ caption }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">Candidate</th>
+            <th scope="col">Party</th>
+            {% for v in vote_types %}<th scope="col" class="num">{{ v.label }}</th>{% endfor %}
+            <th scope="col" class="num">{{ "For" if has_against else "Total" }}</th>
+            {% if has_against %}<th scope="col" class="num">Against</th>{% endif %}
+            <th scope="col" class="num">{{ "Share of for and against" if has_against else "Share" }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in candidates %}
+        <tr{% if c.winner %} class="winner"{% endif %}>
+            <th scope="row">{{ name(c, win_label, loop.index0 == leader, loop.index0 in tied_ix) }}</th>
+            <td>{{ c.party or "" }}</td>
+            {% for v in vote_types %}<td class="num">{{ votes(c.votes.get(v.stem)) }}</td>{% endfor %}
+            <td class="num">{{ votes(c.total) }}</td>
+            {% if has_against %}<td class="num">{{ votes(c.against) }}</td>{% endif %}
+            <td class="num">{{ share(c) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{%- endmacro %}
+
+{% macro breadcrumb(election, trail=[]) -%}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ base }}/results/">Results</a> &rsaquo;
+    {% if trail %}<a href="{{ base }}/results/{{ election.slug }}/">{{ election.name.title() }}</a>
+    {%- for label, href in trail %} &rsaquo;
+    {% if href %}<a href="{{ href }}">{{ label }}</a>{% else %}<span aria-current="page">{{ label }}</span>{% endif %}{% endfor %}
+    {% else %}<span aria-current="page">{{ election.name.title() }}</span>{% endif %}
+</nav>
+{%- endmacro %}
+
+{# Every page names where its numbers came from. #}
+{% macro source_strip(sources, data_page, what="these pages") -%}
+<div class="source-strip">
+    <strong>Source:</strong> the State Board of Elections' results files (CSV), from its
+    <a href="{{ data_page }}/" target="_blank" rel="noopener">election data page</a>.
+    {% if sources %}
+    <details>
+        <summary>The {{ sources|length }} file{{ "s" if sources|length != 1 }} behind {{ what }}</summary>
+        <ul>
+            {% for s in sources %}<li><a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.label }}</a></li>
+            {% endfor %}
+        </ul>
+    </details>
+    {% endif %}
+</div>
+{%- endmacro %}

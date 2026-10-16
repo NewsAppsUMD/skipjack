@@ -196,3 +196,20 @@ th.sortable[aria-sort="descending"]::after {
 
 .highlights { margin: 0 0 1rem; padding-left: 1.2rem; }
 .highlights li { margin-bottom: 0.4rem; }
+
+/* Results pages (templates/_results.html). */
+.breadcrumb { font-size: 0.9rem; margin: 0 0 0.75rem; }
+.results-table th[scope="row"] { font-weight: 600; }
+.results-table.compact th, .results-table.compact td { padding: 0.35rem 0.6rem; font-size: 0.9rem; }
+.results-table tr.winner th[scope="row"] { color: var(--pico-h3-color); }
+.results-table .mark { color: var(--pico-secondary); font-weight: 700; }
+.results-table td.leader { font-weight: 600; }
+.contest-card { padding: 1rem 1.25rem; margin: 0 0 1.25rem; }
+.contest-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.contest-card table { margin-bottom: 0.25rem; }
+.district-list { margin: 0 0 1rem; }
+.toc { columns: 2 16rem; font-size: 0.9rem; }
+.muted { color: var(--pico-muted-color); }
+.tag { font-size: 0.7rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em;
+       color: var(--pico-muted-color); border: 1px solid var(--pico-card-border-color);
+       border-radius: 3px; padding: 0 0.3rem; vertical-align: middle; }

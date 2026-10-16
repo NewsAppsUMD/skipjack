@@ -20,6 +20,7 @@ from skipjack.web.routes import (
     voterfile,
     voters,
     race,
+    results,
     young,
 )
 from skipjack.web.maps import load_shapes
@@ -71,6 +72,7 @@ def create_app() -> FastAPI:
     application.include_router(young.router)
     application.include_router(race.router)
     application.include_router(turnout.router)
+    application.include_router(results.router)
     application.include_router(voterfile.router)
     application.include_router(data.router)
     application.include_router(errata.router)

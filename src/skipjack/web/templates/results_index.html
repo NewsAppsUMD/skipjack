@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<h1>Results</h1>
+<p class="secondary">County-level election results for Maryland's primaries and general
+    elections, from the State Board of Elections' results files.</p>
+
+{% if years %}
+<p>Each election has a page of its statewide, congressional and legislative contests, a page for
+    every contest with a county table and map, and a page for every county with the contests on
+    its ballot. Statewide totals are the county results added up.</p>
+{% for y in years %}
+<h2>{{ y.year }}</h2>
+<div class="grid">
+    {% for e in [y.primary, y.general] if e %}
+    <article>
+        <h3><a href="{{ base }}/results/{{ e.slug }}/">{{ e.name.title() }}</a></h3>
+        <p>{{ e.kind.title() }} election{% if e.election_day %}, {{ e.election_day|day_label }}{% endif %}.</p>
+        <p><a href="{{ base }}/results/{{ e.slug }}/" role="button">Contests</a>
+            <a href="{{ base }}/results/{{ e.slug }}/county/">By county</a></p>
+    </article>
+    {% endfor %}
+</div>
+{% endfor %}
+<p class="note">Results before 2020 are not on the State Board's data pages as county files.</p>
+{% else %}
+<p>There are no election results on this site yet.</p>
+{% endif %}
+</div>
+{% endblock %}

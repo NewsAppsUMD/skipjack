@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "_results.html" as r with context %}
+{% block title %}{{ election.name.title() }} results by county{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ r.breadcrumb(election, [("By county", none)]) }}
+<h1>{{ election.name.title() }}, by county</h1>
+<p class="secondary">Every contest on a county's ballot, with the vote counts by way of voting.</p>
+
+<div class="overflow-auto">
+<table data-sortable class="results-table">
+    <caption class="sr-only">Counties with results for the {{ election.name.title() }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">County</th>
+            <th scope="col" class="num">Contests</th>
+            {% if election.kind == "primary" %}<th scope="col">Ballots</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in counties %}
+        <tr>
+            <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/county/{{ c.slug }}/">{{ c.county }}</a></th>
+            <td class="num">{{ c.contests }}</td>
+            {% if election.kind == "primary" %}<td>{% for pf in c.party_files %}{{ party_labels[pf] }}{% if not loop.last %}, {% endif %}{% endfor %}</td>{% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{{ r.source_strip(sources, data_page, "these pages") }}
+</div>
+{% endblock %}
