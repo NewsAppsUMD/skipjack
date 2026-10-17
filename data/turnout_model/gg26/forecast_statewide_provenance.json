@@ -1,8 +1,8 @@
 {
   "file": "data/turnout_model/gg26/forecast_statewide.csv",
-  "description": "GG26 statewide forecast per scenario in long form (scenario, measure, mean, q05, q50, q95): ballots, rates on active/eligible/CVAP, party ballots, party rates on active and party shares of ballots; central_comp_level adds ballots_minus_central (paired per draw). actual_GG18 and actual_GG22 rows give the certified figures (all four columns equal) for comparison; rates on eligible and CVAP are not given for them.",
+  "description": "GG26 statewide forecast per scenario in long form (scenario, measure, mean, q05, q50, q95): ballots, rates on active/eligible/CVAP, party ballots, party rates on active and party shares of ballots. Sensitivities central_comp_level, central_mail_latest and central_mail_recent add ballots_minus_central (paired per draw). headline_range is the range to quote: low's q05 and high's q95 as its q05/q95, with central's mean and median. actual_GG18 and actual_GG22 rows give the certified figures (all four columns equal); rates on eligible and CVAP are not given for them.",
   "generated_by": "scripts/turnout_model/04_forecast.R",
-  "run_date": "2026-10-17T17:34:28-0400",
+  "run_date": "2026-10-17T17:49:49-0400",
   "sources": {
     "structure_draws": "data/turnout_model/gg26/structure_draws.csv.gz",
     "fit_summary": "data/turnout_model/gg26/fit_summary.json",
@@ -21,43 +21,107 @@
     "denominators_gg26 has active, eligible and cvap for the 72 cells",
     "cvap is one county figure repeated on each party row",
     "GG18 and GG22 training ballots sum to the certified statewide totals",
+    "indices.csv has the four Maryland (statewide) rows",
     "one GG26 sent value per snapshot x county x party",
-    "every GG26 snapshot has 24 counties x DEM/REP/OTH/ALL, and there are at least two",
+    "every GG26 snapshot has 24 counties x DEM/REP/OTH/ALL, and there are at least three",
     "GG26 sent DEM + REP + OTH = ALL in every snapshot and county",
     "GG22 and PG24 mail-voting sent and received at the latest as_of for 24 counties",
-    "gauss_hermite_normal(20) integrates Z^2 under N(0, 1) to 1 within 1e-10",
-    "projected sent DEM + REP + OTH = ALL per county",
+    "gauss_hermite_normal(20) integrates Z^2 under N(0, 1) to 1 within 1e-10 (checked when model.R loads)",
+    "OLS projections of DEM + REP + OTH sum to the OLS projection of ALL per county",
     "calibrated alphas reproduce GG18 and GG22 party ballots (expected, by quadrature) to 1e-6",
     "projection's latest GG26 sent matches indices.csv per party",
-    "identity: GG18 and GG22 statewide party ballots (own active, own alpha*, comp = 0) mean within 0.1% of actual, actual inside the 90% interval",
-    "no NA in any output",
-    "party ballots_mean sum to county within 1 ballot per cell",
+    "identity GG18 DEM mean within 0.1% of actual",
+    "identity GG18 DEM actual inside the 90% interval",
+    "identity GG18 REP mean within 0.1% of actual",
+    "identity GG18 REP actual inside the 90% interval",
+    "identity GG18 OTH mean within 0.1% of actual",
+    "identity GG18 OTH actual inside the 90% interval",
+    "identity GG22 DEM mean within 0.1% of actual",
+    "identity GG22 DEM actual inside the 90% interval",
+    "identity GG22 REP mean within 0.1% of actual",
+    "identity GG22 REP actual inside the 90% interval",
+    "identity GG22 OTH mean within 0.1% of actual",
+    "identity GG22 OTH actual inside the 90% interval",
+    "no NA in any output (actual-year eligible and CVAP columns of forecast_county excepted)",
+    "party ballots_mean sum to county within 1 ballot per cell (forecast and actual rows)",
     "county ballots_mean sum to statewide within 1 ballot per cell",
     "party cells sum to statewide party ballots within 1 ballot per cell",
     "statewide party shares sum to 1",
     "every rate in (0, 1)",
     "modes sum to ballots in every county and are non-negative",
-    "low <= central <= high statewide means for each party (or reported if GG18 < GG22)"
+    "mode_split Maryland ballots equal the forecast_statewide central total",
+    "mode_split county ballots within 1 of forecast_county central means",
+    "low <= central <= high statewide mean for DEM",
+    "low <= central <= high statewide mean for REP",
+    "low <= central <= high statewide mean for OTH"
   ],
   "level_rule": ["Three scenarios per party p, on the logit scale, per draw k:", "low: alpha = alpha*_{GG22,p,k}", "high: alpha = alpha*_{GG18,p,k}", "central: alpha = (1 - w_p) * alpha*_{GG22,p,k} + w_p * alpha*_{GG18,p,k}", "w_p starts at 0.5 and moves by 0.1 per index vote, bounded to [0.2, 0.8]. Votes, per party p (DEM, REP, OTH), each in {-1, 0, +1} where +1 means 2018-like and -1 means 2022-like:", "1. Registration momentum: position = (m26 - m22) / (m18 - m22) using indices.csv reg_momentum, reg_momentum_2022, reg_momentum_2018 (statewide row for p). Vote +1 if position >= 2/3, -1 if <= 1/3, else 0. If |m18 - m22| < 0.002 the analogues cannot discriminate: vote 0. Amendment: a position outside [-0.5, 1.5] extrapolates beyond the two analogues and its sign is not interpretable: vote 0 when position < -0.5 or > 1.5; otherwise the thresholds above apply.", "2. Mail requests, per registrant: project GG26 final sent for p as a linear trend over the available daily snapshots extended to 2026-10-27 (the request deadline; an assumption: no ballots are sent after it). Index = (projected GG26 final sent_p / 2026 projected active_p from denominators_gg26.csv) / (GG22 final sent_p (2022-11-28 file) / GG22 active_p from training.csv), so registration growth is not read as engagement. Vote +1 if >= 1.05, -1 if <= 0.95, else 0. (No 2018 analogue exists: 2018 predates the permanent mail-in list, so this index can only say \"more or less engaged than 2022\".)", "3. Primary participation, per registrant: index = (GP26 ballots_p / GP26 active_p) / (GP22 ballots_p / GP22 active_p), from training.csv (DEM and REP; GP26 split estimated; OTH gets vote 0 because primaries are closed). Vote +1 if >= 1.05, -1 if <= 0.95, else 0. Caveat: GP26 had an incumbent governor and GP22 an open seat, which depresses this index for reasons unrelated to November.", "level_rule.csv also records the raw-count ratios (mail_count_ratio, primary_count_ratio) beside the per-registrant indices that vote."],
+  "mail_note": "No 2018 analogue exists: 2018 predates the permanent mail-in list, so the mail index can only say more or less engaged than 2022. The rule's GG26 projection is an OLS line of sent on calendar day over every daily snapshot, extended to 2026-10-27, the mail-in request deadline (assumed to be when sending stops), floored per county x party at the latest observed count. The mail vote depends on the projection choice: the sent series is step-like, so the all-snapshot slope is much steeper than the last few days', and holding the latest count or extending the last three snapshots gives lower indices (see the _latest and _recent columns of level_rule.csv and the central_mail_latest and central_mail_recent scenarios). No GG22 trajectory of daily sent counts exists to anchor the choice.",
   "composition": {
     "centring": "Every scenario uses comp_centred_cp = comp_cp minus the weighted mean over counties of comp for party p (weights: 2026 projected active registration, denominators_gg26.csv). composition_factors.csv's comp is positive in every cell (statewide DEM +0.051, REP +0.080, OTH +0.034), but its statewide level is not identified: the 2022 mix comes from today's voter file, which lacks the ~13% of the 2022 electorate who have since died or moved, and that bias is as large as the factor. Centred, composition only redistributes turnout across counties within a party and the level comes from the calibrated scenario.",
-    "sensitivity": "central_comp_level uses the uncentred comp with the central level; its statewide difference from central is the measure ballots_minus_central in forecast_statewide.csv and comp_level_difference here.",
+    "sensitivity": "central_comp_level uses the uncentred comp with the central level; its statewide difference from central is the measure ballots_minus_central in forecast_statewide.csv.",
     "structure": "The midterm structure effect s_cp is treated as describing the 2022 composition, and comp is a change from it."
   },
   "eps": "Antithetic cell noise: for draws 1-500 eps_cpk is a fresh N(0, sigma_obs^2) per cell, and draws 501-1000 reuse the negated eps of draws 1-500 (eps_{c,p,k+500} = -eps_{c,p,k}); each draw's eps is still marginally N(0, sigma_obs^2) and shared by every scenario within the draw. With 1,000 independent eps the Monte Carlo SE of the statewide OTH mean is about 250 ballots (0.077%), so the 0.1% identity check passed or failed by seed; the antithetic pairs cancel the linear part of that error (identity errors at most about 6e-5 across six seeds tested).",
+  "interval_note": "Each draw's level is calibrated to a reference year, so the intervals within a scenario carry only the cell noise eps and the shift of the 2026 cells' active registration and comp relative to the reference mix; the spread between low, central and high is the level uncertainty. The range to quote is headline_range: low's q05 to high's q95, around the central mean.",
+  "mail_voting_note": "GG22 and PG24 mail-voting are read at MAX(as_of) per election, which is the board's 2026-04-21 re-fetch of each certified file (it differs from the original 2022-12-08 and 2024-12-11 files by about 100 ballots sent and a few received).",
+  "mail_voting_as_of": [
+    {
+      "election": "GG22",
+      "as_of": "2026-04-21"
+    },
+    {
+      "election": "PG24",
+      "as_of": "2026-04-21"
+    }
+  ],
   "seed": 20261103,
   "draws": 1000,
   "sigma_obs": 0.1202,
   "quadrature": "20 Gauss-Hermite nodes (Golub-Welsch, model.R gauss_hermite_normal)",
   "gg26_mail_as_of": "2026-10-16",
+  "state_label": "county = Maryland marks statewide rows",
   "format_note": "Long rather than wide so that the actual rows, which have no eligible or CVAP denominator, need no NA.",
-  "comp_level_difference": {
-    "ballots_minus_central_mean": 55851,
-    "q05": 55377,
-    "q95": 56296,
-    "relative_to_central": 0.0245
-  },
+  "differences_from_central": [
+    {
+      "scenario": "central_comp_level",
+      "mean": 55851,
+      "q05": 55377,
+      "q95": 56296
+    },
+    {
+      "scenario": "central_mail_latest",
+      "mean": -17112,
+      "q05": -17296,
+      "q95": -16926
+    },
+    {
+      "scenario": "central_mail_recent",
+      "mean": -17112,
+      "q05": -17296,
+      "q95": -16926
+    }
+  ],
+  "mail_sensitivity_w": [
+    {
+      "party_group": "DEM",
+      "w": 0.4,
+      "w_latest": 0.4,
+      "w_recent": 0.4
+    },
+    {
+      "party_group": "REP",
+      "w": 0.4,
+      "w_latest": 0.3,
+      "w_recent": 0.3
+    },
+    {
+      "party_group": "OTH",
+      "w": 0.6,
+      "w_latest": 0.5,
+      "w_recent": 0.5
+    }
+  ],
   "comp_weighted_mean_removed": {
     "DEM": 0.0513,
     "OTH": 0.0361,
@@ -119,6 +183,5 @@
       "rel_error": 0
     }
   ],
-  "order_notes": [],
-  "interval_note": "Each draw's level is calibrated to a reference year, so the statewide intervals within a scenario carry only eps and the shift of the 2026 cells' active and comp relative to the reference mix; the spread between low and high is the level uncertainty."
+  "order_notes": []
 }

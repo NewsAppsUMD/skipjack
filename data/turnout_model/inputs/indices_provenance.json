@@ -1,8 +1,8 @@
 {
   "file": "data/turnout_model/inputs/indices.csv",
-  "description": "Observable 2026 environment indices by county x party group (DEM, REP, OTH, and ALL for the county total), with a Statewide row per party group.",
+  "description": "Observable 2026 environment indices by county x party group (DEM, REP, OTH, and ALL for the county total), with a statewide row (county = Maryland) per party group.",
   "generated_by": "scripts/turnout_model/01_build_inputs.R",
-  "run_date": "2026-10-17T16:33:16-0400",
+  "run_date": "2026-10-17T17:46:17-0400",
   "sources": {
     "mail": "turnout_counts: family 'sent-returned', geography 'county', category 'ALL', measures sent and received; GG26 as_of 2026-10-16 (latest) over GG22 as_of 2022-11-28 (post-election final)",
     "primary_index": "GP26 county-canvass total (as_of 2026-07-23) over GP22 official-turnout ALL ballots cast (four modes, as_of 2022-08-18); county level, repeated across party rows",
@@ -16,9 +16,9 @@
     "gg26 sent-returned parties are DEM, REP, OTH, ALL",
     "gg22 sent-returned DEM + REP + OTH sum to ALL per county",
     "gg22 sent-returned parties are DEM, REP, OTH, ALL",
-    "24 counties + Statewide x DEM/REP/OTH/ALL, no missing values",
+    "24 counties + Maryland (statewide) x DEM/REP/OTH/ALL, no missing values",
     "every index finite",
     "primary_index county totals reconcile to the GP26 canvass and GP22 statewide cast"
   ],
-  "notes": ["The GG26 mail figures are a running count 18 days before the election; the GG22 denominators are the post-election final, so the mail indices rise as GG26 approaches.", "primary_index, county_gp26_cast and county_gp22_cast are county totals repeated on each party row.", "Statewide rows are sums of the county counts, with indices computed from those sums."]
+  "notes": ["The GG26 mail figures are a running count 18 days before the election; the GG22 denominators are the post-election final, so the mail indices rise as GG26 approaches.", "primary_index, county_gp26_cast and county_gp22_cast are county totals repeated on each party row.", "Statewide rows (county = Maryland) are sums of the county counts, with indices computed from those sums."]
 }

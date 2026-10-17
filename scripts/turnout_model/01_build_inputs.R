@@ -511,7 +511,7 @@ main <- function() {
     left_join(gp26_county, by = "county") |>
     left_join(gp22_county, by = "county")
   statewide <- index_counts |> select(-county) |> group_by(party_group) |>
-    summarise(across(everything(), sum), .groups = "drop") |> mutate(county = "Statewide")
+    summarise(across(everything(), sum), .groups = "drop") |> mutate(county = "Maryland")
   pg_levels <- c(PARTY_GROUPS, "ALL")
   indices <- bind_rows(index_counts, statewide) |>
     mutate(gg26_as_of = gg26_as_of,
@@ -522,7 +522,7 @@ main <- function() {
            reg_momentum = round(active_2026_09 / active_2025_09, 6),
            reg_momentum_2022 = round(active_2022_09 / active_2021_09, 6),
            reg_momentum_2018 = round(active_2018_09 / active_2017_09, 6)) |>
-    arrange(match(county, c(CANONICAL_COUNTIES, "Statewide")), match(party_group, pg_levels)) |>
+    arrange(match(county, c(CANONICAL_COUNTIES, "Maryland")), match(party_group, pg_levels)) |>
     select(county, party_group, gg26_as_of, days_to_election,
            gg26_sent, gg22_sent, mail_sent_index, gg26_received, gg22_received, mail_received_index,
            county_gp26_cast, county_gp22_cast, primary_index,
@@ -530,7 +530,7 @@ main <- function() {
            active_2022_09, active_2021_09, reg_momentum_2022,
            active_2018_09, active_2017_09, reg_momentum_2018)
   idx_checks <- c(idx_checks,
-    check(nrow(indices) == 25 * 4 && !anyNA(indices), "24 counties + Statewide x DEM/REP/OTH/ALL, no missing values"),
+    check(nrow(indices) == 25 * 4 && !anyNA(indices), "24 counties + Maryland (statewide) x DEM/REP/OTH/ALL, no missing values"),
     check(all(is.finite(as.matrix(indices |> select(ends_with("index"), starts_with("reg_momentum"))))), "every index finite"),
     check(sum(gp26_county$county_gp26_cast) == sum(gp26_wide$total) && sum(gp22_county$county_gp22_cast) == STATEWIDE_CAST[["GP22"]],
           "primary_index county totals reconcile to the GP26 canvass and GP22 statewide cast"))
@@ -538,7 +538,7 @@ main <- function() {
   write_provenance(
     file.path(INPUTS_DIR, "indices.csv"),
     generated_by = SCRIPT,
-    "Observable 2026 environment indices by county x party group (DEM, REP, OTH, and ALL for the county total), with a Statewide row per party group.",
+    "Observable 2026 environment indices by county x party group (DEM, REP, OTH, and ALL for the county total), with a statewide row (county = Maryland) per party group.",
     sources = list(
       mail = sprintf("turnout_counts: family 'sent-returned', geography 'county', category 'ALL', measures sent and received; GG26 as_of %s (latest) over GG22 as_of 2022-11-28 (post-election final)", gg26_as_of),
       primary_index = sprintf("GP26 county-canvass total (as_of %s) over GP22 official-turnout ALL ballots cast (four modes, as_of %s); county level, repeated across party rows",
@@ -553,7 +553,7 @@ main <- function() {
     notes = c(
       sprintf("The GG26 mail figures are a running count %d days before the election; the GG22 denominators are the post-election final, so the mail indices rise as GG26 approaches.", as.integer(ELECTION_DAY_GG26 - as.Date(gg26_as_of))),
       "primary_index, county_gp26_cast and county_gp22_cast are county totals repeated on each party row.",
-      "Statewide rows are sums of the county counts, with indices computed from those sums."
+      "Statewide rows (county = Maryland) are sums of the county counts, with indices computed from those sums."
     )
   )
 
@@ -595,7 +595,7 @@ main <- function() {
   cat("\nGG26 denominators, statewide:\n")
   print(as.data.frame(denominators |> summarise(active_2026_09 = sum(active_2026_09), active = sum(active), eligible = sum(eligible))))
   cat("\nIndices, statewide:\n")
-  print(as.data.frame(indices |> filter(county == "Statewide") |>
+  print(as.data.frame(indices |> filter(county == "Maryland") |>
     select(party_group, gg26_as_of, days_to_election, mail_sent_index, mail_received_index,
            primary_index, reg_momentum, reg_momentum_2022, reg_momentum_2018)))
   cat(sprintf("\nCVAP total (ACS 5-year %d): %s\n", acs_vintage, format(sum(covariates$cvap), big.mark = ",")))

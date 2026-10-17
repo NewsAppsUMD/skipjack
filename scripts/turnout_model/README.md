@@ -6,9 +6,19 @@ An R model of Maryland's November 3, 2026 general election turnout by county and
 ## Running
 
 Run every script with Rscript from the repo root, after `make build-db` has built
-`skipjack.db`:
+`skipjack.db`, in order:
 
     Rscript scripts/turnout_model/01_build_inputs.R
+    Rscript scripts/turnout_model/02_fit.R          # about 3 minutes
+    Rscript scripts/turnout_model/03_compose.R
+    Rscript scripts/turnout_model/04_forecast.R
+
+After a new GG26 mail-in snapshot reaches `skipjack.db`, rerun 01 (which rebuilds `indices.csv`)
+and then 04. 04 reads the daily snapshots straight from the database, but its level rule reads
+the mail figures in `indices.csv` and checks that the two agree. 02 and 03 depend only on
+certified results and the voter file, so they need no rerun.
+
+Statewide rows in every model output have `county = Maryland`.
 
 Each script begins with `source("scripts/turnout_model/R/bootstrap.R")`, which checks that it is
 running from the repo root, sets `RENV_PROJECT` to `scripts/turnout_model`, sources
@@ -67,11 +77,22 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
     cell noise eps ~ N(0, sigma_obs^2) is integrated by 20-node Gauss-Hermite quadrature
     (`gauss_hermite_normal()` and `calibrate_alpha()` in `R/model.R`).
   - `level_rule.csv`: the 2026 level rule (below), with each index, its vote and the weight w.
+    Sensitivity columns (`_latest`, `_recent`) show the mail index, its vote and w under the
+    alternative mail projections. `level_rule_text.csv` holds the rule, the mail note, the
+    interval note and the composition note as one row of text.
   - `forecast_county_party.csv`, `forecast_county.csv` and `forecast_statewide.csv`: ballots and
-    rates by scenario. `forecast_statewide.csv` is in long form (`scenario, measure, mean, q05,
-    q50, q95`), so the `actual_GG18` and `actual_GG22` comparison rows need no NA for the
-    denominators they lack.
-  - `mode_split.csv`: the central scenario by mode, per county.
+    rates by scenario.
+    - The county files carry the four main scenarios plus `actual_GG18` and `actual_GG22` rows
+      from `training.csv`. Their interval columns equal the point value, and the actual rows
+      leave eligible and CVAP empty.
+    - `forecast_statewide.csv` is in long form (`scenario, measure, mean, q05, q50, q95`), so
+      the actual rows need no NA for the denominators they lack. It also has the mail
+      sensitivities `central_mail_latest` and `central_mail_recent`, each with
+      `ballots_minus_central`.
+    - `headline_range` is the range to quote: low's q05 to high's q95, around the central mean.
+  - `mode_split.csv`: the central scenario by mode, per county and for Maryland. County ballots
+    are rounded by largest remainder so they sum to the statewide central total. Columns
+    `gg22_share_*` give GG22's actual mode shares for comparison.
 
   Each cell is `ballots = active_2026 * invlogit(alpha_scenario + s + comp_centred + eps)`.
   comp is centred within each party (weighted by 2026 active) because its statewide level is not
@@ -89,8 +110,14 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
      above and -1 at 1/3 or below. It is 0 when |m18 - m22| < 0.002, or when the position lies
      outside [-0.5, 1.5], which is extrapolation beyond both analogues.
   2. Mail requests per registrant. Projected final GG26 sent per 2026 active registrant, over
-     GG22 final sent per GG22 active registrant. The projection is a linear trend over the daily
-     snapshots, extended to the 2026-10-27 request deadline.
+     GG22 final sent per GG22 active registrant. The projection is an OLS line over all the
+     daily snapshots, extended to the 2026-10-27 request deadline. Each county's projection is
+     floored at its latest count.
+     - The vote depends on the projection choice. The sent series is step-like, so the slope
+       over all snapshots is much steeper than the last few days'. Holding the latest count, or
+       extending only the last three snapshots, gives lower indices; see the sensitivity columns
+       and scenarios.
+     - No GG22 trajectory of daily sent counts exists to anchor the choice.
   3. Primary participation per registrant. GP26 ballots per active registrant over GP22's.
      OTH's vote is always 0, because the primaries are closed.
 
@@ -104,7 +131,8 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
 
 `R/model.R` (sourced by `R/bootstrap.R`) holds the structure-model helpers shared with the
 forecast: `model_frame()`, `build_formula()`, `fit_glmer()`, `cell_key()`, `alpha_name()`,
-`structure_point()`, `make_draws()`, `calibrate()`, and the forecast's `gauss_hermite_normal()`, `expected_rate()` and `calibrate_alpha()`.
+`structure_point()`, `make_draws()`, `calibrate()`, and the forecast's `gauss_hermite_normal()`,
+`expected_rate()` and `calibrate_alpha()`.
 
 ## What `active` and `eligible` mean
 

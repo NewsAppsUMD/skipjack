@@ -128,6 +128,7 @@ expected_rate <- function(eta, sigma = 0, gh = gauss_hermite_normal(20)) {
 # The scalar alpha with sum(active * E[invlogit(alpha + s + eps)]) = target, eps ~ N(0, sigma^2)
 # (sigma = 0: no eps, the plain sum(active * invlogit(alpha + s))). `label` names error messages.
 calibrate_alpha <- function(active, s, target, sigma = 0, gh = gauss_hermite_normal(20), label = "?") {
+  stopifnot(length(sigma) == 1, sigma >= 0)
   if (anyNA(active) || anyNA(s) || any(!is.finite(s))) stop("calibrate(", label, "): active and s must be finite")
   if (!length(active)) stop("calibrate(", label, "): no cells")
   if (is.na(target)) stop("calibrate(", label, "): target is NA")
