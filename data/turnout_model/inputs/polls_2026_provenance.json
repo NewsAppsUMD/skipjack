@@ -4,9 +4,14 @@
   "generated_by": "scripts/turnout_model/01_build_inputs.R",
   "run_date": "2026-10-17T16:32:52-0400",
   "sources": {
-    "polls": "hand-maintained; rows are added by hand from published poll releases, one row per poll, with source_url"
+    "polls": "hand-maintained; rows are added by hand from published poll releases, one row per poll, with source_url",
+    "rows": [
+      "https://politics.umbc.edu/wp-content/uploads/sites/778/2026/10/UMBC-Poll-Tuesday-Oct-6.pdf",
+      "https://en.wikipedia.org/wiki/2026_Maryland_gubernatorial_election",
+      "https://marylandmatters.org/2026/08/12/poll-moore-enjoys-comfortable-early-lead-against-cox-in-governors-rematch/"
+    ]
   },
   "source_ids": [],
   "checks_passed": [],
-  "notes": "Created header-only by 01_build_inputs.R; the script never overwrites an existing file, so hand-entered rows are kept."
+  "notes": "Created header-only by 01_build_inputs.R; the script never overwrites an existing file, so hand-entered rows are kept. Rows entered by hand on 2026-10-17 from public releases: the UMBC Poll (Sept 22-27, 2026, 776 likely voters; party composition from the release's unweighted 'Other Sample Demographics' table) and Zenith Research (July 27-Aug 3, 2026, 800 likely voters, a partisan-client poll; toplines from Wikipedia's 2026 Maryland gubernatorial election polling table because the cited Maryland Matters article returned HTTP 403). Only these two general-election polls were found. Used only as a cross-check on the forecast's implied party composition, never as a model input."
 }
