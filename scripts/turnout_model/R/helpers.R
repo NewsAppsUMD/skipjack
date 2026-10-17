@@ -84,9 +84,21 @@ check <- function(ok, name, detail = NULL) {
   name
 }
 
-# Write a tidy CSV deterministically (rows already arranged by the caller).
+# Doubles as text with at most 15 significant digits, never in scientific notation, so a
+# rounded value prints as itself (11.3609, not 11.360900000000001). NA stays NA.
+format_double <- function(x) {
+  out <- sprintf("%.15g", x)
+  sci <- grepl("e", out, fixed = TRUE) & !is.na(x)
+  out[sci] <- vapply(x[sci], function(v) format(v, digits = 15, scientific = FALSE, drop0trailing = TRUE), "")
+  out[is.na(x)] <- NA_character_
+  out
+}
+
+# Write a tidy CSV deterministically (rows already arranged by the caller). Double columns are
+# written with format_double(); dates and other classed columns are left to readr.
 write_input_csv <- function(df, path) {
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
+  df <- dplyr::mutate(df, dplyr::across(dplyr::where(function(x) is.double(x) && !is.object(x)), format_double))
   readr::write_csv(df, path, na = "")
   invisible(path)
 }

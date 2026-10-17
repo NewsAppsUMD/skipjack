@@ -1,14 +1,20 @@
 {
   "file": "data/turnout_model/gg26/fit_summary.json",
   "generated_by": "scripts/turnout_model/02_fit.R",
-  "run_date": "2026-10-17T16:49:58-0400",
+  "run_date": "2026-10-17T17:07:09-0400",
   "sources": {
     "training": "data/turnout_model/inputs/training.csv",
     "covariates": "data/turnout_model/inputs/covariates.csv"
   },
   "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type) + (1 | obs)",
   "formula_notes": "ep = interaction(election, party_group, drop = TRUE): a free statewide level for each of the 15 election x party cells present (OTH is absent from the closed primaries).",
-  "simplification": "The briefed formula and both prescribed simplifications are singular: (1 | county:party_group:election_type) is estimated at 0 (it is nearly the same as (1 | obs), with at most three rows per cell and election type), and (1 | county) is estimated at exactly 0 once the covariates are in (sd 0.195 without them): the covariates and (1 | county:party_group) take up all county-level variation. The final fit is simplification 1 without (1 | county); since that variance was 0 the estimates are unchanged.",
+  "selection": {
+    "rule": "random-effect variants tried in order; the first non-singular fit with no convergence messages is used",
+    "selected": "drop (1 | county:party_group:election_type) and (1 | county)",
+    "expected": "drop (1 | county:party_group:election_type) and (1 | county)",
+    "selected_matches_expected": true,
+    "why": "The full formula and the one without (1 | county:party_group:election_type) are singular: the county x party x type term is estimated at 0 (it is nearly the same as (1 | obs), with at most three rows per cell and election type), and (1 | county) is estimated at 0 once the covariates are in: the covariates and (1 | county:party_group) take up all county-level variation. Dropping (1 | county) as well leaves the estimates unchanged. zero_sd_terms in each attempt lists the terms at 0."
+  },
   "fit_history": [
     {
       "label": "full",
@@ -24,10 +30,15 @@
         "county:election_type": 0.06958,
         "county:party_group": 0.17039,
         "county": 0
-      }
+      },
+      "zero_sd_terms": [
+        "county:party_group:election_type",
+        "county"
+      ],
+      "selected": false
     },
     {
-      "label": "simplification 1: drop (1 | county:party_group:election_type)",
+      "label": "drop (1 | county:party_group:election_type)",
       "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county) + (1 | county:party_group) + (1 | county:election_type) + (1 | obs)",
       "singular": true,
       "messages": [
@@ -39,24 +50,14 @@
         "county:election_type": 0.06958,
         "county:party_group": 0.17039,
         "county": 0
-      }
-    },
-    {
-      "label": "simplification 2: also drop (1 | county:election_type)",
-      "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county) + (1 | county:party_group) + (1 | obs)",
-      "singular": true,
-      "messages": [
-        "boundary (singular) fit: see help('isSingular')"
+      },
+      "zero_sd_terms": [
+        "county"
       ],
-      "aic": 6034.672,
-      "sd": {
-        "obs": 0.13385,
-        "county:party_group": 0.17536,
-        "county": 0
-      }
+      "selected": false
     },
     {
-      "label": "final: simplification 1 without (1 | county)",
+      "label": "drop (1 | county:party_group:election_type) and (1 | county)",
       "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type) + (1 | obs)",
       "singular": false,
       "messages": [],
@@ -65,7 +66,9 @@
         "obs": 0.12016,
         "county:election_type": 0.06958,
         "county:party_group": 0.17039
-      }
+      },
+      "zero_sd_terms": [],
+      "selected": true
     }
   ],
   "n_rows": 360,
@@ -173,13 +176,17 @@
       "Model is nearly unidentifiable: very large eigenvalue\n - Rescale variables?"
     ]
   },
+  "max_midterm_cell_gap_fitted_vs_observed_rate_pts": 0.528,
+  "alpha_draws": "Not for use uncalibrated: the alpha draws and the random-effect draws behind s_cp are independent, so alpha + s_cp carries the uncertainty of the population mean (statewide GG22 ballots sd about 42,000), and the parametric bootMer (use.u = FALSE) agrees with that width for the same reason rather than validating it. The forecast calibrates the statewide level per draw and does not use the alpha spread.",
   "interval_widths": {
     "statistic": "statewide GG22 ballots, sum of active x invlogit(alpha_GG22,p + s_cp), without the obs effect",
+    "caveat": "Not for use uncalibrated: the alpha draws and the random-effect draws behind s_cp are independent, so alpha + s_cp carries the uncertainty of the population mean (statewide GG22 ballots sd about 42,000), and the parametric bootMer (use.u = FALSE) agrees with that width for the same reason rather than validating it. The forecast calibrates the statewide level per draw and does not use the alpha spread.",
     "point_estimate": 2087058,
     "observed": 2031635,
     "simulation": {
       "n": 1000,
       "sd": 42206,
+      "median": 2086554,
       "q05": 2013302,
       "q95": 2158107,
       "width_90": 144805
@@ -189,50 +196,70 @@
       "n_finite": 100,
       "warnings": 0,
       "seconds": 164,
+      "type": "parametric, use.u = FALSE",
       "sd": 41212,
+      "median": 2042877,
       "q05": 1983575,
       "q95": 2099310,
       "width_90": 115736,
-      "type": "parametric, use.u = FALSE"
+      "median_minus_point": -44180,
+      "median_minus_point_pct": -2.117
     }
   },
-  "backtest_refits": [
-    {
-      "held_out": "GG22",
-      "singular": false,
-      "messages": [],
-      "sd": {
-        "obs": 0.12733,
-        "county:election_type": 0.07893,
-        "county:party_group": 0.1725
+  "backtest": {
+    "model_loses_to_naive": [
+      {
+        "held_out": "GG22",
+        "grain": "county",
+        "metric": "share_mae_pts",
+        "model": 0.1731,
+        "naive": 0.1723
+      },
+      {
+        "held_out": "GG18",
+        "grain": "county",
+        "metric": "rate_max_abs_pts",
+        "model": 8.0819,
+        "naive": 7.0803,
+        "worst_model": "Garrett",
+        "worst_naive": "Garrett"
       }
-    },
-    {
-      "held_out": "GG18",
-      "singular": false,
-      "messages": [],
-      "sd": {
-        "obs": 0.1261,
-        "county:election_type": 0.06102,
-        "county:party_group": 0.17921
+    ],
+    "refits": [
+      {
+        "held_out": "GG22",
+        "singular": false,
+        "messages": [],
+        "sd": {
+          "obs": 0.12733,
+          "county:election_type": 0.07893,
+          "county:party_group": 0.1725
+        }
+      },
+      {
+        "held_out": "GG18",
+        "singular": false,
+        "messages": [],
+        "sd": {
+          "obs": 0.1261,
+          "county:election_type": 0.06102,
+          "county:party_group": 0.17921
+        }
       }
-    }
-  ],
+    ]
+  },
   "draws": {
     "n": 1000,
-    "seed": 20261103
+    "seed": 20261103,
+    "reproducibility": "byte-identical re-runs on this machine; mvrnorm's eigen() may differ across BLAS builds"
   },
-  "runtime_seconds": 169,
+  "runtime_seconds": 168,
   "checks_passed": [
     "training.csv has 432 rows",
     "covariates.csv has one row per county",
     "360 rows after dropping closed-primary rows",
     "0 <= ballots_cast <= active in every row",
     "every training row has covariates",
-    "(1 | county) variance is ~0 in simplification 1, so dropping it leaves the fit unchanged",
-    "final fit is not singular",
-    "final fit converged without warnings",
-    "final fit has the same likelihood as simplification 1 (one fewer parameter)",
     "GG18 and GG22 fitted ballots sum by party to within 0.1% of observed",
     "invlogit(alpha_hat + s_hat + u_obs) reproduces fitted rates in every midterm cell",
     "midterm fitted rates within 1 point of observed in every cell",
@@ -240,7 +267,12 @@
     "structure_draws has 72,000 rows",
     "15 election x party levels (no OTH in primaries)",
     "bootMer statistic matches the point estimate on the fit",
+    "every bootMer replicate is finite",
+    "backtest refit without GG22 is non-singular and converges without messages",
+    "backtest GG22 naive structure effects are finite",
     "backtest GG22 calibrated totals match actual statewide ballots",
+    "backtest refit without GG18 is non-singular and converges without messages",
+    "backtest GG18 naive structure effects are finite",
     "backtest GG18 calibrated totals match actual statewide ballots"
   ]
 }

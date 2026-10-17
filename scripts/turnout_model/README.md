@@ -13,7 +13,8 @@ Run every script with Rscript from the repo root, after `make build-db` has buil
 Each script begins with `source("scripts/turnout_model/R/bootstrap.R")`, which checks that it is
 running from the repo root, sets `RENV_PROJECT` to `scripts/turnout_model`, sources
 `scripts/turnout_model/renv/activate.R`, and then sources `R/helpers.R` (database connection,
-county names, election and mode labels, party grouping, integer splitting, provenance writer). Opening R inside `scripts/turnout_model/` also
+county names, election and mode labels, party grouping, integer splitting, provenance writer)
+and `R/model.R` (structure-model helpers). Opening R inside `scripts/turnout_model/` also
 activates the project, through its `.Rprofile`.
 
 ## renv
@@ -40,7 +41,15 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
   `election_levels.csv` and `election_level_draws.csv.gz` (GG18/GG22 statewide party levels,
   with `sigma_obs`), `backtest.csv` and `backtest_cells.csv` (leave one midterm out, against a
   naive baseline), and `fit_summary.json` (formula, why it was simplified, variance components,
-  interval-width cross-check). Draw files join on `draw`. Seeded, so re-runs are byte-identical.
+  interval-width cross-check). Draw files join on `draw`. The alpha draws in
+  `election_level_draws.csv.gz` are not for use uncalibrated: they are drawn independently of
+  the random effects, so alpha + s carries the uncertainty of the population mean; the forecast
+  calibrates the statewide level per draw instead. Seeded, so re-runs on this machine are
+  byte-identical, but `MASS::mvrnorm`'s `eigen()` may differ across BLAS builds.
+
+`R/model.R` (sourced by `R/bootstrap.R`) holds the structure-model helpers shared with the
+forecast: `model_frame()`, `build_formula()`, `fit_glmer()`, `cell_key()`, `alpha_name()`,
+`structure_point()`, `make_draws()` and `calibrate()`.
 
 ## What `active` and `eligible` mean
 

@@ -2,7 +2,7 @@
   "file": "data/turnout_model/gg26/backtest.csv",
   "description": "Leave-one-midterm-out backtest: refit without the held-out midterm, statewide party levels fixed at the held-out truth, errors at county and county x party grain, against a naive baseline.",
   "generated_by": "scripts/turnout_model/02_fit.R",
-  "run_date": "2026-10-17T16:49:58-0400",
+  "run_date": "2026-10-17T17:07:09-0400",
   "sources": {
     "training": "data/turnout_model/inputs/training.csv",
     "covariates": "data/turnout_model/inputs/covariates.csv"
@@ -14,10 +14,6 @@
     "360 rows after dropping closed-primary rows",
     "0 <= ballots_cast <= active in every row",
     "every training row has covariates",
-    "(1 | county) variance is ~0 in simplification 1, so dropping it leaves the fit unchanged",
-    "final fit is not singular",
-    "final fit converged without warnings",
-    "final fit has the same likelihood as simplification 1 (one fewer parameter)",
     "GG18 and GG22 fitted ballots sum by party to within 0.1% of observed",
     "invlogit(alpha_hat + s_hat + u_obs) reproduces fitted rates in every midterm cell",
     "midterm fitted rates within 1 point of observed in every cell",
@@ -25,16 +21,39 @@
     "structure_draws has 72,000 rows",
     "15 election x party levels (no OTH in primaries)",
     "bootMer statistic matches the point estimate on the fit",
+    "every bootMer replicate is finite",
+    "backtest refit without GG22 is non-singular and converges without messages",
+    "backtest GG22 naive structure effects are finite",
     "backtest GG22 calibrated totals match actual statewide ballots",
+    "backtest refit without GG18 is non-singular and converges without messages",
+    "backtest GG18 naive structure effects are finite",
     "backtest GG18 calibrated totals match actual statewide ballots"
   ],
-  "notes": "Model: cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type) + (1 | obs) (binomial glmer, bobyqa). s_cp = covariate part + u_county:party_group + u_county:election_type at midterm_general; (1 | county) is dropped (variance estimated at exactly 0), so it contributes nothing. See fit_summary.json.",
+  "notes": "Model: cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type) + (1 | obs) (binomial glmer, bobyqa). s_cp = covariate part + u_county:party_group + u_county:election_type at midterm_general; (1 | county) is not in the selected formula (its variance was estimated at 0). See fit_summary.json.",
   "metrics": {
     "rate_mae_pts": "mean absolute error of turnout rate (ballots / active), percentage points",
     "rate_max_abs_pts": "largest absolute error of turnout rate, points",
     "share_mae_pts": "mean absolute error of share of statewide (all-party) ballots, points"
   },
   "naive": "s_cp = logit(the other midterm's county x party rate) minus its party mean, calibrated the same way",
+  "model_loses_to_naive": [
+    {
+      "held_out": "GG22",
+      "grain": "county",
+      "metric": "share_mae_pts",
+      "model": 0.1731,
+      "naive": 0.1723
+    },
+    {
+      "held_out": "GG18",
+      "grain": "county",
+      "metric": "rate_max_abs_pts",
+      "model": 8.0819,
+      "naive": 7.0803,
+      "worst_model": "Garrett",
+      "worst_naive": "Garrett"
+    }
+  ],
   "refits": [
     {
       "held_out": "GG22",
