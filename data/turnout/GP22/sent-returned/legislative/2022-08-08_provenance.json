@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-sent-returned-legislative-20220808-e2553484f1a4",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Absentees Sent and Returned by Legislative.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 sent-returned (legislative) as of 2022-08-08",
+  "fetch_date": "2026-10-17T17:36:42+00:00",
+  "parse_date": "2026-10-17T17:41:54+00:00",
+  "sha256_original": "e2553484f1a4a4332ae14acddd90d94110dc6f710b1e6a875820c39bab47d790",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "sent-returned",
+  "geography": "legislative",
+  "notes": "GP22 sent-returned (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 2840,
+    "as_of": "2022-08-08"
+  }
+}

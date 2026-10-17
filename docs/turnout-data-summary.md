@@ -22,12 +22,15 @@ election-night unofficial turnout report**, and:
 - keeps every figure traceable: archive file + manifest row + provenance sidecar per
   document, and a `source_id` on every combined row.
 
-Three elections are live today:
+Six elections are live today:
 
 | Election | State | What the page shows |
 |---|---|---|
 | **2026 primary** (`/turnout/gp26/`) | Certified July 23, 2026 | The finals: ballots cast (902,818) and counted (891,567), the four voting modes with shares, mail-in ballots with rejection reasons, provisional outcomes, and mail-in ballot requests |
 | **2024 general** (`/turnout/pg24/`) | Certified (canvass as of 2024-12-11, re-posted April 2026) | The finals: ballots cast (3,067,931) and counted (3,062,158), the four voting modes with shares, mail-in ballots with rejection reasons, mail-in ballot requests, and the board's own turnout percentage as its official Turnout sheet printed it |
+| **2024 primary** (`/turnout/pp24/`) | Certified June 7, 2024 | The finals: ballots cast (1,016,857) and counted (1,005,373), the four voting modes, mail-in ballots with rejection reasons, provisional outcomes, mail-in ballot requests, and the board's printed turnout percentage (27.6%, over active registration) |
+| **2022 general** (`/turnout/gg22/`) | Certified (canvass as of 2022-12-08, corrected re-posts April 2026) | The finals: ballots cast (2,034,265) and counted (2,030,446), the four voting modes, mail-in ballots with rejection reasons, provisional outcomes, mail-in ballot requests, and the board's printed turnout percentage (49.3%, over active registration) |
+| **2022 primary** (`/turnout/gp22/`) | Certified August 18, 2022 | The finals: ballots cast (1,033,903) and counted (1,022,573), the four voting modes, mail-in ballots with rejection reasons, provisional outcomes, mail-in ballot requests, and the board's printed turnout percentage (27.4%, over active registration) |
 | **2026 general** (`/turnout/gg26/`) | In progress (election day November 3) | The mid-campaign mail-in tracking: ballot requests, ballots sent, envelopes received back, and accepted-in-the-canvass (currently ~0) |
 
 ## Where the data comes from
@@ -48,9 +51,9 @@ defines the vocabulary; two of its points are easy to trip on:
    voters not in "incomplete" or "cancelled" status — active, inactive **and** pending
    together. Skipjack's voter-file pages say "participation among current voters" for the
    same reason; the Turnout section is the official side of that distinction. What the
-   board *prints* as the percentage moved between eras: the 2024-era official turnout
-   sheets computed it over active registration alone (PG24's page shows that printed
-   percentage and says so); the 2026 guide's construction is what GP26's page uses while
+   board *prints* as the percentage moved between eras: the 2022- and 2024-era official
+   turnout sheets computed it over active registration alone (those elections' pages show
+   that printed percentage and say so); the 2026 guide's construction is what GP26's page uses while
    the sheet has not republished.
 
 ## What the pipeline does
@@ -188,9 +191,37 @@ it produces and the ordinary human push triggers the Pages workflow.
 
 ## Not yet on the site (deliberate)
 
-- The **2022/2024 elections** (the same families are published for GP22/GG22/PP24/PG24 and
-  the 2024/2025 special elections, including 2026-revised copies for GG22/PG24) — the
-  parsers generalize; the backfill is a later increment.
+- The **special elections** of 2024 and 2025 (SPP24, SPG25, SPP25): the same families are
+  published; the 2022 and 2024 regular elections are live.
 - **Permanent mail-in voters by party and county** (the PMIBs monthly report) and the
   **by-location subcounty pages** — data layers the section can grow into.
 - **Unofficial election-night turnout** — excluded by decision.
+
+## The 2022 and 2024 backfill (PP24, GP22, GG22)
+
+Added October 17, 2026 beside PG24, from the same families at the same grains. What differs:
+
+- **Where the files are.** GG22's sit in `press_room/2022_stats/GG22/` (PG24's layout, with
+  `Updated-` re-posts). The primaries' sit loose in `press_room/2024_stats/` (PP24) and
+  `press_room/2022_stats/` (GP22), beside the later elections' folders, with no `Updated-`
+  re-posts. GP22's mail-in report is named without PG24's "(NEW)". Every printed title was
+  read: the "ZOfficial by Party…" sheets are the genuine election's, not stale copies.
+- **Figures of record only.** The eight-day early-voting and same-day files are not fetched
+  for these three elections (a certified election never publishes them, and their 2022 sheets
+  print header spellings PG24's do not), nor are the single left-to-count sheets.
+- **2022 sent-and-returned sheets print no accepted columns**; the parser reads them without.
+- **The board's own print slips** — modes that do not sum to a printed total, or a printed
+  share that is not its count over its base (26 canvass, accepted, mail-in and provisional
+  rows and 12 by-party county, district and legislative cells in PP24, one by-party cell and
+  Talbot's three provisional shares in GP22) — are an explicit registry checked against each archived
+  file's text layer: `_TALLIED_PRINT_ERRORS`, `_TALLIED_SHARE_PRINT_ERRORS` and
+  `_OFFICIAL_BLOCK_PRINT_ERRORS` in `pipeline/turnout.py`. The row publishes as printed; a
+  slip outside the registry fails the parse.
+- **Posts that do not reconcile stay archived and unparsed** (`UNRECONCILED_SNAPSHOTS`):
+  GG22's December 2022 votes-accepted original (its counties' vote-by-mail counts sum 792
+  short of its Statewide total; the April 2026 re-post is the corrected one the web reads) and
+  the April 2026 re-posts of GG22's three by-party workbooks (their party blocks differ from
+  their Statewide blocks by hundreds in nearly every area; the December 2022 originals
+  reconcile and are the figures of record).
+- **New parties on the 2022 rolls:** Bread and Roses (`BAR`, an eligible-sheet column) and
+  the Working Class Party (a by-party block label), alongside the existing codes.

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-eligible-inactive-county-20220706-3c1a6ccc31de",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Eligible Inactive Voters - GP22.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 eligible-inactive (county) as of 2022-07-06",
+  "fetch_date": "2026-10-17T17:36:58+00:00",
+  "parse_date": "2026-10-17T17:39:49+00:00",
+  "sha256_original": "3c1a6ccc31dea506afda9a765cb2c8bf58e79a7fb9bbacbd1947f637c53d4ec1",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "eligible-inactive",
+  "geography": "county",
+  "notes": "GP22 eligible-inactive (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 216,
+    "as_of": "2022-07-06"
+  }
+}

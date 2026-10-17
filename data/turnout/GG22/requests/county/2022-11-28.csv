@@ -1,0 +1,169 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2022-11-28,GG22,requests,county,Allegany,"",ALL,ALL,agent,16
+2022-11-28,GG22,requests,county,Allegany,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Allegany,"",ALL,ALL,in-person,210
+2022-11-28,GG22,requests,county,Allegany,"",ALL,ALL,mailed,4009
+2022-11-28,GG22,requests,county,Allegany,"",ALL,ALL,others,1
+2022-11-28,GG22,requests,county,Allegany,"",ALL,ALL,web-delivered,330
+2022-11-28,GG22,requests,county,Allegany,"",ALL,ALL,total,4566
+2022-11-28,GG22,requests,county,Anne Arundel,"",ALL,ALL,agent,48
+2022-11-28,GG22,requests,county,Anne Arundel,"",ALL,ALL,faxed,11
+2022-11-28,GG22,requests,county,Anne Arundel,"",ALL,ALL,in-person,328
+2022-11-28,GG22,requests,county,Anne Arundel,"",ALL,ALL,mailed,58118
+2022-11-28,GG22,requests,county,Anne Arundel,"",ALL,ALL,others,5
+2022-11-28,GG22,requests,county,Anne Arundel,"",ALL,ALL,web-delivered,11642
+2022-11-28,GG22,requests,county,Anne Arundel,"",ALL,ALL,total,70152
+2022-11-28,GG22,requests,county,Baltimore City,"",ALL,ALL,agent,6
+2022-11-28,GG22,requests,county,Baltimore City,"",ALL,ALL,faxed,8
+2022-11-28,GG22,requests,county,Baltimore City,"",ALL,ALL,in-person,134
+2022-11-28,GG22,requests,county,Baltimore City,"",ALL,ALL,mailed,49398
+2022-11-28,GG22,requests,county,Baltimore City,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Baltimore City,"",ALL,ALL,web-delivered,7853
+2022-11-28,GG22,requests,county,Baltimore City,"",ALL,ALL,total,57399
+2022-11-28,GG22,requests,county,Baltimore County,"",ALL,ALL,agent,55
+2022-11-28,GG22,requests,county,Baltimore County,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Baltimore County,"",ALL,ALL,in-person,286
+2022-11-28,GG22,requests,county,Baltimore County,"",ALL,ALL,mailed,80015
+2022-11-28,GG22,requests,county,Baltimore County,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Baltimore County,"",ALL,ALL,web-delivered,13058
+2022-11-28,GG22,requests,county,Baltimore County,"",ALL,ALL,total,93414
+2022-11-28,GG22,requests,county,Calvert,"",ALL,ALL,agent,66
+2022-11-28,GG22,requests,county,Calvert,"",ALL,ALL,faxed,2
+2022-11-28,GG22,requests,county,Calvert,"",ALL,ALL,in-person,59
+2022-11-28,GG22,requests,county,Calvert,"",ALL,ALL,mailed,8924
+2022-11-28,GG22,requests,county,Calvert,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Calvert,"",ALL,ALL,web-delivered,1353
+2022-11-28,GG22,requests,county,Calvert,"",ALL,ALL,total,10404
+2022-11-28,GG22,requests,county,Caroline,"",ALL,ALL,agent,2
+2022-11-28,GG22,requests,county,Caroline,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Caroline,"",ALL,ALL,in-person,14
+2022-11-28,GG22,requests,county,Caroline,"",ALL,ALL,mailed,1530
+2022-11-28,GG22,requests,county,Caroline,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Caroline,"",ALL,ALL,web-delivered,147
+2022-11-28,GG22,requests,county,Caroline,"",ALL,ALL,total,1693
+2022-11-28,GG22,requests,county,Carroll,"",ALL,ALL,agent,22
+2022-11-28,GG22,requests,county,Carroll,"",ALL,ALL,faxed,3
+2022-11-28,GG22,requests,county,Carroll,"",ALL,ALL,in-person,65
+2022-11-28,GG22,requests,county,Carroll,"",ALL,ALL,mailed,14636
+2022-11-28,GG22,requests,county,Carroll,"",ALL,ALL,others,2
+2022-11-28,GG22,requests,county,Carroll,"",ALL,ALL,web-delivered,2218
+2022-11-28,GG22,requests,county,Carroll,"",ALL,ALL,total,16946
+2022-11-28,GG22,requests,county,Cecil,"",ALL,ALL,agent,18
+2022-11-28,GG22,requests,county,Cecil,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Cecil,"",ALL,ALL,in-person,40
+2022-11-28,GG22,requests,county,Cecil,"",ALL,ALL,mailed,6107
+2022-11-28,GG22,requests,county,Cecil,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Cecil,"",ALL,ALL,web-delivered,862
+2022-11-28,GG22,requests,county,Cecil,"",ALL,ALL,total,7027
+2022-11-28,GG22,requests,county,Charles,"",ALL,ALL,agent,23
+2022-11-28,GG22,requests,county,Charles,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Charles,"",ALL,ALL,in-person,140
+2022-11-28,GG22,requests,county,Charles,"",ALL,ALL,mailed,12228
+2022-11-28,GG22,requests,county,Charles,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Charles,"",ALL,ALL,web-delivered,1867
+2022-11-28,GG22,requests,county,Charles,"",ALL,ALL,total,14258
+2022-11-28,GG22,requests,county,Dorchester,"",ALL,ALL,agent,15
+2022-11-28,GG22,requests,county,Dorchester,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Dorchester,"",ALL,ALL,in-person,71
+2022-11-28,GG22,requests,county,Dorchester,"",ALL,ALL,mailed,2277
+2022-11-28,GG22,requests,county,Dorchester,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Dorchester,"",ALL,ALL,web-delivered,197
+2022-11-28,GG22,requests,county,Dorchester,"",ALL,ALL,total,2560
+2022-11-28,GG22,requests,county,Frederick,"",ALL,ALL,agent,54
+2022-11-28,GG22,requests,county,Frederick,"",ALL,ALL,faxed,2
+2022-11-28,GG22,requests,county,Frederick,"",ALL,ALL,in-person,136
+2022-11-28,GG22,requests,county,Frederick,"",ALL,ALL,mailed,25008
+2022-11-28,GG22,requests,county,Frederick,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Frederick,"",ALL,ALL,web-delivered,4305
+2022-11-28,GG22,requests,county,Frederick,"",ALL,ALL,total,29505
+2022-11-28,GG22,requests,county,Garrett,"",ALL,ALL,agent,6
+2022-11-28,GG22,requests,county,Garrett,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Garrett,"",ALL,ALL,in-person,61
+2022-11-28,GG22,requests,county,Garrett,"",ALL,ALL,mailed,1702
+2022-11-28,GG22,requests,county,Garrett,"",ALL,ALL,others,1
+2022-11-28,GG22,requests,county,Garrett,"",ALL,ALL,web-delivered,176
+2022-11-28,GG22,requests,county,Garrett,"",ALL,ALL,total,1946
+2022-11-28,GG22,requests,county,Harford,"",ALL,ALL,agent,17
+2022-11-28,GG22,requests,county,Harford,"",ALL,ALL,faxed,3
+2022-11-28,GG22,requests,county,Harford,"",ALL,ALL,in-person,136
+2022-11-28,GG22,requests,county,Harford,"",ALL,ALL,mailed,19250
+2022-11-28,GG22,requests,county,Harford,"",ALL,ALL,others,1
+2022-11-28,GG22,requests,county,Harford,"",ALL,ALL,web-delivered,2852
+2022-11-28,GG22,requests,county,Harford,"",ALL,ALL,total,22259
+2022-11-28,GG22,requests,county,Howard,"",ALL,ALL,agent,39
+2022-11-28,GG22,requests,county,Howard,"",ALL,ALL,faxed,1
+2022-11-28,GG22,requests,county,Howard,"",ALL,ALL,in-person,198
+2022-11-28,GG22,requests,county,Howard,"",ALL,ALL,mailed,32850
+2022-11-28,GG22,requests,county,Howard,"",ALL,ALL,others,1
+2022-11-28,GG22,requests,county,Howard,"",ALL,ALL,web-delivered,7048
+2022-11-28,GG22,requests,county,Howard,"",ALL,ALL,total,40137
+2022-11-28,GG22,requests,county,Kent,"",ALL,ALL,agent,1
+2022-11-28,GG22,requests,county,Kent,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Kent,"",ALL,ALL,in-person,39
+2022-11-28,GG22,requests,county,Kent,"",ALL,ALL,mailed,1817
+2022-11-28,GG22,requests,county,Kent,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Kent,"",ALL,ALL,web-delivered,216
+2022-11-28,GG22,requests,county,Kent,"",ALL,ALL,total,2073
+2022-11-28,GG22,requests,county,Montgomery,"",ALL,ALL,agent,68
+2022-11-28,GG22,requests,county,Montgomery,"",ALL,ALL,faxed,17
+2022-11-28,GG22,requests,county,Montgomery,"",ALL,ALL,in-person,1682
+2022-11-28,GG22,requests,county,Montgomery,"",ALL,ALL,mailed,115247
+2022-11-28,GG22,requests,county,Montgomery,"",ALL,ALL,others,13
+2022-11-28,GG22,requests,county,Montgomery,"",ALL,ALL,web-delivered,25445
+2022-11-28,GG22,requests,county,Montgomery,"",ALL,ALL,total,142472
+2022-11-28,GG22,requests,county,Prince George's,"",ALL,ALL,agent,110
+2022-11-28,GG22,requests,county,Prince George's,"",ALL,ALL,faxed,10
+2022-11-28,GG22,requests,county,Prince George's,"",ALL,ALL,in-person,281
+2022-11-28,GG22,requests,county,Prince George's,"",ALL,ALL,mailed,70892
+2022-11-28,GG22,requests,county,Prince George's,"",ALL,ALL,others,1
+2022-11-28,GG22,requests,county,Prince George's,"",ALL,ALL,web-delivered,10854
+2022-11-28,GG22,requests,county,Prince George's,"",ALL,ALL,total,82148
+2022-11-28,GG22,requests,county,Queen Anne's,"",ALL,ALL,agent,10
+2022-11-28,GG22,requests,county,Queen Anne's,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Queen Anne's,"",ALL,ALL,in-person,48
+2022-11-28,GG22,requests,county,Queen Anne's,"",ALL,ALL,mailed,3753
+2022-11-28,GG22,requests,county,Queen Anne's,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Queen Anne's,"",ALL,ALL,web-delivered,593
+2022-11-28,GG22,requests,county,Queen Anne's,"",ALL,ALL,total,4404
+2022-11-28,GG22,requests,county,St. Mary's,"",ALL,ALL,agent,10
+2022-11-28,GG22,requests,county,St. Mary's,"",ALL,ALL,faxed,2
+2022-11-28,GG22,requests,county,St. Mary's,"",ALL,ALL,in-person,193
+2022-11-28,GG22,requests,county,St. Mary's,"",ALL,ALL,mailed,7433
+2022-11-28,GG22,requests,county,St. Mary's,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,St. Mary's,"",ALL,ALL,web-delivered,1116
+2022-11-28,GG22,requests,county,St. Mary's,"",ALL,ALL,total,8754
+2022-11-28,GG22,requests,county,Somerset,"",ALL,ALL,agent,4
+2022-11-28,GG22,requests,county,Somerset,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Somerset,"",ALL,ALL,in-person,8
+2022-11-28,GG22,requests,county,Somerset,"",ALL,ALL,mailed,1207
+2022-11-28,GG22,requests,county,Somerset,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Somerset,"",ALL,ALL,web-delivered,97
+2022-11-28,GG22,requests,county,Somerset,"",ALL,ALL,total,1316
+2022-11-28,GG22,requests,county,Talbot,"",ALL,ALL,agent,18
+2022-11-28,GG22,requests,county,Talbot,"",ALL,ALL,faxed,2
+2022-11-28,GG22,requests,county,Talbot,"",ALL,ALL,in-person,125
+2022-11-28,GG22,requests,county,Talbot,"",ALL,ALL,mailed,3980
+2022-11-28,GG22,requests,county,Talbot,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Talbot,"",ALL,ALL,web-delivered,599
+2022-11-28,GG22,requests,county,Talbot,"",ALL,ALL,total,4724
+2022-11-28,GG22,requests,county,Washington,"",ALL,ALL,agent,14
+2022-11-28,GG22,requests,county,Washington,"",ALL,ALL,faxed,1
+2022-11-28,GG22,requests,county,Washington,"",ALL,ALL,in-person,178
+2022-11-28,GG22,requests,county,Washington,"",ALL,ALL,mailed,10376
+2022-11-28,GG22,requests,county,Washington,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Washington,"",ALL,ALL,web-delivered,1117
+2022-11-28,GG22,requests,county,Washington,"",ALL,ALL,total,11686
+2022-11-28,GG22,requests,county,Wicomico,"",ALL,ALL,agent,38
+2022-11-28,GG22,requests,county,Wicomico,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Wicomico,"",ALL,ALL,in-person,203
+2022-11-28,GG22,requests,county,Wicomico,"",ALL,ALL,mailed,6136
+2022-11-28,GG22,requests,county,Wicomico,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Wicomico,"",ALL,ALL,web-delivered,701
+2022-11-28,GG22,requests,county,Wicomico,"",ALL,ALL,total,7078
+2022-11-28,GG22,requests,county,Worcester,"",ALL,ALL,agent,0
+2022-11-28,GG22,requests,county,Worcester,"",ALL,ALL,faxed,0
+2022-11-28,GG22,requests,county,Worcester,"",ALL,ALL,in-person,30
+2022-11-28,GG22,requests,county,Worcester,"",ALL,ALL,mailed,4997
+2022-11-28,GG22,requests,county,Worcester,"",ALL,ALL,others,0
+2022-11-28,GG22,requests,county,Worcester,"",ALL,ALL,web-delivered,656
+2022-11-28,GG22,requests,county,Worcester,"",ALL,ALL,total,5683

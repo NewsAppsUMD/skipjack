@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-eligible-active-legislative-20221022-799b67e4b494",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Eligible Active Voters by Legislative - GG22.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 eligible-active (legislative) as of 2022-10-22",
+  "fetch_date": "2026-10-17T17:36:32+00:00",
+  "parse_date": "2026-10-17T17:39:48+00:00",
+  "sha256_original": "799b67e4b494e12eebc2961e2845b6061808a82bd7e64f1663e4281de644e38d",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "eligible-active",
+  "geography": "legislative",
+  "notes": "GG22 eligible-active (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 567,
+    "as_of": "2022-10-22"
+  }
+}

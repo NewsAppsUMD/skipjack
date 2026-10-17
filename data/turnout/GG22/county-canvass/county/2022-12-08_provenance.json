@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-county-canvass-county-20221208-4a7b33c5de40",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Official_CountyAndCanvass.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 county-canvass (county) as of 2022-12-08",
+  "fetch_date": "2026-10-17T17:36:29+00:00",
+  "parse_date": "2026-10-17T17:39:48+00:00",
+  "sha256_original": "4a7b33c5de40c36ff0ece8f62dc2b7d3503aee1685644e3633eacfb59534949f",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "county-canvass",
+  "geography": "county",
+  "notes": "GG22 county-canvass (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 120,
+    "as_of": "2022-12-08"
+  }
+}

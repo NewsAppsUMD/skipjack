@@ -1,0 +1,481 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,DEM,sent,34423
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,REP,sent,22938
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,OTH,sent,500
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,ALL,sent,57861
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,DEM,received,24522
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,REP,received,16656
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,OTH,received,156
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,ALL,received,41334
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,DEM,accepted,24414
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,REP,accepted,16574
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,OTH,accepted,152
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,ALL,ALL,accepted,41140
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,DEM,sent,59669
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,REP,sent,19419
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,ALL,sent,79088
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,DEM,received,42752
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,REP,received,13454
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,ALL,received,56206
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,DEM,accepted,42503
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,REP,accepted,13396
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,ALL,ALL,accepted,55899
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,DEM,sent,55219
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,REP,sent,18894
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,OTH,sent,10265
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,ALL,sent,84378
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,DEM,received,38174
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,REP,received,12793
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,OTH,received,3254
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,ALL,received,54221
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,DEM,accepted,37940
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,REP,accepted,12736
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,OTH,accepted,3217
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,ALL,ALL,accepted,53893
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,DEM,sent,47282
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,REP,sent,3119
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,OTH,sent,3067
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,ALL,sent,53468
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,DEM,received,34049
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,REP,received,1914
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,OTH,received,823
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,ALL,received,36786
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,DEM,accepted,33775
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,REP,accepted,1904
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,OTH,accepted,813
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,ALL,ALL,accepted,36492
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,DEM,sent,55393
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,REP,sent,14708
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,OTH,sent,8902
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,ALL,sent,79003
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,DEM,received,40087
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,REP,received,10178
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,OTH,received,2848
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,ALL,received,53113
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,DEM,accepted,39864
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,REP,accepted,10122
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,OTH,accepted,2818
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,ALL,ALL,accepted,52804
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,DEM,sent,42798
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,REP,sent,17554
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,OTH,sent,11871
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,ALL,sent,72223
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,DEM,received,29407
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,REP,received,12013
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,OTH,received,3763
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,ALL,received,45183
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,DEM,accepted,29230
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,REP,accepted,11946
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,OTH,accepted,3718
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,ALL,ALL,accepted,44894
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,DEM,sent,55583
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,REP,sent,5142
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,ALL,sent,60725
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,DEM,received,40624
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,REP,received,3178
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,ALL,received,43802
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,DEM,accepted,40315
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,REP,accepted,3150
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,ALL,ALL,accepted,43465
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,DEM,sent,80249
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,REP,sent,11625
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,OTH,sent,16079
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,ALL,sent,107953
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,DEM,received,54221
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,REP,received,6906
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,OTH,received,4351
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,ALL,received,65478
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,DEM,accepted,53822
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,REP,accepted,6841
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,OTH,accepted,4292
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,ALL,ALL,accepted,64955
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,DEM,sent,248
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,REP,sent,54
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,OTH,sent,1
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,ALL,sent,303
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,DEM,received,83
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,REP,received,21
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,ALL,received,104
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,DEM,accepted,82
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,REP,accepted,20
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Civilian Overseas,ALL,accepted,102
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,DEM,sent,401
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,REP,sent,67
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,ALL,sent,468
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,DEM,received,155
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,REP,received,25
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,ALL,received,180
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,DEM,accepted,149
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,REP,accepted,25
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Civilian Overseas,ALL,accepted,174
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,DEM,sent,560
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,REP,sent,87
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,OTH,sent,51
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,ALL,sent,698
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,DEM,received,191
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,REP,received,42
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,OTH,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,ALL,received,236
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,DEM,accepted,189
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,REP,accepted,41
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,OTH,accepted,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Civilian Overseas,ALL,accepted,233
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,DEM,sent,278
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,REP,sent,31
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,OTH,sent,16
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,ALL,sent,325
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,DEM,received,106
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,REP,received,16
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,OTH,received,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,ALL,received,124
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,DEM,accepted,105
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,REP,accepted,16
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,OTH,accepted,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Civilian Overseas,ALL,accepted,123
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,DEM,sent,232
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,REP,sent,51
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,OTH,sent,33
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,ALL,sent,316
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,DEM,received,87
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,REP,received,22
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,OTH,received,8
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,ALL,received,117
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,DEM,accepted,86
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,REP,accepted,22
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,OTH,accepted,8
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Civilian Overseas,ALL,accepted,116
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,DEM,sent,358
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,REP,sent,59
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,OTH,sent,41
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,ALL,sent,458
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,DEM,received,136
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,REP,received,27
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,OTH,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,ALL,received,166
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,DEM,accepted,136
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,REP,accepted,27
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,OTH,accepted,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Civilian Overseas,ALL,accepted,165
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,DEM,sent,344
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,REP,sent,57
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,ALL,sent,401
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,DEM,received,113
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,REP,received,13
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,ALL,received,126
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,DEM,accepted,112
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,REP,accepted,13
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Civilian Overseas,ALL,accepted,125
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,DEM,sent,1788
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,REP,sent,181
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,OTH,sent,164
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,ALL,sent,2133
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,DEM,received,636
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,REP,received,51
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,OTH,received,21
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,ALL,received,708
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,DEM,accepted,631
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,REP,accepted,51
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,OTH,accepted,21
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Civilian Overseas,ALL,accepted,703
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,DEM,sent,34143
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,REP,sent,22826
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,OTH,sent,499
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,ALL,sent,57468
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,DEM,received,24425
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,REP,received,16609
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,OTH,received,156
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,ALL,received,41190
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,DEM,accepted,24318
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,REP,accepted,16528
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,OTH,accepted,152
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Domestic Civilian,ALL,accepted,40998
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,DEM,sent,59234
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,REP,sent,19328
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,ALL,sent,78562
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,DEM,received,42575
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,REP,received,13419
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,ALL,received,55994
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,DEM,accepted,42332
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,REP,accepted,13361
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Domestic Civilian,ALL,accepted,55693
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,DEM,sent,54528
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,REP,sent,18721
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,OTH,sent,10165
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,ALL,sent,83414
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,DEM,received,37938
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,REP,received,12713
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,OTH,received,3246
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,ALL,received,53897
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,DEM,accepted,37707
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,REP,accepted,12657
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,OTH,accepted,3209
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Domestic Civilian,ALL,accepted,53573
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,DEM,sent,46952
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,REP,sent,3074
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,OTH,sent,3030
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,ALL,sent,53056
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,DEM,received,33928
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,REP,received,1892
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,OTH,received,820
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,ALL,received,36640
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,DEM,accepted,33655
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,REP,accepted,1882
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,OTH,accepted,810
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Domestic Civilian,ALL,accepted,36347
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,DEM,sent,55000
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,REP,sent,14550
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,OTH,sent,8792
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,ALL,sent,78342
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,DEM,received,39931
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,REP,received,10111
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,OTH,received,2827
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,ALL,received,52869
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,DEM,accepted,39710
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,REP,accepted,10055
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,OTH,accepted,2797
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Domestic Civilian,ALL,accepted,52562
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,DEM,sent,42395
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,REP,sent,17442
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,OTH,sent,11790
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,ALL,sent,71627
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,DEM,received,29250
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,REP,received,11959
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,OTH,received,3757
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,ALL,received,44966
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,DEM,accepted,29073
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,REP,accepted,11894
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,OTH,accepted,3714
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Domestic Civilian,ALL,accepted,44681
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,DEM,sent,55200
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,REP,sent,5072
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,ALL,sent,60272
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,DEM,received,40495
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,REP,received,3161
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,ALL,received,43656
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,DEM,accepted,40187
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,REP,accepted,3134
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Domestic Civilian,ALL,accepted,43321
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,DEM,sent,78354
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,REP,sent,11414
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,OTH,sent,15872
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,ALL,sent,105640
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,DEM,received,53549
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,REP,received,6843
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,OTH,received,4321
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,ALL,received,64713
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,DEM,accepted,53156
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,REP,accepted,6779
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,OTH,accepted,4262
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Domestic Civilian,ALL,accepted,64197
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,DEM,sent,8
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,REP,sent,21
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,ALL,sent,29
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,DEM,received,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,REP,received,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,ALL,received,15
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,DEM,accepted,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,REP,accepted,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military Overseas,ALL,accepted,15
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,DEM,sent,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,REP,sent,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,ALL,sent,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,DEM,received,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,REP,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,ALL,received,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,DEM,accepted,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,REP,accepted,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military Overseas,ALL,accepted,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,DEM,sent,27
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,REP,sent,20
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,OTH,sent,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,ALL,sent,58
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,DEM,received,9
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,REP,received,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,ALL,received,13
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,DEM,accepted,9
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,REP,accepted,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military Overseas,ALL,accepted,13
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,DEM,sent,12
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,REP,sent,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,OTH,sent,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,ALL,sent,19
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,DEM,received,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,REP,received,1
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,ALL,received,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,DEM,accepted,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,REP,accepted,1
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military Overseas,ALL,accepted,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,DEM,sent,23
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,REP,sent,14
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,OTH,sent,15
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,ALL,sent,52
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,DEM,received,12
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,REP,received,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,OTH,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,ALL,received,21
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,DEM,accepted,12
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,REP,accepted,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,OTH,accepted,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military Overseas,ALL,accepted,21
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,DEM,sent,8
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,REP,sent,10
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,OTH,sent,10
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,ALL,sent,28
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,DEM,received,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,REP,received,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,ALL,received,8
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,DEM,accepted,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,REP,accepted,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military Overseas,ALL,accepted,8
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,DEM,sent,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,REP,sent,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,ALL,sent,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,DEM,received,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,REP,received,1
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,ALL,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,DEM,accepted,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,REP,accepted,1
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military Overseas,ALL,accepted,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,DEM,sent,18
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,REP,sent,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,OTH,sent,9
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,ALL,sent,30
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,DEM,received,4
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,REP,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,OTH,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,ALL,received,7
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,DEM,accepted,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,REP,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,OTH,accepted,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military Overseas,ALL,accepted,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,DEM,sent,24
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,REP,sent,37
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,ALL,sent,61
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,DEM,received,10
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,REP,received,15
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,ALL,received,25
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,DEM,accepted,10
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,REP,accepted,15
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 01,Military US,ALL,accepted,25
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,DEM,sent,29
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,REP,sent,18
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,ALL,sent,47
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,DEM,received,20
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,REP,received,7
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,ALL,received,27
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,DEM,accepted,20
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,REP,accepted,7
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 02,Military US,ALL,accepted,27
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,DEM,sent,104
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,REP,sent,66
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,OTH,sent,38
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,ALL,sent,208
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,DEM,received,36
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,REP,received,34
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,OTH,received,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,ALL,received,75
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,DEM,accepted,35
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,REP,accepted,34
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,OTH,accepted,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 03,Military US,ALL,accepted,74
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,DEM,sent,40
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,REP,sent,10
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,OTH,sent,18
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,ALL,sent,68
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,DEM,received,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,REP,received,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,OTH,received,1
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,ALL,received,17
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,DEM,accepted,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,REP,accepted,5
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,OTH,accepted,1
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 04,Military US,ALL,accepted,17
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,DEM,sent,138
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,REP,sent,93
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,OTH,sent,62
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,ALL,sent,293
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,DEM,received,57
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,REP,received,39
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,OTH,received,10
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,ALL,received,106
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,DEM,accepted,56
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,REP,accepted,39
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,OTH,accepted,10
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 05,Military US,ALL,accepted,105
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,DEM,sent,37
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,REP,sent,43
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,OTH,sent,30
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,ALL,sent,110
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,DEM,received,19
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,REP,received,21
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,OTH,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,ALL,received,43
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,DEM,accepted,19
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,REP,accepted,19
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,OTH,accepted,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 06,Military US,ALL,accepted,40
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,DEM,sent,34
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,REP,sent,7
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,OTH,sent,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,ALL,sent,41
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,DEM,received,14
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,REP,received,3
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,OTH,received,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,ALL,received,17
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,DEM,accepted,14
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,REP,accepted,2
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,OTH,accepted,0
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 07,Military US,ALL,accepted,16
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,DEM,sent,89
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,REP,sent,27
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,OTH,sent,34
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,ALL,sent,150
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,DEM,received,32
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,REP,received,12
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,OTH,received,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,ALL,received,50
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,DEM,accepted,32
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,REP,accepted,11
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,OTH,accepted,6
+2024-06-05,PP24,sent-returned,congressional,"",Congressional District Code 08,Military US,ALL,accepted,49

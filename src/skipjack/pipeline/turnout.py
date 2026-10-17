@@ -165,24 +165,36 @@ def _gp26_xlsx(family: str, geography: str, base: str) -> FamilyFile:
     return FamilyFile(family, geography, "xlsx", f"{base}/{stem}")
 
 
-def _pg24_files() -> list[FamilyFile]:
-    """Every stat file published under press_room/2024_stats/PG24/ (see the press-room
-    page). The campaign mail-in reports; the certified reports and their Updated- re-posts
-    (the web reads each family's latest snapshot, so a corrected re-post becomes the newer
-    record and the correction history stays archived); and the unofficial eight-day
-    tallies, which a certified election parses and keeps but never publishes. Not
-    ingested: the RAW csvs, the precinct csv and the EOC report."""
-    base = f"{SBE_BASE}/press_room/2024_stats/PG24"
+def _certified_files(
+    base: str,
+    code: str,
+    mail_stem: str = "Official Vote-By-Mail Voting(NEW)",
+    updated: bool = True,
+    campaign: bool = True,
+    unofficial: bool = True,
+) -> list[FamilyFile]:
+    """The stat files of a certified election's press-room tree (see the press-room page).
+
+    The campaign mail-in reports (when the election has them); the certified reports and, when
+    the board posted them, their Updated- re-posts (the web reads each family's latest
+    snapshot, so a corrected re-post becomes the newer record and the correction history stays
+    archived); and the unofficial eight-day tallies, which a certified election parses and keeps
+    but never publishes (``unofficial=False`` leaves them out: the 2022 and 2024 primary
+    backfills never needed them, and their sheets print district headers PG24's do not).
+    Not ingested: the RAW csvs, the precinct csv, the EOC report, the election-night
+    unofficial turnout and the single left-to-count sheet.
+    """
     files: list[FamilyFile] = []
-    # pdf + xlsx twins of the same published sheet
-    for family, geography, stem in (
-        ("requests", "county", "Mail-in Ballot Request Counts with Chart"),
-        ("sent-returned", "county", "Absentees Sent and Returned by County"),
-        ("sent-returned", "congressional", "Absentees Sent and Returned by Congressional"),
-        ("sent-returned", "legislative", "Absentees Sent and Returned by Legislative"),
-    ):
-        for ext in ("pdf", "xlsx"):
-            files.append(FamilyFile(family, geography, ext, f"{base}/{stem}.{ext}"))
+    if campaign:
+        # pdf + xlsx twins of the same published sheet
+        for family, geography, stem in (
+            ("requests", "county", "Mail-in Ballot Request Counts with Chart"),
+            ("sent-returned", "county", "Absentees Sent and Returned by County"),
+            ("sent-returned", "congressional", "Absentees Sent and Returned by Congressional"),
+            ("sent-returned", "legislative", "Absentees Sent and Returned by Legislative"),
+        ):
+            for ext in ("pdf", "xlsx"):
+                files.append(FamilyFile(family, geography, ext, f"{base}/{stem}.{ext}"))
     # the unofficial eight-day tallies: the published stems carry their own spacing
     for family, geography, stem in (
         ("early-voting", "county-party", "EarlyVoting  by Party"),  # two spaces, as published
@@ -198,18 +210,23 @@ def _pg24_files() -> list[FamilyFile]:
         ("same-day", "councilmanic", "SameDayRegistration by Councilmanic District"),
         ("same-day", "location", "SameDayRegistration by Location"),
     ):
-        files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
+        if unofficial:
+            files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
     # the certified reports, first as originally published, then the Updated- re-posts
-    for family, geography, stem in (
+    certified = [
         ("county-canvass", "county", "Official_CountyAndCanvass"),
         ("votes-accepted", "county", "Official_VotesAcceptedBy_CountyAndCanvass"),
-        ("mail-voting", "county", "Official Vote-By-Mail Voting(NEW)"),
+        ("mail-voting", "county", mail_stem),
         ("provisional", "county", "Official Provisional Voting"),
-        ("county-canvass", "county", "Updated-Official_County_And_Canvass"),
-        ("votes-accepted", "county", "Updated-Official_Votes_Accepted_By_County_And_Canvass"),
-        ("mail-voting", "county", "Updated-Official_Mail-In_Voting"),
-        ("provisional", "county", "Updated-Official_Provisional_Voting"),
-    ):
+    ]
+    if updated:
+        certified += [
+            ("county-canvass", "county", "Updated-Official_County_And_Canvass"),
+            ("votes-accepted", "county", "Updated-Official_Votes_Accepted_By_County_And_Canvass"),
+            ("mail-voting", "county", "Updated-Official_Mail-In_Voting"),
+            ("provisional", "county", "Updated-Official_Provisional_Voting"),
+        ]
+    for family, geography, stem in certified:
         files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
     # the two by-party workbook families are configured xlsx-only (as GP26 spells them);
     # their pdf prints exist in the press room, and any revision the archive holds
@@ -224,14 +241,15 @@ def _pg24_files() -> list[FamilyFile]:
                 "official-turnout", geography, "xlsx", f"{base}/Official by Party and {stem}.xlsx"
             )
         )
-        files.append(
-            FamilyFile(
-                "official-turnout",
-                geography,
-                "xlsx",
-                f"{base}/Updated-Official_by_Party_and_{stem}.xlsx",
+        if updated:
+            files.append(
+                FamilyFile(
+                    "official-turnout",
+                    geography,
+                    "xlsx",
+                    f"{base}/Updated-Official_by_Party_and_{stem}.xlsx",
+                )
             )
-        )
     for geography, stem in (
         ("county", "County"),
         ("congressional", "Congressional"),
@@ -243,16 +261,47 @@ def _pg24_files() -> list[FamilyFile]:
                 "eligible-active",
                 geography,
                 "xlsx",
-                f"{base}/Eligible Active Voters by {stem} - PG24.xlsx",
+                f"{base}/Eligible Active Voters by {stem} - {code}.xlsx",
             )
         )
     # the inactive file exists at the county grain alone
     files.append(
         FamilyFile(
-            "eligible-inactive", "county", "xlsx", f"{base}/Eligible Inactive Voters - PG24.xlsx"
+            "eligible-inactive", "county", "xlsx", f"{base}/Eligible Inactive Voters - {code}.xlsx"
         )
     )
     return files
+
+
+def _pg24_files() -> list[FamilyFile]:
+    """press_room/2024_stats/PG24/ (the 2024 general)."""
+    return _certified_files(f"{SBE_BASE}/press_room/2024_stats/PG24", "PG24")
+
+
+def _gg22_files() -> list[FamilyFile]:
+    """press_room/2022_stats/GG22/ (the 2022 general): the same layout as PG24's tree.
+    (Two of its archived posts stay unparsed: see UNRECONCILED_SNAPSHOTS.)"""
+    return _certified_files(f"{SBE_BASE}/press_room/2022_stats/GG22", "GG22", unofficial=False)
+
+
+def _pp24_files() -> list[FamilyFile]:
+    """The 2024 primary's files sit loose in press_room/2024_stats/, beside the later
+    elections' folders; the board posted no Updated- re-posts for it."""
+    return _certified_files(
+        f"{SBE_BASE}/press_room/2024_stats", "PP24", updated=False, unofficial=False
+    )
+
+
+def _gp22_files() -> list[FamilyFile]:
+    """The 2022 primary's files sit loose in press_room/2022_stats/. Its mail-in voting report
+    is named without PG24's "(NEW)"; the board posted no Updated- re-posts for it."""
+    return _certified_files(
+        f"{SBE_BASE}/press_room/2022_stats",
+        "GP22",
+        mail_stem="Official Vote-By-Mail Voting",
+        updated=False,
+        unofficial=False,
+    )
 
 
 ELECTIONS: dict[str, Election] = {
@@ -274,6 +323,27 @@ ELECTIONS: dict[str, Election] = {
         name="2024 general election",
         election_day="2024-11-05",
         files=_pg24_files(),
+        certified=True,
+    ),
+    "PP24": Election(
+        code="PP24",
+        name="2024 primary election",
+        election_day="2024-05-14",
+        files=_pp24_files(),
+        certified=True,
+    ),
+    "GG22": Election(
+        code="GG22",
+        name="2022 general election",
+        election_day="2022-11-08",
+        files=_gg22_files(),
+        certified=True,
+    ),
+    "GP22": Election(
+        code="GP22",
+        name="2022 primary election",
+        election_day="2022-07-19",
+        files=_gp22_files(),
         certified=True,
     ),
 }
@@ -574,6 +644,8 @@ OFFICIAL_BLOCK_CELLS: dict[str, str] = {
     "DEMOCRAT": "DEM",
     "REPUBLICAN": "REP",
     "WCP": "WCP",
+    "WORKING CLASS": "WCP",  # 2022 prints the party out, as "Working Class Party" in the county sheet
+    "WORKING CLASS PARTY": "WCP",
     "NLM": "NLM",
     "LIBERTARIAN": "LIB",
     "OTHER PARTIES": "OTH",
@@ -594,6 +666,27 @@ OFFICIAL_MEASURE_CELLS: dict[str, str] = {
     "VOTE BY MAIL": "vote-by-mail",
     "PROVISIONAL": "provisional",
     "ELIGIBLE VOTERS": "eligible",
+}
+
+
+# Official by Party sheets whose party blocks do not add up to their Statewide block in one
+# cell: the board's own prints, checked against the archived workbooks. Key: (election,
+# geography, area, measure, the party blocks' sum, the printed Statewide figure). The
+# sheet publishes as printed; a different mismatch outside this registry still fails.
+_OFFICIAL_BLOCK_PRINT_ERRORS: set[tuple[str, str, str, str, int, int]] = {
+    ("PP24", "county", "Carroll", "vote-by-mail", 10312, 10311),
+    ("PP24", "county", "Montgomery", "vote-by-mail", 80537, 80536),
+    ("PP24", "county", "Prince George's", "vote-by-mail", 54006, 54004),
+    ("PP24", "county", "Washington", "vote-by-mail", 8363, 8362),
+    ("PP24", "congressional", "02", "vote-by-mail", 56206, 56205),
+    ("PP24", "congressional", "04", "vote-by-mail", 36786, 36785),
+    ("PP24", "congressional", "05", "vote-by-mail", 53113, 53112),
+    ("PP24", "congressional", "08", "vote-by-mail", 65478, 65476),
+    ("PP24", "legislative", "26", "vote-by-mail", 9639, 9637),
+    ("PP24", "legislative", "30A", "vote-by-mail", 8176, 8175),
+    ("PP24", "legislative", "43B", "vote-by-mail", 3235, 3234),
+    ("PP24", "legislative", "45", "vote-by-mail", 6949, 6948),
+    ("GP22", "county", "Montgomery", "eligible", 670467, 670472),
 }
 
 
@@ -795,7 +888,11 @@ def _official_sheet_rows(
                     for party, party_rows in sheet_rows.items()
                     if party != "ALL" and area in party_rows and measure in party_rows[area]
                 )
-                if collected != printed:
+                if (
+                    collected != printed
+                    and (election, geography, area, measure, collected, printed)
+                    not in _OFFICIAL_BLOCK_PRINT_ERRORS
+                ):
                     raise TurnoutParseError(
                         f"{sheet}: the party blocks' {area} {measure} counts sum to "
                         f"{collected}, not the Statewide block's {printed}"
@@ -1226,7 +1323,10 @@ def _sent_sheet_rows(
             raise TurnoutParseError(
                 f"{sheet} row {index}: a {category} row with no county or district"
             )
+        printed_measures = {payload[1] for kind, payload in mapping.items() if kind != "id"}
         for measure in measures:
+            if measure == "accepted" and measure not in printed_measures:
+                continue  # the 2022 sheets print no accepted columns (the board added them in 2024)
             if measure == "left-to-count":
                 # the left-to-count column is one count with no party breakdown; its
                 # printed identity is the row's own arithmetic, not a three-way sum
@@ -1340,7 +1440,7 @@ def _sent_sheet_rows(
 
 # 2024's sheet vocabulary grew by the parties Maryland added that cycle: Libertarian
 # (LIB) and No Labels (NLM). WCP is the 2026 vocabulary's write-in party column.
-ELIGIBLE_PARTIES = ("DEM", "REP", "LIB", "NLM", "GRN", "OTH", "UNA", "WCP")
+ELIGIBLE_PARTIES = ("DEM", "REP", "LIB", "NLM", "GRN", "OTH", "UNA", "WCP", "BAR")  # BAR: Bread and Roses, on the 2022 rolls
 ELIGIBLE_MEASURES = {"eligible-active": "active", "eligible-inactive": "inactive"}
 ELIGIBLE_GEOGRAPHIES = ("county", "congressional", "legislative", "councilmanic")
 
@@ -1668,7 +1768,7 @@ def read_pdf_text(path: Path) -> str:
     return "\n".join(page.extract_text() or "" for page in PDF(str(path)).pages)
 
 
-REPORT_DATE_RE = re.compile(r"Report Date:\s*(\d{1,2}/\d{1,2}/\d{4})")
+REPORT_DATE_RE = re.compile(r"Report Date:\s*(?:Updated\s*)?(\d{1,2}/\d{1,2}/\d{4})")
 ELECTION_DATE_RE = re.compile(r"Election Date:\s*([A-Z][a-z]+ \d{1,2}, \d{4})")
 
 
@@ -1725,6 +1825,10 @@ def _pdf_number(where: str, measure: str, cell: str) -> int:
     text = (cell or "").strip()
     if not text:
         raise TurnoutParseError(f"{where}: the {measure} cell is blank")
+    if re.fullmatch(r"[\d,]+(\s+[\d,]+)+", text):
+        # a long figure the PDF wrapped inside its cell ("1,046,15\n3"): the sheet's own row
+        # arithmetic still has to close over the joined number
+        text = re.sub(r"\s+", "", text)
     try:
         return int(text.replace(",", ""))
     except ValueError:
@@ -1845,19 +1949,80 @@ CANVASS_SHEET = PrintedSheet(
 )
 
 
+# Rows of the certified one-page reports whose printed modes do not sum to the printed
+# total, or whose printed share is not the count over its base: the board's own prints
+# (2022 and 2024 certified PDFs), each checked against its archived file's text layer.
+# The row publishes as printed. The key is (election, family, the row's county label, the
+# modes' sum or the printed share in basis points, the printed base count or measure);
+# a different mismatch outside this registry still fails.
+_TALLIED_PRINT_ERRORS: set[tuple[str, str, str, int, int]] = {
+    ("PP24", "county-canvass", "Cecil", 19214, 19216),
+    ("PP24", "county-canvass", "Frederick", 50506, 50503),
+    ("PP24", "county-canvass", "Howard", 65118, 65119),
+    ("PP24", "county-canvass", "Prince George's", 137712, 137713),
+    ("PP24", "county-canvass", "St. Mary's", 19775, 19774),
+    ("PP24", "votes-accepted", "Baltimore County", 135794, 135795),
+    ("PP24", "votes-accepted", "Carroll", 30965, 30966),
+    ("PP24", "votes-accepted", "Cecil", 18773, 18772),
+    ("PP24", "votes-accepted", "Frederick", 50390, 50391),
+    ("PP24", "votes-accepted", "Howard", 64625, 64624),
+    ("PP24", "votes-accepted", "Montgomery", 171706, 171704),
+    ("PP24", "votes-accepted", "Prince George's", 135453, 135454),
+    ("PP24", "votes-accepted", "Queen Anne's", 9556, 9557),
+    ("PP24", "votes-accepted", "Talbot", 7928, 7929),
+    ("PP24", "votes-accepted", "Washington", 24497, 24495),
+    ("PP24", "mail-voting", "Calvert", 7056, 7055),
+    ("PP24", "mail-voting", "Carroll", 10311, 10312),
+    ("PP24", "mail-voting", "Cecil", 4838, 4836),
+    ("PP24", "mail-voting", "Garrett", 1435, 1436),
+    ("PP24", "mail-voting", "Harford", 13425, 13424),
+    ("PP24", "mail-voting", "Kent", 1389, 1390),
+    ("PP24", "mail-voting", "Prince George's", 54006, 54005),
+    ("PP24", "mail-voting", "Queen Anne's", 2778, 2779),
+    ("PP24", "mail-voting", "Talbot", 2960, 2961),
+    ("PP24", "provisional", "Baltimore County", 4518, 4517),
+    ("PP24", "provisional", "Montgomery", 6562, 6563),
+}
+_TALLIED_SHARE_PRINT_ERRORS: set[tuple[str, str, str, str, int]] = {
+    # GP22's provisional sheet prints Talbot's three shares (57.6%, 1.2%, 41.2%) over a base its
+    # own counts (114, 3 and 106 of 223) do not make; the counts themselves add up
+    ("GP22", "provisional", "Talbot", "accepted-in-full", 5760),
+    ("GP22", "provisional", "Talbot", "accepted-in-part", 120),
+    ("GP22", "provisional", "Talbot", "rejected", 4120),
+}
+
+
 def _tallied_check(
-    where: str, county: str, cells: dict[str, int], shares: dict[str, float], sheet: PrintedSheet
+    where: str,
+    county: str,
+    cells: dict[str, int],
+    shares: dict[str, float],
+    sheet: PrintedSheet,
+    election: str = "",
+    family: str = "",
 ) -> None:
     """One row's own arithmetic: its modes sum to its base count, and every printed share
     is that count over the base's measure."""
     modes_sum = sum(cells[measure] for measure in sheet.modes)
-    if modes_sum != cells[sheet.base]:
+    if modes_sum != cells[sheet.base] and (
+        election,
+        family,
+        county,
+        modes_sum,
+        cells[sheet.base],
+    ) not in _TALLIED_PRINT_ERRORS:
         raise TurnoutParseError(
             f"{where}: {county}'s counts do not add up ({modes_sum} != {cells[sheet.base]})"
         )
     for measure, printed in shares.items():
         base = sheet.share_of[measure]
-        if not share_matches(cells[measure], cells[base], printed):
+        if not share_matches(cells[measure], cells[base], printed) and (
+            election,
+            family,
+            county,
+            measure,
+            round(printed * 10000),
+        ) not in _TALLIED_SHARE_PRINT_ERRORS:
             raise TurnoutParseError(
                 f"{where}: the printed {measure} share is not {cells[measure]} of "
                 f"{cells[base]} ({printed:.2%} printed)"
@@ -1899,7 +2064,7 @@ def _tallied_rows(
         county_text = str(row[county_col] if county_col < len(row) else "").strip()
         if county_text.upper() in PDF_STATE_CELLS:
             printed, printed_shares = sheet.cells_of(where, counts, shares, row)
-            _tallied_check(where, county_text, printed, printed_shares, sheet)
+            _tallied_check(where, county_text, printed, printed_shares, sheet, election, family)
             if not sums:
                 raise TurnoutParseError(
                     f"{where}: the printed {county_text} row has no county rows above it"
@@ -1925,7 +2090,7 @@ def _tallied_rows(
             raise TurnoutParseError(f"{where}: a county row for {county} appears more than once")
         seen.add(county)
         printed, printed_shares = sheet.cells_of(where, counts, shares, row)
-        _tallied_check(where, county, printed, printed_shares, sheet)
+        _tallied_check(where, county, printed, printed_shares, sheet, election, family)
         for measure, value in printed.items():
             sums[measure] = sums.get(measure, 0) + value
         published += _county_rows(county, printed, election, family, geography, as_of)
@@ -2857,6 +3022,26 @@ def read_requests_pdf(path: Path) -> str:
     return read_pdf_text(path)
 
 
+# Archived posts that are parsed nowhere because the board's own file does not add up against
+# its printed totals by more than a print slip a waiver can name. They stay in the archive
+# (and in the manifest) as the record of what the board posted; the web reads each family's
+# latest parsed snapshot, so the corrected re-post (or the original, where the re-post is the
+# broken one) is the figure of record. Key: (election, family, geography, as-of day).
+UNRECONCILED_SNAPSHOTS: dict[tuple[str, str, str, str], str] = {
+    ("GG22", "votes-accepted", "county", "2022-12-08"): (
+        "the original's counties' vote-by-mail counts sum 792 short of its printed Statewide "
+        "total; the April 2026 re-post is the corrected one"
+    ),
+    **{
+        ("GG22", "official-turnout", geography, "2026-04-29"): (
+            "the April 2026 re-post's party blocks differ from its Statewide block by hundreds "
+            "in nearly every area; the December 2022 original reconciles"
+        )
+        for geography in ("county", "congressional", "legislative")
+    },
+}
+
+
 def turnout_parse(
     as_of: str | None = None,
     force: bool = False,
@@ -2903,6 +3088,9 @@ def turnout_parse(
         # the file set defines the parse surface: an archived revision outside it (a
         # pdf print of a workbook family, or a file the config dropped) stays archived
         # and is not parsed — logged here, no failure on any run
+        if (election_code, family, geography, snapshot) in UNRECONCILED_SNAPSHOTS:
+            logger.info("Skipped (does not reconcile): %s", revisions[-1].source_id)
+            continue
         election = ELECTIONS.get(election_code)
         configured = (
             {(f.family, f.geography, f.kind) for f in election.files} if election else set()

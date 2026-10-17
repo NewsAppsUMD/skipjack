@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-eligible-active-county-20221022-a180084116dd",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Eligible Active Voters by County - GG22.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 eligible-active (county) as of 2022-10-22",
+  "fetch_date": "2026-10-17T17:36:32+00:00",
+  "parse_date": "2026-10-17T17:39:48+00:00",
+  "sha256_original": "a180084116dd18f9f9afefe5e3a72dd75bbfab946b4116f10aead8fc50291fbd",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "eligible-active",
+  "geography": "county",
+  "notes": "GG22 eligible-active (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 216,
+    "as_of": "2022-10-22"
+  }
+}

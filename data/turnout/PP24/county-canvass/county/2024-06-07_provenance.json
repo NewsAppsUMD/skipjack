@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-county-canvass-county-20240607-9768d2c9c824",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Official_CountyAndCanvass.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 county-canvass (county) as of 2024-06-07",
+  "fetch_date": "2026-10-17T17:36:01+00:00",
+  "parse_date": "2026-10-17T17:41:54+00:00",
+  "sha256_original": "9768d2c9c82461d5bc6175a288c3245408a54c4d8592456a0edb9a5760771a4d",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "county-canvass",
+  "geography": "county",
+  "notes": "PP24 county-canvass (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 120,
+    "as_of": "2024-06-07"
+  }
+}

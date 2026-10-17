@@ -1127,3 +1127,32 @@ def test_lead_election_follows_the_calendar(conn):
     assert turnout.lead_election(conn, date(2026, 11, 25)) is None  # canvass over
     # PG24 is certified and has snapshots too, but never leads
     assert turnout.lead_election(conn, date(2024, 11, 1)) is None
+
+
+@needs_db
+def test_real_2022_and_2024_pages_render_the_certified_data():
+    """The 2024 primary and the 2022 primary and general, pinned to figures parsed from the
+    committed press-room files. Each page is the certified layout; none carries the board's
+    unofficial eight-day tallies, which these three elections never fetched."""
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    index = client.get("/turnout/").text
+    for name in ("2024 Primary Election", "2022 General Election", "2022 Primary Election"):
+        assert name in index
+    pins = {
+        "pp24": ("1,016,857", "1,005,373", "27.6%", "151,107", "434,054", "396,123", "35,573"),
+        "gp22": ("1,033,903", "1,022,573", "27.4%", "172,266", "477,357", "346,113", "38,167"),
+        "gg22": ("2,034,265", "2,030,446", "49.3%", "382,008", "1,048,056", "542,002", "62,199"),
+    }
+    for slug, figures in pins.items():
+        r = client.get(f"/turnout/{slug}/")
+        assert r.status_code == 200, slug
+        for figure in figures:
+            assert figure in r.text, (slug, figure)
+        assert "active registration alone" in r.text
+        assert "(the EV tally)" not in r.text and ">Same-day</th>" not in r.text
+        county = client.get(f"/turnout/{slug}/county/")
+        assert county.status_code == 200 and "Ballots cast" in county.text, slug

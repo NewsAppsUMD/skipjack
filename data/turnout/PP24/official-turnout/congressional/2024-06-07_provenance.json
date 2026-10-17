@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-official-turnout-congressional-20240607-5b9ff2799f08",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Official by Party and Congressional.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 official-turnout (congressional) as of 2024-06-07",
+  "fetch_date": "2026-10-17T17:36:02+00:00",
+  "parse_date": "2026-10-17T17:41:55+00:00",
+  "sha256_original": "5b9ff2799f08077570254bef13d2c4eb7acf4a9a7a6ea435d83dc8d6fd47b283",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "official-turnout",
+  "geography": "congressional",
+  "notes": "PP24 official-turnout (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 315,
+    "as_of": "2024-06-07"
+  }
+}

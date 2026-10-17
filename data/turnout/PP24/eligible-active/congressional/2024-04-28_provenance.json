@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-eligible-active-congressional-20240428-9cdb8386b1f8",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Eligible Active Voters by Congressional - PP24.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 eligible-active (congressional) as of 2024-04-28",
+  "fetch_date": "2026-10-17T17:36:02+00:00",
+  "parse_date": "2026-10-17T17:38:20+00:00",
+  "sha256_original": "9cdb8386b1f89dc8038e351be16e8d8eece6ab515da8fc8ad2a973b6d166f8e5",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "eligible-active",
+  "geography": "congressional",
+  "notes": "PP24 eligible-active (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 56,
+    "as_of": "2024-04-28"
+  }
+}

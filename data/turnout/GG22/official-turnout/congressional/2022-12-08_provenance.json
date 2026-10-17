@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-official-turnout-congressional-20221208-7e999915519f",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Official by Party and Congressional.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 official-turnout (congressional) as of 2022-12-08",
+  "fetch_date": "2026-10-17T17:36:31+00:00",
+  "parse_date": "2026-10-17T17:39:48+00:00",
+  "sha256_original": "7e999915519ff552cd7d3c28c2527c460c1bc948fdbd63cd8aa387586628309c",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "official-turnout",
+  "geography": "congressional",
+  "notes": "GG22 official-turnout (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 360,
+    "as_of": "2022-12-08"
+  }
+}

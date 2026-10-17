@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-eligible-active-councilmanic-20221022-f51062bfda5e",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Eligible Active Voters by Councilmanic - GG22.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 eligible-active (councilmanic) as of 2022-10-22",
+  "fetch_date": "2026-10-17T17:36:33+00:00",
+  "parse_date": "2026-10-17T17:39:48+00:00",
+  "sha256_original": "f51062bfda5ef7ddc292b7492ae4577a478a2b9391bda1b629d1c1dbc4ead6f3",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "eligible-active",
+  "geography": "councilmanic",
+  "notes": "GG22 eligible-active (councilmanic) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 189,
+    "as_of": "2022-10-22"
+  }
+}

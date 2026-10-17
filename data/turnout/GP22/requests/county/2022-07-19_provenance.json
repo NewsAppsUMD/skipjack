@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-requests-county-20220719-84d67bda40c4",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Mail-in Ballot Request Counts with Chart.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 requests (county) as of 2022-07-19",
+  "fetch_date": "2026-10-17T17:36:35+00:00",
+  "parse_date": "2026-10-17T17:37:52+00:00",
+  "sha256_original": "84d67bda40c4f1a7b9e0a008ffb841fddd01f1fa492823be7754646d2aa9da8b",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "requests",
+  "geography": "county",
+  "notes": "GP22 requests (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 168,
+    "as_of": "2022-07-19"
+  }
+}

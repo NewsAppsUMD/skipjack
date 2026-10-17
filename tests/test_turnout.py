@@ -4634,6 +4634,92 @@ def test_pg24_is_a_certified_election_whose_files_cover_its_families():
     assert turnout.may_publish("PG24", "county-canvass")
 
 
+def test_the_2022_and_2024_primary_and_2022_general_are_certified_elections():
+    for code, name, day in (
+        ("PP24", "2024 primary election", "2024-05-14"),
+        ("GP22", "2022 primary election", "2022-07-19"),
+        ("GG22", "2022 general election", "2022-11-08"),
+    ):
+        election = turnout.ELECTIONS[code]
+        assert (election.name, election.election_day, election.certified) == (name, day, True)
+        families = {(f.family, f.geography) for f in election.files}
+        for expected in (
+            ("county-canvass", "county"),
+            ("votes-accepted", "county"),
+            ("mail-voting", "county"),
+            ("provisional", "county"),
+            ("official-turnout", "county"),
+            ("eligible-active", "county"),
+            ("requests", "county"),
+        ):
+            assert expected in families, (code, expected)
+        # figures of record only: the eight-day unofficial tallies are not even fetched
+        assert not {f for f, _ in families} & {"early-voting", "same-day"}, code
+
+
+def test_the_primaries_files_sit_loose_in_the_year_folder():
+    """The 2022 and 2024 primaries' press-room files are not in an election folder, and
+    GP22's mail-in report is named without PG24's "(NEW)"."""
+    urls = {code: {f.url for f in turnout.ELECTIONS[code].files} for code in ("PP24", "GP22")}
+    base = "https://elections.maryland.gov/press_room"
+    assert f"{base}/2024_stats/Official_CountyAndCanvass.pdf" in urls["PP24"]
+    assert f"{base}/2024_stats/Eligible Active Voters by County - PP24.xlsx" in urls["PP24"]
+    assert f"{base}/2022_stats/Official Vote-By-Mail Voting.pdf" in urls["GP22"]
+    assert not any("Updated-" in url for code in urls for url in urls[code])
+    gg22 = {f.url for f in turnout.ELECTIONS["GG22"].files}
+    assert f"{base}/2022_stats/GG22/Updated-Official_Mail-In_Voting.pdf" in gg22
+
+
+def test_a_long_figure_the_pdf_wrapped_inside_its_cell_reads_whole():
+    """GG22's canvass print wraps '1,046,153' into '1,046,15\\n3'; the row's own
+    arithmetic still has to close over the joined number."""
+    assert turnout._pdf_number("row 26", "election-day", "1,046,15\n3") == 1046153
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout._pdf_number("row 26", "election-day", "1,046 abc")
+
+
+def test_report_date_reads_the_updated_form():
+    assert turnout.extract_report_date_text("Report Date: Updated 1/30/2023") == "2023-01-30"
+
+
+def test_a_printed_slip_passes_only_where_the_registry_names_it():
+    """The board's PP24 canvass prints Cecil's modes summing to 19,214 under a total of
+    19,216. That one print is registered; the same slip anywhere else still fails."""
+    sheet = turnout.CANVASS_SHEET
+    cells = {"early-voting": 3446, "election-day": 10237, "vote-by-mail": 4836,
+             "provisional": 695, "total": 19216}  # fmt: skip
+    turnout._tallied_check("row 9", "Cecil", cells, {}, sheet, "PP24", "county-canvass")
+    with pytest.raises(turnout.TurnoutParseError, match="do not add up"):
+        turnout._tallied_check("row 9", "Cecil", cells, {}, sheet, "PG24", "county-canvass")
+    with pytest.raises(turnout.TurnoutParseError, match="do not add up"):
+        turnout._tallied_check("row 9", "Cecil", {**cells, "total": 19217}, {}, sheet, "PP24", "county-canvass")  # fmt: skip
+
+
+def test_a_printed_share_slip_passes_only_where_the_registry_names_it():
+    """GP22's provisional sheet prints Talbot's 114 of 223 as 57.6%."""
+    sheet = turnout.PROVISIONAL_SHEET
+    cells = {"cast": 223, "accepted-in-full": 114, "accepted-in-part": 3, "rejected": 106}
+    shares = {"accepted-in-full": 0.576}
+    turnout._tallied_check("row 22", "Talbot", cells, shares, sheet, "GP22", "provisional")
+    with pytest.raises(turnout.TurnoutParseError, match="share"):
+        turnout._tallied_check("row 22", "Talbot", cells, shares, sheet, "GG22", "provisional")
+
+
+def test_a_sent_returned_sheet_with_no_accepted_columns_reads_without_them():
+    """The 2022 sent-and-returned files print sent and received only; the board added the
+    accepted columns in 2024."""
+    rows = [r[:15] for r in SENT_COUNTY_ROWS]  # cut at TOTAL RECEIVED
+    as_of, frame = turnout.parse_sent_returned_bytes(sent_worksheet(rows), "GG22", "county")
+    assert as_of == "2026-10-09"
+    assert set(frame["measure"]) == {"sent", "received"}
+    assert frame.filter(
+        (frame["county"] == "Allegany")
+        & (frame["measure"] == "sent")
+        & (frame["party"] == "ALL")
+        & (frame["category"] == "ALL")
+    )["value"].to_list() == [4466]
+
+
 def test_the_2024_party_codes_are_in_the_shared_vocabulary():
     """The 2024 presidential general printed Libertarian and No Labels columns; the
     shared party vocabulary (eligible headers, the by-party daily sheets) reads them."""

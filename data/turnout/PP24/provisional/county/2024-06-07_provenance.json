@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-provisional-county-20240607-28d0a6d848c1",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Official Provisional Voting.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 provisional (county) as of 2024-06-07",
+  "fetch_date": "2026-10-17T17:36:02+00:00",
+  "parse_date": "2026-10-17T17:41:55+00:00",
+  "sha256_original": "28d0a6d848c12f89e3c0ea310cda7ff46d3cfa729d311ee6f119273426ddd010",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "provisional",
+  "geography": "county",
+  "notes": "PP24 provisional (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 111,
+    "as_of": "2024-06-07"
+  }
+}

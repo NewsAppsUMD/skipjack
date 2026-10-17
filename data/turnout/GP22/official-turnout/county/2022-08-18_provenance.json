@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-official-turnout-county-20220818-ff18068ccc30",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Official by Party and County.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 official-turnout (county) as of 2022-08-18",
+  "fetch_date": "2026-10-17T17:36:57+00:00",
+  "parse_date": "2026-10-17T17:41:54+00:00",
+  "sha256_original": "ff18068ccc30b18f23da473b876c08d6196a5c9f0bf6d4c95cce4483e20adf71",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "official-turnout",
+  "geography": "county",
+  "notes": "GP22 official-turnout (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 960,
+    "as_of": "2022-08-18"
+  }
+}

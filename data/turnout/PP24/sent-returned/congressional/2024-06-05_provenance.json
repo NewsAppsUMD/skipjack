@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-sent-returned-congressional-20240605-893c20dec5ba",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Absentees Sent and Returned by Congressional.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 sent-returned (congressional) as of 2024-06-05",
+  "fetch_date": "2026-10-17T17:35:41+00:00",
+  "parse_date": "2026-10-17T17:38:42+00:00",
+  "sha256_original": "893c20dec5ba1a251c110e492c29ede386ab2cc73a5ff138cb4939e10bbc5180",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "sent-returned",
+  "geography": "congressional",
+  "notes": "PP24 sent-returned (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 480,
+    "as_of": "2024-06-05"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-official-turnout-legislative-20240607-8e6b2de5b3ee",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Official by Party and Legislative.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 official-turnout (legislative) as of 2024-06-07",
+  "fetch_date": "2026-10-17T17:36:02+00:00",
+  "parse_date": "2026-10-17T17:41:55+00:00",
+  "sha256_original": "8e6b2de5b3ee44b41c728520c4cfc3364c373a3fcf084cff92e820e1ed3a3c03",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "official-turnout",
+  "geography": "legislative",
+  "notes": "PP24 official-turnout (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 2520,
+    "as_of": "2024-06-07"
+  }
+}

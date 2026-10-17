@@ -1,0 +1,111 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2022-08-18,GP22,provisional,county,Allegany,"",ALL,ALL,cast,185
+2022-08-18,GP22,provisional,county,Allegany,"",ALL,ALL,accepted-in-full,136
+2022-08-18,GP22,provisional,county,Allegany,"",ALL,ALL,accepted-in-part,15
+2022-08-18,GP22,provisional,county,Allegany,"",ALL,ALL,rejected,34
+2022-08-18,GP22,provisional,county,Anne Arundel,"",ALL,ALL,cast,2762
+2022-08-18,GP22,provisional,county,Anne Arundel,"",ALL,ALL,accepted-in-full,1866
+2022-08-18,GP22,provisional,county,Anne Arundel,"",ALL,ALL,accepted-in-part,224
+2022-08-18,GP22,provisional,county,Anne Arundel,"",ALL,ALL,rejected,672
+2022-08-18,GP22,provisional,county,Baltimore City,"",ALL,ALL,cast,5307
+2022-08-18,GP22,provisional,county,Baltimore City,"",ALL,ALL,accepted-in-full,3822
+2022-08-18,GP22,provisional,county,Baltimore City,"",ALL,ALL,accepted-in-part,807
+2022-08-18,GP22,provisional,county,Baltimore City,"",ALL,ALL,rejected,678
+2022-08-18,GP22,provisional,county,Baltimore County,"",ALL,ALL,cast,4686
+2022-08-18,GP22,provisional,county,Baltimore County,"",ALL,ALL,accepted-in-full,2998
+2022-08-18,GP22,provisional,county,Baltimore County,"",ALL,ALL,accepted-in-part,479
+2022-08-18,GP22,provisional,county,Baltimore County,"",ALL,ALL,rejected,1209
+2022-08-18,GP22,provisional,county,Calvert,"",ALL,ALL,cast,472
+2022-08-18,GP22,provisional,county,Calvert,"",ALL,ALL,accepted-in-full,383
+2022-08-18,GP22,provisional,county,Calvert,"",ALL,ALL,accepted-in-part,41
+2022-08-18,GP22,provisional,county,Calvert,"",ALL,ALL,rejected,48
+2022-08-18,GP22,provisional,county,Caroline,"",ALL,ALL,cast,172
+2022-08-18,GP22,provisional,county,Caroline,"",ALL,ALL,accepted-in-full,64
+2022-08-18,GP22,provisional,county,Caroline,"",ALL,ALL,accepted-in-part,8
+2022-08-18,GP22,provisional,county,Caroline,"",ALL,ALL,rejected,100
+2022-08-18,GP22,provisional,county,Carroll,"",ALL,ALL,cast,643
+2022-08-18,GP22,provisional,county,Carroll,"",ALL,ALL,accepted-in-full,490
+2022-08-18,GP22,provisional,county,Carroll,"",ALL,ALL,accepted-in-part,64
+2022-08-18,GP22,provisional,county,Carroll,"",ALL,ALL,rejected,89
+2022-08-18,GP22,provisional,county,Cecil,"",ALL,ALL,cast,335
+2022-08-18,GP22,provisional,county,Cecil,"",ALL,ALL,accepted-in-full,230
+2022-08-18,GP22,provisional,county,Cecil,"",ALL,ALL,accepted-in-part,9
+2022-08-18,GP22,provisional,county,Cecil,"",ALL,ALL,rejected,96
+2022-08-18,GP22,provisional,county,Charles,"",ALL,ALL,cast,888
+2022-08-18,GP22,provisional,county,Charles,"",ALL,ALL,accepted-in-full,510
+2022-08-18,GP22,provisional,county,Charles,"",ALL,ALL,accepted-in-part,212
+2022-08-18,GP22,provisional,county,Charles,"",ALL,ALL,rejected,166
+2022-08-18,GP22,provisional,county,Dorchester,"",ALL,ALL,cast,107
+2022-08-18,GP22,provisional,county,Dorchester,"",ALL,ALL,accepted-in-full,45
+2022-08-18,GP22,provisional,county,Dorchester,"",ALL,ALL,accepted-in-part,15
+2022-08-18,GP22,provisional,county,Dorchester,"",ALL,ALL,rejected,47
+2022-08-18,GP22,provisional,county,Frederick,"",ALL,ALL,cast,1155
+2022-08-18,GP22,provisional,county,Frederick,"",ALL,ALL,accepted-in-full,946
+2022-08-18,GP22,provisional,county,Frederick,"",ALL,ALL,accepted-in-part,96
+2022-08-18,GP22,provisional,county,Frederick,"",ALL,ALL,rejected,113
+2022-08-18,GP22,provisional,county,Garrett,"",ALL,ALL,cast,89
+2022-08-18,GP22,provisional,county,Garrett,"",ALL,ALL,accepted-in-full,67
+2022-08-18,GP22,provisional,county,Garrett,"",ALL,ALL,accepted-in-part,0
+2022-08-18,GP22,provisional,county,Garrett,"",ALL,ALL,rejected,22
+2022-08-18,GP22,provisional,county,Harford,"",ALL,ALL,cast,804
+2022-08-18,GP22,provisional,county,Harford,"",ALL,ALL,accepted-in-full,671
+2022-08-18,GP22,provisional,county,Harford,"",ALL,ALL,accepted-in-part,78
+2022-08-18,GP22,provisional,county,Harford,"",ALL,ALL,rejected,55
+2022-08-18,GP22,provisional,county,Howard,"",ALL,ALL,cast,1633
+2022-08-18,GP22,provisional,county,Howard,"",ALL,ALL,accepted-in-full,1373
+2022-08-18,GP22,provisional,county,Howard,"",ALL,ALL,accepted-in-part,151
+2022-08-18,GP22,provisional,county,Howard,"",ALL,ALL,rejected,109
+2022-08-18,GP22,provisional,county,Kent,"",ALL,ALL,cast,80
+2022-08-18,GP22,provisional,county,Kent,"",ALL,ALL,accepted-in-full,70
+2022-08-18,GP22,provisional,county,Kent,"",ALL,ALL,accepted-in-part,1
+2022-08-18,GP22,provisional,county,Kent,"",ALL,ALL,rejected,9
+2022-08-18,GP22,provisional,county,Montgomery,"",ALL,ALL,cast,8366
+2022-08-18,GP22,provisional,county,Montgomery,"",ALL,ALL,accepted-in-full,6905
+2022-08-18,GP22,provisional,county,Montgomery,"",ALL,ALL,accepted-in-part,630
+2022-08-18,GP22,provisional,county,Montgomery,"",ALL,ALL,rejected,831
+2022-08-18,GP22,provisional,county,Prince George's,"",ALL,ALL,cast,8703
+2022-08-18,GP22,provisional,county,Prince George's,"",ALL,ALL,accepted-in-full,4439
+2022-08-18,GP22,provisional,county,Prince George's,"",ALL,ALL,accepted-in-part,1141
+2022-08-18,GP22,provisional,county,Prince George's,"",ALL,ALL,rejected,3123
+2022-08-18,GP22,provisional,county,Queen Anne's,"",ALL,ALL,cast,206
+2022-08-18,GP22,provisional,county,Queen Anne's,"",ALL,ALL,accepted-in-full,149
+2022-08-18,GP22,provisional,county,Queen Anne's,"",ALL,ALL,accepted-in-part,13
+2022-08-18,GP22,provisional,county,Queen Anne's,"",ALL,ALL,rejected,44
+2022-08-18,GP22,provisional,county,St. Mary's,"",ALL,ALL,cast,406
+2022-08-18,GP22,provisional,county,St. Mary's,"",ALL,ALL,accepted-in-full,343
+2022-08-18,GP22,provisional,county,St. Mary's,"",ALL,ALL,accepted-in-part,46
+2022-08-18,GP22,provisional,county,St. Mary's,"",ALL,ALL,rejected,17
+2022-08-18,GP22,provisional,county,Somerset,"",ALL,ALL,cast,91
+2022-08-18,GP22,provisional,county,Somerset,"",ALL,ALL,accepted-in-full,40
+2022-08-18,GP22,provisional,county,Somerset,"",ALL,ALL,accepted-in-part,15
+2022-08-18,GP22,provisional,county,Somerset,"",ALL,ALL,rejected,36
+2022-08-18,GP22,provisional,county,Talbot,"",ALL,ALL,cast,223
+2022-08-18,GP22,provisional,county,Talbot,"",ALL,ALL,accepted-in-full,114
+2022-08-18,GP22,provisional,county,Talbot,"",ALL,ALL,accepted-in-part,3
+2022-08-18,GP22,provisional,county,Talbot,"",ALL,ALL,rejected,106
+2022-08-18,GP22,provisional,county,Washington,"",ALL,ALL,cast,510
+2022-08-18,GP22,provisional,county,Washington,"",ALL,ALL,accepted-in-full,260
+2022-08-18,GP22,provisional,county,Washington,"",ALL,ALL,accepted-in-part,29
+2022-08-18,GP22,provisional,county,Washington,"",ALL,ALL,rejected,221
+2022-08-18,GP22,provisional,county,Wicomico,"",ALL,ALL,cast,132
+2022-08-18,GP22,provisional,county,Wicomico,"",ALL,ALL,accepted-in-full,94
+2022-08-18,GP22,provisional,county,Wicomico,"",ALL,ALL,accepted-in-part,23
+2022-08-18,GP22,provisional,county,Wicomico,"",ALL,ALL,rejected,15
+2022-08-18,GP22,provisional,county,Worcester,"",ALL,ALL,cast,212
+2022-08-18,GP22,provisional,county,Worcester,"",ALL,ALL,accepted-in-full,103
+2022-08-18,GP22,provisional,county,Worcester,"",ALL,ALL,accepted-in-part,43
+2022-08-18,GP22,provisional,county,Worcester,"",ALL,ALL,rejected,66
+2022-08-18,GP22,provisional,county,"","",01 - Applicant is not registered to vote,ALL,rejected,353
+2022-08-18,GP22,provisional,county,"","",02 - Applicant returned a voted absentee ballot or already voted,ALL,rejected,400
+2022-08-18,GP22,provisional,county,"","",03 - Applicant voted the wrong party primary ballot,ALL,rejected,2546
+2022-08-18,GP22,provisional,county,"","",04 - No signature on application,ALL,rejected,119
+2022-08-18,GP22,provisional,county,"","",05 - Applicant not eligible to receive a provisional ballot,ALL,rejected,4251
+2022-08-18,GP22,provisional,county,"","",06 - Identification or DL# or SS# was not timely received,ALL,rejected,7
+2022-08-18,GP22,provisional,county,"","",07 - Incomplete information was provided on the application,ALL,rejected,51
+2022-08-18,GP22,provisional,county,"","",08 - DL# or SS# was received but was not verified,ALL,rejected,21
+2022-08-18,GP22,provisional,county,"","",09 - Identification was received but did not satisfy the identification requirements,ALL,rejected,1
+2022-08-18,GP22,provisional,county,"","",10 - No provisional ballot or more than one provisional ballot in envelope,ALL,rejected,78
+2022-08-18,GP22,provisional,county,"","",14 - Identifying mark on the ballot,ALL,rejected,2
+2022-08-18,GP22,provisional,county,"","",15 - Applicant is not 18 years old by the general election,ALL,rejected,6
+2022-08-18,GP22,provisional,county,"","",16 - Proof of residency was not timely received,ALL,rejected,61
+2022-08-18,GP22,provisional,county,"","",17 - Proof of residency was timely received but did not satisfy the requirements,ALL,rejected,10

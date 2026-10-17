@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-provisional-county-20220818-91285cad5cda",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Official Provisional Voting.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 provisional (county) as of 2022-08-18",
+  "fetch_date": "2026-10-17T17:36:57+00:00",
+  "parse_date": "2026-10-17T17:42:14+00:00",
+  "sha256_original": "91285cad5cda9a5505fe1180c2e58bbae0209ae1e3f342af6c3761f6fa7ca8b9",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "provisional",
+  "geography": "county",
+  "notes": "GP22 provisional (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 110,
+    "as_of": "2022-08-18"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-votes-accepted-county-20260421-0b3641fe3fea",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Updated-Official_Votes_Accepted_By_County_And_Canvass.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 votes-accepted (county) as of 2026-04-21",
+  "fetch_date": "2026-10-17T17:36:31+00:00",
+  "parse_date": "2026-10-17T17:37:43+00:00",
+  "sha256_original": "0b3641fe3fea879fd4ac6c70a0103f49757cc790eb2a84d1a7b95a9c74bfc633",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "votes-accepted",
+  "geography": "county",
+  "notes": "GG22 votes-accepted (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 120,
+    "as_of": "2026-04-21"
+  }
+}

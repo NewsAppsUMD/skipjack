@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-eligible-inactive-county-20240428-f754e80fc9b6",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Eligible Inactive Voters - PP24.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 eligible-inactive (county) as of 2024-04-28",
+  "fetch_date": "2026-10-17T17:36:03+00:00",
+  "parse_date": "2026-10-17T17:38:20+00:00",
+  "sha256_original": "f754e80fc9b6cc0d2c994a2e3fda33daf389fb1f14d6dd7909d9ed335710cc32",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "eligible-inactive",
+  "geography": "county",
+  "notes": "PP24 eligible-inactive (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 168,
+    "as_of": "2024-04-28"
+  }
+}

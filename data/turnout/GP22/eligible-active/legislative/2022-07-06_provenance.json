@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-eligible-active-legislative-20220706-ae7e8058c5b9",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Eligible Active Voters by Legislative - GP22.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 eligible-active (legislative) as of 2022-07-06",
+  "fetch_date": "2026-10-17T17:36:58+00:00",
+  "parse_date": "2026-10-17T17:39:49+00:00",
+  "sha256_original": "ae7e8058c5b9cdfe68739f35c3aa03fe9b3aa1d60443b2841c6798d0411ca505",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "eligible-active",
+  "geography": "legislative",
+  "notes": "GP22 eligible-active (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 533,
+    "as_of": "2022-07-06"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-official-turnout-legislative-20221208-5fe98e4a1de4",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Official by Party and Legislative.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 official-turnout (legislative) as of 2022-12-08",
+  "fetch_date": "2026-10-17T17:36:32+00:00",
+  "parse_date": "2026-10-17T17:39:48+00:00",
+  "sha256_original": "5fe98e4a1de404d6aaa32b5b9ce80b7c98827ccb20fe225a36feceac3a559fd1",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "official-turnout",
+  "geography": "legislative",
+  "notes": "GG22 official-turnout (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 2880,
+    "as_of": "2022-12-08"
+  }
+}

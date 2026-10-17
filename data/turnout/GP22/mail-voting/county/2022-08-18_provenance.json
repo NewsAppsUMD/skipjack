@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-mail-voting-county-20220818-fc37a4da0442",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Official Vote-By-Mail Voting.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 mail-voting (county) as of 2022-08-18",
+  "fetch_date": "2026-10-17T17:36:56+00:00",
+  "parse_date": "2026-10-17T17:37:52+00:00",
+  "sha256_original": "fc37a4da04420c4d54dd143d0707faa1eefaa2c868e7afa3b808d378dbfd2ac6",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "mail-voting",
+  "geography": "county",
+  "notes": "GP22 mail-voting (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 104,
+    "as_of": "2022-08-18"
+  }
+}

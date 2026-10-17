@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-eligible-active-congressional-20221022-d95e175d0982",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/Eligible Active Voters by Congressional - GG22.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 eligible-active (congressional) as of 2022-10-22",
+  "fetch_date": "2026-10-17T17:36:32+00:00",
+  "parse_date": "2026-10-17T17:39:48+00:00",
+  "sha256_original": "d95e175d0982d552c522691e64ec95ed6335e7cba3095dd737c8055a3a020bd3",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "eligible-active",
+  "geography": "congressional",
+  "notes": "GG22 eligible-active (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 72,
+    "as_of": "2022-10-22"
+  }
+}

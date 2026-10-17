@@ -1,0 +1,841 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,ALL,election-day,6289
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,ALL,early-voting,1016
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,ALL,vote-by-mail,3194
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,ALL,provisional,127
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,ALL,eligible,33564
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,ALL,election-day,39200
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,ALL,early-voting,11850
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,ALL,vote-by-mail,40458
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,ALL,provisional,2707
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,ALL,eligible,365412
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,ALL,election-day,42062
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,ALL,early-voting,13943
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,ALL,vote-by-mail,37377
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,ALL,provisional,7483
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,ALL,eligible,324436
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,ALL,election-day,52820
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,ALL,early-voting,22848
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,ALL,vote-by-mail,57734
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,ALL,provisional,4518
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,ALL,eligible,442635
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,ALL,election-day,8435
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,ALL,early-voting,3130
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,ALL,vote-by-mail,7056
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,ALL,provisional,303
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,ALL,eligible,68778
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,ALL,election-day,2176
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,ALL,early-voting,739
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,ALL,vote-by-mail,1053
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,ALL,provisional,59
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,ALL,eligible,16690
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,ALL,election-day,15442
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,ALL,early-voting,4975
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,ALL,vote-by-mail,10311
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,ALL,provisional,512
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,ALL,eligible,96607
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,ALL,election-day,10237
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,ALL,early-voting,3446
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,ALL,vote-by-mail,4838
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,ALL,provisional,695
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,ALL,eligible,53427
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,ALL,election-day,12930
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,ALL,early-voting,4210
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,ALL,vote-by-mail,9740
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,ALL,provisional,758
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,ALL,eligible,123438
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,ALL,election-day,2646
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,ALL,early-voting,839
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,ALL,vote-by-mail,1761
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,ALL,provisional,63
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,ALL,eligible,20509
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,ALL,election-day,25078
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,ALL,early-voting,5586
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,ALL,vote-by-mail,18840
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,ALL,provisional,1002
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,ALL,eligible,200205
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,ALL,election-day,3334
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,ALL,early-voting,1113
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,ALL,vote-by-mail,1436
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,ALL,provisional,56
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,ALL,eligible,17182
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,ALL,election-day,21318
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,ALL,early-voting,7845
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,ALL,vote-by-mail,13425
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,ALL,provisional,573
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,ALL,eligible,144471
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,ALL,election-day,29663
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,ALL,early-voting,9596
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,ALL,vote-by-mail,24103
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,ALL,provisional,1757
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,ALL,eligible,209519
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,ALL,election-day,1742
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,ALL,early-voting,780
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,ALL,vote-by-mail,1390
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,ALL,provisional,61
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,ALL,eligible,11036
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,ALL,election-day,65488
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,ALL,early-voting,20283
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,ALL,vote-by-mail,80536
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,ALL,provisional,6563
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,ALL,eligible,680831
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,ALL,election-day,53448
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,ALL,early-voting,23337
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,ALL,vote-by-mail,54004
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,ALL,provisional,6922
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,ALL,eligible,545028
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,ALL,election-day,4557
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,ALL,early-voting,2068
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,ALL,vote-by-mail,2779
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,ALL,provisional,292
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,ALL,eligible,30947
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,ALL,election-day,9256
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,ALL,early-voting,4323
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,ALL,vote-by-mail,5917
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,ALL,provisional,280
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,ALL,eligible,75743
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,ALL,election-day,1475
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,ALL,early-voting,450
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,ALL,vote-by-mail,812
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,ALL,provisional,43
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,ALL,eligible,11547
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,ALL,election-day,3259
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,ALL,early-voting,1644
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,ALL,vote-by-mail,2961
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,ALL,provisional,102
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,ALL,eligible,23265
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,ALL,election-day,11973
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,ALL,early-voting,3799
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,ALL,vote-by-mail,8362
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,ALL,provisional,447
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,ALL,eligible,100343
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,ALL,election-day,5881
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,ALL,early-voting,2047
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,ALL,vote-by-mail,4362
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,ALL,provisional,135
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,ALL,eligible,49952
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,ALL,election-day,5345
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,ALL,early-voting,1240
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,ALL,vote-by-mail,3674
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,ALL,provisional,115
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,ALL,eligible,34536
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,DEM,election-day,1422
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,DEM,early-voting,291
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,DEM,vote-by-mail,1641
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,DEM,provisional,56
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,DEM,eligible,10944
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,DEM,election-day,19569
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,DEM,early-voting,6415
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,DEM,vote-by-mail,27373
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,DEM,provisional,1510
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,DEM,eligible,172447
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,DEM,election-day,39729
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,DEM,early-voting,13468
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,DEM,vote-by-mail,35750
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,DEM,provisional,4818
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,DEM,eligible,295959
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,DEM,election-day,33001
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,DEM,early-voting,15237
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,DEM,vote-by-mail,45181
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,DEM,provisional,2250
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,DEM,eligible,305598
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,DEM,election-day,2781
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,DEM,early-voting,1147
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,DEM,vote-by-mail,3969
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,DEM,provisional,140
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,DEM,eligible,23431
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,DEM,election-day,503
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,DEM,early-voting,261
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,DEM,vote-by-mail,578
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,DEM,provisional,13
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,DEM,eligible,6043
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,DEM,election-day,3907
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,DEM,early-voting,1485
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,DEM,vote-by-mail,5696
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,DEM,provisional,166
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,DEM,eligible,33146
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,DEM,election-day,1685
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,DEM,early-voting,625
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,DEM,vote-by-mail,2264
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,DEM,provisional,132
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,DEM,eligible,19047
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,DEM,election-day,8873
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,DEM,early-voting,3022
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,DEM,vote-by-mail,7459
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,DEM,provisional,553
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,DEM,eligible,74650
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,DEM,election-day,751
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,DEM,early-voting,365
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,DEM,vote-by-mail,1115
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,DEM,provisional,33
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,DEM,eligible,9490
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,DEM,election-day,10272
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,DEM,early-voting,2540
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,DEM,vote-by-mail,12431
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,DEM,provisional,578
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,DEM,eligible,77403
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,DEM,election-day,463
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,DEM,early-voting,211
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,DEM,vote-by-mail,627
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,DEM,provisional,13
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,DEM,eligible,3522
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,DEM,election-day,6856
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,DEM,early-voting,2901
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,DEM,vote-by-mail,8064
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,DEM,provisional,277
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,DEM,eligible,64176
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,DEM,election-day,18947
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,DEM,early-voting,6634
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,DEM,vote-by-mail,18096
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,DEM,provisional,1150
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,DEM,eligible,120966
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,DEM,election-day,653
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,DEM,early-voting,444
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,DEM,vote-by-mail,976
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,DEM,provisional,23
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,DEM,eligible,5752
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,DEM,election-day,50065
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,DEM,early-voting,15893
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,DEM,vote-by-mail,65758
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,DEM,provisional,5136
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,DEM,eligible,404689
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,DEM,election-day,48934
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,DEM,early-voting,21872
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,DEM,vote-by-mail,50124
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,DEM,provisional,4899
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,DEM,eligible,453370
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,DEM,election-day,1240
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,DEM,early-voting,670
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,DEM,vote-by-mail,1602
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,DEM,provisional,79
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,DEM,eligible,11029
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,DEM,election-day,2736
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,DEM,early-voting,1312
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,DEM,vote-by-mail,3288
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,DEM,provisional,120
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,DEM,eligible,24778
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,DEM,election-day,380
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,DEM,early-voting,128
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,DEM,vote-by-mail,483
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,DEM,provisional,15
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,DEM,eligible,5410
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,DEM,election-day,1239
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,DEM,early-voting,707
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,DEM,vote-by-mail,1933
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,DEM,provisional,61
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,DEM,eligible,10553
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,DEM,election-day,3076
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,DEM,early-voting,1203
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,DEM,vote-by-mail,4557
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,DEM,provisional,168
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,DEM,eligible,30773
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,DEM,election-day,1885
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,DEM,early-voting,904
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,DEM,vote-by-mail,2798
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,DEM,provisional,69
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,DEM,eligible,26068
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,DEM,election-day,1461
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,DEM,early-voting,375
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,DEM,vote-by-mail,2074
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,DEM,provisional,47
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,DEM,eligible,13586
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,REP,election-day,4867
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,REP,early-voting,725
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,REP,vote-by-mail,1553
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,REP,provisional,58
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,REP,eligible,22620
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,REP,election-day,18541
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,REP,early-voting,5237
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,REP,vote-by-mail,11066
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,REP,provisional,643
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,REP,eligible,128755
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,REP,election-day,2333
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,REP,early-voting,475
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,REP,vote-by-mail,1627
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,REP,provisional,260
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,REP,eligible,28477
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,REP,election-day,19819
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,REP,early-voting,7611
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,REP,vote-by-mail,12553
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,REP,provisional,626
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,REP,eligible,137037
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,REP,election-day,5012
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,REP,early-voting,1797
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,REP,vote-by-mail,2302
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,REP,provisional,123
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,REP,eligible,27980
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,REP,election-day,1673
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,REP,early-voting,478
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,REP,vote-by-mail,475
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,REP,provisional,24
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,REP,eligible,10647
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,REP,election-day,11535
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,REP,early-voting,3490
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,REP,vote-by-mail,4616
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,REP,provisional,160
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,REP,eligible,63461
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,REP,election-day,8552
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,REP,early-voting,2821
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,REP,vote-by-mail,2574
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,REP,provisional,210
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,REP,eligible,34380
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,REP,election-day,3315
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,REP,early-voting,1043
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,REP,vote-by-mail,1686
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,REP,provisional,97
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,REP,eligible,23001
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,REP,election-day,1851
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,REP,early-voting,470
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,REP,vote-by-mail,603
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,REP,provisional,12
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,REP,eligible,9225
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,REP,election-day,12800
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,REP,early-voting,2705
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,REP,vote-by-mail,4702
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,REP,provisional,262
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,REP,eligible,67762
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,REP,election-day,2871
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,REP,early-voting,902
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,REP,vote-by-mail,809
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,REP,provisional,24
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,REP,eligible,13660
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,REP,election-day,14462
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,REP,early-voting,4944
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,REP,vote-by-mail,5361
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,REP,provisional,225
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,REP,eligible,80295
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,REP,election-day,8872
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,REP,early-voting,2525
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,REP,vote-by-mail,4252
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,REP,provisional,243
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,REP,eligible,48103
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,REP,election-day,1089
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,REP,early-voting,336
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,REP,vote-by-mail,414
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,REP,provisional,14
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,REP,eligible,5284
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,REP,election-day,11683
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,REP,early-voting,3527
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,REP,vote-by-mail,8984
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,REP,provisional,698
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,REP,eligible,97939
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,REP,election-day,3384
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,REP,early-voting,1193
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,REP,vote-by-mail,2774
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,REP,provisional,227
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,REP,eligible,38687
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,REP,election-day,3317
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,REP,early-voting,1398
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,REP,vote-by-mail,1177
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,REP,provisional,97
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,REP,eligible,19918
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,REP,election-day,5876
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,REP,early-voting,2829
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,REP,vote-by-mail,2099
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,REP,provisional,130
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,REP,eligible,31906
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,REP,election-day,1095
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,REP,early-voting,322
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,REP,vote-by-mail,329
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,REP,provisional,8
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,REP,eligible,6137
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,REP,election-day,1982
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,REP,early-voting,934
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,REP,vote-by-mail,998
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,REP,provisional,27
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,REP,eligible,11608
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,REP,election-day,8291
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,REP,early-voting,2453
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,REP,vote-by-mail,3061
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,REP,provisional,191
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,REP,eligible,44182
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,REP,election-day,3996
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,REP,early-voting,1143
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,REP,vote-by-mail,1564
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,REP,provisional,35
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,REP,eligible,23884
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,REP,election-day,3834
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,REP,early-voting,857
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,REP,vote-by-mail,1517
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,REP,provisional,48
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,REP,eligible,19440
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,NLM,vote-by-mail,8
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,NLM,provisional,2
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,NLM,eligible,32
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,NLM,provisional,9
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,NLM,provisional,8
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,NLM,vote-by-mail,7
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,NLM,eligible,18
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,NLM,provisional,1
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,NLM,election-day,1
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,NLM,vote-by-mail,1
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,NLM,eligible,21
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,NLM,vote-by-mail,1
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,NLM,eligible,1
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,NLM,election-day,2
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,NLM,vote-by-mail,3
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,NLM,provisional,1
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,NLM,eligible,38
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,NLM,election-day,1
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,NLM,early-voting,1
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,NLM,vote-by-mail,3
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,NLM,provisional,3
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,NLM,eligible,25
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,NLM,election-day,1
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,NLM,vote-by-mail,20
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,NLM,provisional,3
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,NLM,eligible,121
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,NLM,election-day,1
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,NLM,early-voting,1
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,NLM,vote-by-mail,6
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,NLM,provisional,7
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,NLM,eligible,38
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,NLM,provisional,1
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,NLM,vote-by-mail,4
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,NLM,eligible,16
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,NLM,vote-by-mail,2
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,NLM,eligible,7
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,NLM,provisional,1
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,NLM,eligible,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,NLM,election-day,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,NLM,early-voting,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,NLM,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,NLM,provisional,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,NLM,eligible,1
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,LIB,provisional,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,LIB,election-day,30
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,LIB,early-voting,2
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,LIB,vote-by-mail,26
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,LIB,provisional,19
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,LIB,eligible,1472
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,LIB,provisional,37
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,LIB,provisional,21
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,LIB,election-day,21
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,LIB,early-voting,4
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,LIB,vote-by-mail,10
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,LIB,provisional,1
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,LIB,eligible,459
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,LIB,provisional,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,LIB,provisional,8
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,LIB,provisional,13
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,LIB,election-day,11
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,LIB,early-voting,4
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,LIB,vote-by-mail,4
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,LIB,provisional,1
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,LIB,eligible,439
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,LIB,provisional,1
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,LIB,eligible,46
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,LIB,election-day,58
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,LIB,early-voting,1
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,LIB,vote-by-mail,25
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,LIB,provisional,4
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,LIB,eligible,1247
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,LIB,provisional,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,LIB,provisional,4
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,LIB,election-day,27
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,LIB,early-voting,3
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,LIB,vote-by-mail,16
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,LIB,provisional,6
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,LIB,eligible,570
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,LIB,provisional,1
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,LIB,election-day,54
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,LIB,early-voting,12
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,LIB,vote-by-mail,60
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,LIB,provisional,14
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,LIB,eligible,2380
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,LIB,election-day,10
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,LIB,early-voting,6
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,LIB,vote-by-mail,19
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,LIB,provisional,21
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,LIB,eligible,743
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,LIB,provisional,2
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,LIB,election-day,15
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,LIB,early-voting,3
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,LIB,vote-by-mail,9
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,LIB,provisional,2
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,LIB,eligible,494
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,LIB,provisional,2
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,LIB,election-day,1
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,LIB,provisional,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,LIB,eligible,19
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,LIB,election-day,22
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,LIB,early-voting,2
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,LIB,vote-by-mail,9
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,LIB,provisional,2
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,LIB,eligible,656
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,LIB,provisional,1
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,LIB,eligible,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,LIB,election-day,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,LIB,early-voting,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,LIB,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,LIB,provisional,2
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,LIB,eligible,28
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,OTH,provisional,3
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,OTH,election-day,46
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,OTH,early-voting,9
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,OTH,vote-by-mail,45
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,OTH,provisional,31
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,OTH,eligible,2496
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,OTH,provisional,456
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,OTH,provisional,105
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,OTH,election-day,26
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,OTH,early-voting,9
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,OTH,vote-by-mail,24
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,OTH,provisional,1
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,OTH,eligible,731
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,OTH,provisional,3
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,OTH,provisional,8
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,OTH,provisional,18
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,OTH,election-day,25
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,OTH,early-voting,7
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,OTH,vote-by-mail,20
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,OTH,provisional,7
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,OTH,eligible,1207
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,OTH,election-day,2
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,OTH,vote-by-mail,2
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,OTH,provisional,0
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,OTH,eligible,94
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,OTH,election-day,46
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,OTH,early-voting,11
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,OTH,vote-by-mail,39
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,OTH,provisional,10
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,OTH,eligible,1714
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,OTH,provisional,2
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,OTH,provisional,6
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,OTH,election-day,72
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,OTH,early-voting,13
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,OTH,vote-by-mail,33
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,OTH,provisional,18
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,OTH,eligible,1389
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,OTH,provisional,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,OTH,election-day,125
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,OTH,early-voting,42
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,OTH,vote-by-mail,140
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,OTH,provisional,35
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,OTH,eligible,7162
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,OTH,election-day,98
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,OTH,early-voting,21
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,OTH,vote-by-mail,30
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,OTH,provisional,129
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,OTH,eligible,5595
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,OTH,provisional,7
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,OTH,election-day,30
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,OTH,early-voting,8
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,OTH,vote-by-mail,16
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,OTH,provisional,1
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,OTH,eligible,840
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,OTH,provisional,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,OTH,election-day,3
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,OTH,early-voting,1
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,OTH,provisional,1
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,OTH,eligible,50
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,OTH,election-day,40
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,OTH,early-voting,13
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,OTH,vote-by-mail,32
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,OTH,provisional,7
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,OTH,eligible,1185
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,OTH,election-day,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,OTH,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,OTH,provisional,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,OTH,eligible,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,OTH,election-day,3
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,OTH,early-voting,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,OTH,vote-by-mail,5
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,OTH,provisional,1
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,OTH,eligible,84
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,UNA,provisional,10
+2024-06-07,PP24,official-turnout,county,Allegany,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,UNA,election-day,1014
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,UNA,early-voting,187
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,UNA,vote-by-mail,1940
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,UNA,provisional,502
+2024-06-07,PP24,official-turnout,county,Anne Arundel,"",ALL,UNA,eligible,60210
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,UNA,provisional,1903
+2024-06-07,PP24,official-turnout,county,Baltimore City,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,UNA,provisional,1508
+2024-06-07,PP24,official-turnout,county,Baltimore County,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,UNA,election-day,595
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,UNA,early-voting,173
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,UNA,vote-by-mail,744
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,UNA,provisional,38
+2024-06-07,PP24,official-turnout,county,Calvert,"",ALL,UNA,eligible,16159
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,UNA,provisional,19
+2024-06-07,PP24,official-turnout,county,Caroline,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,UNA,provisional,169
+2024-06-07,PP24,official-turnout,county,Carroll,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,UNA,provisional,322
+2024-06-07,PP24,official-turnout,county,Cecil,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,UNA,election-day,705
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,UNA,early-voting,134
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,UNA,vote-by-mail,570
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,UNA,provisional,100
+2024-06-07,PP24,official-turnout,county,Charles,"",ALL,UNA,eligible,24120
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,UNA,election-day,42
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,UNA,early-voting,4
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,UNA,vote-by-mail,40
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,UNA,provisional,17
+2024-06-07,PP24,official-turnout,county,Dorchester,"",ALL,UNA,eligible,1653
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,UNA,election-day,1900
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,UNA,early-voting,329
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,UNA,vote-by-mail,1640
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,UNA,provisional,147
+2024-06-07,PP24,official-turnout,county,Frederick,"",ALL,UNA,eligible,52041
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,UNA,provisional,17
+2024-06-07,PP24,official-turnout,county,Garrett,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,UNA,provisional,61
+2024-06-07,PP24,official-turnout,county,Harford,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,UNA,election-day,1744
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,UNA,early-voting,420
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,UNA,vote-by-mail,1703
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,UNA,provisional,337
+2024-06-07,PP24,official-turnout,county,Howard,"",ALL,UNA,eligible,38466
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,UNA,provisional,23
+2024-06-07,PP24,official-turnout,county,Kent,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,UNA,election-day,3560
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,UNA,early-voting,809
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,UNA,vote-by-mail,5575
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,UNA,provisional,677
+2024-06-07,PP24,official-turnout,county,Montgomery,"",ALL,UNA,eligible,168540
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,UNA,election-day,1021
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,UNA,early-voting,244
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,UNA,vote-by-mail,1053
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,UNA,provisional,1639
+2024-06-07,PP24,official-turnout,county,Prince George's,"",ALL,UNA,eligible,46595
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,UNA,provisional,106
+2024-06-07,PP24,official-turnout,county,Queen Anne's,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,UNA,election-day,599
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,UNA,early-voting,171
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,UNA,vote-by-mail,501
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,UNA,provisional,27
+2024-06-07,PP24,official-turnout,county,St. Mary's,"",ALL,UNA,eligible,17709
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,UNA,provisional,18
+2024-06-07,PP24,official-turnout,county,Somerset,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,UNA,election-day,34
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,UNA,early-voting,2
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,UNA,vote-by-mail,30
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,UNA,provisional,13
+2024-06-07,PP24,official-turnout,county,Talbot,"",ALL,UNA,eligible,1035
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,UNA,election-day,544
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,UNA,early-voting,128
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,UNA,vote-by-mail,702
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,UNA,provisional,79
+2024-06-07,PP24,official-turnout,county,Washington,"",ALL,UNA,eligible,23540
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,UNA,election-day,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,UNA,early-voting,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,UNA,vote-by-mail,0
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,UNA,provisional,29
+2024-06-07,PP24,official-turnout,county,Wicomico,"",ALL,UNA,eligible,0
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,UNA,election-day,47
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,UNA,early-voting,8
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,UNA,vote-by-mail,78
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,UNA,provisional,17
+2024-06-07,PP24,official-turnout,county,Worcester,"",ALL,UNA,eligible,1397

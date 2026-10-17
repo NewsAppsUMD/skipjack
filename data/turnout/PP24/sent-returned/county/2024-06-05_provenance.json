@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-sent-returned-county-20240605-318961e83165",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/Absentees Sent and Returned by County.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 sent-returned (county) as of 2024-06-05",
+  "fetch_date": "2026-10-17T17:35:39+00:00",
+  "parse_date": "2026-10-17T17:38:42+00:00",
+  "sha256_original": "318961e8316507274bf933590349b15f103472b07c8b3d1da5e8235c00c3bb18",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "sent-returned",
+  "geography": "county",
+  "notes": "PP24 sent-returned (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 1440,
+    "as_of": "2024-06-05"
+  }
+}

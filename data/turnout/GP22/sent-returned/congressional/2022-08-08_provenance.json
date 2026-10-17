@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-sent-returned-congressional-20220808-2fe4fa0077e6",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/Absentees Sent and Returned by Congressional.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 sent-returned (congressional) as of 2022-08-08",
+  "fetch_date": "2026-10-17T17:36:38+00:00",
+  "parse_date": "2026-10-17T17:41:54+00:00",
+  "sha256_original": "2fe4fa0077e6676e855a0926551ea7c8e593d3e2031ee0235d6c944d84161a7e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "sent-returned",
+  "geography": "congressional",
+  "notes": "GP22 sent-returned (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 320,
+    "as_of": "2022-08-08"
+  }
+}
