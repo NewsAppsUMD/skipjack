@@ -27,9 +27,12 @@
     border-radius: 50%;
 }
 
-/* The homepage's brand block: the README's logo over the title over the tagline. The h1's `margin-bottom: 0` restates Pico's hgroup rule on purpose: it locks the look when the CDN's @2 tag moves. */
+/* The homepage's masthead: the logo beside the title and tagline, left-aligned. The h1's `margin-bottom: 0` restates Pico's hgroup rule on purpose: it locks the look when the CDN's @2 tag moves. */
 .hero {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
 }
 
 .hero h1 {
@@ -37,12 +40,65 @@
     margin-bottom: 0;
 }
 
+.hero hgroup {
+    margin-bottom: 0.5rem;
+}
+
 .hero-logo {
+    flex: none;
     display: block;
     width: 8rem;
     height: auto;
-    margin: 0 auto 1rem;
+    border-radius: 50%;
 }
+
+.hero-now {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--pico-muted-color);
+}
+
+@media (max-width: 575px) {
+    .hero { gap: 0.9rem; }
+    .hero-logo { width: 5rem; }
+    .hero h1 { font-size: 2rem; }
+}
+
+/* The home page's lead (tiles and map) and its chart cards. */
+.lead {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (min-width: 768px) {
+    .lead { grid-template-columns: 1fr 1fr; }
+}
+
+.lead h2 { margin-bottom: 0.25rem; }
+.lead .tiles { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+.lead-map .county-map { margin: 0; }
+
+.home-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .home-cards { grid-template-columns: 1fr 1fr; }
+}
+
+.home-cards .viz-card { margin: 0; }
+.home-cards .viz-card.wide { grid-column: 1 / -1; }
+.home-cards .more { margin: 0.5rem 0 0; font-size: 0.9rem; }
+
+.explore ul { list-style: none; padding: 0; columns: 2 20rem; }
+.explore li { list-style: none; margin-bottom: 0.6rem; break-inside: avoid; }
+.explore li a { font-weight: 600; margin-right: 0.35rem; }
+.explore li span { font-size: 0.9rem; color: var(--pico-muted-color); }
 
 footer {
     margin-top: 3rem;

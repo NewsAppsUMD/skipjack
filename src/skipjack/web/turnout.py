@@ -11,8 +11,8 @@ against these rows at parse time and are not stored.
 from __future__ import annotations
 
 import re
-
 import sqlite3
+from datetime import date, timedelta
 
 from skipjack.pipeline.turnout import ELECTIONS, may_publish
 
@@ -173,6 +173,31 @@ def elections(conn: sqlite3.Connection) -> list[dict]:
             }
         )
     return out
+
+
+# How long after election day the home page keeps leading with an election's mail-in figures:
+# the canvass runs for about three weeks.
+LEAD_DAYS_AFTER = 21
+
+
+def lead_election(conn: sqlite3.Connection, today: date) -> dict | None:
+    """The election the home page should lead with on ``today``, else None.
+
+    That is an election in progress (not certified) that has turnout snapshots, from the day
+    of its first snapshot through ``LEAD_DAYS_AFTER`` days past election day. The row is the
+    ``elections()`` row.
+    """
+    for row in elections(conn):
+        config = ELECTIONS.get(row["code"])
+        if config is None or config.certified:
+            continue
+        days = [d for dates in row["snapshots"].values() for d in dates]
+        if not days or not row["election_day"]:
+            continue
+        end = date.fromisoformat(row["election_day"]) + timedelta(days=LEAD_DAYS_AFTER)
+        if date.fromisoformat(min(days)) <= today <= end:
+            return row
+    return None
 
 
 def headline(conn: sqlite3.Connection, election: str) -> dict:

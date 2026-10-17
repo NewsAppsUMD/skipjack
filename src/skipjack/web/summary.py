@@ -60,11 +60,23 @@ def highlights(conn: sqlite3.Connection) -> dict:
     """The latest month, a few sentences about it, and the series for the home page chart."""
     dates, by_party = _party_series(conn)
     if not dates:
-        return {"latest": None, "total": 0, "sentences": [], "chart": None}
+        return {
+            "latest": None,
+            "total": 0,
+            "sentences": [],
+            "by_key": {},
+            "tiles": [],
+            "chart": None,
+        }
     latest = dates[-1]
     i = len(dates) - 1
     totals = [sum(v[k] or 0 for v in by_party.values()) for k in range(len(dates))]
     items: list[str] = []
+    keyed: dict[str, str] = {}  # the same sentences, by what they say
+
+    def add(key: str, text: str) -> None:
+        items.append(text)
+        keyed.setdefault(key, text)
 
     def change(back: int) -> tuple[str, int, float] | None:
         month = shift_month(latest, -back)
@@ -81,10 +93,11 @@ def highlights(conn: sqlite3.Connection) -> dict:
                 f"{direction(c[1])} {abs(c[1]):,} ({signed(c[2], 1, '%')}) from "
                 f"{month_label(c[0]) if back == 1 else name}"
             )
-    items.append(
+    add(
+        "total",
         f"{totals[i]:,} active registered voters in {month_label(latest)}"
         + (": " + ", and ".join(parts) if parts else "")
-        + "."
+        + ".",
     )
 
     shares = {
@@ -111,16 +124,18 @@ def highlights(conn: sqlite3.Connection) -> dict:
                     f", against {then['Democratic']:.1f}%, {then['Republican']:.1f}% and "
                     f"{then['Unaffiliated']:.1f}% a year earlier"
                 )
-        items.append(sentence + ".")
+        add("shares", sentence + ".")
         for p in MAJOR:
             known = [v for v in shares[p] if v is not None]
             if len(known) > 24 and now[p] == max(known):
-                items.append(
-                    f"{p} voters' share is the highest in any report since {month_label(dates[0])}."
+                add(
+                    "record",
+                    f"{p} voters' share is the highest in any report since {month_label(dates[0])}.",
                 )
             elif len(known) > 24 and now[p] == min(known):
-                items.append(
-                    f"{p} voters' share is the lowest in any report since {month_label(dates[0])}."
+                add(
+                    "record",
+                    f"{p} voters' share is the lowest in any report since {month_label(dates[0])}.",
                 )
 
     new, gone = trends.new_registrations(conn), trends.removals(conn)
@@ -135,16 +150,17 @@ def highlights(conn: sqlite3.Connection) -> dict:
         moved_n = moved.monthly[gone.dates.index(latest)] if moved else None
         if moved_n:
             text += f", and {moved_n:,} of the removals were moves to another county"
-        items.append(text + ".")
+        add("flow", text + ".")
 
     inactive = conn.execute(
         "SELECT SUM(value) AS v FROM registration_activity WHERE measure = 'inactive' AND report_date = ?",
         (latest,),
     ).fetchone()["v"]
     if inactive:
-        items.append(
+        add(
+            "inactive",
             f"{inactive:,} registered voters are inactive, {100 * inactive / (inactive + totals[i]):.1f}% "
-            "of everyone on the rolls."
+            "of everyone on the rolls.",
         )
 
     if year_ago in dates:
@@ -156,12 +172,39 @@ def highlights(conn: sqlite3.Connection) -> dict:
             text = f"Over the past year {fast} grew fastest ({signed(growth[fast], 1, '%')})"
             if growth[slow] < 0:
                 text += f" and {slow} lost the most ({signed(growth[slow], 1, '%')})"
-            items.append(text + ".")
+            add("counties", text + ".")
+
+    tiles = [
+        {
+            "label": "active registered voters",
+            "value": totals[i],
+            "change": totals[i] - totals[i - 1] if i else None,
+            "sub": (
+                f"{signed(c[2], 1, '%')} in a year"
+                if (c := change(12)) is not None
+                else None
+            ),
+        }
+    ]
+    for p in MAJOR:
+        if p not in shares or shares[p][i] is None:
+            continue
+        j = dates.index(year_ago) if year_ago in dates else None
+        then = shares[p][j] if j is not None else None
+        tiles.append(
+            {
+                "label": f"{p} share",
+                "value_text": f"{shares[p][i]:.1f}%",
+                "sub": f"{signed(shares[p][i] - then, 1)} points in a year" if then is not None else None,
+            }
+        )
 
     return {
         "latest": latest,
         "total": totals[i],
         "sentences": items,
+        "by_key": keyed,
+        "tiles": tiles,
         "chart": {
             "dates": dates,
             "series": [{"name": p, "values": by_party[p]} for p in MAJOR if p in by_party],

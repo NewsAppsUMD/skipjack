@@ -23,10 +23,11 @@
     <svg viewBox="{{ m.view_box }}" role="group" aria-label="{{ m.title }}, by county">
         {% for c in m.counties %}
         {% if m.link == "county_page" %}<a href="{{ base }}/voters/county/{{ c.slug }}/" aria-label="{{ c.label }}">
+        {%- elif m.link == "href" %}<a href="{{ base }}{{ c.href }}" aria-label="{{ c.label }}">
         {%- elif m.link == "row" and (c.linked is not defined or c.linked) %}<a href="#county-{{ c.slug }}" aria-label="{{ c.label }}">
         {%- else %}<g aria-label="{{ c.label }}" role="img">{% endif %}
             <use href="#md-{{ c.fips }}" class="map-county {{ c.css }}"><title>{{ c.label }}</title></use>
-        {%- if m.link == "county_page" or (m.link == "row" and (c.linked is not defined or c.linked)) %}</a>{% else %}</g>{% endif %}
+        {%- if m.link in ("county_page", "href") or (m.link == "row" and (c.linked is not defined or c.linked)) %}</a>{% else %}</g>{% endif %}
         {% endfor %}
     </svg>
     <p class="map-readout" aria-hidden="true"></p>

@@ -135,11 +135,14 @@ def county_map(
     caption: str = "",
     none_text: str = "not shown",
     linked_counties: Collection[str] | None = None,
+    href_prefix: str | None = None,
 ) -> dict:
     """Everything templates/_maps.html needs to draw one map.
 
     ``link`` is "county_page" (each county links to /voters/county/<slug>/), "row" (to the
-    ``#county-<slug>`` row of the table on the same page) or "" (no links). With
+    ``#county-<slug>`` row of the table on the same page) or "" (no links). Given
+    ``href_prefix`` (a site path such as "/turnout/gg26/county/") the link is "href" instead:
+    each county links to that page's ``#county-<slug>`` row. With
     ``linked_counties`` only those counties are linked and the rest are drawn without a link
     (a "row" link to a row the table does not have would be dead); without it the ``linked``
     key is absent from the county dicts, so the other pages' markup is unchanged.
@@ -155,6 +158,8 @@ def county_map(
             "css": scale.css(value),
             "label": f"{name}: {none_text if value is None else fmt(value)}",
         }
+        if href_prefix is not None:
+            county["href"] = f"{href_prefix}#county-{county['slug']}"
         if linked_counties is not None:
             county["linked"] = name in linked_counties
         counties.append(county)
@@ -162,7 +167,7 @@ def county_map(
         "id": map_id,
         "title": title,
         "caption": caption,
-        "link": link,
+        "link": "href" if href_prefix is not None else link,
         "view_box": load_shapes()["viewBox"],
         "counties": counties,
         "legend": scale.legend(),
@@ -263,7 +268,9 @@ def _ratio(part: float | None, whole: float | None) -> float | None:
     return None if part is None or not whole else 100 * part / whole
 
 
-def turnout_live_maps(rows: list[dict], as_of: str) -> list[dict]:
+def turnout_live_maps(
+    rows: list[dict], as_of: str, href_prefix: str | None = None
+) -> list[dict]:
     """An election in progress: how many mail ballots sent have come back."""
     values = {r["county"]: _ratio(r.get("received"), r.get("sent")) for r in rows}
     return [
@@ -271,7 +278,7 @@ def turnout_live_maps(rows: list[dict], as_of: str) -> list[dict]:
             "turnout-return", "Mail ballots returned", values,
             sequential(list(values.values()), "%"), fmt_pct(1),
             caption=f"share of mail ballots sent that have been received, as of {as_of}",
-            none_text="no ballots sent yet",
+            none_text="no ballots sent yet", href_prefix=href_prefix,
         )
     ]  # fmt: skip
 

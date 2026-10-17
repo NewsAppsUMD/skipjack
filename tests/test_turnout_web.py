@@ -9,6 +9,7 @@ election's figures are fixed but an in-flight election's move with every snapsho
 from __future__ import annotations
 
 import sqlite3
+from datetime import date
 
 import pytest
 
@@ -1115,3 +1116,14 @@ def test_real_gp26_page_renders_the_certified_data():
     r = client.get("/turnout/gp26/county/")
     assert r.status_code == 200
     assert "Ballots cast" in r.text  # the certified county table, moved off the hub
+
+
+def test_lead_election_follows_the_calendar(conn):
+    add(conn, "2026-10-09", [("county", "Kent", "", "ALL", "", "sent", 10)], election="GG26")
+    add(conn, "2026-10-09", [("county", "Kent", "", "ALL", "", "sent", 10)], election="PG24")
+    assert turnout.lead_election(conn, date(2026, 10, 8)) is None  # before the first snapshot
+    assert turnout.lead_election(conn, date(2026, 10, 9))["code"] == "GG26"
+    assert turnout.lead_election(conn, date(2026, 11, 24))["code"] == "GG26"  # election day + 21
+    assert turnout.lead_election(conn, date(2026, 11, 25)) is None  # canvass over
+    # PG24 is certified and has snapshots too, but never leads
+    assert turnout.lead_election(conn, date(2024, 11, 1)) is None

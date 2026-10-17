@@ -121,13 +121,40 @@ def assert_outlines_once(html: str) -> None:
         assert html.count(f'<path id="md-{fips}"') == 1
 
 
+@pytest.fixture
+def home_today(monkeypatch):
+    """Pin the day the home page picks its lead on."""
+    from datetime import date
+
+    from skipjack.web.routes import home
+
+    def pin(day: str) -> None:
+        monkeypatch.setattr(home, "_today", lambda: date.fromisoformat(day))
+
+    return pin
+
+
 @needs_db
-def test_home_has_a_locator_map_linking_to_every_county():
+def test_home_has_a_locator_map_linking_to_every_county(home_today):
+    home_today("2026-09-01")  # before any GG26 snapshot: the registration lead
     html = client.get("/").text
     assert map_titles(html) == ["Party margin among active voters"]
     assert_outlines_once(html)
     for county in COUNTIES:
         assert f'href="/voters/county/{slugify(county)}/"' in html
+
+
+@needs_db
+def test_home_leads_with_mail_ballots_while_an_election_is_under_way(home_today):
+    home_today("2026-10-17")
+    html = client.get("/").text
+    assert map_titles(html) == ["Mail ballots returned"]
+    assert_outlines_once(html)
+    assert "2026 general election: mail-in ballots" in html
+    for label in ("mail-in ballot requests", "ballots sent", "received back"):
+        assert label in html
+    for county in COUNTIES:
+        assert f'href="/turnout/gg26/county/#county-{slugify(county)}"' in html
 
 
 @needs_db

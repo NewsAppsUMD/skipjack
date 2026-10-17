@@ -395,11 +395,19 @@ def test_unaffiliated_change_survives_the_unaf_to_una_rename():
 
 
 @needs_db
-def test_home_page_highlights_describe_the_latest_report():
+def test_home_page_highlights_describe_the_latest_report(monkeypatch):
+    from datetime import date
+
+    from skipjack.web.routes import home
+
+    monkeypatch.setattr(home, "_today", lambda: date(2026, 9, 1))  # the registration lead
     html = page("/")
     assert "September 2026 in registration" in html
     assert "4,333,854 active registered voters in September 2026" in html
     assert 'id="home-data"' in html
+    assert "Registration through September 2026" in html
+    for label in ("Democratic share", "Republican share", "Unaffiliated share"):
+        assert label in html
 
 
 @needs_db

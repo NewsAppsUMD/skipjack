@@ -4,6 +4,9 @@ Date: 2026-10-14
 Approved: README-mirrored centered hero; logo in the nav wordmark; derived favicon assets;
 hero-only title enlargement.
 
+> Amended 2026-10-17: the homepage hero is now a left-aligned masthead (logo beside the title)
+> rather than centered; see `2026-10-17-homepage-redesign-design.md`.
+
 ## Context
 
 The logo already ships as `src/skipjack/web/static/img/skipjack.webp` (640×640 line drawing

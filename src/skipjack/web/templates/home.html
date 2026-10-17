@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "_maps.html" as maps with context %}
+{% import "_macros.html" as m with context %}
 
 {% block page_title %}Skipjack — Navigating the Maryland Electorate Through Data{% endblock %}
 
@@ -11,103 +12,99 @@
 <div class="hero">
     <img class="hero-logo" src="{{ base }}/static/img/skipjack.webp" width="128" height="128"
         alt="Line drawing of a Chesapeake Bay skipjack sailing on blue waves, inside a circle">
-    <hgroup>
-        <h1>Skipjack</h1>
-        <p>Navigating the Maryland electorate through data</p>
-    </hgroup>
+    <div>
+        <hgroup>
+            <h1>Skipjack</h1>
+            <p>Navigating the Maryland electorate through data</p>
+        </hgroup>
+        {% if now %}<p class="hero-now">{{ now }}</p>{% endif %}
+    </div>
 </div>
 
-{% if summary.sentences %}
-<section>
-    <h2>{{ summary.latest|month_label }} in registration</h2>
-    <ul class="highlights">
-        {% for item in summary.sentences %}<li>{{ item }}</li>{% endfor %}
-    </ul>
-    <div class="viz-root">
-        <section class="viz-card" aria-labelledby="home-chart-title">
-            <h2 id="home-chart-title">Active registered voters by party</h2>
-            <p class="sub">Monthly since {{ summary.chart.dates[0]|month_label }}</p>
-            <ul class="legend" id="home-legend"></ul>
-            <div id="home-chart"></div>
-        </section>
-    </div>
-    <p><a href="{{ base }}/voters/county/">More trends, by county</a></p>
-</section>
-{% endif %}
-
-<section>
-    <h2>Current Registration</h2>
-    <p>As of <strong>{{ latest_date }}</strong> — <strong>{{ "{:,}".format(total_voters) }}</strong> active registered voters</p>
-
-    {% if locator %}
-    {{ maps.map_defs() }}
-    {{ maps.county_map(locator) }}
-    {% endif %}
-
-    <div class="overflow-auto">
-        <table>
-            <thead>
-                <tr>
-                    <th>Party</th>
-                    <th style="text-align: right">Active Voters</th>
-                    <th style="text-align: right">Share</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in totals %}
-                <tr>
-                    <td>{{ row.party_name }}</td>
-                    <td style="text-align: right">{{ "{:,}".format(row.total) }}</td>
-                    <td style="text-align: right">{{ "%.1f"|format(row.total / total_voters * 100) }}%</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<section>
-    <div class="grid">
-        <article>
-            <h3>Voter Registration</h3>
-            <p>Monthly registration data by county and party, back to 2010.</p>
-            <a href="{{ base }}/voters/" role="button">Explore</a>
-        </article>
-        <article>
-            <h3>How people register</h3>
-            <p>New registrations by method, why voters are removed, and who switches party.</p>
-            <a href="{{ base }}/voters/methods/" role="button">Explore</a>
-        </article>
-        <article>
-            <h3>Young Voters</h3>
-            <p>Who is registering at 18 to 22, how that compares with earlier election years, and which party they choose.</p>
-            <a href="{{ base }}/voters/young/" role="button">Explore</a>
-        </article>
-        <article>
-            <h3>Voter File</h3>
-            <p>Participation among current voters by party, age and district, from the statewide voter list. Not official turnout.</p>
-            <a href="{{ base }}/voters/file/" role="button">Explore</a>
-        </article>
-        {% if static_site %}
-        <article>
-            <h3>Data</h3>
-            <p>Download the monthly registration files and the voter file aggregates as CSV and JSON.</p>
-            <a href="{{ base }}/data/" role="button" class="outline">Downloads</a>
-        </article>
-        {% else %}
-        <article>
-            <h3>Data Explorer</h3>
-            <p>Browse raw tables, run SQL queries, and export data as CSV or JSON.</p>
-            <a href="{{ base }}/explorer/" role="button" class="outline">Open Datasette</a>
-        </article>
+<section class="lead">
+    <div class="lead-text">
+        <h2>{{ lead.title }}</h2>
+        {% if lead.as_of %}<p class="muted">As of {{ lead.as_of|day_label }}</p>{% endif %}
+        {% if lead.tiles %}
+        <div class="tiles">
+            {% for t in lead.tiles %}
+            <div class="tile">
+                <div class="v">{% if t.value_text %}{{ t.value_text }}{% else %}{{ m.num(t.value) }}{% endif %}</div>
+                <div class="l">{{ t.label }}{% if t.change is not none and t.change is defined %} &middot; {{ m.delta_span(t.change) }}{% endif %}
+                    {% if t.sub %} &middot; {{ t.sub }}{% endif %}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% for sentence in lead.sentences %}<p>{{ sentence }}</p>{% endfor %}
+        <p><a href="{{ base }}{{ lead.link[0] }}">{{ lead.link[1] }} &rarr;</a></p>
+        {% if lead.also %}
+        <h3>Also this month</h3>
+        <ul class="highlights">
+            {% for sentence in lead.also %}<li>{{ sentence }}</li>{% endfor %}
+        </ul>
         {% endif %}
     </div>
+    {% if lead.map %}
+    <div class="lead-map">
+        {{ maps.map_defs() }}
+        {{ maps.county_map(lead.map) }}
+    </div>
+    {% endif %}
+</section>
+
+<section class="viz-root">
+    <div class="home-cards">
+        {% if chart_data.party %}
+        <section class="viz-card" aria-labelledby="home-party-title">
+            <h3 id="home-party-title">Active registered voters by party</h3>
+            <p class="sub">Monthly since {{ chart_data.party.dates[0]|month_label }}{% if party_sentence %}. {{ party_sentence }}{% endif %}</p>
+            <ul class="legend" id="home-party-legend"></ul>
+            <div id="home-party"></div>
+            <p class="more"><a href="{{ base }}/voters/county/">Trends by county &rarr;</a></p>
+        </section>
+        {% endif %}
+        {% if young %}
+        <section class="viz-card" aria-labelledby="home-young-title">
+            <h3 id="home-young-title">New registrations by 18-to-22-year-olds</h3>
+            <p class="sub">{{ young.sentence }}</p>
+            <ul class="legend" id="home-young-legend"></ul>
+            <div id="home-young"></div>
+            <p class="more"><a href="{{ base }}/voters/young/">Young voters &rarr;</a></p>
+        </section>
+        {% endif %}
+        {% if flow %}
+        <section class="viz-card wide" aria-labelledby="home-flow-title">
+            <h3 id="home-flow-title">New registrations and removals</h3>
+            <p class="sub">12-month rolling totals since {{ flow.dates[0]|month_label }}.{% if flow_sentence %} {{ flow_sentence }}{% endif %}</p>
+            <ul class="legend" id="home-flow-legend"></ul>
+            <div id="home-flow"></div>
+            <p class="more"><a href="{{ base }}/voters/methods/">How people register &rarr;</a> &middot;
+                <a href="{{ base }}/voters/removals/">Why voters are removed &rarr;</a></p>
+        </section>
+        {% endif %}
+    </div>
+</section>
+
+<section class="explore">
+    <h2>Explore</h2>
+    <ul>
+        <li><a href="{{ base }}/voters/">Voter registration</a> <span>Monthly data by county and party, back to 2010.</span></li>
+        <li><a href="{{ base }}/voters/methods/">How people register</a> <span>New registrations by method, removals and party switching.</span></li>
+        <li><a href="{{ base }}/voters/young/">Young voters</a> <span>Who registers at 18 to 22 and which party they choose.</span></li>
+        <li><a href="{{ base }}/voters/file/">Voter file</a> <span>Participation by party, age and district. Not official turnout.</span></li>
+        <li><a href="{{ base }}/turnout/">Turnout</a> <span>Mail-in ballots by election, by county and district.</span></li>
+        <li><a href="{{ base }}/results/">Results</a> <span>Certified results by contest and county.</span></li>
+        {% if static_site %}
+        <li><a href="{{ base }}/data/">Data</a> <span>Download the files behind every page as CSV and JSON.</span></li>
+        {% else %}
+        <li><a href="{{ base }}/explorer/">Data explorer</a> <span>Browse raw tables, run SQL queries, export CSV or JSON.</span></li>
+        {% endif %}
+    </ul>
 </section>
 {% endblock %}
 
 {% block scripts %}
-{% if summary.chart %}
-<script id="home-data" type="application/json">{{ summary.chart | tojson }}</script>
+<script id="home-data" type="application/json">{{ chart_data | tojson }}</script>
 <script type="module" src="{{ base }}/static/home.js"></script>
-{% endif %}
 {% endblock %}

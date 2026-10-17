@@ -107,3 +107,4 @@ def test_the_home_page_carries_the_hero_logo_and_enlarged_title():
     assert "Navigating the Maryland electorate through data" in html
     # the nav brand keeps its own size: the hero class comes from the hero div alone
     assert html.count('class="hero"') == 1
+    assert 'class="hero-now"' in html
