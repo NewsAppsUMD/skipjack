@@ -62,9 +62,10 @@ class Election:
     # True when the election is over and certified, so its page shows the final
     # turnout layout rather than the campaign's mail-in tracking
     certified: bool = False
-    # The snapshot day for this election's files that print no date of their own (no As-of,
-    # report date or election date): the 2018 archive's prints carry none, and its by-party
-    # sheet prints only the election date. None keeps such a file "unknown", and its parse
+    # The snapshot day used whenever no date could be read from one of this election's files
+    # (no As-of, report date or election date the readers accept): the 2018 archive's prints
+    # carry none, and its by-party sheet prints only the election date. It also covers a
+    # file whose printed date is unreadable. None keeps such a file "unknown", and its parse
     # fails for want of a date.
     undated_as_of: str | None = None
 
@@ -854,6 +855,14 @@ def _official_sheet_rows(
                 raise TurnoutParseError(
                     f"{sheet} row {index}: unrecognized column label {unknown[0]!r} in "
                     f"the {party} block's header"
+                )
+            # an old and a new spelling of one measure side by side would let one column
+            # silently overwrite the other
+            if len(set(measures.values())) != len(measures):
+                doubled = next(m for m in measures.values() if list(measures.values()).count(m) > 1)
+                raise TurnoutParseError(
+                    f"{sheet} row {index}: the {party} block's header prints more than one "
+                    f"column for {doubled}"
                 )
             (area_col, mapping) = (next(iter(areas)), measures)
             block_sums = {}
@@ -1949,6 +1958,11 @@ class PrintedSheet:
                 continue
             if label not in self.cells:
                 raise TurnoutParseError(f"{where}: unrecognized column label {label!r}")
+            if self.cells[label] in counts.values():
+                # an old and a new spelling of one measure would overwrite each other
+                raise TurnoutParseError(
+                    f"{where}: the header prints more than one column for {self.cells[label]}"
+                )
             counts[index] = self.cells[label]
         if county_col is None or not counts:
             raise TurnoutParseError(

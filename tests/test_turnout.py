@@ -5302,3 +5302,46 @@ def test_an_undated_file_takes_the_elections_undated_snapshot(turnout_env, monke
     out = turnout_env / "data" / "turnout" / "GG18" / "official-turnout" / "county"
     frame = pl.read_csv(out / "2018-11-06.csv")
     assert set(frame["as_of"].cast(pl.Utf8)) == {"2018-11-06"}
+
+
+def test_an_undated_file_without_the_setting_stays_unknown_and_fails(turnout_env, monkeypatch):
+    """The same dateless workbook under an election with no undated_as_of: archived as
+    'unknown', and its parse fails for want of a date and writes nothing."""
+    from skipjack.pipeline.provenance import read_manifest
+
+    url = "https://elections.maryland.gov/elections/archive/2018/turnout/general/x.xlsx"
+    election = turnout.Election(
+        code="GG18",
+        name="2018 general election",
+        election_day="2018-11-06",
+        files=[turnout.FamilyFile("official-turnout", "county", "xlsx", url)],
+        certified=True,
+    )
+    monkeypatch.setattr(turnout, "ELECTIONS", {"GG18": election})
+    body = sent_worksheet(gg18_official_rows())
+    monkeypatch.setattr(turnout, "download", lambda u, timeout=30.0: body)
+    turnout.turnout_fetch()
+    (record,) = read_manifest(turnout.MANIFEST_PATH)
+    assert "__unknown__" in Path(record.local_path).name
+    written, failed = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert written == 0
+    assert len(failed) == 1 and "no As-of date" in failed[0]
+    assert not list((turnout_env / "data").rglob("*.csv"))
+
+
+def test_official_turnout_rejects_two_header_cells_for_one_measure():
+    """An old and a new spelling of the same measure in one header (POLLS beside ELECTION
+    DAY) would let one column silently overwrite the other; the parse fails instead."""
+    rows = gg18_official_rows()
+    doubled = [row[:] for row in rows]
+    header = next(i for i, r in enumerate(doubled) if "POLLS" in r)
+    doubled[header][2] = "Election Day"
+    with pytest.raises(turnout.TurnoutParseError, match="more than one column for election-day"):
+        turnout.parse_turnout_official_bytes(sent_worksheet(doubled), "GG18", "county")
+
+
+def test_canvass_rejects_two_header_cells_for_one_measure():
+    doubled = [row[:] for row in GG18_CANVASS_ROWS]
+    doubled[0] = [*doubled[0], "Election Day"]
+    with pytest.raises(turnout.TurnoutParseError, match="more than one column for election-day"):
+        turnout.parse_county_canvass_rows(doubled, "GG18", "county", as_of="2018-11-06")
