@@ -102,6 +102,17 @@ sv <- function(scenario, measure, stat = "mean") {
 party_lab <- c(DEM = "Democrats", REP = "Republicans", OTH = "Other (unaffiliated and minor parties)")
 fdate <- function(d, year = TRUE) { d <- as.Date(d); paste0(format(d, "%B "), as.integer(format(d, "%d")), if (year) format(d, ", %Y") else "") }
 mail_as_of <- unique(sw$gg26_mail_as_of)
+
+# GG22 eligible registration (active + inactive) is not in the forecast files; it is computed here
+# from inputs/inactive_ratio.csv, whose active_gg22 matches training.csv's GG22 active exactly.
+inact <- rd(inp("inactive_ratio.csv"))
+g22_tr <- training |> filter(election == "GG22") |> group_by(county) |>
+  summarise(active = sum(active), ballots = sum(ballots_cast))
+g22_el <- inact |> group_by(county) |> summarise(active_ir = sum(active_gg22), eligible = sum(active_gg22 + inactive_gg22)) |>
+  inner_join(g22_tr, by = "county") |> mutate(rate_eligible = ballots / eligible)
+stopifnot(nrow(g22_el) == 24, all(g22_el$active_ir == g22_el$active),
+          sum(g22_el$ballots) == sv("actual_GG22", "ballots"))
+gg22_rate_eligible <- sum(g22_el$ballots) / sum(g22_el$eligible)
 stopifnot(length(mail_as_of) == 1)
 ```
 
@@ -128,23 +139,23 @@ scen <- c(low = "Low (a 2022-like midterm)", central = "Central (the level rule'
 rows <- lapply(names(scen), function(s) tibble(
   Scenario = scen[[s]],
   `Ballots cast` = num(sv(s, "ballots")),
-  `90% interval (within-scenario)` = rng(sv(s, "ballots", "q05"), sv(s, "ballots", "q95")),
+  `90% interval` = paste0(rng(sv(s, "ballots", "q05"), sv(s, "ballots", "q95")), " (within scenario)"),
   `Rate on active` = pct(sv(s, "rate_active")),
   `Rate on eligible` = pct(sv(s, "rate_eligible")),
   `Rate on CVAP` = pct(sv(s, "rate_cvap"))))
 hr <- tibble(
   Scenario = "Headline range (low's 5th to high's 95th percentile)",
   `Ballots cast` = num(sv("headline_range", "ballots")),
-  `90% interval (within-scenario)` = paste0(rng(lo_b, hi_b), " (across scenarios)"),
+  `90% interval` = paste0(rng(lo_b, hi_b), " (across scenarios)"),
   `Rate on active` = rng(sv("headline_range", "rate_active", "q05"), sv("headline_range", "rate_active", "q95"), pct),
   `Rate on eligible` = rng(sv("headline_range", "rate_eligible", "q05"), sv("headline_range", "rate_eligible", "q95"), pct),
   `Rate on CVAP` = rng(sv("headline_range", "rate_cvap", "q05"), sv("headline_range", "rate_cvap", "q95"), pct))
 act <- lapply(c("GG22", "GG18"), function(e) tibble(
   Scenario = paste0(c(GG22 = "2022 general, actual", GG18 = "2018 general, actual")[[e]]),
   `Ballots cast` = num(sv(paste0("actual_", e), "ballots")),
-  `90% interval (within-scenario)` = "",
+  `90% interval` = "",
   `Rate on active` = pct(sv(paste0("actual_", e), "rate_active")),
-  `Rate on eligible` = "not computed",
+  `Rate on eligible` = if (e == "GG22") pct(gg22_rate_eligible) else "not available",
   `Rate on CVAP` = "not computed"))
 kable(bind_rows(rows, list(hr), act), align = c("l", "r", "r", "r", "r", "r"),
       caption = "Statewide ballots cast and turnout rates. Active = active registration; eligible = active plus inactive registrants; CVAP = citizen voting-age population (ACS).")
@@ -155,9 +166,10 @@ votes at its 2018 level, an energized midterm. Central blends the two, party by 
 weights set by the written rule below. The intervals within each scenario are narrow by
 construction, because each draw is calibrated to a past election. They carry only cell-level noise
 and the shift in the 2026 electorate's mix. The real uncertainty is the spread between low and
-high. That is why the headline range runs from low's 5th percentile to high's 95th. The 2018 and
-2022 actual rates use the board's active registration for those elections; the model's files do not
-carry eligible registration or CVAP for those years, so those rates are not computed here.
+high. That is why the headline range runs from low's 5th percentile to high's 95th. The 2022 rate
+on eligible divides by that election's active plus inactive registrants, from the board's
+inactive counts. No inactive counts exist for 2018, so its rate on eligible is not available. CVAP
+comes from a single ACS vintage matched to 2026, so it is not used for the past elections.
 
 ## What kind of model this is
 
@@ -203,6 +215,13 @@ moved <- vapply(c("DEM", "REP", "OTH"), function(pp) {
                                          collapse = " and "), ", so w = ", r$w)
 }, character(1))
 stopifnot(w[["DEM"]] < 0.5, w[["REP"]] < 0.5, w[["OTH"]] > 0.5)
+# The mail-sensitivity sentence: which parties' mail vote turns 2022-like, and by how much w drops.
+flip <- lr$vote_mail_latest < lr$vote_mail
+stopifnot(any(flip), identical(flip, lr$vote_mail_recent < lr$vote_mail),
+          all(lr$w_latest == lr$w_recent), all(lr$w[!flip] == lr$w_latest[!flip]))
+w_drop_all <- round(lr$w[flip] - lr$w_latest[flip], 10)
+stopifnot(length(unique(w_drop_all)) == 1)
+w_drop <- unique(w_drop_all)
 ```
 
 The rule puts Democrats and Republicans closer to 2022 than to 2018, and other voters closer to
@@ -256,7 +275,7 @@ kable(lrtab, align = c("l", "r", "r", "r"),
 through every daily snapshot to the October 27 request deadline. Holding the latest count, or
 extending only the last three snapshots, gives lower indices. Under either, the parties whose mail
 vote turns 2022-like are `r paste(party_lab[lr$party_group[lr$vote_mail_latest < lr$vote_mail]], collapse = " and ")`,
-and their weights drop by 0.1.
+and their weights drop by `r w_drop`.
 
 ```{r mail-sens}
 mail_rows <- function(label, sfx) {
@@ -305,8 +324,9 @@ cen <- cty |> filter(scenario == "central")
 a22 <- cty |> filter(scenario == "actual_GG22") |> select(county, r22 = rate_active_mean)
 a18 <- cty |> filter(scenario == "actual_GG18") |> select(county, r18 = rate_active_mean)
 cc <- cen |> left_join(a22, by = "county") |> left_join(a18, by = "county") |>
+  left_join(g22_el |> select(county, r22e = rate_eligible), by = "county") |>
   arrange(desc(rate_active_mean))
-stopifnot(nrow(cc) == 24, !anyNA(cc$r22), !anyNA(cc$r18),
+stopifnot(nrow(cc) == 24, !anyNA(cc$r22), !anyNA(cc$r18), !anyNA(cc$r22e),
           abs(sum(cc$ballots_mean) - c_b) <= 24)
 top <- cc$county[1]; bot <- cc$county[24]
 n_between <- sum(cc$rate_active_mean >= pmin(cc$r22, cc$r18) & cc$rate_active_mean <= pmax(cc$r22, cc$r18))
@@ -322,9 +342,10 @@ kable(cc |> transmute(County = county, `Ballots cast` = num(ballots_mean),
                       `90% interval (within-scenario)` = rng(ballots_q05, ballots_q95),
                       `Rate on active` = pct(rate_active_mean), `Rate on eligible` = pct(rate_eligible_mean),
                       `Share of state ballots` = pct(share_of_state_mean),
-                      `2022 rate on active` = pct(r22), `2018 rate on active` = pct(r18)),
-      align = c("l", rep("r", 7)),
-      caption = "Central scenario by county, sorted by rate on active registration. Active = active registration; eligible = active plus inactive registrants. 2022 and 2018 rates are actual ballots cast over that election's active registration.")
+                      `2022 rate on active` = pct(r22), `2022 rate on eligible` = pct(r22e),
+                      `2018 rate on active` = pct(r18)),
+      align = c("l", rep("r", 8)),
+      caption = "Central scenario by county, sorted by rate on active registration. Active = active registration; eligible = active plus inactive registrants. 2022 and 2018 rates are actual ballots cast over that election's active registration, or for 2022 also over its active plus inactive registrants.")
 ```
 
 ```{r county-chart, fig.width = 8, fig.height = 7, fig.alt = "Dot-and-range chart of each county's central turnout rate on active registration, with its 90 percent within-scenario interval and the 2022 and 2018 actual rates marked."}
@@ -445,9 +466,9 @@ mae <- function(h, g, m, col) bt[[col]][bt$held_out == h & bt$grain == g & bt$me
 ```
 
 Leaving out one midterm and predicting it from the other elections, the model beats a naive copy
-of the other midterm on most measures. Its county rates miss by `r sprintf("%.1f", mae("GG22", "county", "rate_mae_pts", "model"))`
-points on average for 2022 and `r sprintf("%.1f", mae("GG18", "county", "rate_mae_pts", "model"))`
-for 2018. Both held-out tests calibrate statewide party totals to the actual result, so they test
+of the other midterm on most measures. Its county turnout rates on active registration miss by
+`r sprintf("%.1f", mae("GG22", "county", "rate_mae_pts", "model"))` points on average for 2022 and
+`r sprintf("%.1f", mae("GG18", "county", "rate_mae_pts", "model"))` for 2018. Both held-out tests calibrate statewide party totals to the actual result, so they test
 the county pattern, not the level.
 
 ```{r bt-table}
@@ -603,7 +624,8 @@ md <- c(
   paste0("The range to quote is ", rng(lo_b, hi_b), " ballots cast (low's 5th to high's 95th percentile), ",
          rng(sv("headline_range", "rate_active", "q05"), sv("headline_range", "rate_active", "q95"), pct),
          " of active registration. For comparison, ", num(sv("actual_GG22", "ballots")), " ballots were cast in 2022 (",
-         pct(sv("actual_GG22", "rate_active")), " of active registration) and ", num(sv("actual_GG18", "ballots")),
+         pct(sv("actual_GG22", "rate_active")), " of active registration, ", pct(gg22_rate_eligible),
+         " of eligible registration) and ", num(sv("actual_GG18", "ballots")),
          " in 2018 (", pct(sv("actual_GG18", "rate_active")), ")."),
   "",
   "## Party mix of the electorate",

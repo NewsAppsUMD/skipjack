@@ -255,7 +255,8 @@ src/skipjack/
   web/                FastAPI app, routes, templates, static files, static_site.py
 data/                 the committed CSV and JSON, with provenance files
 archives/             original PDFs and the download manifest
-scripts/turnout_model/ R turnout forecast for the 2026 general (renv project) and its report
+scripts/turnout_model/
+                      R turnout forecast for the 2026 general (renv project) and its report
 tests/                pytest suite; the voter file tests use made-up data
 .github/workflows/    GitHub Pages deploy; the daily turnout snapshot
 ```
