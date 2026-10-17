@@ -47,6 +47,15 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
   calibrates the statewide level per draw instead. Seeded, so re-runs on this machine are
   byte-identical, but `MASS::mvrnorm`'s `eigen()` may differ across BLAS builds.
 
+- `03_compose.R` writes `data/turnout_model/gg26/composition_factors.csv`: for each county x
+  party cell, the logit-scale change `comp = factor_age + factor_new` that the forecast adds to
+  the cell's linear predictor, from the 2026-08-12 voter-file aggregates (`voter_file_counts`,
+  used only as ratios within the snapshot). `factor_age` compares the cell's expected 2022-midterm
+  participation under its 2026 and 2022 age mix; `factor_new` is the pull of recent registrants
+  beyond their age, with `rho_gen = sqrt(rho)` (a judgment; the no-penalty and full-penalty
+  versions are sensitivity columns). `county = Maryland` rows are statewide, for reporting only.
+  Deterministic.
+
 `R/model.R` (sourced by `R/bootstrap.R`) holds the structure-model helpers shared with the
 forecast: `model_frame()`, `build_formula()`, `fit_glmer()`, `cell_key()`, `alpha_name()`,
 `structure_point()`, `make_draws()` and `calibrate()`.

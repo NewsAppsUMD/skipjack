@@ -1,0 +1,84 @@
+{
+  "file": "data/turnout_model/gg26/composition_factors.csv",
+  "description": "Composition change factors per county x party group (DEM, REP, OTH = ALL - DEM - REP), logit scale: comp = factor_age + factor_new, added by the forecast to each cell's linear predictor. R22 and R26 are the cell's expected 2022-midterm participation under its 2022 and 2026 age mix; s22, s26 the recent-registrant shares; rho the relative 2026-primary propensity of people registered since the 2024 general, rho_gen = sqrt(rho) its general-election version. county = Maryland rows are statewide per party from summed cell counts, for reporting only.",
+  "generated_by": "scripts/turnout_model/03_compose.R",
+  "run_date": "2026-10-17T17:14:12-0400",
+  "sources": {
+    "table": "skipjack.db voter_file_counts",
+    "snapshot_date": "2026-08-12",
+    "metrics": {
+      "turnout_by_age": "county x age band (age today): 2022-GG and 2026-GP count / eligible; k_c(a) = 2022-GG eligible / 2026-GP eligible",
+      "turnout_by_age_party": "statewide party x age band: party tilt t_p(a) for 2022-GG (factor_age) and 2026-GP (rho)",
+      "age_by_party": "county x party x age band, all statuses: the 2026 mix e26",
+      "party_by_county": "county x party x status: cell totals (active + inactive) for the e26 reconciliation and as the share denominators",
+      "registration_cohorts": "county x party x reg_year: 2019-2022 and 2023-2026 counts",
+      "new_voters_voted": "county x party: registered after 2024-11-05 and eligible for 2026-GP, count voted / eligible",
+      "new_registrants": "county x party x age at registration (18-22, 23-29, 30+) x reg_year, first-time registrants: reg_year 2025-2026 age profile"
+    }
+  },
+  "source_ids": [],
+  "checks_passed": [
+    "every county x age band has a 2022-GG rate (count 0 rates are 0)",
+    "statewide Unknown-age eligible is equal for 2022-GG and 2026-GP",
+    "every cell x age band 18-24 to 75+ has a tilted rate",
+    "party_by_county totals (active + inactive) are unsuppressed for every cell",
+    "age bands of age_by_party (with Under 18; suppressed bands as 1-9) sum to the cell's party_by_county total",
+    "where no band is suppressed, age_by_party bands sum exactly to the party_by_county total",
+    "only Unknown-age bands of e26 are suppressed",
+    "k_c(a) in (0, 1.05] for every band in use",
+    "every band in use has a rate",
+    "registration_cohorts carries no NULL reg_year rows (the metric excludes them)",
+    "registration_cohorts 2019-2026 counts are unsuppressed for DEM, REP and ALL",
+    "shares for 72 cells",
+    "statewide NULL reg_year registrants (party_by_county minus registration_cohorts) are under 0.1% of registrants",
+    "county registration_cohorts sums fall short of party_by_county totals by suppressed old years plus at most the statewide NULL reg_year count",
+    "new_voters_voted eligible is positive for DEM, REP and ALL",
+    "county new_voters_voted DEM and REP sum to the statewide rows",
+    "county ALL new-registrant age profiles are unsuppressed",
+    "rho inputs for 48 DEM/REP cells and 24 county ALL rows",
+    "county ALL rho is computable everywhere",
+    "72 cell rows with no NA in comp",
+    "|comp| <= 0.25 for every cell",
+    "s22 and s26 in (0, 1)",
+    "rho > 0"
+  ],
+  "notes": {
+    "method": {
+      "factor_age": "r_cp(a) = r_c(a) * t_p(a), capped at 0.99; e22 = e26 * k_c(a); R = sum(e r) / sum(e); A = logit(R26) - logit(R22). Under 18 dropped, Unknown kept as its own band.",
+      "factor_new": "N = logit(R26 * (1 - (s26 - s22) * (1 - rho_gen))) - logit(R26), argument clamped to [1e-6, 1 - 1e-6].",
+      "rho": "DEM and REP: observed 2026-GP rate of new_voters_voted over the age-expected rate, sum over bands of the cell's 2025-2026 new-registrant age profile times the cell's 2026-GP rate (county x age rate times the statewide 2026-GP party tilt): 18-22 -> 18-24, 23-29 -> 25-34, 30+ -> the cell's 35+ average weighted by its current registrants. OTH: statewide DEM/REP pooled rho (sum of observed over sum of expected counts across the 48 DEM/REP cells), since closed primaries make OTH primary rates meaningless. Fallbacks if a cell's count were suppressed: county ALL (untilted rates), then statewide ALL; rho_source records which was used.",
+      "rho_gen": "rho_gen = sqrt(rho) is a judgment: primaries exaggerate the gap between new and established voters, so the general-election propensity of new registrants is taken halfway (on the log scale) between rho and 1. factor_new_no_penalty uses rho_gen = 1, factor_new_full_penalty rho_gen = rho.",
+      "habit_mix": "No habit-mix factor: metric voter_types classifies each voter over the elections they were eligible for in this one snapshot, so there is no 2022-era counterpart to compare with. factor_new is the measurable part of the habit shift."
+    },
+    "limitations": {
+      "s22": "Recent cohorts lose more members to moves, so in today's file the 2019-2022 cohort is understated relative to its size in 2022: s22 is understated and factor_new is biased toward a larger penalty. A known limitation, not corrected.",
+      "participation_among_current_voters": "All rates and shares are ratios within the 2026-08-12 snapshot, which holds about 87% of the 2022 electorate; never levels.",
+      "profile_mismatch": "new_voters_voted counts everyone with a state registration date after 2024-11-05 (including 16-17 year-old preregistrants and November-December 2024 registrants), while the age profile comes from new_registrants, first-time registrants aged 18+ at registration in reg_year 2025-2026, whose bands are age at registration rather than age today. The profile is an approximation of the age mix of the rho population."
+    },
+    "deviations": {
+      "registration_cohorts_null_reg_year": "registration_cohorts excludes NULL reg_year rows (the pipeline filters them), and its oldest years are sometimes suppressed. Share denominators therefore use the cell's party_by_county total (active + inactive), which includes NULL reg_year registrants; s22's denominator is that total minus the 2023-2026 counts, so NULL reg_year registrants count as registered by 2022. Statewide, NULL reg_year registrants number 42 (party_by_county minus registration_cohorts, both unsuppressed statewide).",
+      "rho_party_tilt": "The brief's age-expected 2026-GP rate for a county x party cell uses turnout_by_age, which has no party; the county x age rate is tilted to the party with the statewide 2026-GP party x age rates, as factor_age does for 2022-GG, so that DEM and REP rho compare like with like (all-party primary rates include unaffiliated voters who cannot vote in them).",
+      "e26_reconciliation": "age_by_party has no total row; its bands (with Under 18) are reconciled to party_by_county totals, exactly where no band is suppressed and within the 1-9 bounds of suppressed bands otherwise.",
+      "unknown_age": "The Unknown age band has a 2022-GG count of 0 in every county (rate 0, observed even where eligible is suppressed) and, statewide, equal 2022-GG and 2026-GP eligible counts, so k = 1 in every county. Where a cell's Unknown e26 is suppressed (1-9 people) or not derivable, the band is left out of that cell's mixes; with rate 0 and equal weight in both mixes its effect on factor_age is under 1e-4.",
+      "unknown_age_dropped_cells": ["Anne Arundel:DEM", "Baltimore County:DEM", "Charles:DEM", "Howard:DEM", "Kent:DEM", "St. Mary's:DEM", "Washington:DEM", "Worcester:DEM", "Allegany:REP", "Anne Arundel:REP", "Howard:REP", "Prince George's:REP", "Allegany:OTH", "Anne Arundel:OTH", "Baltimore County:OTH", "Charles:OTH", "Howard:OTH", "Kent:OTH", "Prince George's:OTH", "St. Mary's:OTH", "Washington:OTH", "Worcester:OTH"]
+    }
+  },
+  "statewide_pooled_dem_rep_rho": 0.6031,
+  "statewide_all_rho": 0.5183,
+  "statewide_null_reg_year_registrants": 42,
+  "new_registrant_profile_fallbacks": ["Caroline:DEM", "Dorchester:DEM", "Dorchester:REP", "Garrett:DEM", "Garrett:REP", "Kent:DEM", "Kent:REP", "Queen Anne's:DEM", "Queen Anne's:REP", "Somerset:DEM", "Somerset:REP", "Talbot:DEM", "Talbot:REP", "Worcester:DEM"],
+  "columns": {
+    "R22": "expected 2022-GG participation under the cell's 2022 age mix (ratio within the snapshot)",
+    "R26": "the same under the 2026 age mix",
+    "factor_age": "logit(R26) - logit(R22)",
+    "rho": "2026-GP propensity of registrants since the 2024 general relative to their age-expected rate",
+    "rho_gen": "sqrt(rho): judged general-election propensity (see notes)",
+    "s22": "share of registrants by end of 2022 who registered 2019-2022",
+    "s26": "share of current registrants who registered 2023-2026",
+    "factor_new": "new-registrant factor with rho_gen = sqrt(rho)",
+    "factor_new_no_penalty": "with rho_gen = 1 (sensitivity)",
+    "factor_new_full_penalty": "with rho_gen = rho (sensitivity)",
+    "comp": "factor_age + factor_new",
+    "rho_source": "where rho came from"
+  }
+}
