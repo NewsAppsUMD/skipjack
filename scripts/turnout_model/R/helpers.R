@@ -1,9 +1,9 @@
 # Shared helpers for the turnout-model scripts (scripts/turnout_model/0*.R).
 #
-# Every script is run from the repo root and starts by activating the renv project in
-# scripts/turnout_model (RENV_PROJECT plus renv/activate.R) and then sourcing this file. Helpers here: the database
-# connection, the 24 canonical county names, party grouping, Census county name
-# normalization, and the provenance writer used for every file the scripts write.
+# Sourced by R/bootstrap.R, which every script sources first (run with Rscript from the repo
+# root). Helpers here: the database connection, the 24 canonical county names, election and
+# mode labels, party grouping, Census county name normalization, integer splitting, and the
+# provenance writer used for every file the scripts write.
 
 suppressPackageStartupMessages({
   library(DBI)
@@ -26,6 +26,13 @@ CANONICAL_COUNTIES <- c(
 
 PARTY_GROUPS <- c("DEM", "REP", "OTH")
 
+# Elections in the model, in the order rows are written.
+ELECTION_LEVELS <- c("GG18", "GG22", "GP22", "PP24", "PG24", "GP26")
+
+# turnout_counts mode measures and the column names they become.
+MODE_COLS <- c("election-day" = "election_day", "early-voting" = "early_voting",
+               "vote-by-mail" = "vote_by_mail", "provisional" = "provisional")
+
 # Open a read-only connection to skipjack.db; the caller disconnects.
 db_connect <- function(path = DB_PATH) {
   if (!file.exists(path)) stop("missing ", path, "; build it with `make build-db`")
@@ -39,9 +46,11 @@ db_query <- function(con, sql, params = NULL) {
 }
 
 # DEM and REP keep their own group; every other party code (UNA, UNAF, GRN, LIB, WCP, BAR,
-# NLM, OTH) is OTH, matching the board's mail-in files. "ALL" is not a party and is refused.
+# NLM, OTH) is OTH, matching the board's mail-in files. Total rows (any code matching TOTAL or
+# ALL, in any case) and NA are not parties and are refused rather than folded into OTH.
 party_group <- function(party) {
-  if (any(party == "ALL" | is.na(party))) stop("party_group() got ALL or NA party codes")
+  bad <- is.na(party) | grepl("TOTAL|ALL", party, ignore.case = TRUE)
+  if (any(bad)) stop("party_group() got total-like or NA party codes: ", paste(unique(party[bad]), collapse = ", "))
   dplyr::case_when(party == "DEM" ~ "DEM", party == "REP" ~ "REP", TRUE ~ "OTH")
 }
 
@@ -82,15 +91,40 @@ write_input_csv <- function(df, path) {
   invisible(path)
 }
 
-# Write <csv minus .csv>_provenance.json next to a written file. `sources` lists tables and
-# queries, `source_ids` the skipjack source ids, `checks` the names of the checks that passed.
-write_provenance <- function(path, description, sources, source_ids = character(), checks = character(),
-                             notes = NULL, extra = list()) {
+# Split an integer total into integer parts proportional to `shares` (largest remainder), so
+# the parts sum exactly to the total. Ties break by position.
+split_integer <- function(total, shares) {
+  if (length(total) != 1 || is.na(total) || anyNA(shares) || any(shares < 0)) {
+    stop("split_integer() needs one non-missing total and non-negative, non-missing shares")
+  }
+  if (sum(shares) == 0) stop("split_integer() got shares that sum to zero (total ", total, ")")
+  raw <- as.numeric(total) * as.numeric(shares) / sum(as.numeric(shares))
+  base <- floor(raw)
+  left <- total - sum(base)
+  if (left > 0) {
+    bump <- order(-(raw - base), seq_along(raw))[seq_len(left)]
+    base[bump] <- base[bump] + 1
+  }
+  base
+}
+
+# The running script's path as given to Rscript (--file=), for provenance `generated_by`.
+script_path <- function() {
+  f <- sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE))
+  if (length(f) != 1) stop("script_path() works only under Rscript; pass generated_by explicitly")
+  f
+}
+
+# Write <csv minus .csv>_provenance.json next to a written file. `generated_by` is the script
+# that wrote it, `sources` lists tables and queries, `source_ids` the skipjack source ids,
+# `checks` the names of the checks that passed.
+write_provenance <- function(path, description, sources, generated_by, source_ids = character(),
+                             checks = character(), notes = NULL, extra = list()) {
   prov <- c(
     list(
       file = path,
       description = description,
-      generated_by = "scripts/turnout_model/01_build_inputs.R",
+      generated_by = generated_by,
       run_date = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
       sources = sources,
       source_ids = sort(unique(source_ids)),
