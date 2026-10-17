@@ -1,4 +1,4 @@
-# Structure-model helpers shared by the turnout-model scripts (02_fit.R, and the forecast).
+# Structure-model helpers shared by the turnout-model scripts (02_fit.R and 04_forecast.R).
 #
 # Sourced by R/bootstrap.R after helpers.R. The model is a binomial glmer of ballots cast over
 # active registration per county x party group x election:
@@ -95,6 +95,50 @@ make_draws <- function(fit, cells, covariates, n_draws, seed) {
   list(beta = beta_draws, s = cov_part + u_cp + u_cm[match(cells$county, counties), , drop = FALSE])
 }
 
+# Gauss-Hermite rule for expectations under N(0, 1): E[f(Z)] ~ sum(weights * f(nodes)). Nodes and
+# weights by the Golub-Welsch method: the eigenvalues of the Jacobi matrix of the probabilists'
+# Hermite polynomials (zero diagonal, off-diagonal sqrt(1), ..., sqrt(n - 1)) are the nodes, and
+# the squared first components of its unit eigenvectors are the weights (they sum to 1). Exact
+# for polynomials up to degree 2n - 1; checked on load against E[Z^2] = 1 and E[Z^4] = 3.
+gauss_hermite_normal <- function(n = 20) {
+  if (n < 2) stop("gauss_hermite_normal() needs n >= 2")
+  J <- matrix(0, n, n)
+  off <- sqrt(seq_len(n - 1))
+  J[cbind(seq_len(n - 1), 2:n)] <- off
+  J[cbind(2:n, seq_len(n - 1))] <- off
+  e <- eigen(J, symmetric = TRUE)
+  o <- order(e$values)
+  list(nodes = e$values[o], weights = e$vectors[1, o]^2)
+}
+
+local({
+  gh <- gauss_hermite_normal(20)
+  if (abs(sum(gh$weights) - 1) > 1e-10) stop("gauss_hermite_normal(): weights do not sum to 1")
+  if (abs(sum(gh$weights * gh$nodes^2) - 1) > 1e-10) stop("gauss_hermite_normal(): E[Z^2] is not 1 within 1e-10")
+  if (abs(sum(gh$weights * gh$nodes^4) - 3) > 1e-10) stop("gauss_hermite_normal(): E[Z^4] is not 3 within 1e-10")
+})
+
+# Expected rate E[invlogit(eta + eps)], eps ~ N(0, sigma^2), for a vector eta, by the
+# Gauss-Hermite rule `gh`. With sigma = 0 it is plogis(eta).
+expected_rate <- function(eta, sigma = 0, gh = gauss_hermite_normal(20)) {
+  if (sigma == 0) return(plogis(eta))
+  as.vector(plogis(outer(eta, sigma * gh$nodes, "+")) %*% gh$weights)
+}
+
+# The scalar alpha with sum(active * E[invlogit(alpha + s + eps)]) = target, eps ~ N(0, sigma^2)
+# (sigma = 0: no eps, the plain sum(active * invlogit(alpha + s))). `label` names error messages.
+calibrate_alpha <- function(active, s, target, sigma = 0, gh = gauss_hermite_normal(20), label = "?") {
+  if (anyNA(active) || anyNA(s) || any(!is.finite(s))) stop("calibrate(", label, "): active and s must be finite")
+  if (!length(active)) stop("calibrate(", label, "): no cells")
+  if (is.na(target)) stop("calibrate(", label, "): target is NA")
+  if (!(target > 0 && target < sum(active))) {
+    stop("calibrate(", label, "): target ", target, " is not between 0 and active ", sum(active))
+  }
+  g <- function(a) sum(active * expected_rate(a + s, sigma, gh)) - target
+  tryCatch(uniroot(g, c(-15, 15), tol = 1e-12)$root,
+           error = function(e) stop("calibrate(", label, "): uniroot failed: ", conditionMessage(e)))
+}
+
 # Calibrate a set of cells to known party totals: for each party, the scalar alpha with
 # sum(active * invlogit(alpha + s)) equal to that party's target, then each cell's predicted
 # ballots. `election` labels the error messages.
@@ -102,16 +146,9 @@ calibrate <- function(active, s, party, target_by_party, election = "?") {
   if (anyNA(active) || anyNA(s) || any(!is.finite(s))) stop("calibrate(", election, "): active and s must be finite")
   pred <- rep(NA_real_, length(active))
   for (p in names(target_by_party)) {
-    target <- target_by_party[[p]]
     i <- party == p
-    if (is.na(target)) stop("calibrate(", election, ", ", p, "): target is NA")
     if (!any(i)) stop("calibrate(", election, ", ", p, "): no cells for this party")
-    if (!(target > 0 && target < sum(active[i]))) {
-      stop("calibrate(", election, ", ", p, "): target ", target, " is not between 0 and active ", sum(active[i]))
-    }
-    g <- function(a) sum(active[i] * plogis(a + s[i])) - target
-    a <- tryCatch(uniroot(g, c(-15, 15), tol = 1e-12)$root,
-                  error = function(e) stop("calibrate(", election, ", ", p, "): uniroot failed: ", conditionMessage(e)))
+    a <- calibrate_alpha(active[i], s[i], target_by_party[[p]], label = paste0(election, ", ", p))
     pred[i] <- active[i] * plogis(a + s[i])
   }
   if (anyNA(pred)) stop("calibrate(", election, "): cells whose party has no target")

@@ -60,9 +60,51 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
   `county = Maryland` rows are statewide, for reporting only.
   Deterministic.
 
+- `04_forecast.R` is the forecast. It writes to `data/turnout_model/gg26/`, each file with
+  provenance:
+  - `reference_levels.csv`: for each structure draw, the GG18 and GG22 statewide party levels
+    alpha* that reproduce that year's actual party ballots with its own active registration. The
+    cell noise eps ~ N(0, sigma_obs^2) is integrated by 20-node Gauss-Hermite quadrature
+    (`gauss_hermite_normal()` and `calibrate_alpha()` in `R/model.R`).
+  - `level_rule.csv`: the 2026 level rule (below), with each index, its vote and the weight w.
+  - `forecast_county_party.csv`, `forecast_county.csv` and `forecast_statewide.csv`: ballots and
+    rates by scenario. `forecast_statewide.csv` is in long form (`scenario, measure, mean, q05,
+    q50, q95`), so the `actual_GG18` and `actual_GG22` comparison rows need no NA for the
+    denominators they lack.
+  - `mode_split.csv`: the central scenario by mode, per county.
+
+  Each cell is `ballots = active_2026 * invlogit(alpha_scenario + s + comp_centred + eps)`.
+  comp is centred within each party (weighted by 2026 active) because its statewide level is not
+  identified. The scenario `central_comp_level` uses the uncentred comp as a sensitivity.
+  eps is antithetic: draws 501-1000 reuse the negated eps of draws 1-500.
+
+  The level rule, on the logit scale per party p:
+  - low = alpha*_GG22
+  - high = alpha*_GG18
+  - central = (1 - w_p) alpha*_GG22 + w_p alpha*_GG18
+
+  w_p starts at 0.5 and moves 0.1 per vote, bounded to [0.2, 0.8]. Each vote is +1 for
+  2018-like and -1 for 2022-like:
+  1. Registration momentum. position = (m26 - m22) / (m18 - m22). The vote is +1 at 2/3 or
+     above and -1 at 1/3 or below. It is 0 when |m18 - m22| < 0.002, or when the position lies
+     outside [-0.5, 1.5], which is extrapolation beyond both analogues.
+  2. Mail requests per registrant. Projected final GG26 sent per 2026 active registrant, over
+     GG22 final sent per GG22 active registrant. The projection is a linear trend over the daily
+     snapshots, extended to the 2026-10-27 request deadline.
+  3. Primary participation per registrant. GP26 ballots per active registrant over GP22's.
+     OTH's vote is always 0, because the primaries are closed.
+
+  Indices 2 and 3 vote +1 at 1.05 or above and -1 at 0.95 or below. `level_rule.csv` also
+  shows the raw-count ratios beside the per-registrant indices.
+
+  An identity check refits GG18 and GG22 from their own levels and must reproduce each party's
+  actual statewide ballots within 0.1%. Within a scenario, the intervals reflect only the cell
+  noise and the shift of the 2026 mix, because every draw is calibrated to a reference year. The
+  spread from low to central to high is the level uncertainty. Seeded and deterministic.
+
 `R/model.R` (sourced by `R/bootstrap.R`) holds the structure-model helpers shared with the
 forecast: `model_frame()`, `build_formula()`, `fit_glmer()`, `cell_key()`, `alpha_name()`,
-`structure_point()`, `make_draws()` and `calibrate()`.
+`structure_point()`, `make_draws()`, `calibrate()`, and the forecast's `gauss_hermite_normal()`, `expected_rate()` and `calibrate_alpha()`.
 
 ## What `active` and `eligible` mean
 
