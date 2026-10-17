@@ -53,8 +53,11 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
   used only as ratios within the snapshot). `factor_age` compares the cell's expected 2022-midterm
   participation under its 2026 and 2022 age mix, both by age on election day with one 2022
   propensity schedule; `factor_new` is the pull of recent registrants
-  beyond their age, with `rho_gen = sqrt(rho)` (a judgment; the no-penalty and full-penalty
-  versions are sensitivity columns). `county = Maryland` rows are statewide, for reporting only.
+  beyond their age, with `rho_gen = sqrt(rho)` (a judgment; `factor_new_rho1` and
+  `factor_new_rho_raw` are the sensitivities with `rho_gen` = 1 and = rho). It is a small bonus in
+  every cell, because the 2020 registration surge makes the 2019-2022 cohort a larger share than
+  the 2023-2026 one. `n26`, the cell's current registrants, is the weight for centring `comp`.
+  `county = Maryland` rows are statewide, for reporting only.
   Deterministic.
 
 `R/model.R` (sourced by `R/bootstrap.R`) holds the structure-model helpers shared with the
