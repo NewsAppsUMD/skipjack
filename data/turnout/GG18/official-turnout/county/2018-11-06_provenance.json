@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg18-official-turnout-county-20181106-b26ea81ae057",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/turnout/general/Official by Party and County.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 official-turnout (county) as of 2018-11-06",
+  "fetch_date": "2026-10-17T20:17:06+00:00",
+  "parse_date": "2026-10-17T20:17:13+00:00",
+  "sha256_original": "b26ea81ae05712cf3424b4e22c622698c849d35f07d89030bd2fb1c84b83d686",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG18",
+  "family": "official-turnout",
+  "geography": "county",
+  "notes": "GG18 official-turnout (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 840,
+    "as_of": "2018-11-06"
+  }
+}

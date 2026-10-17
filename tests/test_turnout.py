@@ -5139,3 +5139,166 @@ def test_turnout_parse_skips_a_revision_outside_the_file_set(turnout_env, monkey
     from skipjack.pipeline.provenance import read_manifest
 
     assert len(read_manifest(turnout.MANIFEST_PATH)) == 1
+
+
+# --- GG18: the 2018 general from the board's election archive ----------------------------------
+# The 2018 by-party county sheet's real Allegany and Worcester rows, one excerpt per party
+# block. The sheet prints the measures under the board's older column labels (POLLS, EV,
+# ABS, PROV, ELIGIBLE VOTERS -- the Democrat block spells the last ELIGIBLE_VOTERS), the
+# Statewide and Democrat blocks start a column in with their counts further right, and the
+# sheet prints its election date and no As-of. Each block's TOTAL row closes its own
+# excerpt; the real Statewide rows are already the party blocks' sums.
+GG18_OFFICIAL_BLOCKS = {
+    "Statewide": [("Allegany", 19280, 2654, 1343, 725, 42990), ("Worcester", 15774, 6743, 1331, 317, 38719)],
+    "Democrat": [("Allegany", 5753, 1017, 626, 453, 13557), ("Worcester", 5452, 2659, 582, 121, 14076)],
+    "Republican": [("Allegany", 11177, 1363, 575, 143, 21549), ("Worcester", 7863, 3212, 590, 143, 17088)],
+    "Libertarian": [("Allegany", 94, 10, 4, 6, 285), ("Worcester", 92, 15, 4, 1, 247)],
+    "Green": [("Allegany", 39, 11, 1, 4, 137), ("Worcester", 22, 6, 2, 0, 83)],
+    "Unaffiliated": [("Allegany", 2120, 234, 94, 112, 7143), ("Worcester", 2228, 793, 129, 49, 6907)],
+    "Other Parties": [("Allegany", 97, 19, 43, 7, 319), ("Worcester", 117, 58, 24, 3, 318)],
+}  # fmt: skip
+
+
+def gg18_official_rows():
+    """The 2018 sheet's layout around the excerpts above, cell for cell."""
+    rows = [
+        ["", "", "Official Turnout (By Party and County)"] + [""] * 15,
+        ["", "", "", "Election: 2018 Gubernatorial General Election"] + [""] * 14,
+        ["", "", "", "Election Date: November 06, 2018"] + [""] * 14,
+    ]
+    for block, areas in GG18_OFFICIAL_BLOCKS.items():
+        totals = ("TOTAL", *(sum(area[i] for area in areas) for i in range(1, 6)))
+        rows.append([block] + [""] * 17)
+        if block in ("Statewide", "Democrat"):
+            eligible = "ELIGIBLE_VOTERS" if block == "Democrat" else "ELIGIBLE VOTERS"
+            rows.append(["", "LBE", "", "", "", "POLLS", "", "", "EV", "", "ABS", "", "PROV", "", eligible, "", "", "TURNOUT"])  # fmt: skip
+            for area, polls, ev, abs_, prov, elig in [*areas, totals]:
+                rows.append(["", area, "", "", "", polls, "", "", ev, "", abs_, "", prov, "", elig, "", "", 0.5])  # fmt: skip
+        else:
+            rows.append(["LBE", "", "", "", "POLLS", "", "", "EV", "", "ABS", "", "PROV", "", "ELIGIBLE VOTERS", "", "TURNOUT", "", ""])  # fmt: skip
+            for area, polls, ev, abs_, prov, elig in [*areas, totals]:
+                rows.append([area, "", "", "", polls, "", "", ev, "", abs_, "", prov, "", elig, "", 0.5, "", ""])  # fmt: skip
+        rows.append([""] * 18)
+    return rows
+
+
+def test_official_turnout_reads_the_2018_column_labels():
+    """POLLS, EV, ABS, PROV and ELIGIBLE VOTERS are the 2018 sheet's spellings of the
+    five measures; the six party blocks parse and the printed totals keep enforcing."""
+    as_of, df = turnout.parse_turnout_official_bytes(
+        sent_worksheet(gg18_official_rows()), "GG18", "county"
+    )
+    assert as_of is None  # the sheet prints its election date and no As-of
+    assert set(df["party"]) == {"ALL", "DEM", "REP", "LIB", "GRN", "UNA", "OTH"}
+    assert set(df["measure"]) == {
+        "election-day",
+        "early-voting",
+        "vote-by-mail",
+        "provisional",
+        "eligible",
+    }
+    dem = df.filter((pl.col("party") == "DEM") & (pl.col("county") == "Allegany"))
+    assert dict(zip(dem["measure"], dem["value"])) == {
+        "election-day": 5753,
+        "early-voting": 1017,
+        "vote-by-mail": 626,
+        "provisional": 453,
+        "eligible": 13557,
+    }
+    una = df.filter((pl.col("party") == "UNA") & (pl.col("county") == "Worcester"))
+    assert dict(zip(una["measure"], una["value"]))["eligible"] == 6907
+    assert len(df) == 7 * 2 * 5
+
+
+def test_official_turnout_2018_sheet_still_reconciles_its_blocks():
+    rows = gg18_official_rows()
+    torn = [row[:] for row in rows]
+    # the Democrat block's Allegany POLLS, one high: its TOTAL row no longer closes
+    dem_allegany = next(i for i, r in enumerate(torn) if r[1] == "Allegany" and i > 10)
+    torn[dem_allegany][5] = 5754
+    with pytest.raises(turnout.TurnoutParseError):
+        turnout.parse_turnout_official_bytes(sent_worksheet(torn), "GG18", "county")
+
+
+# The 2018 archive's Official Turnout and Official Accepted Turnout prints: the canvass
+# sheet's shape under the older column names ("Polling Place\n(Election Day)", "Absentee"),
+# with the real Allegany and Worcester rows; the Statewide row is the excerpt's sums.
+GG18_CANVASS_ROWS = [
+    ["County", "Early Voting", "", "Polling Place\n(Election Day)", "", "Absentee", "", "Provisional", "", "Total"],  # fmt: skip
+    ["Allegany", "2,654", "11.06%", "19,280", "80.33%", "1,343", "5.60%", "725", "3.02%", "24,002"],
+    ["Worcester", "6,743", "27.90%", "15,774", "65.28%", "1,331", "5.51%", "317", "1.31%", "24,165"],
+    ["Statewide", "9,397", "", "35,054", "", "2,674", "", "1,042", "", "48,167"],
+]  # fmt: skip
+
+
+def test_county_canvass_reads_the_2018_column_labels():
+    as_of, df = turnout.parse_county_canvass_rows(
+        GG18_CANVASS_ROWS, "GG18", "county", as_of="2018-11-06"
+    )
+    allegany = df.filter(pl.col("county") == "Allegany")
+    assert dict(zip(allegany["measure"], allegany["value"])) == {
+        "early-voting": 2654,
+        "election-day": 19280,
+        "vote-by-mail": 1343,
+        "provisional": 725,
+        "total": 24002,
+    }
+    _, accepted = turnout.parse_votes_accepted_rows(
+        GG18_CANVASS_ROWS, "GG18", "county", as_of="2018-11-06"
+    )
+    assert accepted.height == 2 * 5
+
+
+def test_the_2018_general_is_a_certified_election_from_the_archive():
+    election = turnout.ELECTIONS["GG18"]
+    assert (election.name, election.election_day, election.certified) == (
+        "2018 general election",
+        "2018-11-06",
+        True,
+    )
+    base = "https://elections.maryland.gov/elections/archive/2018/turnout/general"
+    files = {(f.family, f.geography, f.kind): f.url for f in election.files}
+    assert files[("official-turnout", "county", "xlsx")] == (
+        f"{base}/Official by Party and County.xlsx"
+    )
+    for expected in (
+        ("official-turnout", "congressional", "xlsx"),
+        ("official-turnout", "legislative", "xlsx"),
+        ("county-canvass", "county", "pdf"),
+        ("votes-accepted", "county", "pdf"),
+        ("mail-voting", "county", "pdf"),
+        ("provisional", "county", "pdf"),
+    ):
+        assert expected in files, expected
+    assert all(url.startswith(base + "/") for url in files.values())
+    # the 2018 prints carry no date of their own: the snapshot is the election day the
+    # by-party sheet prints
+    assert election.undated_as_of == "2018-11-06"
+
+
+def test_an_undated_file_takes_the_elections_undated_snapshot(turnout_env, monkeypatch):
+    """A file that prints no As-of, report date or election date is archived and parsed
+    at the election's configured undated snapshot day; without one it stays 'unknown'
+    and its parse fails, as before."""
+    from skipjack.pipeline.provenance import read_manifest
+
+    url = "https://elections.maryland.gov/elections/archive/2018/turnout/general/x.xlsx"
+    election = turnout.Election(
+        code="GG18",
+        name="2018 general election",
+        election_day="2018-11-06",
+        files=[turnout.FamilyFile("official-turnout", "county", "xlsx", url)],
+        certified=True,
+        undated_as_of="2018-11-06",
+    )
+    monkeypatch.setattr(turnout, "ELECTIONS", {"GG18": election})
+    body = sent_worksheet(gg18_official_rows())
+    monkeypatch.setattr(turnout, "download", lambda u, timeout=30.0: body)
+    turnout.turnout_fetch()
+    (record,) = read_manifest(turnout.MANIFEST_PATH)
+    assert "__2018-11-06__" in Path(record.local_path).name
+    written, failed = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert (written, failed) == (1, [])
+    out = turnout_env / "data" / "turnout" / "GG18" / "official-turnout" / "county"
+    frame = pl.read_csv(out / "2018-11-06.csv")
+    assert set(frame["as_of"].cast(pl.Utf8)) == {"2018-11-06"}

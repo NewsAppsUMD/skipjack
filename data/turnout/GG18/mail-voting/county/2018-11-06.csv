@@ -1,0 +1,108 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2018-11-06,GG18,mail-voting,county,Allegany,"",ALL,ALL,sent,1677
+2018-11-06,GG18,mail-voting,county,Allegany,"",ALL,ALL,received,1343
+2018-11-06,GG18,mail-voting,county,Allegany,"",ALL,ALL,accepted,1331
+2018-11-06,GG18,mail-voting,county,Allegany,"",ALL,ALL,rejected,12
+2018-11-06,GG18,mail-voting,county,Anne Arundel,"",ALL,ALL,sent,14761
+2018-11-06,GG18,mail-voting,county,Anne Arundel,"",ALL,ALL,received,11768
+2018-11-06,GG18,mail-voting,county,Anne Arundel,"",ALL,ALL,accepted,11565
+2018-11-06,GG18,mail-voting,county,Anne Arundel,"",ALL,ALL,rejected,203
+2018-11-06,GG18,mail-voting,county,Baltimore City,"",ALL,ALL,sent,10390
+2018-11-06,GG18,mail-voting,county,Baltimore City,"",ALL,ALL,received,7740
+2018-11-06,GG18,mail-voting,county,Baltimore City,"",ALL,ALL,accepted,7606
+2018-11-06,GG18,mail-voting,county,Baltimore City,"",ALL,ALL,rejected,134
+2018-11-06,GG18,mail-voting,county,Baltimore County,"",ALL,ALL,sent,18180
+2018-11-06,GG18,mail-voting,county,Baltimore County,"",ALL,ALL,received,13862
+2018-11-06,GG18,mail-voting,county,Baltimore County,"",ALL,ALL,accepted,13581
+2018-11-06,GG18,mail-voting,county,Baltimore County,"",ALL,ALL,rejected,281
+2018-11-06,GG18,mail-voting,county,Calvert,"",ALL,ALL,sent,2562
+2018-11-06,GG18,mail-voting,county,Calvert,"",ALL,ALL,received,2010
+2018-11-06,GG18,mail-voting,county,Calvert,"",ALL,ALL,accepted,1970
+2018-11-06,GG18,mail-voting,county,Calvert,"",ALL,ALL,rejected,40
+2018-11-06,GG18,mail-voting,county,Caroline,"",ALL,ALL,sent,425
+2018-11-06,GG18,mail-voting,county,Caroline,"",ALL,ALL,received,338
+2018-11-06,GG18,mail-voting,county,Caroline,"",ALL,ALL,accepted,335
+2018-11-06,GG18,mail-voting,county,Caroline,"",ALL,ALL,rejected,3
+2018-11-06,GG18,mail-voting,county,Carroll,"",ALL,ALL,sent,3482
+2018-11-06,GG18,mail-voting,county,Carroll,"",ALL,ALL,received,2802
+2018-11-06,GG18,mail-voting,county,Carroll,"",ALL,ALL,accepted,2742
+2018-11-06,GG18,mail-voting,county,Carroll,"",ALL,ALL,rejected,60
+2018-11-06,GG18,mail-voting,county,Cecil,"",ALL,ALL,sent,1527
+2018-11-06,GG18,mail-voting,county,Cecil,"",ALL,ALL,received,1204
+2018-11-06,GG18,mail-voting,county,Cecil,"",ALL,ALL,accepted,1189
+2018-11-06,GG18,mail-voting,county,Cecil,"",ALL,ALL,rejected,15
+2018-11-06,GG18,mail-voting,county,Charles,"",ALL,ALL,sent,2828
+2018-11-06,GG18,mail-voting,county,Charles,"",ALL,ALL,received,2093
+2018-11-06,GG18,mail-voting,county,Charles,"",ALL,ALL,accepted,2049
+2018-11-06,GG18,mail-voting,county,Charles,"",ALL,ALL,rejected,44
+2018-11-06,GG18,mail-voting,county,Dorchester,"",ALL,ALL,sent,712
+2018-11-06,GG18,mail-voting,county,Dorchester,"",ALL,ALL,received,615
+2018-11-06,GG18,mail-voting,county,Dorchester,"",ALL,ALL,accepted,609
+2018-11-06,GG18,mail-voting,county,Dorchester,"",ALL,ALL,rejected,6
+2018-11-06,GG18,mail-voting,county,Frederick,"",ALL,ALL,sent,6874
+2018-11-06,GG18,mail-voting,county,Frederick,"",ALL,ALL,received,5377
+2018-11-06,GG18,mail-voting,county,Frederick,"",ALL,ALL,accepted,5255
+2018-11-06,GG18,mail-voting,county,Frederick,"",ALL,ALL,rejected,122
+2018-11-06,GG18,mail-voting,county,Garrett,"",ALL,ALL,sent,732
+2018-11-06,GG18,mail-voting,county,Garrett,"",ALL,ALL,received,615
+2018-11-06,GG18,mail-voting,county,Garrett,"",ALL,ALL,accepted,611
+2018-11-06,GG18,mail-voting,county,Garrett,"",ALL,ALL,rejected,4
+2018-11-06,GG18,mail-voting,county,Harford,"",ALL,ALL,sent,4281
+2018-11-06,GG18,mail-voting,county,Harford,"",ALL,ALL,received,3338
+2018-11-06,GG18,mail-voting,county,Harford,"",ALL,ALL,accepted,3277
+2018-11-06,GG18,mail-voting,county,Harford,"",ALL,ALL,rejected,61
+2018-11-06,GG18,mail-voting,county,Howard,"",ALL,ALL,sent,8732
+2018-11-06,GG18,mail-voting,county,Howard,"",ALL,ALL,received,6766
+2018-11-06,GG18,mail-voting,county,Howard,"",ALL,ALL,accepted,6591
+2018-11-06,GG18,mail-voting,county,Howard,"",ALL,ALL,rejected,175
+2018-11-06,GG18,mail-voting,county,Kent,"",ALL,ALL,sent,482
+2018-11-06,GG18,mail-voting,county,Kent,"",ALL,ALL,received,397
+2018-11-06,GG18,mail-voting,county,Kent,"",ALL,ALL,accepted,394
+2018-11-06,GG18,mail-voting,county,Kent,"",ALL,ALL,rejected,3
+2018-11-06,GG18,mail-voting,county,Montgomery,"",ALL,ALL,sent,48068
+2018-11-06,GG18,mail-voting,county,Montgomery,"",ALL,ALL,received,37538
+2018-11-06,GG18,mail-voting,county,Montgomery,"",ALL,ALL,accepted,37030
+2018-11-06,GG18,mail-voting,county,Montgomery,"",ALL,ALL,rejected,508
+2018-11-06,GG18,mail-voting,county,Prince George's,"",ALL,ALL,sent,17524
+2018-11-06,GG18,mail-voting,county,Prince George's,"",ALL,ALL,received,12946
+2018-11-06,GG18,mail-voting,county,Prince George's,"",ALL,ALL,accepted,12452
+2018-11-06,GG18,mail-voting,county,Prince George's,"",ALL,ALL,rejected,494
+2018-11-06,GG18,mail-voting,county,Queen Anne's,"",ALL,ALL,sent,1040
+2018-11-06,GG18,mail-voting,county,Queen Anne's,"",ALL,ALL,received,829
+2018-11-06,GG18,mail-voting,county,Queen Anne's,"",ALL,ALL,accepted,815
+2018-11-06,GG18,mail-voting,county,Queen Anne's,"",ALL,ALL,rejected,14
+2018-11-06,GG18,mail-voting,county,St. Mary's,"",ALL,ALL,sent,2385
+2018-11-06,GG18,mail-voting,county,St. Mary's,"",ALL,ALL,received,1852
+2018-11-06,GG18,mail-voting,county,St. Mary's,"",ALL,ALL,accepted,1822
+2018-11-06,GG18,mail-voting,county,St. Mary's,"",ALL,ALL,rejected,30
+2018-11-06,GG18,mail-voting,county,Somerset,"",ALL,ALL,sent,367
+2018-11-06,GG18,mail-voting,county,Somerset,"",ALL,ALL,received,305
+2018-11-06,GG18,mail-voting,county,Somerset,"",ALL,ALL,accepted,305
+2018-11-06,GG18,mail-voting,county,Somerset,"",ALL,ALL,rejected,0
+2018-11-06,GG18,mail-voting,county,Talbot,"",ALL,ALL,sent,1141
+2018-11-06,GG18,mail-voting,county,Talbot,"",ALL,ALL,received,950
+2018-11-06,GG18,mail-voting,county,Talbot,"",ALL,ALL,accepted,928
+2018-11-06,GG18,mail-voting,county,Talbot,"",ALL,ALL,rejected,22
+2018-11-06,GG18,mail-voting,county,Washington,"",ALL,ALL,sent,3626
+2018-11-06,GG18,mail-voting,county,Washington,"",ALL,ALL,received,2930
+2018-11-06,GG18,mail-voting,county,Washington,"",ALL,ALL,accepted,2898
+2018-11-06,GG18,mail-voting,county,Washington,"",ALL,ALL,rejected,32
+2018-11-06,GG18,mail-voting,county,Wicomico,"",ALL,ALL,sent,2041
+2018-11-06,GG18,mail-voting,county,Wicomico,"",ALL,ALL,received,1568
+2018-11-06,GG18,mail-voting,county,Wicomico,"",ALL,ALL,accepted,1542
+2018-11-06,GG18,mail-voting,county,Wicomico,"",ALL,ALL,rejected,26
+2018-11-06,GG18,mail-voting,county,Worcester,"",ALL,ALL,sent,1594
+2018-11-06,GG18,mail-voting,county,Worcester,"",ALL,ALL,received,1331
+2018-11-06,GG18,mail-voting,county,Worcester,"",ALL,ALL,accepted,1318
+2018-11-06,GG18,mail-voting,county,Worcester,"",ALL,ALL,rejected,13
+2018-11-06,GG18,mail-voting,county,"","",Board Action,ALL,rejected,480
+2018-11-06,GG18,mail-voting,county,"","",Identification of DL# or SS# was not timely received,ALL,rejected,7
+2018-11-06,GG18,mail-voting,county,"","",Identification was received but did not satisfy the identification requirements,ALL,rejected,13
+2018-11-06,GG18,mail-voting,county,"","",Identifying Mark on Ballot,ALL,rejected,43
+2018-11-06,GG18,mail-voting,county,"","",Late for election,ALL,rejected,1219
+2018-11-06,GG18,mail-voting,county,"","",No absentee ballot application,ALL,rejected,75
+2018-11-06,GG18,mail-voting,county,"","",No signature,ALL,rejected,322
+2018-11-06,GG18,mail-voting,county,"","",Original state absentee ballot received (FWAB rejected),ALL,rejected,24
+2018-11-06,GG18,mail-voting,county,"","",Surrendered absentee ballot at polls,ALL,rejected,51
+2018-11-06,GG18,mail-voting,county,"","",Used Agent and Ballot Envelope not sealed,ALL,rejected,4
+2018-11-06,GG18,mail-voting,county,"","",Voted more than one ballot,ALL,rejected,64

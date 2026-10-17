@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg18-provisional-county-20181106-0c51b03f66be",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/turnout/general/Official Provisional Voting.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 provisional (county) as of 2018-11-06",
+  "fetch_date": "2026-10-17T20:17:07+00:00",
+  "parse_date": "2026-10-17T20:17:13+00:00",
+  "sha256_original": "0c51b03f66beaed7227d9c779675f8a1d3b2d4dd563195454ec4de67587848bd",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG18",
+  "family": "provisional",
+  "geography": "county",
+  "notes": "GG18 provisional (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 110,
+    "as_of": "2018-11-06"
+  }
+}

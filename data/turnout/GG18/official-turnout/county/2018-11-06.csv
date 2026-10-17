@@ -1,0 +1,841 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,ALL,election-day,19280
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,ALL,early-voting,2654
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,ALL,vote-by-mail,1343
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,ALL,provisional,725
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,ALL,eligible,42990
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,ALL,election-day,145759
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,ALL,early-voting,69496
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,ALL,vote-by-mail,11768
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,ALL,provisional,4874
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,ALL,eligible,385874
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,ALL,election-day,123273
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,ALL,early-voting,47682
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,ALL,vote-by-mail,7740
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,ALL,provisional,8365
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,ALL,eligible,388943
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,ALL,election-day,205860
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,ALL,early-voting,102163
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,ALL,vote-by-mail,13862
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,ALL,provisional,7088
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,ALL,eligible,553937
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,ALL,election-day,28601
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,ALL,early-voting,8839
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,ALL,vote-by-mail,2010
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,ALL,provisional,431
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,ALL,eligible,65256
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,ALL,election-day,8055
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,ALL,early-voting,3123
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,ALL,vote-by-mail,338
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,ALL,provisional,122
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,ALL,eligible,20235
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,ALL,election-day,55411
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,ALL,early-voting,16949
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,ALL,vote-by-mail,2802
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,ALL,provisional,571
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,ALL,eligible,120916
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,ALL,election-day,25996
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,ALL,early-voting,7857
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,ALL,vote-by-mail,1204
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,ALL,provisional,343
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,ALL,eligible,64912
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,ALL,election-day,45074
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,ALL,early-voting,16879
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,ALL,vote-by-mail,2093
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,ALL,provisional,1507
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,ALL,eligible,112134
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,ALL,election-day,8805
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,ALL,early-voting,3030
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,ALL,vote-by-mail,615
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,ALL,provisional,126
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,ALL,eligible,21360
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,ALL,election-day,77779
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,ALL,early-voting,23919
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,ALL,vote-by-mail,5377
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,ALL,provisional,1707
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,ALL,eligible,172907
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,ALL,election-day,7638
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,ALL,early-voting,2830
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,ALL,vote-by-mail,615
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,ALL,provisional,127
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,ALL,eligible,19668
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,ALL,election-day,70992
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,ALL,early-voting,36032
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,ALL,vote-by-mail,3338
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,ALL,provisional,1238
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,ALL,eligible,180209
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,ALL,election-day,89230
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,ALL,early-voting,47186
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,ALL,vote-by-mail,6766
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,ALL,provisional,2053
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,ALL,eligible,214872
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,ALL,election-day,5308
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,ALL,early-voting,2986
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,ALL,vote-by-mail,397
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,ALL,provisional,101
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,ALL,eligible,13119
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,ALL,election-day,251431
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,ALL,early-voting,113672
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,ALL,vote-by-mail,37538
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,ALL,provisional,10496
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,ALL,eligible,655415
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,ALL,election-day,196338
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,ALL,early-voting,102863
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,ALL,vote-by-mail,12946
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,ALL,provisional,11205
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,ALL,eligible,579523
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,ALL,election-day,12996
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,ALL,early-voting,9018
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,ALL,vote-by-mail,829
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,ALL,provisional,282
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,ALL,eligible,35648
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,ALL,election-day,28676
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,ALL,early-voting,9750
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,ALL,vote-by-mail,1852
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,ALL,provisional,706
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,ALL,eligible,70647
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,ALL,election-day,4992
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,ALL,early-voting,2197
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,ALL,vote-by-mail,305
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,ALL,provisional,424
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,ALL,eligible,13161
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,ALL,election-day,8813
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,ALL,early-voting,8544
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,ALL,vote-by-mail,950
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,ALL,provisional,192
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,ALL,eligible,27037
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,ALL,election-day,39007
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,ALL,early-voting,8757
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,ALL,vote-by-mail,2930
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,ALL,provisional,810
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,ALL,eligible,95102
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,ALL,election-day,21825
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,ALL,early-voting,10019
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,ALL,vote-by-mail,1568
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,ALL,provisional,700
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,ALL,eligible,61443
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,ALL,election-day,15774
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,ALL,early-voting,6743
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,ALL,vote-by-mail,1331
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,ALL,provisional,317
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,ALL,eligible,38719
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,DEM,election-day,5753
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,DEM,early-voting,1017
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,DEM,vote-by-mail,626
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,DEM,provisional,453
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,DEM,eligible,13557
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,DEM,election-day,59480
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,DEM,early-voting,35763
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,DEM,vote-by-mail,6147
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,DEM,provisional,2407
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,DEM,eligible,162683
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,DEM,election-day,99550
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,DEM,early-voting,42366
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,DEM,vote-by-mail,6103
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,DEM,provisional,6640
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,DEM,eligible,305704
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,DEM,election-day,111779
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,DEM,early-voting,66391
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,DEM,vote-by-mail,8444
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,DEM,provisional,4618
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,DEM,eligible,310019
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,DEM,election-day,10038
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,DEM,early-voting,3954
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,DEM,vote-by-mail,886
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,DEM,provisional,156
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,DEM,eligible,23661
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,DEM,election-day,2517
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,DEM,early-voting,1142
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,DEM,vote-by-mail,140
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,DEM,provisional,38
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,DEM,eligible,6776
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,DEM,election-day,14107
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,DEM,early-voting,5722
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,DEM,vote-by-mail,1149
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,DEM,provisional,159
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,DEM,eligible,32198
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,DEM,election-day,8112
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,DEM,early-voting,3002
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,DEM,vote-by-mail,495
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,DEM,provisional,144
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,DEM,eligible,21440
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,DEM,election-day,28172
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,DEM,early-voting,11884
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,DEM,vote-by-mail,1237
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,DEM,provisional,1068
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,DEM,eligible,67938
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,DEM,election-day,3555
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,DEM,early-voting,1537
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,DEM,vote-by-mail,318
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,DEM,provisional,67
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,DEM,eligible,9912
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,DEM,election-day,28134
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,DEM,early-voting,11733
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,DEM,vote-by-mail,2914
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,DEM,provisional,880
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,DEM,eligible,64669
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,DEM,election-day,1418
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,DEM,early-voting,710
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,DEM,vote-by-mail,215
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,DEM,provisional,36
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,DEM,eligible,4175
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,DEM,election-day,23483
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,DEM,early-voting,14965
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,DEM,vote-by-mail,1453
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,DEM,provisional,552
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,DEM,eligible,64545
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,DEM,election-day,43841
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,DEM,early-voting,28445
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,DEM,vote-by-mail,4091
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,DEM,provisional,1219
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,DEM,eligible,108243
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,DEM,election-day,2271
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,DEM,early-voting,1613
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,DEM,vote-by-mail,212
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,DEM,provisional,49
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,DEM,eligible,6044
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,DEM,election-day,153097
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,DEM,early-voting,81642
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,DEM,vote-by-mail,25507
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,DEM,provisional,7056
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,DEM,eligible,390400
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,DEM,election-day,161229
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,DEM,early-voting,90351
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,DEM,vote-by-mail,10039
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,DEM,provisional,9132
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,DEM,eligible,456702
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,DEM,election-day,3526
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,DEM,early-voting,3108
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,DEM,vote-by-mail,367
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,DEM,provisional,88
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,DEM,eligible,10724
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,DEM,election-day,10197
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,DEM,early-voting,3932
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,DEM,vote-by-mail,849
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,DEM,provisional,326
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,DEM,eligible,25678
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,DEM,election-day,2046
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,DEM,early-voting,1002
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,DEM,vote-by-mail,132
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,DEM,provisional,362
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,DEM,eligible,5885
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,DEM,election-day,3006
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,DEM,early-voting,3627
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,DEM,vote-by-mail,447
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,DEM,provisional,80
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,DEM,eligible,10273
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,DEM,election-day,12139
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,DEM,early-voting,3465
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,DEM,vote-by-mail,1595
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,DEM,provisional,397
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,DEM,eligible,32081
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,DEM,election-day,8650
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,DEM,early-voting,4818
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,DEM,vote-by-mail,757
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,DEM,provisional,388
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,DEM,eligible,26501
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,DEM,election-day,5452
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,DEM,early-voting,2659
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,DEM,vote-by-mail,582
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,DEM,provisional,121
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,DEM,eligible,14076
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,REP,election-day,11177
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,REP,early-voting,1363
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,REP,vote-by-mail,575
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,REP,provisional,143
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,REP,eligible,21549
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,REP,election-day,58132
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,REP,early-voting,22914
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,REP,vote-by-mail,3356
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,REP,provisional,1380
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,REP,eligible,134806
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,REP,election-day,9892
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,REP,early-voting,2063
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,REP,vote-by-mail,632
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,REP,provisional,505
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,REP,eligible,30873
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,REP,election-day,62505
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,REP,early-voting,24655
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,REP,vote-by-mail,3478
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,REP,provisional,1278
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,REP,eligible,142739
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,REP,election-day,13502
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,REP,early-voting,3666
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,REP,vote-by-mail,769
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,REP,provisional,169
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,REP,eligible,27415
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,REP,election-day,4307
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,REP,early-voting,1641
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,REP,vote-by-mail,163
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,REP,provisional,60
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,REP,eligible,9390
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,REP,election-day,31817
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,REP,early-voting,8955
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,REP,vote-by-mail,1205
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,REP,provisional,286
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,REP,eligible,62908
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,REP,election-day,13150
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,REP,early-voting,3745
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,REP,vote-by-mail,505
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,REP,provisional,130
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,REP,eligible,28190
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,REP,election-day,10782
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,REP,early-voting,3286
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,REP,vote-by-mail,540
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,REP,provisional,219
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,REP,eligible,24871
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,REP,election-day,4249
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,REP,early-voting,1245
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,REP,vote-by-mail,242
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,REP,provisional,38
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,REP,eligible,8182
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,REP,election-day,34256
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,REP,early-voting,8354
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,REP,vote-by-mail,1421
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,REP,provisional,438
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,REP,eligible,67012
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,REP,election-day,5554
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,REP,early-voting,1904
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,REP,vote-by-mail,339
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,REP,provisional,67
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,REP,eligible,12744
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,REP,election-day,35119
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,REP,early-voting,16026
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,REP,vote-by-mail,1289
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,REP,provisional,440
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,REP,eligible,77772
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,REP,election-day,25912
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,REP,early-voting,10458
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,REP,vote-by-mail,1332
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,REP,provisional,370
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,REP,eligible,55158
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,REP,election-day,2302
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,REP,early-voting,990
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,REP,vote-by-mail,117
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,REP,provisional,27
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,REP,eligible,4786
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,REP,election-day,47346
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,REP,early-voting,14558
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,REP,vote-by-mail,5319
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,REP,provisional,1271
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,REP,eligible,112995
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,REP,election-day,13230
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,REP,early-voting,4940
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,REP,vote-by-mail,1263
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,REP,provisional,528
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,REP,eligible,40500
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,REP,election-day,7306
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,REP,early-voting,4718
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,REP,vote-by-mail,323
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,REP,provisional,142
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,REP,eligible,17896
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,REP,election-day,13407
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,REP,early-voting,4407
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,REP,vote-by-mail,690
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,REP,provisional,234
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,REP,eligible,29453
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,REP,election-day,2416
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,REP,early-voting,1000
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,REP,vote-by-mail,155
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,REP,provisional,30
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,REP,eligible,5301
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,REP,election-day,4285
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,REP,early-voting,3796
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,REP,vote-by-mail,353
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,REP,provisional,67
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,REP,eligible,11535
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,REP,election-day,20850
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,REP,early-voting,4108
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,REP,vote-by-mail,946
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,REP,provisional,256
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,REP,eligible,42395
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,REP,election-day,9904
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,REP,early-voting,4012
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,REP,vote-by-mail,566
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,REP,provisional,189
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,REP,eligible,22811
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,REP,election-day,7863
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,REP,early-voting,3212
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,REP,vote-by-mail,590
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,REP,provisional,143
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,REP,eligible,17088
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,LIB,election-day,94
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,LIB,early-voting,10
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,LIB,vote-by-mail,4
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,LIB,provisional,6
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,LIB,eligible,285
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,LIB,election-day,1018
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,LIB,early-voting,266
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,LIB,vote-by-mail,72
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,LIB,provisional,45
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,LIB,eligible,2864
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,LIB,election-day,474
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,LIB,early-voting,66
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,LIB,vote-by-mail,22
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,LIB,provisional,50
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,LIB,eligible,1475
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,LIB,election-day,1125
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,LIB,early-voting,266
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,LIB,vote-by-mail,56
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,LIB,provisional,50
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,LIB,eligible,3203
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,LIB,election-day,180
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,LIB,early-voting,38
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,LIB,vote-by-mail,11
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,LIB,provisional,6
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,LIB,eligible,480
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,LIB,election-day,43
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,LIB,early-voting,8
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,LIB,vote-by-mail,2
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,LIB,provisional,1
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,LIB,eligible,123
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,LIB,election-day,381
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,LIB,early-voting,67
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,LIB,vote-by-mail,16
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,LIB,provisional,5
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,LIB,eligible,905
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,LIB,election-day,162
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,LIB,early-voting,27
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,LIB,vote-by-mail,8
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,LIB,provisional,4
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,LIB,eligible,439
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,LIB,election-day,157
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,LIB,early-voting,43
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,LIB,vote-by-mail,5
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,LIB,provisional,5
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,LIB,eligible,511
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,LIB,election-day,44
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,LIB,early-voting,5
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,LIB,vote-by-mail,3
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,LIB,provisional,1
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,LIB,eligible,103
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,LIB,election-day,512
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,LIB,early-voting,99
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,LIB,vote-by-mail,36
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,LIB,provisional,17
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,LIB,eligible,1340
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,LIB,election-day,33
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,LIB,early-voting,6
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,LIB,vote-by-mail,1
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,LIB,provisional,1
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,LIB,eligible,109
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,LIB,election-day,491
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,LIB,early-voting,147
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,LIB,vote-by-mail,22
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,LIB,provisional,15
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,LIB,eligible,1381
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,LIB,election-day,499
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,LIB,early-voting,139
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,LIB,vote-by-mail,36
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,LIB,provisional,14
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,LIB,eligible,1263
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,LIB,election-day,32
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,LIB,early-voting,7
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,LIB,vote-by-mail,3
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,LIB,provisional,2
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,LIB,eligible,82
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,LIB,election-day,1017
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,LIB,early-voting,222
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,LIB,vote-by-mail,103
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,LIB,provisional,57
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,LIB,eligible,3086
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,LIB,election-day,459
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,LIB,early-voting,96
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,LIB,vote-by-mail,31
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,LIB,provisional,32
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,LIB,eligible,1677
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,LIB,election-day,93
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,LIB,early-voting,33
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,LIB,vote-by-mail,5
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,LIB,provisional,1
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,LIB,eligible,251
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,LIB,election-day,207
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,LIB,early-voting,36
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,LIB,vote-by-mail,14
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,LIB,provisional,8
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,LIB,eligible,558
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,LIB,election-day,20
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,LIB,early-voting,3
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,LIB,vote-by-mail,0
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,LIB,provisional,0
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,LIB,eligible,62
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,LIB,election-day,53
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,LIB,early-voting,21
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,LIB,vote-by-mail,5
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,LIB,provisional,0
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,LIB,eligible,159
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,LIB,election-day,228
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,LIB,early-voting,32
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,LIB,vote-by-mail,9
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,LIB,provisional,10
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,LIB,eligible,703
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,LIB,election-day,117
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,LIB,early-voting,31
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,LIB,vote-by-mail,6
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,LIB,provisional,9
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,LIB,eligible,407
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,LIB,election-day,92
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,LIB,early-voting,15
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,LIB,vote-by-mail,4
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,LIB,provisional,1
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,LIB,eligible,247
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,GRN,election-day,39
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,GRN,early-voting,11
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,GRN,vote-by-mail,1
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,GRN,provisional,4
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,GRN,eligible,137
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,GRN,election-day,237
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,GRN,early-voting,77
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,GRN,vote-by-mail,26
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,GRN,provisional,15
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,GRN,eligible,843
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,GRN,election-day,363
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,GRN,early-voting,113
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,GRN,vote-by-mail,30
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,GRN,provisional,25
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,GRN,eligible,1264
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,GRN,election-day,399
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,GRN,early-voting,137
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,GRN,vote-by-mail,37
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,GRN,provisional,25
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,GRN,eligible,1401
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,GRN,election-day,41
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,GRN,early-voting,9
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,GRN,vote-by-mail,3
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,GRN,provisional,2
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,GRN,eligible,132
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,GRN,election-day,6
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,GRN,early-voting,2
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,GRN,vote-by-mail,1
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,GRN,eligible,25
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,GRN,election-day,75
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,GRN,early-voting,25
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,GRN,vote-by-mail,4
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,GRN,provisional,2
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,GRN,eligible,254
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,GRN,election-day,41
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,GRN,early-voting,9
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,GRN,vote-by-mail,4
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,GRN,eligible,142
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,GRN,election-day,45
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,GRN,early-voting,11
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,GRN,vote-by-mail,6
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,GRN,provisional,1
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,GRN,eligible,167
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,GRN,election-day,8
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,GRN,early-voting,3
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,GRN,vote-by-mail,1
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,GRN,eligible,25
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,GRN,election-day,151
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,GRN,early-voting,26
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,GRN,vote-by-mail,20
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,GRN,provisional,6
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,GRN,eligible,443
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,GRN,election-day,9
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,GRN,early-voting,2
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,GRN,vote-by-mail,0
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,GRN,eligible,36
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,GRN,election-day,109
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,GRN,early-voting,40
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,GRN,vote-by-mail,13
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,GRN,provisional,2
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,GRN,eligible,397
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,GRN,election-day,170
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,GRN,early-voting,66
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,GRN,vote-by-mail,13
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,GRN,provisional,7
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,GRN,eligible,504
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,GRN,election-day,5
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,GRN,early-voting,6
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,GRN,vote-by-mail,1
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,GRN,eligible,29
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,GRN,election-day,436
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,GRN,early-voting,162
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,GRN,vote-by-mail,72
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,GRN,provisional,29
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,GRN,eligible,1572
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,GRN,election-day,264
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,GRN,early-voting,90
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,GRN,vote-by-mail,30
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,GRN,provisional,20
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,GRN,eligible,1052
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,GRN,election-day,18
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,GRN,early-voting,2
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,GRN,vote-by-mail,2
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,GRN,eligible,69
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,GRN,election-day,53
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,GRN,early-voting,3
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,GRN,vote-by-mail,4
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,GRN,provisional,2
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,GRN,eligible,138
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,GRN,election-day,2
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,GRN,early-voting,4
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,GRN,vote-by-mail,1
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,GRN,eligible,20
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,GRN,election-day,17
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,GRN,early-voting,9
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,GRN,vote-by-mail,4
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,GRN,eligible,47
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,GRN,election-day,79
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,GRN,early-voting,11
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,GRN,vote-by-mail,7
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,GRN,provisional,5
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,GRN,eligible,245
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,GRN,election-day,35
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,GRN,early-voting,10
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,GRN,vote-by-mail,3
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,GRN,provisional,2
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,GRN,eligible,139
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,GRN,election-day,22
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,GRN,early-voting,6
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,GRN,vote-by-mail,2
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,GRN,provisional,0
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,GRN,eligible,83
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,UNA,election-day,2120
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,UNA,early-voting,234
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,UNA,vote-by-mail,94
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,UNA,provisional,112
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,UNA,eligible,7143
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,UNA,election-day,26552
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,UNA,early-voting,10281
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,UNA,vote-by-mail,1986
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,UNA,provisional,996
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,UNA,eligible,83248
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,UNA,election-day,12621
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,UNA,early-voting,2959
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,UNA,vote-by-mail,917
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,UNA,provisional,912
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,UNA,eligible,47859
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,UNA,election-day,28638
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,UNA,early-voting,9864
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,UNA,vote-by-mail,1539
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,UNA,provisional,1060
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,UNA,eligible,91948
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,UNA,election-day,4700
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,UNA,early-voting,1123
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,UNA,vote-by-mail,319
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,UNA,provisional,93
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,UNA,eligible,13185
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,UNA,election-day,1141
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,UNA,early-voting,319
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,UNA,vote-by-mail,32
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,UNA,provisional,22
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,UNA,eligible,3812
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,UNA,election-day,8769
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,UNA,early-voting,2062
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,UNA,vote-by-mail,367
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,UNA,provisional,113
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,UNA,eligible,23816
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,UNA,election-day,4330
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,UNA,early-voting,999
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,UNA,vote-by-mail,168
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,UNA,provisional,59
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,UNA,eligible,14138
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,UNA,election-day,5763
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,UNA,early-voting,1614
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,UNA,vote-by-mail,295
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,UNA,provisional,204
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,UNA,eligible,18141
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,UNA,election-day,908
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,UNA,early-voting,224
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,UNA,vote-by-mail,46
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,UNA,provisional,19
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,UNA,eligible,3033
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,UNA,election-day,14618
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,UNA,early-voting,3674
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,UNA,vote-by-mail,972
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,UNA,provisional,357
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,UNA,eligible,39092
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,UNA,election-day,586
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,UNA,early-voting,180
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,UNA,vote-by-mail,48
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,UNA,provisional,18
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,UNA,eligible,2463
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,UNA,election-day,11469
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,UNA,early-voting,4641
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,UNA,vote-by-mail,503
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,UNA,provisional,221
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,UNA,eligible,35004
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,UNA,election-day,18225
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,UNA,early-voting,7700
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,UNA,vote-by-mail,1165
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,UNA,provisional,430
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,UNA,eligible,47883
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,UNA,election-day,664
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,UNA,early-voting,345
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,UNA,vote-by-mail,61
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,UNA,provisional,21
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,UNA,eligible,2077
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,UNA,election-day,48344
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,UNA,early-voting,16492
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,UNA,vote-by-mail,5360
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,UNA,provisional,1972
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,UNA,eligible,142173
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,UNA,election-day,19073
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,UNA,early-voting,6421
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,UNA,vote-by-mail,1327
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,UNA,provisional,1408
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,UNA,eligible,68270
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,UNA,election-day,2004
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,UNA,early-voting,1111
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,UNA,vote-by-mail,127
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,UNA,provisional,43
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,UNA,eligible,6527
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,UNA,election-day,4664
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,UNA,early-voting,1333
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,UNA,vote-by-mail,278
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,UNA,provisional,130
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,UNA,eligible,14411
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,UNA,election-day,489
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,UNA,early-voting,174
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,UNA,vote-by-mail,14
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,UNA,provisional,32
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,UNA,eligible,1821
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,UNA,election-day,1394
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,UNA,early-voting,1042
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,UNA,vote-by-mail,125
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,UNA,provisional,39
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,UNA,eligible,4814
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,UNA,election-day,5596
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,UNA,early-voting,1094
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,UNA,vote-by-mail,286
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,UNA,provisional,125
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,UNA,eligible,19093
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,UNA,election-day,2997
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,UNA,early-voting,1087
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,UNA,vote-by-mail,213
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,UNA,provisional,107
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,UNA,eligible,11154
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,UNA,election-day,2228
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,UNA,early-voting,793
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,UNA,vote-by-mail,129
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,UNA,provisional,49
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,UNA,eligible,6907
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,OTH,election-day,97
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,OTH,early-voting,19
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,OTH,vote-by-mail,43
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,OTH,provisional,7
+2018-11-06,GG18,official-turnout,county,Allegany,"",ALL,OTH,eligible,319
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,OTH,election-day,340
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,OTH,early-voting,195
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,OTH,vote-by-mail,181
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,OTH,provisional,31
+2018-11-06,GG18,official-turnout,county,Anne Arundel,"",ALL,OTH,eligible,1430
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,OTH,election-day,373
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,OTH,early-voting,115
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,OTH,vote-by-mail,36
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,OTH,provisional,233
+2018-11-06,GG18,official-turnout,county,Baltimore City,"",ALL,OTH,eligible,1768
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,OTH,election-day,1414
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,OTH,early-voting,850
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,OTH,vote-by-mail,308
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,OTH,provisional,57
+2018-11-06,GG18,official-turnout,county,Baltimore County,"",ALL,OTH,eligible,4627
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,OTH,election-day,140
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,OTH,early-voting,49
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,OTH,vote-by-mail,22
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,OTH,provisional,5
+2018-11-06,GG18,official-turnout,county,Calvert,"",ALL,OTH,eligible,383
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,OTH,election-day,41
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,OTH,early-voting,11
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,OTH,vote-by-mail,0
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,OTH,provisional,1
+2018-11-06,GG18,official-turnout,county,Caroline,"",ALL,OTH,eligible,109
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,OTH,election-day,262
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,OTH,early-voting,118
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,OTH,vote-by-mail,61
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,OTH,provisional,6
+2018-11-06,GG18,official-turnout,county,Carroll,"",ALL,OTH,eligible,835
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,OTH,election-day,201
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,OTH,early-voting,75
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,OTH,vote-by-mail,24
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,OTH,provisional,6
+2018-11-06,GG18,official-turnout,county,Cecil,"",ALL,OTH,eligible,563
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,OTH,election-day,155
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,OTH,early-voting,41
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,OTH,vote-by-mail,10
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,OTH,provisional,10
+2018-11-06,GG18,official-turnout,county,Charles,"",ALL,OTH,eligible,506
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,OTH,election-day,41
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,OTH,early-voting,16
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,OTH,vote-by-mail,5
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,OTH,provisional,1
+2018-11-06,GG18,official-turnout,county,Dorchester,"",ALL,OTH,eligible,105
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,OTH,election-day,108
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,OTH,early-voting,33
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,OTH,vote-by-mail,14
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,OTH,provisional,9
+2018-11-06,GG18,official-turnout,county,Frederick,"",ALL,OTH,eligible,351
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,OTH,election-day,38
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,OTH,early-voting,28
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,OTH,vote-by-mail,12
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,OTH,provisional,5
+2018-11-06,GG18,official-turnout,county,Garrett,"",ALL,OTH,eligible,141
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,OTH,election-day,321
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,OTH,early-voting,213
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,OTH,vote-by-mail,58
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,OTH,provisional,8
+2018-11-06,GG18,official-turnout,county,Harford,"",ALL,OTH,eligible,1110
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,OTH,election-day,583
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,OTH,early-voting,378
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,OTH,vote-by-mail,129
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,OTH,provisional,13
+2018-11-06,GG18,official-turnout,county,Howard,"",ALL,OTH,eligible,1821
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,OTH,election-day,34
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,OTH,early-voting,25
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,OTH,vote-by-mail,3
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,OTH,provisional,2
+2018-11-06,GG18,official-turnout,county,Kent,"",ALL,OTH,eligible,101
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,OTH,election-day,1191
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,OTH,early-voting,596
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,OTH,vote-by-mail,1177
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,OTH,provisional,111
+2018-11-06,GG18,official-turnout,county,Montgomery,"",ALL,OTH,eligible,5189
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,OTH,election-day,2083
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,OTH,early-voting,965
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,OTH,vote-by-mail,256
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,OTH,provisional,85
+2018-11-06,GG18,official-turnout,county,Prince George's,"",ALL,OTH,eligible,11322
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,OTH,election-day,49
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,OTH,early-voting,46
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,OTH,vote-by-mail,5
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,OTH,provisional,8
+2018-11-06,GG18,official-turnout,county,Queen Anne's,"",ALL,OTH,eligible,181
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,OTH,election-day,148
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,OTH,early-voting,39
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,OTH,vote-by-mail,17
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,OTH,provisional,6
+2018-11-06,GG18,official-turnout,county,St. Mary's,"",ALL,OTH,eligible,409
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,OTH,election-day,19
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,OTH,early-voting,14
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,OTH,vote-by-mail,3
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,OTH,provisional,0
+2018-11-06,GG18,official-turnout,county,Somerset,"",ALL,OTH,eligible,72
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,OTH,election-day,58
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,OTH,early-voting,49
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,OTH,vote-by-mail,16
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,OTH,provisional,6
+2018-11-06,GG18,official-turnout,county,Talbot,"",ALL,OTH,eligible,209
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,OTH,election-day,115
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,OTH,early-voting,47
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,OTH,vote-by-mail,87
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,OTH,provisional,17
+2018-11-06,GG18,official-turnout,county,Washington,"",ALL,OTH,eligible,585
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,OTH,election-day,122
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,OTH,early-voting,61
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,OTH,vote-by-mail,23
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,OTH,provisional,5
+2018-11-06,GG18,official-turnout,county,Wicomico,"",ALL,OTH,eligible,431
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,OTH,election-day,117
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,OTH,early-voting,58
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,OTH,vote-by-mail,24
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,OTH,provisional,3
+2018-11-06,GG18,official-turnout,county,Worcester,"",ALL,OTH,eligible,318

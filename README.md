@@ -20,7 +20,7 @@ Once GitHub Pages is switched on, the site publishes to
 | **Voter registration by county and party** | Jan 2010 to Sep 2026, 201 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
-| **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The certified reports of the 2022 and 2026 primaries, the 2022 general and the 2024 primary and general, and snapshots of the 2026 general election's, daily as they change | SBE press-room statistical reports, PDF and XLSX |
+| **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The certified reports of the 2022 and 2026 primaries, the 2018 and 2022 generals and the 2024 primary and general, and snapshots of the 2026 general election's, daily as they change | SBE press-room statistical reports (2018: the SBE's election archive), PDF and XLSX |
 | **Election results by county** (every contest, candidate and vote type) | The primaries and generals of 2020, 2022 and 2024 and the 2026 primary | SBE election data pages, county CSV files |
 | **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
@@ -38,7 +38,7 @@ Once GitHub Pages is switched on, the site publishes to
 - **Turnout**: each election's official tally from the SBE's press-room reports. For a finished
   election: the certified ballots cast and counted, the four voting modes, the board's own
   certified turnout percentage (its official turnout sheet's figure, whose printed register moved
-  between eras — the 2022 and 2024 sheets divide by active registration, the 2026 guide by all
+  between eras — the 2018, 2022 and 2024 sheets divide by active registration, the 2026 guide by all
   eligible voters), mail-in ballots with their rejection reasons, and provisional outcomes — its certified
   figures of record only, never the board's unofficial eight-day tallies (early voting, same-day).
   For a running election: the mail-in tracking (requests, sent, received back, accepted in the

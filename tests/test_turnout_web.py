@@ -1156,3 +1156,25 @@ def test_real_2022_and_2024_pages_render_the_certified_data():
         assert "(the EV tally)" not in r.text and ">Same-day</th>" not in r.text
         county = client.get(f"/turnout/{slug}/county/")
         assert county.status_code == 200 and "Ballots cast" in county.text, slug
+
+
+@needs_db
+def test_real_2018_general_page_renders_the_certified_data():
+    """The 2018 general, from the board's election archive, pinned to figures parsed from
+    the committed files. The board published no eligible-voter workbooks for 2018, so the
+    page shows the by-party sheet's own printed percentage and does not promise
+    workbooks that will never come."""
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    assert "2018 General Election" in client.get("/turnout/").text
+    r = client.get("/turnout/gg18/")
+    assert r.status_code == 200
+    for figure in ("2,335,128", "2,327,542", "59.1%", "663,188", "1,496,913", "120,517", "54,510"):
+        assert figure in r.text, figure
+    assert "active registration alone" in r.text
+    assert "re-published to the press room yet" not in r.text
+    county = client.get("/turnout/gg18/county/")
+    assert county.status_code == 200 and "Ballots cast" in county.text

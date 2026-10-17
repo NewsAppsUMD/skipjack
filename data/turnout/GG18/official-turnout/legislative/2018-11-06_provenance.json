@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg18-official-turnout-legislative-20181106-2d4f70990e54",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/turnout/general/Official by Party and Legislative.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 official-turnout (legislative) as of 2018-11-06",
+  "fetch_date": "2026-10-17T20:17:07+00:00",
+  "parse_date": "2026-10-17T20:17:13+00:00",
+  "sha256_original": "2d4f70990e54d0c459761c996633d1dc6826f979df55b11c2244815ff086c984",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG18",
+  "family": "official-turnout",
+  "geography": "legislative",
+  "notes": "GG18 official-turnout (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 2380,
+    "as_of": "2018-11-06"
+  }
+}

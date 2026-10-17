@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg18-votes-accepted-county-20181106-f396a012be46",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/turnout/general/Official Accepted Turnout.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 votes-accepted (county) as of 2018-11-06",
+  "fetch_date": "2026-10-17T20:17:07+00:00",
+  "parse_date": "2026-10-17T20:17:13+00:00",
+  "sha256_original": "f396a012be463b9cad3b5bf0f190fe32fd1c5f2ec688503d4a88cdf3cb2ab282",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG18",
+  "family": "votes-accepted",
+  "geography": "county",
+  "notes": "GG18 votes-accepted (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 120,
+    "as_of": "2018-11-06"
+  }
+}

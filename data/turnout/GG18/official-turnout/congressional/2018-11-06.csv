@@ -1,0 +1,316 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,ALL,election-day,201613
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,ALL,early-voting,93294
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,ALL,vote-by-mail,12046
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,ALL,provisional,3715
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,ALL,eligible,503241
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,ALL,election-day,166831
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,ALL,early-voting,77151
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,ALL,vote-by-mail,9112
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,ALL,provisional,6348
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,ALL,eligible,472418
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,ALL,election-day,194383
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,ALL,early-voting,82219
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,ALL,vote-by-mail,16011
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,ALL,provisional,7064
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,ALL,eligible,498251
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,ALL,election-day,170001
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,ALL,early-voting,84230
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,ALL,vote-by-mail,12152
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,ALL,provisional,7963
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,ALL,eligible,486703
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,ALL,election-day,199422
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,ALL,early-voting,90588
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,ALL,vote-by-mail,13015
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,ALL,provisional,7586
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,ALL,eligible,524000
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,ALL,election-day,191586
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,ALL,early-voting,63031
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,ALL,vote-by-mail,21767
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,ALL,provisional,6750
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,ALL,eligible,480977
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,ALL,election-day,163017
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,ALL,early-voting,87310
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,ALL,vote-by-mail,11391
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,ALL,provisional,7792
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,ALL,eligible,484275
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,ALL,election-day,210060
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,ALL,early-voting,85365
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,ALL,vote-by-mail,25023
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,ALL,provisional,6067
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,ALL,eligible,504162
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,ALL,election-day,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,ALL,early-voting,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,ALL,vote-by-mail,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,ALL,provisional,1225
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,ALL,eligible,0
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,DEM,election-day,63860
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,DEM,early-voting,36876
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,DEM,vote-by-mail,5331
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,DEM,provisional,1694
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,DEM,eligible,173542
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,DEM,election-day,95581
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,DEM,early-voting,51510
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,DEM,vote-by-mail,5491
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,DEM,provisional,4309
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,DEM,eligible,274706
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,DEM,election-day,108470
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,DEM,early-voting,54544
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,DEM,vote-by-mail,10403
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,DEM,provisional,4427
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,DEM,eligible,275772
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,DEM,election-day,117125
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,DEM,early-voting,63584
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,DEM,vote-by-mail,8298
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,DEM,provisional,6088
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,DEM,eligible,334001
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,DEM,election-day,116378
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,DEM,early-voting,62909
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,DEM,vote-by-mail,7806
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,DEM,provisional,5137
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,DEM,eligible,304964
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,DEM,election-day,85270
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,DEM,early-voting,36080
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,DEM,vote-by-mail,13031
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,DEM,provisional,4108
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,DEM,eligible,217869
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,DEM,election-day,107314
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,DEM,early-voting,63079
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,DEM,vote-by-mail,7605
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,DEM,provisional,5952
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,DEM,eligible,330588
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,DEM,election-day,107554
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,DEM,early-voting,56266
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,DEM,vote-by-mail,16740
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,DEM,provisional,3826
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,DEM,eligible,262442
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,DEM,election-day,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,DEM,early-voting,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,DEM,vote-by-mail,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,DEM,provisional,895
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,DEM,eligible,0
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,REP,election-day,105276
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,REP,early-voting,44388
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,REP,vote-by-mail,4895
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,REP,provisional,1363
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,REP,eligible,228965
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,REP,election-day,44502
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,REP,early-voting,16683
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,REP,vote-by-mail,2189
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,REP,provisional,965
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,REP,eligible,106294
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,REP,election-day,51449
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,REP,early-voting,16524
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,REP,vote-by-mail,2977
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,REP,provisional,1288
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,REP,eligible,118202
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,REP,election-day,30595
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,REP,early-voting,12398
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,REP,vote-by-mail,2058
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,REP,provisional,760
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,REP,eligible,75153
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,REP,election-day,53257
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,REP,early-voting,18045
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,REP,vote-by-mail,3177
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,REP,provisional,1098
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,REP,eligible,123030
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,REP,election-day,69732
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,REP,early-voting,16811
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,REP,vote-by-mail,4699
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,REP,provisional,1236
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,REP,eligible,149627
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,REP,election-day,32107
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,REP,early-voting,14411
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,REP,vote-by-mail,2010
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,REP,provisional,623
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,REP,eligible,77022
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,REP,election-day,62345
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,REP,early-voting,16756
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,REP,vote-by-mail,4163
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,REP,provisional,938
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,REP,eligible,130076
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,REP,election-day,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,REP,early-voting,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,REP,vote-by-mail,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,REP,provisional,139
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,REP,eligible,0
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,LIB,election-day,1233
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,LIB,early-voting,305
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,LIB,vote-by-mail,64
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,LIB,provisional,32
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,LIB,eligible,3324
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,LIB,election-day,908
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,LIB,early-voting,206
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,LIB,vote-by-mail,42
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,LIB,provisional,47
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,LIB,eligible,2830
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,LIB,election-day,1144
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,LIB,early-voting,245
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,LIB,vote-by-mail,70
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,LIB,provisional,52
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,LIB,eligible,3162
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,LIB,election-day,648
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,LIB,early-voting,148
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,LIB,vote-by-mail,40
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,LIB,provisional,25
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,LIB,eligible,1940
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,LIB,election-day,863
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,LIB,early-voting,212
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,LIB,vote-by-mail,61
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,LIB,provisional,43
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,LIB,eligible,2650
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,LIB,election-day,1030
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,LIB,early-voting,185
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,LIB,vote-by-mail,76
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,LIB,provisional,53
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,LIB,eligible,3084
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,LIB,election-day,689
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,LIB,early-voting,186
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,LIB,vote-by-mail,46
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,LIB,provisional,48
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,LIB,eligible,2038
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,LIB,election-day,1016
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,LIB,early-voting,196
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,LIB,vote-by-mail,75
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,LIB,provisional,34
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,LIB,eligible,2685
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,LIB,election-day,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,LIB,early-voting,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,LIB,vote-by-mail,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,LIB,provisional,6
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,LIB,eligible,0
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,GRN,election-day,290
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,GRN,early-voting,87
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,GRN,vote-by-mail,31
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,GRN,provisional,3
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,GRN,eligible,1010
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,GRN,election-day,314
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,GRN,early-voting,112
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,GRN,vote-by-mail,22
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,GRN,provisional,19
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,GRN,eligible,1241
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,GRN,election-day,384
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,GRN,early-voting,118
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,GRN,vote-by-mail,39
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,GRN,provisional,23
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,GRN,eligible,1246
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,GRN,election-day,218
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,GRN,early-voting,59
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,GRN,vote-by-mail,18
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,GRN,provisional,10
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,GRN,eligible,828
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,GRN,election-day,300
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,GRN,early-voting,89
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,GRN,vote-by-mail,35
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,GRN,provisional,18
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,GRN,eligible,1040
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,GRN,election-day,350
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,GRN,early-voting,84
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,GRN,vote-by-mail,46
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,GRN,provisional,28
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,GRN,eligible,1215
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,GRN,election-day,395
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,GRN,early-voting,150
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,GRN,vote-by-mail,38
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,GRN,provisional,28
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,GRN,eligible,1350
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,GRN,election-day,373
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,GRN,early-voting,135
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,GRN,vote-by-mail,56
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,GRN,provisional,17
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,GRN,eligible,1234
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,GRN,election-day,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,GRN,early-voting,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,GRN,vote-by-mail,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,GRN,provisional,1
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,GRN,eligible,0
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,UNA,election-day,29833
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,UNA,early-voting,11004
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,UNA,vote-by-mail,1517
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,UNA,provisional,583
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,UNA,eligible,92917
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,UNA,election-day,24577
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,UNA,early-voting,8139
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,UNA,vote-by-mail,1189
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,UNA,provisional,962
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,UNA,eligible,83999
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,UNA,election-day,32106
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,UNA,early-voting,10377
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,UNA,vote-by-mail,2282
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,UNA,provisional,1213
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,UNA,eligible,96921
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,UNA,election-day,20215
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,UNA,early-voting,7514
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,UNA,vote-by-mail,1505
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,UNA,provisional,1019
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,UNA,eligible,67996
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,UNA,election-day,27163
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,UNA,early-voting,8679
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,UNA,vote-by-mail,1766
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,UNA,provisional,1233
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,UNA,eligible,85878
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,UNA,election-day,34435
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,UNA,early-voting,9554
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,UNA,vote-by-mail,3156
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,UNA,provisional,1230
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,UNA,eligible,105747
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,UNA,election-day,21625
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,UNA,early-voting,8906
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,UNA,vote-by-mail,1519
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,UNA,provisional,936
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,UNA,eligible,70048
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,UNA,election-day,37939
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,UNA,early-voting,11593
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,UNA,vote-by-mail,3437
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,UNA,provisional,1204
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,UNA,eligible,104506
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,UNA,election-day,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,UNA,early-voting,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,UNA,vote-by-mail,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,UNA,provisional,162
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,UNA,eligible,0
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,OTH,election-day,1121
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,OTH,early-voting,634
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,OTH,vote-by-mail,208
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,OTH,provisional,40
+2018-11-06,GG18,official-turnout,congressional,"",01,ALL,OTH,eligible,3483
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,OTH,election-day,949
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,OTH,early-voting,501
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,OTH,vote-by-mail,179
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,OTH,provisional,46
+2018-11-06,GG18,official-turnout,congressional,"",02,ALL,OTH,eligible,3348
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,OTH,election-day,830
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,OTH,early-voting,411
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,OTH,vote-by-mail,240
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,OTH,provisional,61
+2018-11-06,GG18,official-turnout,congressional,"",03,ALL,OTH,eligible,2948
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,OTH,election-day,1200
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,OTH,early-voting,527
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,OTH,vote-by-mail,233
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,OTH,provisional,61
+2018-11-06,GG18,official-turnout,congressional,"",04,ALL,OTH,eligible,6785
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,OTH,election-day,1461
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,OTH,early-voting,654
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,OTH,vote-by-mail,170
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,OTH,provisional,57
+2018-11-06,GG18,official-turnout,congressional,"",05,ALL,OTH,eligible,6438
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,OTH,election-day,769
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,OTH,early-voting,317
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,OTH,vote-by-mail,759
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,OTH,provisional,95
+2018-11-06,GG18,official-turnout,congressional,"",06,ALL,OTH,eligible,3435
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,OTH,election-day,887
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,OTH,early-voting,578
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,OTH,vote-by-mail,173
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,OTH,provisional,205
+2018-11-06,GG18,official-turnout,congressional,"",07,ALL,OTH,eligible,3229
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,OTH,election-day,833
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,OTH,early-voting,419
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,OTH,vote-by-mail,552
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,OTH,provisional,48
+2018-11-06,GG18,official-turnout,congressional,"",08,ALL,OTH,eligible,3219
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,OTH,election-day,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,OTH,early-voting,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,OTH,vote-by-mail,0
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,OTH,provisional,22
+2018-11-06,GG18,official-turnout,congressional,"",Unable to Determine,ALL,OTH,eligible,0

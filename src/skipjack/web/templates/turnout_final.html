@@ -6,7 +6,7 @@
     certified turnout percentage.
     {% if cert.get("turnout", {}).get("printed") %}
     The percentage is the board's own: its official turnout sheet's ballots cast over the
-    register that sheet itself prints. Registers moved between eras — the 2022 and 2024 sheets divide
+    register that sheet itself prints. Registers moved between eras — the 2018, 2022 and 2024 sheets divide
     by active registration alone; the 2026 turnout guide's
     <em>eligible</em> is everyone registered who is not incomplete or cancelled, active and
     inactive together.
@@ -37,7 +37,7 @@
 {% endif %}
 {% endif %}
 
-{% if not cert.get("eligible") %}
+{% if not cert.get("eligible") and not cert.get("turnout") %}
 <p class="note">The State Board's certified eligible-voter workbooks have not
     re-published to the press room yet, so this page shows no turnout percentage yet; it
     appears when those files return (the same daily snapshot keeps watching for them).</p>

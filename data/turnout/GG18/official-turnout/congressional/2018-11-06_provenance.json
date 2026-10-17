@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg18-official-turnout-congressional-20181106-b7783f7870e8",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/turnout/general/Official by Party and Congressional.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 official-turnout (congressional) as of 2018-11-06",
+  "fetch_date": "2026-10-17T20:17:06+00:00",
+  "parse_date": "2026-10-17T20:17:13+00:00",
+  "sha256_original": "b7783f7870e8cd6fe0aea26495808ec1738a76420b35f421dfd62886940043da",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG18",
+  "family": "official-turnout",
+  "geography": "congressional",
+  "notes": "GG18 official-turnout (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 315,
+    "as_of": "2018-11-06"
+  }
+}

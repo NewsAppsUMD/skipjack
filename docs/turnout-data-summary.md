@@ -22,7 +22,7 @@ election-night unofficial turnout report**, and:
 - keeps every figure traceable: archive file + manifest row + provenance sidecar per
   document, and a `source_id` on every combined row.
 
-Six elections are live today:
+Seven elections are live today:
 
 | Election | State | What the page shows |
 |---|---|---|
@@ -30,6 +30,7 @@ Six elections are live today:
 | **2024 general** (`/turnout/pg24/`) | Certified (canvass as of 2024-12-11, re-posted April 2026) | The finals: ballots cast (3,067,931) and counted (3,062,158), the four voting modes with shares, mail-in ballots with rejection reasons, mail-in ballot requests, and the board's own turnout percentage as its official Turnout sheet printed it |
 | **2024 primary** (`/turnout/pp24/`) | Certified June 7, 2024 | The finals: ballots cast (1,016,857) and counted (1,005,373), the four voting modes, mail-in ballots with rejection reasons, provisional outcomes, mail-in ballot requests, and the board's printed turnout percentage (27.6%, over active registration) |
 | **2022 general** (`/turnout/gg22/`) | Certified (canvass as of 2022-12-08, corrected re-posts April 2026) | The finals: ballots cast (2,034,265) and counted (2,030,446), the four voting modes, mail-in ballots with rejection reasons, provisional outcomes, mail-in ballot requests, and the board's printed turnout percentage (49.3%, over active registration) |
+| **2018 general** (`/turnout/gg18/`) | Certified (the board's election archive; the prints carry no date, filed under election day 2018-11-06) | The finals: ballots cast (2,335,128) and counted (2,327,542), the four voting modes, absentee ballots with rejection reasons, provisional outcomes, and the board's printed turnout percentage (59.1%, 2,335,128 over 3,954,027 active registration) |
 | **2022 primary** (`/turnout/gp22/`) | Certified August 18, 2022 | The finals: ballots cast (1,033,903) and counted (1,022,573), the four voting modes, mail-in ballots with rejection reasons, provisional outcomes, mail-in ballot requests, and the board's printed turnout percentage (27.4%, over active registration) |
 | **2026 general** (`/turnout/gg26/`) | In progress (election day November 3) | The mid-campaign mail-in tracking: ballot requests, ballots sent, envelopes received back, and accepted-in-the-canvass (currently ~0) |
 
@@ -51,7 +52,7 @@ defines the vocabulary; two of its points are easy to trip on:
    voters not in "incomplete" or "cancelled" status — active, inactive **and** pending
    together. Skipjack's voter-file pages say "participation among current voters" for the
    same reason; the Turnout section is the official side of that distinction. What the
-   board *prints* as the percentage moved between eras: the 2022- and 2024-era official
+   board *prints* as the percentage moved between eras: the 2018-, 2022- and 2024-era official
    turnout sheets computed it over active registration alone (those elections' pages show
    that printed percentage and say so); the 2026 guide's construction is what GP26's page uses while
    the sheet has not republished.
@@ -225,3 +226,43 @@ Added October 17, 2026 beside PG24, from the same families at the same grains. W
   reconcile and are the figures of record).
 - **New parties on the 2022 rolls:** Bread and Roses (`BAR`, an eligible-sheet column) and
   the Working Class Party (a by-party block label), alongside the existing codes.
+
+## The 2018 general (GG18), and why not 2014
+
+Added October 17, 2026 as a second midterm anchor beside GG22. What differs:
+
+- **Where the files are.** The press room keeps no 2018 tree; the certified reports sit in the
+  board's election archive at `elections/archive/2018/turnout/general/`, listed on
+  `elections/archive/2018/index.html`. That index lists exactly seven stat files, all
+  ingested: `Official by Party and County/Congressional/Legislative.xlsx` (`official-turnout`,
+  the xlsx only, as for every election; the pdf prints are not fetched), `Official
+  Turnout.pdf` (`county-canvass`), `Official Accepted Turnout.pdf` (`votes-accepted`),
+  `Official ABSENTEE Voting.pdf` (`mail-voting`) and `Official Provisional Voting.pdf`
+  (`provisional`). There are no eligible-voter workbooks, no campaign mail-in files and no
+  eight-day tallies for 2018 (probed under the 2022 names: placeholder pages). The precinct
+  csv is not ingested.
+- **Older column names, same measures.** The by-party sheets print `POLLS / EV / ABS / PROV /
+  ELIGIBLE VOTERS` (the Democrat block spells `ELIGIBLE_VOTERS`); the canvass and accepted
+  prints say `Polling Place (Election Day)` and `Absentee`. These are label aliases onto
+  election-day / early-voting / vote-by-mail / provisional / eligible; the mail-in and
+  provisional prints already used today's headers. The party blocks are Statewide, Democrat,
+  Republican, Libertarian, Green, Unaffiliated and Other Parties, all existing codes.
+- **The sheet's eligible measure is active registration**, as on the 2022 and 2024 sheets:
+  3,954,027 statewide, and the board's printed TURNOUT column (59.06%) is the four modes over
+  it. The page shows that printed percentage; there is no active-plus-inactive denominator
+  for 2018 (and so no "workbooks have not re-published" note on its page).
+- **No printed date.** The four 2018 PDFs print no report date, as-of or election date, and the
+  by-party sheets print only the election date. `Election.undated_as_of` files every 2018
+  document under election day, 2018-11-06 (the date the by-party sheets do print); an
+  election without that setting still fails a dateless file, as before.
+- **Every 2018 file reconciles as printed**: no print slips registered. The by-party county
+  sheet's Statewide block (2,335,128 ballots cast) equals the canvass print's Statewide
+  total, and the accepted print counts 2,327,542.
+- **2014 is not ingested.** The 2014 archive (`elections/archive/2014/turnout/general/`)
+  does have by-party workbooks (`GG14_Turnout_by_party_by_county.xlsx`, with CD and LD twins listed),
+  but in a different layout -- the party name sits in each block's header row where the
+  area label would be, with no LBE column label, title rows or date -- which the header-driven
+  parser cannot read without a layout variant. Its canvass print
+  (`GG14_Statewide Turnout by County and Canvass.pdf`) has a text layer, but prints Baltimore
+  County as "Baltimore" and curly apostrophes, and on its own carries no party or eligible
+  figures. Both are left for a later increment if a 2014 anchor is wanted.

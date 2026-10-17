@@ -62,6 +62,11 @@ class Election:
     # True when the election is over and certified, so its page shows the final
     # turnout layout rather than the campaign's mail-in tracking
     certified: bool = False
+    # The snapshot day for this election's files that print no date of their own (no As-of,
+    # report date or election date): the 2018 archive's prints carry none, and its by-party
+    # sheet prints only the election date. None keeps such a file "unknown", and its parse
+    # fails for want of a date.
+    undated_as_of: str | None = None
 
 
 def _gg26_files() -> list[FamilyFile]:
@@ -304,6 +309,32 @@ def _gp22_files() -> list[FamilyFile]:
     )
 
 
+def _gg18_files() -> list[FamilyFile]:
+    """The 2018 general's certified reports, from the board's election archive (the press
+    room keeps no 2018 tree): the three by-party workbooks and the four one-page canvass
+    reports under their 2018 names, as the archive's 2018 index lists them. Nothing else
+    was published there: no eligible-voter workbooks and no campaign mail-in files."""
+    base = f"{SBE_BASE}/elections/archive/2018/turnout/general"
+    files = [
+        FamilyFile(
+            "official-turnout", geography, "xlsx", f"{base}/Official by Party and {stem}.xlsx"
+        )
+        for geography, stem in (
+            ("county", "County"),
+            ("congressional", "Congressional"),
+            ("legislative", "Legislative"),
+        )
+    ]
+    for family, stem in (
+        ("county-canvass", "Official Turnout"),
+        ("votes-accepted", "Official Accepted Turnout"),
+        ("mail-voting", "Official ABSENTEE Voting"),
+        ("provisional", "Official Provisional Voting"),
+    ):
+        files.append(FamilyFile(family, "county", "pdf", f"{base}/{stem}.pdf"))
+    return files
+
+
 ELECTIONS: dict[str, Election] = {
     "GG26": Election(
         code="GG26",
@@ -345,6 +376,14 @@ ELECTIONS: dict[str, Election] = {
         election_day="2022-07-19",
         files=_gp22_files(),
         certified=True,
+    ),
+    "GG18": Election(
+        code="GG18",
+        name="2018 general election",
+        election_day="2018-11-06",
+        files=_gg18_files(),
+        certified=True,
+        undated_as_of="2018-11-06",
     ),
 }
 
@@ -660,12 +699,18 @@ OFFICIAL_AREA_CELLS: dict[str, str] = {
     "LEGISLATIVE DISTRICT CODE": "district",
 }
 # The five printed measures; the TURNOUT column's printed shares are not a measure.
+# The 2018 sheets print the board's older abbreviations (POLLS, EV, ABS, PROV); their
+# ELIGIBLE VOTERS is active registration, as on the 2022 and 2024 sheets.
 OFFICIAL_MEASURE_CELLS: dict[str, str] = {
     "ELECTION DAY": "election-day",
     "EARLY VOTING": "early-voting",
     "VOTE BY MAIL": "vote-by-mail",
     "PROVISIONAL": "provisional",
     "ELIGIBLE VOTERS": "eligible",
+    "POLLS": "election-day",
+    "EV": "early-voting",
+    "ABS": "vote-by-mail",
+    "PROV": "provisional",
 }
 
 
@@ -1937,6 +1982,9 @@ CANVASS_SHEET = PrintedSheet(
         "VOTE BY MAIL": "vote-by-mail",
         "PROVISIONAL": "provisional",
         "TOTAL": "total",
+        # the 2018 prints' names for the same two modes
+        "POLLING PLACE (ELECTION DAY)": "election-day",
+        "ABSENTEE": "vote-by-mail",
     },
     base="total",
     modes=("early-voting", "election-day", "vote-by-mail", "provisional"),
@@ -2968,7 +3016,7 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
             if kind is None:
                 logger.info("Not published yet: %s", f.url)
                 continue
-            as_of = extract_as_of_bytes(data, kind)
+            as_of = extract_as_of_bytes(data, kind) or e.undated_as_of
             digest = hashlib.sha256(data).hexdigest()
             if not force and _latest_sha(e.code, f.family, f.geography, kind) == digest:
                 logger.info("Already archived: %s (%s)", f.family, f.geography)
@@ -3109,6 +3157,10 @@ def turnout_parse(
             continue
         try:
             snapshot_date, frame = _parse_file(path, record, election_code, family, geography)
+            if snapshot_date is None and election and election.undated_as_of:
+                # a file that prints no date of its own (see Election.undated_as_of)
+                snapshot_date = election.undated_as_of
+                frame = frame.with_columns(pl.lit(snapshot_date).alias("as_of"))
             if snapshot_date is None:
                 raise TurnoutParseError(f"no As-of date in {path.name}")
             if as_of and snapshot_date != as_of:

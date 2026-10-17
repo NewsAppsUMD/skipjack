@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg18-county-canvass-county-20181106-ad6d6aa9d09a",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/turnout/general/Official Turnout.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 county-canvass (county) as of 2018-11-06",
+  "fetch_date": "2026-10-17T20:17:07+00:00",
+  "parse_date": "2026-10-17T20:17:13+00:00",
+  "sha256_original": "ad6d6aa9d09abe0313d2f790b7857df8733ed6ea989567fdd602f982b64b704f",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG18",
+  "family": "county-canvass",
+  "geography": "county",
+  "notes": "GG18 county-canvass (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 120,
+    "as_of": "2018-11-06"
+  }
+}
