@@ -15,9 +15,7 @@ from skipjack.web.db import get_db
 from skipjack.web.maps import locator_map, turnout_live_maps
 from skipjack.web.routes.turnout import _tiles
 from skipjack.web.routes.voters import county_registration
-from skipjack.web.routes.young import bullets
 from skipjack.web.summary import highlights
-from skipjack.web.young import build_young
 
 router = APIRouter()
 
@@ -76,28 +74,6 @@ def _registration_lead(summary: dict, locator: dict | None, latest: str | None) 
     }
 
 
-def _young_card(conn: sqlite3.Connection) -> dict | None:
-    data = build_young(conn)
-    if data is None:
-        return None
-    return {
-        "sentence": bullets(data)[0],
-        "chart": {
-            "weeks": list(range(1, 54)),
-            "week_labels": data["week_labels"],
-            "month_weeks": data["month_weeks"],
-            "cutoff_week": data["cutoff_week"],
-            "series": [
-                {"year": s["year"], "values": s["values"], "hidden": s["hidden"]}
-                for s in data["series"]
-            ],
-            "primary_weeks": {str(k): v for k, v in data["primary_weeks"].items()},
-            "current_year": data["year"],
-            "cutoff_label": data["cutoff_label"],
-        },
-    }
-
-
 def _flow_chart(conn: sqlite3.Connection) -> dict | None:
     """Rolling 12-month new registrations and removals, on the new registrations' months."""
     new, gone = trends.new_registrations(conn), trends.removals(conn)
@@ -129,7 +105,7 @@ def home_context(conn: sqlite3.Connection, today: date | None = None) -> dict:
             locator = locator_map(county_list, month_label(latest_date))
         lead = _registration_lead(summary, locator, latest_date)
 
-    young, flow = _young_card(conn), _flow_chart(conn)
+    flow = _flow_chart(conn)
 
     now = []
     if latest_date:
@@ -142,13 +118,13 @@ def home_context(conn: sqlite3.Connection, today: date | None = None) -> dict:
         "lead": lead,
         "now": " · ".join(now),
         "summary": summary,
-        "young": young,
         "flow": flow,
         "flow_sentence": summary["by_key"].get("flow"),
         "party_sentence": summary["by_key"].get("shares"),
+        "share_sentence": " ".join(summary["records"]),
         "chart_data": {
             "party": summary["chart"],
-            "young": young["chart"] if young else None,
+            "share": summary["share_chart"],
             "flow": flow,
         },
     }

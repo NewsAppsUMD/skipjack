@@ -65,7 +65,9 @@ def highlights(conn: sqlite3.Connection) -> dict:
             "total": 0,
             "sentences": [],
             "by_key": {},
+            "records": [],
             "tiles": [],
+            "share_chart": None,
             "chart": None,
         }
     latest = dates[-1]
@@ -73,6 +75,7 @@ def highlights(conn: sqlite3.Connection) -> dict:
     totals = [sum(v[k] or 0 for v in by_party.values()) for k in range(len(dates))]
     items: list[str] = []
     keyed: dict[str, str] = {}  # the same sentences, by what they say
+    records: list[str] = []  # every "highest/lowest share" sentence
 
     def add(key: str, text: str) -> None:
         items.append(text)
@@ -128,11 +131,17 @@ def highlights(conn: sqlite3.Connection) -> dict:
         for p in MAJOR:
             known = [v for v in shares[p] if v is not None]
             if len(known) > 24 and now[p] == max(known):
+                records.append(
+                    f"{p} voters' share is the highest in any report since {month_label(dates[0])}."
+                )
                 add(
                     "record",
                     f"{p} voters' share is the highest in any report since {month_label(dates[0])}.",
                 )
             elif len(known) > 24 and now[p] == min(known):
+                records.append(
+                    f"{p} voters' share is the lowest in any report since {month_label(dates[0])}."
+                )
                 add(
                     "record",
                     f"{p} voters' share is the lowest in any report since {month_label(dates[0])}.",
@@ -204,7 +213,16 @@ def highlights(conn: sqlite3.Connection) -> dict:
         "total": totals[i],
         "sentences": items,
         "by_key": keyed,
+        "records": records,
         "tiles": tiles,
+        "share_chart": {
+            "dates": dates,
+            "series": [
+                {"name": p, "values": [None if v is None else round(v, 2) for v in shares[p]]}
+                for p in MAJOR
+                if p in shares
+            ],
+        },
         "chart": {
             "dates": dates,
             "series": [{"name": p, "values": by_party[p]} for p in MAJOR if p in by_party],

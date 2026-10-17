@@ -1,5 +1,5 @@
-// The home page's three charts: active voters by party, the running total of young
-// registrants, and the rolling 12-month new registrations and removals.
+// The home page's three charts: active voters by party, each party's share of active
+// voters, and the rolling 12-month new registrations and removals.
 import { count, full, monthLabel, redrawOnResize, renderLineChart, token } from "./charthelpers.js";
 
 const data = JSON.parse(document.getElementById("home-data").textContent);
@@ -43,41 +43,28 @@ if (data.party) {
   });
 }
 
-// Young registrants, running total by week.
-if (data.young) {
-  const y = data.young;
-  const palette = [token("--series-new"), token("--series-removed"), token("--text-muted")];
-  const colorFor = (index, total) => palette[Math.min(total - 1 - index, palette.length - 1)];
-  const series = y.series.map((s, i) => ({
-    name: String(s.year),
-    color: colorFor(i, y.series.length),
-    values: s.values,
-    year: s.year,
-  }));
-  legend("home-young-legend", series.map((s) => ({ name: s.name, color: s.color })));
-  const monthLabels = y.weeks.map(() => "");
-  for (const [name, week] of Object.entries(y.month_weeks)) monthLabels[week - 1] = name;
-  const markers = [
-    ...series
-      .filter((s) => y.primary_weeks[s.year])
-      .map((s) => ({ index: y.primary_weeks[s.year] - 1, kind: "primary", color: s.color })),
-    { index: y.cutoff_week - 1, kind: "general" },
-  ];
+// Each party's share of active voters.
+if (data.share) {
+  const COLORS = {
+    Democratic: token("--party-dem"),
+    Republican: token("--party-rep"),
+    Unaffiliated: token("--party-una"),
+  };
+  const series = data.share.series.map((s) => ({ ...s, color: COLORS[s.name] }));
+  const percent = (v) => `${Math.round(v)}%`;
+  const percentOne = (v) => `${v.toFixed(1)}%`;
+  legend("home-share-legend", series.map((s) => ({ name: s.name, color: s.color })));
   charts.push({
-    box: document.getElementById("home-young"),
+    box: document.getElementById("home-share"),
     draw: (box) =>
       renderLineChart(box, {
-        dates: y.weeks.map(String),
-        xLabels: monthLabels,
-        tipLabel: (i) => `Week of ${y.week_labels[i]}`,
-        xInset: 8,
+        dates: data.share.dates,
         series,
-        markers,
-        format: (v) => (v >= 1e4 ? `${Math.round(v / 1e3)}k` : full(v)),
-        labelFormat: full,
+        format: percent,
+        labelFormat: percentOne,
         height: 240,
         endLabels: true,
-        ariaLabel: "Running total of first-time registrations by 18-to-22-year-olds, week by week, for each election year.",
+        ariaLabel: "Each party's share of active registered voters, monthly.",
       }),
   });
 }

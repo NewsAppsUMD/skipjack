@@ -406,6 +406,7 @@ def test_home_page_highlights_describe_the_latest_report(monkeypatch):
     assert "4,333,854 active registered voters in September 2026" in html
     assert 'id="home-data"' in html
     assert "Registration through September 2026" in html
+    assert "Party share of active voters" in html
     for label in ("Democratic share", "Republican share", "Unaffiliated share"):
         assert label in html
 

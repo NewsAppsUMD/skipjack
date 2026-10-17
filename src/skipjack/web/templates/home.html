@@ -64,13 +64,13 @@
             <p class="more"><a href="{{ base }}/voters/county/">Trends by county &rarr;</a></p>
         </section>
         {% endif %}
-        {% if young %}
-        <section class="viz-card" aria-labelledby="home-young-title">
-            <h3 id="home-young-title">New registrations by 18-to-22-year-olds</h3>
-            <p class="sub">{{ young.sentence }}</p>
-            <ul class="legend" id="home-young-legend"></ul>
-            <div id="home-young"></div>
-            <p class="more"><a href="{{ base }}/voters/young/">Young voters &rarr;</a></p>
+        {% if chart_data.share %}
+        <section class="viz-card" aria-labelledby="home-share-title">
+            <h3 id="home-share-title">Party share of active voters</h3>
+            <p class="sub">Percent of active voters, monthly since {{ chart_data.share.dates[0]|month_label }}.{% if share_sentence %} {{ share_sentence }}{% endif %}</p>
+            <ul class="legend" id="home-share-legend"></ul>
+            <div id="home-share"></div>
+            <p class="more"><a href="{{ base }}/voters/">Registration by month and county &rarr;</a></p>
         </section>
         {% endif %}
         {% if flow %}
