@@ -8,10 +8,13 @@
 # comp = factor_age + factor_new, which the forecast adds to the cell's linear predictor:
 #
 # - factor_age (A): logit(R26) - logit(R22), where R is the cell's expected 2022-midterm
-#   participation under its 2026 and its 2022 age mix. Rates r_cp(a) are the 2022-GG rates of
-#   people now in age band a (county x age, tilted to the party with statewide party x age
-#   rates); the 2026 mix is today's registrants by age, the 2022 mix the same scaled by the
-#   share of each band registered in time for 2022-GG relative to 2026-GP.
+#   participation under its 2026 and its 2022 age mix, both in age-at-election terms with one
+#   propensity schedule: r_cp(b) is the 2022-GG rate by age on 2022 election day (the file's
+#   current-age bands spread over single years and shifted back four years; county x age, tilted
+#   to the party with statewide party x age rates shifted the same way). The 2026 mix is today's
+#   registrants by current age (close to age on 2026-11-03); the 2022 mix is today's registrants
+#   scaled by the share of each band registered in time for 2022-GG relative to 2026-GP, then
+#   shifted back four years.
 # - factor_new (N): the extra pull of recent registrants beyond their age,
 #   logit(R26 * (1 - (s26 - s22) * (1 - rho_gen))) - logit(R26), with s26 the share of the
 #   cell registered 2023-2026, s22 the share of those registered by 2022 who registered
@@ -39,6 +42,10 @@ NEW_BAND_MAP <- c("18-22" = "18-24", "23-29" = "25-34", "30+" = "35+")
 NEW_YEARS <- 2023:2026                  # s26 numerator
 OLD_YEARS <- 2019:2022                  # s22 numerator
 PROFILE_YEARS <- 2025:2026              # new-registrant age profile
+# Years between the snapshot (2026-08-12) and the 2022 general (2022-11-08): 3.75, taken as 4.
+SHIFT_YEARS <- 4
+OLDEST <- 94                            # 75+ is spread over 75-94
+BELOW18_MAX <- 0.005
 
 HABIT_NOTE <- paste(
   "No habit-mix factor: metric voter_types classifies each voter over the elections they were",
@@ -113,6 +120,39 @@ hi_of <- function(x) ifelse(is.na(x), SUPPRESS_MAX, x)
 
 # ---- factor A: age mix ------------------------------------------------------------------
 
+# Map from a current-age band to bands of age on 2022 election day. Each band's counts are
+# spread uniformly over its single years of current age, shifted back SHIFT_YEARS and re-binned.
+# Exception: 2022-era quantities in the current 18-24 band (2022-GG count and eligible, and the
+# 2022 mix) are spread over current ages 22-24 only, because nobody younger than about 21.75
+# today was 18 by 2022-11-08, and 2022-GG eligible requires that; spreading them over 18-24
+# would put four sevenths of them below 18. Unknown stays Unknown.
+shift_map <- function() {
+  lo <- c("18-24" = 22, "25-34" = 25, "35-44" = 35, "45-54" = 45, "55-64" = 55, "65-74" = 65, "75+" = 75)
+  hi <- c("18-24" = 24, "25-34" = 34, "35-44" = 44, "45-54" = 54, "55-64" = 64, "65-74" = 74, "75+" = OLDEST)
+  bin <- function(age) {
+    cut(age, c(-Inf, 17, 24, 34, 44, 54, 64, 74, Inf), right = TRUE,
+        labels = c("below 18", "18-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+"))
+  }
+  m <- bind_rows(lapply(names(lo), function(b) {
+    yrs <- lo[[b]]:hi[[b]]
+    tibble(age_band = b, band22 = as.character(bin(yrs - SHIFT_YEARS)), w = 1 / length(yrs))
+  })) |>
+    group_by(age_band, band22) |> summarise(w = sum(w), .groups = "drop")
+  bind_rows(m, tibble(age_band = "Unknown", band22 = "Unknown", w = 1))
+}
+
+# Shift value columns `vals` of df (current-age bands in age_band) to age on 2022 election day
+# (band22, renamed back to age_band). Rows in other bands (Under 18) are dropped.
+shift_to_2022 <- function(df, keys, vals) {
+  df |>
+    filter(age_band %in% AGE_BANDS) |>
+    inner_join(shift_map(), by = "age_band", relationship = "many-to-many") |>
+    mutate(across(all_of(vals), ~ .x * w)) |>
+    group_by(across(all_of(c(keys, "band22")))) |>
+    summarise(across(all_of(vals), sum), .groups = "drop") |>
+    rename(age_band = band22)
+}
+
 age_rates <- function(con) {
   tba <- vfc(con, "turnout_by_age") |> filter(age_band %in% AGE_BANDS)
   check_counties(setdiff(tba$county, "Maryland"), "turnout_by_age counties")
@@ -122,18 +162,24 @@ age_rates <- function(con) {
                 # count 0 is observed even when eligible is suppressed: the rate is then 0
                 rate = ifelse(!is.na(count) & count == 0, 0, count / eligible))
   }
-  gg22 <- rate_c("2022-GG"); gp26 <- rate_c("2026-GP")
-  k <- gg22 |> select(county, age_band, elig22 = eligible) |>
+  gg22_raw <- rate_c("2022-GG"); gp26 <- rate_c("2026-GP")
+  # 2022-GG rates in bands of age on 2022 election day (shifted count / shifted eligible).
+  gg22 <- gg22_raw |> select(county, age_band, count, eligible) |>
+    shift_to_2022("county", c("count", "eligible")) |>
+    mutate(rate = ifelse(!is.na(count) & count == 0, 0, count / eligible))
+  k <- gg22_raw |> select(county, age_band, elig22 = eligible) |>
     inner_join(gp26 |> select(county, age_band, elig26 = eligible), by = c("county", "age_band")) |>
     mutate(k = elig22 / elig26)
-  list(gg22 = gg22, gp26 = gp26, k = k, tba = tba)
+  list(gg22 = gg22, gg22_raw = gg22_raw, gp26 = gp26, k = k, tba = tba)
 }
 
 # Statewide party tilt t_p(a) = party rate / all-party rate, per election (OTH = ALL - DEM - REP).
-party_tilt <- function(con, el) {
+# For 2022-GG (shift = TRUE) the statewide counts are first shifted to age on 2022 election day.
+party_tilt <- function(con, el, shift = FALSE) {
   tap <- vfc(con, "turnout_by_age_party") |> filter(election == el, age_band %in% AGE_BANDS)
   stopifnot(all(is.na(tap$county)))
   tap$county <- "Maryland"
+  if (shift) tap <- shift_to_2022(tap, c("county", "party_group"), c("count", "eligible"))
   m <- to_model_groups(fill_absent(tap, c("county", "age_band", "party_group"), c("count", "eligible")),
                        c("county", "age_band"), c("count", "eligible"))
   all <- tap |> filter(party_group == "ALL") |> transmute(age_band, all_rate = count / eligible)
@@ -153,14 +199,23 @@ main <- function() {
   cells <- tidyr::crossing(county = CANONICAL_COUNTIES, party_group = PARTY_GROUPS)
 
   ar <- age_rates(con)
-  ck(sum(is.na(ar$gg22$rate)) == 0, "every county x age band has a 2022-GG rate (count 0 rates are 0)")
+  ck(sum(is.na(ar$gg22$rate)) == 0, "every county x age-at-2022 band has a 2022-GG rate (count 0 rates are 0)")
+  ck(all(abs(shift_map() |> group_by(age_band) |> summarise(w = sum(w)) |> pull(w) - 1) < 1e-12),
+     "the age shift keeps every current band's mass")
+  # Mass that lands below 18 at the 2022 election: zero by construction with the 22-24 spread;
+  # a uniform 18-24 spread would place 4/7 of the band's 2022-GG eligible there.
+  below18 <- ar$gg22 |> filter(county != "Maryland") |> group_by(county) |>
+    summarise(share = sum(eligible[age_band == "below 18"], na.rm = TRUE) / sum(eligible, na.rm = TRUE))
+  ck(all(below18$share < BELOW18_MAX), "shifted 2022-GG eligible below age 18 is under 0.5% of each county's eligible")
+  uniform_below18 <- ar$gg22_raw |> filter(county != "Maryland") |> group_by(county) |>
+    summarise(share = (4 / 7) * sum(eligible[age_band == "18-24"]) / sum(eligible, na.rm = TRUE))
   # Unknown age: statewide 2022-GG eligible equals 2026-GP eligible, so every county's does
   # (each county's 2022 count is at most its 2026 count): k = 1 where suppressed.
   st_unk <- ar$k |> filter(county == "Maryland", age_band == "Unknown")
   ck(st_unk$elig22 == st_unk$elig26, "statewide Unknown-age eligible is equal for 2022-GG and 2026-GP")
   k <- ar$k |> filter(county != "Maryland") |>
     mutate(k = ifelse(age_band == "Unknown" & is.na(elig22) & is.na(elig26), 1, k))
-  tilt22 <- party_tilt(con, "2022-GG")
+  tilt22 <- party_tilt(con, "2022-GG", shift = TRUE)
   tilt26 <- party_tilt(con, "2026-GP")
 
   # Cell rates r_cp(a): county x age rate times the party tilt, capped below RATE_CAP.
@@ -214,17 +269,35 @@ main <- function() {
   ck(all(unknown_dropped$age_band == "Unknown"), "only Unknown-age bands of e26 are suppressed")
   e26 <- e26 |> filter(!is.na(e26))
 
-  mix <- e26 |>
-    left_join(k |> select(county, age_band, k), by = c("county", "age_band")) |>
-    left_join(r22 |> select(county, party_group, age_band, r), by = c("county", "party_group", "age_band")) |>
-    mutate(e22 = e26 * k)
-  used_k <- mix$k[mix$e26 > 0]
+  used_k <- e26 |> left_join(k |> select(county, age_band, k), by = c("county", "age_band")) |>
+    filter(e26 > 0) |> pull(k)
   ck(!anyNA(used_k) && all(used_k > 0 & used_k <= K_MAX), "k_c(a) in (0, 1.05] for every band in use")
-  ck(!anyNA(mix$r), "every band in use has a rate")
 
-  age_cells <- mix |> group_by(county, party_group) |>
-    summarise(n26 = sum(e26), v26 = sum(e26 * r), n22 = sum(e22), v22 = sum(e22 * r), .groups = "drop") |>
+  # 2022 mix, in bands of age on 2022 election day: today's registrants scaled by k_c(a) (people
+  # registered in time for 2022 as a share of those in time for 2026-GP, same current-age band),
+  # then shifted back four years. Summed over party this is close to the county's shifted 2022-GG
+  # eligible, and it keeps each party's own age profile.
+  e22 <- e26 |>
+    left_join(k |> select(county, age_band, k), by = c("county", "age_band")) |>
+    mutate(e22 = e26 * k) |>
+    shift_to_2022(c("county", "party_group"), "e22")
+  # One propensity schedule: 2022-GG rates by age on election day, applied to the 2022 mix
+  # (ages in 2022) and to the 2026 mix (today's age, close to age on 2026-11-03).
+  rate_of <- function(mix, val) {
+    mix |> left_join(r22 |> select(county, party_group, age_band, r), by = c("county", "party_group", "age_band")) |>
+      group_by(county, party_group) |>
+      summarise(n = sum(.data[[val]]), v = sum(.data[[val]] * r), .groups = "drop")
+  }
+  m26 <- rate_of(e26, "e26"); m22 <- rate_of(e22 |> filter(age_band != "below 18"), "e22")
+  ck(!anyNA(m26$v) && !anyNA(m22$v), "every band in use has a rate")
+  age_cells <- m26 |> rename(n26 = n, v26 = v) |>
+    inner_join(m22 |> rename(n22 = n, v22 = v), by = c("county", "party_group")) |>
     mutate(R26 = v26 / n26, R22 = v22 / n22)
+  # Sanity: with the 2026 mix set to the 2022 mix, factor_age is exactly zero.
+  m_same <- rate_of(e22 |> filter(age_band != "below 18") |> rename(e26 = e22), "e26")
+  same <- m_same |> inner_join(m22, by = c("county", "party_group"), suffix = c("_a", "_b"))
+  ck(all(abs(qlogis(same$v_a / same$n_a) - qlogis(same$v_b / same$n_b)) < 1e-9),
+     "factor_age is 0 (to 1e-9) when the 2026 mix equals the shifted 2022 mix")
 
   # ---- factor N: shares --------------------------------------------------------------------
   rc_raw <- vfc(con, "registration_cohorts") |> filter(county != "Maryland")
@@ -424,7 +497,29 @@ main <- function() {
     checks = checks,
     notes = list(
       method = list(
-        factor_age = "r_cp(a) = r_c(a) * t_p(a), capped at 0.99; e22 = e26 * k_c(a); R = sum(e r) / sum(e); A = logit(R26) - logit(R22). Under 18 dropped, Unknown kept as its own band.",
+        factor_age = paste(
+          "Age-at-election terms with one propensity schedule. Each current-age band's counts are spread uniformly",
+          "over its single years (18-24: 7 years, 25-34 to 65-74: 10, 75+ treated as 75-94), shifted back 4 years",
+          "(snapshot 2026-08-12 to the 2022 general on 2022-11-08 is 3.75 years; 4 is used) and re-binned into the",
+          "standard bands by age on 2022 election day. r22_c(b) = shifted 2022-GG count / shifted eligible",
+          "(turnout_by_age, county); t_p(b) the same ratio for the party over ALL from shifted turnout_by_age_party;",
+          "r22_cp(b) = r22_c(b) * t_p(b), capped at 0.99. e22_cp(b) = shift(age_by_party_cp(a) * k_c(a)), with",
+          "k_c(a) = 2022-GG eligible / 2026-GP eligible by county x current-age band: this keeps each party's own age",
+          "profile, where splitting the county's shifted eligible by party would need a county party x age split",
+          "the file does not give for 2022. e26_cp(b) = age_by_party in current bands (today's age is close to age on",
+          "2026-11-03). R22 = sum e22 r22 / sum e22, R26 = sum e26 r22 / sum e26, A = logit(R26) - logit(R22).",
+          "Under 18 dropped; Unknown kept as its own band, unshifted. In-script sanity check: with e26 set to the",
+          "shifted e22, A = 0 to 1e-9."
+        ),
+        age_shift_18_24 = paste(
+          "Deviation from a uniform spread: 2022-era quantities in the current 18-24 band (2022-GG count and",
+          "eligible, and the 2022 mix age_by_party * k) are spread over current ages 22-24 only. Nobody younger than",
+          "about 21.75 today was 18 by 2022-11-08, which 2022-GG eligibility requires, and k for 18-24 (about 0.40,",
+          "near 3/7) agrees. A uniform 18-24 spread would place 4/7 of the band's 2022-GG eligible below age 18:",
+          sprintf("%.2f%% to %.2f%% of a county's eligible, above the 0.5%% tolerance.",
+                  100 * min(uniform_below18$share), 100 * max(uniform_below18$share)),
+          "With the 22-24 spread the mass below 18 is zero by construction (checked under 0.5% per county)."
+        ),
         factor_new = "N = logit(R26 * (1 - (s26 - s22) * (1 - rho_gen))) - logit(R26), argument clamped to [1e-6, 1 - 1e-6].",
         rho = paste(
           "DEM and REP: observed 2026-GP rate of new_voters_voted over the age-expected rate, sum over bands of the",
@@ -438,6 +533,23 @@ main <- function() {
         habit_mix = HABIT_NOTE
       ),
       limitations = list(
+        factor_age_survivors = paste(
+          "Known residual bias, not corrected: the 2022 mix is built from today's file, so people who died or moved",
+          "since 2022 are missing from it. Deaths remove high-propensity elderly voters, which understates R22 (and",
+          "pushes factor_age up); moves remove low-propensity young voters, which overstates R22 (and pushes",
+          "factor_age down). The net sign is unknown. The file holds about 87% of the 2022 electorate, so the",
+          "missing 13% is large next to the factor."
+        ),
+        factor_new_sign = paste(
+          "s26 < s22 in every cell: the 2019-2022 cohort (with the 2020 registration surge) is a larger share of",
+          "those registered by 2022 than the 2023-2026 cohort is of today's registrants, so factor_new is a small",
+          "bonus, not a penalty, everywhere. The s22 move bias works against this, so the true bonus is larger."
+        ),
+        rho_ages = paste(
+          "rho's age-expected rate uses 2026-GP rates by current age: the primary (2026-06-23) is seven weeks",
+          "before the snapshot, so current age is age at that election. The new-registrant profile bands are age",
+          "at registration in 2025-2026, at most about 1.6 years younger than current age."
+        ),
         s22 = S22_NOTE,
         participation_among_current_voters = "All rates and shares are ratios within the 2026-08-12 snapshot, which holds about 87% of the 2022 electorate; never levels.",
         profile_mismatch = paste(
@@ -478,6 +590,10 @@ main <- function() {
       statewide_pooled_dem_rep_rho = round(rho_pooled, 6),
       statewide_all_rho = round(rho_state_all, 6),
       statewide_null_reg_year_registrants = null_reg_year,
+      shift_years = SHIFT_YEARS,
+      age_shift_map = shift_map() |> mutate(w = round(w, 6)),
+      shifted_2022_below_18_max_share = max(below18$share),
+      uniform_spread_2022_below_18_share_range = round(range(uniform_below18$share), 6),
       new_registrant_profile_fallbacks = profile |> filter(profile_source != "cell") |>
         distinct(county, party_group) |> mutate(cell = paste(county, party_group, sep = ":")) |> pull(cell),
       columns = list(

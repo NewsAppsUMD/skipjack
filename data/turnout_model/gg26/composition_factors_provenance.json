@@ -2,7 +2,7 @@
   "file": "data/turnout_model/gg26/composition_factors.csv",
   "description": "Composition change factors per county x party group (DEM, REP, OTH = ALL - DEM - REP), logit scale: comp = factor_age + factor_new, added by the forecast to each cell's linear predictor. R22 and R26 are the cell's expected 2022-midterm participation under its 2022 and 2026 age mix; s22, s26 the recent-registrant shares; rho the relative 2026-primary propensity of people registered since the 2024 general, rho_gen = sqrt(rho) its general-election version. county = Maryland rows are statewide per party from summed cell counts, for reporting only.",
   "generated_by": "scripts/turnout_model/03_compose.R",
-  "run_date": "2026-10-17T17:14:12-0400",
+  "run_date": "2026-10-17T17:17:21-0400",
   "sources": {
     "table": "skipjack.db voter_file_counts",
     "snapshot_date": "2026-08-12",
@@ -18,7 +18,9 @@
   },
   "source_ids": [],
   "checks_passed": [
-    "every county x age band has a 2022-GG rate (count 0 rates are 0)",
+    "every county x age-at-2022 band has a 2022-GG rate (count 0 rates are 0)",
+    "the age shift keeps every current band's mass",
+    "shifted 2022-GG eligible below age 18 is under 0.5% of each county's eligible",
     "statewide Unknown-age eligible is equal for 2022-GG and 2026-GP",
     "every cell x age band 18-24 to 75+ has a tilted rate",
     "party_by_county totals (active + inactive) are unsuppressed for every cell",
@@ -27,6 +29,7 @@
     "only Unknown-age bands of e26 are suppressed",
     "k_c(a) in (0, 1.05] for every band in use",
     "every band in use has a rate",
+    "factor_age is 0 (to 1e-9) when the 2026 mix equals the shifted 2022 mix",
     "registration_cohorts carries no NULL reg_year rows (the metric excludes them)",
     "registration_cohorts 2019-2026 counts are unsuppressed for DEM, REP and ALL",
     "shares for 72 cells",
@@ -44,13 +47,17 @@
   ],
   "notes": {
     "method": {
-      "factor_age": "r_cp(a) = r_c(a) * t_p(a), capped at 0.99; e22 = e26 * k_c(a); R = sum(e r) / sum(e); A = logit(R26) - logit(R22). Under 18 dropped, Unknown kept as its own band.",
+      "factor_age": "Age-at-election terms with one propensity schedule. Each current-age band's counts are spread uniformly over its single years (18-24: 7 years, 25-34 to 65-74: 10, 75+ treated as 75-94), shifted back 4 years (snapshot 2026-08-12 to the 2022 general on 2022-11-08 is 3.75 years; 4 is used) and re-binned into the standard bands by age on 2022 election day. r22_c(b) = shifted 2022-GG count / shifted eligible (turnout_by_age, county); t_p(b) the same ratio for the party over ALL from shifted turnout_by_age_party; r22_cp(b) = r22_c(b) * t_p(b), capped at 0.99. e22_cp(b) = shift(age_by_party_cp(a) * k_c(a)), with k_c(a) = 2022-GG eligible / 2026-GP eligible by county x current-age band: this keeps each party's own age profile, where splitting the county's shifted eligible by party would need a county party x age split the file does not give for 2022. e26_cp(b) = age_by_party in current bands (today's age is close to age on 2026-11-03). R22 = sum e22 r22 / sum e22, R26 = sum e26 r22 / sum e26, A = logit(R26) - logit(R22). Under 18 dropped; Unknown kept as its own band, unshifted. In-script sanity check: with e26 set to the shifted e22, A = 0 to 1e-9.",
+      "age_shift_18_24": "Deviation from a uniform spread: 2022-era quantities in the current 18-24 band (2022-GG count and eligible, and the 2022 mix age_by_party * k) are spread over current ages 22-24 only. Nobody younger than about 21.75 today was 18 by 2022-11-08, which 2022-GG eligibility requires, and k for 18-24 (about 0.40, near 3/7) agrees. A uniform 18-24 spread would place 4/7 of the band's 2022-GG eligible below age 18: 1.79% to 3.01% of a county's eligible, above the 0.5% tolerance. With the 22-24 spread the mass below 18 is zero by construction (checked under 0.5% per county).",
       "factor_new": "N = logit(R26 * (1 - (s26 - s22) * (1 - rho_gen))) - logit(R26), argument clamped to [1e-6, 1 - 1e-6].",
       "rho": "DEM and REP: observed 2026-GP rate of new_voters_voted over the age-expected rate, sum over bands of the cell's 2025-2026 new-registrant age profile times the cell's 2026-GP rate (county x age rate times the statewide 2026-GP party tilt): 18-22 -> 18-24, 23-29 -> 25-34, 30+ -> the cell's 35+ average weighted by its current registrants. OTH: statewide DEM/REP pooled rho (sum of observed over sum of expected counts across the 48 DEM/REP cells), since closed primaries make OTH primary rates meaningless. Fallbacks if a cell's count were suppressed: county ALL (untilted rates), then statewide ALL; rho_source records which was used.",
       "rho_gen": "rho_gen = sqrt(rho) is a judgment: primaries exaggerate the gap between new and established voters, so the general-election propensity of new registrants is taken halfway (on the log scale) between rho and 1. factor_new_no_penalty uses rho_gen = 1, factor_new_full_penalty rho_gen = rho.",
       "habit_mix": "No habit-mix factor: metric voter_types classifies each voter over the elections they were eligible for in this one snapshot, so there is no 2022-era counterpart to compare with. factor_new is the measurable part of the habit shift."
     },
     "limitations": {
+      "factor_age_survivors": "Known residual bias, not corrected: the 2022 mix is built from today's file, so people who died or moved since 2022 are missing from it. Deaths remove high-propensity elderly voters, which understates R22 (and pushes factor_age up); moves remove low-propensity young voters, which overstates R22 (and pushes factor_age down). The net sign is unknown. The file holds about 87% of the 2022 electorate, so the missing 13% is large next to the factor.",
+      "factor_new_sign": "s26 < s22 in every cell: the 2019-2022 cohort (with the 2020 registration surge) is a larger share of those registered by 2022 than the 2023-2026 cohort is of today's registrants, so factor_new is a small bonus, not a penalty, everywhere. The s22 move bias works against this, so the true bonus is larger.",
+      "rho_ages": "rho's age-expected rate uses 2026-GP rates by current age: the primary (2026-06-23) is seven weeks before the snapshot, so current age is age at that election. The new-registrant profile bands are age at registration in 2025-2026, at most about 1.6 years younger than current age.",
       "s22": "Recent cohorts lose more members to moves, so in today's file the 2019-2022 cohort is understated relative to its size in 2022: s22 is understated and factor_new is biased toward a larger penalty. A known limitation, not corrected.",
       "participation_among_current_voters": "All rates and shares are ratios within the 2026-08-12 snapshot, which holds about 87% of the 2022 electorate; never levels.",
       "profile_mismatch": "new_voters_voted counts everyone with a state registration date after 2024-11-05 (including 16-17 year-old preregistrants and November-December 2024 registrants), while the age profile comes from new_registrants, first-time registrants aged 18+ at registration in reg_year 2025-2026, whose bands are age at registration rather than age today. The profile is an approximation of the age mix of the rho population."
@@ -66,6 +73,81 @@
   "statewide_pooled_dem_rep_rho": 0.6031,
   "statewide_all_rho": 0.5183,
   "statewide_null_reg_year_registrants": 42,
+  "shift_years": 4,
+  "age_shift_map": [
+    {
+      "age_band": "18-24",
+      "band22": "18-24",
+      "w": 1
+    },
+    {
+      "age_band": "25-34",
+      "band22": "18-24",
+      "w": 0.4
+    },
+    {
+      "age_band": "25-34",
+      "band22": "25-34",
+      "w": 0.6
+    },
+    {
+      "age_band": "35-44",
+      "band22": "25-34",
+      "w": 0.4
+    },
+    {
+      "age_band": "35-44",
+      "band22": "35-44",
+      "w": 0.6
+    },
+    {
+      "age_band": "45-54",
+      "band22": "35-44",
+      "w": 0.4
+    },
+    {
+      "age_band": "45-54",
+      "band22": "45-54",
+      "w": 0.6
+    },
+    {
+      "age_band": "55-64",
+      "band22": "45-54",
+      "w": 0.4
+    },
+    {
+      "age_band": "55-64",
+      "band22": "55-64",
+      "w": 0.6
+    },
+    {
+      "age_band": "65-74",
+      "band22": "55-64",
+      "w": 0.4
+    },
+    {
+      "age_band": "65-74",
+      "band22": "65-74",
+      "w": 0.6
+    },
+    {
+      "age_band": "75+",
+      "band22": "65-74",
+      "w": 0.2
+    },
+    {
+      "age_band": "75+",
+      "band22": "75+",
+      "w": 0.8
+    },
+    {
+      "age_band": "Unknown",
+      "band22": "Unknown",
+      "w": 1
+    }
+  ],
+  "shifted_2022_below_18_max_share": 0,
+  "uniform_spread_2022_below_18_share_range": [0.0179, 0.0301],
   "new_registrant_profile_fallbacks": ["Caroline:DEM", "Dorchester:DEM", "Dorchester:REP", "Garrett:DEM", "Garrett:REP", "Kent:DEM", "Kent:REP", "Queen Anne's:DEM", "Queen Anne's:REP", "Somerset:DEM", "Somerset:REP", "Talbot:DEM", "Talbot:REP", "Worcester:DEM"],
   "columns": {
     "R22": "expected 2022-GG participation under the cell's 2022 age mix (ratio within the snapshot)",

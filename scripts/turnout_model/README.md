@@ -51,7 +51,8 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
   party cell, the logit-scale change `comp = factor_age + factor_new` that the forecast adds to
   the cell's linear predictor, from the 2026-08-12 voter-file aggregates (`voter_file_counts`,
   used only as ratios within the snapshot). `factor_age` compares the cell's expected 2022-midterm
-  participation under its 2026 and 2022 age mix; `factor_new` is the pull of recent registrants
+  participation under its 2026 and 2022 age mix, both by age on election day with one 2022
+  propensity schedule; `factor_new` is the pull of recent registrants
   beyond their age, with `rho_gen = sqrt(rho)` (a judgment; the no-penalty and full-penalty
   versions are sensitivity columns). `county = Maryland` rows are statewide, for reporting only.
   Deterministic.
