@@ -92,6 +92,7 @@ make serve       # http://127.0.0.1:8000
 | `make serve` | Run the site with auto-reload, with the Datasette explorer at `/explorer` |
 | `make site SITE_BASE=/skipjack` | Render the whole site as static files into `site/` |
 | `make test` | Run the tests |
+| `make turnout-model` | Run the R turnout forecast for the 2026 general and knit its report into `docs/` (see "Turnout model") |
 
 `make all` runs fetch, parse and build-db. Results are not part of the daily workflow: run
 `make results` once, and again when the board corrects a file. The 2026 general (GG26) is
@@ -207,6 +208,26 @@ make race VOTERFILE_DIR="/path/to/voter files" RACE_DIR="/path/outside/the/repo/
 saves the 2020 Census voting-age population by county to `archives/census/`, which the page uses to
 show how far the estimates sit from the Census.
 
+## Turnout model
+
+`scripts/turnout_model/` is an R model of turnout in the November 3, 2026 general election: ballots
+cast and turnout rates by county and party group (Democrats, Republicans, everyone else), summed to
+the state. It brackets 2026 between the 2022 and 2018 midterms and picks a central blend with a
+written rule fed by registration, mail-in requests and the primary. Polls are only a cross-check.
+
+```bash
+make build-db
+make turnout-model
+```
+
+`make turnout-model` runs the four scripts (about three minutes, most of it the model fit) and knits
+`scripts/turnout_model/report.Rmd`. It needs R 4.4 with the renv project in `scripts/turnout_model/`
+(`renv::restore()` there on a new machine) and pandoc; it uses RStudio's pandoc unless you pass
+`PANDOC_DIR=/dir/with/pandoc`. Inputs land in `data/turnout_model/inputs/` and the forecast in
+`data/turnout_model/gg26/`, each file with a provenance JSON. The report is
+`docs/turnout-model-2026.html`, with a short summary in `docs/turnout-model-2026.md`.
+`scripts/turnout_model/README.md` explains every file and the level rule.
+
 ## Publishing
 
 `.github/workflows/pages.yml` publishes the site on every push to `main`. It installs from the
@@ -234,6 +255,7 @@ src/skipjack/
   web/                FastAPI app, routes, templates, static files, static_site.py
 data/                 the committed CSV and JSON, with provenance files
 archives/             original PDFs and the download manifest
+scripts/turnout_model/ R turnout forecast for the 2026 general (renv project) and its report
 tests/                pytest suite; the voter file tests use made-up data
 .github/workflows/    GitHub Pages deploy; the daily turnout snapshot
 ```

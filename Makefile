@@ -1,4 +1,4 @@
-.PHONY: fetch parse turnout results voterfile race build-db site serve test clean
+.PHONY: fetch parse turnout results voterfile race build-db site serve test clean turnout-model
 
 fetch:
 	uv run skipjack fetch
@@ -31,6 +31,21 @@ race:
 
 build-db:
 	uv run skipjack build-db
+
+# GG26 turnout forecast in R, then its report (docs/turnout-model-2026.html and .md); run make build-db first.
+# Needs R with the renv project in scripts/turnout_model and pandoc (RStudio's, or PANDOC_DIR=/dir/with/pandoc).
+# Usage: make turnout-model
+PANDOC_DIR ?= /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64
+turnout-model:
+	@if [ ! -x "$(PANDOC_DIR)/pandoc" ] && ! command -v pandoc >/dev/null 2>&1; then \
+		echo "turnout-model: pandoc not found in PANDOC_DIR ($(PANDOC_DIR)) or on PATH; run make turnout-model PANDOC_DIR=/dir/with/pandoc" >&2; \
+		exit 1; \
+	fi
+	Rscript scripts/turnout_model/01_build_inputs.R
+	Rscript scripts/turnout_model/02_fit.R
+	Rscript scripts/turnout_model/03_compose.R
+	Rscript scripts/turnout_model/04_forecast.R
+	RSTUDIO_PANDOC="$(PANDOC_DIR)" Rscript -e 'source("scripts/turnout_model/R/bootstrap.R"); rmarkdown::render("scripts/turnout_model/report.Rmd", output_dir = "docs", output_file = "turnout-model-2026.html", envir = new.env())'
 
 # Usage: make site SITE_BASE=/skipjack   (leave SITE_BASE empty for a site served from the root)
 site:
