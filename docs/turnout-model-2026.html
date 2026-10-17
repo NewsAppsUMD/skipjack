@@ -155,14 +155,14 @@ inactive registrants) or citizen voting-age population (CVAP).
 <h2>The forecast in one table</h2>
 <p>The central forecast is 2,282,279 ballots cast, 53.1% of active
 registration. The range to quote runs from 2,053,581 to 2,546,114.</p>
-<table>
+<table style="width:100%;">
 <caption>Statewide ballots cast and turnout rates. Active = active
-registration; eligible = active plus inactive registrants; CVAP =
-citizen voting-age population (ACS).</caption>
+registration; eligible = active plus inactive registrants (projected for
+2026); CVAP = citizen voting-age population (ACS).</caption>
 <colgroup>
-<col width="34%" />
-<col width="8%" />
-<col width="27%" />
+<col width="32%" />
+<col width="11%" />
+<col width="26%" />
 <col width="9%" />
 <col width="10%" />
 <col width="9%" />
@@ -205,7 +205,7 @@ citizen voting-age population (ACS).</caption>
 <tr class="even">
 <td align="left">Headline range (low’s 5th to high’s 95th
 percentile)</td>
-<td align="right">2,282,279</td>
+<td align="right">central: 2,282,279</td>
 <td align="right">2,053,581 to 2,546,114 (across scenarios)</td>
 <td align="right">47.7% to 59.2%</td>
 <td align="right">44.2% to 54.8%</td>
@@ -242,6 +242,11 @@ registrants, from the board’s inactive counts. No inactive counts exist
 for 2018, so its rate on eligible is not available. CVAP comes from a
 single ACS vintage matched to 2026, so it is not used for the past
 elections.</p>
+<p>The 2026 rate on eligible is projected. There is no 2026 inactive
+count yet, so eligible is projected active registration times one plus
+the average of the 2022 and 2024 inactive-to-active ratios. The board’s
+own published 2026 percentage will use its actual eligible count and
+will differ.</p>
 </div>
 <div id="what-kind-of-model-this-is" class="section level2">
 <h2>What kind of model this is</h2>
@@ -300,9 +305,10 @@ attempt lists the terms at 0.
 </div>
 <div id="the-level-rule" class="section level2">
 <h2>The level rule</h2>
-<p>The rule puts Democrats and Republicans closer to 2022 than to 2018,
-and other voters closer to 2018. The weight w is the share of the
-central level taken from 2018. The votes that moved it:</p>
+<p>The rule puts Democrats closer to 2022 (w = 0.4), Republicans closer
+to 2022 (w = 0.4) and Other (unaffiliated and minor parties) closer to
+2018 (w = 0.6). The weight w is the share of the central level taken
+from 2018. The votes that moved it:</p>
 <ul>
 <li>Democrats: registration momentum (2022-like), so w = 0.4.</li>
 <li>Republicans: primary participation (2022-like), so w = 0.4.</li>
@@ -466,11 +472,13 @@ closed.</caption>
 </table>
 <p><strong>The mail vote depends on how the mail requests are
 projected.</strong> The rule extends a straight line through every daily
-snapshot to the October 27 request deadline. Holding the latest count,
-or extending only the last three snapshots, gives lower indices. Under
-either, the parties whose mail vote turns 2022-like are Republicans and
-Other (unaffiliated and minor parties), and their weights drop by
-0.1.</p>
+snapshot to the October 27 request deadline. Holding the latest count
+gives lower mail indices for every party. The mail vote changes for
+Republicans (0 to -1) and other voters (0 to -1), so w becomes DEM 0.4,
+REP 0.3 and OTH 0.5. Extending only the last three snapshots gives lower
+mail indices for every party. The mail vote changes for Republicans (0
+to -1) and other voters (0 to -1), so w becomes DEM 0.4, REP 0.3 and OTH
+0.5.</p>
 <table>
 <caption>Mail-projection sensitivity (level_rule.csv _latest and _recent
 columns).</caption>
@@ -571,11 +579,11 @@ columns).</caption>
 <caption>Statewide central forecast under each mail projection
 (forecast_statewide.csv).</caption>
 <colgroup>
-<col width="31%" />
-<col width="12%" />
-<col width="23%" />
-<col width="14%" />
-<col width="16%" />
+<col width="28%" />
+<col width="11%" />
+<col width="21%" />
+<col width="13%" />
+<col width="25%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -583,7 +591,7 @@ columns).</caption>
 <th align="right">Ballots cast</th>
 <th align="right">Difference from central</th>
 <th align="right">Rate on active</th>
-<th align="right">Rate on eligible</th>
+<th align="right">Rate on eligible (projected)</th>
 </tr>
 </thead>
 <tbody>
@@ -634,34 +642,35 @@ open seat.</strong> That depresses the primary index for reasons
 unrelated to November. The 2026 primary’s party split is also an
 estimate from the voter file.</li>
 <li><strong>Momentum outside the analogue range votes 0.</strong>
-Republican registration momentum sits at position 6.66, far outside the
-range between 2022 and 2018, so its sign is not interpretable and it
-casts no vote.</li>
+Registration momentum for Republicans (position 6.66) lies outside
+[-0.5, 1.5], beyond the range between 2022 and 2018, so the sign is not
+interpretable and it casts no vote.</li>
 </ul>
 </div>
 <div id="counties" class="section level2">
 <h2>Counties</h2>
 <p>Central turnout rates on active registration run from 42.0% in
 Baltimore City to 64.5% in Talbot. In 24 of 24 counties the central rate
-lies between the county’s 2022 and 2018 rates. Within-county intervals
-are wider than the statewide one, because cell noise does not average
-out.</p>
-<table style="width:100%;">
+lies between the county’s 2022 and 2018 rates. Relative to its forecast,
+the 90% interval is wider than the statewide one (3.6% of the forecast)
+in 24 of 24 counties, because cell noise averages out across the
+state.</p>
+<table>
 <caption>Central scenario by county, sorted by rate on active
 registration. Active = active registration; eligible = active plus
-inactive registrants. 2022 and 2018 rates are actual ballots cast over
-that election’s active registration, or for 2022 also over its active
-plus inactive registrants.</caption>
+inactive registrants, projected for 2026. 2022 and 2018 rates are actual
+ballots cast over that election’s active registration, or for 2022 also
+over its active plus inactive registrants.</caption>
 <colgroup>
-<col width="9%" />
-<col width="7%" />
-<col width="17%" />
 <col width="8%" />
-<col width="9%" />
+<col width="6%" />
+<col width="16%" />
+<col width="7%" />
+<col width="15%" />
 <col width="12%" />
+<col width="10%" />
 <col width="11%" />
-<col width="12%" />
-<col width="11%" />
+<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -669,7 +678,7 @@ plus inactive registrants.</caption>
 <th align="right">Ballots cast</th>
 <th align="right">90% interval (within-scenario)</th>
 <th align="right">Rate on active</th>
-<th align="right">Rate on eligible</th>
+<th align="right">Rate on eligible (projected)</th>
 <th align="right">Share of state ballots</th>
 <th align="right">2022 rate on active</th>
 <th align="right">2022 rate on eligible</th>
@@ -948,10 +957,11 @@ plus inactive registrants.</caption>
 <div id="who-votes-the-electorates-party-mix" class="section level2">
 <h2>Who votes: the electorate’s party mix</h2>
 <p>The forecast’s electorate is less Democratic than UMBC’s likely
-voters and more unaffiliated. In the central scenario, Democrats cast
-53.7% of ballots, against 60% in UMBC’s sample. Other voters rise to
-19.8% of ballots, from 16.0% in 2022, because their active registration
-has grown 20% since then.</p>
+voters, with a larger share of other voters. In the central scenario,
+Democrats cast 53.7% of ballots, against 60% in UMBC’s sample. Other
+voters cast 19.8% of ballots in the central scenario, up from 16.0% in
+2022. Their active registration has grown 20% since then, which drives
+the change.</p>
 <table>
 <caption>Share of ballots cast by party group. Forecast and actual
 shares use registered party; the poll’s shares are as its release
@@ -1154,8 +1164,8 @@ forecast, +1.3 points on the rate on active registration (54.4% against
 <div id="how-well-the-structure-predicts-a-held-out-midterm" class="section level2">
 <h2>How well the structure predicts a held-out midterm</h2>
 <p>Leaving out one midterm and predicting it from the other elections,
-the model beats a naive copy of the other midterm on most measures. Its
-county turnout rates on active registration miss by 2.2 points on
+the model beats a naive copy of the other midterm on 10 of 12 measures.
+Its county turnout rates on active registration miss by 2.2 points on
 average for 2022 and 2.2 for 2018. Both held-out tests calibrate
 statewide party totals to the actual result, so they test the county
 pattern, not the level.</p>
@@ -1354,8 +1364,9 @@ points. Both methods miss worst in Garrett.</li>
 </div>
 <div id="how-the-votes-will-be-cast" class="section level2">
 <h2>How the votes will be cast</h2>
-<p>Mail ballots should make up a smaller share of the vote than in 2022,
-about 24.7% against 26.7%. Election day stays the largest mode.</p>
+<p>Mail ballots make up a smaller share of the forecast vote than in
+2022, 24.7% against 26.7%. The largest mode is election day, at
+52.9%.</p>
 <table>
 <caption>Statewide ballots cast by mode, central scenario
 (mode_split.csv).</caption>

@@ -42,6 +42,9 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
   overwritten). It archives the ACS 5-year county pull to
   `archives/census/md_county_acs5_<vintage>.csv` once and reuses it; `REFRESH_ACS=1` pulls it
   again (needs `CENSUS_API_KEY` in `~/.Renviron`).
+  `indices.csv`'s raw `mail_sent_index` (sent to date over GG22's final count) and its county-level
+  `primary_index` are descriptive only. The level rule votes on the per-registrant indices in
+  `level_rule.csv`, whose mail index uses the projected GG26 final count.
 
 - `02_fit.R` fits the structure model (a binomial `lme4::glmer` of ballots over active
   registration, with a statewide level per election x party, county covariates, county random

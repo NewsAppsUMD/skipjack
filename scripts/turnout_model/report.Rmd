@@ -92,6 +92,8 @@ pct <- function(x, d = 1) ifelse(is.na(x), "", sprintf(paste0("%.", d, "f%%"), 1
 pts <- function(x, d = 1) sprintf(paste0("%+.", d, "f"), x)
 signed <- function(x) paste0(ifelse(x >= 0, "+", "-"), num(abs(x)))
 rng <- function(lo, hi, f = num) paste0(f(lo), " to ", f(hi))
+# "a", "a and b", "a, b and c"
+join <- function(x) if (length(x) <= 1) paste(x) else paste0(paste(head(x, -1), collapse = ", "), " and ", tail(x, 1))
 
 # One statewide value: scenario x measure x stat (mean, q05, q50, q95).
 sv <- function(scenario, measure, stat = "mean") {
@@ -100,6 +102,7 @@ sv <- function(scenario, measure, stat = "mean") {
   v
 }
 party_lab <- c(DEM = "Democrats", REP = "Republicans", OTH = "Other (unaffiliated and minor parties)")
+party_short <- c(DEM = "Democrats", REP = "Republicans", OTH = "other voters")
 fdate <- function(d, year = TRUE) { d <- as.Date(d); paste0(format(d, "%B "), as.integer(format(d, "%d")), if (year) format(d, ", %Y") else "") }
 mail_as_of <- unique(sw$gg26_mail_as_of)
 
@@ -128,6 +131,8 @@ citizen voting-age population (CVAP).</p>
 ```{r headline-numbers}
 c_b <- sv("central", "ballots"); lo_b <- sv("headline_range", "ballots", "q05")
 hi_b <- sv("headline_range", "ballots", "q95")
+# Invariant of the level rule: central's level lies between the 2022 and 2018 levels.
+stopifnot(sv("low", "ballots") <= c_b, c_b <= sv("high", "ballots"), lo_b <= c_b, c_b <= hi_b)
 ```
 
 The central forecast is `r num(c_b)` ballots cast, `r pct(sv("central", "rate_active"))` of active
@@ -145,7 +150,7 @@ rows <- lapply(names(scen), function(s) tibble(
   `Rate on CVAP` = pct(sv(s, "rate_cvap"))))
 hr <- tibble(
   Scenario = "Headline range (low's 5th to high's 95th percentile)",
-  `Ballots cast` = num(sv("headline_range", "ballots")),
+  `Ballots cast` = paste0("central: ", num(sv("headline_range", "ballots"))),
   `90% interval` = paste0(rng(lo_b, hi_b), " (across scenarios)"),
   `Rate on active` = rng(sv("headline_range", "rate_active", "q05"), sv("headline_range", "rate_active", "q95"), pct),
   `Rate on eligible` = rng(sv("headline_range", "rate_eligible", "q05"), sv("headline_range", "rate_eligible", "q95"), pct),
@@ -158,7 +163,7 @@ act <- lapply(c("GG22", "GG18"), function(e) tibble(
   `Rate on eligible` = if (e == "GG22") pct(gg22_rate_eligible) else "not available",
   `Rate on CVAP` = "not computed"))
 kable(bind_rows(rows, list(hr), act), align = c("l", "r", "r", "r", "r", "r"),
-      caption = "Statewide ballots cast and turnout rates. Active = active registration; eligible = active plus inactive registrants; CVAP = citizen voting-age population (ACS).")
+      caption = "Statewide ballots cast and turnout rates. Active = active registration; eligible = active plus inactive registrants (projected for 2026); CVAP = citizen voting-age population (ACS).")
 ```
 
 Low assumes each party votes at its 2022 statewide level, a quiet midterm. High assumes each party
@@ -170,6 +175,10 @@ high. That is why the headline range runs from low's 5th percentile to high's 95
 on eligible divides by that election's active plus inactive registrants, from the board's
 inactive counts. No inactive counts exist for 2018, so its rate on eligible is not available. CVAP
 comes from a single ACS vintage matched to 2026, so it is not used for the past elections.
+
+The 2026 rate on eligible is projected. There is no 2026 inactive count yet, so eligible is projected
+active registration times one plus the average of the 2022 and 2024 inactive-to-active ratios. The
+board's own published 2026 percentage will use its actual eligible count and will differ.
 
 ## What kind of model this is
 
@@ -214,18 +223,34 @@ moved <- vapply(c("DEM", "REP", "OTH"), function(pp) {
   paste0(party_lab[[pp]], ": ", paste0(vote_names[names(nz)], " (", ifelse(nz > 0, "2018-like", "2022-like"), ")",
                                          collapse = " and "), ", so w = ", r$w)
 }, character(1))
-stopifnot(w[["DEM"]] < 0.5, w[["REP"]] < 0.5, w[["OTH"]] > 0.5)
-# The mail-sensitivity sentence: which parties' mail vote turns 2022-like, and by how much w drops.
-flip <- lr$vote_mail_latest < lr$vote_mail
-stopifnot(any(flip), identical(flip, lr$vote_mail_recent < lr$vote_mail),
-          all(lr$w_latest == lr$w_recent), all(lr$w[!flip] == lr$w_latest[!flip]))
-w_drop_all <- round(lr$w[flip] - lr$w_latest[flip], 10)
-stopifnot(length(unique(w_drop_all)) == 1)
-w_drop <- unique(w_drop_all)
+# Invariant of the rule: every w is bounded to [0.2, 0.8].
+stopifnot(all(unlist(lr[c("w", "w_latest", "w_recent")]) >= 0.2 - 1e-9),
+          all(unlist(lr[c("w", "w_latest", "w_recent")]) <= 0.8 + 1e-9))
+vt <- function(x) ifelse(x > 0, paste0("+", x), as.character(x))
+lean <- function(x) ifelse(x < 0.5, "closer to 2022", ifelse(x > 0.5, "closer to 2018", "halfway between 2022 and 2018"))
+lean_txt <- join(paste0(party_lab[lr$party_group], " ", lean(lr$w), " (w = ", lr$w, ")"))
+
+# The mail-sensitivity paragraph, generated from level_rule.csv for each alternative projection.
+mail_methods <- c(`_latest` = "Holding the latest count", `_recent` = "Extending only the last three snapshots")
+mail_txt <- vapply(names(mail_methods), function(sfx) {
+  idx <- lr[[paste0("mail_index", sfx)]]
+  lower <- lr$party_group[idx < lr$mail_index]; higher <- lr$party_group[idx > lr$mail_index]
+  dir <- if (length(lower) == nrow(lr)) "lower mail indices for every party"
+         else if (length(higher) == nrow(lr)) "higher mail indices for every party"
+         else paste0(c(if (length(lower)) paste0("lower mail indices for ", join(party_short[lower])),
+                       if (length(higher)) paste0(if (length(lower)) "higher ones for " else "higher mail indices for ", join(party_short[higher]))), collapse = " and ")
+  if (dir == "") dir <- "the same mail indices"
+  v_new <- lr[[paste0("vote_mail", sfx)]]
+  ch <- which(v_new != lr$vote_mail)
+  votes <- if (length(ch) == 0) "No party's mail vote changes, so every w is unchanged" else
+    paste0("The mail vote changes for ", join(paste0(party_short[lr$party_group[ch]], " (", vt(lr$vote_mail[ch]), " to ", vt(v_new[ch]), ")")),
+           ", so w becomes ", join(paste0(lr$party_group, " ", lr[[paste0("w", sfx)]])))
+  paste0(mail_methods[[sfx]], " gives ", dir, ". ", votes, ".")
+}, character(1))
 ```
 
-The rule puts Democrats and Republicans closer to 2022 than to 2018, and other voters closer to
-2018. The weight w is the share of the central level taken from 2018. The votes that moved it:
+The rule puts `r lean_txt`. The weight w is the share of the central level taken from 2018. The
+votes that moved it:
 
 `r paste0("- ", moved, ".", collapse = "\n")`
 
@@ -242,8 +267,13 @@ cat("<pre class=\"rule\">", htmltools::htmlEscape(rule), "</pre>\n", sep = "")
 ```
 
 ```{r rule-table}
+# The momentum caveat, from level_rule.csv: which parties sit outside [-0.5, 1.5].
+out <- lr$party_group[lr$reg_position < -0.5 | lr$reg_position > 1.5]
+out_txt <- if (length(out) == 0) "No party's momentum position currently lies outside [-0.5, 1.5]." else
+  paste0("Registration momentum for ", join(paste0(party_short[out], " (position ", formatC(lr$reg_position[match(out, lr$party_group)], format = "f", digits = 2), ")")),
+         if (length(out) == 1) " lies" else " lie", " outside [-0.5, 1.5], beyond the range between 2022 and 2018, so the sign is not interpretable and ",
+         if (length(out) == 1) "it casts" else "they cast", " no vote.")
 fx <- function(x, d = 3) ifelse(is.na(x), "not used", formatC(x, format = "f", digits = d))
-vt <- function(x) ifelse(x > 0, paste0("+", x), as.character(x))
 lrw <- lr |> select(party_group, everything())
 row <- function(label, f) tibble(Quantity = label, !!!setNames(lapply(lrw$party_group, function(pp) f(lrw[lrw$party_group == pp, ])), lrw$party_group))
 lrtab <- bind_rows(
@@ -272,10 +302,8 @@ kable(lrtab, align = c("l", "r", "r", "r"),
 ```
 
 **The mail vote depends on how the mail requests are projected.** The rule extends a straight line
-through every daily snapshot to the October 27 request deadline. Holding the latest count, or
-extending only the last three snapshots, gives lower indices. Under either, the parties whose mail
-vote turns 2022-like are `r paste(party_lab[lr$party_group[lr$vote_mail_latest < lr$vote_mail]], collapse = " and ")`,
-and their weights drop by `r w_drop`.
+through every daily snapshot to the October 27 request deadline. `r mail_txt[["_latest"]]`
+`r mail_txt[["_recent"]]`
 
 ```{r mail-sens}
 mail_rows <- function(label, sfx) {
@@ -298,7 +326,7 @@ ms_sw <- tibble(
   mutate(`Ballots cast` = num(sv(key, "ballots")),
          `Difference from central` = if (key == "central") "" else signed(sv(key, "ballots_minus_central")),
          `Rate on active` = pct(sv(key, "rate_active")),
-         `Rate on eligible` = pct(sv(key, "rate_eligible"))) |>
+         `Rate on eligible (projected)` = pct(sv(key, "rate_eligible"))) |>
   ungroup() |> select(-key)
 kable(ms_sw, align = c("l", "r", "r", "r", "r"),
       caption = "Statewide central forecast under each mail projection (forecast_statewide.csv).")
@@ -313,9 +341,7 @@ Caveats on the rule:
 - **The 2026 primary had an incumbent governor; 2022's was an open seat.** That depresses the
   primary index for reasons unrelated to November. The 2026 primary's party split is also an
   estimate from the voter file.
-- **Momentum outside the analogue range votes 0.** Republican registration momentum sits at
-  position `r fx(lr$reg_position[lr$party_group == "REP"], 2)`, far outside the range between 2022
-  and 2018, so its sign is not interpretable and it casts no vote.
+- **Momentum outside the analogue range votes 0.** `r out_txt`
 
 ## Counties
 
@@ -330,22 +356,26 @@ stopifnot(nrow(cc) == 24, !anyNA(cc$r22), !anyNA(cc$r18), !anyNA(cc$r22e),
           abs(sum(cc$ballots_mean) - c_b) <= 24)
 top <- cc$county[1]; bot <- cc$county[24]
 n_between <- sum(cc$rate_active_mean >= pmin(cc$r22, cc$r18) & cc$rate_active_mean <= pmax(cc$r22, cc$r18))
+# Interval width relative to the forecast, county against statewide.
+sw_rel <- (sv("central", "ballots", "q95") - sv("central", "ballots", "q05")) / c_b
+n_wider <- sum((cc$ballots_q95 - cc$ballots_q05) / cc$ballots_mean > sw_rel)
 ```
 
 Central turnout rates on active registration run from `r pct(cc$rate_active_mean[24])` in
 `r bot` to `r pct(cc$rate_active_mean[1])` in `r top`. In `r n_between` of 24 counties the central
-rate lies between the county's 2022 and 2018 rates. Within-county intervals are wider than the
-statewide one, because cell noise does not average out.
+rate lies between the county's 2022 and 2018 rates. Relative to its forecast, the 90% interval is
+wider than the statewide one (`r pct(sw_rel)` of the forecast) in `r n_wider` of 24 counties, because
+cell noise averages out across the state.
 
 ```{r county-table}
 kable(cc |> transmute(County = county, `Ballots cast` = num(ballots_mean),
                       `90% interval (within-scenario)` = rng(ballots_q05, ballots_q95),
-                      `Rate on active` = pct(rate_active_mean), `Rate on eligible` = pct(rate_eligible_mean),
+                      `Rate on active` = pct(rate_active_mean), `Rate on eligible (projected)` = pct(rate_eligible_mean),
                       `Share of state ballots` = pct(share_of_state_mean),
                       `2022 rate on active` = pct(r22), `2022 rate on eligible` = pct(r22e),
                       `2018 rate on active` = pct(r18)),
       align = c("l", rep("r", 8)),
-      caption = "Central scenario by county, sorted by rate on active registration. Active = active registration; eligible = active plus inactive registrants. 2022 and 2018 rates are actual ballots cast over that election's active registration, or for 2022 also over its active plus inactive registrants.")
+      caption = "Central scenario by county, sorted by rate on active registration. Active = active registration; eligible = active plus inactive registrants, projected for 2026. 2022 and 2018 rates are actual ballots cast over that election's active registration, or for 2022 also over its active plus inactive registrants.")
 ```
 
 ```{r county-chart, fig.width = 8, fig.height = 7, fig.alt = "Dot-and-range chart of each county's central turnout rate on active registration, with its 90 percent within-scenario interval and the 2022 and 2018 actual rates marked."}
@@ -375,13 +405,19 @@ ggplot(cd, aes(y = county)) +
 um <- polls |> filter(!is.na(dem_share_lv))
 stopifnot(nrow(um) >= 1)
 oth_growth <- lr$active_2026[lr$party_group == "OTH"] / lr$active_gg22[lr$party_group == "OTH"] - 1
+cmp <- function(a, b, more, less) if (a > b) more else if (a < b) less else "the same"
+d_c <- sv("central", "share_DEM"); o_c <- sv("central", "share_OTH"); o_22 <- sv("actual_GG22", "share_OTH")
+mix_lead <- paste0("The forecast's electorate is ", cmp(d_c, um$dem_share_lv[1], "more Democratic", "less Democratic"),
+                   " than UMBC's likely voters, with ", cmp(o_c, um$una_share_lv[1], "a larger", "a smaller"),
+                   " share of other voters.")
+oth_txt <- paste0("Other voters cast ", pct(o_c), " of ballots in the central scenario, ",
+                  cmp(o_c, o_22, "up from ", "down from "), pct(o_22), " in 2022. Their active registration has ",
+                  if (oth_growth >= 0) "grown " else "shrunk ", pct(abs(oth_growth), 0), " since then",
+                  if (sign(o_c - o_22) == sign(oth_growth)) ", which drives the change." else ".")
 ```
 
-The forecast's electorate is less Democratic than UMBC's likely voters and more unaffiliated. In
-the central scenario, Democrats cast `r pct(sv("central", "share_DEM"))` of ballots, against
-`r pct(um$dem_share_lv[1], 0)` in UMBC's sample. Other voters rise to
-`r pct(sv("central", "share_OTH"))` of ballots, from `r pct(sv("actual_GG22", "share_OTH"))` in
-2022, because their active registration has grown `r pct(oth_growth, 0)` since then.
+`r mix_lead` In the central scenario, Democrats cast `r pct(d_c)` of ballots, against
+`r pct(um$dem_share_lv[1], 0)` in UMBC's sample. `r oth_txt`
 
 ```{r mix-table}
 mix_row <- function(label, s) tibble(Electorate = label, Democrats = pct(sv(s, "share_DEM")),
@@ -414,6 +450,11 @@ stopifnot(nrow(cc_cf) == 72, nrow(cm) == 3, all(cc_cf$comp > 0))  # the text say
 # 04_forecast.R in forecast_statewide_provenance.json (comp_weighted_mean_removed);
 # centred values below are comp minus that constant, computed here from the CSV and JSON.
 cmean <- unlist(p_sw$comp_weighted_mean_removed)
+# The share of the 2022 electorate missing from today's voter file, from 03_compose.R's provenance.
+surv <- p_cf$notes$limitations$factor_age_survivors
+held <- as.numeric(sub(".*holds about ([0-9]+)% of the 2022 electorate.*", "\\1", surv))
+stopifnot(!is.na(held), held > 50, held < 100)
+missing_pct <- 100 - held
 d_comp <- sv("central_comp_level", "ballots_minus_central")
 d_pts <- 100 * (sv("central_comp_level", "rate_active") - sv("central", "rate_active"))
 ```
@@ -444,7 +485,7 @@ kable(top5, align = c("l", "l", "r", "r", "r"),
 <p class="note">`r lrt$comp_note[1]`</p>
 
 The factors are centred within party for one reason. The 2022 age mix comes from today's voter
-file, which lacks the roughly 13% of the 2022 electorate who have since died or moved. That gap is
+file, which lacks the roughly `r missing_pct`% of the 2022 electorate who have since died or moved. That gap is
 as large as the factor itself, so its statewide level is not identified. Using the uncentred factor
 as a sensitivity adds `r signed(d_comp)` ballots to the central forecast, `r pts(d_pts)` points
 on the rate on active registration (`r pct(sv("central_comp_level", "rate_active"))` against
@@ -462,11 +503,12 @@ bce <- btc |> group_by(held_out, county) |>
   left_join(act_cty, by = c("held_out" = "election", "county" = "county")) |>
   mutate(err_model = 100 * (predicted - actual) / active, err_naive = 100 * (naive - actual) / active)
 stopifnot(!anyNA(bce$active), nrow(bce) == 48)
+n_beat <- sum(bt$model < bt$naive)
 mae <- function(h, g, m, col) bt[[col]][bt$held_out == h & bt$grain == g & bt$metric == m]
 ```
 
 Leaving out one midterm and predicting it from the other elections, the model beats a naive copy
-of the other midterm on most measures. Its county turnout rates on active registration miss by
+of the other midterm on `r n_beat` of `r nrow(bt)` measures. Its county turnout rates on active registration miss by
 `r sprintf("%.1f", mae("GG22", "county", "rate_mae_pts", "model"))` points on average for 2022 and
 `r sprintf("%.1f", mae("GG18", "county", "rate_mae_pts", "model"))` for 2018. Both held-out tests calibrate statewide party totals to the actual result, so they test
 the county pattern, not the level.
@@ -512,12 +554,20 @@ msw <- ms |> filter(county == STATE)
 mcty <- ms |> filter(county != STATE)
 stopifnot(nrow(mcty) == 24, sum(mcty$ballots_mean) == msw$ballots_mean,
           msw$mail + msw$early + msw$election_day + msw$provisional == msw$ballots_mean,
-          msw$share_mail < msw$gg22_share_mail, msw$share_election_day == max(unlist(msw[paste0("share_", c("mail", "early", "election_day", "provisional"))])),
-          length(unlist(p_ms$capped_counties)) == 0, !any(ms$mail_capped))  # claims in the text
+          msw$mail + msw$early + msw$election_day + msw$provisional == msw$ballots_mean)
+mode_lab <- c(mail = "mail-in", early = "early voting", election_day = "election day", provisional = "provisional")
+shares <- unlist(msw[paste0("share_", names(mode_lab))]); names(shares) <- names(mode_lab)
+biggest <- names(which.max(shares))
+capped <- mcty$county[mcty$mail_capped]
+mode_lead <- paste0("Mail ballots make up ", cmp(msw$share_mail, msw$gg22_share_mail, "a larger", "a smaller"),
+                    " share of the forecast vote than in 2022, ", pct(msw$share_mail), " against ",
+                    pct(msw$gg22_share_mail), ". The largest mode is ", mode_lab[[biggest]], ", at ",
+                    pct(shares[[biggest]]), ".")
+cap_txt <- if (length(capped) == 0) "No county hit the cap of 90% of its ballots by mail." else
+  paste0(join(capped), if (length(capped) == 1) " hit" else " hit", " the cap of 90% of ballots by mail.")
 ```
 
-Mail ballots should make up a smaller share of the vote than in 2022, about
-`r pct(msw$share_mail)` against `r pct(msw$gg22_share_mail)`. Election day stays the largest mode.
+`r mode_lead`
 
 ```{r mode-sw}
 modes <- c(mail = "Mail-in", early = "Early voting", election_day = "Election day", provisional = "Provisional")
@@ -535,8 +585,7 @@ rate of `r pct(msw$return_rate)`. The return rate is each county's average of th
 general elections (ballots received over ballots sent). The projection extends a straight line
 through the daily counts of ballots sent to the October 27 request deadline. It assumes no ballots
 are sent after that date. Provisional ballots keep their 2022 share of each county's vote, and the
-rest splits between early voting and election day in 2022's proportions. No county hit the cap of
-90% of its ballots by mail.
+rest splits between early voting and election day in 2022's proportions. `r cap_txt`
 
 ```{r mode-cty}
 kable(mcty |> transmute(County = county, `Ballots cast` = num(ballots_mean), `Mail-in` = num(mail),
@@ -606,7 +655,7 @@ s_line <- function(s, label) {
   paste0("- **", label, ":** ", num(sv(s, "ballots")), " ballots cast (within-scenario 90% interval ",
          rng(sv(s, "ballots", "q05"), sv(s, "ballots", "q95")), "); ",
          pct(sv(s, "rate_active")), " of active registration, ", pct(sv(s, "rate_eligible")),
-         " of eligible registration (active plus inactive).")
+         " of eligible registration (active plus inactive, projected).")
 }
 cty_line <- function(d) paste0(d$county, " ", pct(d$rate_active_mean), collapse = "; ")
 md <- c(
