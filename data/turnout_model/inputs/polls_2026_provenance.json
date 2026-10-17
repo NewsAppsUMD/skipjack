@@ -1,0 +1,12 @@
+{
+  "file": "data/turnout_model/inputs/polls_2026.csv",
+  "description": "Public 2026 Maryland general election polls, used only as a cross-check on the forecast.",
+  "generated_by": "scripts/turnout_model/01_build_inputs.R",
+  "run_date": "2026-10-17T16:32:52-0400",
+  "sources": {
+    "polls": "hand-maintained; rows are added by hand from published poll releases, one row per poll, with source_url"
+  },
+  "source_ids": [],
+  "checks_passed": [],
+  "notes": "Created header-only by 01_build_inputs.R; the script never overwrites an existing file, so hand-entered rows are kept."
+}

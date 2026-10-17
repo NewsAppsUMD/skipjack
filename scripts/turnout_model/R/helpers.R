@@ -1,0 +1,108 @@
+# Shared helpers for the turnout-model scripts (scripts/turnout_model/0*.R).
+#
+# Every script is run from the repo root and starts by activating the renv project in
+# scripts/turnout_model (RENV_PROJECT plus renv/activate.R) and then sourcing this file. Helpers here: the database
+# connection, the 24 canonical county names, party grouping, Census county name
+# normalization, and the provenance writer used for every file the scripts write.
+
+suppressPackageStartupMessages({
+  library(DBI)
+  library(RSQLite)
+  library(dplyr)
+  library(tidyr)
+  library(readr)
+  library(jsonlite)
+})
+
+DB_PATH <- "skipjack.db"
+INPUTS_DIR <- "data/turnout_model/inputs"
+
+CANONICAL_COUNTIES <- c(
+  "Allegany", "Anne Arundel", "Baltimore City", "Baltimore County", "Calvert", "Caroline",
+  "Carroll", "Cecil", "Charles", "Dorchester", "Frederick", "Garrett", "Harford", "Howard",
+  "Kent", "Montgomery", "Prince George's", "Queen Anne's", "Somerset", "St. Mary's", "Talbot",
+  "Washington", "Wicomico", "Worcester"
+)
+
+PARTY_GROUPS <- c("DEM", "REP", "OTH")
+
+# Open a read-only connection to skipjack.db; the caller disconnects.
+db_connect <- function(path = DB_PATH) {
+  if (!file.exists(path)) stop("missing ", path, "; build it with `make build-db`")
+  DBI::dbConnect(RSQLite::SQLite(), path, flags = RSQLite::SQLITE_RO)
+}
+
+# Run a query and return a tibble.
+db_query <- function(con, sql, params = NULL) {
+  out <- if (is.null(params)) DBI::dbGetQuery(con, sql) else DBI::dbGetQuery(con, sql, params = params)
+  tibble::as_tibble(out)
+}
+
+# DEM and REP keep their own group; every other party code (UNA, UNAF, GRN, LIB, WCP, BAR,
+# NLM, OTH) is OTH, matching the board's mail-in files. "ALL" is not a party and is refused.
+party_group <- function(party) {
+  if (any(party == "ALL" | is.na(party))) stop("party_group() got ALL or NA party codes")
+  dplyr::case_when(party == "DEM" ~ "DEM", party == "REP" ~ "REP", TRUE ~ "OTH")
+}
+
+# Stop unless the set of `counties` is exactly the 24 canonical names.
+check_counties <- function(counties, what) {
+  bad <- setdiff(unique(counties), CANONICAL_COUNTIES)
+  missing <- setdiff(CANONICAL_COUNTIES, counties)
+  if (length(bad) || length(missing)) {
+    stop(what, ": non-canonical counties [", paste(bad, collapse = ", "),
+         "], missing [", paste(missing, collapse = ", "), "]")
+  }
+  invisible(TRUE)
+}
+
+# Census NAME ("Baltimore city, Maryland", "St. Mary's County, Maryland") to canonical name.
+normalize_census_county <- function(name) {
+  x <- sub(",\\s*Maryland$", "", name)
+  x <- dplyr::case_when(
+    x == "Baltimore city" ~ "Baltimore City",
+    x == "Baltimore County" ~ "Baltimore County",
+    TRUE ~ sub(" County$", "", x)
+  )
+  bad <- name[!x %in% CANONICAL_COUNTIES]
+  if (length(bad)) stop("Census county names that do not map: ", paste(bad, collapse = "; "))
+  x
+}
+
+# Stop with a message when a check fails; return the check's name so it can be logged.
+check <- function(ok, name, detail = NULL) {
+  if (!isTRUE(all(ok))) stop("check failed: ", name, if (!is.null(detail)) paste0(" -- ", detail))
+  name
+}
+
+# Write a tidy CSV deterministically (rows already arranged by the caller).
+write_input_csv <- function(df, path) {
+  dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
+  readr::write_csv(df, path, na = "")
+  invisible(path)
+}
+
+# Write <csv minus .csv>_provenance.json next to a written file. `sources` lists tables and
+# queries, `source_ids` the skipjack source ids, `checks` the names of the checks that passed.
+write_provenance <- function(path, description, sources, source_ids = character(), checks = character(),
+                             notes = NULL, extra = list()) {
+  prov <- c(
+    list(
+      file = path,
+      description = description,
+      generated_by = "scripts/turnout_model/01_build_inputs.R",
+      run_date = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
+      sources = sources,
+      source_ids = sort(unique(source_ids)),
+      checks_passed = as.list(checks)
+    ),
+    if (!is.null(notes)) list(notes = notes),
+    extra
+  )
+  out <- sub("\\.csv$", "_provenance.json", path)
+  writeLines(jsonlite::toJSON(prov, auto_unbox = TRUE, pretty = TRUE, null = "null"), out)
+  invisible(out)
+}
+
+# Collect the source_id values of the rows a query touched (a vector, deduplicated).
+ids_of <- function(...) sort(unique(unlist(lapply(list(...), function(d) d$source_id))))

@@ -1,0 +1,23 @@
+{
+  "file": "data/turnout_model/inputs/denominators_gg26.csv",
+  "description": "Projected GG26 active registration (the election-day 'eligible' measure) and active + inactive by county x party group, with county CVAP.",
+  "generated_by": "scripts/turnout_model/01_build_inputs.R",
+  "run_date": "2026-10-17T16:33:16-0400",
+  "sources": {
+    "active_2026_09": "voter_registration: report_date 2026-09, active_voters grouped to DEM/REP/OTH",
+    "eligible_ratio_2018": "turnout_counts official-turnout GG18 eligible (as_of 2018-11-06) / voter_registration 2018-09 active, per county x party group",
+    "eligible_ratio_2022": "turnout_counts official-turnout GG22 eligible (as_of 2022-12-08) / voter_registration 2022-09 active, per county x party group",
+    "active": "round(active_2026_09 x eligible_ratio_mean), eligible_ratio_mean = unweighted mean of the 2018 and 2022 ratios",
+    "eligible": "round(active x (1 + inactive_ratio_mean)), inactive_ratio_mean from inactive_ratio.csv",
+    "cvap": "covariates.csv (ACS 5-year 2024, B29001_001)"
+  },
+  "source_ids": ["sbe-turnout-gg18-official-turnout-county-20181106-b26ea81ae057", "sbe-turnout-gg22-eligible-active-county-20221022-a180084116dd", "sbe-turnout-gg22-eligible-inactive-county-20221022-d0f9ffdefac3", "sbe-turnout-gg22-official-turnout-county-20221208-725250fe1235", "sbe-turnout-pg24-eligible-active-county-unknown-35ac172c8254", "sbe-turnout-pg24-eligible-inactive-county-unknown-3198e7d89c9f", "sbe-vrar-2018-09", "sbe-vrar-2022-09", "sbe-vrar-2026-09"],
+  "checks_passed": [
+    "statewide GG18 eligible / 2018-09 active = 0.9946",
+    "statewide GG22 eligible / 2022-09 active = 0.9910",
+    "24 counties x 3 party groups, no missing values",
+    "county x party eligible / September active ratios between 0.5 and 1.5",
+    "2026-09 active registration sums to 4,333,854"
+  ],
+  "notes": "CVAP is county-level only; it is repeated on each party row and must not be summed across party rows."
+}

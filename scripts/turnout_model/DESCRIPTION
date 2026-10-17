@@ -1,0 +1,16 @@
+Type: project
+Title: Maryland 2026 general election turnout model
+Description: Inputs, model fit, and forecast of Maryland's November 3, 2026
+    general election turnout by county and party group.
+Depends: R (>= 4.4)
+Imports:
+    DBI,
+    RSQLite,
+    dplyr,
+    tidyr,
+    readr,
+    jsonlite,
+    lme4,
+    tidycensus,
+    rmarkdown,
+    ggplot2

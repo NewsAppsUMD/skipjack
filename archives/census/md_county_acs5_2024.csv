@@ -1,0 +1,601 @@
+GEOID,NAME,variable,estimate,moe
+24001,"Allegany County, Maryland",B01001_001,67452,
+24001,"Allegany County, Maryland",B01001_020,836,167
+24001,"Allegany County, Maryland",B01001_021,912,142
+24001,"Allegany County, Maryland",B01001_022,2069,182
+24001,"Allegany County, Maryland",B01001_023,1154,161
+24001,"Allegany County, Maryland",B01001_024,817,146
+24001,"Allegany County, Maryland",B01001_025,704,158
+24001,"Allegany County, Maryland",B01001_044,766,161
+24001,"Allegany County, Maryland",B01001_045,925,148
+24001,"Allegany County, Maryland",B01001_046,2415,186
+24001,"Allegany County, Maryland",B01001_047,1273,140
+24001,"Allegany County, Maryland",B01001_048,1140,193
+24001,"Allegany County, Maryland",B01001_049,1251,177
+24001,"Allegany County, Maryland",B01002_001,41.2,0.4
+24001,"Allegany County, Maryland",B07003_001,66851,148
+24001,"Allegany County, Maryland",B07003_004,59653,731
+24001,"Allegany County, Maryland",B15003_001,47738,189
+24001,"Allegany County, Maryland",B15003_022,5613,439
+24001,"Allegany County, Maryland",B15003_023,3486,334
+24001,"Allegany County, Maryland",B15003_024,561,117
+24001,"Allegany County, Maryland",B15003_025,407,102
+24001,"Allegany County, Maryland",B19013_001,59603,2750
+24001,"Allegany County, Maryland",B25003_001,27382,459
+24001,"Allegany County, Maryland",B25003_002,19363,567
+24001,"Allegany County, Maryland",B29001_001,54807,139
+24003,"Anne Arundel County, Maryland",B01001_001,598166,
+24003,"Anne Arundel County, Maryland",B01001_020,5640,546
+24003,"Anne Arundel County, Maryland",B01001_021,8299,640
+24003,"Anne Arundel County, Maryland",B01001_022,12208,636
+24003,"Anne Arundel County, Maryland",B01001_023,7569,512
+24003,"Anne Arundel County, Maryland",B01001_024,5108,524
+24003,"Anne Arundel County, Maryland",B01001_025,3816,400
+24003,"Anne Arundel County, Maryland",B01001_044,7053,537
+24003,"Anne Arundel County, Maryland",B01001_045,9263,578
+24003,"Anne Arundel County, Maryland",B01001_046,13490,653
+24003,"Anne Arundel County, Maryland",B01001_047,9512,556
+24003,"Anne Arundel County, Maryland",B01001_048,6634,529
+24003,"Anne Arundel County, Maryland",B01001_049,6294,550
+24003,"Anne Arundel County, Maryland",B01002_001,39,0.3
+24003,"Anne Arundel County, Maryland",B07003_001,591807,613
+24003,"Anne Arundel County, Maryland",B07003_004,523851,3771
+24003,"Anne Arundel County, Maryland",B15003_001,414741,75
+24003,"Anne Arundel County, Maryland",B15003_022,104297,2407
+24003,"Anne Arundel County, Maryland",B15003_023,64802,2399
+24003,"Anne Arundel County, Maryland",B15003_024,11770,1054
+24003,"Anne Arundel County, Maryland",B15003_025,8921,834
+24003,"Anne Arundel County, Maryland",B19013_001,124911,1826
+24003,"Anne Arundel County, Maryland",B25003_001,224748,982
+24003,"Anne Arundel County, Maryland",B25003_002,168852,1914
+24003,"Anne Arundel County, Maryland",B29001_001,441088,1610
+24005,"Baltimore County, Maryland",B01001_001,850796,
+24005,"Baltimore County, Maryland",B01001_020,8778,661
+24005,"Baltimore County, Maryland",B01001_021,13129,781
+24005,"Baltimore County, Maryland",B01001_022,18567,827
+24005,"Baltimore County, Maryland",B01001_023,11540,612
+24005,"Baltimore County, Maryland",B01001_024,7150,508
+24005,"Baltimore County, Maryland",B01001_025,6786,654
+24005,"Baltimore County, Maryland",B01001_044,10125,695
+24005,"Baltimore County, Maryland",B01001_045,16014,800
+24005,"Baltimore County, Maryland",B01001_046,22859,777
+24005,"Baltimore County, Maryland",B01001_047,15777,772
+24005,"Baltimore County, Maryland",B01001_048,10899,595
+24005,"Baltimore County, Maryland",B01001_049,12745,811
+24005,"Baltimore County, Maryland",B01002_001,39.7,0.2
+24005,"Baltimore County, Maryland",B07003_001,841773,895
+24005,"Baltimore County, Maryland",B07003_004,751217,3927
+24005,"Baltimore County, Maryland",B15003_001,589409,26
+24005,"Baltimore County, Maryland",B15003_022,137060,3087
+24005,"Baltimore County, Maryland",B15003_023,80542,2260
+24005,"Baltimore County, Maryland",B15003_024,19703,1304
+24005,"Baltimore County, Maryland",B15003_025,12138,995
+24005,"Baltimore County, Maryland",B19013_001,91768,1446
+24005,"Baltimore County, Maryland",B25003_001,332801,1226
+24005,"Baltimore County, Maryland",B25003_002,220908,2453
+24005,"Baltimore County, Maryland",B29001_001,626289,2287
+24009,"Calvert County, Maryland",B01001_001,94313,
+24009,"Calvert County, Maryland",B01001_020,1255,221
+24009,"Calvert County, Maryland",B01001_021,1420,224
+24009,"Calvert County, Maryland",B01001_022,1634,235
+24009,"Calvert County, Maryland",B01001_023,1377,200
+24009,"Calvert County, Maryland",B01001_024,674,158
+24009,"Calvert County, Maryland",B01001_025,650,208
+24009,"Calvert County, Maryland",B01001_044,1072,214
+24009,"Calvert County, Maryland",B01001_045,1494,277
+24009,"Calvert County, Maryland",B01001_046,2244,234
+24009,"Calvert County, Maryland",B01001_047,1835,201
+24009,"Calvert County, Maryland",B01001_048,760,165
+24009,"Calvert County, Maryland",B01001_049,987,208
+24009,"Calvert County, Maryland",B01002_001,40.8,0.4
+24009,"Calvert County, Maryland",B07003_001,93588,154
+24009,"Calvert County, Maryland",B07003_004,84211,1148
+24009,"Calvert County, Maryland",B15003_001,65208,149
+24009,"Calvert County, Maryland",B15003_022,13292,925
+24009,"Calvert County, Maryland",B15003_023,8634,662
+24009,"Calvert County, Maryland",B15003_024,1100,298
+24009,"Calvert County, Maryland",B15003_025,1113,276
+24009,"Calvert County, Maryland",B19013_001,133922,4535
+24009,"Calvert County, Maryland",B25003_001,33465,496
+24009,"Calvert County, Maryland",B25003_002,29183,567
+24009,"Calvert County, Maryland",B29001_001,71585,287
+24011,"Caroline County, Maryland",B01001_001,33669,
+24011,"Caroline County, Maryland",B01001_020,344,105
+24011,"Caroline County, Maryland",B01001_021,527,132
+24011,"Caroline County, Maryland",B01001_022,822,150
+24011,"Caroline County, Maryland",B01001_023,499,107
+24011,"Caroline County, Maryland",B01001_024,276,73
+24011,"Caroline County, Maryland",B01001_025,210,81
+24011,"Caroline County, Maryland",B01001_044,337,93
+24011,"Caroline County, Maryland",B01001_045,527,94
+24011,"Caroline County, Maryland",B01001_046,909,120
+24011,"Caroline County, Maryland",B01001_047,579,133
+24011,"Caroline County, Maryland",B01001_048,258,93
+24011,"Caroline County, Maryland",B01001_049,543,139
+24011,"Caroline County, Maryland",B01002_001,39.9,0.6
+24011,"Caroline County, Maryland",B07003_001,33185,150
+24011,"Caroline County, Maryland",B07003_004,30147,575
+24011,"Caroline County, Maryland",B15003_001,23007,116
+24011,"Caroline County, Maryland",B15003_022,2190,289
+24011,"Caroline County, Maryland",B15003_023,1217,214
+24011,"Caroline County, Maryland",B15003_024,198,70
+24011,"Caroline County, Maryland",B15003_025,128,64
+24011,"Caroline County, Maryland",B19013_001,68457,3798
+24011,"Caroline County, Maryland",B25003_001,12495,251
+24011,"Caroline County, Maryland",B25003_002,8978,352
+24011,"Caroline County, Maryland",B29001_001,24344,195
+24013,"Carroll County, Maryland",B01001_001,175321,
+24013,"Carroll County, Maryland",B01001_020,1831,281
+24013,"Carroll County, Maryland",B01001_021,3022,273
+24013,"Carroll County, Maryland",B01001_022,3850,313
+24013,"Carroll County, Maryland",B01001_023,2434,224
+24013,"Carroll County, Maryland",B01001_024,1550,189
+24013,"Carroll County, Maryland",B01001_025,1547,258
+24013,"Carroll County, Maryland",B01001_044,2371,249
+24013,"Carroll County, Maryland",B01001_045,2979,375
+24013,"Carroll County, Maryland",B01001_046,4161,326
+24013,"Carroll County, Maryland",B01001_047,3208,319
+24013,"Carroll County, Maryland",B01001_048,2172,256
+24013,"Carroll County, Maryland",B01001_049,2328,314
+24013,"Carroll County, Maryland",B01002_001,41.3,0.3
+24013,"Carroll County, Maryland",B07003_001,173474,291
+24013,"Carroll County, Maryland",B07003_004,161815,1286
+24013,"Carroll County, Maryland",B15003_001,122327,147
+24013,"Carroll County, Maryland",B15003_022,30527,1267
+24013,"Carroll County, Maryland",B15003_023,15237,757
+24013,"Carroll County, Maryland",B15003_024,1803,367
+24013,"Carroll County, Maryland",B15003_025,2203,424
+24013,"Carroll County, Maryland",B19013_001,118211,3883
+24013,"Carroll County, Maryland",B25003_001,64285,428
+24013,"Carroll County, Maryland",B25003_002,54223,836
+24013,"Carroll County, Maryland",B29001_001,132978,495
+24015,"Cecil County, Maryland",B01001_001,104960,
+24015,"Cecil County, Maryland",B01001_020,1369,286
+24015,"Cecil County, Maryland",B01001_021,1826,239
+24015,"Cecil County, Maryland",B01001_022,2169,225
+24015,"Cecil County, Maryland",B01001_023,1472,197
+24015,"Cecil County, Maryland",B01001_024,966,193
+24015,"Cecil County, Maryland",B01001_025,603,138
+24015,"Cecil County, Maryland",B01001_044,1526,322
+24015,"Cecil County, Maryland",B01001_045,1873,248
+24015,"Cecil County, Maryland",B01001_046,2412,337
+24015,"Cecil County, Maryland",B01001_047,1772,252
+24015,"Cecil County, Maryland",B01001_048,855,214
+24015,"Cecil County, Maryland",B01001_049,1082,181
+24015,"Cecil County, Maryland",B01002_001,40.6,0.4
+24015,"Cecil County, Maryland",B07003_001,104119,223
+24015,"Cecil County, Maryland",B07003_004,95700,982
+24015,"Cecil County, Maryland",B15003_001,73333,199
+24015,"Cecil County, Maryland",B15003_022,12316,864
+24015,"Cecil County, Maryland",B15003_023,6448,687
+24015,"Cecil County, Maryland",B15003_024,852,205
+24015,"Cecil County, Maryland",B15003_025,901,216
+24015,"Cecil County, Maryland",B19013_001,92007,3833
+24015,"Cecil County, Maryland",B25003_001,40595,513
+24015,"Cecil County, Maryland",B25003_002,30557,847
+24015,"Cecil County, Maryland",B29001_001,80095,434
+24017,"Charles County, Maryland",B01001_001,170527,
+24017,"Charles County, Maryland",B01001_020,1683,265
+24017,"Charles County, Maryland",B01001_021,2038,286
+24017,"Charles County, Maryland",B01001_022,2801,317
+24017,"Charles County, Maryland",B01001_023,1950,233
+24017,"Charles County, Maryland",B01001_024,889,162
+24017,"Charles County, Maryland",B01001_025,765,193
+24017,"Charles County, Maryland",B01001_044,1921,244
+24017,"Charles County, Maryland",B01001_045,2442,362
+24017,"Charles County, Maryland",B01001_046,3580,426
+24017,"Charles County, Maryland",B01001_047,2247,278
+24017,"Charles County, Maryland",B01001_048,1475,248
+24017,"Charles County, Maryland",B01001_049,1559,252
+24017,"Charles County, Maryland",B01002_001,38.9,0.3
+24017,"Charles County, Maryland",B07003_001,168264,575
+24017,"Charles County, Maryland",B07003_004,149736,1930
+24017,"Charles County, Maryland",B15003_001,115693,203
+24017,"Charles County, Maryland",B15003_022,21533,1166
+24017,"Charles County, Maryland",B15003_023,14674,972
+24017,"Charles County, Maryland",B15003_024,1227,274
+24017,"Charles County, Maryland",B15003_025,1286,326
+24017,"Charles County, Maryland",B19013_001,122816,3121
+24017,"Charles County, Maryland",B25003_001,60875,526
+24017,"Charles County, Maryland",B25003_002,49958,916
+24017,"Charles County, Maryland",B29001_001,124907,714
+24019,"Dorchester County, Maryland",B01001_001,32754,
+24019,"Dorchester County, Maryland",B01001_020,410,100
+24019,"Dorchester County, Maryland",B01001_021,513,147
+24019,"Dorchester County, Maryland",B01001_022,1108,160
+24019,"Dorchester County, Maryland",B01001_023,712,117
+24019,"Dorchester County, Maryland",B01001_024,382,100
+24019,"Dorchester County, Maryland",B01001_025,241,90
+24019,"Dorchester County, Maryland",B01001_044,410,100
+24019,"Dorchester County, Maryland",B01001_045,812,147
+24019,"Dorchester County, Maryland",B01001_046,1180,164
+24019,"Dorchester County, Maryland",B01001_047,808,125
+24019,"Dorchester County, Maryland",B01001_048,623,143
+24019,"Dorchester County, Maryland",B01001_049,339,102
+24019,"Dorchester County, Maryland",B01002_001,43.5,0.5
+24019,"Dorchester County, Maryland",B07003_001,32324,150
+24019,"Dorchester County, Maryland",B07003_004,29373,664
+24019,"Dorchester County, Maryland",B15003_001,23451,136
+24019,"Dorchester County, Maryland",B15003_022,2809,310
+24019,"Dorchester County, Maryland",B15003_023,1314,199
+24019,"Dorchester County, Maryland",B15003_024,227,87
+24019,"Dorchester County, Maryland",B15003_025,189,85
+24019,"Dorchester County, Maryland",B19013_001,61839,4414
+24019,"Dorchester County, Maryland",B25003_001,13546,385
+24019,"Dorchester County, Maryland",B25003_002,8882,364
+24019,"Dorchester County, Maryland",B29001_001,25104,227
+24021,"Frederick County, Maryland",B01001_001,287048,
+24021,"Frederick County, Maryland",B01001_020,3138,327
+24021,"Frederick County, Maryland",B01001_021,3984,387
+24021,"Frederick County, Maryland",B01001_022,5344,369
+24021,"Frederick County, Maryland",B01001_023,3371,286
+24021,"Frederick County, Maryland",B01001_024,1864,245
+24021,"Frederick County, Maryland",B01001_025,2052,295
+24021,"Frederick County, Maryland",B01001_044,3727,345
+24021,"Frederick County, Maryland",B01001_045,4533,437
+24021,"Frederick County, Maryland",B01001_046,5341,378
+24021,"Frederick County, Maryland",B01001_047,4586,340
+24021,"Frederick County, Maryland",B01001_048,2953,312
+24021,"Frederick County, Maryland",B01001_049,2989,348
+24021,"Frederick County, Maryland",B01002_001,39,0.2
+24021,"Frederick County, Maryland",B07003_001,284353,378
+24021,"Frederick County, Maryland",B07003_004,254197,2205
+24021,"Frederick County, Maryland",B15003_001,196490,39
+24021,"Frederick County, Maryland",B15003_022,49644,1704
+24021,"Frederick County, Maryland",B15003_023,30663,1319
+24021,"Frederick County, Maryland",B15003_024,4189,434
+24021,"Frederick County, Maryland",B15003_025,5467,539
+24021,"Frederick County, Maryland",B19013_001,122002,2489
+24021,"Frederick County, Maryland",B25003_001,104635,535
+24021,"Frederick County, Maryland",B25003_002,80595,971
+24021,"Frederick County, Maryland",B29001_001,205424,1074
+24023,"Garrett County, Maryland",B01001_001,28615,
+24023,"Garrett County, Maryland",B01001_020,412,95
+24023,"Garrett County, Maryland",B01001_021,580,111
+24023,"Garrett County, Maryland",B01001_022,973,134
+24023,"Garrett County, Maryland",B01001_023,706,134
+24023,"Garrett County, Maryland",B01001_024,352,112
+24023,"Garrett County, Maryland",B01001_025,278,91
+24023,"Garrett County, Maryland",B01001_044,425,108
+24023,"Garrett County, Maryland",B01001_045,622,141
+24023,"Garrett County, Maryland",B01001_046,977,143
+24023,"Garrett County, Maryland",B01001_047,716,103
+24023,"Garrett County, Maryland",B01001_048,306,79
+24023,"Garrett County, Maryland",B01001_049,578,111
+24023,"Garrett County, Maryland",B01002_001,48.3,0.3
+24023,"Garrett County, Maryland",B07003_001,28391,84
+24023,"Garrett County, Maryland",B07003_004,26045,453
+24023,"Garrett County, Maryland",B15003_001,21509,55
+24023,"Garrett County, Maryland",B15003_022,2916,311
+24023,"Garrett County, Maryland",B15003_023,1845,257
+24023,"Garrett County, Maryland",B15003_024,332,134
+24023,"Garrett County, Maryland",B15003_025,480,190
+24023,"Garrett County, Maryland",B19013_001,67688,3685
+24023,"Garrett County, Maryland",B25003_001,12578,360
+24023,"Garrett County, Maryland",B25003_002,10027,368
+24023,"Garrett County, Maryland",B29001_001,23362,66
+24025,"Harford County, Maryland",B01001_001,263757,
+24025,"Harford County, Maryland",B01001_020,3285,353
+24025,"Harford County, Maryland",B01001_021,4277,437
+24025,"Harford County, Maryland",B01001_022,5483,515
+24025,"Harford County, Maryland",B01001_023,3777,334
+24025,"Harford County, Maryland",B01001_024,2061,268
+24025,"Harford County, Maryland",B01001_025,1658,265
+24025,"Harford County, Maryland",B01001_044,3495,392
+24025,"Harford County, Maryland",B01001_045,4983,462
+24025,"Harford County, Maryland",B01001_046,6130,440
+24025,"Harford County, Maryland",B01001_047,4994,372
+24025,"Harford County, Maryland",B01001_048,3053,315
+24025,"Harford County, Maryland",B01001_049,2820,397
+24025,"Harford County, Maryland",B01002_001,40.5,0.2
+24025,"Harford County, Maryland",B07003_001,261320,334
+24025,"Harford County, Maryland",B07003_004,238069,2054
+24025,"Harford County, Maryland",B15003_001,185051,59
+24025,"Harford County, Maryland",B15003_022,43143,1624
+24025,"Harford County, Maryland",B15003_023,24966,1161
+24025,"Harford County, Maryland",B15003_024,3388,492
+24025,"Harford County, Maryland",B15003_025,3140,444
+24025,"Harford County, Maryland",B19013_001,112265,2167
+24025,"Harford County, Maryland",B25003_001,101795,570
+24025,"Harford County, Maryland",B25003_002,81092,1182
+24025,"Harford County, Maryland",B29001_001,200158,712
+24027,"Howard County, Maryland",B01001_001,336328,
+24027,"Howard County, Maryland",B01001_020,3612,452
+24027,"Howard County, Maryland",B01001_021,4484,385
+24027,"Howard County, Maryland",B01001_022,6009,443
+24027,"Howard County, Maryland",B01001_023,4357,407
+24027,"Howard County, Maryland",B01001_024,2627,317
+24027,"Howard County, Maryland",B01001_025,2045,299
+24027,"Howard County, Maryland",B01001_044,3742,520
+24027,"Howard County, Maryland",B01001_045,5064,451
+24027,"Howard County, Maryland",B01001_046,7106,443
+24027,"Howard County, Maryland",B01001_047,5725,499
+24027,"Howard County, Maryland",B01001_048,3003,376
+24027,"Howard County, Maryland",B01001_049,3501,495
+24027,"Howard County, Maryland",B01002_001,39.8,0.3
+24027,"Howard County, Maryland",B07003_001,332800,508
+24027,"Howard County, Maryland",B07003_004,293485,2444
+24027,"Howard County, Maryland",B15003_001,229908,79
+24027,"Howard County, Maryland",B15003_022,69723,2072
+24027,"Howard County, Maryland",B15003_023,53519,2104
+24027,"Howard County, Maryland",B15003_024,11772,992
+24027,"Howard County, Maryland",B15003_025,13180,1031
+24027,"Howard County, Maryland",B19013_001,149763,3158
+24027,"Howard County, Maryland",B25003_001,121065,625
+24027,"Howard County, Maryland",B25003_002,86533,1272
+24027,"Howard County, Maryland",B29001_001,232909,1885
+24029,"Kent County, Maryland",B01001_001,19346,
+24029,"Kent County, Maryland",B01001_020,207,87
+24029,"Kent County, Maryland",B01001_021,525,120
+24029,"Kent County, Maryland",B01001_022,578,128
+24029,"Kent County, Maryland",B01001_023,587,91
+24029,"Kent County, Maryland",B01001_024,291,97
+24029,"Kent County, Maryland",B01001_025,185,84
+24029,"Kent County, Maryland",B01001_044,476,106
+24029,"Kent County, Maryland",B01001_045,459,123
+24029,"Kent County, Maryland",B01001_046,691,127
+24029,"Kent County, Maryland",B01001_047,569,133
+24029,"Kent County, Maryland",B01001_048,335,92
+24029,"Kent County, Maryland",B01001_049,402,104
+24029,"Kent County, Maryland",B01002_001,48.6,0.9
+24029,"Kent County, Maryland",B07003_001,19134,124
+24029,"Kent County, Maryland",B07003_004,16355,398
+24029,"Kent County, Maryland",B15003_001,13984,160
+24029,"Kent County, Maryland",B15003_022,2998,345
+24029,"Kent County, Maryland",B15003_023,1712,272
+24029,"Kent County, Maryland",B15003_024,405,127
+24029,"Kent County, Maryland",B15003_025,420,166
+24029,"Kent County, Maryland",B19013_001,80147,6687
+24029,"Kent County, Maryland",B25003_001,8493,262
+24029,"Kent County, Maryland",B25003_002,6161,330
+24029,"Kent County, Maryland",B29001_001,16118,112
+24031,"Montgomery County, Maryland",B01001_001,1065949,
+24031,"Montgomery County, Maryland",B01001_020,11495,723
+24031,"Montgomery County, Maryland",B01001_021,15368,792
+24031,"Montgomery County, Maryland",B01001_022,21001,781
+24031,"Montgomery County, Maryland",B01001_023,14960,636
+24031,"Montgomery County, Maryland",B01001_024,9012,575
+24031,"Montgomery County, Maryland",B01001_025,8260,607
+24031,"Montgomery County, Maryland",B01001_044,13694,814
+24031,"Montgomery County, Maryland",B01001_045,17750,741
+24031,"Montgomery County, Maryland",B01001_046,23843,875
+24031,"Montgomery County, Maryland",B01001_047,18324,817
+24031,"Montgomery County, Maryland",B01001_048,12553,884
+24031,"Montgomery County, Maryland",B01001_049,14879,832
+24031,"Montgomery County, Maryland",B01002_001,40.2,0.2
+24031,"Montgomery County, Maryland",B07003_001,1053869,843
+24031,"Montgomery County, Maryland",B07003_004,928566,4303
+24031,"Montgomery County, Maryland",B15003_001,740021,110
+24031,"Montgomery County, Maryland",B15003_022,201332,3264
+24031,"Montgomery County, Maryland",B15003_023,150445,2604
+24031,"Montgomery County, Maryland",B15003_024,47936,1708
+24031,"Montgomery County, Maryland",B15003_025,48830,1965
+24031,"Montgomery County, Maryland",B19013_001,132450,2073
+24031,"Montgomery County, Maryland",B25003_001,389210,1485
+24031,"Montgomery County, Maryland",B25003_002,254139,2460
+24031,"Montgomery County, Maryland",B29001_001,691365,3315
+24033,"Prince George's County, Maryland",B01001_001,959754,
+24033,"Prince George's County, Maryland",B01001_020,9756,827
+24033,"Prince George's County, Maryland",B01001_021,12061,892
+24033,"Prince George's County, Maryland",B01001_022,17272,855
+24033,"Prince George's County, Maryland",B01001_023,9688,521
+24033,"Prince George's County, Maryland",B01001_024,6374,480
+24033,"Prince George's County, Maryland",B01001_025,4626,434
+24033,"Prince George's County, Maryland",B01001_044,11529,867
+24033,"Prince George's County, Maryland",B01001_045,16476,914
+24033,"Prince George's County, Maryland",B01001_046,22415,907
+24033,"Prince George's County, Maryland",B01001_047,13793,674
+24033,"Prince George's County, Maryland",B01001_048,9011,639
+24033,"Prince George's County, Maryland",B01001_049,10115,764
+24033,"Prince George's County, Maryland",B01002_001,38.5,0.2
+24033,"Prince George's County, Maryland",B07003_001,949261,826
+24033,"Prince George's County, Maryland",B07003_004,838893,4756
+24033,"Prince George's County, Maryland",B15003_001,660235,86
+24033,"Prince George's County, Maryland",B15003_022,133932,3012
+24033,"Prince George's County, Maryland",B15003_023,80981,2817
+24033,"Prince George's County, Maryland",B15003_024,13081,1059
+24033,"Prince George's County, Maryland",B15003_025,14190,952
+24033,"Prince George's County, Maryland",B19013_001,101798,1449
+24033,"Prince George's County, Maryland",B25003_001,347744,1303
+24033,"Prince George's County, Maryland",B25003_002,216692,2479
+24033,"Prince George's County, Maryland",B29001_001,626956,2740
+24035,"Queen Anne's County, Maryland",B01001_001,51825,
+24035,"Queen Anne's County, Maryland",B01001_020,848,194
+24035,"Queen Anne's County, Maryland",B01001_021,987,161
+24035,"Queen Anne's County, Maryland",B01001_022,1244,207
+24035,"Queen Anne's County, Maryland",B01001_023,1062,183
+24035,"Queen Anne's County, Maryland",B01001_024,624,170
+24035,"Queen Anne's County, Maryland",B01001_025,299,98
+24035,"Queen Anne's County, Maryland",B01001_044,532,134
+24035,"Queen Anne's County, Maryland",B01001_045,1050,183
+24035,"Queen Anne's County, Maryland",B01001_046,1650,188
+24035,"Queen Anne's County, Maryland",B01001_047,1197,231
+24035,"Queen Anne's County, Maryland",B01001_048,624,136
+24035,"Queen Anne's County, Maryland",B01001_049,603,197
+24035,"Queen Anne's County, Maryland",B01002_001,44.7,0.3
+24035,"Queen Anne's County, Maryland",B07003_001,51392,124
+24035,"Queen Anne's County, Maryland",B07003_004,46663,703
+24035,"Queen Anne's County, Maryland",B15003_001,37411,179
+24035,"Queen Anne's County, Maryland",B15003_022,8565,629
+24035,"Queen Anne's County, Maryland",B15003_023,4185,418
+24035,"Queen Anne's County, Maryland",B15003_024,874,233
+24035,"Queen Anne's County, Maryland",B15003_025,583,157
+24035,"Queen Anne's County, Maryland",B19013_001,112826,6672
+24035,"Queen Anne's County, Maryland",B25003_001,19907,317
+24035,"Queen Anne's County, Maryland",B25003_002,16505,386
+24035,"Queen Anne's County, Maryland",B29001_001,39755,240
+24037,"St. Mary's County, Maryland",B01001_001,115126,
+24037,"St. Mary's County, Maryland",B01001_020,985,247
+24037,"St. Mary's County, Maryland",B01001_021,1378,240
+24037,"St. Mary's County, Maryland",B01001_022,2381,270
+24037,"St. Mary's County, Maryland",B01001_023,1494,274
+24037,"St. Mary's County, Maryland",B01001_024,827,227
+24037,"St. Mary's County, Maryland",B01001_025,597,174
+24037,"St. Mary's County, Maryland",B01001_044,1529,345
+24037,"St. Mary's County, Maryland",B01001_045,1432,276
+24037,"St. Mary's County, Maryland",B01001_046,2021,289
+24037,"St. Mary's County, Maryland",B01001_047,1552,238
+24037,"St. Mary's County, Maryland",B01001_048,839,163
+24037,"St. Mary's County, Maryland",B01001_049,1109,261
+24037,"St. Mary's County, Maryland",B01002_001,37.2,0.4
+24037,"St. Mary's County, Maryland",B07003_001,113921,242
+24037,"St. Mary's County, Maryland",B07003_004,99768,1505
+24037,"St. Mary's County, Maryland",B15003_001,77645,123
+24037,"St. Mary's County, Maryland",B15003_022,15750,909
+24037,"St. Mary's County, Maryland",B15003_023,10686,900
+24037,"St. Mary's County, Maryland",B15003_024,985,223
+24037,"St. Mary's County, Maryland",B15003_025,895,246
+24037,"St. Mary's County, Maryland",B19013_001,119446,4480
+24037,"St. Mary's County, Maryland",B25003_001,42436,536
+24037,"St. Mary's County, Maryland",B25003_002,31049,815
+24037,"St. Mary's County, Maryland",B29001_001,85757,417
+24039,"Somerset County, Maryland",B01001_001,24822,
+24039,"Somerset County, Maryland",B01001_020,267,109
+24039,"Somerset County, Maryland",B01001_021,512,135
+24039,"Somerset County, Maryland",B01001_022,553,122
+24039,"Somerset County, Maryland",B01001_023,384,80
+24039,"Somerset County, Maryland",B01001_024,167,77
+24039,"Somerset County, Maryland",B01001_025,158,79
+24039,"Somerset County, Maryland",B01001_044,185,89
+24039,"Somerset County, Maryland",B01001_045,466,112
+24039,"Somerset County, Maryland",B01001_046,726,124
+24039,"Somerset County, Maryland",B01001_047,349,104
+24039,"Somerset County, Maryland",B01001_048,352,118
+24039,"Somerset County, Maryland",B01001_049,300,98
+24039,"Somerset County, Maryland",B01002_001,38.1,0.7
+24039,"Somerset County, Maryland",B07003_001,24643,109
+24039,"Somerset County, Maryland",B07003_004,21760,431
+24039,"Somerset County, Maryland",B15003_001,17423,329
+24039,"Somerset County, Maryland",B15003_022,2062,340
+24039,"Somerset County, Maryland",B15003_023,984,241
+24039,"Somerset County, Maryland",B15003_024,149,71
+24039,"Somerset County, Maryland",B15003_025,184,109
+24039,"Somerset County, Maryland",B19013_001,64943,8347
+24039,"Somerset County, Maryland",B25003_001,8348,337
+24039,"Somerset County, Maryland",B25003_002,6104,371
+24039,"Somerset County, Maryland",B29001_001,19720,467
+24041,"Talbot County, Maryland",B01001_001,37917,
+24041,"Talbot County, Maryland",B01001_020,531,157
+24041,"Talbot County, Maryland",B01001_021,670,132
+24041,"Talbot County, Maryland",B01001_022,1383,192
+24041,"Talbot County, Maryland",B01001_023,1121,176
+24041,"Talbot County, Maryland",B01001_024,592,145
+24041,"Talbot County, Maryland",B01001_025,671,146
+24041,"Talbot County, Maryland",B01001_044,520,117
+24041,"Talbot County, Maryland",B01001_045,1005,187
+24041,"Talbot County, Maryland",B01001_046,1699,185
+24041,"Talbot County, Maryland",B01001_047,946,190
+24041,"Talbot County, Maryland",B01001_048,832,150
+24041,"Talbot County, Maryland",B01001_049,1240,235
+24041,"Talbot County, Maryland",B01002_001,51.2,0.5
+24041,"Talbot County, Maryland",B07003_001,37537,116
+24041,"Talbot County, Maryland",B07003_004,33434,763
+24041,"Talbot County, Maryland",B15003_001,28694,149
+24041,"Talbot County, Maryland",B15003_022,6966,468
+24041,"Talbot County, Maryland",B15003_023,3082,409
+24041,"Talbot County, Maryland",B15003_024,1354,242
+24041,"Talbot County, Maryland",B15003_025,650,219
+24041,"Talbot County, Maryland",B19013_001,84811,6636
+24041,"Talbot County, Maryland",B25003_001,16433,328
+24041,"Talbot County, Maryland",B25003_002,12337,467
+24041,"Talbot County, Maryland",B29001_001,29436,363
+24043,"Washington County, Maryland",B01001_001,155709,
+24043,"Washington County, Maryland",B01001_020,2179,297
+24043,"Washington County, Maryland",B01001_021,2434,269
+24043,"Washington County, Maryland",B01001_022,3348,288
+24043,"Washington County, Maryland",B01001_023,2084,219
+24043,"Washington County, Maryland",B01001_024,1530,241
+24043,"Washington County, Maryland",B01001_025,1177,180
+24043,"Washington County, Maryland",B01001_044,2039,285
+24043,"Washington County, Maryland",B01001_045,2349,332
+24043,"Washington County, Maryland",B01001_046,3980,334
+24043,"Washington County, Maryland",B01001_047,3074,315
+24043,"Washington County, Maryland",B01001_048,1795,255
+24043,"Washington County, Maryland",B01001_049,2164,274
+24043,"Washington County, Maryland",B01002_001,40.7,0.4
+24043,"Washington County, Maryland",B07003_001,153971,308
+24043,"Washington County, Maryland",B07003_004,135907,1983
+24043,"Washington County, Maryland",B15003_001,109209,98
+24043,"Washington County, Maryland",B15003_022,15518,885
+24043,"Washington County, Maryland",B15003_023,8831,756
+24043,"Washington County, Maryland",B15003_024,1145,248
+24043,"Washington County, Maryland",B15003_025,871,288
+24043,"Washington County, Maryland",B19013_001,77747,1758
+24043,"Washington County, Maryland",B25003_001,59818,617
+24043,"Washington County, Maryland",B25003_002,39936,887
+24043,"Washington County, Maryland",B29001_001,117173,637
+24045,"Wicomico County, Maryland",B01001_001,104914,
+24045,"Wicomico County, Maryland",B01001_020,1051,319
+24045,"Wicomico County, Maryland",B01001_021,1817,262
+24045,"Wicomico County, Maryland",B01001_022,2026,288
+24045,"Wicomico County, Maryland",B01001_023,1268,156
+24045,"Wicomico County, Maryland",B01001_024,778,146
+24045,"Wicomico County, Maryland",B01001_025,699,154
+24045,"Wicomico County, Maryland",B01001_044,1202,268
+24045,"Wicomico County, Maryland",B01001_045,1796,249
+24045,"Wicomico County, Maryland",B01001_046,2773,302
+24045,"Wicomico County, Maryland",B01001_047,1725,270
+24045,"Wicomico County, Maryland",B01001_048,1256,206
+24045,"Wicomico County, Maryland",B01001_049,1057,247
+24045,"Wicomico County, Maryland",B01002_001,36.2,0.3
+24045,"Wicomico County, Maryland",B07003_001,103975,233
+24045,"Wicomico County, Maryland",B07003_004,87628,1552
+24045,"Wicomico County, Maryland",B15003_001,66496,132
+24045,"Wicomico County, Maryland",B15003_022,11835,942
+24045,"Wicomico County, Maryland",B15003_023,5476,562
+24045,"Wicomico County, Maryland",B15003_024,1197,296
+24045,"Wicomico County, Maryland",B15003_025,1098,283
+24045,"Wicomico County, Maryland",B19013_001,76210,3602
+24045,"Wicomico County, Maryland",B25003_001,40470,582
+24045,"Wicomico County, Maryland",B25003_002,25203,693
+24045,"Wicomico County, Maryland",B29001_001,76902,732
+24047,"Worcester County, Maryland",B01001_001,53700,
+24047,"Worcester County, Maryland",B01001_020,873,257
+24047,"Worcester County, Maryland",B01001_021,1541,267
+24047,"Worcester County, Maryland",B01001_022,1649,217
+24047,"Worcester County, Maryland",B01001_023,1351,166
+24047,"Worcester County, Maryland",B01001_024,845,259
+24047,"Worcester County, Maryland",B01001_025,792,201
+24047,"Worcester County, Maryland",B01001_044,1030,196
+24047,"Worcester County, Maryland",B01001_045,1504,232
+24047,"Worcester County, Maryland",B01001_046,2062,244
+24047,"Worcester County, Maryland",B01001_047,1558,221
+24047,"Worcester County, Maryland",B01001_048,1034,183
+24047,"Worcester County, Maryland",B01001_049,1132,188
+24047,"Worcester County, Maryland",B01002_001,50.7,0.3
+24047,"Worcester County, Maryland",B07003_001,53134,135
+24047,"Worcester County, Maryland",B07003_004,47496,863
+24047,"Worcester County, Maryland",B15003_001,40803,192
+24047,"Worcester County, Maryland",B15003_022,8734,657
+24047,"Worcester County, Maryland",B15003_023,4295,481
+24047,"Worcester County, Maryland",B15003_024,697,170
+24047,"Worcester County, Maryland",B15003_025,667,168
+24047,"Worcester County, Maryland",B19013_001,81745,4130
+24047,"Worcester County, Maryland",B25003_001,24136,541
+24047,"Worcester County, Maryland",B25003_002,18817,563
+24047,"Worcester County, Maryland",B29001_001,43334,285
+24510,"Baltimore city, Maryland",B01001_001,573243,
+24510,"Baltimore city, Maryland",B01001_020,5587,632
+24510,"Baltimore city, Maryland",B01001_021,7468,613
+24510,"Baltimore city, Maryland",B01001_022,10142,603
+24510,"Baltimore city, Maryland",B01001_023,6416,438
+24510,"Baltimore city, Maryland",B01001_024,3339,427
+24510,"Baltimore city, Maryland",B01001_025,2794,385
+24510,"Baltimore city, Maryland",B01001_044,6992,544
+24510,"Baltimore city, Maryland",B01001_045,10007,657
+24510,"Baltimore city, Maryland",B01001_046,14024,712
+24510,"Baltimore city, Maryland",B01001_047,9118,516
+24510,"Baltimore city, Maryland",B01001_048,5357,441
+24510,"Baltimore city, Maryland",B01001_049,6358,468
+24510,"Baltimore city, Maryland",B01002_001,36.2,0.1
+24510,"Baltimore city, Maryland",B07003_001,566115,760
+24510,"Baltimore city, Maryland",B07003_004,489643,3892
+24510,"Baltimore city, Maryland",B15003_001,401549,100
+24510,"Baltimore city, Maryland",B15003_022,72493,2089
+24510,"Baltimore city, Maryland",B15003_023,49686,1661
+24510,"Baltimore city, Maryland",B15003_024,12421,912
+24510,"Baltimore city, Maryland",B15003_025,10511,876
+24510,"Baltimore city, Maryland",B19013_001,62177,1378
+24510,"Baltimore city, Maryland",B25003_001,255668,1367
+24510,"Baltimore city, Maryland",B25003_002,121471,2110
+24510,"Baltimore city, Maryland",B29001_001,428736,1617

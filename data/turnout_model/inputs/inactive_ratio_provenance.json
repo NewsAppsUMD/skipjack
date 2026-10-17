@@ -1,0 +1,22 @@
+{
+  "file": "data/turnout_model/inputs/inactive_ratio.csv",
+  "description": "Inactive / active registration by county x party group for GG22 and PG24, and their mean.",
+  "generated_by": "scripts/turnout_model/01_build_inputs.R",
+  "run_date": "2026-10-17T16:33:14-0400",
+  "sources": {
+    "inactive": "turnout_counts: family 'eligible-inactive', geography 'county', category 'ALL', measure inactive; GG22 as_of 2022-10-22, PG24 as_of 2024-10-20",
+    "active": "turnout_counts: family 'eligible-active', geography 'county', category 'ALL', measure active; GG22 as_of 2022-10-22, PG24 as_of 2024-10-20"
+  },
+  "source_ids": ["sbe-turnout-gg22-eligible-active-county-20221022-a180084116dd", "sbe-turnout-gg22-eligible-inactive-county-20221022-d0f9ffdefac3", "sbe-turnout-pg24-eligible-active-county-unknown-35ac172c8254", "sbe-turnout-pg24-eligible-inactive-county-unknown-3198e7d89c9f"],
+  "checks_passed": [
+    "GG22 inactive party rows sum to the ALL row per county",
+    "GG22 active party rows sum to the ALL row per county",
+    "GG22 eligible-active statewide equals official-turnout eligible",
+    "PG24 inactive party rows sum to the ALL row per county",
+    "PG24 active party rows sum to the ALL row per county",
+    "PG24 eligible-active statewide equals official-turnout eligible",
+    "24 counties x 3 party groups, no missing values",
+    "inactive ratios between 0 and 1"
+  ],
+  "notes": "inactive_ratio_mean is the unweighted mean of the GG22 and PG24 ratios."
+}

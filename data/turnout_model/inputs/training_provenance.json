@@ -1,0 +1,85 @@
+{
+  "file": "data/turnout_model/inputs/training.csv",
+  "description": "Ballots cast and active registration by election x county x party group (DEM, REP, OTH = all other parties and unaffiliated).",
+  "generated_by": "scripts/turnout_model/01_build_inputs.R",
+  "run_date": "2026-10-17T16:33:14-0400",
+  "sources": {
+    "certified": "turnout_counts: family 'official-turnout', geography 'county', category 'ALL', latest as_of per election (GG18 2018-11-06, GG22 2022-12-08, GP22 2022-08-18, PP24 2024-06-07, PG24 2024-12-11); ballots_cast = election-day + early-voting + vote-by-mail + provisional; active = the 'eligible' measure",
+    "gp26_totals": "turnout_counts: family 'county-canvass', election GP26, geography 'county', party ALL, measure total, as_of 2026-07-23",
+    "gp26_party_split": "voter_file_counts: snapshot 2026-08-12, metric turnout_by_election, election 2026-GP, county x party_group count; OTH = ALL - DEM - REP",
+    "gp26_active": "voter_registration: report_date 2026-05, active_voters grouped to DEM/REP/OTH"
+  },
+  "source_ids": ["sbe-turnout-gg18-official-turnout-county-20181106-b26ea81ae057", "sbe-turnout-gg22-official-turnout-county-20221208-725250fe1235", "sbe-turnout-gp22-official-turnout-county-20220818-ff18068ccc30", "sbe-turnout-gp26-county-canvass-county-20260723-7433fa9a60d2", "sbe-turnout-pg24-official-turnout-county-20241211-e6c41136c326", "sbe-turnout-pp24-official-turnout-county-20240607-6c0f63563941", "sbe-vrar-2026-05"],
+  "checks_passed": [
+    "GG18 official-turnout has the four modes and eligible",
+    "GG18 no missing values",
+    "GG22 official-turnout has the four modes and eligible",
+    "GG22 no missing values",
+    "GP22 official-turnout has the four modes and eligible",
+    "GP22 no missing values",
+    "PP24 official-turnout has the four modes and eligible",
+    "PP24 no missing values",
+    "PG24 official-turnout has the four modes and eligible",
+    "PG24 no missing values",
+    "one ALL row per election x county x measure",
+    "party groups sum to the ALL row per county and measure, except the board's 5 printed discrepancies",
+    "GG18 counties sum to statewide ballots cast 2,335,128",
+    "GG22 counties sum to statewide ballots cast 2,031,635",
+    "PG24 counties sum to statewide ballots cast 3,045,855",
+    "GP22 counties sum to statewide ballots cast 1,033,903",
+    "PP24 counties sum to statewide ballots cast 1,016,857",
+    "GG18 party-group ballots sum to the statewide figure",
+    "GG22 party-group ballots sum to the statewide figure",
+    "PG24 party-group ballots sum to the statewide figure",
+    "GP22 party-group ballots sum to the statewide figure",
+    "PP24 party-group ballots sum to the statewide figure plus the board's printed discrepancy of +5",
+    "GP26 canvass has 24 complete county rows",
+    "GP26 canvass modes sum to the county total",
+    "voter file 2026-GP ALL, DEM and REP counts present for all 24 counties",
+    "voter file 2026-GP OTH (ALL - DEM - REP) is non-negative",
+    "GP26 party-group ballots sum to the county canvass total",
+    "GP26 counties sum to the canvass statewide total 902,818",
+    "GP26 active registration (2026-05) present for every row",
+    "every election has 24 counties x 3 party groups",
+    "no duplicate rows",
+    "ballots cast do not exceed active registration outside closed-primary OTH rows"
+  ],
+  "notes": ["GP26 party-group ballots are an estimate (party_split_estimated = TRUE): each county's canvass total is split by the shares of 2026-GP voters by party group among voters still on the 2026-08-12 voter file, rounded by largest remainder so the parts sum to the county total. GP26 mode columns are blank because the split is not available by mode.", "closed_primary_party marks OTH rows in primaries: unaffiliated voters cannot vote in Maryland's partisan primaries, so their ballots (nonpartisan contests only) are tiny.", "The board's own official-turnout sheets print five cells whose ALL row differs from the sum of the party rows (GP22 Montgomery eligible -5; PP24 vote-by-mail in Carroll +1, Montgomery +1, Prince George's +2, Washington +1). Party-group rows are summed from the party rows, so PP24 party-group ballots total 1,016,862 against the printed 1,016,857, and GP22 Montgomery active sums to 670,467 against 670,472."],
+  "known_party_sum_discrepancies": [
+    {
+      "election": "GP22",
+      "county": "Montgomery",
+      "measure": "eligible",
+      "all_value": 670472,
+      "party_sum": 670467
+    },
+    {
+      "election": "PP24",
+      "county": "Carroll",
+      "measure": "vote-by-mail",
+      "all_value": 10311,
+      "party_sum": 10312
+    },
+    {
+      "election": "PP24",
+      "county": "Montgomery",
+      "measure": "vote-by-mail",
+      "all_value": 80536,
+      "party_sum": 80537
+    },
+    {
+      "election": "PP24",
+      "county": "Prince George's",
+      "measure": "vote-by-mail",
+      "all_value": 54004,
+      "party_sum": 54006
+    },
+    {
+      "election": "PP24",
+      "county": "Washington",
+      "measure": "vote-by-mail",
+      "all_value": 8362,
+      "party_sum": 8363
+    }
+  ]
+}

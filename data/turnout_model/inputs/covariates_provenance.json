@@ -1,0 +1,26 @@
+{
+  "file": "data/turnout_model/inputs/covariates.csv",
+  "description": "County covariates from the ACS 5-year estimates, with z-scores across the 24 counties (unweighted, sample sd).",
+  "generated_by": "scripts/turnout_model/01_build_inputs.R",
+  "run_date": "2026-10-17T16:33:16-0400",
+  "sources": {
+    "acs_archive": "archives/census/md_county_acs5_2024.csv",
+    "vintage": "ACS 5-year 2020-2024",
+    "cvap": "B29001_001 (citizens 18 and over)",
+    "median_age": "B01002_001",
+    "share_65plus": "B01001_020..025 + B01001_044..049 over B01001_001",
+    "share_ba_plus": "B15003_022..025 (bachelor's, master's, professional, doctorate) over B15003_001 (population 25 and over)",
+    "median_hh_income": "B19013_001 (2024 inflation-adjusted dollars)",
+    "share_owner_occupied": "B25003_002 over B25003_001 (occupied housing units)",
+    "share_moved_past_year": "1 - B07003_004 (same house 1 year ago) over B07003_001 (population 1 year and over)"
+  },
+  "source_ids": [],
+  "checks_passed": [
+    "ACS archive has every requested variable",
+    "ACS archive has 24 counties x every variable",
+    "no missing ACS estimates",
+    "every Census county name maps to one of the 24 canonical names",
+    "24 counties, no missing covariates",
+    "shares strictly between 0 and 1"
+  ]
+}
