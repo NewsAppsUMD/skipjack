@@ -1,0 +1,13 @@
+held_out,grain,metric,model,naive
+GG22,county,rate_mae_pts,2.2479,2.5356
+GG22,county,rate_max_abs_pts,4.156,6.9933
+GG22,county,share_mae_pts,0.1731,0.1723
+GG22,county_party,rate_mae_pts,2.6926,3.0206
+GG22,county_party,rate_max_abs_pts,8.6829,12.1255
+GG22,county_party,share_mae_pts,0.0626,0.0678
+GG18,county,rate_mae_pts,2.1708,2.5232
+GG18,county,rate_max_abs_pts,8.0819,7.0803
+GG18,county,share_mae_pts,0.1224,0.1407
+GG18,county_party,rate_mae_pts,2.631,3.037
+GG18,county_party,rate_max_abs_pts,11.342,11.360900000000001
+GG18,county_party,share_mae_pts,0.0483,0.0558

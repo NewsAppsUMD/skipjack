@@ -115,7 +115,7 @@ script_path <- function() {
   f
 }
 
-# Write <csv minus .csv>_provenance.json next to a written file. `generated_by` is the script
+# Write <name>_provenance.json next to a written <name>.csv or <name>.csv.gz. `generated_by` is the script
 # that wrote it, `sources` lists tables and queries, `source_ids` the skipjack source ids,
 # `checks` the names of the checks that passed.
 write_provenance <- function(path, description, sources, generated_by, source_ids = character(),
@@ -133,7 +133,8 @@ write_provenance <- function(path, description, sources, generated_by, source_id
     if (!is.null(notes)) list(notes = notes),
     extra
   )
-  out <- sub("\\.csv$", "_provenance.json", path)
+  out <- sub("\\.csv(\\.gz)?$", "_provenance.json", path)
+  if (identical(out, path)) stop("write_provenance() needs a .csv or .csv.gz path, got ", path)
   writeLines(jsonlite::toJSON(prov, auto_unbox = TRUE, pretty = TRUE, null = "null"), out)
   invisible(out)
 }

@@ -1,0 +1,33 @@
+{
+  "file": "data/turnout_model/gg26/election_level_draws.csv.gz",
+  "description": "1,000 draws of the GG18 and GG22 statewide party levels alpha, joint with structure_draws.csv.gz by draw; sigma_obs is the observation-level sd, constant across draws.",
+  "generated_by": "scripts/turnout_model/02_fit.R",
+  "run_date": "2026-10-17T16:49:58-0400",
+  "sources": {
+    "training": "data/turnout_model/inputs/training.csv",
+    "covariates": "data/turnout_model/inputs/covariates.csv"
+  },
+  "source_ids": [],
+  "checks_passed": [
+    "training.csv has 432 rows",
+    "covariates.csv has one row per county",
+    "360 rows after dropping closed-primary rows",
+    "0 <= ballots_cast <= active in every row",
+    "every training row has covariates",
+    "(1 | county) variance is ~0 in simplification 1, so dropping it leaves the fit unchanged",
+    "final fit is not singular",
+    "final fit converged without warnings",
+    "final fit has the same likelihood as simplification 1 (one fewer parameter)",
+    "GG18 and GG22 fitted ballots sum by party to within 0.1% of observed",
+    "invlogit(alpha_hat + s_hat + u_obs) reproduces fitted rates in every midterm cell",
+    "midterm fitted rates within 1 point of observed in every cell",
+    "draw means of s_cp within 0.02 of the point estimates",
+    "structure_draws has 72,000 rows",
+    "15 election x party levels (no OTH in primaries)",
+    "bootMer statistic matches the point estimate on the fit",
+    "backtest GG22 calibrated totals match actual statewide ballots",
+    "backtest GG18 calibrated totals match actual statewide ballots"
+  ],
+  "notes": "Model: cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type) + (1 | obs) (binomial glmer, bobyqa). s_cp = covariate part + u_county:party_group + u_county:election_type at midterm_general; (1 | county) is dropped (variance estimated at exactly 0), so it contributes nothing. See fit_summary.json.",
+  "sigma_obs": "sd of (1 | obs), the cell-level overdispersion term, estimated at 0.120162 ; lme4 gives no sampling distribution for it, so every draw carries the estimate. Add a fresh N(0, sigma_obs^2) per new cell when forecasting."
+}

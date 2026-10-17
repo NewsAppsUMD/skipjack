@@ -32,6 +32,16 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
   `archives/census/md_county_acs5_<vintage>.csv` once and reuses it; `REFRESH_ACS=1` pulls it
   again (needs `CENSUS_API_KEY` in `~/.Renviron`).
 
+- `02_fit.R` fits the structure model (a binomial `lme4::glmer` of ballots over active
+  registration, with a statewide level per election x party, county covariates, county random
+  effects by party and by election type, and an observation-level effect) and writes to
+  `data/turnout_model/gg26/`: `structure_effects.csv` and 1,000 draws in
+  `structure_draws.csv.gz` (midterm structure effect per county x party, logit scale),
+  `election_levels.csv` and `election_level_draws.csv.gz` (GG18/GG22 statewide party levels,
+  with `sigma_obs`), `backtest.csv` and `backtest_cells.csv` (leave one midterm out, against a
+  naive baseline), and `fit_summary.json` (formula, why it was simplified, variance components,
+  interval-width cross-check). Draw files join on `draw`. Seeded, so re-runs are byte-identical.
+
 ## What `active` and `eligible` mean
 
 - `training.csv` `active`: for certified elections, the board's official-turnout `eligible`

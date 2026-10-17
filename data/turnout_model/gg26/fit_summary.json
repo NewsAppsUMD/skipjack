@@ -1,0 +1,246 @@
+{
+  "file": "data/turnout_model/gg26/fit_summary.json",
+  "generated_by": "scripts/turnout_model/02_fit.R",
+  "run_date": "2026-10-17T16:49:58-0400",
+  "sources": {
+    "training": "data/turnout_model/inputs/training.csv",
+    "covariates": "data/turnout_model/inputs/covariates.csv"
+  },
+  "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type) + (1 | obs)",
+  "formula_notes": "ep = interaction(election, party_group, drop = TRUE): a free statewide level for each of the 15 election x party cells present (OTH is absent from the closed primaries).",
+  "simplification": "The briefed formula and both prescribed simplifications are singular: (1 | county:party_group:election_type) is estimated at 0 (it is nearly the same as (1 | obs), with at most three rows per cell and election type), and (1 | county) is estimated at exactly 0 once the covariates are in (sd 0.195 without them): the covariates and (1 | county:party_group) take up all county-level variation. The final fit is simplification 1 without (1 | county); since that variance was 0 the estimates are unchanged.",
+  "fit_history": [
+    {
+      "label": "full",
+      "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county) + (1 | county:party_group) + (1 | county:election_type) + (1 | county:party_group:election_type) + (1 | obs)",
+      "singular": true,
+      "messages": [
+        "boundary (singular) fit: see help('isSingular')"
+      ],
+      "aic": 6018.516,
+      "sd": {
+        "obs": 0.12016,
+        "county:party_group:election_type": 0,
+        "county:election_type": 0.06958,
+        "county:party_group": 0.17039,
+        "county": 0
+      }
+    },
+    {
+      "label": "simplification 1: drop (1 | county:party_group:election_type)",
+      "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county) + (1 | county:party_group) + (1 | county:election_type) + (1 | obs)",
+      "singular": true,
+      "messages": [
+        "boundary (singular) fit: see help('isSingular')"
+      ],
+      "aic": 6016.516,
+      "sd": {
+        "obs": 0.12016,
+        "county:election_type": 0.06958,
+        "county:party_group": 0.17039,
+        "county": 0
+      }
+    },
+    {
+      "label": "simplification 2: also drop (1 | county:election_type)",
+      "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county) + (1 | county:party_group) + (1 | obs)",
+      "singular": true,
+      "messages": [
+        "boundary (singular) fit: see help('isSingular')"
+      ],
+      "aic": 6034.672,
+      "sd": {
+        "obs": 0.13385,
+        "county:party_group": 0.17536,
+        "county": 0
+      }
+    },
+    {
+      "label": "final: simplification 1 without (1 | county)",
+      "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type) + (1 | obs)",
+      "singular": false,
+      "messages": [],
+      "aic": 6014.516,
+      "sd": {
+        "obs": 0.12016,
+        "county:election_type": 0.06958,
+        "county:party_group": 0.17039
+      }
+    }
+  ],
+  "n_rows": 360,
+  "n_rows_by_election": {
+    "GG18": 72,
+    "GG22": 72,
+    "GP22": 48,
+    "GP26": 48,
+    "PG24": 72,
+    "PP24": 48
+  },
+  "singular": false,
+  "convergence_messages": [],
+  "aic": 6014.516,
+  "variance_components": [
+    {
+      "term": "obs",
+      "variance": 0.01443883,
+      "sd": 0.12016169
+    },
+    {
+      "term": "county:election_type",
+      "variance": 0.00484138,
+      "sd": 0.06958002
+    },
+    {
+      "term": "county:party_group",
+      "variance": 0.0290323,
+      "sd": 0.17038866
+    }
+  ],
+  "sigma_obs": 0.120162,
+  "covariates": {
+    "chosen": ["z_share_ba_plus", "z_median_age", "z_share_moved_past_year", "z_share_owner_occupied"],
+    "dropped": ["z_share_65plus", "z_median_hh_income"],
+    "rule": "candidates in preference order z_share_ba_plus, z_median_age, z_share_moved_past_year, z_share_owner_occupied, z_share_65plus, z_median_hh_income ; keep one unless |r| > 0.7 with one already kept; at most 4",
+    "correlation": [
+      {
+        "covariate": "z_share_ba_plus",
+        "z_share_ba_plus": 1,
+        "z_median_age": -0.017,
+        "z_share_moved_past_year": 0.169,
+        "z_share_owner_occupied": 0.046,
+        "z_share_65plus": -0.162,
+        "z_median_hh_income": 0.786
+      },
+      {
+        "covariate": "z_median_age",
+        "z_share_ba_plus": -0.017,
+        "z_median_age": 1,
+        "z_share_moved_past_year": -0.249,
+        "z_share_owner_occupied": 0.375,
+        "z_share_65plus": 0.94,
+        "z_median_hh_income": -0.225
+      },
+      {
+        "covariate": "z_share_moved_past_year",
+        "z_share_ba_plus": 0.169,
+        "z_median_age": -0.249,
+        "z_share_moved_past_year": 1,
+        "z_share_owner_occupied": -0.587,
+        "z_share_65plus": -0.083,
+        "z_median_hh_income": -0.099
+      },
+      {
+        "covariate": "z_share_owner_occupied",
+        "z_share_ba_plus": 0.046,
+        "z_median_age": 0.375,
+        "z_share_moved_past_year": -0.587,
+        "z_share_owner_occupied": 1,
+        "z_share_65plus": 0.159,
+        "z_median_hh_income": 0.433
+      },
+      {
+        "covariate": "z_share_65plus",
+        "z_share_ba_plus": -0.162,
+        "z_median_age": 0.94,
+        "z_share_moved_past_year": -0.083,
+        "z_share_owner_occupied": 0.159,
+        "z_share_65plus": 1,
+        "z_median_hh_income": -0.468
+      },
+      {
+        "covariate": "z_median_hh_income",
+        "z_share_ba_plus": 0.786,
+        "z_median_age": -0.225,
+        "z_share_moved_past_year": -0.099,
+        "z_share_owner_occupied": 0.433,
+        "z_share_65plus": -0.468,
+        "z_median_hh_income": 1
+      }
+    ],
+    "coefficients": {
+      "z_share_ba_plus": 0.07493,
+      "z_median_age": 0.0909,
+      "z_share_moved_past_year": 0.04421,
+      "z_share_owner_occupied": 0.15105
+    }
+  },
+  "overdispersion_without_obs": {
+    "ratio": 81.629,
+    "formula": "cbind(ballots_cast, active - ballots_cast) ~ 0 + ep + z_share_ba_plus + z_median_age + z_share_moved_past_year + z_share_owner_occupied + (1 | county:party_group) + (1 | county:election_type)",
+    "definition": "sum of squared Pearson residuals / residual df",
+    "messages": [
+      "Model is nearly unidentifiable: very large eigenvalue\n - Rescale variables?"
+    ]
+  },
+  "interval_widths": {
+    "statistic": "statewide GG22 ballots, sum of active x invlogit(alpha_GG22,p + s_cp), without the obs effect",
+    "point_estimate": 2087058,
+    "observed": 2031635,
+    "simulation": {
+      "n": 1000,
+      "sd": 42206,
+      "q05": 2013302,
+      "q95": 2158107,
+      "width_90": 144805
+    },
+    "bootmer": {
+      "n": 100,
+      "n_finite": 100,
+      "warnings": 0,
+      "seconds": 164,
+      "sd": 41212,
+      "q05": 1983575,
+      "q95": 2099310,
+      "width_90": 115736,
+      "type": "parametric, use.u = FALSE"
+    }
+  },
+  "backtest_refits": [
+    {
+      "held_out": "GG22",
+      "singular": false,
+      "messages": [],
+      "sd": {
+        "obs": 0.12733,
+        "county:election_type": 0.07893,
+        "county:party_group": 0.1725
+      }
+    },
+    {
+      "held_out": "GG18",
+      "singular": false,
+      "messages": [],
+      "sd": {
+        "obs": 0.1261,
+        "county:election_type": 0.06102,
+        "county:party_group": 0.17921
+      }
+    }
+  ],
+  "draws": {
+    "n": 1000,
+    "seed": 20261103
+  },
+  "runtime_seconds": 169,
+  "checks_passed": [
+    "training.csv has 432 rows",
+    "covariates.csv has one row per county",
+    "360 rows after dropping closed-primary rows",
+    "0 <= ballots_cast <= active in every row",
+    "every training row has covariates",
+    "(1 | county) variance is ~0 in simplification 1, so dropping it leaves the fit unchanged",
+    "final fit is not singular",
+    "final fit converged without warnings",
+    "final fit has the same likelihood as simplification 1 (one fewer parameter)",
+    "GG18 and GG22 fitted ballots sum by party to within 0.1% of observed",
+    "invlogit(alpha_hat + s_hat + u_obs) reproduces fitted rates in every midterm cell",
+    "midterm fitted rates within 1 point of observed in every cell",
+    "draw means of s_cp within 0.02 of the point estimates",
+    "structure_draws has 72,000 rows",
+    "15 election x party levels (no OTH in primaries)",
+    "bootMer statistic matches the point estimate on the fit",
+    "backtest GG22 calibrated totals match actual statewide ballots",
+    "backtest GG18 calibrated totals match actual statewide ballots"
+  ]
+}
