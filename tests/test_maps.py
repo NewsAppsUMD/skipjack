@@ -106,6 +106,17 @@ def test_mail_return_maps_are_green_not_blue():
     assert maps.sequential([1.0, 2.0]).kind == "seq"
 
 
+def test_certified_turnout_maps_are_green_not_blue():
+    rows = [{"county": c, "counted": 100, "counted_by_mode": {"vote-by-mail": 20 + i},
+             "mail_voting": {"received": 40, "rejected": 1 + i % 3}}
+            for i, c in enumerate(COUNTIES)]  # fmt: skip
+    turnout = {c: 50.0 + i for i, c in enumerate(COUNTIES)}
+    certified = maps.turnout_certified_maps(rows, turnout)
+    assert [m["title"] for m in certified] == ["Turnout", "Voted by mail", "Mail ballots rejected"]
+    for m in certified:
+        assert [x["css"] for x in m["legend"]] == [f"map-green-{i}" for i in range(5)]
+
+
 def test_every_map_colour_class_is_styled():
     from pathlib import Path
 

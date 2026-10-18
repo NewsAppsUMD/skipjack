@@ -288,7 +288,8 @@ def turnout_live_maps(
 
 
 def turnout_certified_maps(rows: list[dict], turnout: dict[str, float | None]) -> list[dict]:
-    """A certified election: how people voted, mail rejections, and turnout where reported."""
+    """A certified election: how people voted, mail rejections, and turnout where reported.
+    Green, like the return-rate map, so no turnout map reads as partisan."""
     mail = {
         r["county"]: _ratio((r.get("counted_by_mode") or {}).get("vote-by-mail"), r.get("counted"))
         for r in rows
@@ -304,18 +305,20 @@ def turnout_certified_maps(rows: list[dict], turnout: dict[str, float | None]) -
     if turnout:
         maps.append(
             county_map(
-                "turnout-rate", "Turnout", turnout, sequential(list(turnout.values()), "%"),
+                "turnout-rate", "Turnout", turnout,
+                sequential(list(turnout.values()), "%", kind="green"),
                 fmt_pct(1), caption="ballots counted as a share of eligible voters",
             )
         )  # fmt: skip
     maps += [
         county_map(
-            "turnout-mail", "Voted by mail", mail, sequential(list(mail.values()), "%"),
+            "turnout-mail", "Voted by mail", mail,
+            sequential(list(mail.values()), "%", kind="green"),
             fmt_pct(1), caption="share of counted ballots cast by mail",
         ),
         county_map(
             "turnout-rejected", "Mail ballots rejected", rejected,
-            sequential(list(rejected.values()), "%"), fmt_pct(2),
+            sequential(list(rejected.values()), "%", kind="green"), fmt_pct(2),
             caption="share of mail ballots received that were rejected",
         ),
     ]  # fmt: skip
