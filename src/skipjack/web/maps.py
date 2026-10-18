@@ -47,9 +47,10 @@ def _fmt_break(v: float) -> str:
 
 @dataclass
 class Scale:
-    """Five colour classes. ``kind`` is "seq" (low to high), "div" (below and above a centre)
-    or "party" (Republican to Democratic margin). ``breaks`` are the four inner boundaries,
-    ascending; a value equal to a boundary goes in the class above it."""
+    """Five colour classes. ``kind`` is "seq" (low to high, blue), "green" (low to high, for
+    maps that must not read as partisan), "div" (below and above a centre) or "party"
+    (Republican to Democratic margin). ``breaks`` are the four inner boundaries, ascending; a
+    value equal to a boundary goes in the class above it."""
 
     kind: str
     breaks: list[float]
@@ -87,18 +88,19 @@ class Scale:
         return [{"css": f"map-{self.kind}-{i}", "text": t} for i, t in enumerate(texts)]
 
 
-def sequential(values: list[float | None], unit: str = "") -> Scale:
-    """Equal-width classes from the lowest to the highest value, on round numbers."""
+def sequential(values: list[float | None], unit: str = "", kind: str = "seq") -> Scale:
+    """Equal-width classes from the lowest to the highest value, on round numbers. ``kind``
+    picks the ramp: "seq" (blue) or "green"."""
     present = [v for v in values if v is not None]
     if not present:
-        return Scale("seq", [1, 2, 3, 4], unit)
+        return Scale(kind, [1, 2, 3, 4], unit)
     lo, hi = min(present), max(present)
     step = nice_step((hi - lo) / CLASSES) if hi > lo else nice_step(abs(hi) / CLASSES or 1)
     start = math.floor(lo / step) * step
     while start + CLASSES * step < hi:  # rounding the start down can leave the top uncovered
         step = nice_step(step * 1.01)
         start = math.floor(lo / step) * step
-    return Scale("seq", [round(start + step * i, 10) for i in range(1, CLASSES)], unit)
+    return Scale(kind, [round(start + step * i, 10) for i in range(1, CLASSES)], unit)
 
 
 def diverging(
@@ -271,12 +273,14 @@ def _ratio(part: float | None, whole: float | None) -> float | None:
 def turnout_live_maps(
     rows: list[dict], as_of: str, href_prefix: str | None = None
 ) -> list[dict]:
-    """An election in progress: how many mail ballots sent have come back."""
+    """An election in progress: how many mail ballots sent have come back. Green rather than
+    the blue ramp, since blue is the Democrats' colour on the site and a return rate must not
+    read as partisan."""
     values = {r["county"]: _ratio(r.get("received"), r.get("sent")) for r in rows}
     return [
         county_map(
             "turnout-return", "Mail ballots returned", values,
-            sequential(list(values.values()), "%"), fmt_pct(1),
+            sequential(list(values.values()), "%", kind="green"), fmt_pct(1),
             caption=f"share of mail ballots sent that have been received, as of {as_of}",
             none_text="no ballots sent yet", href_prefix=href_prefix,
         )

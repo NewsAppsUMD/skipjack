@@ -96,6 +96,27 @@ def test_margin_labels_name_the_party():
     assert maps.fmt_margin(0.2) == "even"
 
 
+def test_mail_return_maps_are_green_not_blue():
+    # Blue is the Democrats' colour on the site, so a blue return-rate map could read as
+    # partisan; the return maps use a green ramp, and the other sequential maps keep theirs.
+    rows = [{"county": c, "sent": 100, "received": 10 + i} for i, c in enumerate(COUNTIES)]
+    (m,) = maps.turnout_live_maps(rows, "October 17")
+    assert [x["css"] for x in m["legend"]] == [f"map-green-{i}" for i in range(5)]
+    assert {c["css"] for c in m["counties"]} <= {f"map-green-{i}" for i in range(5)}
+    assert maps.sequential([1.0, 2.0]).kind == "seq"
+
+
+def test_every_map_colour_class_is_styled():
+    from pathlib import Path
+
+    css = (Path(maps.__file__).parent / "static" / "maps.css").read_text()
+    for kind in ("seq", "div", "party", "green"):
+        for i in range(5):
+            assert f"--{kind}-{i}:" in css
+            assert f".map-{kind}-{i} " in css
+            assert f".map-key.map-{kind}-{i} " in css
+
+
 def test_turnout_maps_skip_a_measure_no_county_has():
     rows = [{"county": c, "counted": 100, "counted_by_mode": {"vote-by-mail": 30},
              "mail_voting": {"received": 40, "rejected": 1}} for c in COUNTIES]  # fmt: skip
