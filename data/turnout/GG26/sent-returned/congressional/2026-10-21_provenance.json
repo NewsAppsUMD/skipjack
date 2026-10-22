@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-sent-returned-congressional-20261021-7a5e3ace772b",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/Absentees_Sent_and_Returned_by_Congressional.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 sent-returned (congressional) as of 2026-10-21",
+  "fetch_date": "2026-10-22T17:41:48+00:00",
+  "parse_date": "2026-10-22T17:44:35+00:00",
+  "sha256_original": "7a5e3ace772b8fb19b7f60d521f238f1667d47000c6a4a4bdc76bea7650d278a",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "sent-returned",
+  "geography": "congressional",
+  "notes": "GG26 sent-returned (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 480,
+    "as_of": "2026-10-21"
+  }
+}
