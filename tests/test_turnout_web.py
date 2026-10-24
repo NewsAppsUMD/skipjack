@@ -1265,3 +1265,138 @@ def test_the_election_page_renders_the_early_voting_section(tmp_path, monkeypatc
     assert "14.9%" in html  # of 15,000 eligible actives
     assert "October 22, 2026" in html and "1,200" in html  # day 1, dated
     assert "<td>Kent</td>" in html
+
+
+def test_county_rows_join_early_voting_at_its_own_day(conn):
+    add(conn, "2026-10-22", ALLEGANY + WORCESTER)
+    add(conn, "2026-10-23", _ev_county("Allegany", [300, 250], 10000), "ev", "early-voting")
+    rows = {
+        r["county"]: r
+        for r in turnout.county_rows(conn, "GG26", "2026-10-22", early_as_of="2026-10-23")
+    }
+    assert rows["Allegany"]["early_voting"] == 550
+    assert rows["Allegany"]["early_eligible"] == 10000
+    assert rows["Allegany"]["early_share"] == pytest.approx(0.055)
+    assert rows["Worcester"]["early_voting"] is None  # absent, not zero
+    # without an early-voting day the rows carry no early columns
+    assert "early_voting" not in turnout.county_rows(conn, "GG26", "2026-10-22")[0]
+
+
+@needs_db
+def test_the_county_page_carries_the_early_voting_columns(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    db_path = _page_db(
+        tmp_path,
+        [
+            ("2026-10-22", ALLEGANY + WORCESTER),
+            ("2026-10-23", _ev_county("Allegany", [1200, 1034], 15000), "early-voting"),
+        ],
+    )
+    monkeypatch.setattr(web_db, "DB_PATH", db_path)
+    html = TestClient(create_app()).get("/turnout/gg26/county/").text
+    assert "Early voters" in html
+    assert "2,234" in html and "14.9%" in html
+    assert "October 23, 2026" in html  # the early-voting day is named with the others
+
+
+def test_the_district_label_reads_the_legislative_subdistricts():
+    assert turnout.district_label("Legislative District Code 01A") == "District 1A"
+    assert turnout.district_label("01A") == "District 1A"
+    assert turnout.district_label("Legislative District Code 03") == "District 3"
+    raws = ["12B", "Legislative District Code 02A", "12A", "01C"]
+    assert [turnout.district_label(r) for r in sorted(raws, key=turnout.district_sort)] == [
+        "District 1C",
+        "District 2A",
+        "District 12A",
+        "District 12B",
+    ]
+
+
+def _ev_district(geography, county, district, total, eligible):
+    return [
+        (geography, county, district, "ALL", "ALL", "total", total),
+        (geography, county, district, "ALL", "ALL", "eligible", eligible),
+    ]
+
+
+def test_district_rows_sum_the_early_voting_counties_per_district(conn):
+    # the sheet's district row and the early-voting file's two county pieces of it
+    add(
+        conn,
+        "2026-10-22",
+        [
+            ("legislative", "", "Legislative District Code 27A", "ALL", "ALL", m, v)
+            for m, v in (("sent", 900), ("received", 400))
+        ],
+    )
+    add(
+        conn,
+        "2026-10-23",
+        _ev_district("legislative", "Calvert", "27A", 300, 6000)
+        + _ev_district("legislative", "Prince George's", "27A", 200, 4000)
+        + _ev_district("legislative", "Allegany", "01A", 50, 1000),
+        "ev",
+        "early-voting",
+    )
+    rows = turnout.district_rows(
+        conn, "GG26", "2026-10-22", geography="legislative", early_as_of="2026-10-23"
+    )
+    assert [r["district"] for r in rows] == ["District 1A", "District 27A"]
+    one_a, twenty_seven_a = rows
+    assert twenty_seven_a["sent"] == 900
+    assert twenty_seven_a["early_voting"] == 500 and twenty_seven_a["early_eligible"] == 10000
+    assert twenty_seven_a["early_share"] == pytest.approx(0.05)
+    assert one_a["sent"] is None and one_a["early_voting"] == 50  # early voting only
+    # the congressional grain reads none of the legislative rows
+    assert turnout.district_rows(conn, "GG26", "2026-10-22", early_as_of="2026-10-23") == []
+
+
+def test_the_legislative_page_is_a_running_election_s_only(conn):
+    add(
+        conn,
+        "2026-10-23",
+        _ev_district("legislative", "Allegany", "01A", 50, 1000),
+        "ev",
+        "early-voting",
+    )
+    assert "legislative" in turnout.publishable_geographies(conn, "GG26")
+    add(
+        conn,
+        "2026-06-23",
+        _ev_district("legislative", "Allegany", "01A", 50, 1000),
+        "gp",
+        "early-voting",
+        "GP26",
+    )
+    assert "legislative" not in turnout.publishable_geographies(conn, "GP26")
+
+
+@needs_db
+def test_the_legislative_page_renders_the_early_voting_districts(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    db_path = _page_db(
+        tmp_path,
+        [
+            ("2026-10-22", ALLEGANY + WORCESTER),
+            (
+                "2026-10-23",
+                _ev_district("legislative", "Calvert", "27A", 300, 6000)
+                + _ev_district("legislative", "Prince George's", "27A", 200, 4000),
+                "early-voting",
+            ),
+        ],
+    )
+    monkeypatch.setattr(web_db, "DB_PATH", db_path)
+    client = TestClient(create_app())
+    html = client.get("/turnout/gg26/legislative/").text
+    assert "District 27A" in html and "500" in html and "5.0%" in html
+    assert "/turnout/gg26/legislative/" in client.get("/turnout/gg26/").text
+    assert client.get("/turnout/gp26/legislative/").status_code == 404

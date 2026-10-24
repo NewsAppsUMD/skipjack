@@ -22,24 +22,26 @@ _SENT_MEASURES = ("sent", "received", "accepted")
 # The four cast-ballot modes, in the order the certified pages show them.
 _MODES = ("early-voting", "election-day", "vote-by-mail", "provisional")
 
-_DISTRICT_RE = re.compile(r"(?:Congressional District Code )?(\d{1,2})")
+_DISTRICT_RE = re.compile(r"(?:(?:Congressional|Legislative) District Code )?(\d{1,2})([A-Z]?)")
 
 
 def district_label(raw: str) -> str:
-    """A congressional-district row's printed code, as the page shows it: the xlsx
-    sheets spell 'Congressional District Code 01' where the PDF tables print '01' —
-    both read as 'District 1'. Anything the reports do not spell as a numbered
-    district (Undetermined) passes through as its own label."""
+    """A district row's printed code, as the page shows it: the xlsx sheets spell
+    'Congressional District Code 01' (or 'Legislative District Code 01A') where the PDF
+    tables print '01' ('01A') — both read as 'District 1' ('District 1A'). Anything the
+    reports do not spell as a numbered district (Undetermined) passes through as its
+    own label."""
     if m := _DISTRICT_RE.fullmatch(raw.strip()):
-        return f"District {int(m.group(1))}"
+        return f"District {int(m.group(1))}{m.group(2)}"
     return raw.strip()
 
 
 def district_sort(raw: str) -> tuple:
-    """Sort key for the printed district codes: districts 1-8 by number whatever the
-    spelling, everything else (Undetermined) after them."""
+    """Sort key for the printed district codes: the districts by number (and
+    subdistrict letter) whatever the spelling, everything else (Undetermined) after
+    them."""
     if m := _DISTRICT_RE.fullmatch(raw.strip()):
-        return (0, int(m.group(1)), "")
+        return (0, int(m.group(1)), m.group(2))
     return (1, 0, raw.strip())
 
 
@@ -71,10 +73,12 @@ def _statewide(conn: sqlite3.Connection, election: str, family: str, as_of: str)
 
 
 # The area column and its match filter, per geography: county rows carry a county and
-# no district; congressional rows the reverse.
+# no district; district rows the reverse (the early-voting files' county x district rows
+# carry both, and are summed per district by _early_district_cells instead).
 _GEOGRAPHY_FILTERS = {
     "county": ("county", "county = :area AND district = ''"),
     "congressional": ("district", "county = '' AND district = :area"),
+    "legislative": ("district", "county = '' AND district = :area"),
 }
 
 
@@ -289,17 +293,23 @@ def _sent_row(label_key: str, label: str, sent: dict, method_cells: dict) -> dic
 
 
 def county_rows(
-    conn: sqlite3.Connection, election: str, as_of: str, requests_as_of: str | None = None
+    conn: sqlite3.Connection,
+    election: str,
+    as_of: str,
+    requests_as_of: str | None = None,
+    early_as_of: str | None = None,
 ) -> list[dict]:
-    """One sortable row per county, joining both families at each family's own date.
+    """One sortable row per county, joining the families at each family's own date.
 
-    The two press-room files refresh on their own schedules, so the mail-in columns and
-    the request columns can be from different snapshot days; each is read at its own
-    family's latest date (requests_as_of defaults to the same day). A county absent
-    from a family's snapshot is absent from the row (unknown, not zero); counties only
-    in the requests file read with empty mail-in columns.
+    The press-room files refresh on their own schedules, so the mail-in columns, the
+    request columns and the early-voting columns can be from different snapshot days;
+    each is read at its own family's latest date (requests_as_of defaults to the same
+    day; no early_as_of reads no early voting). A county absent from a family's snapshot
+    is absent from the row (unknown, not zero); counties only in the requests file read
+    with empty mail-in columns.
     """
     requests_as_of = requests_as_of or as_of
+    early_as_of = early_as_of if may_publish(election, "early-voting") else None
     counties = sorted(
         {
             r[0]
@@ -319,14 +329,23 @@ def county_rows(
         method_cells = _area_cells(conn, election, "requests", "county", county, requests_as_of)
         if not sent and not method_cells:
             continue  # the county reports on the other day only
-        out.append(_sent_row("county", county, sent, method_cells))
+        row = _sent_row("county", county, sent, method_cells)
+        if early_as_of:
+            early = _area_measures(conn, election, "early-voting", "county", county, early_as_of)
+            row["early_voting"] = early.get("total")
+            row["early_eligible"] = early.get("eligible")
+            row["early_share"] = _ratio(early.get("total"), early.get("eligible"))
+        out.append(row)
     return out
 
 
 def _district_areas(
-    conn: sqlite3.Connection, election: str, family_dates: dict[str, str]
+    conn: sqlite3.Connection,
+    election: str,
+    family_dates: dict[str, str],
+    geography: str = "congressional",
 ) -> dict[str, dict[str, str]]:
-    """The districts found in the given families' snapshots at congressional grain,
+    """The districts found in the given families' snapshots at one district grain,
     keyed by the normalized label, each mapping family → the spelling that family
     prints. One election's files spell the districts two ways (the xlsx sheets print
     'Congressional District Code 01' where the PDF tables print '01'), so the families
@@ -335,32 +354,63 @@ def _district_areas(
     for family, as_of in family_dates.items():
         for (district,) in conn.execute(
             """SELECT DISTINCT district FROM turnout_counts
-               WHERE election = ? AND family = ? AND geography = 'congressional'
+               WHERE election = ? AND family = ? AND geography = ?
                  AND county = '' AND district != '' AND category = 'ALL'
                  AND as_of = ?""",
-            (election, family, as_of),
+            (election, family, geography, as_of),
         ):
             out.setdefault(district_label(district), {})[family] = district
     return out
 
 
+def _early_district_cells(
+    conn: sqlite3.Connection, election: str, geography: str, as_of: str
+) -> dict[str, dict]:
+    """Each district's early voters and eligible actives at one snapshot, keyed by the
+    normalized label: the early-voting files print a district's rows county by county,
+    so a district's figures are its counties' rows summed (the files' county rollups
+    were checked against those rows at parse time). The raw code rides along as
+    "spelling" for the sort."""
+    out: dict[str, dict] = {}
+    for r in conn.execute(
+        """SELECT district, measure, SUM(value) AS v FROM turnout_counts
+           WHERE election = ? AND family = 'early-voting' AND geography = ?
+             AND county != '' AND district != '' AND category = 'ALL' AND party = 'ALL'
+             AND as_of = ? AND measure IN ('total', 'eligible')
+           GROUP BY district, measure""",
+        (election, geography, as_of),
+    ):
+        cells = out.setdefault(district_label(r["district"]), {"spelling": r["district"]})
+        cells[r["measure"]] = r["v"]
+    return out
+
+
 def district_rows(
-    conn: sqlite3.Connection, election: str, as_of: str, requests_as_of: str | None = None
+    conn: sqlite3.Connection,
+    election: str,
+    as_of: str,
+    requests_as_of: str | None = None,
+    geography: str = "congressional",
+    early_as_of: str | None = None,
 ) -> list[dict]:
-    """One sortable row per congressional district, joining both families at each
-    family's own date — the district-grain mirror of county_rows.
+    """One sortable row per district (congressional or legislative), joining the
+    families at each family's own date — the district-grain mirror of county_rows.
 
     The two printed spellings of a district join on the normalized label (see
     _district_areas); Undetermined sorts last. A district present in one family's
-    snapshot but not the other's reads unknown there, not zero; a district in neither
-    family's snapshot is absent from the rows.
+    snapshot but not another's reads unknown there, not zero; a district in no
+    family's snapshot is absent from the rows. Early voting (when early_as_of names a
+    publishable snapshot) is summed from the files' county x district rows.
     """
     requests_as_of = requests_as_of or as_of
-    if not (
-        areas := _district_areas(
-            conn, election, {"sent-returned": as_of, "requests": requests_as_of}
-        )
-    ):
+    early_as_of = early_as_of if may_publish(election, "early-voting") else None
+    areas = _district_areas(
+        conn, election, {"sent-returned": as_of, "requests": requests_as_of}, geography
+    )
+    early = _early_district_cells(conn, election, geography, early_as_of) if early_as_of else {}
+    for label, cells in early.items():
+        areas.setdefault(label, {})["early-voting"] = cells["spelling"]
+    if not areas:
         return []
     out: list[dict] = []
     # both spellings of a label sort identically: district_sort keys on the district number
@@ -372,7 +422,7 @@ def district_rows(
                 conn,
                 election,
                 "sent-returned",
-                "congressional",
+                geography,
                 spellings["sent-returned"],
                 as_of,
             )
@@ -384,16 +434,22 @@ def district_rows(
                 conn,
                 election,
                 "requests",
-                "congressional",
+                geography,
                 spellings["requests"],
                 requests_as_of,
             )
             if "requests" in spellings
             else {}
         )
-        if not sent and not method_cells:
+        if not sent and not method_cells and label not in early:
             continue
-        out.append(_sent_row("district", label, sent, method_cells))
+        row = _sent_row("district", label, sent, method_cells)
+        if early_as_of:
+            cells = early.get(label, {})
+            row["early_voting"] = cells.get("total")
+            row["early_eligible"] = cells.get("eligible")
+            row["early_share"] = _ratio(cells.get("total"), cells.get("eligible"))
+        out.append(row)
     return out
 
 
@@ -903,7 +959,8 @@ def publishable_geographies(conn: sqlite3.Connection, election: str) -> list[str
     its figures of record — the campaign-time tallies stay in the archive."""
     certified = election in ELECTIONS and ELECTIONS[election].certified
     out: list[str] = []
-    for geography in ("county", "congressional"):
+    # the legislative page is a campaign page only: no certified report is read at that grain
+    for geography in ("county", "congressional") if certified else _GEOGRAPHY_FILTERS:
         column = _GEOGRAPHY_FILTERS[geography][0]
         families = {
             r[0]

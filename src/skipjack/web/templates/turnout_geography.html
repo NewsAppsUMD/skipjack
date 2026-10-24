@@ -12,13 +12,13 @@
     the same records as the <a href="{{ base }}/turnout/{{ election.code|lower }}/">statewide
     figures</a>, one row per {{ geography_label }}.</p>
 {% else %}
-<p class="secondary">Mail-in ballot tracking from the State Board's reports, one row per
+<p class="secondary">Mail-in ballot tracking{% if show_early %} and early voting{% endif %} from the State Board's reports, one row per
     {{ geography_label }}. <a href="{{ base }}/turnout/{{ election.code|lower }}/">Statewide
     figures</a>.</p>
 {% endif %}
 {% if geographies|length > 1 %}
 <p class="secondary">The same figures
-    {% for g in geographies if g != geography %}<a href="{{ base }}/turnout/{{ election.code|lower }}/{{ g }}/">{{ "by county" if g == "county" else "by congressional district" }}</a>{% if not loop.last %} · {% endif %}{% endfor %}.</p>
+    {% for g in geographies if g != geography %}<a href="{{ base }}/turnout/{{ election.code|lower }}/{{ g }}/">by {{ {"county": "county", "congressional": "congressional district", "legislative": "legislative district"}[g] }}</a>{% if not loop.last %} · {% endif %}{% endfor %}.</p>
 {% endif %}
 
 {% if rows %}
@@ -96,6 +96,10 @@
             <th class="num">Received back <span class="muted">(Dem / Rep / other)</span></th>
             <th class="num">Accepted</th>
             <th class="num">Return rate</th>
+            {% if show_early %}
+            <th class="num">Early voters</th>
+            <th class="num">Early voters, share of eligible actives</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -112,11 +116,22 @@
                 {% if r.received is not none %}<span class="muted">({{ m.num(r.dem_received) }} / {{ m.num(r.rep_received) }} / {{ m.num(r.oth_received) }})</span>{% endif %}</td>
             <td class="num" data-sort="{{ m.sortkey(r.accepted) }}">{{ m.num(r.accepted) }}</td>
             <td class="num" data-sort="{% if r.return_rate is none %}{% else %}{{ r.return_rate }}{% endif %}">{% if r.return_rate is not none %}{{ m.p(r.return_rate * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            {% if show_early %}
+            <td class="num" data-sort="{{ m.sortkey(r.early_voting) }}">{{ m.num(r.early_voting) }}</td>
+            <td class="num" data-sort="{{ m.sortkey(r.early_share) }}">{% if r.early_share is not none %}{{ m.p(r.early_share * 100, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
 </div>
+{% if show_early %}
+<p class="note">Early voters are the State Board's unofficial early-voting counts: voters
+    who checked in at an early-voting center, over the {{ geography_label }}'s eligible active
+    voters as the same report prints them. Mail-in and provisional ballots are not in them.
+    {%- if geography != "county" %} The report prints each district county by county; a
+    district's figures are its counties' rows summed.{% endif %}</p>
+{% endif %}
 {% endif %}
 <p class="note">Every row is one of the State Board's press-room snapshots, listed on the
     <a href="{{ base }}/about">About</a> page; the numbers behind this page are

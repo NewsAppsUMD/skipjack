@@ -67,13 +67,18 @@ async def election(request: Request, slug: str):
     )
 
 
-_GEOGRAPHY_LABELS = {"county": "county", "congressional": "congressional district"}
+_GEOGRAPHY_LABELS = {
+    "county": "county",
+    "congressional": "congressional district",
+    "legislative": "legislative district",
+}
 
 
 @router.get("/{slug}/{geography}/")
 async def election_geography(request: Request, slug: str, geography: str):
     """One election's table at one geography: the county page the election page used
-    to carry, and the congressional-district page beside it."""
+    to carry, and the congressional- and legislative-district pages beside it (the
+    legislative one a running election's only)."""
     if geography not in _GEOGRAPHY_LABELS:
         raise HTTPException(status_code=404)
     with get_db() as conn:
@@ -83,6 +88,8 @@ async def election_geography(request: Request, slug: str, geography: str):
             raise HTTPException(status_code=404)
         geographies = qt.publishable_geographies(conn, code)
         certified = ELECTIONS[code].certified
+        if certified and geography == "legislative":
+            raise HTTPException(status_code=404)
         county_maps: list[dict] = []
         if certified:
             cert = qt.certified_headline(conn, code)
@@ -108,15 +115,25 @@ async def election_geography(request: Request, slug: str, geography: str):
             headline = qt.headline(conn, code)
             sent_as_of = headline.get("sent-returned", {}).get("as_of")
             requests_as_of = headline.get("requests", {}).get("as_of")
+            early_as_of = headline.get("early-voting", {}).get("as_of")
             # the two files refresh on their own schedules: read each family at its own
             # latest snapshot so a day with only one new file keeps the other family's columns
             rows = (
                 qt.county_rows(
-                    conn, code, sent_as_of or requests_as_of, requests_as_of=requests_as_of
+                    conn,
+                    code,
+                    sent_as_of or requests_as_of,
+                    requests_as_of=requests_as_of,
+                    early_as_of=early_as_of,
                 )
                 if geography == "county"
                 else qt.district_rows(
-                    conn, code, sent_as_of or requests_as_of, requests_as_of=requests_as_of
+                    conn,
+                    code,
+                    sent_as_of or requests_as_of,
+                    requests_as_of=requests_as_of,
+                    geography=geography,
+                    early_as_of=early_as_of,
                 )
             )
             if geography == "county" and sent_as_of:
@@ -126,12 +143,15 @@ async def election_geography(request: Request, slug: str, geography: str):
                 dates["sent-returned"] = sent_as_of
             if requests_as_of:
                 dates["requests"] = requests_as_of
+            if early_as_of:
+                dates["early-voting"] = early_as_of
         # the flags read the rows, not the dates: each optional column renders only
         # where a row carries its figure, and the page names a family's day on that
         # same condition (below). The certified county table keeps its fixed columns
         # and therefore its three families' days whatever the rows hold.
         show_requests = any(r.get("requests_total") is not None for r in rows)
         show_counted = any(r.get("counted") is not None for r in rows)
+        show_early = any(r.get("early_voting") is not None for r in rows)
         show_mail = any(
             r.get("mail_voting", {}).get("accepted") is not None
             or r.get("mail_voting", {}).get("rejected") is not None
@@ -141,6 +161,8 @@ async def election_geography(request: Request, slug: str, geography: str):
         if not certified:
             if not show_requests:
                 dates.pop("requests", None)
+            if not show_early:
+                dates.pop("early-voting", None)
         elif geography == "congressional":
             dates = {
                 f: a
@@ -169,6 +191,7 @@ async def election_geography(request: Request, slug: str, geography: str):
             "shown_dates": shown_dates,
             "show_requests": show_requests,
             "show_counted": show_counted,
+            "show_early": show_early,
             "show_mail": show_mail,
             "county_maps": county_maps,
         },
