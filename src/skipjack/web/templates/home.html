@@ -8,6 +8,18 @@
 <link rel="stylesheet" href="{{ base }}/static/charts.css">
 {% endblock %}
 
+{% macro lead_tiles(tiles) -%}
+<div class="tiles">
+    {% for t in tiles %}
+    <div class="tile">
+        <div class="v">{% if t.value_text %}{{ t.value_text }}{% else %}{{ m.num(t.value) }}{% endif %}</div>
+        <div class="l">{{ t.label }}{% if t.change is not none and t.change is defined %} &middot; {{ m.delta_span(t.change) }}{% endif %}
+            {% if t.sub %} &middot; {{ t.sub }}{% endif %}</div>
+    </div>
+    {% endfor %}
+</div>
+{%- endmacro %}
+
 {% block content %}
 <div class="hero">
     <img class="hero-logo" src="{{ base }}/static/img/skipjack.webp" width="128" height="128"
@@ -21,21 +33,40 @@
     </div>
 </div>
 
+{% if lead.mode == "election" %}
+<section class="lead-election">
+    <h2>{{ lead.title }}</h2>
+    {% if lead.as_of %}<p class="muted">As of {{ lead.as_of|day_label }}</p>{% endif %}
+    {% if lead.figures %}
+    <dl class="feltron">
+        {% for f in lead.figures %}
+        <div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>
+        {% endfor %}
+    </dl>
+    {% endif %}
+    {{ maps.map_defs() }}
+    <div class="home-tabs" data-tabs aria-label="Ways of voting before election day">
+        {% for panel in lead.panels %}
+        <section class="lead" data-tab="{{ panel.label }}" id="lead-{{ panel.id }}" aria-label="{{ panel.label }}">
+            <div class="lead-text">
+                <h3 class="tab-heading">{{ panel.label }}</h3>
+                {% if panel.tiles %}{{ lead_tiles(panel.tiles) }}{% endif %}
+                {% for sentence in panel.sentences %}<p>{{ sentence }}</p>{% endfor %}
+                <p><a href="{{ base }}{{ lead.link[0] }}">{{ lead.link[1] }} &rarr;</a></p>
+            </div>
+            {% if panel.map %}
+            <div class="lead-map">{{ maps.county_map(panel.map) }}</div>
+            {% endif %}
+        </section>
+        {% endfor %}
+    </div>
+</section>
+{% else %}
 <section class="lead">
     <div class="lead-text">
         <h2>{{ lead.title }}</h2>
         {% if lead.as_of %}<p class="muted">As of {{ lead.as_of|day_label }}</p>{% endif %}
-        {% if lead.tiles %}
-        <div class="tiles">
-            {% for t in lead.tiles %}
-            <div class="tile">
-                <div class="v">{% if t.value_text %}{{ t.value_text }}{% else %}{{ m.num(t.value) }}{% endif %}</div>
-                <div class="l">{{ t.label }}{% if t.change is not none and t.change is defined %} &middot; {{ m.delta_span(t.change) }}{% endif %}
-                    {% if t.sub %} &middot; {{ t.sub }}{% endif %}</div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+        {% if lead.tiles %}{{ lead_tiles(lead.tiles) }}{% endif %}
         {% for sentence in lead.sentences %}<p>{{ sentence }}</p>{% endfor %}
         <p><a href="{{ base }}{{ lead.link[0] }}">{{ lead.link[1] }} &rarr;</a></p>
         {% if lead.also %}
@@ -52,6 +83,7 @@
     </div>
     {% endif %}
 </section>
+{% endif %}
 
 <section class="viz-root">
     <div class="home-cards">
@@ -93,7 +125,7 @@
         <li><a href="{{ base }}/voters/methods/">How people register</a> <span>New registrations by method, removals and party switching.</span></li>
         <li><a href="{{ base }}/voters/young/">Young voters</a> <span>Who registers at 18 to 22 and which party they choose.</span></li>
         <li><a href="{{ base }}/voters/file/">Voter file</a> <span>Participation by party, age and district. Not official turnout.</span></li>
-        <li><a href="{{ base }}/turnout/">Turnout</a> <span>Mail-in ballots by election, by county and district.</span></li>
+        <li><a href="{{ base }}/turnout/">Turnout</a> <span>Mail-in ballots and early voting by election, by county and district.</span></li>
         <li><a href="{{ base }}/results/">Results</a> <span>Certified results by contest and county.</span></li>
         {% if static_site %}
         <li><a href="{{ base }}/data/">Data</a> <span>Download the files behind every page as CSV and JSON.</span></li>
@@ -107,4 +139,5 @@
 {% block scripts %}
 <script id="home-data" type="application/json">{{ chart_data | tojson }}</script>
 <script type="module" src="{{ base }}/static/home.js"></script>
+<script type="module" src="{{ base }}/static/tabs.js"></script>
 {% endblock %}

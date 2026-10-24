@@ -177,16 +177,37 @@ def test_home_has_a_locator_map_linking_to_every_county(home_today):
 
 
 @needs_db
-def test_home_leads_with_mail_ballots_while_an_election_is_under_way(home_today):
-    home_today("2026-10-17")
+def test_home_leads_with_mail_and_early_voting_while_an_election_is_under_way(home_today):
+    home_today("2026-10-24")
     html = client.get("/").text
-    assert map_titles(html) == ["Mail ballots returned"]
+    # one tab panel per way of voting, each with its own map; the outlines drawn once
+    assert map_titles(html) == ["Mail ballots returned", "Early voters"]
     assert_outlines_once(html)
-    assert "2026 general election: mail-in ballots" in html
-    for label in ("mail-in ballot requests", "ballots sent", "received back"):
+    assert html.count("data-tab=") == 2 and "static/tabs.js" in html
+    assert "2026 general election: ballots so far" in html
+    for label in ("mail-in ballot requests", "ballots sent", "received back", "early voters"):
         assert label in html
     for county in COUNTIES:
         assert f'href="/turnout/gg26/county/#county-{slugify(county)}"' in html
+    assert "<dt>days to election day</dt><dd>10</dd>" in html
+
+
+@needs_db
+def test_the_home_lead_s_already_voted_is_the_two_families_summed():
+    from datetime import date
+
+    from skipjack.web import turnout as qt
+    from skipjack.web.db import get_db
+    from skipjack.web.routes.home import home_context
+
+    with get_db() as conn:
+        lead = home_context(conn, date(2026, 10, 24))["lead"]
+        received = qt.headline(conn, "GG26")["sent-returned"]["received"]
+        early = qt.early_voting(conn, "GG26")
+    voted = received + early["total"]
+    assert lead["figures"][0]["value"] == f"{voted:,}"
+    assert lead["figures"][1]["value"] == f"{voted / early['eligible'] * 100:.1f}%"
+    assert [p["id"] for p in lead["panels"]] == ["mail", "early"]
 
 
 @needs_db

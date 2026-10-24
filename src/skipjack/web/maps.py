@@ -47,8 +47,8 @@ def _fmt_break(v: float) -> str:
 
 @dataclass
 class Scale:
-    """Five colour classes. ``kind`` is "seq" (low to high, blue), "green" (low to high, for
-    maps that must not read as partisan), "div" (below and above a centre) or "party"
+    """Five colour classes. ``kind`` is "seq" (low to high, blue), "green" or "gold" (low to
+    high, for maps that must not read as partisan), "div" (below and above a centre) or "party"
     (Republican to Democratic margin). ``breaks`` are the four inner boundaries, ascending; a
     value equal to a boundary goes in the class above it."""
 
@@ -90,7 +90,7 @@ class Scale:
 
 def sequential(values: list[float | None], unit: str = "", kind: str = "seq") -> Scale:
     """Equal-width classes from the lowest to the highest value, on round numbers. ``kind``
-    picks the ramp: "seq" (blue) or "green"."""
+    picks the ramp: "seq" (blue), "green" or "gold"."""
     present = [v for v in values if v is not None]
     if not present:
         return Scale(kind, [1, 2, 3, 4], unit)
@@ -270,9 +270,7 @@ def _ratio(part: float | None, whole: float | None) -> float | None:
     return None if part is None or not whole else 100 * part / whole
 
 
-def turnout_live_maps(
-    rows: list[dict], as_of: str, href_prefix: str | None = None
-) -> list[dict]:
+def turnout_live_maps(rows: list[dict], as_of: str, href_prefix: str | None = None) -> list[dict]:
     """An election in progress: how many mail ballots sent have come back. Green rather than
     the blue ramp, since blue is the Democrats' colour on the site and a return rate must not
     read as partisan."""
@@ -285,6 +283,18 @@ def turnout_live_maps(
             none_text="no ballots sent yet", href_prefix=href_prefix,
         )
     ]  # fmt: skip
+
+
+def early_voting_map(rows: list[dict], as_of: str, href_prefix: str | None = None) -> dict:
+    """An election in progress: each county's early voters over its eligible active voters.
+    A gold ramp, distinct from the mail-in map's green and never the parties' blue or red."""
+    values = {r["county"]: _ratio(r.get("early_voting"), r.get("early_eligible")) for r in rows}
+    return county_map(
+        "turnout-early", "Early voters", values,
+        sequential(list(values.values()), "%", kind="gold"), fmt_pct(1),
+        caption=f"share of eligible active voters who have voted early, as of {as_of}",
+        none_text="no early voting reported", href_prefix=href_prefix,
+    )  # fmt: skip
 
 
 def turnout_certified_maps(rows: list[dict], turnout: dict[str, float | None]) -> list[dict]:
