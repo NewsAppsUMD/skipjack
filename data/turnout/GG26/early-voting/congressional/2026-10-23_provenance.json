@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-early-voting-congressional-20261023-a2d4f9e07744",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/EarlyVoting_by_Congressional_District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 early-voting (congressional) as of 2026-10-23",
+  "fetch_date": "2026-10-24T15:48:40+00:00",
+  "parse_date": "2026-10-24T15:48:44+00:00",
+  "sha256_original": "a2d4f9e07744573f2646d08c42ea0da0885cb25b9516f2578910b48cb97788d4",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "early-voting",
+  "geography": "congressional",
+  "notes": "GG26 early-voting (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 330,
+    "as_of": "2026-10-23"
+  }
+}
