@@ -42,7 +42,11 @@ Once GitHub Pages is switched on, the site publishes to
   eligible voters), mail-in ballots with their rejection reasons, and provisional outcomes — its certified
   figures of record only, never the board's unofficial eight-day tallies (early voting, same-day).
   For a running election: the mail-in tracking (requests, sent, received back, accepted in the
-  canvass), snapshotted under each report's own as-of date so the trend is visible day by day.
+  canvass), snapshotted under each report's own as-of date so the trend is visible day by day,
+  and, once early voting opens, the board's unofficial early-voting counts by day, party and
+  county against the eligible active voters. The eight-day files print only the election date,
+  so a running election's snapshot is dated by the files' eligible-actives date, the last
+  early-voting day they count.
 - **Results**: a hub per election, contest pages with a county table and map, and county pages with
   every contest on that county's ballot. Winner marks are the State Board's flag; statewide totals are
   summed from the county files and checked against the board's statewide breakdown files. 2018 and

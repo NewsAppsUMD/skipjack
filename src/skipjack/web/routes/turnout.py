@@ -48,6 +48,7 @@ async def election(request: Request, slug: str):
         geographies = qt.publishable_geographies(conn, code)
         sources = qt.snapshot_sources(conn, code)
         chart = qt.chart_data(conn, code)
+        early = qt.early_voting(conn, code)
     return request.app.state.templates.TemplateResponse(
         request,
         "turnout_election.html",
@@ -61,6 +62,7 @@ async def election(request: Request, slug: str):
             "reasons": reasons,
             "dates": dates,
             "geographies": geographies,
+            "early": early,
         },
     )
 

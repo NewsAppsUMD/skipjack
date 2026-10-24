@@ -15,6 +15,7 @@ import sqlite3
 from datetime import date, timedelta
 
 from skipjack.pipeline.turnout import ELECTIONS, may_publish
+from skipjack.web.compare import PARTY_GROUPS, PARTY_LABELS
 
 _SENT_MEASURES = ("sent", "received", "accepted")
 
@@ -486,6 +487,107 @@ def chart_data(conn: sqlite3.Connection, election: str) -> dict | None:
         if values is not None and any(values):
             out.append({"name": name, "values": values})
     return {"dates": all_dates, "series": out} if out else None
+
+
+# --- the in-flight election's early voting ----------------------------------------------------
+
+
+def early_voting(conn: sqlite3.Connection, election: str) -> dict | None:
+    """The latest early-voting snapshot of an election in progress: the state's ballots
+    and their share of the eligible active voters, the change from the previous
+    snapshot, each early-voting day's count, and the same figures by party and county.
+
+    None when the election has no early-voting snapshot, or is certified: the files are
+    the board's unofficial tallies (may_publish).
+    """
+    if not may_publish(election, "early-voting"):
+        return None
+    dates = _snapshot_dates(conn, election, "early-voting")
+    if not dates:
+        return None
+    as_of = dates[-1]
+    state = _statewide(conn, election, "early-voting", as_of)
+    total, eligible = state.get("total"), state.get("eligible")
+    change = None
+    if len(dates) > 1 and (before := _statewide(conn, election, "early-voting", dates[-2])):
+        change = total - before.get("total", 0)
+
+    # the days the snapshot covers: from the configured first day through the snapshot
+    # day, else through the last day with any ballots
+    start = ELECTIONS[election].early_voting_start if election in ELECTIONS else None
+    if start:
+        through = (date.fromisoformat(as_of) - date.fromisoformat(start)).days + 1
+    else:
+        through = max((n for n in range(1, 9) if state.get(f"day-{n}")), default=0)
+    days = [
+        {
+            "day": n,
+            "date": (
+                (date.fromisoformat(start) + timedelta(days=n - 1)).isoformat() if start else None
+            ),
+            "value": state.get(f"day-{n}"),
+        }
+        for n in range(1, min(max(through, 0), 8) + 1)
+    ]
+
+    by_party: dict[str, dict[str, int]] = {}
+    for r in conn.execute(
+        """SELECT party, measure, SUM(value) AS v FROM turnout_counts
+           WHERE election = ? AND family = 'early-voting' AND geography = 'county-party'
+             AND county != '' AND category = 'ALL' AND party != 'ALL' AND as_of = ?
+             AND measure IN ('total', 'eligible')
+           GROUP BY party, measure""",
+        (election, as_of),
+    ):
+        by_party.setdefault(r["party"], {})[r["measure"]] = r["v"]
+    party_ballots = sum(m.get("total", 0) for m in by_party.values())
+    parties = [
+        {
+            "party": party,
+            "label": PARTY_LABELS.get(party, party),
+            "total": by_party[party].get("total"),
+            "eligible": by_party[party].get("eligible"),
+            "share": _ratio(by_party[party].get("total"), by_party[party].get("eligible")),
+            "of_ballots": _ratio(by_party[party].get("total"), party_ballots),
+        }
+        for party in sorted(
+            by_party,
+            key=lambda p: (PARTY_GROUPS.index(p) if p in PARTY_GROUPS else len(PARTY_GROUPS), p),
+        )
+    ]
+
+    counties: dict[str, dict[str, int]] = {}
+    for r in conn.execute(
+        """SELECT county, measure, value FROM turnout_counts
+           WHERE election = ? AND family = 'early-voting' AND geography = 'county'
+             AND county != '' AND district = '' AND category = 'ALL' AND party = 'ALL'
+             AND as_of = ? AND measure IN ('total', 'eligible')""",
+        (election, as_of),
+    ):
+        counties.setdefault(r["county"], {})[r["measure"]] = r["value"]
+    return {
+        "as_of": as_of,
+        "previous": dates[-2] if change is not None else None,
+        "total": total,
+        "eligible": eligible,
+        "share": _ratio(total, eligible),
+        "change": change,
+        "days": days,
+        "parties": parties,
+        "counties": [
+            {
+                "county": county,
+                "total": cells.get("total"),
+                "eligible": cells.get("eligible"),
+                "share": _ratio(cells.get("total"), cells.get("eligible")),
+            }
+            for county, cells in sorted(counties.items())
+        ],
+    }
+
+
+def _ratio(part: int | None, whole: int | None) -> float | None:
+    return part / whole if part is not None and whole else None
 
 
 # --- the certified (final) election figures ----------------------------------------------------

@@ -6,6 +6,8 @@ The xlsx fixtures are built with openpyxl in the same messy shape the SBE export
 
 from __future__ import annotations
 
+import dataclasses
+
 import io
 import sqlite3
 from pathlib import Path
@@ -105,6 +107,17 @@ def test_election_config_matches_the_live_press_room():
             urls[("sent-returned", geo, "xlsx")]
             == f"{base}/Absentees_Sent_and_Returned_by_{geo.capitalize()}.xlsx"
         )
+    # the eight-day early-voting files, named with underscores this cycle
+    for geo, stem in (
+        ("county-party", "Party"),
+        ("county", "County"),
+        ("congressional", "Congressional_District"),
+        ("legislative", "Legislative_District"),
+        ("councilmanic", "Councilmanic_District"),
+        ("location", "Location"),
+    ):
+        assert urls[("early-voting", geo, "pdf")] == f"{base}/EarlyVoting_by_{stem}.pdf"
+    assert gg26.early_voting_start == "2026-10-22"
 
 
 REQUESTS_TEXT = """
@@ -1250,7 +1263,16 @@ def test_sent_returned_rejects_a_non_numeric_cell():
 
 # --- the turnout commands: fetch and parse -------------------------------------------------
 
-GG26 = turnout.ELECTIONS["GG26"]
+# the fetch/parse tests below drive the four mail-in files; the eight-day files have
+# their own tests
+GG26 = dataclasses.replace(
+    turnout.ELECTIONS["GG26"],
+    files=[
+        f
+        for f in turnout.ELECTIONS["GG26"].files
+        if f.family not in turnout.UNOFFICIAL_TALLY_FAMILIES
+    ],
+)
 
 
 def with_as_of(as_of_text: str, rows: list) -> list:
@@ -1265,7 +1287,7 @@ def turnout_env(tmp_path, monkeypatch):
     fetch sees only GG26's files (the GP26 files are their own tests)."""
     monkeypatch.setattr(turnout, "ARCHIVES_DIR", tmp_path / "archives")
     monkeypatch.setattr(turnout, "MANIFEST_PATH", tmp_path / "manifest.csv")
-    monkeypatch.setattr(turnout, "ELECTIONS", {"GG26": turnout.ELECTIONS["GG26"]})
+    monkeypatch.setattr(turnout, "ELECTIONS", {"GG26": GG26})
     return tmp_path
 
 
@@ -3094,6 +3116,47 @@ def test_report_date_reads_the_official_sheets():
 def test_election_date_reads_the_daily_files():
     assert turnout.extract_election_date_text("Election Date: June 23, 2026") == "2026-06-23"
     assert turnout.extract_election_date_text("no date here") is None
+
+
+EIGHT_DAY_TEXT = (
+    "Unofficial Early Voting Turnout* (By County)\n"
+    "Election: 2026 Gubernatorial General Election\n"
+    "Election Date: November 3, 2026\n"
+    "*Turnout Totals do not include Provisional or Absentee Voters "
+    "**County-Wide Eligible Active Voters are as of : October 23, 2026"
+)
+
+
+def test_eligible_as_of_reads_the_eight_day_footnote():
+    assert turnout.extract_eligible_as_of_text(EIGHT_DAY_TEXT) == "2026-10-23"
+    assert turnout.extract_eligible_as_of_text("Election Date: November 3, 2026") is None
+
+
+def test_an_in_flight_election_s_eight_day_files_are_dated_by_their_footnote():
+    # every night's re-post is headed by the same election date: the in-flight
+    # election's snapshots take the footnote's day, the certified ones keep theirs
+    assert turnout.eight_day_snapshot_date(EIGHT_DAY_TEXT, "GG26") == "2026-10-23"
+    gp26_text = EIGHT_DAY_TEXT.replace("November 3", "June 23").replace("October 23", "June 18")
+    assert turnout.eight_day_snapshot_date(gp26_text, "GP26") == "2026-06-23"
+    # no footnote: the election date stands
+    assert (
+        turnout.eight_day_snapshot_date("Election Date: November 3, 2026", "GG26")
+        == "2026-11-03"
+    )
+
+
+def test_turnout_fetch_dates_an_eight_day_file_by_its_footnote(turnout_env, monkeypatch):
+    from skipjack.pipeline.provenance import read_manifest
+
+    ev = turnout.FamilyFile("early-voting", "county", "pdf", "https://example.test/ev.pdf")
+    monkeypatch.setattr(
+        turnout, "ELECTIONS", {"GG26": dataclasses.replace(GG26, files=[ev])}
+    )
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: b"%PDF-1.4\n")
+    monkeypatch.setattr(turnout, "read_requests_pdf", lambda path: EIGHT_DAY_TEXT)
+    turnout.turnout_fetch()
+    (record,) = read_manifest(turnout.MANIFEST_PATH)
+    assert "__2026-10-23__" in Path(record.local_path).name
 
 
 def test_pdf_snapshot_date_prefers_the_report_date_then_the_as_of():

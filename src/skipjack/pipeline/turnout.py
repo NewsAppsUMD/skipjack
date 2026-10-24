@@ -68,6 +68,9 @@ class Election:
     # file whose printed date is unreadable. None keeps such a file "unknown", and its parse
     # fails for want of a date.
     undated_as_of: str | None = None
+    # The first of the eight early-voting days, so the eight-day files' "DAY1".."DAY8"
+    # columns read as dates; None leaves them as day numbers
+    early_voting_start: str | None = None
 
 
 def _gg26_files() -> list[FamilyFile]:
@@ -91,6 +94,17 @@ def _gg26_files() -> list[FamilyFile]:
             "legislative",
             "xlsx",
             f"{base}/Absentees_Sent_and_Returned_by_Legislative.xlsx",
+        ),
+        *(
+            FamilyFile("early-voting", geography, "pdf", f"{base}/EarlyVoting_by_{stem}.pdf")
+            for geography, stem in (
+                ("county-party", "Party"),
+                ("county", "County"),
+                ("congressional", "Congressional_District"),
+                ("legislative", "Legislative_District"),
+                ("councilmanic", "Councilmanic_District"),
+                ("location", "Location"),
+            )
         ),
     ]
 
@@ -342,6 +356,7 @@ ELECTIONS: dict[str, Election] = {
         name="2026 general election",
         election_day="2026-11-03",
         files=_gg26_files(),
+        early_voting_start="2026-10-22",
     ),
     "GP26": Election(
         code="GP26",
@@ -1874,6 +1889,38 @@ def pdf_snapshot_date(text: str) -> str | None:
     )
 
 
+ELIGIBLE_AS_OF_RE = re.compile(
+    r"Eligible Active Voters are as of\s*:?\s*([A-Z][a-z]+ \d{1,2}, \d{4})"
+)
+
+
+def extract_eligible_as_of_text(text: str) -> str | None:
+    """The eight-day files' eligible-actives footnote date ("County-Wide Eligible Active
+    Voters are as of : October 23, 2026"), "YYYY-MM-DD", else None."""
+    if not (found := ELIGIBLE_AS_OF_RE.search(text)):
+        return None
+    try:
+        parsed = datetime.datetime.strptime(found.group(1), "%B %d, %Y")
+    except ValueError:
+        return None
+    return parsed.date().isoformat()
+
+
+def eight_day_snapshot_date(text: str, election: str) -> str | None:
+    """An eight-day (early-voting or same-day) file's snapshot date.
+
+    While the election is in flight the board re-posts the same files every night, each
+    headed by the same election date, so a campaign snapshot is dated by its
+    eligible-actives footnote instead: the board moves it to the last early-voting day
+    the file counts. A certified election's files keep their election date (the rule
+    their archived snapshots were named by)."""
+    config = ELECTIONS.get(election)
+    if config is not None and not config.certified:
+        if found := extract_eligible_as_of_text(text):
+            return found
+    return pdf_snapshot_date(text)
+
+
 def _pdf_number(where: str, measure: str, cell: str) -> int:
     """One printed count cell as an integer: the counts print with or without commas."""
     text = (cell or "").strip()
@@ -2813,7 +2860,9 @@ def parse_early_voting_pdf(
         rows, text = pdf_table_rows(path), read_pdf_text(path)
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the early-voting PDF ({err})") from err
-    return parse_early_voting_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+    return parse_early_voting_rows(
+        rows, election, geography, as_of=eight_day_snapshot_date(text, election)
+    )
 
 
 # PG24's same-day sheets: Prince George's address-change totals (and the sheets' own
@@ -2915,7 +2964,9 @@ def parse_same_day_pdf(
         rows, text = pdf_table_rows(path), read_pdf_text(path)
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the same-day PDF ({err})") from err
-    return parse_same_day_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
+    return parse_same_day_rows(
+        rows, election, geography, as_of=eight_day_snapshot_date(text, election)
+    )
 
 
 def _daily_published(
@@ -2978,12 +3029,15 @@ def sniff(data: bytes) -> str | None:
     return None
 
 
-def extract_as_of_bytes(data: bytes, kind: str) -> str | None:
+def extract_as_of_bytes(
+    data: bytes, kind: str, election: str | None = None, family: str | None = None
+) -> str | None:
     """A downloaded file's as-of date, read the way the parse command reads the file.
 
     A workbook SBE exported unreadably reads as unknown (the parse command decides what
     a snapshot with no date means); a PDF's text layer does not appear in the raw
-    bytes, so the text is extracted with natural-pdf from a temp copy.
+    bytes, so the text is extracted with natural-pdf from a temp copy. An eight-day
+    file is dated as its parse dates it (eight_day_snapshot_date).
     """
     if kind == "pdf":
         import tempfile
@@ -2992,9 +3046,12 @@ def extract_as_of_bytes(data: bytes, kind: str) -> str | None:
             fh.write(data)
             fh.flush()
             try:
-                return pdf_snapshot_date(read_requests_pdf(Path(fh.name)))
+                text = read_requests_pdf(Path(fh.name))
             except Exception:  # natural-pdf has no error taxonomy; unreadable reads as unknown
                 return None
+            if election is not None and family in UNOFFICIAL_TALLY_FAMILIES:
+                return eight_day_snapshot_date(text, election)
+            return pdf_snapshot_date(text)
     try:
         workbook = CalamineWorkbook.from_object(io.BytesIO(data))
         for sheet in workbook.sheet_names:
@@ -3030,7 +3087,7 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
             if kind is None:
                 logger.info("Not published yet: %s", f.url)
                 continue
-            as_of = extract_as_of_bytes(data, kind) or e.undated_as_of
+            as_of = extract_as_of_bytes(data, kind, e.code, f.family) or e.undated_as_of
             digest = hashlib.sha256(data).hexdigest()
             if not force and _latest_sha(e.code, f.family, f.geography, kind) == digest:
                 logger.info("Already archived: %s (%s)", f.family, f.geography)

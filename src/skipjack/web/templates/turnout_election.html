@@ -43,6 +43,83 @@
 </div>
 {% endif %}
 
+{% if early %}
+<div class="section-head"><h2>Early voting</h2></div>
+<p>The State Board's unofficial early-voting reports count the voters who checked in at an
+    early-voting center; mail-in and provisional ballots are not in them. Through
+    {{ early.as_of|day_label }}, {{ m.num(early.total) }} voters had voted early{% if early.share is not none %},
+    {{ "%.1f"|format(early.share * 100) }}% of the {{ m.num(early.eligible) }} eligible active
+    voters{% endif %}.</p>
+
+<div class="tiles">
+    <div class="tile">
+        <div class="v">{{ m.num(early.total) }}</div>
+        <div class="l">early voters{% if early.change is not none %} &middot; {{ m.delta_span(early.change) }}{% endif %}</div>
+    </div>
+    {% if early.share is not none %}
+    <div class="tile">
+        <div class="v">{{ "%.1f"|format(early.share * 100) }}%</div>
+        <div class="l">of eligible active voters</div>
+    </div>
+    {% endif %}
+</div>
+
+{% if early.days %}
+<h3 style="font-size:1.05rem">By day</h3>
+<div class="overflow-auto">
+<table>
+    <thead><tr><th>Day</th><th class="num">Early voters</th></tr></thead>
+    <tbody>
+        {% for d in early.days %}
+        <tr>
+            <td>Day {{ d.day }}{% if d.date %} &middot; {{ d.date|day_label }}{% endif %}</td>
+            <td class="num">{{ m.num(d.value) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+{% if early.parties %}
+<h3 style="font-size:1.05rem">By party</h3>
+<div class="overflow-auto">
+<table>
+    <thead><tr><th>Party</th><th class="num">Early voters</th><th class="num">Share of early voters</th><th class="num">Share of the party's eligible actives</th></tr></thead>
+    <tbody>
+        {% for p in early.parties %}
+        <tr>
+            <td>{{ p.label }}</td>
+            <td class="num">{{ m.num(p.total) }}</td>
+            <td class="num">{% if p.of_ballots is not none %}{{ "%.1f"|format(p.of_ballots * 100) }}%{% else %}{{ m.num(none) }}{% endif %}</td>
+            <td class="num">{% if p.share is not none %}{{ "%.1f"|format(p.share * 100) }}%{% else %}{{ m.num(none) }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+{% if early.counties %}
+<h3 style="font-size:1.05rem">By county</h3>
+<div class="overflow-auto">
+<table>
+    <thead><tr><th>County</th><th class="num">Early voters</th><th class="num">Eligible actives</th><th class="num">Share</th></tr></thead>
+    <tbody>
+        {% for c in early.counties %}
+        <tr>
+            <td>{{ c.county }}</td>
+            <td class="num">{{ m.num(c.total) }}</td>
+            <td class="num">{{ m.num(c.eligible) }}</td>
+            <td class="num">{% if c.share is not none %}{{ "%.1f"|format(c.share * 100) }}%{% else %}{{ m.num(none) }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+{% endif %}
+
 {% endif %}
 
 {% if geographies %}

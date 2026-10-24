@@ -1178,3 +1178,90 @@ def test_real_2018_general_page_renders_the_certified_data():
     assert "re-published to the press room yet" not in r.text
     county = client.get("/turnout/gg18/county/")
     assert county.status_code == 200 and "Ballots cast" in county.text
+
+
+# --- the in-flight election's early voting -----------------------------------------------------
+
+
+def _ev_county(county, days, eligible):
+    rows = [("county", county, "", "ALL", "ALL", f"day-{n}", v) for n, v in enumerate(days, 1)]
+    rows += [("county", county, "", "ALL", "ALL", f"day-{n}", 0) for n in range(len(days) + 1, 9)]
+    return rows + [
+        ("county", county, "", "ALL", "ALL", "total", sum(days)),
+        ("county", county, "", "ALL", "ALL", "eligible", eligible),
+    ]
+
+
+def _ev_party(county, party, total, eligible):
+    return [
+        ("county-party", county, "", "ALL", party, "total", total),
+        ("county-party", county, "", "ALL", party, "eligible", eligible),
+    ]
+
+
+def test_early_voting_reads_the_latest_snapshot_by_day_party_and_county(conn):
+    add(conn, "2026-10-22", _ev_county("Kent", [100], 1000), "ev1", "early-voting")
+    add(
+        conn,
+        "2026-10-23",
+        _ev_county("Kent", [100, 50], 1000)
+        + _ev_county("Allegany", [300, 250], 10000)
+        + _ev_party("Kent", "DEM", 90, 500)
+        + _ev_party("Allegany", "DEM", 200, 3000)
+        + _ev_party("Kent", "REP", 60, 500)
+        + _ev_party("Allegany", "REP", 350, 7000),
+        "ev2",
+        "early-voting",
+    )
+    ev = turnout.early_voting(conn, "GG26")
+    assert ev["as_of"] == "2026-10-23"
+    assert ev["total"] == 700 and ev["eligible"] == 11000
+    assert ev["share"] == pytest.approx(700 / 11000)
+    assert ev["change"] == 600  # since the 10-22 snapshot's 100
+    # the days run from the configured first day through the snapshot day, dated
+    assert [(d["day"], d["date"], d["value"]) for d in ev["days"]] == [
+        (1, "2026-10-22", 400),
+        (2, "2026-10-23", 300),
+    ]
+    # parties in the board's order, each with its own share of its own eligible voters
+    assert [(p["party"], p["label"], p["total"]) for p in ev["parties"]] == [
+        ("DEM", "Democratic", 290),
+        ("REP", "Republican", 410),
+    ]
+    assert ev["parties"][0]["share"] == pytest.approx(290 / 3500)
+    assert ev["parties"][0]["of_ballots"] == pytest.approx(290 / 700)
+    # counties alphabetically
+    assert [(c["county"], c["total"], c["eligible"]) for c in ev["counties"]] == [
+        ("Allegany", 550, 10000),
+        ("Kent", 150, 1000),
+    ]
+    assert ev["counties"][1]["share"] == pytest.approx(0.15)
+
+
+def test_early_voting_is_none_without_files_or_for_a_certified_election(conn):
+    assert turnout.early_voting(conn, "GG26") is None
+    add(conn, "2026-06-23", _ev_county("Kent", [100], 1000), "gp", "early-voting", "GP26")
+    assert turnout.early_voting(conn, "GP26") is None  # an unofficial tally, never published
+
+
+@needs_db
+def test_the_election_page_renders_the_early_voting_section(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    db_path = _page_db(
+        tmp_path,
+        [
+            ("2026-10-22", ALLEGANY + WORCESTER),
+            ("2026-10-23", _ev_county("Kent", [1200, 1034], 15000), "early-voting"),
+        ],
+    )
+    monkeypatch.setattr(web_db, "DB_PATH", db_path)
+    html = TestClient(create_app()).get("/turnout/gg26/").text
+    assert "Early voting" in html
+    assert "2,234" in html  # the state's early ballots
+    assert "14.9%" in html  # of 15,000 eligible actives
+    assert "October 22, 2026" in html and "1,200" in html  # day 1, dated
+    assert "<td>Kent</td>" in html
