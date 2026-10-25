@@ -43,6 +43,51 @@
 </div>
 {% endif %}
 
+{% if pace %}
+<div class="section-head"><h2>Mail-in returns against earlier elections</h2></div>
+<p>{{ pace.sentence }} Each election is lined up by days before its own election day; a
+    general election always falls on a Tuesday, so the weekdays line up too.</p>
+<section class="viz-card" aria-labelledby="pace-chart-title">
+    <h3 id="pace-chart-title" class="sr-only">Share of mail-in ballots sent that had come back, by days before election day</h3>
+    <ul class="legend" id="pace-legend"></ul>
+    <div id="pace-chart"></div>
+</section>
+<div class="overflow-auto">
+<table>
+    <thead>
+        <tr>
+            <th>Election</th>
+            <th class="num">Report</th>
+            <th class="num">Ballots sent</th>
+            <th class="num">Received back</th>
+            <th class="num">Share returned</th>
+            <th class="num">Received by election day</th>
+            <th class="num">Received in all</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in pace.rows %}
+        <tr>
+            <td>{{ r.label }}</td>
+            <td class="num">{% if r.as_of %}{{ r.as_of|day_label }}{% if r.days != pace.days %} <span class="muted">({{ r.days }} days out)</span>{% endif %}{% else %}{{ m.num(none) }}{% endif %}</td>
+            <td class="num">{{ m.num(r.get("sent")) }}</td>
+            <td class="num">{{ m.num(r.get("received")) }}</td>
+            <td class="num">{% if r.get("rate") is not none %}{{ "%.1f"|format(r.rate * 100) }}%{% else %}{{ m.num(none) }}{% endif %}</td>
+            <td class="num">{{ m.num(r.get("election_day_received")) }}</td>
+            <td class="num">{% if r.get("final_received") is not none %}{{ m.num(r.final_received) }} <span class="muted">by {{ r.final_as_of|day_label }}</span>{% else %}{{ m.num(none) }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The earlier elections' daily reports were saved as the board posted them by
+    the <a href="https://github.com/dwillis/maryland_git_scraping">maryland_git_scraping</a>
+    project; the press room keeps only each election's last. "Received in all" is the last
+    report of the canvass. A few days have no saved report; the chart draws straight
+    across them.</p>
+<script id="pace-data" type="application/json">{{ pace.chart | tojson }}</script>
+{% endif %}
+
 {% if early %}
 <div class="section-head"><h2>Early voting</h2></div>
 <p>The State Board's unofficial early-voting reports count the voters who checked in at an
@@ -162,5 +207,8 @@
 {% block scripts %}
 {% if chart %}
 <script type="module" src="{{ base }}/static/turnout.js"></script>
+{% endif %}
+{% if pace %}
+<script type="module" src="{{ base }}/static/pace.js"></script>
 {% endif %}
 {% endblock %}

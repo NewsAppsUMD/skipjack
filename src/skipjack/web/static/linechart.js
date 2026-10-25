@@ -15,6 +15,8 @@
 //   xInset: number                // optional px of padding inside the plot, left and right
 //   markers: [{ index, label?, kind?, color? }]  // optional vertical rules, e.g. election months;
 //                                 // kind ("primary" or "general") picks the style, color overrides the line color
+//   bridgeGaps: boolean           // optional; draw a line across a missing value inside a
+//                                 // series instead of breaking it (a day with no saved report)
 //   height, endLabels, group, ariaLabel
 // }
 
@@ -71,6 +73,7 @@ export function renderLineChart(container, opts) {
     endLabels = false,
     group = null,
     ariaLabel = "Line chart",
+    bridgeGaps = false,
   } = opts;
 
   container.replaceChildren();
@@ -143,12 +146,13 @@ export function renderLineChart(container, opts) {
     }
   }
 
-  // Lines, broken where a party did not appear on the report.
+  // Lines, broken where a party did not appear on the report (bridged instead, given
+  // bridgeGaps).
   for (const s of series) {
     let d = "";
     let pen = false;
     s.values.forEach((v, i) => {
-      if (v == null) { pen = false; return; }
+      if (v == null) { if (!bridgeGaps) pen = false; return; }
       d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`;
       pen = true;
     });

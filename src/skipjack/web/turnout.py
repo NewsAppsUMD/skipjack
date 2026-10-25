@@ -545,6 +545,107 @@ def chart_data(conn: sqlite3.Connection, election: str) -> dict | None:
     return {"dates": all_dates, "series": out} if out else None
 
 
+# --- the in-flight election's mail-in pace against earlier elections ---------------------------
+
+
+def _returns_by_days_out(conn: sqlite3.Connection, election: str) -> dict[int, dict]:
+    """One election's statewide mail-in ballots sent and received at every sent-returned
+    snapshot, keyed by days before its election day (negative after it)."""
+    election_day = date.fromisoformat(ELECTIONS[election].election_day)
+    out: dict[int, dict] = {}
+    for as_of in _snapshot_dates(conn, election, "sent-returned"):
+        totals = _statewide(conn, election, "sent-returned", as_of)
+        if not totals.get("sent") or totals.get("received") is None:
+            continue
+        out[(election_day - date.fromisoformat(as_of)).days] = {
+            "as_of": as_of,
+            "sent": totals["sent"],
+            "received": totals["received"],
+            "rate": totals["received"] / totals["sent"],
+        }
+    return out
+
+
+def _election_year_label(election: str) -> str:
+    """ "2022 general election" -> "2022 general"."""
+    return ELECTIONS[election].name.removesuffix(" election")
+
+
+def pace(conn: sqlite3.Connection, election: str) -> dict | None:
+    """An election in progress against its pace_comparisons: each one's statewide share of
+    mail-in ballots sent that had come back, by days before election day (the chart), and
+    each one's figures at the in-progress election's latest day (the table), with what the
+    earlier elections went on to receive by election day and in the canvass.
+
+    A comparison's row at that day is its snapshot that many days out or, where its
+    scraper missed the day, its nearest one further out (``days`` says which). None when
+    the election has no snapshot or no comparison has one.
+    """
+    config = ELECTIONS.get(election)
+    if config is None or config.certified or not config.pace_comparisons:
+        return None
+    now = _returns_by_days_out(conn, election)
+    if not now:
+        return None
+    days = min(d for d in now if d >= 0) if any(d >= 0 for d in now) else min(now)
+    past = {
+        code: series
+        for code in config.pace_comparisons
+        if code in ELECTIONS and (series := _returns_by_days_out(conn, code))
+    }
+    if not past:
+        return None
+
+    rows = [
+        {"election": election, "label": _election_year_label(election), "days": days, **now[days]}
+    ]
+    for code, series in past.items():
+        earlier = [d for d in series if d >= days]
+        row: dict = {"election": code, "label": _election_year_label(code)}
+        if earlier:
+            row.update({"days": min(earlier), **series[min(earlier)]})
+        on_the_day = [d for d in series if d >= 0]
+        if on_the_day:
+            row["election_day_received"] = series[min(on_the_day)]["received"]
+        row["final_received"] = series[min(series)]["received"]
+        row["final_as_of"] = series[min(series)]["as_of"]
+        rows.append(row)
+
+    # the chart: days out from the furthest any series reaches (within the campaign) to
+    # election day, one line per election, a gap where an election has no report that day
+    start = max(d for series in (now, *past.values()) for d in series if d >= 0)
+    axis = list(range(start, -1, -1))
+    series_out = [
+        {
+            "name": _election_year_label(code),
+            "values": [round(s[d]["rate"] * 100, 1) if d in s else None for d in axis],
+        }
+        for code, s in ((election, now), *past.items())
+    ]
+    return {
+        "days": days,
+        "rows": rows,
+        "sentence": _pace_sentence(days, rows),
+        "chart": {"days": axis, "series": series_out},
+    }
+
+
+def _pace_sentence(days: int, rows: list[dict]) -> str:
+    """ "11 days before election day, 42% of the mail-in ballots sent had come back: about
+    the same as in the 2022 general (42%) and behind the 2024 general (55%)." """
+    now, *past = rows
+    when = "On election day" if days == 0 else f"{days} day{'s' if days != 1 else ''} before election day"
+    parts = []
+    for row in past:
+        if row.get("rate") is None:
+            continue
+        gap = (now["rate"] - row["rate"]) * 100
+        word = "about the same as" if abs(gap) < 1 else ("ahead of" if gap > 0 else "behind")
+        parts.append(f"{word} the {row['label']} ({row['rate'] * 100:.0f}%)")
+    sentence = f"{when}, {now['rate'] * 100:.0f}% of the mail-in ballots sent had come back"
+    return sentence + (": " + " and ".join(parts) if parts else "") + "."
+
+
 # --- the in-flight election's early voting ----------------------------------------------------
 
 

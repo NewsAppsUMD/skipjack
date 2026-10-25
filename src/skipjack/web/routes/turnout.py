@@ -49,6 +49,7 @@ async def election(request: Request, slug: str):
         sources = qt.snapshot_sources(conn, code)
         chart = qt.chart_data(conn, code)
         early = qt.early_voting(conn, code)
+        pace = qt.pace(conn, code)
     return request.app.state.templates.TemplateResponse(
         request,
         "turnout_election.html",
@@ -63,6 +64,7 @@ async def election(request: Request, slug: str):
             "dates": dates,
             "geographies": geographies,
             "early": early,
+            "pace": pace,
         },
     )
 

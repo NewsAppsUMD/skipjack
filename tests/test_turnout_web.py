@@ -1400,3 +1400,74 @@ def test_the_legislative_page_renders_the_early_voting_districts(tmp_path, monke
     assert "District 27A" in html and "500" in html and "5.0%" in html
     assert "/turnout/gg26/legislative/" in client.get("/turnout/gg26/").text
     assert client.get("/turnout/gp26/legislative/").status_code == 404
+
+
+# --- the mail-in pace against earlier elections ------------------------------------------------
+
+
+def _state_sent(conn, election, as_of, sent, received, source):
+    add(
+        conn,
+        as_of,
+        [
+            ("county", "Kent", "", "ALL", "ALL", "sent", sent),
+            ("county", "Kent", "", "ALL", "ALL", "received", received),
+        ],
+        source,
+        "sent-returned",
+        election,
+    )
+
+
+def test_pace_lines_the_elections_up_by_days_before_election_day(conn):
+    _state_sent(conn, "GG26", "2026-10-22", 1000, 400, "a")  # 12 days out
+    _state_sent(conn, "GG26", "2026-10-23", 1000, 420, "b")  # 11 days out
+    _state_sent(conn, "GG22", "2022-10-28", 900, 380, "c")  # 11 days out
+    _state_sent(conn, "GG22", "2022-11-08", 900, 600, "d")  # election day
+    _state_sent(conn, "GG22", "2022-11-28", 900, 770, "e")  # the canvass's last report
+    _state_sent(conn, "PG24", "2024-10-23", 2000, 1100, "f")  # 13 days out: the 11th is missing
+    _state_sent(conn, "PG24", "2024-11-05", 2000, 1500, "g")
+    p = turnout.pace(conn, "GG26")
+    assert p["days"] == 11
+    now, gg22, pg24 = p["rows"]
+    assert (now["label"], now["received"], now["rate"]) == ("2026 general", 420, 0.42)
+    assert (gg22["days"], gg22["received"]) == (11, 380)
+    assert gg22["election_day_received"] == 600
+    assert (gg22["final_received"], gg22["final_as_of"]) == (770, "2022-11-28")
+    # the nearest report further out stands in for a missed day, and says so
+    assert (pg24["days"], pg24["as_of"]) == (13, "2024-10-23")
+    assert p["sentence"] == (
+        "11 days before election day, 42% of the mail-in ballots sent had come back: "
+        "about the same as the 2022 general (42%) and behind the 2024 general (55%)."
+    )
+    chart = p["chart"]
+    assert chart["days"][0] == 13 and chart["days"][-1] == 0
+    by_name = {s["name"]: s["values"] for s in chart["series"]}
+    assert by_name["2026 general"][chart["days"].index(11)] == 42.0
+    assert by_name["2022 general"][-1] == 66.7  # election day; the canvass is off the chart
+    assert by_name["2024 general"][chart["days"].index(11)] is None  # a gap, not a guess
+
+
+def test_pace_is_none_without_comparisons_or_for_a_certified_election(conn):
+    _state_sent(conn, "GG26", "2026-10-23", 1000, 420, "a")
+    assert turnout.pace(conn, "GG26") is None  # no earlier election has snapshots
+    _state_sent(conn, "GG22", "2022-10-28", 900, 380, "c")
+    assert turnout.pace(conn, "GG26") is not None
+    assert turnout.pace(conn, "GG22") is None  # certified, and compares with nothing
+
+
+@needs_db
+def test_the_real_gg26_page_compares_its_pace_with_2022_and_2024():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+    from skipjack.web.db import get_db
+
+    with get_db() as conn:
+        p = turnout.pace(conn, "GG26")
+    html = TestClient(create_app()).get("/turnout/gg26/").text
+    assert "Mail-in returns against earlier elections" in html
+    assert p["sentence"] in html.replace("&#39;", "'")
+    assert 'id="pace-data"' in html and "static/pace.js" in html
+    for row in p["rows"][1:]:
+        assert f"{row['final_received']:,}" in html

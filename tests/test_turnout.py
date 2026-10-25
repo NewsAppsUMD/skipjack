@@ -5408,3 +5408,137 @@ def test_canvass_rejects_two_header_cells_for_one_measure():
     doubled[0] = [*doubled[0], "Election Day"]
     with pytest.raises(turnout.TurnoutParseError, match="more than one column for election-day"):
         turnout.parse_county_canvass_rows(doubled, "GG18", "county", as_of="2018-11-06")
+
+
+# --- backfilling the daily mail-in reports from a scraper's git history ---------------------
+
+
+def test_election_code_from_title():
+    assert turnout.election_code_from_title("2022 Gubernatorial General Election") == "GG22"
+    assert turnout.election_code_from_title("2024 Presidential Primary Election") == "PP24"
+    assert turnout.election_code_from_title(" 2024 Presidential General Election ") == "PG24"
+    assert turnout.election_code_from_title("2025 Special Primary Election") is None
+
+
+def _git_repo(path, files):
+    """A git checkout whose commits each add one file, at the given author time:
+    files = [(name, bytes, "2026-10-10T08:15:00-04:00"), ...] under absentee/."""
+    import os
+    import subprocess
+
+    (path / "absentee").mkdir(parents=True)
+    run = lambda *a, **env: subprocess.run(  # noqa: E731
+        ["git", "-C", str(path), *a],
+        check=True,
+        capture_output=True,
+        env={**os.environ, **env},
+    )
+    run("init", "-q")
+    for name, data, when in files:
+        (path / "absentee" / name).write_bytes(data)
+        run("add", f"absentee/{name}")
+        run(
+            "-c",
+            "user.name=t",
+            "-c",
+            "user.email=t@t",
+            "commit",
+            "-q",
+            "-m",
+            name,
+            GIT_AUTHOR_DATE=when,
+            GIT_COMMITTER_DATE=when,
+        )
+
+
+def test_turnout_backfill_archives_each_report_once_under_its_printed_day(turnout_env):
+    from skipjack.pipeline.provenance import SourceRecord, append_to_manifest, read_manifest
+
+    oct9 = sent_worksheet(with_as_of("As of: October 9, 2026 6 PM", SENT_COUNTY_ROWS))
+    oct10 = sent_worksheet(with_as_of("As of: October 10, 2026 6 PM", SENT_COUNTY_ROWS))
+    oct11 = sent_worksheet(with_as_of("As of: October 11, 2026 6 PM", SENT_COUNTY_ROWS))
+    other = sent_worksheet(
+        [["Election: 2018 Gubernatorial General Election", "As of: October 9, 2018"]]
+    )
+    repo = turnout_env / "scraper"
+    _git_repo(
+        repo,
+        [
+            ("absentee_ballots_20261010.xlsx", oct9, "2026-10-10T08:15:00-04:00"),
+            ("absentee_ballots_20261011.xlsx", oct9, "2026-10-11T08:15:00-04:00"),  # same report
+            ("absentee_ballots_20261012.xlsx", oct10, "2026-10-12T08:15:00-04:00"),
+            ("absentee_ballots_20261013.xlsx", oct11, "2026-10-13T08:15:00-04:00"),
+            ("absentee_ballots_20181010.xlsx", other, "2018-10-10T08:15:00-04:00"),
+        ],
+    )
+    # the board's own fetch already archived October 11: that file stays the record
+    board = turnout_env / "archives" / "sbe" / "campaign_stats" / "GG26"
+    board.mkdir(parents=True)
+    (board / "sent-returned__county__2026-10-11__aaaaaaaaaaaa.xlsx").write_bytes(b"PK board")
+    append_to_manifest(
+        turnout.MANIFEST_PATH,
+        SourceRecord.create(
+            source_id="sbe-turnout-gg26-sent-returned-county-20261011-aaaaaaaaaaaa",
+            source_url=GG26.files[1].url,
+            source_name="Maryland State Board of Elections",
+            local_path=board / "sent-returned__county__2026-10-11__aaaaaaaaaaaa.xlsx",
+        ),
+    )
+
+    records = turnout.turnout_backfill(repo)
+    assert [Path(r.local_path).name.split("__")[2] for r in records] == [
+        "2026-10-09",
+        "2026-10-10",
+    ]
+    first = records[0]
+    assert first.source_id.startswith("sbe-turnout-gg26-sent-returned-county-20261009-")
+    assert first.source_url.startswith(
+        "https://raw.githubusercontent.com/dwillis/maryland_git_scraping/"
+    )
+    assert first.source_url.endswith("/absentee/absentee_ballots_20261010.xlsx")
+    assert first.fetch_date == "2026-10-10T12:15:00+00:00"  # the commit's time, in UTC
+    assert Path(first.local_path).read_bytes() == oct9
+    assert len(read_manifest(turnout.MANIFEST_PATH)) == 3
+    # a second run finds nothing new
+    assert turnout.turnout_backfill(repo) == []
+
+
+def test_backfilled_snapshots_parse_with_their_scraped_source(turnout_env, monkeypatch):
+    from skipjack.pipeline.provenance import ProvenanceSidecar
+
+    repo = turnout_env / "scraper"
+    data = sent_worksheet(with_as_of("As of: October 9, 2026 6 PM", SENT_COUNTY_ROWS))
+    _git_repo(repo, [("absentee_ballots_20261010.xlsx", data, "2026-10-10T08:15:00-04:00")])
+    turnout.turnout_backfill(repo)
+    written, failed = turnout.turnout_parse(data_dir=turnout_env / "data")
+    assert written == 1 and failed == []
+    sidecar = ProvenanceSidecar.read(
+        turnout_env
+        / "data"
+        / "turnout"
+        / "GG26"
+        / "sent-returned"
+        / "county"
+        / "2026-10-09_provenance.json"
+    )
+    assert sidecar.source_url.endswith("/absentee/absentee_ballots_20261010.xlsx")
+    assert sidecar.fetch_date == "2026-10-10T12:15:00+00:00"
+
+
+def test_latest_sha_reads_only_the_file_s_own_revisions(turnout_env):
+    from skipjack.pipeline.provenance import SourceRecord, append_to_manifest
+
+    # an original post and its Updated- re-post share the key; each is its own file
+    for url, sha in (("https://x/Original.pdf", "a" * 64), ("https://x/Updated.pdf", "b" * 64)):
+        record = SourceRecord.create(
+            source_id=f"sbe-turnout-gg26-county-canvass-county-20261201-{sha[:12]}",
+            source_url=url,
+            source_name="Maryland State Board of Elections",
+            local_path=turnout_env / f"county-canvass__county__2026-12-01__{sha[:12]}.pdf",
+        )
+        record.sha256 = sha
+        append_to_manifest(turnout.MANIFEST_PATH, record)
+    latest = turnout._latest_sha
+    assert latest("GG26", "county-canvass", "county", "pdf") == "b" * 64
+    assert latest("GG26", "county-canvass", "county", "pdf", "https://x/Original.pdf") == "a" * 64
+    assert latest("GG26", "county-canvass", "county", "pdf", "https://x/Updated.pdf") == "b" * 64

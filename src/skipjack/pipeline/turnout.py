@@ -71,6 +71,9 @@ class Election:
     # The first of the eight early-voting days, so the eight-day files' "DAY1".."DAY8"
     # columns read as dates; None leaves them as day numbers
     early_voting_start: str | None = None
+    # Earlier elections whose daily mail-in snapshots this one's page compares its pace
+    # against, by days before election day
+    pace_comparisons: tuple[str, ...] = ()
 
 
 def _gg26_files() -> list[FamilyFile]:
@@ -357,6 +360,7 @@ ELECTIONS: dict[str, Election] = {
         election_day="2026-11-03",
         files=_gg26_files(),
         early_voting_start="2026-10-22",
+        pace_comparisons=("GG22", "PG24"),
     ),
     "GP26": Election(
         code="GP26",
@@ -1509,7 +1513,17 @@ def _sent_sheet_rows(
 
 # 2024's sheet vocabulary grew by the parties Maryland added that cycle: Libertarian
 # (LIB) and No Labels (NLM). WCP is the 2026 vocabulary's write-in party column.
-ELIGIBLE_PARTIES = ("DEM", "REP", "LIB", "NLM", "GRN", "OTH", "UNA", "WCP", "BAR")  # BAR: Bread and Roses, on the 2022 rolls
+ELIGIBLE_PARTIES = (
+    "DEM",
+    "REP",
+    "LIB",
+    "NLM",
+    "GRN",
+    "OTH",
+    "UNA",
+    "WCP",
+    "BAR",
+)  # BAR: Bread and Roses, on the 2022 rolls
 ELIGIBLE_MEASURES = {"eligible-active": "active", "eligible-inactive": "inactive"}
 ELIGIBLE_GEOGRAPHIES = ("county", "congressional", "legislative", "councilmanic")
 
@@ -2113,25 +2127,33 @@ def _tallied_check(
     """One row's own arithmetic: its modes sum to its base count, and every printed share
     is that count over the base's measure."""
     modes_sum = sum(cells[measure] for measure in sheet.modes)
-    if modes_sum != cells[sheet.base] and (
-        election,
-        family,
-        county,
-        modes_sum,
-        cells[sheet.base],
-    ) not in _TALLIED_PRINT_ERRORS:
+    if (
+        modes_sum != cells[sheet.base]
+        and (
+            election,
+            family,
+            county,
+            modes_sum,
+            cells[sheet.base],
+        )
+        not in _TALLIED_PRINT_ERRORS
+    ):
         raise TurnoutParseError(
             f"{where}: {county}'s counts do not add up ({modes_sum} != {cells[sheet.base]})"
         )
     for measure, printed in shares.items():
         base = sheet.share_of[measure]
-        if not share_matches(cells[measure], cells[base], printed) and (
-            election,
-            family,
-            county,
-            measure,
-            round(printed * 10000),
-        ) not in _TALLIED_SHARE_PRINT_ERRORS:
+        if (
+            not share_matches(cells[measure], cells[base], printed)
+            and (
+                election,
+                family,
+                county,
+                measure,
+                round(printed * 10000),
+            )
+            not in _TALLIED_SHARE_PRINT_ERRORS
+        ):
             raise TurnoutParseError(
                 f"{where}: the printed {measure} share is not {cells[measure]} of "
                 f"{cells[base]} ({printed:.2%} printed)"
@@ -3089,7 +3111,7 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
                 continue
             as_of = extract_as_of_bytes(data, kind, e.code, f.family) or e.undated_as_of
             digest = hashlib.sha256(data).hexdigest()
-            if not force and _latest_sha(e.code, f.family, f.geography, kind) == digest:
+            if not force and _latest_sha(e.code, f.family, f.geography, kind, f.url) == digest:
                 logger.info("Already archived: %s (%s)", f.family, f.geography)
                 continue
             dest = (
@@ -3120,20 +3142,149 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
     return fetched
 
 
-def _latest_sha(election: str, family: str, geography: str, kind: str) -> str | None:
+def _latest_sha(
+    election: str, family: str, geography: str, kind: str, url: str | None = None
+) -> str | None:
     """The SHA-256 of the newest archived revision of this file, from the manifest.
 
     The id ends with a YYYYMMDD date segment and a sha prefix, so the geography is
-    anchored: "county" is not a prefix-collision of "county-party" here.
+    anchored: "county" is not a prefix-collision of "county-party" here. Given its url,
+    only that file's own revisions count: a family's original and Updated- posts share
+    the key, and so do revisions backfilled from elsewhere (turnout_backfill), so without
+    it every fetch read each of the pair as changed against the other's bytes.
     """
     pattern = re.compile(
         rf"^sbe-turnout-{re.escape(election.lower())}-{re.escape(family)}-"
         rf"{re.escape(geography)}-(?:\d{{8}}|unknown)-[0-9a-f]{{12}}$"
     )
     for record in reversed(read_manifest(MANIFEST_PATH)):
-        if pattern.fullmatch(record.source_id) and Path(record.local_path).suffix == "." + kind:
+        if (
+            pattern.fullmatch(record.source_id)
+            and Path(record.local_path).suffix == "." + kind
+            and (url is None or record.source_url == url)
+        ):
             return record.sha256
     return None
+
+
+# --- backfilling a campaign's daily mail-in reports from a scraper's git history -----------
+
+BACKFILL_REPO = "dwillis/maryland_git_scraping"
+BACKFILL_URL_PREFIX = "https://raw.githubusercontent.com/"
+ELECTION_TITLE_RE = re.compile(r"(\d{4}) (Gubernatorial|Presidential) (Primary|General) Election")
+
+
+def election_code_from_title(title: str) -> str | None:
+    """The board's election code for a printed election title: "2022 Gubernatorial
+    General Election" is GG22, "2024 Presidential Primary Election" PP24; else None."""
+    if not (m := ELECTION_TITLE_RE.fullmatch(title.strip())):
+        return None
+    return f"{m.group(2)[0]}{m.group(3)[0]}{m.group(1)[2:]}"
+
+
+def _printed_election(data: bytes) -> str | None:
+    """A sent-and-returned workbook's "Election: ..." title cell, else None."""
+    try:
+        workbook = CalamineWorkbook.from_object(io.BytesIO(data))
+        rows = workbook.get_sheet_by_name(workbook.sheet_names[0]).to_python(skip_empty_area=False)
+    except (OSError, CalamineError, IndexError):
+        return None
+    for row in rows[:6]:
+        for cell in row:
+            if isinstance(cell, str) and cell.strip().startswith("Election:"):
+                return cell.strip().removeprefix("Election:").strip()
+    return None
+
+
+def _added_by(repo_dir: Path, relative: str) -> tuple[str, str]:
+    """The commit that added a file to a git checkout, and its time in UTC (the moment the
+    scraper saved it): (sha, "YYYY-MM-DDTHH:MM:SS+00:00")."""
+    import subprocess
+
+    out = subprocess.run(
+        ["git", "-C", str(repo_dir), "log", "--diff-filter=A", "--format=%H %aI", "--", relative],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.split()
+    if len(out) < 2:
+        raise TurnoutParseError(f"{relative} has no commit that added it in {repo_dir}")
+    commit, when = out[-2], out[-1]  # the first add, should the file have come and gone
+    stamp = datetime.datetime.fromisoformat(when).astimezone(datetime.timezone.utc)
+    return commit, stamp.isoformat(timespec="seconds")
+
+
+def turnout_backfill(
+    repo_dir: Path, folder: str = "absentee", repo: str = BACKFILL_REPO
+) -> list[SourceRecord]:
+    """Archive the daily county sent-and-returned workbooks a scraper saved to git, as the
+    campaign snapshots the press room no longer holds (it keeps only each election's last).
+
+    The scraper named its files by the day it ran, so a report can sit under several names;
+    each distinct file (by sha) is archived under the as-of day its own sheet prints and the
+    election its title names, the way turnout_fetch archives one. Its source url is the raw
+    file at the commit that added it, and its fetch date that commit's time. Skipped: a file
+    whose bytes are archived already, an election skipjack does not configure, and any as-of
+    day the board's own press-room fetch archived (that file stays the record).
+    """
+    family, geography, kind = "sent-returned", "county", "xlsx"
+    records = read_manifest(MANIFEST_PATH)
+    known = {r.sha256 for r in records}
+    fetched_days = set()
+    for r in records:
+        if r.source_id.startswith("sbe-turnout-") and not r.source_url.startswith(
+            BACKFILL_URL_PREFIX
+        ):
+            try:
+                fetched_days.add(_split_snapshot_name(Path(r.local_path)))
+            except ValueError:
+                continue
+    backfilled: list[SourceRecord] = []
+    for path in sorted((repo_dir / folder).glob("*.xlsx")):
+        data = path.read_bytes()
+        digest = hashlib.sha256(data).hexdigest()
+        if digest in known:
+            continue
+        title = _printed_election(data)
+        code = election_code_from_title(title) if title else None
+        if code not in ELECTIONS:
+            logger.info("Skipped (no configured election for %r): %s", title, path.name)
+            continue
+        as_of = extract_as_of_bytes(data, kind)
+        if as_of is None:
+            logger.info("Skipped (no As-of date): %s", path.name)
+            continue
+        if (code, family, geography, as_of) in fetched_days:
+            logger.info("Skipped (the board's own file is archived): %s %s", code, as_of)
+            continue
+        commit, when = _added_by(repo_dir, f"{folder}/{path.name}")
+        dest = (
+            ARCHIVES_DIR
+            / "sbe"
+            / "campaign_stats"
+            / code
+            / f"{family}__{geography}__{as_of}__{digest[:12]}.{kind}"
+        )
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if not dest.exists():
+            dest.write_bytes(data)
+        record = SourceRecord.create(
+            source_id=(
+                f"sbe-turnout-{code.lower()}-{family}-{geography}-"
+                f"{as_of.replace('-', '')}-{digest[:12]}"
+            ),
+            source_url=f"{BACKFILL_URL_PREFIX}{repo}/{commit}/{folder}/{path.name}",
+            source_name=SOURCE_NAME,
+            local_path=dest,
+            document_title=f"{code} {family} ({geography}) as of {as_of}",
+            notes=f"The board's file as github.com/{repo} saved it on {when[:10]}.",
+        )
+        record.fetch_date = when
+        append_to_manifest(MANIFEST_PATH, record)
+        known.add(digest)
+        backfilled.append(record)
+        logger.info("Backfilled %s (as of %s)", dest.name, as_of)
+    return backfilled
 
 
 def read_requests_pdf(path: Path) -> str:

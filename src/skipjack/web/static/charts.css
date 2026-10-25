@@ -13,6 +13,10 @@
     --party-minor: #52514e;
     --series-new: #1baf7a;
     --series-removed: #eb6834;
+    /* the pace chart's elections: the one in progress in ink, the earlier ones off the party colours */
+    --pace-now: #1f1e1c;
+    --pace-1: #1baf7a;
+    --pace-2: #c27f17;
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     color: var(--text-primary);
 }

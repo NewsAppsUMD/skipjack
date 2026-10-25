@@ -100,6 +100,15 @@ def cmd_turnout_fetch(args: argparse.Namespace) -> None:
     print(f"Fetched {len(records)} new turnout snapshots")
 
 
+def cmd_turnout_backfill(args: argparse.Namespace) -> None:
+    from pathlib import Path
+
+    from skipjack.pipeline.turnout import turnout_backfill
+
+    records = turnout_backfill(Path(args.repo_dir), folder=args.folder, repo=args.repo)
+    print(f"Backfilled {len(records)} turnout snapshots; run turnout-parse to write them")
+
+
 def cmd_results_fetch(args: argparse.Namespace) -> None:
     from skipjack.pipeline.results import RESULTS_ELECTIONS, results_fetch
 
@@ -252,6 +261,18 @@ def main(argv: list[str] | None = None) -> None:
     turnout_fetch_p.add_argument("--force", action="store_true")
     turnout_fetch_p.add_argument("--election", help="Only one election's files (e.g. GG26)")
 
+    turnout_backfill_p = sub.add_parser(
+        "turnout-backfill",
+        help="Archive the daily mail-in sent/returned workbooks a scraper saved to git",
+    )
+    turnout_backfill_p.add_argument(
+        "repo_dir", help="A local clone of the scraper's repository (e.g. maryland_git_scraping)"
+    )
+    turnout_backfill_p.add_argument("--folder", default="absentee")
+    turnout_backfill_p.add_argument(
+        "--repo", default="dwillis/maryland_git_scraping", help="owner/name, for the raw urls"
+    )
+
     results_fetch_p = sub.add_parser(
         "results-fetch", help="Download county election results CSVs from SBE"
     )
@@ -320,6 +341,7 @@ def main(argv: list[str] | None = None) -> None:
         "fetch": cmd_fetch,
         "parse": cmd_parse,
         "turnout-fetch": cmd_turnout_fetch,
+        "turnout-backfill": cmd_turnout_backfill,
         "turnout-parse": cmd_turnout_parse,
         "results-fetch": cmd_results_fetch,
         "results-parse": cmd_results_parse,

@@ -20,7 +20,7 @@ Once GitHub Pages is switched on, the site publishes to
 | **Voter registration by county and party** | Jan 2010 to Sep 2026, 201 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
-| **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The certified reports of the 2022 and 2026 primaries, the 2018 and 2022 generals and the 2024 primary and general, and snapshots of the 2026 general election's, daily as they change | SBE press-room statistical reports (2018: the SBE's election archive), PDF and XLSX |
+| **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The certified reports of the 2022 and 2026 primaries, the 2018 and 2022 generals and the 2024 primary and general, and snapshots of the 2026 general election's, daily as they change; the daily mail-in sent-and-returned reports of the 2022 and 2024 generals | SBE press-room statistical reports (2018: the SBE's election archive), PDF and XLSX; the earlier daily reports as [maryland_git_scraping](https://github.com/dwillis/maryland_git_scraping) saved them |
 | **Election results by county** (every contest, candidate and vote type) | The primaries and generals of 2020, 2022 and 2024 and the 2026 primary | SBE election data pages, county CSV files |
 | **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
@@ -47,6 +47,8 @@ Once GitHub Pages is switched on, the site publishes to
   county against the eligible active voters. The eight-day files print only the election date,
   so a running election's snapshot is dated by the files' eligible-actives date, the last
   early-voting day they count.
+  The mail-in returns are also lined up against the 2022 and 2024 generals by days before
+  election day, from those campaigns' backfilled daily reports.
 - **Results**: a hub per election, contest pages with a county table and map, and county pages with
   every contest on that county's ballot. Winner marks are the State Board's flag; statewide totals are
   summed from the county files and checked against the board's statewide breakdown files. 2018 and
@@ -90,6 +92,7 @@ make serve       # http://127.0.0.1:8000
 | `make fetch` | Download any new monthly report PDFs from the SBE into `archives/` |
 | `make parse` | Parse the PDFs into CSVs under `data/voter_registration/`, checking each one |
 | `make turnout` | Snapshot the press-room turnout files (`turnout-fetch`, `turnout-parse`) into `data/turnout/` |
+| `uv run skipjack turnout-backfill PATH` | Archive the daily mail-in sent-and-returned workbooks in a local clone of maryland_git_scraping (its `absentee/` folder), under each report's printed date; `turnout-parse` then writes them |
 | `make results` | Download and parse the SBE's county results files (`results-fetch`, `results-parse`) into `data/results/`; `uv run skipjack results-fetch --election GP26` does one election |
 | `make voterfile VOTERFILE_DIR="/path/to/voter files"` | Aggregate a statewide voter file into `data/voter_file/` |
 | `make build-db` | Build `skipjack.db` from everything in `data/` |
