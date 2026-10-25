@@ -1,0 +1,961 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,DEM,sent,2118
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,REP,sent,1742
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,OTH,sent,614
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,ALL,sent,4474
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,DEM,received,1371
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,REP,received,1074
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,OTH,received,338
+2022-10-31,GG22,sent-returned,county,Allegany,"",ALL,ALL,received,2783
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,DEM,sent,39341
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,REP,sent,14762
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,OTH,sent,13832
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,ALL,sent,67935
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,DEM,received,19222
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,REP,received,6852
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,OTH,received,5377
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",ALL,ALL,received,31451
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,DEM,sent,48283
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,REP,sent,2575
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,OTH,sent,4998
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,ALL,sent,55856
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,DEM,received,23595
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,REP,received,1126
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,OTH,received,1708
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",ALL,ALL,received,26429
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,DEM,sent,61293
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,REP,sent,15861
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,OTH,sent,12846
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,ALL,sent,90000
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,DEM,received,34298
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,REP,received,8689
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,OTH,received,5657
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",ALL,ALL,received,48644
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,DEM,sent,5265
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,REP,sent,3017
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,OTH,sent,1783
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,ALL,sent,10065
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,DEM,received,3010
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,REP,received,1619
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,OTH,received,843
+2022-10-31,GG22,sent-returned,county,Calvert,"",ALL,ALL,received,5472
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,DEM,sent,774
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,REP,sent,585
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,OTH,sent,291
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,ALL,sent,1650
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,DEM,received,486
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,REP,received,321
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,OTH,received,159
+2022-10-31,GG22,sent-returned,county,Caroline,"",ALL,ALL,received,966
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,DEM,sent,7815
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,REP,sent,5721
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,OTH,sent,2992
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,ALL,sent,16528
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,DEM,received,4695
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,REP,received,3289
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,OTH,received,1519
+2022-10-31,GG22,sent-returned,county,Carroll,"",ALL,ALL,received,9503
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,DEM,sent,3278
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,REP,sent,2360
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,OTH,sent,1197
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,ALL,sent,6835
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,DEM,received,1858
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,REP,received,1214
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,OTH,received,553
+2022-10-31,GG22,sent-returned,county,Cecil,"",ALL,ALL,received,3625
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,DEM,sent,9995
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,REP,sent,2018
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,OTH,sent,1865
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,ALL,sent,13878
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,DEM,received,5292
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,REP,received,1081
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,OTH,received,788
+2022-10-31,GG22,sent-returned,county,Charles,"",ALL,ALL,received,7161
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,DEM,sent,1525
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,REP,sent,702
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,OTH,sent,265
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,ALL,sent,2492
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,DEM,received,1002
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,REP,received,481
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,OTH,received,142
+2022-10-31,GG22,sent-returned,county,Dorchester,"",ALL,ALL,received,1625
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,DEM,sent,17221
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,REP,sent,6238
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,OTH,sent,5053
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,ALL,sent,28512
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,DEM,received,8789
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,REP,received,3097
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,OTH,received,2152
+2022-10-31,GG22,sent-returned,county,Frederick,"",ALL,ALL,received,14038
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,DEM,sent,782
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,REP,sent,931
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,OTH,sent,190
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,ALL,sent,1903
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,DEM,received,523
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,REP,received,533
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,OTH,received,104
+2022-10-31,GG22,sent-returned,county,Garrett,"",ALL,ALL,received,1160
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,DEM,sent,11171
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,REP,sent,6628
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,OTH,sent,3897
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,ALL,sent,21696
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,DEM,received,6425
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,REP,received,3754
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,OTH,received,1926
+2022-10-31,GG22,sent-returned,county,Harford,"",ALL,ALL,received,12105
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,DEM,sent,25713
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,REP,sent,5853
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,OTH,sent,7392
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,ALL,sent,38958
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,DEM,received,13294
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,REP,received,2965
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,OTH,received,3290
+2022-10-31,GG22,sent-returned,county,Howard,"",ALL,ALL,received,19549
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,DEM,sent,1279
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,REP,sent,466
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,OTH,sent,266
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,ALL,sent,2011
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,DEM,received,875
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,REP,received,283
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,OTH,received,138
+2022-10-31,GG22,sent-returned,county,Kent,"",ALL,ALL,received,1296
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,DEM,sent,101445
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,REP,sent,13501
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,OTH,sent,22571
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,ALL,sent,137517
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,DEM,received,32368
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,REP,received,4351
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,OTH,received,6215
+2022-10-31,GG22,sent-returned,county,Montgomery,"",ALL,ALL,received,42934
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,DEM,sent,67717
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,REP,sent,3789
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,OTH,sent,7958
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,ALL,sent,79464
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,DEM,received,31616
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,REP,received,1737
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,OTH,received,2696
+2022-10-31,GG22,sent-returned,county,Prince George's,"",ALL,ALL,received,36049
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,DEM,sent,2154
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,REP,sent,1422
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,OTH,sent,714
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,ALL,sent,4290
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,DEM,received,1387
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,REP,received,861
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,OTH,received,389
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",ALL,ALL,received,2637
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,DEM,sent,4392
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,REP,sent,2644
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,OTH,sent,1493
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,ALL,sent,8529
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,DEM,received,2478
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,REP,received,1385
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,OTH,received,651
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",ALL,ALL,received,4514
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,DEM,sent,679
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,REP,sent,424
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,OTH,sent,177
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,ALL,sent,1280
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,DEM,received,466
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,REP,received,276
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,OTH,received,98
+2022-10-31,GG22,sent-returned,county,Somerset,"",ALL,ALL,received,840
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,DEM,sent,2529
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,REP,sent,1235
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,OTH,sent,849
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,ALL,sent,4613
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,DEM,received,1656
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,REP,received,706
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,OTH,received,433
+2022-10-31,GG22,sent-returned,county,Talbot,"",ALL,ALL,received,2795
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,DEM,sent,5822
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,REP,sent,3499
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,OTH,sent,2081
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,ALL,sent,11402
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,DEM,received,3660
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,REP,received,2129
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,OTH,received,1067
+2022-10-31,GG22,sent-returned,county,Washington,"",ALL,ALL,received,6856
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,DEM,sent,3864
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,REP,sent,1945
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,OTH,sent,1022
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,ALL,sent,6831
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,DEM,received,2324
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,REP,received,1146
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,OTH,received,517
+2022-10-31,GG22,sent-returned,county,Wicomico,"",ALL,ALL,received,3987
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,DEM,sent,2806
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,REP,sent,1849
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,OTH,sent,929
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,ALL,sent,5584
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,DEM,received,1969
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,REP,received,1242
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,OTH,received,538
+2022-10-31,GG22,sent-returned,county,Worcester,"",ALL,ALL,received,3749
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,DEM,sent,10
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,REP,sent,3
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,OTH,sent,5
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,ALL,sent,18
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,DEM,received,4
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,OTH,received,4
+2022-10-31,GG22,sent-returned,county,Allegany,"",Civilian Overseas,ALL,received,8
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,DEM,sent,326
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,REP,sent,59
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,OTH,sent,122
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,ALL,sent,507
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,DEM,received,109
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,REP,received,17
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,OTH,received,32
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Civilian Overseas,ALL,received,158
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,DEM,sent,360
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,REP,sent,41
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,OTH,sent,68
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,ALL,sent,469
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,DEM,received,113
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,REP,received,7
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,OTH,received,14
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Civilian Overseas,ALL,received,134
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,DEM,sent,351
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,REP,sent,57
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,OTH,sent,89
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,ALL,sent,497
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,DEM,received,115
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,REP,received,11
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,OTH,received,22
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Civilian Overseas,ALL,received,148
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,DEM,sent,23
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,REP,sent,11
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,OTH,sent,10
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,ALL,sent,44
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,DEM,received,8
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,REP,received,2
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,OTH,received,7
+2022-10-31,GG22,sent-returned,county,Calvert,"",Civilian Overseas,ALL,received,17
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,DEM,sent,3
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,OTH,sent,2
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,ALL,sent,6
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Caroline,"",Civilian Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,DEM,sent,30
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,REP,sent,12
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,OTH,sent,11
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,ALL,sent,53
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,DEM,received,8
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,REP,received,5
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,OTH,received,4
+2022-10-31,GG22,sent-returned,county,Carroll,"",Civilian Overseas,ALL,received,17
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,DEM,sent,22
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,REP,sent,6
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,OTH,sent,9
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,ALL,sent,37
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,DEM,received,3
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,OTH,received,4
+2022-10-31,GG22,sent-returned,county,Cecil,"",Civilian Overseas,ALL,received,7
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,DEM,sent,30
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,REP,sent,3
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,OTH,sent,7
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,ALL,sent,40
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,DEM,received,12
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Charles,"",Civilian Overseas,ALL,received,14
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,DEM,sent,8
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,ALL,sent,11
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,DEM,received,3
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Civilian Overseas,ALL,received,4
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,DEM,sent,126
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,REP,sent,29
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,OTH,sent,31
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,ALL,sent,186
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,DEM,received,47
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,REP,received,8
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,OTH,received,11
+2022-10-31,GG22,sent-returned,county,Frederick,"",Civilian Overseas,ALL,received,66
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,DEM,sent,5
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,OTH,sent,3
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,ALL,sent,10
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Garrett,"",Civilian Overseas,ALL,received,3
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,DEM,sent,59
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,REP,sent,17
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,OTH,sent,23
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,ALL,sent,99
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,DEM,received,31
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,REP,received,11
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,OTH,received,8
+2022-10-31,GG22,sent-returned,county,Harford,"",Civilian Overseas,ALL,received,50
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,DEM,sent,307
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,REP,sent,31
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,OTH,sent,65
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,ALL,sent,403
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,DEM,received,96
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,REP,received,10
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,OTH,received,15
+2022-10-31,GG22,sent-returned,county,Howard,"",Civilian Overseas,ALL,received,121
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,DEM,sent,17
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,OTH,sent,3
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,ALL,sent,21
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,DEM,received,8
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,OTH,received,2
+2022-10-31,GG22,sent-returned,county,Kent,"",Civilian Overseas,ALL,received,11
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,DEM,sent,1915
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,REP,sent,147
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,OTH,sent,407
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,ALL,sent,2469
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,DEM,received,286
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,REP,received,16
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,OTH,received,60
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Civilian Overseas,ALL,received,362
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,DEM,sent,326
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,REP,sent,23
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,OTH,sent,92
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,ALL,sent,441
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,DEM,received,29
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,REP,received,6
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,OTH,received,6
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Civilian Overseas,ALL,received,41
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,DEM,sent,18
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,REP,sent,3
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,OTH,sent,3
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,ALL,sent,24
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,DEM,received,11
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Civilian Overseas,ALL,received,13
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,DEM,sent,26
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,REP,sent,8
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,OTH,sent,9
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,ALL,sent,43
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,DEM,received,10
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,OTH,received,4
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Civilian Overseas,ALL,received,15
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,DEM,sent,3
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,ALL,sent,3
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Civilian Overseas,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,DEM,sent,26
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,REP,sent,4
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,OTH,sent,10
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,ALL,sent,40
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,DEM,received,10
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Civilian Overseas,ALL,received,11
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,DEM,sent,36
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,REP,sent,7
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,OTH,sent,10
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,ALL,sent,53
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,DEM,received,14
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,REP,received,5
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,OTH,received,6
+2022-10-31,GG22,sent-returned,county,Washington,"",Civilian Overseas,ALL,received,25
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,DEM,sent,28
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,REP,sent,3
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,OTH,sent,4
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,ALL,sent,35
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,DEM,received,7
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,REP,received,2
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,OTH,received,3
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Civilian Overseas,ALL,received,12
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,DEM,sent,29
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,OTH,sent,6
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,ALL,sent,37
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,DEM,received,14
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,OTH,received,3
+2022-10-31,GG22,sent-returned,county,Worcester,"",Civilian Overseas,ALL,received,18
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,DEM,sent,2107
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,REP,sent,1739
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,OTH,sent,608
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,ALL,sent,4454
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,DEM,received,1366
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,REP,received,1074
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,OTH,received,333
+2022-10-31,GG22,sent-returned,county,Allegany,"",Domestic Civilian,ALL,received,2773
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,DEM,sent,38848
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,REP,sent,14611
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,OTH,sent,13602
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,ALL,sent,67061
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,DEM,received,19070
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,REP,received,6797
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,OTH,received,5316
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Domestic Civilian,ALL,received,31183
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,DEM,sent,47879
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,REP,sent,2529
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,OTH,sent,4920
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,ALL,sent,55328
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,DEM,received,23471
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,REP,received,1118
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,OTH,received,1692
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Domestic Civilian,ALL,received,26281
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,DEM,sent,60896
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,REP,sent,15784
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,OTH,sent,12739
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,ALL,sent,89419
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,DEM,received,34174
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,REP,received,8673
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,OTH,received,5631
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Domestic Civilian,ALL,received,48478
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,DEM,sent,5229
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,REP,sent,2981
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,OTH,sent,1762
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,ALL,sent,9972
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,DEM,received,3001
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,REP,received,1610
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,OTH,received,834
+2022-10-31,GG22,sent-returned,county,Calvert,"",Domestic Civilian,ALL,received,5445
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,DEM,sent,770
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,REP,sent,581
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,OTH,sent,289
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,ALL,sent,1640
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,DEM,received,485
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,REP,received,321
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,OTH,received,158
+2022-10-31,GG22,sent-returned,county,Caroline,"",Domestic Civilian,ALL,received,964
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,DEM,sent,7776
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,REP,sent,5698
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,OTH,sent,2972
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,ALL,sent,16446
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,DEM,received,4684
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,REP,received,3282
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,OTH,received,1511
+2022-10-31,GG22,sent-returned,county,Carroll,"",Domestic Civilian,ALL,received,9477
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,DEM,sent,3251
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,REP,sent,2352
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,OTH,sent,1187
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,ALL,sent,6790
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,DEM,received,1853
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,REP,received,1214
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,OTH,received,549
+2022-10-31,GG22,sent-returned,county,Cecil,"",Domestic Civilian,ALL,received,3616
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,DEM,sent,9930
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,REP,sent,2006
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,OTH,sent,1837
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,ALL,sent,13773
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,DEM,received,5273
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,REP,received,1075
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,OTH,received,782
+2022-10-31,GG22,sent-returned,county,Charles,"",Domestic Civilian,ALL,received,7130
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,DEM,sent,1517
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,REP,sent,700
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,OTH,sent,264
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,ALL,sent,2481
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,DEM,received,999
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,REP,received,480
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,OTH,received,142
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Domestic Civilian,ALL,received,1621
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,DEM,sent,17066
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,REP,sent,6179
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,OTH,sent,5002
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,ALL,sent,28247
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,DEM,received,8734
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,REP,received,3082
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,OTH,received,2138
+2022-10-31,GG22,sent-returned,county,Frederick,"",Domestic Civilian,ALL,received,13954
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,DEM,sent,777
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,REP,sent,929
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,OTH,sent,187
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,ALL,sent,1893
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,DEM,received,522
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,REP,received,532
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,OTH,received,103
+2022-10-31,GG22,sent-returned,county,Garrett,"",Domestic Civilian,ALL,received,1157
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,DEM,sent,11090
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,REP,sent,6591
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,OTH,sent,3863
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,ALL,sent,21544
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,DEM,received,6383
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,REP,received,3738
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,OTH,received,1916
+2022-10-31,GG22,sent-returned,county,Harford,"",Domestic Civilian,ALL,received,12037
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,DEM,sent,25350
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,REP,sent,5799
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,OTH,sent,7291
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,ALL,sent,38440
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,DEM,received,13185
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,REP,received,2949
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,OTH,received,3266
+2022-10-31,GG22,sent-returned,county,Howard,"",Domestic Civilian,ALL,received,19400
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,DEM,sent,1260
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,REP,sent,464
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,OTH,sent,260
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,ALL,sent,1984
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,DEM,received,867
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,REP,received,282
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,OTH,received,136
+2022-10-31,GG22,sent-returned,county,Kent,"",Domestic Civilian,ALL,received,1285
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,DEM,sent,99441
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,REP,sent,13327
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,OTH,sent,22100
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,ALL,sent,134868
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,DEM,received,32069
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,REP,received,4330
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,OTH,received,6148
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Domestic Civilian,ALL,received,42547
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,DEM,sent,67300
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,REP,sent,3755
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,OTH,sent,7825
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,ALL,sent,78880
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,DEM,received,31573
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,REP,received,1731
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,OTH,received,2684
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Domestic Civilian,ALL,received,35988
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,DEM,sent,2131
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,REP,sent,1417
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,OTH,sent,709
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,ALL,sent,4257
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,DEM,received,1373
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,REP,received,860
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,OTH,received,388
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Domestic Civilian,ALL,received,2621
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,DEM,sent,4343
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,REP,sent,2611
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,OTH,sent,1471
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,ALL,sent,8425
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,DEM,received,2461
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,REP,received,1376
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,OTH,received,647
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Domestic Civilian,ALL,received,4484
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,DEM,sent,676
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,REP,sent,422
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,OTH,sent,177
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,ALL,sent,1275
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,DEM,received,466
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,REP,received,274
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,OTH,received,98
+2022-10-31,GG22,sent-returned,county,Somerset,"",Domestic Civilian,ALL,received,838
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,DEM,sent,2500
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,REP,sent,1227
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,OTH,sent,837
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,ALL,sent,4564
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,DEM,received,1645
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,REP,received,705
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,OTH,received,433
+2022-10-31,GG22,sent-returned,county,Talbot,"",Domestic Civilian,ALL,received,2783
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,DEM,sent,5776
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,REP,sent,3485
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,OTH,sent,2064
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,ALL,sent,11325
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,DEM,received,3643
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,REP,received,2123
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,OTH,received,1059
+2022-10-31,GG22,sent-returned,county,Washington,"",Domestic Civilian,ALL,received,6825
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,DEM,sent,3832
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,REP,sent,1937
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,OTH,sent,1015
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,ALL,sent,6784
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,DEM,received,2316
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,REP,received,1143
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,OTH,received,514
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Domestic Civilian,ALL,received,3973
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,DEM,sent,2776
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,REP,sent,1842
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,OTH,sent,922
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,ALL,sent,5540
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,DEM,received,1955
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,REP,received,1241
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,OTH,received,535
+2022-10-31,GG22,sent-returned,county,Worcester,"",Domestic Civilian,ALL,received,3731
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,DEM,sent,1
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,ALL,sent,1
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,DEM,sent,27
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,REP,sent,16
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,OTH,sent,8
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,ALL,sent,51
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,DEM,received,11
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,REP,received,6
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,OTH,received,3
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military Overseas,ALL,received,20
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,DEM,sent,5
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,OTH,sent,2
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,ALL,sent,7
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,DEM,received,3
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military Overseas,ALL,received,4
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,DEM,sent,12
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,REP,sent,6
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,OTH,sent,4
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,ALL,sent,22
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,DEM,received,4
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,OTH,received,2
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military Overseas,ALL,received,7
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,DEM,sent,3
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,REP,sent,3
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,OTH,sent,2
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,ALL,sent,8
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,REP,received,2
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military Overseas,ALL,received,3
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,DEM,sent,1
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,ALL,sent,2
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,DEM,sent,2
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,ALL,sent,5
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,ALL,sent,1
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military Overseas,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,DEM,sent,4
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,OTH,sent,5
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,ALL,sent,10
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Charles,"",Military Overseas,ALL,received,2
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,ALL,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military Overseas,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,DEM,sent,5
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,OTH,sent,4
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,ALL,sent,11
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,DEM,received,2
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,REP,received,2
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military Overseas,ALL,received,4
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,ALL,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military Overseas,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,DEM,sent,4
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,REP,sent,4
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,ALL,sent,9
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,DEM,received,2
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Harford,"",Military Overseas,ALL,received,4
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,DEM,sent,5
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,REP,sent,7
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,OTH,sent,7
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,ALL,sent,19
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,OTH,received,2
+2022-10-31,GG22,sent-returned,county,Howard,"",Military Overseas,ALL,received,4
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,ALL,sent,1
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military Overseas,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,DEM,sent,6
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,OTH,sent,5
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,ALL,sent,11
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military Overseas,ALL,received,2
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,DEM,sent,20
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,OTH,sent,3
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,ALL,sent,24
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,DEM,received,4
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,OTH,received,2
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military Overseas,ALL,received,6
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,DEM,sent,2
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,ALL,sent,2
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,DEM,sent,3
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,REP,sent,4
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,ALL,sent,8
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,REP,received,1
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,ALL,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military Overseas,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,DEM,sent,1
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,ALL,sent,1
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,DEM,sent,4
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,OTH,sent,4
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,ALL,sent,9
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,OTH,received,2
+2022-10-31,GG22,sent-returned,county,Washington,"",Military Overseas,ALL,received,3
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,DEM,sent,3
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,OTH,sent,2
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,ALL,sent,5
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,DEM,received,1
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military Overseas,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,ALL,sent,2
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,REP,received,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military Overseas,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,ALL,sent,1
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Allegany,"",Military US,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,DEM,sent,140
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,REP,sent,76
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,OTH,sent,100
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,ALL,sent,316
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,DEM,received,32
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,REP,received,32
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,OTH,received,26
+2022-10-31,GG22,sent-returned,county,Anne Arundel,"",Military US,ALL,received,90
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,DEM,sent,39
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,REP,sent,5
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,OTH,sent,8
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,ALL,sent,52
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,DEM,received,8
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,REP,received,1
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Baltimore City,"",Military US,ALL,received,10
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,DEM,sent,34
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,REP,sent,14
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,OTH,sent,14
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,ALL,sent,62
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,DEM,received,5
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,REP,received,4
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,OTH,received,2
+2022-10-31,GG22,sent-returned,county,Baltimore County,"",Military US,ALL,received,11
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,DEM,sent,10
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,REP,sent,22
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,OTH,sent,9
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,ALL,sent,41
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,REP,received,5
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,OTH,received,2
+2022-10-31,GG22,sent-returned,county,Calvert,"",Military US,ALL,received,7
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,ALL,sent,2
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Caroline,"",Military US,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,DEM,sent,7
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,REP,sent,9
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,OTH,sent,8
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,ALL,sent,24
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,DEM,received,3
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,REP,received,2
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,OTH,received,3
+2022-10-31,GG22,sent-returned,county,Carroll,"",Military US,ALL,received,8
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,DEM,sent,5
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,ALL,sent,7
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,DEM,received,2
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Cecil,"",Military US,ALL,received,2
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,DEM,sent,31
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,REP,sent,8
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,OTH,sent,16
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,ALL,sent,55
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,DEM,received,6
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,REP,received,5
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,OTH,received,4
+2022-10-31,GG22,sent-returned,county,Charles,"",Military US,ALL,received,15
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,ALL,sent,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Dorchester,"",Military US,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,DEM,sent,24
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,REP,sent,28
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,OTH,sent,16
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,ALL,sent,68
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,DEM,received,6
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,REP,received,5
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,OTH,received,3
+2022-10-31,GG22,sent-returned,county,Frederick,"",Military US,ALL,received,14
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,REP,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,ALL,sent,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Garrett,"",Military US,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,DEM,sent,18
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,REP,sent,16
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,OTH,sent,10
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,ALL,sent,44
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,DEM,received,9
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,REP,received,4
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,OTH,received,1
+2022-10-31,GG22,sent-returned,county,Harford,"",Military US,ALL,received,14
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,DEM,sent,51
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,REP,sent,16
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,OTH,sent,29
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,ALL,sent,96
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,DEM,received,12
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,REP,received,5
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,OTH,received,7
+2022-10-31,GG22,sent-returned,county,Howard,"",Military US,ALL,received,24
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,DEM,sent,2
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,REP,sent,1
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,OTH,sent,2
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,ALL,sent,5
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Kent,"",Military US,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,DEM,sent,83
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,REP,sent,27
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,OTH,sent,59
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,ALL,sent,169
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,DEM,received,12
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,REP,received,5
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,OTH,received,6
+2022-10-31,GG22,sent-returned,county,Montgomery,"",Military US,ALL,received,23
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,DEM,sent,71
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,REP,sent,10
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,OTH,sent,38
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,ALL,sent,119
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,DEM,received,10
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,OTH,received,4
+2022-10-31,GG22,sent-returned,county,Prince George's,"",Military US,ALL,received,14
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,DEM,sent,3
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,OTH,sent,2
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,ALL,sent,7
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,DEM,received,2
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Queen Anne's,"",Military US,ALL,received,2
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,DEM,sent,20
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,REP,sent,21
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,OTH,sent,12
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,ALL,sent,53
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,DEM,received,7
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,REP,received,7
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,St. Mary's,"",Military US,ALL,received,14
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,DEM,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,REP,sent,2
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,ALL,sent,2
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,REP,received,2
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Somerset,"",Military US,ALL,received,2
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,DEM,sent,2
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,REP,sent,4
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,OTH,sent,2
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,ALL,sent,8
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Talbot,"",Military US,ALL,received,0
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,DEM,sent,6
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,REP,sent,6
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,OTH,sent,3
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,ALL,sent,15
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,DEM,received,2
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,REP,received,1
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Washington,"",Military US,ALL,received,3
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,DEM,sent,1
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,REP,sent,5
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,OTH,sent,1
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,ALL,sent,7
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,REP,received,1
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Wicomico,"",Military US,ALL,received,1
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,DEM,sent,1
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,REP,sent,4
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,OTH,sent,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,ALL,sent,5
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,DEM,received,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,REP,received,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,OTH,received,0
+2022-10-31,GG22,sent-returned,county,Worcester,"",Military US,ALL,received,0

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-sent-returned-county-20221030-d49c8e1b1631",
+  "source_url": "https://raw.githubusercontent.com/dwillis/maryland_git_scraping/9619a9cbb2fad115d99eb317cea77596783fd4bf/absentee/absentee_ballots_20221031.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 sent-returned (county) as of 2022-10-30",
+  "fetch_date": "2022-10-31T12:13:17+00:00",
+  "parse_date": "2026-10-25T11:49:02+00:00",
+  "sha256_original": "d49c8e1b163177b5b227792261c53182dd74ca0decc4b373ceda1476532bcceb",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "sent-returned",
+  "geography": "county",
+  "notes": "GG22 sent-returned (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 960,
+    "as_of": "2022-10-30"
+  }
+}

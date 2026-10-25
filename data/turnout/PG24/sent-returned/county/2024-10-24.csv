@@ -1,0 +1,1441 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,DEM,sent,2601
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,REP,sent,2467
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,OTH,sent,945
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,ALL,sent,6013
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,DEM,received,1752
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,REP,received,1696
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,OTH,received,527
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,ALL,received,3975
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,DEM,accepted,1314
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,REP,accepted,1303
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,OTH,accepted,380
+2024-10-24,PG24,sent-returned,county,Allegany,"",ALL,ALL,accepted,2997
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,DEM,sent,48610
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,REP,sent,20211
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,OTH,sent,20151
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,ALL,sent,88972
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,DEM,received,29428
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,REP,received,11947
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,OTH,received,10158
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,ALL,received,51533
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,DEM,accepted,20095
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,REP,accepted,8120
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,OTH,accepted,6550
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",ALL,ALL,accepted,34765
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,DEM,sent,57779
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,REP,sent,3916
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,OTH,sent,8187
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,ALL,sent,69882
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,DEM,received,26432
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,REP,received,1518
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,OTH,received,2441
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,ALL,received,30391
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,DEM,accepted,20157
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,REP,accepted,1145
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,OTH,accepted,1744
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",ALL,ALL,accepted,23046
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,DEM,sent,76048
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,REP,sent,22390
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,OTH,sent,19934
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,ALL,sent,118372
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,DEM,received,43222
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,REP,received,12710
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,OTH,received,8863
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,ALL,received,64795
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,DEM,accepted,32884
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,REP,accepted,9596
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,OTH,accepted,6351
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",ALL,ALL,accepted,48831
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,DEM,sent,6505
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,REP,sent,4046
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,OTH,sent,2720
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,ALL,sent,13271
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,DEM,received,4049
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,REP,received,2398
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,OTH,received,1375
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,ALL,received,7822
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,DEM,accepted,3549
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,REP,accepted,2049
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,OTH,accepted,1168
+2024-10-24,PG24,sent-returned,county,Calvert,"",ALL,ALL,accepted,6766
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,DEM,sent,1011
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,REP,sent,835
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,OTH,sent,450
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,ALL,sent,2296
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,DEM,received,664
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,REP,received,536
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,OTH,received,260
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,ALL,received,1460
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,DEM,accepted,418
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,REP,accepted,316
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,OTH,accepted,146
+2024-10-24,PG24,sent-returned,county,Caroline,"",ALL,ALL,accepted,880
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,DEM,sent,9837
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,REP,sent,7973
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,OTH,sent,4549
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,ALL,sent,22359
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,DEM,received,6106
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,REP,received,4775
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,OTH,received,2286
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,ALL,received,13167
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,DEM,accepted,3224
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,REP,accepted,2518
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,OTH,accepted,1173
+2024-10-24,PG24,sent-returned,county,Carroll,"",ALL,ALL,accepted,6915
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,DEM,sent,4184
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,REP,sent,3994
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,OTH,sent,2004
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,ALL,sent,10182
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,DEM,received,2466
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,REP,received,2225
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,OTH,received,1009
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,ALL,received,5700
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",ALL,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,DEM,sent,13783
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,REP,sent,3116
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,OTH,sent,3212
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,ALL,sent,20111
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,DEM,received,7852
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,REP,received,1883
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,OTH,received,1499
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,ALL,received,11234
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,DEM,accepted,4445
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,REP,accepted,1118
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,OTH,accepted,787
+2024-10-24,PG24,sent-returned,county,Charles,"",ALL,ALL,accepted,6350
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,DEM,sent,1781
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,REP,sent,925
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,OTH,sent,446
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,ALL,sent,3152
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,DEM,received,1183
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,REP,received,617
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,OTH,received,244
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,ALL,received,2044
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",ALL,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,DEM,sent,21892
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,REP,sent,8665
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,OTH,sent,8209
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,ALL,sent,38766
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,DEM,received,12646
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,REP,received,4791
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,OTH,received,4016
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,ALL,received,21453
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,DEM,accepted,9261
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,REP,accepted,3496
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,OTH,accepted,2828
+2024-10-24,PG24,sent-returned,county,Frederick,"",ALL,ALL,accepted,15585
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,DEM,sent,976
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,REP,sent,1304
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,OTH,sent,380
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,ALL,sent,2660
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,DEM,received,668
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,REP,received,830
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,OTH,received,218
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,ALL,received,1716
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,DEM,accepted,260
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,REP,accepted,338
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,OTH,accepted,77
+2024-10-24,PG24,sent-returned,county,Garrett,"",ALL,ALL,accepted,675
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,DEM,sent,14148
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,REP,sent,9240
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,OTH,sent,6166
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,ALL,sent,29554
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,DEM,received,8535
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,REP,received,5559
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,OTH,received,3013
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,ALL,received,17107
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,DEM,accepted,5057
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,REP,accepted,3216
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,OTH,accepted,1723
+2024-10-24,PG24,sent-returned,county,Harford,"",ALL,ALL,accepted,9996
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,DEM,sent,33006
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,REP,sent,7957
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,OTH,sent,11867
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,ALL,sent,52830
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,DEM,received,18592
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,REP,received,4314
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,OTH,received,5485
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,ALL,received,28391
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,DEM,accepted,13887
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,REP,accepted,3185
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,OTH,accepted,3919
+2024-10-24,PG24,sent-returned,county,Howard,"",ALL,ALL,accepted,20991
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,DEM,sent,1467
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,REP,sent,633
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,OTH,sent,396
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,ALL,sent,2496
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,DEM,received,1091
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,REP,received,425
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,OTH,received,232
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,ALL,received,1748
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,DEM,accepted,620
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,REP,accepted,259
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,OTH,accepted,121
+2024-10-24,PG24,sent-returned,county,Kent,"",ALL,ALL,accepted,1000
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,DEM,sent,121851
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,REP,sent,19706
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,OTH,sent,35563
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,ALL,sent,177120
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,DEM,received,57858
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,REP,received,8954
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,OTH,received,13736
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,ALL,received,80548
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,DEM,accepted,26647
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,REP,accepted,4285
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,OTH,accepted,6015
+2024-10-24,PG24,sent-returned,county,Montgomery,"",ALL,ALL,accepted,36947
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,DEM,sent,86707
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,REP,sent,5921
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,OTH,sent,13679
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,ALL,sent,106307
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,DEM,received,49550
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,REP,received,3139
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,OTH,received,5565
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,ALL,received,58254
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,DEM,accepted,31901
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,REP,accepted,1982
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,OTH,accepted,3144
+2024-10-24,PG24,sent-returned,county,Prince George's,"",ALL,ALL,accepted,37027
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,DEM,sent,2804
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,REP,sent,2181
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,OTH,sent,1222
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,ALL,sent,6207
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,DEM,received,1790
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,REP,received,1360
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,OTH,received,689
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,ALL,received,3839
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,DEM,accepted,473
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,REP,accepted,380
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,OTH,accepted,172
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",ALL,ALL,accepted,1025
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,DEM,sent,5649
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,REP,sent,3767
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,OTH,sent,2467
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,ALL,sent,11883
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,DEM,received,3479
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,REP,received,2152
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,OTH,received,1240
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,ALL,received,6871
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,DEM,accepted,2496
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,REP,accepted,1487
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,OTH,accepted,838
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",ALL,ALL,accepted,4821
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,DEM,sent,803
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,REP,sent,573
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,OTH,sent,254
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,ALL,sent,1630
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,DEM,received,552
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,REP,received,339
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,OTH,received,135
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,ALL,received,1026
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",ALL,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,DEM,sent,3015
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,REP,sent,1594
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,OTH,sent,1167
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,ALL,sent,5776
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,DEM,received,2063
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,REP,received,990
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,OTH,received,651
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,ALL,received,3704
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,DEM,accepted,1800
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,REP,accepted,901
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,OTH,accepted,572
+2024-10-24,PG24,sent-returned,county,Talbot,"",ALL,ALL,accepted,3273
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,DEM,sent,7422
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,REP,sent,5108
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,OTH,sent,3081
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,ALL,sent,15611
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,DEM,received,4652
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,REP,received,3247
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,OTH,received,1637
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,ALL,received,9536
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,DEM,accepted,3692
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,REP,accepted,2597
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,OTH,accepted,1237
+2024-10-24,PG24,sent-returned,county,Washington,"",ALL,ALL,accepted,7526
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,DEM,sent,4911
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,REP,sent,2687
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,OTH,sent,1706
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,ALL,sent,9304
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,DEM,received,3220
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,REP,received,1775
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,OTH,received,891
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,ALL,received,5886
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,DEM,accepted,1687
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,REP,accepted,902
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,OTH,accepted,411
+2024-10-24,PG24,sent-returned,county,Wicomico,"",ALL,ALL,accepted,3000
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,DEM,sent,3461
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,REP,sent,2680
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,OTH,sent,1420
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,ALL,sent,7561
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,DEM,received,2460
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,REP,received,1820
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,OTH,received,823
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,ALL,received,5103
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,DEM,accepted,1214
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,REP,accepted,886
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,OTH,accepted,398
+2024-10-24,PG24,sent-returned,county,Worcester,"",ALL,ALL,accepted,2498
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,DEM,sent,35
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,REP,sent,8
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,OTH,sent,12
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,ALL,sent,55
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,DEM,received,16
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,OTH,received,6
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,ALL,received,22
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,DEM,accepted,7
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,OTH,accepted,3
+2024-10-24,PG24,sent-returned,county,Allegany,"",Civilian Overseas,ALL,accepted,10
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,DEM,sent,1014
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,REP,sent,188
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,OTH,sent,424
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,ALL,sent,1626
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,DEM,received,430
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,REP,received,66
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,OTH,received,181
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,ALL,received,677
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Civilian Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,DEM,sent,1195
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,REP,sent,257
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,OTH,sent,412
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,ALL,sent,1864
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,DEM,received,321
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,REP,received,42
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,OTH,received,76
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,ALL,received,439
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,DEM,accepted,163
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,REP,accepted,15
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,OTH,accepted,36
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Civilian Overseas,ALL,accepted,214
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,DEM,sent,1147
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,REP,sent,239
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,OTH,sent,405
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,ALL,sent,1791
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,DEM,received,480
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,REP,received,84
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,OTH,received,164
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,ALL,received,728
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,DEM,accepted,113
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,REP,accepted,20
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,OTH,accepted,45
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Civilian Overseas,ALL,accepted,178
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,DEM,sent,88
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,REP,sent,26
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,OTH,sent,47
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,ALL,sent,161
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,DEM,received,30
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,REP,received,8
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,OTH,received,18
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,ALL,received,56
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,DEM,accepted,12
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,REP,accepted,3
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,OTH,accepted,9
+2024-10-24,PG24,sent-returned,county,Calvert,"",Civilian Overseas,ALL,accepted,24
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,DEM,sent,12
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,REP,sent,1
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,OTH,sent,4
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,ALL,sent,17
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,DEM,received,6
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,ALL,received,6
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Civilian Overseas,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,DEM,sent,148
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,REP,sent,37
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,OTH,sent,50
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,ALL,sent,235
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,DEM,received,72
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,REP,received,16
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,OTH,received,27
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,ALL,received,115
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,DEM,accepted,4
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,OTH,accepted,3
+2024-10-24,PG24,sent-returned,county,Carroll,"",Civilian Overseas,ALL,accepted,7
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,DEM,sent,59
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,REP,sent,16
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,OTH,sent,19
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,ALL,sent,94
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,DEM,received,20
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,REP,received,8
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,OTH,received,11
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,ALL,received,39
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Civilian Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,DEM,sent,117
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,REP,sent,25
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,OTH,sent,50
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,ALL,sent,192
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,DEM,received,44
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,REP,received,18
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,OTH,received,15
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,ALL,received,77
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,DEM,accepted,20
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,REP,accepted,7
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,OTH,accepted,6
+2024-10-24,PG24,sent-returned,county,Charles,"",Civilian Overseas,ALL,accepted,33
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,DEM,sent,23
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,REP,sent,8
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,OTH,sent,3
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,ALL,sent,34
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,DEM,received,11
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,REP,received,3
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,ALL,received,15
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Civilian Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,DEM,sent,418
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,REP,sent,72
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,OTH,sent,138
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,ALL,sent,628
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,DEM,received,154
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,REP,received,27
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,OTH,received,39
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,ALL,received,220
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,DEM,accepted,46
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,REP,accepted,8
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,OTH,accepted,16
+2024-10-24,PG24,sent-returned,county,Frederick,"",Civilian Overseas,ALL,accepted,70
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,DEM,sent,18
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,REP,sent,6
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,OTH,sent,13
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,ALL,sent,37
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,DEM,received,9
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,REP,received,3
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,OTH,received,5
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,ALL,received,17
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,REP,accepted,1
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Civilian Overseas,ALL,accepted,1
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,DEM,sent,214
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,REP,sent,49
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,OTH,sent,99
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,ALL,sent,362
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,DEM,received,113
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,REP,received,25
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,OTH,received,43
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,ALL,received,181
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,DEM,accepted,29
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,REP,accepted,10
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,OTH,accepted,15
+2024-10-24,PG24,sent-returned,county,Harford,"",Civilian Overseas,ALL,accepted,54
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,DEM,sent,792
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,REP,sent,77
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,OTH,sent,268
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,ALL,sent,1137
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,DEM,received,325
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,REP,received,23
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,OTH,received,89
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,ALL,received,437
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,DEM,accepted,4
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,REP,accepted,1
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Howard,"",Civilian Overseas,ALL,accepted,5
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,DEM,sent,31
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,REP,sent,4
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,OTH,sent,4
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,ALL,sent,39
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,DEM,received,17
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,REP,received,2
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,OTH,received,2
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,ALL,received,21
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Civilian Overseas,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,DEM,sent,5305
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,REP,sent,555
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,OTH,sent,1815
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,ALL,sent,7675
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,DEM,received,1474
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,REP,received,99
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,OTH,received,410
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,ALL,received,1983
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,DEM,accepted,337
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,REP,accepted,19
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,OTH,accepted,83
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Civilian Overseas,ALL,accepted,439
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,DEM,sent,989
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,REP,sent,94
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,OTH,sent,342
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,ALL,sent,1425
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,DEM,received,384
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,REP,received,42
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,OTH,received,101
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,ALL,received,527
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,DEM,accepted,44
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,REP,accepted,7
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,OTH,accepted,11
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Civilian Overseas,ALL,accepted,62
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,DEM,sent,63
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,REP,sent,7
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,OTH,sent,21
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,ALL,sent,91
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,DEM,received,27
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,REP,received,3
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,OTH,received,12
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,ALL,received,42
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,DEM,accepted,12
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,OTH,accepted,3
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Civilian Overseas,ALL,accepted,15
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,DEM,sent,93
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,REP,sent,25
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,OTH,sent,37
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,ALL,sent,155
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,DEM,received,47
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,REP,received,10
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,OTH,received,16
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,ALL,received,73
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,DEM,accepted,34
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,REP,accepted,7
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,OTH,accepted,14
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Civilian Overseas,ALL,accepted,55
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,DEM,sent,5
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,REP,sent,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,OTH,sent,1
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,ALL,sent,6
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,ALL,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Civilian Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,DEM,sent,87
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,REP,sent,9
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,OTH,sent,34
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,ALL,sent,130
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,DEM,received,40
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,REP,received,2
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,OTH,received,7
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,ALL,received,49
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,DEM,accepted,32
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,OTH,accepted,6
+2024-10-24,PG24,sent-returned,county,Talbot,"",Civilian Overseas,ALL,accepted,40
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,DEM,sent,110
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,REP,sent,21
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,OTH,sent,35
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,ALL,sent,166
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,DEM,received,44
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,REP,received,11
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,OTH,received,16
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,ALL,received,71
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,DEM,accepted,13
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,REP,accepted,3
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,OTH,accepted,5
+2024-10-24,PG24,sent-returned,county,Washington,"",Civilian Overseas,ALL,accepted,21
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,DEM,sent,67
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,REP,sent,10
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,OTH,sent,17
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,ALL,sent,94
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,DEM,received,38
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,REP,received,3
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,OTH,received,5
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,ALL,received,46
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Civilian Overseas,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,DEM,sent,56
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,REP,sent,12
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,OTH,sent,21
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,ALL,sent,89
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,DEM,received,34
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,REP,received,6
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,OTH,received,8
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,ALL,received,48
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,DEM,accepted,12
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,REP,accepted,1
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,OTH,accepted,6
+2024-10-24,PG24,sent-returned,county,Worcester,"",Civilian Overseas,ALL,accepted,19
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,DEM,sent,2562
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,REP,sent,2454
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,OTH,sent,929
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,ALL,sent,5945
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,DEM,received,1732
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,REP,received,1694
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,OTH,received,520
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,ALL,received,3946
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,DEM,accepted,1303
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,REP,accepted,1303
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,OTH,accepted,377
+2024-10-24,PG24,sent-returned,county,Allegany,"",Domestic Civilian,ALL,accepted,2983
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,DEM,sent,47207
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,REP,sent,19770
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,OTH,sent,19430
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,ALL,sent,86407
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,DEM,received,28860
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,REP,received,11809
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,OTH,received,9902
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,ALL,received,50571
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,DEM,accepted,20095
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,REP,accepted,8120
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,OTH,accepted,6550
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Domestic Civilian,ALL,accepted,34765
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,DEM,sent,56508
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,REP,sent,3641
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,OTH,sent,7733
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,ALL,sent,67882
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,DEM,received,26093
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,REP,received,1473
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,OTH,received,2358
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,ALL,received,29924
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,DEM,accepted,19992
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,REP,accepted,1129
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,OTH,accepted,1703
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Domestic Civilian,ALL,accepted,22824
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,DEM,sent,74788
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,REP,sent,22075
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,OTH,sent,19451
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,ALL,sent,116314
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,DEM,received,42701
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,REP,received,12608
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,OTH,received,8676
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,ALL,received,63985
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,DEM,accepted,32749
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,REP,accepted,9570
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,OTH,accepted,6294
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Domestic Civilian,ALL,accepted,48613
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,DEM,sent,6368
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,REP,sent,3965
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,OTH,sent,2636
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,ALL,sent,12969
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,DEM,received,4003
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,REP,received,2374
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,OTH,received,1347
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,ALL,received,7724
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,DEM,accepted,3523
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,REP,accepted,2033
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,OTH,accepted,1150
+2024-10-24,PG24,sent-returned,county,Calvert,"",Domestic Civilian,ALL,accepted,6706
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,DEM,sent,997
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,REP,sent,824
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,OTH,sent,443
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,ALL,sent,2264
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,DEM,received,657
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,REP,received,529
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,OTH,received,258
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,ALL,received,1444
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,DEM,accepted,416
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,REP,accepted,311
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,OTH,accepted,145
+2024-10-24,PG24,sent-returned,county,Caroline,"",Domestic Civilian,ALL,accepted,872
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,DEM,sent,9667
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,REP,sent,7891
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,OTH,sent,4461
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,ALL,sent,22019
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,DEM,received,6026
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,REP,received,4750
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,OTH,received,2248
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,ALL,received,13024
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,DEM,accepted,3219
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,REP,accepted,2518
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,OTH,accepted,1170
+2024-10-24,PG24,sent-returned,county,Carroll,"",Domestic Civilian,ALL,accepted,6907
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,DEM,sent,4111
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,REP,sent,3955
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,OTH,sent,1979
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,ALL,sent,10045
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,DEM,received,2439
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,REP,received,2206
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,OTH,received,995
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,ALL,received,5640
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Domestic Civilian,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,DEM,sent,13552
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,REP,sent,3034
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,OTH,sent,3094
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,ALL,sent,19680
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,DEM,received,7776
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,REP,received,1846
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,OTH,received,1466
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,ALL,received,11088
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,DEM,accepted,4415
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,REP,accepted,1101
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,OTH,accepted,774
+2024-10-24,PG24,sent-returned,county,Charles,"",Domestic Civilian,ALL,accepted,6290
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,DEM,sent,1753
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,REP,sent,916
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,OTH,sent,439
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,ALL,sent,3108
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,DEM,received,1171
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,REP,received,613
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,OTH,received,242
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,ALL,received,2026
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Domestic Civilian,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,DEM,sent,21396
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,REP,sent,8508
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,OTH,sent,8007
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,ALL,sent,37911
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,DEM,received,12464
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,REP,received,4741
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,OTH,received,3954
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,ALL,received,21159
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,DEM,accepted,9209
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,REP,accepted,3485
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,OTH,accepted,2804
+2024-10-24,PG24,sent-returned,county,Frederick,"",Domestic Civilian,ALL,accepted,15498
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,DEM,sent,956
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,REP,sent,1291
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,OTH,sent,362
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,ALL,sent,2609
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,DEM,received,659
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,REP,received,824
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,OTH,received,212
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,ALL,received,1695
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,DEM,accepted,260
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,REP,accepted,336
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,OTH,accepted,76
+2024-10-24,PG24,sent-returned,county,Garrett,"",Domestic Civilian,ALL,accepted,672
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,DEM,sent,13876
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,REP,sent,9098
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,OTH,sent,6003
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,ALL,sent,28977
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,DEM,received,8404
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,REP,received,5508
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,OTH,received,2950
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,ALL,received,16862
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,DEM,accepted,5019
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,REP,accepted,3192
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,OTH,accepted,1699
+2024-10-24,PG24,sent-returned,county,Harford,"",Domestic Civilian,ALL,accepted,9910
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,DEM,sent,32068
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,REP,sent,7828
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,OTH,sent,11517
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,ALL,sent,51413
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,DEM,received,18214
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,REP,received,4277
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,OTH,received,5375
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,ALL,received,27866
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,DEM,accepted,13883
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,REP,accepted,3184
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,OTH,accepted,3919
+2024-10-24,PG24,sent-returned,county,Howard,"",Domestic Civilian,ALL,accepted,20986
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,DEM,sent,1433
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,REP,sent,628
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,OTH,sent,387
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,ALL,sent,2448
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,DEM,received,1073
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,REP,received,423
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,OTH,received,228
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,ALL,received,1724
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,DEM,accepted,618
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,REP,accepted,259
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,OTH,accepted,121
+2024-10-24,PG24,sent-returned,county,Kent,"",Domestic Civilian,ALL,accepted,998
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,DEM,sent,116229
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,REP,sent,19033
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,OTH,sent,33494
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,ALL,sent,168756
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,DEM,received,56283
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,REP,received,8826
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,OTH,received,13269
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,ALL,received,78378
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,DEM,accepted,26279
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,REP,accepted,4258
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,OTH,accepted,5914
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Domestic Civilian,ALL,accepted,36451
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,DEM,sent,85359
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,REP,sent,5752
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,OTH,sent,13177
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,ALL,sent,104288
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,DEM,received,49066
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,REP,received,3076
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,OTH,received,5428
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,ALL,received,57570
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,DEM,accepted,31818
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,REP,accepted,1965
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,OTH,accepted,3119
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Domestic Civilian,ALL,accepted,36902
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,DEM,sent,2725
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,REP,sent,2150
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,OTH,sent,1191
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,ALL,sent,6066
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,DEM,received,1758
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,REP,received,1349
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,OTH,received,673
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,ALL,received,3780
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,DEM,accepted,460
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,REP,accepted,378
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,OTH,accepted,168
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Domestic Civilian,ALL,accepted,1006
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,DEM,sent,5483
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,REP,sent,3673
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,OTH,sent,2385
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,ALL,sent,11541
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,DEM,received,3406
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,REP,received,2120
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,OTH,received,1205
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,ALL,received,6731
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,DEM,accepted,2442
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,REP,accepted,1466
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,OTH,accepted,810
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Domestic Civilian,ALL,accepted,4718
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,DEM,sent,796
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,REP,sent,570
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,OTH,sent,252
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,ALL,sent,1618
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,DEM,received,550
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,REP,received,338
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,OTH,received,135
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,ALL,received,1023
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Domestic Civilian,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,DEM,sent,2923
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,REP,sent,1577
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,OTH,sent,1132
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,ALL,sent,5632
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,DEM,received,2019
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,REP,received,984
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,OTH,received,644
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,ALL,received,3647
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,DEM,accepted,1766
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,REP,accepted,896
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,OTH,accepted,566
+2024-10-24,PG24,sent-returned,county,Talbot,"",Domestic Civilian,ALL,accepted,3228
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,DEM,sent,7290
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,REP,sent,5056
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,OTH,sent,3032
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,ALL,sent,15378
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,DEM,received,4597
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,REP,received,3223
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,OTH,received,1618
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,ALL,received,9438
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,DEM,accepted,3673
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,REP,accepted,2586
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,OTH,accepted,1231
+2024-10-24,PG24,sent-returned,county,Washington,"",Domestic Civilian,ALL,accepted,7490
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,DEM,sent,4833
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,REP,sent,2666
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,OTH,sent,1678
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,ALL,sent,9177
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,DEM,received,3179
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,REP,received,1771
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,OTH,received,883
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,ALL,received,5833
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,DEM,accepted,1683
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,REP,accepted,902
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,OTH,accepted,411
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Domestic Civilian,ALL,accepted,2996
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,DEM,sent,3397
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,REP,sent,2648
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,OTH,sent,1387
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,ALL,sent,7432
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,DEM,received,2422
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,REP,received,1806
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,OTH,received,812
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,ALL,received,5040
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,DEM,accepted,1200
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,REP,accepted,881
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,OTH,accepted,390
+2024-10-24,PG24,sent-returned,county,Worcester,"",Domestic Civilian,ALL,accepted,2471
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,DEM,sent,1
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,REP,sent,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,OTH,sent,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,ALL,sent,1
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,ALL,received,1
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,DEM,accepted,1
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military Overseas,ALL,accepted,1
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,DEM,sent,90
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,REP,sent,50
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,OTH,sent,58
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,ALL,sent,198
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,DEM,received,40
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,REP,received,16
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,OTH,received,10
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,ALL,received,66
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,DEM,sent,15
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,REP,sent,3
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,OTH,sent,9
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,ALL,sent,27
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,DEM,received,3
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,REP,received,1
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,ALL,received,5
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,DEM,accepted,1
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military Overseas,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,DEM,sent,25
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,REP,sent,22
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,OTH,sent,21
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,ALL,sent,68
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,DEM,received,9
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,REP,received,7
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,OTH,received,6
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,ALL,received,22
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,DEM,accepted,5
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,REP,accepted,3
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,OTH,accepted,2
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military Overseas,ALL,accepted,10
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,DEM,sent,8
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,REP,sent,10
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,OTH,sent,6
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,ALL,sent,24
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,DEM,received,2
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,REP,received,2
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,OTH,received,2
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,ALL,received,6
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,OTH,accepted,2
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military Overseas,ALL,accepted,6
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,DEM,sent,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,REP,sent,4
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,OTH,sent,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,ALL,sent,4
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,REP,received,3
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,ALL,received,3
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military Overseas,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,DEM,sent,9
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,REP,sent,13
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,OTH,sent,8
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,ALL,sent,30
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,DEM,received,4
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,REP,received,4
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,OTH,received,3
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,ALL,received,11
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,REP,sent,4
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,OTH,sent,1
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,ALL,sent,7
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,REP,received,2
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,ALL,received,3
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,DEM,sent,22
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,REP,sent,21
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,OTH,sent,12
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,ALL,sent,55
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,DEM,received,6
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,REP,received,5
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,OTH,received,5
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,ALL,received,16
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Charles,"",Military Overseas,ALL,accepted,4
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,DEM,sent,1
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,REP,sent,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,OTH,sent,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,ALL,sent,1
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,ALL,received,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,DEM,sent,17
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,REP,sent,14
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,OTH,sent,14
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,ALL,sent,45
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,DEM,received,6
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,REP,received,6
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,OTH,received,6
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,ALL,received,18
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,OTH,accepted,3
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military Overseas,ALL,accepted,5
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,DEM,sent,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,REP,sent,3
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,OTH,sent,1
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,ALL,sent,4
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,REP,received,1
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,ALL,received,1
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,DEM,sent,15
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,REP,sent,19
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,OTH,sent,13
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,ALL,sent,47
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,DEM,received,9
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,REP,received,6
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,OTH,received,2
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,ALL,received,17
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,DEM,accepted,3
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,REP,accepted,3
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Harford,"",Military Overseas,ALL,accepted,6
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,DEM,sent,29
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,REP,sent,11
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,OTH,sent,18
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,ALL,sent,58
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,DEM,received,10
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,REP,received,3
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,OTH,received,6
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,ALL,received,19
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Howard,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,DEM,sent,1
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,REP,sent,1
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,OTH,sent,3
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,ALL,sent,5
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,ALL,received,2
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,DEM,sent,64
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,REP,sent,25
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,OTH,sent,45
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,ALL,sent,134
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,DEM,received,19
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,REP,received,6
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,OTH,received,15
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,ALL,received,40
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,DEM,accepted,4
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,OTH,accepted,6
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military Overseas,ALL,accepted,10
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,DEM,sent,81
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,REP,sent,13
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,OTH,sent,30
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,ALL,sent,124
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,DEM,received,26
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,REP,received,5
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,OTH,received,8
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,ALL,received,39
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,DEM,accepted,4
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,OTH,accepted,3
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military Overseas,ALL,accepted,9
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,REP,sent,7
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,OTH,sent,0
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,ALL,sent,9
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,REP,received,4
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,ALL,received,5
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military Overseas,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,DEM,sent,13
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,REP,sent,15
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,OTH,sent,5
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,ALL,sent,33
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,DEM,received,6
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,REP,received,6
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,OTH,received,2
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,ALL,received,14
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,DEM,accepted,5
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military Overseas,ALL,accepted,8
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,REP,sent,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,OTH,sent,1
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,ALL,sent,3
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,DEM,received,2
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,ALL,received,2
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,DEM,sent,1
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,REP,sent,1
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,OTH,sent,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,ALL,sent,2
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,REP,received,1
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,ALL,received,2
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,REP,accepted,1
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military Overseas,ALL,accepted,1
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,DEM,sent,5
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,REP,sent,12
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,OTH,sent,6
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,ALL,sent,23
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,DEM,received,3
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,REP,received,5
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,OTH,received,2
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,ALL,received,10
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,DEM,accepted,1
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,REP,accepted,3
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,Washington,"",Military Overseas,ALL,accepted,5
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,REP,sent,4
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,OTH,sent,4
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,ALL,sent,10
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,REP,received,1
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,ALL,received,2
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military Overseas,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,REP,sent,2
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,OTH,sent,3
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,ALL,sent,7
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,REP,received,0
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,ALL,received,2
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military Overseas,ALL,accepted,1
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,DEM,sent,3
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,REP,sent,5
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,OTH,sent,4
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,ALL,sent,12
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,DEM,received,3
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,REP,received,2
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,ALL,received,6
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,DEM,accepted,3
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Allegany,"",Military US,ALL,accepted,3
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,DEM,sent,299
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,REP,sent,203
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,OTH,sent,239
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,ALL,sent,741
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,DEM,received,98
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,REP,received,56
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,OTH,received,65
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,ALL,received,219
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Anne Arundel,"",Military US,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,DEM,sent,61
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,REP,sent,15
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,OTH,sent,33
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,ALL,sent,109
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,DEM,received,15
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,REP,received,2
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,OTH,received,6
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,ALL,received,23
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,DEM,accepted,1
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,REP,accepted,1
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,OTH,accepted,4
+2024-10-24,PG24,sent-returned,county,Baltimore City,"",Military US,ALL,accepted,6
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,DEM,sent,88
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,REP,sent,54
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,OTH,sent,57
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,ALL,sent,199
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,DEM,received,32
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,REP,received,11
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,OTH,received,17
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,ALL,received,60
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,DEM,accepted,17
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,REP,accepted,3
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,OTH,accepted,10
+2024-10-24,PG24,sent-returned,county,Baltimore County,"",Military US,ALL,accepted,30
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,DEM,sent,41
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,REP,sent,45
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,OTH,sent,31
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,ALL,sent,117
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,DEM,received,14
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,REP,received,14
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,OTH,received,8
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,ALL,received,36
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,DEM,accepted,12
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,REP,accepted,11
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,OTH,accepted,7
+2024-10-24,PG24,sent-returned,county,Calvert,"",Military US,ALL,accepted,30
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,REP,sent,6
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,OTH,sent,3
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,ALL,sent,11
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,REP,received,4
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,OTH,received,2
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,ALL,received,7
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,REP,accepted,3
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,Caroline,"",Military US,ALL,accepted,4
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,DEM,sent,13
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,REP,sent,32
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,OTH,sent,30
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,ALL,sent,75
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,DEM,received,4
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,REP,received,5
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,OTH,received,8
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,ALL,received,17
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,DEM,accepted,1
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Carroll,"",Military US,ALL,accepted,1
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,DEM,sent,12
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,REP,sent,19
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,OTH,sent,5
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,ALL,sent,36
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,DEM,received,6
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,REP,received,9
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,OTH,received,3
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,ALL,received,18
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Cecil,"",Military US,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,DEM,sent,92
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,REP,sent,36
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,OTH,sent,56
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,ALL,sent,184
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,DEM,received,26
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,REP,received,14
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,OTH,received,13
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,ALL,received,53
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,DEM,accepted,8
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,REP,accepted,8
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,OTH,accepted,7
+2024-10-24,PG24,sent-returned,county,Charles,"",Military US,ALL,accepted,23
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,DEM,sent,4
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,REP,sent,1
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,OTH,sent,4
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,ALL,sent,9
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,DEM,received,1
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,REP,received,1
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,ALL,received,3
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Dorchester,"",Military US,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,DEM,sent,61
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,REP,sent,71
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,OTH,sent,50
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,ALL,sent,182
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,DEM,received,22
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,REP,received,17
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,OTH,received,17
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,ALL,received,56
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,DEM,accepted,6
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,REP,accepted,1
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,OTH,accepted,5
+2024-10-24,PG24,sent-returned,county,Frederick,"",Military US,ALL,accepted,12
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,REP,sent,4
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,OTH,sent,4
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,ALL,sent,10
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,REP,received,2
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,ALL,received,3
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,REP,accepted,1
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,Garrett,"",Military US,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,DEM,sent,43
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,REP,sent,74
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,OTH,sent,51
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,ALL,sent,168
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,DEM,received,9
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,REP,received,20
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,OTH,received,18
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,ALL,received,47
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,DEM,accepted,6
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,REP,accepted,11
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,OTH,accepted,9
+2024-10-24,PG24,sent-returned,county,Harford,"",Military US,ALL,accepted,26
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,DEM,sent,117
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,REP,sent,41
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,OTH,sent,64
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,ALL,sent,222
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,DEM,received,43
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,REP,received,11
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,OTH,received,15
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,ALL,received,69
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Howard,"",Military US,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,DEM,sent,2
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,REP,sent,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,OTH,sent,2
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,ALL,sent,4
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,REP,received,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,ALL,received,1
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Kent,"",Military US,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,DEM,sent,253
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,REP,sent,93
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,OTH,sent,209
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,ALL,sent,555
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,DEM,received,82
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,REP,received,23
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,OTH,received,42
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,ALL,received,147
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,DEM,accepted,27
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,REP,accepted,8
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,OTH,accepted,12
+2024-10-24,PG24,sent-returned,county,Montgomery,"",Military US,ALL,accepted,47
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,DEM,sent,278
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,REP,sent,62
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,OTH,sent,130
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,ALL,sent,470
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,DEM,received,74
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,REP,received,16
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,OTH,received,28
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,ALL,received,118
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,DEM,accepted,35
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,REP,accepted,8
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,OTH,accepted,11
+2024-10-24,PG24,sent-returned,county,Prince George's,"",Military US,ALL,accepted,54
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,DEM,sent,14
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,REP,sent,17
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,OTH,sent,10
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,ALL,sent,41
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,DEM,received,4
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,REP,received,4
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,OTH,received,4
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,ALL,received,12
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,DEM,accepted,1
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,Queen Anne's,"",Military US,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,DEM,sent,60
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,REP,sent,54
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,OTH,sent,40
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,ALL,sent,154
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,DEM,received,20
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,REP,received,16
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,OTH,received,17
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,ALL,received,53
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,DEM,accepted,15
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,REP,accepted,12
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,OTH,accepted,13
+2024-10-24,PG24,sent-returned,county,St. Mary's,"",Military US,ALL,accepted,40
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,DEM,sent,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,REP,sent,3
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,OTH,sent,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,ALL,sent,3
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,DEM,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,REP,received,1
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,ALL,received,1
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,DEM,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Somerset,"",Military US,ALL,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,DEM,sent,4
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,REP,sent,7
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,OTH,sent,1
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,ALL,sent,12
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,DEM,received,3
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,REP,received,3
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,OTH,received,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,ALL,received,6
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,REP,accepted,2
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Talbot,"",Military US,ALL,accepted,4
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,DEM,sent,17
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,REP,sent,19
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,OTH,sent,8
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,ALL,sent,44
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,DEM,received,8
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,REP,received,8
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,OTH,received,1
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,ALL,received,17
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,DEM,accepted,5
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,REP,accepted,5
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Washington,"",Military US,ALL,accepted,10
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,DEM,sent,9
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,REP,sent,7
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,OTH,sent,7
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,ALL,sent,23
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,DEM,received,3
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,REP,received,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,OTH,received,2
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,ALL,received,5
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,REP,accepted,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,OTH,accepted,0
+2024-10-24,PG24,sent-returned,county,Wicomico,"",Military US,ALL,accepted,2
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,DEM,sent,6
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,REP,sent,18
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,OTH,sent,9
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,ALL,sent,33
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,DEM,received,3
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,REP,received,8
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,OTH,received,2
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,ALL,received,13
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,DEM,accepted,2
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,REP,accepted,4
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,OTH,accepted,1
+2024-10-24,PG24,sent-returned,county,Worcester,"",Military US,ALL,accepted,7

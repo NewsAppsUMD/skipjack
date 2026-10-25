@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pg24-sent-returned-county-20241015-53026665ac2c",
+  "source_url": "https://raw.githubusercontent.com/dwillis/maryland_git_scraping/9d68f54965fd6fabc90bbc83cad864cf772345be/absentee/absentee_ballots_20241017.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 sent-returned (county) as of 2024-10-15",
+  "fetch_date": "2024-10-17T12:10:55+00:00",
+  "parse_date": "2026-10-25T11:49:03+00:00",
+  "sha256_original": "53026665ac2cc49aa4f2edc88c2732b77aeb12226d22049b8a366af793797611",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PG24",
+  "family": "sent-returned",
+  "geography": "county",
+  "notes": "PG24 sent-returned (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 1440,
+    "as_of": "2024-10-15"
+  }
+}
