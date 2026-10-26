@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-same-day-congressional-20220719-f31fe0cf1a67",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/SameDayRegistration by Congressional District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 same-day (congressional) as of 2022-07-19",
+  "fetch_date": "2026-10-26T16:01:51+00:00",
+  "parse_date": "2026-10-26T16:10:13+00:00",
+  "sha256_original": "f31fe0cf1a674a9456fb2c720908817dc3f284bc6dd3789cc366d591b9b2479d",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "same-day",
+  "geography": "congressional",
+  "notes": "GP22 same-day (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 640,
+    "as_of": "2022-07-19"
+  }
+}

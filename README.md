@@ -40,11 +40,19 @@ Once GitHub Pages is switched on, the site publishes to
   certified turnout percentage (its official turnout sheet's figure, whose printed register moved
   between eras — the 2018, 2022 and 2024 sheets divide by active registration, the 2026 guide by all
   eligible voters), mail-in ballots with their rejection reasons, and provisional outcomes — its certified
-  figures of record only, never the board's unofficial eight-day tallies (early voting, same-day).
+  figures of record only, never the board's unofficial early-voting tallies.
   For a running election: the mail-in tracking (requests, sent, received back, accepted in the
   canvass), snapshotted under each report's own as-of date so the trend is visible day by day,
   and, once early voting opens, the board's unofficial early-voting counts by day, party and
-  county against the eligible active voters. The eight-day files print only the election date,
+  county against the eligible active voters.
+- **Same-day registration**: every election from 2022 on has a `/turnout/<code>/same-day/` page
+  from the board's unofficial same-day reports: new registrants (during early voting and on
+  election day) and registered voters who changed their address and voted, by day, party,
+  county and congressional district, with the six elections side by side (a running election
+  also lined up over the same number of early-voting days). No certified report counts
+  same-day registration, so these unofficial counts publish for finished elections too. The
+  live files print no as-of date at all, so a running election's snapshot is dated by the
+  last early-voting day it counts. The eight-day files print only the election date,
   so a running election's snapshot is dated by the files' eligible-actives date, the last
   early-voting day they count.
   The mail-in returns are also lined up against the 2022 and 2024 generals by days before

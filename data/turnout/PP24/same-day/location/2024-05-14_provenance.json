@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-same-day-location-20240514-ce2880f36d38",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/SameDayRegistration by Location.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 same-day (location) as of 2024-05-14",
+  "fetch_date": "2026-10-26T16:01:35+00:00",
+  "parse_date": "2026-10-26T16:10:53+00:00",
+  "sha256_original": "ce2880f36d385738356a466597ed2e4b490a71356e06a051a56314bafc08671d",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "same-day",
+  "geography": "location",
+  "notes": "PP24 same-day (location) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 24800,
+    "as_of": "2024-05-14"
+  }
+}

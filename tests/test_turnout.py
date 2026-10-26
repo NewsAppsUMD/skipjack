@@ -3140,8 +3140,7 @@ def test_an_in_flight_election_s_eight_day_files_are_dated_by_their_footnote():
     assert turnout.eight_day_snapshot_date(gp26_text, "GP26") == "2026-06-23"
     # no footnote: the election date stands
     assert (
-        turnout.eight_day_snapshot_date("Election Date: November 3, 2026", "GG26")
-        == "2026-11-03"
+        turnout.eight_day_snapshot_date("Election Date: November 3, 2026", "GG26") == "2026-11-03"
     )
 
 
@@ -3149,9 +3148,7 @@ def test_turnout_fetch_dates_an_eight_day_file_by_its_footnote(turnout_env, monk
     from skipjack.pipeline.provenance import read_manifest
 
     ev = turnout.FamilyFile("early-voting", "county", "pdf", "https://example.test/ev.pdf")
-    monkeypatch.setattr(
-        turnout, "ELECTIONS", {"GG26": dataclasses.replace(GG26, files=[ev])}
-    )
+    monkeypatch.setattr(turnout, "ELECTIONS", {"GG26": dataclasses.replace(GG26, files=[ev])})
     monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: b"%PDF-1.4\n")
     monkeypatch.setattr(turnout, "read_requests_pdf", lambda path: EIGHT_DAY_TEXT)
     turnout.turnout_fetch()
@@ -4661,16 +4658,17 @@ def test_same_day_location_grand_total_must_agree_with_its_locations():
 
 
 def test_may_publish_which_report_families():
-    """A certified election publishes only its figures of record: the board's
-    unofficial eight-day turnout tallies (early-voting, same-day) stay out of the
-    pages and downloads of a previous election. An in-flight election keeps its
-    page, and the families a certified report uses are always publishable."""
+    """A certified election's unofficial early-voting tallies stay out of its pages and
+    downloads (the certified canvass counts early voting). Same-day registrations have
+    no certified counterpart, so they publish for every election. An in-flight election
+    keeps its page, and the families a certified report uses are always publishable."""
     assert turnout.may_publish("GP26", "county-canvass")
     assert turnout.may_publish("GP26", "requests")
     assert turnout.may_publish("GG26", "sent-returned")
     assert turnout.may_publish("GG26", "early-voting")
     assert not turnout.may_publish("GP26", "early-voting")
-    assert not turnout.may_publish("GP26", "same-day")
+    for code in ("GG26", "GP26", "PG24", "PP24", "GG22", "GP22"):
+        assert turnout.may_publish(code, "same-day")
 
 
 def test_pg24_is_a_certified_election_whose_files_cover_its_families():
@@ -4716,8 +4714,10 @@ def test_the_2022_and_2024_primary_and_2022_general_are_certified_elections():
             ("requests", "county"),
         ):
             assert expected in families, (code, expected)
-        # figures of record only: the eight-day unofficial tallies are not even fetched
-        assert not {f for f, _ in families} & {"early-voting", "same-day"}, code
+        # figures of record only: the early-voting tallies are not even fetched; the
+        # same-day files are, since no certified report counts same-day registration
+        assert "early-voting" not in {f for f, _ in families}, code
+        assert ("same-day", "location") in families, code  # for the same-day pages
 
 
 def test_the_primaries_files_sit_loose_in_the_year_folder():
@@ -5542,3 +5542,45 @@ def test_latest_sha_reads_only_the_file_s_own_revisions(turnout_env):
     assert latest("GG26", "county-canvass", "county", "pdf") == "b" * 64
     assert latest("GG26", "county-canvass", "county", "pdf", "https://x/Original.pdf") == "a" * 64
     assert latest("GG26", "county-canvass", "county", "pdf", "https://x/Updated.pdf") == "b" * 64
+
+
+def test_same_day_location_sums_a_site_listed_as_center_and_polling_place():
+    # the 2022 and 2024-primary location files list a site twice when it was an
+    # early-voting center and an election-day polling place: one location, both rows
+    rows = [r[:] for r in SD_LOCATION_ROWS]
+    rows[2][1] = "Allegany County\nOffice Complex"  # Eckhart School's row, renamed
+    _, df = turnout.parse_same_day_rows(rows, "GG22", "location", as_of="2022-11-08")
+    complex_ = df.filter(df["district"] == "Allegany County Office Complex")
+    cells = dict(zip(complex_["measure"], complex_["value"], strict=True))
+    assert cells["new-election-day"] == 1 and cells["new-day-1"] == 1
+    assert cells["total"] == 13
+    assert df.filter(df["measure"] == "total")["value"].sum() == 22
+
+
+def test_same_day_reads_the_2022_district_code_headers():
+    rows = [r[:] for r in SD_CONGRESSIONAL_ROWS]
+    rows[0][1] = "CONGRESSIONAL DISTTICT CODE"  # as the 2022 sheets misspell it
+    _, df = turnout.parse_same_day_rows(rows, "GG22", "congressional", as_of="2022-11-08")
+    assert set(df["district"]) == {"04", "06", "08"}
+
+
+def test_a_live_same_day_file_is_dated_by_its_last_counted_day():
+    text = "Election Date: November 3, 2026"
+    rows = [r[:] for r in SD_CONGRESSIONAL_ROWS]
+    for row in rows[1:]:
+        row[6:18] = ["0"] * 12  # days 3 to 8 not yet counted
+        row[18] = "0"  # nor election day
+        new = sum(int(row[i]) for i in range(2, 18, 2))
+        moved = sum(int(row[i]) for i in range(3, 18, 2))
+        row[19:22] = [str(new), str(moved), str(new + moved)]
+    assert turnout.same_day_snapshot_date(rows, text, "GG26", "congressional") == "2026-10-23"
+    for row in rows[1:]:
+        row[2:] = ["0"] * 20
+    assert turnout.same_day_snapshot_date(rows, text, "GG26", "congressional") is None
+    # a certified election's file keeps its election date
+    assert (
+        turnout.same_day_snapshot_date(
+            rows, "Election Date: June 23, 2026", "GP26", "congressional"
+        )
+        == "2026-06-23"
+    )

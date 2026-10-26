@@ -167,6 +167,16 @@
 
 {% endif %}
 
+{% if same_day %}
+<div class="section-head"><h2>Same-day registration</h2></div>
+<p>{% if election.certified %}In the {{ election.name }}, {{ m.num(same_day.new) }} people registered
+    and voted on the same day and {{ m.num(same_day.addrchg) }} registered voters changed their
+    address and voted{% else %}Through {{ same_day.as_of|day_label }}, {{ m.num(same_day.new) }}
+    people had registered and voted on the same day and {{ m.num(same_day.addrchg) }} registered
+    voters had changed their address and voted{% endif %}, by the State Board's unofficial count.
+    <a href="{{ base }}/turnout/{{ election.code|lower }}/same-day/">By day, party, county and district</a>.</p>
+{% endif %}
+
 {% if geographies %}
 <p class="secondary">The same figures by area:
     {% for g in geographies %}<a href="{{ base }}/turnout/{{ election.code|lower }}/{{ g }}/">by {{ {"county": "county", "congressional": "congressional district", "legislative": "legislative district"}[g] }}</a>{% if not loop.last %} · {% endif %}{% endfor %}.</p>

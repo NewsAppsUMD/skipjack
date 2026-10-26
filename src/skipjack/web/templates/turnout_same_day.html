@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% block title %}{{ election.name.title() }} same-day registration{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+<h1>{{ election.name.title() }}: same-day registration</h1>
+
+<p class="secondary"><a href="{{ base }}/turnout/{{ election.code|lower }}/">{{ election.name.title() }} turnout</a>.
+    {% if sd.certified %}The State Board's final unofficial same-day report, dated {{ sd.as_of|day_label }}.
+    {% else %}From the State Board's unofficial same-day reports, through {{ sd.as_of|day_label }}.{% endif %}</p>
+
+<p>Maryland lets an eligible resident register and vote on the same day at an early-voting
+    center and, since a 2018 constitutional amendment, at their polling place on election day. A registered voter who
+    has moved can also update their address and vote. The State Board's same-day reports count
+    both groups: <em>new registrants</em> and <em>address changes</em> (voters already
+    registered who changed their address). {% if sd.certified %}In the {{ election.name }},
+    {{ m.num(sd.new) }} people registered and voted on the same day, {{ m.num(sd.new_election_day) }}
+    of them on election day, and {{ m.num(sd.addrchg) }} registered voters changed their address
+    and voted.{% else %}Through {{ sd.as_of|day_label }}, {{ m.num(sd.new) }} people had registered
+    and voted on the same day and {{ m.num(sd.addrchg) }} registered voters had changed their
+    address and voted.{% endif %}</p>
+
+<div class="tiles">
+    <div class="tile">
+        <div class="v">{{ m.num(sd.total) }}</div>
+        <div class="l">same-day registrations and address changes</div>
+    </div>
+    <div class="tile">
+        <div class="v">{{ m.num(sd.new) }}</div>
+        <div class="l">new registrants{% if sd.new_election_day %} &middot; {{ m.num(sd.new_early) }} during early voting, {{ m.num(sd.new_election_day) }} on election day{% endif %}</div>
+    </div>
+    <div class="tile">
+        <div class="v">{{ m.num(sd.addrchg) }}</div>
+        <div class="l">address changes</div>
+    </div>
+</div>
+
+<p class="note">These are the board's unofficial counts, printed "Unofficial" on every
+    sheet. No certified report counts same-day registration, so this page shows them for
+    past elections too. The sheets say they leave out mail-in voters, and that provisional
+    applications filled in by hand are not included (those printed from the electronic
+    pollbooks are).</p>
+
+{% if sd.comparison|length > 1 %}
+<div class="section-head"><h2>Across elections</h2></div>
+<div class="overflow-auto">
+<table>
+    <thead>
+        <tr>
+            <th>Election</th>
+            {% if not sd.certified %}<th class="num">First {{ sd.through }} early-voting day{{ "s" if sd.through != 1 }}</th>{% endif %}
+            <th class="num">New, early voting</th>
+            <th class="num">New, election day</th>
+            <th class="num">Address changes</th>
+            <th class="num">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in sd.comparison %}
+        <tr>
+            <td>{% if r.current %}<strong>{{ r.name|capitalize }}</strong>{% else %}<a href="{{ base }}/turnout/{{ r.slug }}/same-day/">{{ r.name|capitalize }}</a>{% endif %}{% if not r.final %} <span class="muted">(through {{ r.as_of|day_label }})</span>{% endif %}</td>
+            {% if not sd.certified %}<td class="num">{{ m.num(r.through) }}</td>{% endif %}
+            <td class="num">{{ m.num(r.new_early) }}</td>
+            <td class="num">{% if r.final %}{{ m.num(r.new_election_day) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num">{{ m.num(r.addrchg) }}</td>
+            <td class="num">{{ m.num(r.total) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% if not sd.certified %}
+<p class="note">"First {{ sd.through }} early-voting day{{ 's' if sd.through != 1 }}" counts each
+    election's new registrants and address changes over its own first {{ sd.through }}
+    day{{ "s" if sd.through != 1 }} of early voting, so the running election lines up with the
+    finished ones.</p>
+{% endif %}
+{% endif %}
+
+<div class="section-head"><h2>By day</h2></div>
+<div class="overflow-auto">
+<table>
+    <thead><tr><th>Day</th><th class="num">New registrants</th><th class="num">Address changes</th><th class="num">Total</th></tr></thead>
+    <tbody>
+        {% for d in sd.days %}
+        <tr>
+            <td>{{ d.label }}{% if d.date %} &middot; {{ d.date|day_label }}{% endif %}</td>
+            <td class="num">{{ m.num(d.new) }}</td>
+            <td class="num">{% if d.addrchg is none %}<span class="muted">&mdash;</span>{% else %}{{ m.num(d.addrchg) }}{% endif %}</td>
+            <td class="num">{{ m.num(d.total) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% if sd.days and sd.days[-1].addrchg is none %}
+<p class="note">The sheets print no election-day column for address changes.{% if sd.unitemized_addrchg %}
+    Their address-change total is {{ m.num(sd.unitemized_addrchg) }} higher than the
+    early-voting days add up to; the board's sheet does not say which day those fall on.{% endif %}</p>
+{% endif %}
+
+{% if sd.parties %}
+<div class="section-head"><h2>By party</h2></div>
+<div class="overflow-auto">
+<table>
+    <thead><tr><th>Party</th><th class="num">New registrants</th><th class="num">Address changes</th><th class="num">Total</th><th class="num">Share</th></tr></thead>
+    <tbody>
+        {% for p in sd.parties %}
+        <tr>
+            <td>{{ p.label }}</td>
+            <td class="num">{{ m.num(p.new) }}</td>
+            <td class="num">{{ m.num(p.addrchg) }}</td>
+            <td class="num">{{ m.num(p.total) }}</td>
+            <td class="num">{% if p.share is not none %}{{ "%.1f"|format(p.share * 100) }}%{% else %}{{ m.num(none) }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">Party is the one the voter registered with or already had.{% if sd.party_gap > 0 %}
+    The board's by-party sheet counts {{ m.num(sd.party_gap) }} fewer new
+    registrant{{ "s" if sd.party_gap != 1 }} than its by-county sheet, and nothing printed in
+    either says why; the other tables on this page follow the county sheet.{% endif %}</p>
+{% endif %}
+
+<div class="section-head"><h2>By county</h2></div>
+<div class="overflow-auto">
+<table data-sortable>
+    <thead>
+        <tr>
+            <th>County</th>
+            <th class="num">New, early voting</th>
+            {% if sd.certified %}<th class="num">New, election day</th>{% endif %}
+            <th class="num">Address changes</th>
+            <th class="num">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in sd.counties %}
+        <tr id="county-{{ c.county|slug }}">
+            <td>{{ c.county }}</td>
+            <td class="num" data-sort="{{ c.new_early }}">{{ m.num(c.new_early) }}</td>
+            {% if sd.certified %}<td class="num" data-sort="{{ c.new_election_day }}">{{ m.num(c.new_election_day) }}</td>{% endif %}
+            <td class="num" data-sort="{{ c.addrchg }}">{{ m.num(c.addrchg) }}</td>
+            <td class="num" data-sort="{{ c.total }}">{{ m.num(c.total) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">A county the board's sheet leaves out had no same-day registrations or
+    address changes, and shows zero.</p>
+
+{% if sd.districts %}
+<div class="section-head"><h2>By congressional district</h2></div>
+<div class="overflow-auto">
+<table data-sortable>
+    <thead>
+        <tr>
+            <th>District</th>
+            <th class="num">New, early voting</th>
+            {% if sd.certified %}<th class="num">New, election day</th>{% endif %}
+            <th class="num">Address changes</th>
+            <th class="num">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in sd.districts %}
+        <tr>
+            <td>{{ d.district }}</td>
+            <td class="num" data-sort="{{ d.new_early }}">{{ m.num(d.new_early) }}</td>
+            {% if sd.certified %}<td class="num" data-sort="{{ d.new_election_day }}">{{ m.num(d.new_election_day) }}</td>{% endif %}
+            <td class="num" data-sort="{{ d.addrchg }}">{{ m.num(d.addrchg) }}</td>
+            <td class="num" data-sort="{{ d.total }}">{{ m.num(d.total) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The board prints each district county by county; a district's figures are
+    its counties' rows summed.</p>
+{% endif %}
+
+<p class="note">The board also publishes these counts by legislative and councilmanic
+    district and by voting location; all six grains are downloadable under
+    <a href="{{ base }}/data/">Data</a>.</p>
+
+{% for s in sources %}
+<div class="source-strip">
+    <strong>Source:</strong>
+    <a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.title }}</a>,
+    downloaded {{ s.fetched|day_label }}, read by {{ s.method }}
+    {%- if s.csv %} — <a href="{{ base }}/downloads/{{ s.csv }}">CSV</a> ·
+    <a href="{{ base }}/downloads/{{ s.provenance }}">provenance</a>{% endif %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

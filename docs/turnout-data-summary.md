@@ -113,9 +113,11 @@ Rules the parsers work under (all established in the first increment and carried
 
 The `early-voting` and `same-day` files are the board's campaign-time tallies, printed
 "Unofficial" — the eight-day early-voting turnout and the same-day registrations. A
-**certified election's page publishes none of them**: its figures of record come from the
-certified canvass reports alone (`may_publish()` in `skipjack.pipeline.turnout` gates every
-published surface — the page, the downloads, and the Data page). The elections still being
+**certified election publishes none of its early-voting tallies**: its early-voting figures
+of record come from the certified canvass reports (`may_publish()` in
+`skipjack.pipeline.turnout` gates every published surface — the page, the downloads, and
+the Data page). The same-day files have no certified counterpart, so they publish for every
+election on `/turnout/<code>/same-day/`, labelled unofficial. The elections still being
 tracked keep their snapshots; the files stay parsed and archived for the record either way.
 
 The county workbooks' district detail grain (councilmanic districts on Sheet2, the
@@ -154,9 +156,15 @@ it produces and the ordinary human push triggers the Pages workflow.
 
 ## Known data quirks (the SBE's own numbers, documented honestly)
 
-- **Same-day by-party undercounts the county file it parallels** (2,162 vs 2,179 new
-  registrations; Baltimore County −6, Charles −3, Howard −3, Anne Arundel −2, +1 elsewhere),
-  with no state row in that workbook to check against; the snapshot sidecar notes it.
+- **Same-day by-party undercounts the county file it parallels** in four elections (new
+  registrations: GP26 2,162 vs 2,179; PP24 3,628 vs 3,708; GP22 2,901 vs 2,909; PG24 one
+  short in Prince George's), with no state row in that file to check against; each
+  snapshot's sidecar names the counties, and the same-day page says how many. Every other
+  grain matches the county file.
+- **Same-day location files list a site twice** when it served as an early-voting center and
+  an election-day polling place (GG22, GP22, PP24); the location's counts are both rows'.
+- **The 2022 same-day district sheets** print "CONGRESSIONAL DISTTICT CODE" and "LEGISLATIVE
+  DISTRICT CODE" headers; both are read.
 - **The eligible workbooks' grand-total party columns disagree with their own rows** (the
   live inactive file's DEM cell) — that printed layer is not reconciled; the rows and the
   Total columns are.
@@ -207,9 +215,9 @@ Added October 17, 2026 beside PG24, from the same families at the same grains. W
   `press_room/2022_stats/` (GP22), beside the later elections' folders, with no `Updated-`
   re-posts. GP22's mail-in report is named without PG24's "(NEW)". Every printed title was
   read: the "ZOfficial by Party…" sheets are the genuine election's, not stale copies.
-- **Figures of record only.** The eight-day early-voting and same-day files are not fetched
-  for these three elections (a certified election never publishes them, and their 2022 sheets
-  print header spellings PG24's do not), nor are the single left-to-count sheets.
+- **Figures of record only.** The eight-day early-voting files are not fetched for these three
+  elections (a certified election never publishes them), nor are the single left-to-count
+  sheets. Their same-day files are, for the same-day pages.
 - **2022 sent-and-returned sheets print no accepted columns**; the parser reads them without.
 - **The board's own print slips** — modes that do not sum to a printed total, or a printed
   share that is not its count over its base (26 canvass, accepted, mail-in and provisional

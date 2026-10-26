@@ -109,8 +109,9 @@ def test_the_tile_markup_is_styled():
 
 
 def test_download_files_drops_unofficial_tallies_of_certified_elections(tmp_path):
-    """A previous election's downloads carry its figures of record; the unofficial
-    eight-day turnout tallies are neither linked nor downloadable."""
+    """A previous election's downloads carry its figures of record; its unofficial
+    early-voting tallies are neither linked nor downloadable. Its same-day counts, which
+    no certified report replaces, are."""
     (tmp_path / "turnout" / "GP26" / "early-voting" / "county").mkdir(parents=True)
     (tmp_path / "turnout" / "GP26" / "same-day" / "county").mkdir(parents=True)
     (tmp_path / "turnout" / "GP26" / "requests" / "county").mkdir(parents=True)
@@ -129,6 +130,7 @@ def test_download_files_drops_unofficial_tallies_of_certified_elections(tmp_path
     assert download_files(tmp_path) == [
         Path("turnout/GG26/sent-returned/county/2026-10-09.csv"),
         Path("turnout/GP26/requests/county/2026-06-19.csv"),
+        Path("turnout/GP26/same-day/county/2026-06-23.csv"),
         Path("voter_registration/monthly/2026-08.csv"),
     ]
 

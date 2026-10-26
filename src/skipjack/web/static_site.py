@@ -28,7 +28,7 @@ from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
 from skipjack.web.results import contest_slugs, county_slugs, elections
-from skipjack.web.turnout import publishable_geographies
+from skipjack.web.turnout import publishable_geographies, same_day_statewide
 from skipjack.web.race import snapshots_with_race
 from skipjack.web.young import snapshots_with_young
 from skipjack.web.urls import normalize_base_path, slugify
@@ -87,6 +87,8 @@ def page_urls() -> list[str]:
             turnout_urls += [
                 f"/turnout/{code.lower()}/{g}/" for g in publishable_geographies(conn, code)
             ]
+            if same_day_statewide(conn, code) is not None:
+                turnout_urls.append(f"/turnout/{code.lower()}/same-day/")
         results_urls: list[str] = []
         try:
             found = elections(conn)

@@ -109,6 +109,17 @@ def _gg26_files() -> list[FamilyFile]:
                 ("location", "Location"),
             )
         ),
+        *(
+            FamilyFile("same-day", geography, "pdf", f"{base}/SameDayRegistration_by_{stem}.pdf")
+            for geography, stem in (
+                ("county-party", "Party"),
+                ("county", "County"),
+                ("congressional", "Congressional_District"),
+                ("legislative", "Legislative_District"),
+                ("councilmanic", "Councilmanic_District"),
+                ("location", "Location"),
+            )
+        ),
     ]
 
 
@@ -195,6 +206,7 @@ def _certified_files(
     updated: bool = True,
     campaign: bool = True,
     unofficial: bool = True,
+    same_day: bool = True,
 ) -> list[FamilyFile]:
     """The stat files of a certified election's press-room tree (see the press-room page).
 
@@ -233,7 +245,7 @@ def _certified_files(
         ("same-day", "councilmanic", "SameDayRegistration by Councilmanic District"),
         ("same-day", "location", "SameDayRegistration by Location"),
     ):
-        if unofficial:
+        if same_day if family == "same-day" else unofficial:
             files.append(FamilyFile(family, geography, "pdf", f"{base}/{stem}.pdf"))
     # the certified reports, first as originally published, then the Updated- re-posts
     certified = [
@@ -408,15 +420,20 @@ ELECTIONS: dict[str, Election] = {
 }
 
 # The board's eight-day early-voting and same-day registration files are campaign-time
-# tallies printed "Unofficial". A certified election's published figures come from its
-# certified canvass reports alone, so those families stay in the archive and out of the
-# pages and downloads of a previous election.
+# tallies printed "Unofficial".
 UNOFFICIAL_TALLY_FAMILIES = ("early-voting", "same-day")
+
+# A certified election's early-voting figures come from its certified canvass reports, so
+# its unofficial early-voting tallies stay in the archive and out of the pages and
+# downloads. Same-day registrations and address changes have no certified counterpart:
+# the unofficial tally is the board's only count of them, so it publishes for every
+# election, labelled unofficial.
+UNPUBLISHED_WHEN_CERTIFIED = ("early-voting",)
 
 
 def may_publish(election: str, family: str) -> bool:
     """Whether the site may publish this report family's figures for the election."""
-    return family not in UNOFFICIAL_TALLY_FAMILIES or not (
+    return family not in UNPUBLISHED_WHEN_CERTIFIED or not (
         election in ELECTIONS and ELECTIONS[election].certified
     )
 
@@ -2594,6 +2611,11 @@ DAILY_IDENTITY_CELLS = {
     "LEGISLATIVEDISTRICT": "district",
     "COUNCILMANICDISTRICT": "district",
     "COUNCILMANIACDISTRICT": "district",
+    # the 2022 and 2024-primary same-day sheets print "... DISTRICT CODE", the
+    # congressional one misspelled as published
+    "CONGRESSIONALDISTTICTCODE": "district",
+    "CONGRESSIONALDISTRICTCODE": "district",
+    "LEGISLATIVEDISTRICTCODE": "district",
     "LOCATIONNAME": "district",
 }
 
@@ -2803,6 +2825,17 @@ def _daily_rows(
             state_sums[measure] = state_sums.get(measure, 0) + value
             sums[measure] = sums.get(measure, 0) + value
         unknown_subcounty = "district" in raw and not district_cell
+        if geography == "location" and (county, party_cell, district_cell) in seen:
+            # a site the sheet lists twice, once as an early-voting center and once as
+            # an election-day polling place: the location's counts are both rows'
+            for entry in published:
+                if (entry["county"], entry["party"], entry["district"]) == (
+                    county,
+                    party_cell or "ALL",
+                    district_cell,
+                ):
+                    entry["value"] += printed[entry["measure"]]
+            continue
         if not unknown_subcounty and (county, party_cell, district_cell) in seen:
             raise TurnoutParseError(
                 f"{where}: a {party_cell or 'ALL'} row for {county} {district_cell!r} "
@@ -2987,8 +3020,45 @@ def parse_same_day_pdf(
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the same-day PDF ({err})") from err
     return parse_same_day_rows(
-        rows, election, geography, as_of=eight_day_snapshot_date(text, election)
+        rows, election, geography, as_of=same_day_snapshot_date(rows, text, election, geography)
     )
+
+
+def same_day_snapshot_date(
+    rows: list[list[str]], text: str, election: str, geography: str
+) -> str | None:
+    """A same-day file's snapshot date.
+
+    The live files print neither an As-of line nor the early-voting files' eligible
+    footnote, only the election date, so while the election is in flight a snapshot is
+    dated by the last early-voting day it counts: the first early-voting day plus the
+    last day column with any registration or address change in the file's rows (election
+    day, once its NEW column counts). A file with no counts yet has no date. A certified
+    election's files keep their election date, as eight_day_snapshot_date dates them.
+    """
+    config = ELECTIONS.get(election)
+    if config is None or config.certified or not config.early_voting_start:
+        return eight_day_snapshot_date(text, election)
+    if found := extract_eligible_as_of_text(text):
+        return found
+    _, published = _daily_rows(
+        "same-day",
+        list(enumerate(rows, start=1)),
+        election,
+        geography,
+        None,
+        SAME_DAY_LABEL_CELLS,
+        SAME_DAY_MEASURES,
+        functools.partial(_same_day_check, election=election, geography=geography),
+    )
+    counted = {r["measure"] for r in published if r["value"]}
+    if "new-election-day" in counted:
+        return config.election_day
+    days = [n for n in range(1, 9) if {f"new-day-{n}", f"addrchg-day-{n}"} & counted]
+    if not days:
+        return None
+    start = datetime.date.fromisoformat(config.early_voting_start)
+    return (start + datetime.timedelta(days=max(days) - 1)).isoformat()
 
 
 def _daily_published(
@@ -3024,13 +3094,31 @@ PARSER_VERSION = "skipjack 0.2.0"
 
 # Notes the parsers know about a family's own numbers, recorded with its snapshots.
 FAMILY_SNAPSHOT_NOTES = {
-    (
-        "same-day",
-        "county-party",
-    ): ". The by-party file undercounts the county file it parallels (2162 vs 2179 new "
-    "registrations: Baltimore County -6, Charles -3, Howard -3, Anne Arundel -2, "
-    "+1 elsewhere); nothing printed in it checks the difference.",
     ("early-voting", "location"): ". No printed county rollup to reconcile the locations against.",
+}
+
+# The same, for one election's snapshot of a family: the by-party same-day files count
+# fewer new registrations than the county files they parallel (every other grain matches
+# the county file), and nothing printed in them checks the difference.
+_SAME_DAY_PARTY_GAP = (
+    ". The by-party file undercounts the county file it parallels ({}); nothing printed "
+    "in it checks the difference."
+)
+ELECTION_SNAPSHOT_NOTES = {
+    ("GP26", "same-day", "county-party"): _SAME_DAY_PARTY_GAP.format(
+        "2162 vs 2179 new registrations: Baltimore County -6, Charles -3, Howard -3, "
+        "Anne Arundel -2, and -1 each in Calvert, Carroll and St. Mary's"
+    ),
+    ("PG24", "same-day", "county-party"): _SAME_DAY_PARTY_GAP.format(
+        "57901 vs 57902 new registrations: Prince George's -1"
+    ),
+    ("PP24", "same-day", "county-party"): _SAME_DAY_PARTY_GAP.format(
+        "3628 vs 3708 new registrations: Baltimore City -43, Baltimore County -23, "
+        "Harford -5, Carroll -3, Allegany -2, Queen Anne's -2, Caroline -1, Cecil -1"
+    ),
+    ("GP22", "same-day", "county-party"): _SAME_DAY_PARTY_GAP.format(
+        "2901 vs 2909 new registrations: Anne Arundel -6, Talbot -2"
+    ),
 }
 
 
@@ -3052,14 +3140,18 @@ def sniff(data: bytes) -> str | None:
 
 
 def extract_as_of_bytes(
-    data: bytes, kind: str, election: str | None = None, family: str | None = None
+    data: bytes,
+    kind: str,
+    election: str | None = None,
+    family: str | None = None,
+    geography: str | None = None,
 ) -> str | None:
     """A downloaded file's as-of date, read the way the parse command reads the file.
 
     A workbook SBE exported unreadably reads as unknown (the parse command decides what
     a snapshot with no date means); a PDF's text layer does not appear in the raw
     bytes, so the text is extracted with natural-pdf from a temp copy. An eight-day
-    file is dated as its parse dates it (eight_day_snapshot_date).
+    file is dated as its parse dates it (eight_day_snapshot_date, same_day_snapshot_date).
     """
     if kind == "pdf":
         import tempfile
@@ -3071,6 +3163,13 @@ def extract_as_of_bytes(
                 text = read_requests_pdf(Path(fh.name))
             except Exception:  # natural-pdf has no error taxonomy; unreadable reads as unknown
                 return None
+            if election is not None and family == "same-day" and geography is not None:
+                try:
+                    return same_day_snapshot_date(
+                        pdf_table_rows(Path(fh.name)), text, election, geography
+                    )
+                except TurnoutParseError:
+                    return None  # the parse command reports what does not reconcile
             if election is not None and family in UNOFFICIAL_TALLY_FAMILIES:
                 return eight_day_snapshot_date(text, election)
             return pdf_snapshot_date(text)
@@ -3109,7 +3208,9 @@ def turnout_fetch(force: bool = False, election: str | None = None) -> list[Sour
             if kind is None:
                 logger.info("Not published yet: %s", f.url)
                 continue
-            as_of = extract_as_of_bytes(data, kind, e.code, f.family) or e.undated_as_of
+            as_of = (
+                extract_as_of_bytes(data, kind, e.code, f.family, f.geography) or e.undated_as_of
+            )
             digest = hashlib.sha256(data).hexdigest()
             if not force and _latest_sha(e.code, f.family, f.geography, kind, f.url) == digest:
                 logger.info("Already archived: %s (%s)", f.family, f.geography)
@@ -3397,7 +3498,8 @@ def turnout_parse(
                 extraction_method=_extraction_of(path),
                 checks={"rows": frame.height, "as_of": snapshot_date},
                 notes=f"{election_code} {family} ({geography}) snapshot, reconciled against its printed totals."
-                + FAMILY_SNAPSHOT_NOTES.get((family, geography), ""),
+                + FAMILY_SNAPSHOT_NOTES.get((family, geography), "")
+                + ELECTION_SNAPSHOT_NOTES.get((election_code, family, geography), ""),
             )
             sidecar.election, sidecar.family, sidecar.geography = election_code, family, geography
             sidecar.write(out_csv)  # provenance first, so a crash leaves no bare CSV

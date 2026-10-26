@@ -14,7 +14,7 @@ import re
 import sqlite3
 from datetime import date, timedelta
 
-from skipjack.pipeline.turnout import ELECTIONS, may_publish
+from skipjack.pipeline.turnout import CANONICAL_COUNTIES, ELECTIONS, may_publish
 from skipjack.web.compare import PARTY_GROUPS, PARTY_LABELS
 
 _SENT_MEASURES = ("sent", "received", "accepted")
@@ -493,7 +493,7 @@ def snapshot_sources(
                 "title": r["document_title"],
                 "fetched": r["fetch_date"][:10],
                 "method": r["extraction_method"],
-                # a certified election does not publish its unofficial tally families:
+                # a certified election does not publish its unofficial early-voting tallies:
                 # the strip still documents the read, but links to nothing unpublished
                 "csv": (
                     f"turnout/{election}/{r['family']}/{r['geography']}/{family_as_of}.csv"
@@ -634,7 +634,11 @@ def _pace_sentence(days: int, rows: list[dict]) -> str:
     """ "11 days before election day, 42% of the mail-in ballots sent had come back: about
     the same as in the 2022 general (42%) and behind the 2024 general (55%)." """
     now, *past = rows
-    when = "On election day" if days == 0 else f"{days} day{'s' if days != 1 else ''} before election day"
+    when = (
+        "On election day"
+        if days == 0
+        else f"{days} day{'s' if days != 1 else ''} before election day"
+    )
     parts = []
     for row in past:
         if row.get("rate") is None:
@@ -743,6 +747,177 @@ def early_voting(conn: sqlite3.Connection, election: str) -> dict | None:
     }
 
 
+# --- same-day registration and address changes ----------------------------------------------
+
+# The parties the same-day by-party files print beyond the site's own party groups.
+_SAME_DAY_PARTY_LABELS = {**PARTY_LABELS, "LIB": "Libertarian", "NLM": "No Labels"}
+
+
+def _early_voting_first_day(election: str) -> date | None:
+    """The first of an election's eight early-voting days: the configured day, else the
+    second Thursday before election day, where Maryland's early voting has started in
+    every election the site carries (twelve days before the Tuesday)."""
+    config = ELECTIONS.get(election)
+    if config is None:
+        return None
+    if config.early_voting_start:
+        return date.fromisoformat(config.early_voting_start)
+    return date.fromisoformat(config.election_day) - timedelta(days=12)
+
+
+def _same_day_cells(cells: dict[str, int]) -> dict:
+    """One area's same-day counts as the page reads them: new registrations during early
+    voting and on election day, address changes, and the total."""
+    new_total, election_day = cells.get("new-total", 0), cells.get("new-election-day", 0)
+    return {
+        "new_early": new_total - election_day,
+        "new_election_day": election_day,
+        "new": new_total,
+        "addrchg": cells.get("addrchg-total", 0),
+        "total": cells.get("total", 0),
+    }
+
+
+def same_day_statewide(conn: sqlite3.Connection, election: str) -> dict | None:
+    """An election's latest same-day snapshot summed over the counties, None without one."""
+    dates = _snapshot_dates(conn, election, "same-day")
+    if not dates or not may_publish(election, "same-day"):
+        return None
+    return {
+        "as_of": dates[-1],
+        **_same_day_cells(_statewide(conn, election, "same-day", dates[-1])),
+    }
+
+
+def same_day(conn: sqlite3.Connection, election: str) -> dict | None:
+    """An election's same-day registrations and address changes at its latest snapshot:
+    the state's counts, each early-voting day's and election day's, the counts by party,
+    county and congressional district, and the other elections' statewide counts beside
+    them (for a running election, also through as many early-voting days as it has
+    counted). None when the election has no same-day snapshot.
+
+    The counties absent from a sheet (a county with no same-day registration yet) count
+    zero. The by-party file can count fewer new registrations than the county file; the
+    gap is returned so the page can say so.
+    """
+    state = same_day_statewide(conn, election)
+    if state is None:
+        return None
+    as_of = state["as_of"]
+    cells = _statewide(conn, election, "same-day", as_of)
+    start = _early_voting_first_day(election)
+    certified = election in ELECTIONS and ELECTIONS[election].certified
+    if certified or start is None:
+        through = 8
+    else:
+        through = min(max((date.fromisoformat(as_of) - start).days + 1, 0), 8)
+    days = [
+        {
+            "label": f"Early voting day {n}",
+            "date": (start + timedelta(days=n - 1)).isoformat() if start else None,
+            "new": cells.get(f"new-day-{n}", 0),
+            "addrchg": cells.get(f"addrchg-day-{n}", 0),
+        }
+        for n in range(1, through + 1)
+    ]
+    if certified or cells.get("new-election-day"):
+        days.append(
+            {
+                "label": "Election day",
+                "date": ELECTIONS[election].election_day if election in ELECTIONS else None,
+                "new": cells.get("new-election-day", 0),
+                "addrchg": None,  # the sheets print no election-day address-change column
+            }
+        )
+    for d in days:
+        d["total"] = d["new"] + (d["addrchg"] or 0)
+    # address changes the totals carry but no day column itemizes (PG24's Prince George's)
+    unitemized = state["addrchg"] - sum(cells.get(f"addrchg-day-{n}", 0) for n in range(1, 9))
+
+    by_party: dict[str, dict[str, int]] = {}
+    for r in conn.execute(
+        """SELECT party, measure, SUM(value) AS v FROM turnout_counts
+           WHERE election = ? AND family = 'same-day' AND geography = 'county-party'
+             AND county != '' AND category = 'ALL' AND party != 'ALL' AND as_of = ?
+           GROUP BY party, measure""",
+        (election, as_of),
+    ):
+        by_party.setdefault(r["party"], {})[r["measure"]] = r["v"]
+    # the site's party groups first, the parties the sheet adds next, Other last
+    order = [p for p in PARTY_GROUPS if p != "OTH"]
+    parties = [
+        {
+            "party": party,
+            "label": _SAME_DAY_PARTY_LABELS.get(party, party),
+            **_same_day_cells(by_party[party]),
+        }
+        for party in sorted(
+            by_party,
+            key=lambda p: (order.index(p) if p in order else len(order) + (p == "OTH"), p),
+        )
+    ]
+    party_total = sum(p["total"] for p in parties)
+    for p in parties:
+        p["share"] = _ratio(p["total"], party_total)
+
+    def _areas(geography: str, column: str) -> dict[str, dict[str, int]]:
+        out: dict[str, dict[str, int]] = {}
+        for r in conn.execute(
+            f"""SELECT {column} AS area, measure, SUM(value) AS v FROM turnout_counts
+                WHERE election = ? AND family = 'same-day' AND geography = ?
+                  AND {column} != '' AND category = 'ALL' AND party = 'ALL' AND as_of = ?
+                GROUP BY area, measure""",
+            (election, geography, as_of),
+        ):
+            out.setdefault(r["area"], {})[r["measure"]] = r["v"]
+        return out
+
+    counties = _areas("county", "county")
+    for county in sorted(CANONICAL_COUNTIES):
+        counties.setdefault(county, {})
+    districts = _areas("congressional", "district")
+
+    comparison = []
+    for row in elections(conn):
+        other = same_day_statewide(conn, row["code"])
+        if other is not None:
+            if not certified:
+                # a running election lines up with the others' same early-voting days
+                theirs = _statewide(conn, row["code"], "same-day", other["as_of"])
+                other["through"] = sum(
+                    theirs.get(f"{kind}-day-{n}", 0)
+                    for kind in ("new", "addrchg")
+                    for n in range(1, through + 1)
+                )
+            comparison.append(
+                {
+                    "code": row["code"],
+                    "slug": row["slug"],
+                    "name": row["name"],
+                    "current": row["code"] == election,
+                    "final": row["code"] in ELECTIONS and ELECTIONS[row["code"]].certified,
+                    **other,
+                }
+            )
+    return {
+        **state,
+        "certified": certified,
+        "through": through,
+        "days": days,
+        "unitemized_addrchg": unitemized if unitemized > 0 else 0,
+        "parties": parties,
+        "party_gap": state["new"] - sum(p["new"] for p in parties) if parties else 0,
+        "counties": [
+            {"county": county, **_same_day_cells(c)} for county, c in sorted(counties.items())
+        ],
+        "districts": [
+            {"district": district_label(d), **_same_day_cells(c)}
+            for d, c in sorted(districts.items(), key=lambda kv: district_sort(kv[0]))
+        ],
+        "comparison": comparison,
+    }
+
+
 def _ratio(part: int | None, whole: int | None) -> float | None:
     return part / whole if part is not None and whole else None
 
@@ -754,8 +929,9 @@ CERTIFIED_CANVASS_FAMILIES = ("county-canvass", "votes-accepted")
 # The certified record families the page tables read. A certified election's pages
 # show its figures of record — the canvass, the accepted-ballot count, the certified
 # mail-in and request reports, and the official turnout sheets — while the
-# campaign-time tracking files (sent-returned, early-voting, same-day,
-# left-to-count) stay in the archive and off the pages.
+# campaign-time tracking files (sent-returned, early-voting, left-to-count) stay in the
+# archive and off the pages. The same-day counts, which no certified report replaces,
+# have a page of their own (same_day).
 # Downloads gate differently: the pipeline's may_publish (UNOFFICIAL_TALLY_FAMILIES)
 # still lets a certified election publish its certified sent-returned CSVs. The two
 # lists differ on purpose — page tables read figures of record; the archive keeps the

@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-same-day-legislative-20220719-761ad8188609",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/SameDayRegistration by Legislative District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 same-day (legislative) as of 2022-07-19",
+  "fetch_date": "2026-10-26T16:01:52+00:00",
+  "parse_date": "2026-10-26T16:10:15+00:00",
+  "sha256_original": "761ad818860951eb1e4107fc30456bbdb8a3948504c65345a537f4cbb633ce1f",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "same-day",
+  "geography": "legislative",
+  "notes": "GP22 same-day (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1800,
+    "as_of": "2022-07-19"
+  }
+}

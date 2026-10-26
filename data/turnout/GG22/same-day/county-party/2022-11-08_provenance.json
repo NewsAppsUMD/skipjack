@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg22-same-day-county-party-20221108-b760da55d149",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/GG22/SameDayRegistration by Party.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 same-day (county-party) as of 2022-11-08",
+  "fetch_date": "2026-10-26T16:00:48+00:00",
+  "parse_date": "2026-10-26T16:11:53+00:00",
+  "sha256_original": "b760da55d149f14fcbc45ee59416fd72618c528d0633ca0c5f3370e7b5de6f8e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG22",
+  "family": "same-day",
+  "geography": "county-party",
+  "notes": "GG22 same-day (county-party) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 3360,
+    "as_of": "2022-11-08"
+  }
+}

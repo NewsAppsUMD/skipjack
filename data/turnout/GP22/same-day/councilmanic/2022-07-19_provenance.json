@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-same-day-councilmanic-20220719-79277e0a3f74",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/SameDayRegistration by Councilmanic District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 same-day (councilmanic) as of 2022-07-19",
+  "fetch_date": "2026-10-26T16:01:53+00:00",
+  "parse_date": "2026-10-26T16:04:24+00:00",
+  "sha256_original": "79277e0a3f7405049580355444abc500164431acba92d93a97ea96b1eea634d2",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "same-day",
+  "geography": "councilmanic",
+  "notes": "GP22 same-day (councilmanic) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1500,
+    "as_of": "2022-07-19"
+  }
+}

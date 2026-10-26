@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-same-day-county-party-20220719-63b321280262",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/SameDayRegistration by Party.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 same-day (county-party) as of 2022-07-19",
+  "fetch_date": "2026-10-26T16:01:50+00:00",
+  "parse_date": "2026-10-26T16:11:38+00:00",
+  "sha256_original": "63b3212802622aec0a1f09c2a4ee78f9b7e53579f4d7af03d069e334451cda0b",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "same-day",
+  "geography": "county-party",
+  "notes": "GP22 same-day (county-party) snapshot, reconciled against its printed totals.. The by-party file undercounts the county file it parallels (2901 vs 2909 new registrations: Anne Arundel -6, Talbot -2); nothing printed in it checks the difference.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 3360,
+    "as_of": "2022-07-19"
+  }
+}

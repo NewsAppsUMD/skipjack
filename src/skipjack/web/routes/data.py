@@ -131,6 +131,7 @@ def turnout_listing(data_dir: Path) -> list[dict]:
                     names = {
                         "requests": "mail-in ballot requests",
                         "sent-returned": "ballots sent and returned",
+                        "same-day": "same-day registrations and address changes (unofficial)",
                     }
                     blocks.append(
                         {

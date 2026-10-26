@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gp22-same-day-county-20220719-f1e5dc80e96d",
+  "source_url": "https://elections.maryland.gov/press_room/2022_stats/SameDayRegistration by County.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 same-day (county) as of 2022-07-19",
+  "fetch_date": "2026-10-26T16:01:51+00:00",
+  "parse_date": "2026-10-26T16:04:24+00:00",
+  "sha256_original": "f1e5dc80e96db7d7e03c39f67b4f31de61989c487dc5c68384e012af4187e806",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GP22",
+  "family": "same-day",
+  "geography": "county",
+  "notes": "GP22 same-day (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 480,
+    "as_of": "2022-07-19"
+  }
+}

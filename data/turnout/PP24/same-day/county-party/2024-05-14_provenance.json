@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-pp24-same-day-county-party-20240514-11b36042fa4f",
+  "source_url": "https://elections.maryland.gov/press_room/2024_stats/SameDayRegistration by Party.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 same-day (county-party) as of 2024-05-14",
+  "fetch_date": "2026-10-26T16:01:23+00:00",
+  "parse_date": "2026-10-26T16:11:44+00:00",
+  "sha256_original": "11b36042fa4fd27c23e2f4e73cdc1c298a9860dde0daf1b79351c5f502d63169",
+  "parser_version": "skipjack 0.2.0",
+  "election": "PP24",
+  "family": "same-day",
+  "geography": "county-party",
+  "notes": "PP24 same-day (county-party) snapshot, reconciled against its printed totals.. The by-party file undercounts the county file it parallels (3628 vs 3708 new registrations: Baltimore City -43, Baltimore County -23, Harford -5, Carroll -3, Allegany -2, Queen Anne's -2, Caroline -1, Cecil -1); nothing printed in it checks the difference.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 2880,
+    "as_of": "2024-05-14"
+  }
+}

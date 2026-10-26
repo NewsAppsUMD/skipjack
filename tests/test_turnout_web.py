@@ -603,7 +603,8 @@ def test_the_data_page_does_not_list_a_certified_election_s_unofficial_tallies()
 
     html = TestClient(create_app()).get("/data/").text
     assert "/downloads/turnout/GP26/early-voting/" not in html
-    assert "/downloads/turnout/GP26/same-day/" not in html
+    # same-day registration has no certified counterpart, so it publishes
+    assert "/downloads/turnout/GP26/same-day/" in html
     assert "/downloads/turnout/GP26/requests/" in html
 
 
@@ -643,10 +644,10 @@ def test_the_live_app_does_not_serve_a_certified_election_s_unofficial_tallies()
     assert r.status_code == 200  # a publishable family still serves
     for forbidden in (
         "/downloads/turnout/GP26/early-voting/county/2026-06-23.csv",
-        "/downloads/turnout/GP26/same-day/county/2026-06-23.csv",
         "/downloads/turnout/GP26/../../skipjack.db",
     ):
         assert client.get(forbidden).status_code == 404
+    assert client.get("/downloads/turnout/GP26/same-day/county/2026-06-23.csv").status_code == 200
 
 
 def test_zero_sent_counts_have_no_return_rate(conn):
@@ -1094,10 +1095,13 @@ def test_real_gp26_page_renders_the_certified_data():
     assert "295,400 accepted" in r.text and "295,400 counted" not in r.text
     assert "envelopes returned" in r.text
     # a certified page carries only its figures of record: nothing from the board's
-    # unofficial eight-day turnout files, not even their download links
+    # unofficial early-voting files, not even their download links. The same-day count,
+    # which no certified report replaces, is one sentence, labelled unofficial, linking
+    # its own page (where its sources and downloads are)
+    assert "2,179 people registered" in r.text and "unofficial count" in r.text
+    assert "/turnout/gp26/same-day/" in r.text
     for forbidden in (
         "185,031",  # the unofficial early-voting tally
-        "2,179",  # the unofficial same-day total
         "Early voting (the EV tally)",
         ">Same-day</th>",
         "/downloads/turnout/GP26/early-voting",
@@ -1471,3 +1475,105 @@ def test_the_real_gg26_page_compares_its_pace_with_2022_and_2024():
     assert 'id="pace-data"' in html and "static/pace.js" in html
     for row in p["rows"][1:]:
         assert f"{row['final_received']:,}" in html
+
+
+# --- same-day registration -------------------------------------------------------------------
+
+
+def _sd(
+    county, new_days, addrchg_days, election_day=0, geography="county", district="", party="ALL"
+):
+    """One area's same-day rows: its day counts and the totals they sum to."""
+    cells = {f"new-day-{n}": v for n, v in enumerate(new_days, start=1)}
+    cells |= {f"addrchg-day-{n}": v for n, v in enumerate(addrchg_days, start=1)}
+    cells["new-election-day"] = election_day
+    cells["new-total"] = sum(new_days) + election_day
+    cells["addrchg-total"] = sum(addrchg_days)
+    cells["total"] = cells["new-total"] + cells["addrchg-total"]
+    return [(geography, county, district, "ALL", party, m, v) for m, v in cells.items()]
+
+
+def test_same_day_reads_the_latest_snapshot_by_day_party_county_and_district(conn):
+    add(conn, "2026-10-22", _sd("Kent", [5], [1]), "sd1", "same-day")
+    add(
+        conn,
+        "2026-10-23",
+        _sd("Kent", [5, 3], [1, 2])
+        + _sd("Allegany", [10, 4], [0, 1])
+        + _sd("Kent", [5, 3], [1, 2], geography="county-party", party="DEM")
+        + _sd("Allegany", [9, 4], [0, 1], geography="county-party", party="REP")
+        + _sd("Allegany", [10, 4], [0, 1], geography="congressional", district="06"),
+        "sd2",
+        "same-day",
+    )
+    # a finished election, for the comparison: its whole eight days and election day
+    add(
+        conn,
+        "2024-11-05",
+        _sd("Kent", [2, 2, 1, 1, 1, 1, 1, 1], [1] * 8, 40),
+        "pg",
+        "same-day",
+        "PG24",
+    )
+    sd = turnout.same_day(conn, "GG26")
+    assert sd["as_of"] == "2026-10-23"
+    assert (sd["new"], sd["addrchg"], sd["total"]) == (22, 4, 26)
+    assert [(d["date"], d["new"], d["addrchg"]) for d in sd["days"]] == [
+        ("2026-10-22", 15, 1),
+        ("2026-10-23", 7, 3),
+    ]  # no election-day row while the election runs
+    assert [(p["party"], p["total"]) for p in sd["parties"]] == [("DEM", 11), ("REP", 14)]
+    assert sd["party_gap"] == 1  # the by-party rows count one fewer new registrant
+    counties = {c["county"]: c["total"] for c in sd["counties"]}
+    assert counties["Allegany"] == 15 and counties["Kent"] == 11
+    assert counties["Somerset"] == 0 and len(counties) == 24  # absent from the sheet: zero
+    assert [(d["district"], d["total"]) for d in sd["districts"]] == [("District 6", 15)]
+    # the other elections line up through the running one's two early-voting days
+    pg24 = next(r for r in sd["comparison"] if r["code"] == "PG24")
+    assert pg24["through"] == 2 + 2 + 1 + 1
+    assert pg24["total"] == 10 + 8 + 40
+
+
+def test_a_finished_election_s_same_day_days_end_with_election_day(conn):
+    add(
+        conn,
+        "2024-11-05",
+        _sd("Kent", [2, 2, 1, 1, 1, 1, 1, 1], [1] * 8, 40),
+        "pg",
+        "same-day",
+        "PG24",
+    )
+    sd = turnout.same_day(conn, "PG24")
+    assert sd["days"][0]["date"] == "2024-10-24"  # the second Thursday before election day
+    assert len(sd["days"]) == 9
+    assert sd["days"][-1] == {
+        "label": "Election day",
+        "date": "2024-11-05",
+        "new": 40,
+        "addrchg": None,
+        "total": 40,
+    }
+    assert (sd["new_early"], sd["new_election_day"]) == (10, 40)
+    assert "through" not in sd["comparison"][0]
+
+
+def test_same_day_is_none_without_files(conn):
+    assert turnout.same_day(conn, "GG26") is None
+    assert turnout.same_day_statewide(conn, "GG26") is None
+
+
+@needs_db
+def test_the_real_same_day_pages_render_for_all_six_elections():
+    from fastapi.testclient import TestClient
+
+    from skipjack.web.app import create_app
+
+    client = TestClient(create_app())
+    for slug in ("gg26", "gp26", "pg24", "pp24", "gg22", "gp22"):
+        r = client.get(f"/turnout/{slug}/same-day/")
+        assert r.status_code == 200, slug
+        assert "Across elections" in r.text and "By county" in r.text
+        assert f"/turnout/{slug}/same-day/" in client.get(f"/turnout/{slug}/").text
+    assert client.get("/turnout/gg18/same-day/").status_code == 404  # no 2018 files
+    pg24 = client.get("/turnout/pg24/same-day/").text
+    assert "65,431" in pg24 and "42,931" in pg24

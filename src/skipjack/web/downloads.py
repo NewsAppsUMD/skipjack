@@ -5,7 +5,7 @@ static site. Raw archives and the SQLite database are never included by default.
 
 voter_registration and voter_file are mounted and served wholesale; the turnout files
 are gated per family instead, so a certified election does not publish the board's
-unofficial tally families (see skipjack.pipeline.turnout.may_publish). The results files
+unofficial early-voting tallies (see skipjack.pipeline.turnout.may_publish). The results files
 are gated per election: only elections the registry marks published are offered.
 """
 

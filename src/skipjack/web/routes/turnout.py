@@ -46,10 +46,12 @@ async def election(request: Request, slug: str):
             tiles = _tiles(headline)
         # the page links only to the grains whose reports publish figures
         geographies = qt.publishable_geographies(conn, code)
-        sources = qt.snapshot_sources(conn, code)
+        # the same-day files have their own page and its source strip
+        sources = [s for s in qt.snapshot_sources(conn, code) if s["family"] != "same-day"]
         chart = qt.chart_data(conn, code)
         early = qt.early_voting(conn, code)
         pace = qt.pace(conn, code)
+        same_day = qt.same_day_statewide(conn, code)
     return request.app.state.templates.TemplateResponse(
         request,
         "turnout_election.html",
@@ -65,7 +67,28 @@ async def election(request: Request, slug: str):
             "geographies": geographies,
             "early": early,
             "pace": pace,
+            "same_day": same_day,
         },
+    )
+
+
+@router.get("/{slug}/same-day/")
+async def election_same_day(request: Request, slug: str):
+    """One election's same-day registrations and address changes, from the board's
+    unofficial same-day reports."""
+    with get_db() as conn:
+        available = {e["slug"]: e["code"] for e in qt.elections(conn)}
+        code = available.get(slug)
+        if code is None or code not in ELECTIONS:
+            raise HTTPException(status_code=404)
+        same_day = qt.same_day(conn, code)
+        if same_day is None:
+            raise HTTPException(status_code=404)
+        sources = [s for s in qt.snapshot_sources(conn, code) if s["family"] == "same-day"]
+    return request.app.state.templates.TemplateResponse(
+        request,
+        "turnout_same_day.html",
+        {"election": ELECTIONS[code], "sd": same_day, "sources": sources},
     )
 
 
