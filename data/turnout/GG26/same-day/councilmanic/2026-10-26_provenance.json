@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-same-day-councilmanic-20261026-085e83d33807",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/SameDayRegistration_by_Councilmanic_District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 same-day (councilmanic) as of 2026-10-26",
+  "fetch_date": "2026-10-27T17:40:17+00:00",
+  "parse_date": "2026-10-27T17:48:40+00:00",
+  "sha256_original": "085e83d33807a8542b0d2b6aac78c4d1a2c5bd5dafb6f54f94cf81fb988f4027",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "same-day",
+  "geography": "councilmanic",
+  "notes": "GG26 same-day (councilmanic) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1560,
+    "as_of": "2026-10-26"
+  }
+}

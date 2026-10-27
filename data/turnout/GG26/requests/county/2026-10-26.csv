@@ -1,0 +1,169 @@
+as_of,election,family,geography,county,district,category,party,measure,value
+2026-10-26,GG26,requests,county,Allegany,"",ALL,ALL,agent,4
+2026-10-26,GG26,requests,county,Allegany,"",ALL,ALL,faxed,1
+2026-10-26,GG26,requests,county,Allegany,"",ALL,ALL,in-person,139
+2026-10-26,GG26,requests,county,Allegany,"",ALL,ALL,mailed,4324
+2026-10-26,GG26,requests,county,Allegany,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Allegany,"",ALL,ALL,print-at-home,308
+2026-10-26,GG26,requests,county,Allegany,"",ALL,ALL,total,4776
+2026-10-26,GG26,requests,county,Anne Arundel,"",ALL,ALL,agent,12
+2026-10-26,GG26,requests,county,Anne Arundel,"",ALL,ALL,faxed,4
+2026-10-26,GG26,requests,county,Anne Arundel,"",ALL,ALL,in-person,189
+2026-10-26,GG26,requests,county,Anne Arundel,"",ALL,ALL,mailed,59836
+2026-10-26,GG26,requests,county,Anne Arundel,"",ALL,ALL,others,9
+2026-10-26,GG26,requests,county,Anne Arundel,"",ALL,ALL,print-at-home,9352
+2026-10-26,GG26,requests,county,Anne Arundel,"",ALL,ALL,total,69402
+2026-10-26,GG26,requests,county,Baltimore City,"",ALL,ALL,agent,2
+2026-10-26,GG26,requests,county,Baltimore City,"",ALL,ALL,faxed,7
+2026-10-26,GG26,requests,county,Baltimore City,"",ALL,ALL,in-person,43
+2026-10-26,GG26,requests,county,Baltimore City,"",ALL,ALL,mailed,47996
+2026-10-26,GG26,requests,county,Baltimore City,"",ALL,ALL,others,1
+2026-10-26,GG26,requests,county,Baltimore City,"",ALL,ALL,print-at-home,6831
+2026-10-26,GG26,requests,county,Baltimore City,"",ALL,ALL,total,54880
+2026-10-26,GG26,requests,county,Baltimore County,"",ALL,ALL,agent,17
+2026-10-26,GG26,requests,county,Baltimore County,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Baltimore County,"",ALL,ALL,in-person,138
+2026-10-26,GG26,requests,county,Baltimore County,"",ALL,ALL,mailed,83020
+2026-10-26,GG26,requests,county,Baltimore County,"",ALL,ALL,others,18
+2026-10-26,GG26,requests,county,Baltimore County,"",ALL,ALL,print-at-home,11031
+2026-10-26,GG26,requests,county,Baltimore County,"",ALL,ALL,total,94224
+2026-10-26,GG26,requests,county,Calvert,"",ALL,ALL,agent,9
+2026-10-26,GG26,requests,county,Calvert,"",ALL,ALL,faxed,1
+2026-10-26,GG26,requests,county,Calvert,"",ALL,ALL,in-person,67
+2026-10-26,GG26,requests,county,Calvert,"",ALL,ALL,mailed,8923
+2026-10-26,GG26,requests,county,Calvert,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Calvert,"",ALL,ALL,print-at-home,1178
+2026-10-26,GG26,requests,county,Calvert,"",ALL,ALL,total,10178
+2026-10-26,GG26,requests,county,Caroline,"",ALL,ALL,agent,0
+2026-10-26,GG26,requests,county,Caroline,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Caroline,"",ALL,ALL,in-person,13
+2026-10-26,GG26,requests,county,Caroline,"",ALL,ALL,mailed,1629
+2026-10-26,GG26,requests,county,Caroline,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Caroline,"",ALL,ALL,print-at-home,131
+2026-10-26,GG26,requests,county,Caroline,"",ALL,ALL,total,1773
+2026-10-26,GG26,requests,county,Carroll,"",ALL,ALL,agent,6
+2026-10-26,GG26,requests,county,Carroll,"",ALL,ALL,faxed,1
+2026-10-26,GG26,requests,county,Carroll,"",ALL,ALL,in-person,50
+2026-10-26,GG26,requests,county,Carroll,"",ALL,ALL,mailed,15400
+2026-10-26,GG26,requests,county,Carroll,"",ALL,ALL,others,3
+2026-10-26,GG26,requests,county,Carroll,"",ALL,ALL,print-at-home,1898
+2026-10-26,GG26,requests,county,Carroll,"",ALL,ALL,total,17358
+2026-10-26,GG26,requests,county,Cecil,"",ALL,ALL,agent,0
+2026-10-26,GG26,requests,county,Cecil,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Cecil,"",ALL,ALL,in-person,11
+2026-10-26,GG26,requests,county,Cecil,"",ALL,ALL,mailed,6874
+2026-10-26,GG26,requests,county,Cecil,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Cecil,"",ALL,ALL,print-at-home,823
+2026-10-26,GG26,requests,county,Cecil,"",ALL,ALL,total,7708
+2026-10-26,GG26,requests,county,Charles,"",ALL,ALL,agent,8
+2026-10-26,GG26,requests,county,Charles,"",ALL,ALL,faxed,2
+2026-10-26,GG26,requests,county,Charles,"",ALL,ALL,in-person,100
+2026-10-26,GG26,requests,county,Charles,"",ALL,ALL,mailed,13533
+2026-10-26,GG26,requests,county,Charles,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Charles,"",ALL,ALL,print-at-home,1893
+2026-10-26,GG26,requests,county,Charles,"",ALL,ALL,total,15536
+2026-10-26,GG26,requests,county,Dorchester,"",ALL,ALL,agent,3
+2026-10-26,GG26,requests,county,Dorchester,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Dorchester,"",ALL,ALL,in-person,20
+2026-10-26,GG26,requests,county,Dorchester,"",ALL,ALL,mailed,2279
+2026-10-26,GG26,requests,county,Dorchester,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Dorchester,"",ALL,ALL,print-at-home,191
+2026-10-26,GG26,requests,county,Dorchester,"",ALL,ALL,total,2493
+2026-10-26,GG26,requests,county,Frederick,"",ALL,ALL,agent,0
+2026-10-26,GG26,requests,county,Frederick,"",ALL,ALL,faxed,2
+2026-10-26,GG26,requests,county,Frederick,"",ALL,ALL,in-person,26
+2026-10-26,GG26,requests,county,Frederick,"",ALL,ALL,mailed,27688
+2026-10-26,GG26,requests,county,Frederick,"",ALL,ALL,others,13
+2026-10-26,GG26,requests,county,Frederick,"",ALL,ALL,print-at-home,3708
+2026-10-26,GG26,requests,county,Frederick,"",ALL,ALL,total,31437
+2026-10-26,GG26,requests,county,Garrett,"",ALL,ALL,agent,2
+2026-10-26,GG26,requests,county,Garrett,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Garrett,"",ALL,ALL,in-person,40
+2026-10-26,GG26,requests,county,Garrett,"",ALL,ALL,mailed,1798
+2026-10-26,GG26,requests,county,Garrett,"",ALL,ALL,others,2
+2026-10-26,GG26,requests,county,Garrett,"",ALL,ALL,print-at-home,180
+2026-10-26,GG26,requests,county,Garrett,"",ALL,ALL,total,2022
+2026-10-26,GG26,requests,county,Harford,"",ALL,ALL,agent,15
+2026-10-26,GG26,requests,county,Harford,"",ALL,ALL,faxed,1
+2026-10-26,GG26,requests,county,Harford,"",ALL,ALL,in-person,97
+2026-10-26,GG26,requests,county,Harford,"",ALL,ALL,mailed,20249
+2026-10-26,GG26,requests,county,Harford,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Harford,"",ALL,ALL,print-at-home,2450
+2026-10-26,GG26,requests,county,Harford,"",ALL,ALL,total,22812
+2026-10-26,GG26,requests,county,Howard,"",ALL,ALL,agent,15
+2026-10-26,GG26,requests,county,Howard,"",ALL,ALL,faxed,1
+2026-10-26,GG26,requests,county,Howard,"",ALL,ALL,in-person,158
+2026-10-26,GG26,requests,county,Howard,"",ALL,ALL,mailed,34451
+2026-10-26,GG26,requests,county,Howard,"",ALL,ALL,others,1
+2026-10-26,GG26,requests,county,Howard,"",ALL,ALL,print-at-home,6194
+2026-10-26,GG26,requests,county,Howard,"",ALL,ALL,total,40820
+2026-10-26,GG26,requests,county,Kent,"",ALL,ALL,agent,2
+2026-10-26,GG26,requests,county,Kent,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Kent,"",ALL,ALL,in-person,31
+2026-10-26,GG26,requests,county,Kent,"",ALL,ALL,mailed,1765
+2026-10-26,GG26,requests,county,Kent,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Kent,"",ALL,ALL,print-at-home,192
+2026-10-26,GG26,requests,county,Kent,"",ALL,ALL,total,1990
+2026-10-26,GG26,requests,county,Montgomery,"",ALL,ALL,agent,20
+2026-10-26,GG26,requests,county,Montgomery,"",ALL,ALL,faxed,13
+2026-10-26,GG26,requests,county,Montgomery,"",ALL,ALL,in-person,1203
+2026-10-26,GG26,requests,county,Montgomery,"",ALL,ALL,mailed,118897
+2026-10-26,GG26,requests,county,Montgomery,"",ALL,ALL,others,17
+2026-10-26,GG26,requests,county,Montgomery,"",ALL,ALL,print-at-home,19776
+2026-10-26,GG26,requests,county,Montgomery,"",ALL,ALL,total,139926
+2026-10-26,GG26,requests,county,Prince George's,"",ALL,ALL,agent,52
+2026-10-26,GG26,requests,county,Prince George's,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Prince George's,"",ALL,ALL,in-person,328
+2026-10-26,GG26,requests,county,Prince George's,"",ALL,ALL,mailed,77478
+2026-10-26,GG26,requests,county,Prince George's,"",ALL,ALL,others,7
+2026-10-26,GG26,requests,county,Prince George's,"",ALL,ALL,print-at-home,9429
+2026-10-26,GG26,requests,county,Prince George's,"",ALL,ALL,total,87294
+2026-10-26,GG26,requests,county,Queen Anne's,"",ALL,ALL,agent,4
+2026-10-26,GG26,requests,county,Queen Anne's,"",ALL,ALL,faxed,1
+2026-10-26,GG26,requests,county,Queen Anne's,"",ALL,ALL,in-person,17
+2026-10-26,GG26,requests,county,Queen Anne's,"",ALL,ALL,mailed,4049
+2026-10-26,GG26,requests,county,Queen Anne's,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Queen Anne's,"",ALL,ALL,print-at-home,605
+2026-10-26,GG26,requests,county,Queen Anne's,"",ALL,ALL,total,4676
+2026-10-26,GG26,requests,county,St. Mary's,"",ALL,ALL,agent,2
+2026-10-26,GG26,requests,county,St. Mary's,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,St. Mary's,"",ALL,ALL,in-person,123
+2026-10-26,GG26,requests,county,St. Mary's,"",ALL,ALL,mailed,7942
+2026-10-26,GG26,requests,county,St. Mary's,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,St. Mary's,"",ALL,ALL,print-at-home,940
+2026-10-26,GG26,requests,county,St. Mary's,"",ALL,ALL,total,9007
+2026-10-26,GG26,requests,county,Somerset,"",ALL,ALL,agent,0
+2026-10-26,GG26,requests,county,Somerset,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Somerset,"",ALL,ALL,in-person,2
+2026-10-26,GG26,requests,county,Somerset,"",ALL,ALL,mailed,1254
+2026-10-26,GG26,requests,county,Somerset,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Somerset,"",ALL,ALL,print-at-home,85
+2026-10-26,GG26,requests,county,Somerset,"",ALL,ALL,total,1341
+2026-10-26,GG26,requests,county,Talbot,"",ALL,ALL,agent,8
+2026-10-26,GG26,requests,county,Talbot,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Talbot,"",ALL,ALL,in-person,14
+2026-10-26,GG26,requests,county,Talbot,"",ALL,ALL,mailed,3927
+2026-10-26,GG26,requests,county,Talbot,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Talbot,"",ALL,ALL,print-at-home,547
+2026-10-26,GG26,requests,county,Talbot,"",ALL,ALL,total,4496
+2026-10-26,GG26,requests,county,Washington,"",ALL,ALL,agent,0
+2026-10-26,GG26,requests,county,Washington,"",ALL,ALL,faxed,4
+2026-10-26,GG26,requests,county,Washington,"",ALL,ALL,in-person,81
+2026-10-26,GG26,requests,county,Washington,"",ALL,ALL,mailed,10987
+2026-10-26,GG26,requests,county,Washington,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Washington,"",ALL,ALL,print-at-home,1038
+2026-10-26,GG26,requests,county,Washington,"",ALL,ALL,total,12110
+2026-10-26,GG26,requests,county,Wicomico,"",ALL,ALL,agent,5
+2026-10-26,GG26,requests,county,Wicomico,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Wicomico,"",ALL,ALL,in-person,125
+2026-10-26,GG26,requests,county,Wicomico,"",ALL,ALL,mailed,6534
+2026-10-26,GG26,requests,county,Wicomico,"",ALL,ALL,others,1
+2026-10-26,GG26,requests,county,Wicomico,"",ALL,ALL,print-at-home,587
+2026-10-26,GG26,requests,county,Wicomico,"",ALL,ALL,total,7252
+2026-10-26,GG26,requests,county,Worcester,"",ALL,ALL,agent,1
+2026-10-26,GG26,requests,county,Worcester,"",ALL,ALL,faxed,0
+2026-10-26,GG26,requests,county,Worcester,"",ALL,ALL,in-person,16
+2026-10-26,GG26,requests,county,Worcester,"",ALL,ALL,mailed,5097
+2026-10-26,GG26,requests,county,Worcester,"",ALL,ALL,others,0
+2026-10-26,GG26,requests,county,Worcester,"",ALL,ALL,print-at-home,660
+2026-10-26,GG26,requests,county,Worcester,"",ALL,ALL,total,5774
