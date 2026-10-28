@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-same-day-county-20261027-834971f9ccdf",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/SameDayRegistration_by_County.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 same-day (county) as of 2026-10-27",
+  "fetch_date": "2026-10-28T17:39:54+00:00",
+  "parse_date": "2026-10-28T17:48:35+00:00",
+  "sha256_original": "834971f9ccdf9ec25fecd3a7cfab301fbe7834df84bdce2d6123100ef752cdbf",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "same-day",
+  "geography": "county",
+  "notes": "GG26 same-day (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 480,
+    "as_of": "2026-10-27"
+  }
+}
