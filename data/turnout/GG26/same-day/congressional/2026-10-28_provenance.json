@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-same-day-congressional-20261028-6c01a5308849",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/SameDayRegistration_by_Congressional_District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 same-day (congressional) as of 2026-10-28",
+  "fetch_date": "2026-10-29T17:39:32+00:00",
+  "parse_date": "2026-10-29T17:46:21+00:00",
+  "sha256_original": "6c01a5308849d90592756462bc6716b2a6368cd747d08d17cc44c5d44be70f3b",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "same-day",
+  "geography": "congressional",
+  "notes": "GG26 same-day (congressional) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 640,
+    "as_of": "2026-10-28"
+  }
+}

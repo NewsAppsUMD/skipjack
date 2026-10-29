@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-early-voting-location-20261028-16d3d9806276",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/EarlyVoting_by_Location.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 early-voting (location) as of 2026-10-28",
+  "fetch_date": "2026-10-29T17:39:26+00:00",
+  "parse_date": "2026-10-29T17:46:20+00:00",
+  "sha256_original": "16d3d980627631764fbc10495188128c9a45f7123baca054fc5d0ddd48f30f57",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "early-voting",
+  "geography": "location",
+  "notes": "GG26 early-voting (location) snapshot, reconciled against its printed totals.. No printed county rollup to reconcile the locations against.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1020,
+    "as_of": "2026-10-28"
+  }
+}
