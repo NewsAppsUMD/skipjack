@@ -297,6 +297,23 @@ def early_voting_map(rows: list[dict], as_of: str, href_prefix: str | None = Non
     )  # fmt: skip
 
 
+def same_day_map(
+    counties: list[dict], early: dict[str, int | None], as_of: str, href_prefix: str | None = None
+) -> dict:
+    """An election in progress: each county's same-day registrants and address changes
+    over its early voters (both counted at the early-voting centers, on the same day's
+    reports). Gold, like the early-voting map it sits beside."""
+    values = {
+        c["county"]: _ratio(c["new_early"] + c["addrchg"], early.get(c["county"])) for c in counties
+    }
+    return county_map(
+        "turnout-same-day", "Same-day registration", values,
+        sequential(list(values.values()), "%", kind="gold"), fmt_pct(1),
+        caption=f"same-day registrants and address changes as a share of early voters, as of {as_of}",
+        none_text="no early voting reported", href_prefix=href_prefix,
+    )  # fmt: skip
+
+
 def turnout_certified_maps(rows: list[dict], turnout: dict[str, float | None]) -> list[dict]:
     """A certified election: how people voted, mail rejections, and turnout where reported.
     Green, like the return-rate map, so no turnout map reads as partisan."""

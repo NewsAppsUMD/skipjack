@@ -12,7 +12,7 @@ from skipjack.web import trends
 from skipjack.web import turnout as qt
 from skipjack.web.dates import day_label, month_label
 from skipjack.web.db import get_db
-from skipjack.web.maps import early_voting_map, locator_map, turnout_live_maps
+from skipjack.web.maps import early_voting_map, locator_map, same_day_map, turnout_live_maps
 from skipjack.web.routes.turnout import _tiles
 from skipjack.web.routes.voters import county_registration
 from skipjack.web.summary import highlights
@@ -26,8 +26,9 @@ def _today() -> date:
 
 def _election_lead(conn: sqlite3.Connection, row: dict, today: date) -> dict:
     """The lead block while an election is under way: a row of headline numbers over both
-    ways of voting before election day, then one tabbed panel each for the mail-in tracking
-    and early voting -- tiles, a sentence and a county map linking to the county table."""
+    ways of voting before election day, then one tabbed panel each for the mail-in tracking,
+    early voting and same-day registration -- tiles, a sentence and a county map linking to
+    the county table (the same-day panel to its own page)."""
     code, slug = row["code"], row["slug"]
     headline = qt.headline(conn, code)
     sent = headline.get("sent-returned")
@@ -85,6 +86,37 @@ def _election_lead(conn: sqlite3.Connection, row: dict, today: date) -> dict:
             }
         )
 
+    same_day = qt.same_day(conn, code)
+    if same_day and same_day["total"]:
+        # the share of early voters reads only when both reports count the same days
+        early_counties = (
+            {c["county"]: c["total"] for c in early["counties"]}
+            if early and early["as_of"] == same_day["as_of"]
+            else None
+        )
+        panels.append(
+            {
+                "id": "same-day",
+                "label": "Same-day registration",
+                "tiles": _same_day_tiles(same_day, early if early_counties else None),
+                "sentences": [_same_day_sentence(code, same_day)],
+                "map": (
+                    same_day_map(
+                        same_day["counties"],
+                        early_counties,
+                        day_label(same_day["as_of"]),
+                        href_prefix=f"/turnout/{slug}/same-day/",
+                    )
+                    if early_counties
+                    else None
+                ),
+                "link": (
+                    f"/turnout/{slug}/same-day/",
+                    "Same-day registration by day, party and county",
+                ),
+            }
+        )
+
     # the headline numbers: ballots in hand before election day, when both families report
     figures = []
     received = sent.get("received") if sent else None
@@ -97,9 +129,11 @@ def _election_lead(conn: sqlite3.Connection, row: dict, today: date) -> dict:
             }
         )
         if early.get("eligible"):
+            # approximate: the eligible actives are the early-voting report's own snapshot,
+            # not today's register
             figures.append(
                 {
-                    "value": f"{voted / early['eligible'] * 100:.1f}%",
+                    "value": _approx_pct(voted / early["eligible"]),
                     "label": f"of the {early['eligible']:,} eligible active voters",
                 }
             )
@@ -124,6 +158,12 @@ def _election_lead(conn: sqlite3.Connection, row: dict, today: date) -> dict:
     }
 
 
+def _approx_pct(share: float) -> str:
+    """A share as an approximate whole percentage ("~12%"), "<1%" below one percent."""
+    pct = round(share * 100)
+    return f"~{pct}%" if pct >= 1 else "<1%"
+
+
 def _early_tiles(early: dict) -> list[dict]:
     """The early-voting panel's tiles: the voters so far, their share of the eligible
     actives, the latest day's count and the two big parties' shares of early voters."""
@@ -139,7 +179,7 @@ def _early_tiles(early: dict) -> list[dict]:
         tiles.append(
             {
                 "label": "of eligible active voters",
-                "value_text": f"{early['share'] * 100:.1f}%",
+                "value_text": _approx_pct(early["share"]),  # the report's own eligible snapshot
                 "change": None,
                 "as_of": early["as_of"],
             }
@@ -166,6 +206,45 @@ def _early_tiles(early: dict) -> list[dict]:
             }
         )
     return tiles
+
+
+def _same_day_tiles(same_day: dict, early: dict | None) -> list[dict]:
+    """The same-day panel's tiles: the registrants and address changes so far, each part,
+    and -- when the early-voting report counts the same days -- their share of early voters."""
+    as_of = same_day["as_of"]
+    tiles = [
+        {"label": "same-day registrations and address changes", "value": same_day["total"], "change": None, "as_of": as_of},
+        {"label": "new registrants", "value": same_day["new"], "change": None, "as_of": as_of},
+        {"label": "address changes", "value": same_day["addrchg"], "change": None, "as_of": as_of},
+    ]  # fmt: skip
+    if early and early.get("total"):
+        tiles.append(
+            {
+                "label": "of early voters",
+                "value_text": f"{same_day['total'] / early['total'] * 100:.1f}%",
+                "change": None,
+                "as_of": as_of,
+            }
+        )
+    return tiles
+
+
+def _same_day_sentence(code: str, same_day: dict) -> str:
+    """One sentence on same-day registration: the count against the elections the page's
+    mail-in pace compares with, over the same number of early-voting days."""
+    days = same_day["through"]
+    sentence = (
+        f"{same_day['total']:,} Marylanders have registered or updated their address and "
+        f"voted on the same day in {days} day{'s' if days != 1 else ''} of early voting"
+    )
+    by_code = {r["code"]: r for r in same_day["comparison"]}
+    earlier = [by_code[c] for c in ELECTIONS[code].pace_comparisons if c in by_code]
+    if earlier:
+        sentence += ", against " + " and ".join(
+            f"{r['through']:,} in the {r['name']}" for r in earlier
+        )
+        sentence += f" over their first {days}"
+    return sentence + "."
 
 
 def _early_sentence(early: dict) -> str:

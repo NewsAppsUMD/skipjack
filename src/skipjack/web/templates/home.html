@@ -45,14 +45,15 @@
     </dl>
     {% endif %}
     {{ maps.map_defs() }}
-    <div class="home-tabs" data-tabs aria-label="Ways of voting before election day">
+    <div class="home-tabs" data-tabs aria-label="Voting before election day">
         {% for panel in lead.panels %}
         <section class="lead" data-tab="{{ panel.label }}" id="lead-{{ panel.id }}" aria-label="{{ panel.label }}">
             <div class="lead-text">
                 <h3 class="tab-heading">{{ panel.label }}</h3>
                 {% if panel.tiles %}{{ lead_tiles(panel.tiles) }}{% endif %}
                 {% for sentence in panel.sentences %}<p>{{ sentence }}</p>{% endfor %}
-                <p><a href="{{ base }}{{ lead.link[0] }}">{{ lead.link[1] }} &rarr;</a></p>
+                {% set link = panel.link or lead.link %}
+                <p><a href="{{ base }}{{ link[0] }}">{{ link[1] }} &rarr;</a></p>
             </div>
             {% if panel.map %}
             <div class="lead-map">{{ maps.county_map(panel.map) }}</div>

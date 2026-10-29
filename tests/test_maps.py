@@ -180,15 +180,19 @@ def test_home_has_a_locator_map_linking_to_every_county(home_today):
 def test_home_leads_with_mail_and_early_voting_while_an_election_is_under_way(home_today):
     home_today("2026-10-24")
     html = client.get("/").text
-    # one tab panel per way of voting, each with its own map; the outlines drawn once
-    assert map_titles(html) == ["Mail ballots returned", "Early voters"]
+    # one tab panel each for the mail-in ballots, early voting and same-day registration,
+    # each with its own map; the outlines drawn once
+    assert map_titles(html) == ["Mail ballots returned", "Early voters", "Same-day registration"]
     assert_outlines_once(html)
-    assert html.count("data-tab=") == 2 and "static/tabs.js" in html
+    assert html.count("data-tab=") == 3 and "static/tabs.js" in html
     assert "2026 general election: ballots so far" in html
     for label in ("mail-in ballot requests", "ballots sent", "received back", "early voters"):
         assert label in html
     for county in COUNTIES:
         assert f'href="/turnout/gg26/county/#county-{slugify(county)}"' in html
+        # the same-day map links to its own page's county rows
+        assert f'href="/turnout/gg26/same-day/#county-{slugify(county)}"' in html
+    assert 'href="/turnout/gg26/same-day/"' in html
     assert "<dt>days to election day</dt><dd>10</dd>" in html
 
 
@@ -206,8 +210,29 @@ def test_the_home_lead_s_already_voted_is_the_two_families_summed():
         early = qt.early_voting(conn, "GG26")
     voted = received + early["total"]
     assert lead["figures"][0]["value"] == f"{voted:,}"
-    assert lead["figures"][1]["value"] == f"{voted / early['eligible'] * 100:.1f}%"
-    assert [p["id"] for p in lead["panels"]] == ["mail", "early"]
+    # approximate, since the denominator is the early-voting report's eligible actives
+    assert lead["figures"][1]["value"] == f"~{round(voted / early['eligible'] * 100)}%"
+    assert [p["id"] for p in lead["panels"]] == ["mail", "early", "same-day"]
+
+
+@needs_db
+def test_the_home_lead_s_same_day_tab_lines_up_with_the_earlier_generals():
+    from datetime import date
+
+    from skipjack.web import turnout as qt
+    from skipjack.web.db import get_db
+    from skipjack.web.routes.home import home_context
+
+    with get_db() as conn:
+        lead = home_context(conn, date(2026, 10, 24))["lead"]
+        sd = qt.same_day(conn, "GG26")
+    panel = lead["panels"][-1]
+    assert panel["tiles"][0]["value"] == sd["total"]
+    by_code = {r["code"]: r for r in sd["comparison"]}
+    sentence = panel["sentences"][0]
+    assert f"{sd['total']:,} Marylanders" in sentence
+    assert f"{by_code['GG22']['through']:,} in the 2022 general election" in sentence
+    assert f"{by_code['PG24']['through']:,} in the 2024 general election" in sentence
 
 
 @needs_db
