@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-early-voting-county-party-20261029-490970b85305",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/EarlyVoting_by_Party.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 early-voting (county-party) as of 2026-10-29",
+  "fetch_date": "2026-10-30T17:38:47+00:00",
+  "parse_date": "2026-10-30T17:44:25+00:00",
+  "sha256_original": "490970b85305a8bdb7b42bf39caa3262cc7fcde90542c19691f991f76fd4fb62",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "early-voting",
+  "geography": "county-party",
+  "notes": "GG26 early-voting (county-party) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1440,
+    "as_of": "2026-10-29"
+  }
+}

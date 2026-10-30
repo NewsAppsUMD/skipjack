@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-same-day-legislative-20261029-a5033f0334be",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/SameDayRegistration_by_Legislative_District.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 same-day (legislative) as of 2026-10-29",
+  "fetch_date": "2026-10-30T17:38:59+00:00",
+  "parse_date": "2026-10-30T17:44:34+00:00",
+  "sha256_original": "a5033f0334becede283d983b7b7a8a21653d5fb85d684967caa3f3209ed32b92",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "same-day",
+  "geography": "legislative",
+  "notes": "GG26 same-day (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 1780,
+    "as_of": "2026-10-29"
+  }
+}
