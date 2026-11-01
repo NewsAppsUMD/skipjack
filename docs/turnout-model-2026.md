@@ -23,6 +23,37 @@ Central scenario: Democrats 53.9%, Republicans 26.2%, other 19.9% of ballots cas
 - Highest: Talbot 65.4%; Kent 64.3%; Howard 61.8%; Queen Anne's 61.7%; Carroll 60.1%.
 - Lowest: Baltimore City 43.3%; Prince George's 48.2%; Wicomico 51.3%; Washington 52.3%; Charles 52.4%.
 
+## Counties against the ballots already cast
+
+Central ballots cast (low to high), ballots banked before election day, and the share of registrants who have not yet voted that the central forecast needs on November 3, against the same rate in 2022.
+
+| County | Central | Low to high | Banked | Needed, central | 2022 rate |
+|---|---|---|---|---|---|
+| Allegany | 24,098 | 22,060 to 25,724 | 7,179 | 45.0% | 42.3% |
+| Anne Arundel | 238,116 | 215,908 to 254,933 | 130,828 | 37.1% | 38.8% |
+| Baltimore City | 178,851 | 156,378 to 198,948 | 70,004 | 31.7% | 23.9% |
+| Baltimore County | 317,742 | 286,341 to 343,067 | 149,367 | 38.5% | 33.3% |
+| Calvert | 41,539 | 38,072 to 44,163 | 22,305 | 40.2% | 40.2% |
+| Caroline | 12,347 | 11,285 to 13,187 | 4,409 | 42.9% | 40.9% |
+| Carroll | 78,232 | 72,067 to 82,831 | 32,186 | 47.0% | 44.6% |
+| Cecil | 38,814 | 35,340 to 41,541 | 15,441 | 39.9% | 36.7% |
+| Charles | 68,420 | 61,269 to 74,331 | 34,204 | 35.5% | 32.2% |
+| Dorchester | 13,302 | 12,147 to 14,255 | 5,344 | 42.0% | 40.2% |
+| Frederick | 122,194 | 111,374 to 130,208 | 55,412 | 43.8% | 43.1% |
+| Garrett | 12,195 | 11,320 to 12,911 | 4,423 | 46.5% | 45.3% |
+| Harford | 116,626 | 106,875 to 124,051 | 51,181 | 44.5% | 42.6% |
+| Howard | 148,756 | 135,652 to 158,382 | 71,913 | 45.6% | 42.1% |
+| Kent | 9,264 | 8,577 to 9,785 | 4,211 | 49.5% | 48.1% |
+| Montgomery | 400,011 | 360,491 to 430,266 | 234,275 | 35.4% | 34.6% |
+| Prince George's | 300,118 | 265,179 to 330,399 | 176,326 | 27.7% | 25.6% |
+| Queen Anne's | 25,758 | 23,806 to 27,230 | 11,877 | 46.4% | 44.8% |
+| Somerset | 7,973 | 7,279 to 8,546 | 2,981 | 42.4% | 38.4% |
+| St. Mary's | 43,273 | 39,380 to 46,298 | 21,895 | 37.6% | 36.8% |
+| Talbot | 18,916 | 17,553 to 19,935 | 10,981 | 44.3% | 44.1% |
+| Washington | 52,972 | 48,071 to 56,814 | 22,774 | 38.5% | 39.2% |
+| Wicomico | 34,537 | 31,178 to 37,231 | 15,746 | 36.4% | 35.4% |
+| Worcester | 26,811 | 24,688 to 28,441 | 9,677 | 49.0% | 46.0% |
+
 ## Caveats
 
 - The spread between scenarios is the real uncertainty; within-scenario intervals are narrow by construction.

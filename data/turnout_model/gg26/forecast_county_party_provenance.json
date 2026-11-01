@@ -2,7 +2,7 @@
   "file": "data/turnout_model/gg26/forecast_county_party.csv",
   "description": "GG26 forecast ballots per county x party group and scenario (low = GG22 level, high = GG18 level, central = level rule, central_comp_level = central with uncentred comp), summaries over 1,000 draws, plus the certified GG18 and GG22 figures (actual_ rows). active is projected GG26 active registration (the election's own active on actual_ rows).",
   "generated_by": "scripts/turnout_model/04_forecast.R",
-  "run_date": "2026-11-01T15:07:12+0000",
+  "run_date": "2026-11-01T15:33:35+0000",
   "sources": {
     "structure_draws": "data/turnout_model/gg26/structure_draws.csv.gz",
     "fit_summary": "data/turnout_model/gg26/fit_summary.json",

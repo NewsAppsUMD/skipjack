@@ -2,7 +2,7 @@
   "file": "data/turnout_model/gg26/level_rule.csv",
   "description": "The 2026 level rule: per party, the three index values and votes (+1 2018-like, -1 2022-like) and the central weight w on alpha*_GG18, with sensitivity columns for the alternative mail projections (_latest: the latest count held; _recent: OLS over the last three snapshots).",
   "generated_by": "scripts/turnout_model/04_forecast.R",
-  "run_date": "2026-11-01T15:07:12+0000",
+  "run_date": "2026-11-01T15:33:35+0000",
   "sources": {
     "structure_draws": "data/turnout_model/gg26/structure_draws.csv.gz",
     "fit_summary": "data/turnout_model/gg26/fit_summary.json",

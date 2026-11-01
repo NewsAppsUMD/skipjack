@@ -727,29 +727,42 @@ mode_split <- function(ballots, sw, inp, cells, early, as_of) {
               mail_capped, gg26_mail_as_of = as_of)
 }
 
-# Every scenario against the ballots banked before election day: banked = GG26 early voting plus
-# mail (received so far times GG22's late-arrival multiplier, capped at sent), statewide; the
-# election-day and provisional ballots each scenario implies; and that as a rate of the registrants
-# who have not voted early or by mail, beside the same rate in GG22 and GG18 (training.csv).
-early_vote_check <- function(ballots, sw, inp, early, ms) {
-  st <- ms |> filter(county == STATE_LABEL)
-  banked <- st$early + st$mail
-  active26 <- sum(inp$den$active)
+# Every scenario against the ballots banked before election day, per county and statewide
+# (county = Maryland): banked = GG26 early voting plus mail (received so far times GG22's
+# late-arrival multiplier, capped at sent; mode_split.csv); the election-day and provisional
+# ballots each scenario implies (county ballots from forecast_county.csv, statewide from
+# forecast_statewide.csv); and that as a rate of the registrants who have not voted early or by
+# mail, beside the same rate in GG22 and GG18 (training.csv).
+early_vote_check <- function(ct, sw, inp, ms) {
+  cd <- county_denoms(inp)
+  bk <- ms |> select(county, early, mail) |>
+    left_join(bind_rows(select(cd, county, active), tibble(county = STATE_LABEL, active = sum(cd$active))), by = "county")
   rows <- lapply(c("low", "central", "high"), function(sc) {
-    b <- sw$mean[sw$scenario == sc & sw$measure == "ballots"]
-    tibble(scenario = sc, ballots = b, active = active26, early = st$early, mail = st$mail, banked = banked,
-           election_day_and_provisional = b - banked, not_yet_voted = active26 - banked)
+    b <- bind_rows(ct |> filter(scenario == sc) |> select(county, ballots = ballots_mean),
+                   tibble(county = STATE_LABEL, ballots = sw$mean[sw$scenario == sc & sw$measure == "ballots"]))
+    bk |> inner_join(b, by = "county") |> mutate(scenario = sc)
   })
   act <- lapply(REFERENCE, function(y) {
-    r <- inp$ref[[y]]
-    tibble(scenario = paste0("actual_", y), ballots = sum(r$ballots_cast), active = sum(r$active),
-           early = sum(r$early_voting), mail = sum(r$vote_by_mail), banked = sum(r$early_voting + r$vote_by_mail),
-           election_day_and_provisional = sum(r$election_day + r$provisional),
-           not_yet_voted = sum(r$active) - sum(r$early_voting + r$vote_by_mail))
+    r <- inp$ref[[y]] |> group_by(county) |>
+      summarise(ballots = sum(ballots_cast), active = sum(active), early = sum(early_voting),
+                mail = sum(vote_by_mail), on_day = sum(election_day + provisional), .groups = "drop")
+    bind_rows(r, r |> summarise(county = STATE_LABEL, across(-county, sum))) |>
+      mutate(scenario = paste0("actual_", y))
   })
-  bind_rows(c(rows, act)) |>
-    mutate(banked_share = round(banked / ballots, 6),
-           rate_not_yet_voted = round(election_day_and_provisional / not_yet_voted, 6))
+  out <- bind_rows(c(rows, act)) |>
+    mutate(banked = early + mail,
+           election_day_and_provisional = coalesce(on_day, ballots - banked),
+           not_yet_voted = active - banked,
+           banked_share = round(banked / ballots, 6),
+           rate_not_yet_voted = round(election_day_and_provisional / not_yet_voted, 6),
+           county = factor(county, c(CANONICAL_COUNTIES, STATE_LABEL)),
+           scenario = factor(scenario, c("low", "central", "high", ACTUAL_SCENARIOS))) |>
+    arrange(scenario, county) |>
+    transmute(scenario = as.character(scenario), county = as.character(county), ballots, active, early, mail,
+              banked, election_day_and_provisional, not_yet_voted, banked_share, rate_not_yet_voted)
+  if (nrow(out) != 5 * 25 || anyNA(out)) stop("early_vote_check: expected 5 scenarios x 25 areas with no NA")
+  if (any(out$election_day_and_provisional < 0)) stop("early_vote_check: a scenario has fewer ballots than are banked")
+  out
 }
 
 # ---- checks on outputs -------------------------------------------------------------------
@@ -864,7 +877,7 @@ main <- function() {
   ct <- county_table(ballots, inp, cells, as_of)
   sw <- statewide_table(ballots, inp, cells, as_of)
   ms <- mode_split(ballots, sw, inp, cells, early, as_of)
-  evc <- early_vote_check(ballots, sw, inp, early, ms)
+  evc <- early_vote_check(ct, sw, inp, ms)
   oc <- output_checks(cp, ct, sw, ms, alpha, ballots, cells)
   checks <- c(checks, oc$checks)
 
@@ -926,7 +939,7 @@ main <- function() {
             "Central-scenario GG26 ballots by mode per county and statewide (county = Maryland), anchored on the ballots already cast: early = GG26 early-voting total (the board's unofficial eight-day file; early voting is over); mail = GG26 mail received so far x late_multiplier (GG22 certified vote-by-mail / GG22 received the same number of days before election day), capped at GG26 sent and at 0.9 x ballots; provisional at GG22's share of the county's ballots; election day = the rest. return_rate is projected mail / sent. County ballots are the central means rounded by largest remainder to sum to the statewide central total (each within 1 of forecast_county.csv). gg22_share_* are GG22's actual mode shares.",
             list(capped_counties = as.list(capped), early_note = EARLY_NOTE))
   write_out(evc, "early_vote_check.csv",
-            "Each scenario against the ballots banked before election day, statewide: banked = GG26 early voting + projected mail (mode_split.csv), election_day_and_provisional = scenario ballots - banked, not_yet_voted = projected 2026 active - banked, rate_not_yet_voted = their ratio. actual_GG18 and actual_GG22 rows give the same quantities from the certified modes and active registration in training.csv.",
+            "Each scenario against the ballots banked before election day, per county and statewide (county = Maryland): banked = GG26 early voting + projected mail (mode_split.csv), election_day_and_provisional = scenario ballots - banked, not_yet_voted = projected 2026 active - banked, rate_not_yet_voted = their ratio. Scenario ballots per county are forecast_county.csv central/low/high means; statewide, forecast_statewide.csv. actual_GG18 and actual_GG22 rows give the same quantities from the certified modes and active registration in training.csv.",
             list(note = "The banked ballots are the same in every 2026 scenario; what differs is how many election-day and provisional ballots the scenario needs, and so the rate at which registrants who have not yet voted must turn out on November 3."))
   write_out(sdr_tab, "same_day_registration.csv",
             "Same-day registration per county and statewide (county = Maryland): GG26 new registrants during early voting (new26_ev) and election day projected (new26_ed_projected = GG22 election-day new registrants x ev_growth_statewide), GG22's (new22_ev, new22_ed, new22), GG22's scaled to 2026 active registration (sdr22_scaled), and extra = sdr26 - sdr22_scaled, the ballots added to every scenario; address changes (addrchg26, addrchg22) are shown but add nothing.",
@@ -940,7 +953,7 @@ main <- function() {
   cat("\nCentral county rates, highest:\n"); print(as.data.frame(head(select(cen, county, ballots_mean, rate_active_mean), 5)), row.names = FALSE)
   cat("\nCentral county rates, lowest:\n"); print(as.data.frame(tail(select(cen, county, ballots_mean, rate_active_mean), 5)), row.names = FALSE)
   cat("\nMode split statewide:\n"); print(as.data.frame(filter(ms, county == STATE_LABEL)), row.names = FALSE)
-  cat("\nEarly vote check:\n"); print(as.data.frame(evc), row.names = FALSE)
+  cat("\nEarly vote check, statewide:\n"); print(as.data.frame(filter(evc, county == STATE_LABEL)), row.names = FALSE)
   cat("\nSame-day registration, statewide:\n"); print(as.data.frame(filter(sdr_tab, county == STATE_LABEL)), row.names = FALSE)
   cat("Capped counties:", if (length(capped)) paste(capped, collapse = ", ") else "none", "\n")
   cat("Projection floors binding:", nrow(floors), "\n")

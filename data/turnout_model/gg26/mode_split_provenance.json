@@ -2,7 +2,7 @@
   "file": "data/turnout_model/gg26/mode_split.csv",
   "description": "Central-scenario GG26 ballots by mode per county and statewide (county = Maryland), anchored on the ballots already cast: early = GG26 early-voting total (the board's unofficial eight-day file; early voting is over); mail = GG26 mail received so far x late_multiplier (GG22 certified vote-by-mail / GG22 received the same number of days before election day), capped at GG26 sent and at 0.9 x ballots; provisional at GG22's share of the county's ballots; election day = the rest. return_rate is projected mail / sent. County ballots are the central means rounded by largest remainder to sum to the statewide central total (each within 1 of forecast_county.csv). gg22_share_* are GG22's actual mode shares.",
   "generated_by": "scripts/turnout_model/04_forecast.R",
-  "run_date": "2026-11-01T15:07:12+0000",
+  "run_date": "2026-11-01T15:33:35+0000",
   "sources": {
     "structure_draws": "data/turnout_model/gg26/structure_draws.csv.gz",
     "fit_summary": "data/turnout_model/gg26/fit_summary.json",

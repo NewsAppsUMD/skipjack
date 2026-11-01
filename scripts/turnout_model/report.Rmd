@@ -367,8 +367,9 @@ Caveats on the rule:
 ## Ballots already cast
 
 ```{r early-data}
-ev <- function(sc, col) evc[[col]][evc$scenario == sc]
+ev <- function(sc, col) evc[[col]][evc$scenario == sc & evc$county == STATE]
 stopifnot(all(c("low", "central", "high", "actual_GG22", "actual_GG18") %in% evc$scenario),
+          nrow(evc) == 5 * 25, all(table(evc$county) == 5),
           ev("central", "banked") == ms$early[ms$county == STATE] + ms$mail[ms$county == STATE])
 lrs <- lr |> summarise(e26 = sum(gg26_early), e22 = sum(gg22_early), m26 = sum(gg26_mail_received),
                        m22 = sum(gg22_mail_received), a26 = sum(active_2026), a22 = sum(active_gg22))
@@ -409,7 +410,7 @@ places:
 
 ```{r early-table}
 lab <- c(low = "2026 low", central = "2026 central", high = "2026 high", actual_GG22 = "2022 actual", actual_GG18 = "2018 actual")
-kable(evc |> mutate(Scenario = lab[scenario]) |>
+kable(evc |> filter(county == STATE) |> mutate(Scenario = lab[scenario]) |>
         transmute(Scenario, `Ballots cast` = num(ballots), Early = num(early), `Mail-in` = num(mail),
                   `Banked share` = pct(banked_share), `Election day and provisional` = num(election_day_and_provisional),
                   `Registrants not yet voted` = num(not_yet_voted), `Rate among them` = pct(rate_not_yet_voted)),
@@ -433,6 +434,55 @@ registration (`r sprintf("%.2f", sd_st$ev_growth_statewide)`x), for `r num(sd_st
 registrants in all, against `r num(sd_st$sdr22_scaled)` for 2022 scaled to 2026 registration. The
 difference, `r num(sd_st$extra)` ballots, is added to every scenario. Address changes add nothing:
 those voters are already on the rolls.
+
+### By county
+
+```{r early-county-data}
+# One row per county: central ballots with the low-to-high range, ballots banked, and the
+# election-day rate among not-yet-voted registrants each scenario needs, beside 2022 and 2018.
+ecw <- evc |> filter(county != STATE) |>
+  select(scenario, county, ballots, banked, banked_share, not_yet_voted, rate_not_yet_voted) |>
+  pivot_wider(names_from = scenario, values_from = c(ballots, rate_not_yet_voted, banked, banked_share, not_yet_voted)) |>
+  mutate(gap22 = 100 * (rate_not_yet_voted_central - rate_not_yet_voted_actual_GG22))
+# Rows keep early_vote_check.csv's canonical county order.
+stopifnot(nrow(ecw) == 24, all(ecw$banked_low == ecw$banked_central), all(ecw$banked_central == ecw$banked_high))
+top_gap <- ecw |> slice_max(gap22, n = 3)
+# "Less than 2022" only where the gap shows at one decimal place.
+below <- ecw |> filter(gap22 <= -0.05) |> arrange(gap22)
+n_word <- function(n) c("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine")[n] %||% as.character(n)
+gap_txt <- paste0("The central forecast asks most of ", join(paste0(top_gap$county, " (", pct(top_gap$rate_not_yet_voted_central),
+                  " against ", pct(top_gap$rate_not_yet_voted_actual_GG22), " in 2022)")), ".")
+below_txt <- if (nrow(below) == 0) "No county's central forecast needs less than its 2022 rate." else
+  paste0(if (nrow(below) == 1) "One county's" else paste0(n_word(nrow(below)), " counties'"),
+         " central forecast needs less than ", if (nrow(below) == 1) "its" else "their", " 2022 rate: ",
+         join(paste0(below$county, " (", pct(below$rate_not_yet_voted_central), " against ",
+                     pct(below$rate_not_yet_voted_actual_GG22), ")")), ".")
+hi_bank <- ecw |> slice_max(banked_share_central, n = 3)
+lo_bank <- ecw |> slice_min(banked_share_central, n = 3)
+```
+
+The same check works county by county. Each county's banked ballots are its early-voting count plus
+its projected mail; its scenario totals are the forecast's county means. Under the central forecast,
+`r join(paste0(hi_bank$county, " (", pct(hi_bank$banked_share_central, 0), ")"))`
+have the largest shares of their ballots in before election day, and `r join(paste0(lo_bank$county, " (", pct(lo_bank$banked_share_central, 0), ")"))`
+the least. `r gap_txt` `r below_txt`
+
+```{r early-county-table}
+kable(ecw |> transmute(
+        County = county,
+        `Ballots cast, central` = num(ballots_central),
+        `Low to high` = rng(ballots_low, ballots_high),
+        `Banked` = num(banked_central),
+        `Banked share, central` = pct(banked_share_central),
+        `Not yet voted` = num(not_yet_voted_central),
+        `Needed: low` = pct(rate_not_yet_voted_low),
+        `Needed: central` = pct(rate_not_yet_voted_central),
+        `Needed: high` = pct(rate_not_yet_voted_high),
+        `2022 rate` = pct(rate_not_yet_voted_actual_GG22),
+        `2018 rate` = pct(rate_not_yet_voted_actual_GG18)),
+      align = c("l", rep("r", 10)),
+      caption = "By county: ballots banked before election day (unofficial early-voting count plus projected mail), and the share of active registrants who have not yet voted that each scenario needs on November 3, beside the same rate in 2022 and 2018 (early_vote_check.csv).")
+```
 
 <p class="note">`r lrt$early_note[1]` `r lrt$sdr_note[1]`</p>
 
@@ -795,6 +845,16 @@ md <- c(
   "",
   paste0("- Highest: ", cty_line(head(cc, 5)), "."),
   paste0("- Lowest: ", cty_line(tail(cc, 5)[5:1, ]), "."),
+  "",
+  "## Counties against the ballots already cast",
+  "",
+  "Central ballots cast (low to high), ballots banked before election day, and the share of registrants who have not yet voted that the central forecast needs on November 3, against the same rate in 2022.",
+  "",
+  "| County | Central | Low to high | Banked | Needed, central | 2022 rate |",
+  "|---|---|---|---|---|---|",
+  paste0("| ", ecw$county, " | ", num(ecw$ballots_central), " | ", rng(ecw$ballots_low, ecw$ballots_high), " | ",
+         num(ecw$banked_central), " | ", pct(ecw$rate_not_yet_voted_central), " | ",
+         pct(ecw$rate_not_yet_voted_actual_GG22), " |"),
   "",
   "## Caveats",
   "",

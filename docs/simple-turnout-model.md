@@ -4,7 +4,7 @@
 `docs/turnout-model-2026.html`. Every number below comes from running the code in this document
 against the committed inputs. Updated 2026-11-01 with a version that counts the early votes, mail
 ballots and same-day registrations already in, through the board's October 29 early-voting and
-October 30 mail-in files.*
+October 30 mail-in files, with county-level estimates for both versions.*
 
 ## The idea in one paragraph
 
@@ -229,6 +229,61 @@ of its ballots were early or by mail, against 45.4% in 2022 and 33.6% in 2018. A
 read the two versions together is to ask what election-day rate a total requires. The first
 version's halfway case, 2,332,841 ballots, needs 37.2% of the registrants who have not voted to
 vote on November 3, a little above 2022's 34.6%.
+
+### County by county
+
+The two versions disagree most where early voting and mail grew most since 2022. The table
+gives each county's halfway case under both versions, its ballots banked before election day,
+and the election-day rate the first version's halfway case needs from the registrants who have
+not yet voted, beside the rate they turned out at in 2022.
+
+| County | First version, halfway | Mode version, halfway | Difference | Banked | Needed by the first version | 2022 rate |
+|---|---|---|---|---|---|---|
+| Allegany | 23,821 | 24,760 | +3.9% | 7,179 | 44.3% | 42.3% |
+| Anne Arundel | 239,402 | 258,232 | +7.9% | 130,828 | 37.6% | 38.8% |
+| Baltimore City | 176,019 | 176,966 | +0.5% | 70,004 | 30.9% | 23.9% |
+| Baltimore County | 318,919 | 327,377 | +2.7% | 149,367 | 38.8% | 33.3% |
+| Calvert | 41,158 | 44,682 | +8.6% | 22,305 | 39.4% | 40.2% |
+| Caroline | 12,383 | 12,698 | +2.5% | 4,409 | 43.1% | 40.9% |
+| Carroll | 78,146 | 81,174 | +3.9% | 32,186 | 46.9% | 44.6% |
+| Cecil | 37,774 | 39,913 | +5.7% | 15,441 | 38.2% | 36.7% |
+| Charles | 67,833 | 73,530 | +8.4% | 34,204 | 34.9% | 32.2% |
+| Dorchester | 13,412 | 13,907 | +3.7% | 5,344 | 42.6% | 40.2% |
+| Frederick | 122,944 | 130,476 | +6.1% | 55,412 | 44.3% | 43.1% |
+| Garrett | 11,997 | 12,198 | +1.7% | 4,423 | 45.3% | 45.3% |
+| Harford | 116,429 | 120,281 | +3.3% | 51,181 | 44.3% | 42.6% |
+| Howard | 150,597 | 155,244 | +3.1% | 71,913 | 46.7% | 42.1% |
+| Kent | 9,328 | 9,497 | +1.8% | 4,211 | 50.2% | 48.1% |
+| Montgomery | 402,545 | 435,677 | +8.2% | 234,275 | 36.0% | 34.6% |
+| Prince George's | 299,938 | 330,557 | +10.2% | 176,326 | 27.7% | 25.6% |
+| Queen Anne's | 25,950 | 26,264 | +1.2% | 11,877 | 47.1% | 44.8% |
+| Somerset | 8,075 | 8,215 | +1.7% | 2,981 | 43.3% | 38.4% |
+| St. Mary's | 42,810 | 46,433 | +8.5% | 21,895 | 36.8% | 36.8% |
+| Talbot | 19,010 | 19,539 | +2.8% | 10,981 | 44.8% | 44.1% |
+| Washington | 52,741 | 56,840 | +7.8% | 22,774 | 38.2% | 39.2% |
+| Wicomico | 34,731 | 36,506 | +5.1% | 15,746 | 36.8% | 35.4% |
+| Worcester | 26,881 | 26,893 | +0.0% | 9,677 | 49.2% | 46.0% |
+
+The mode version runs 10.2% higher in Prince George's, and 7.8% to 8.6% higher in Calvert, St.
+Mary's, Charles, Montgomery, Anne Arundel and Washington. Those are the counties where the banked ballots have grown
+fastest, and so where the two readings of the early vote, new voters or changed habits, matter
+most. In Baltimore City and Worcester the versions agree to within about half a percent.
+
+Read the other way, the first version's halfway case asks the most of Baltimore City: 30.9% of
+the registrants who have not voted must vote on November 3, against 23.9% in 2022. It also asks
+well above 2022 in Somerset, Baltimore County and Howard. It asks less than 2022 in Anne Arundel,
+Washington and Calvert, and about the same in Garrett and St. Mary's.
+
+```r
+by_county <- forecast(0.5) |>
+  select(county, first = ballots) |>
+  inner_join(forecast_modes(0.5) |> select(county, modes = ballots, banked, pool), by = "county") |>
+  inner_join(past |> filter(election == "GG22") |> select(county, rate22 = rate), by = "county") |>
+  mutate(difference = modes / first - 1, needed = (first - banked) / pool)
+```
+
+The full model's report has the same check for its own county forecasts, under all three
+scenarios.
 
 **Same-day registration.** Maryland lets people register and vote at once, during early voting
 and on election day. Those voters are not in the September registration that every version of

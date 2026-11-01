@@ -2,7 +2,7 @@
   "file": "data/turnout_model/gg26/same_day_registration.csv",
   "description": "Same-day registration per county and statewide (county = Maryland): GG26 new registrants during early voting (new26_ev) and election day projected (new26_ed_projected = GG22 election-day new registrants x ev_growth_statewide), GG22's (new22_ev, new22_ed, new22), GG22's scaled to 2026 active registration (sdr22_scaled), and extra = sdr26 - sdr22_scaled, the ballots added to every scenario; address changes (addrchg26, addrchg22) are shown but add nothing.",
   "generated_by": "scripts/turnout_model/04_forecast.R",
-  "run_date": "2026-11-01T15:07:12+0000",
+  "run_date": "2026-11-01T15:33:35+0000",
   "sources": {
     "structure_draws": "data/turnout_model/gg26/structure_draws.csv.gz",
     "fit_summary": "data/turnout_model/gg26/fit_summary.json",

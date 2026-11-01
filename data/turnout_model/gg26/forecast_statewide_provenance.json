@@ -2,7 +2,7 @@
   "file": "data/turnout_model/gg26/forecast_statewide.csv",
   "description": "GG26 statewide forecast per scenario in long form (scenario, measure, mean, q05, q50, q95): ballots, rates on active/eligible/CVAP, party ballots, party rates on active and party shares of ballots. Sensitivities central_comp_level, central_mail_latest and central_mail_recent add ballots_minus_central (paired per draw). headline_range is the range to quote: low's q05 and high's q95 as its q05/q95, with central's mean and median. actual_GG18 and actual_GG22 rows give the certified figures (all four columns equal); rates on eligible and CVAP are not given for them.",
   "generated_by": "scripts/turnout_model/04_forecast.R",
-  "run_date": "2026-11-01T15:07:12+0000",
+  "run_date": "2026-11-01T15:33:35+0000",
   "sources": {
     "structure_draws": "data/turnout_model/gg26/structure_draws.csv.gz",
     "fit_summary": "data/turnout_model/gg26/fit_summary.json",

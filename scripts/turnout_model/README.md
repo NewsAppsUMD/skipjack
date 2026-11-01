@@ -102,7 +102,7 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
     they sum to the statewide central total. Columns `gg22_share_*` give GG22's actual mode
     shares for comparison.
   - `early_vote_check.csv`: each scenario against the ballots banked before election day
-    (early + projected mail): the election-day and provisional ballots it implies and, as
+    (early + projected mail), per county and for Maryland: the election-day and provisional ballots it implies and, as
     `rate_not_yet_voted`, the share of not-yet-voted active registrants that must turn out on
     election day, beside the same rate in GG22 and GG18.
   - `same_day_registration.csv`: same-day new registrants per county, GG26 (early voting, plus
