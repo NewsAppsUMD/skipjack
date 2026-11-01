@@ -2,7 +2,7 @@
   "file": "data/turnout_model/inputs/inactive_ratio.csv",
   "description": "Inactive / active registration by county x party group for GG22 and PG24, and their mean.",
   "generated_by": "scripts/turnout_model/01_build_inputs.R",
-  "run_date": "2026-10-17T16:33:14-0400",
+  "run_date": "2026-11-01T14:59:08+0000",
   "sources": {
     "inactive": "turnout_counts: family 'eligible-inactive', geography 'county', category 'ALL', measure inactive; GG22 as_of 2022-10-22, PG24 as_of 2024-10-20",
     "active": "turnout_counts: family 'eligible-active', geography 'county', category 'ALL', measure active; GG22 as_of 2022-10-22, PG24 as_of 2024-10-20"

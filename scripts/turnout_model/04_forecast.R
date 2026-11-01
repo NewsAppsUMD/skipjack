@@ -22,7 +22,8 @@ LEVEL_RULE <- c(
   "1. Registration momentum: position = (m26 - m22) / (m18 - m22) using indices.csv reg_momentum, reg_momentum_2022, reg_momentum_2018 (statewide row for p). Vote +1 if position >= 2/3, -1 if <= 1/3, else 0. If |m18 - m22| < 0.002 the analogues cannot discriminate: vote 0. Amendment: a position outside [-0.5, 1.5] extrapolates beyond the two analogues and its sign is not interpretable: vote 0 when position < -0.5 or > 1.5; otherwise the thresholds above apply.",
   "2. Mail requests, per registrant: project GG26 final sent for p as a linear trend over the available daily snapshots extended to 2026-10-27 (the request deadline; an assumption: no ballots are sent after it). Index = (projected GG26 final sent_p / 2026 projected active_p from denominators_gg26.csv) / (GG22 final sent_p (2022-11-28 file) / GG22 active_p from training.csv), so registration growth is not read as engagement. Vote +1 if >= 1.05, -1 if <= 0.95, else 0. (No 2018 analogue exists: 2018 predates the permanent mail-in list, so this index can only say \"more or less engaged than 2022\".)",
   "3. Primary participation, per registrant: index = (GP26 ballots_p / GP26 active_p) / (GP22 ballots_p / GP22 active_p), from training.csv (DEM and REP; GP26 split estimated; OTH gets vote 0 because primaries are closed). Vote +1 if >= 1.05, -1 if <= 0.95, else 0. Caveat: GP26 had an incumbent governor and GP22 an open seat, which depresses this index for reasons unrelated to November.",
-  "level_rule.csv also records the raw-count ratios (mail_count_ratio, primary_count_ratio) beside the per-registrant indices that vote."
+  "4. Ballots banked before election day, per registrant: banked = early-voting ballots (GG26: the board's unofficial eight-day county-by-party file at its latest as_of; GG22: the certified early-voting count in training.csv) plus mail ballots received back by the same number of days before election day (sent-returned county files; GG22 at the latest daily file on or before its election day minus that many days). Index = (GG26 banked_p / 2026 projected active_p) / (GG22 banked_p / GG22 active_p). Vote +1 if >= 1.05, -1 if <= 0.95, else 0. Caveat: voters have been moving from election day to early voting and mail, so part of a high index is a change of habit rather than more voters; the vote is one step of 0.1, like the others. (No 2018 analogue: 2018 has no daily mail-return files and predates the permanent mail-in list.)",
+  "level_rule.csv also records the raw-count ratios (mail_count_ratio, primary_count_ratio, banked_count_ratio) beside the per-registrant indices that vote."
 )
 MAIL_NOTE <- paste(
   "No 2018 analogue exists: 2018 predates the permanent mail-in list, so the mail index can only",
@@ -33,7 +34,32 @@ MAIL_NOTE <- paste(
   "much steeper than the last few days', and holding the latest count or extending the last three",
   "snapshots gives lower indices (see the _latest and _recent columns of level_rule.csv and the",
   "central_mail_latest and central_mail_recent scenarios). No GG22 trajectory of daily sent counts",
-  "exists to anchor the choice."
+  "exists to anchor the choice. Once a snapshot dated on or after the deadline is in, every method",
+  "uses the latest count, since sending is over, and the sensitivities equal the rule."
+)
+EARLY_NOTE <- paste(
+  "Early voting is read from the board's unofficial eight-day files (early-voting, county-party),",
+  "which the State Board prints while the campaign runs; the certified early-voting count will",
+  "differ slightly. Mail ballots received back are the sent-returned county files' received measure",
+  "(envelopes back, before the canvass accepts or rejects them). The 2022 comparison point is the",
+  "GG22 daily file the same number of days before its election day (November 8, 2022), from the",
+  "backfilled daily reports. The banked index treats early and mail ballots alike, so a voter who",
+  "moved from election day to early voting since 2022 raises it without adding a ballot."
+)
+SDR_NOTE <- paste(
+  "Same-day registration adds voters who are not in the September-based 2026 active registration.",
+  "The reference levels already carry the same-day registrants of their own year, because certified",
+  "ballots cast include them, so the forecast adds only the excess of 2026's same-day new registrants",
+  "over GG22's, scaled to 2026 registration: extra_c = sdr26_c - sdr22_c * active26_c / active22_c,",
+  "where sdr22_c is GG22's new registrants during early voting and on election day (same-day county",
+  "file) and sdr26_c is GG26's early-voting new registrants (latest same-day county file) plus GG22's",
+  "election-day new registrants in the county times the statewide growth of early-voting same-day",
+  "registration from 2022 to 2026. Each county's extra is split by party in proportion to GG26's",
+  "early-voting same-day new registrants (county-party file; the statewide party mix where a county",
+  "has none) and added to every scenario as ballots with no noise: every same-day registrant votes.",
+  "Address changes at the polls are voters already on the rolls and add nothing. GG22 serves as the",
+  "same-day reference for all scenarios: 2018 allowed same-day registration only during early voting",
+  "and its same-day files are not in the data. Rates on active keep the September-based denominator."
 )
 #
 # Step 3, forecast draws. For each draw k, scenario and cell (c, p):
@@ -45,16 +71,23 @@ MAIL_NOTE <- paste(
 # central_comp_level (uncentred comp, central level), central_mail_latest and central_mail_recent
 # (the central level with the w the rule gives under the alternative mail projections).
 #
-# Step 4, mode split (central scenario, county): mail = projected GG26 sent (ALL parties) x the
-# mean of GG22 and PG24 received / sent, capped at 0.9 x ballots; provisional at GG22's share of
-# ballots; the rest split early vs election day by GG22's early / (early + election day).
+# Step 4, mode split (central scenario, county), anchored on the ballots already cast: early = the
+# GG26 early-voting total (unofficial eight-day file, voting over); mail = GG26 mail received so far
+# x GG22's late-arrival multiplier (GG22 certified vote-by-mail / GG22 received the same number of
+# days before election day), capped at GG26 sent and at 0.9 x ballots; provisional at GG22's share
+# of ballots; election day the rest. early_vote_check.csv sets every scenario against the ballots
+# banked before election day: the election-day and provisional ballots it implies, as a rate of
+# the registrants who have not yet voted, beside the same rate in GG22 and GG18.
 #
 # Sources: data/turnout_model/gg26/structure_draws.csv.gz, fit_summary.json (sigma_obs),
 # composition_factors.csv; data/turnout_model/inputs/training.csv, denominators_gg26.csv,
-# indices.csv; skipjack.db turnout_counts (GG26 sent-returned daily snapshots, GG22 and PG24
-# mail-voting at their latest as_of). Writes reference_levels.csv, level_rule.csv,
-# level_rule_text.csv, forecast_county_party.csv, forecast_county.csv, forecast_statewide.csv and
-# mode_split.csv to data/turnout_model/gg26/, each with provenance. Seeded; the CSVs are
+# indices.csv; skipjack.db turnout_counts (GG26 sent-returned daily snapshots; GG26 early-voting
+# and same-day at their latest as_of; GG22 sent-returned the same number of days before its
+# election day and GG22 same-day; GG22 and PG24 mail-voting at their latest as_of, still read and
+# checked but no longer used by the mode split). Writes reference_levels.csv, level_rule.csv,
+# level_rule_text.csv, forecast_county_party.csv, forecast_county.csv, forecast_statewide.csv,
+# mode_split.csv, early_vote_check.csv and same_day_registration.csv to data/turnout_model/gg26/,
+# each with provenance. Seeded; the CSVs are
 # deterministic.
 
 source("scripts/turnout_model/R/bootstrap.R")
@@ -69,6 +102,7 @@ MAIN_SCENARIOS <- c("low", "central", "high", "central_comp_level")
 SCENARIOS <- c(MAIN_SCENARIOS, "central_mail_latest", "central_mail_recent")
 ACTUAL_SCENARIOS <- paste0("actual_", REFERENCE)
 REQUEST_DEADLINE <- as.Date("2026-10-27")
+ELECTION_DAY <- c(GG26 = as.Date("2026-11-03"), GG22 = as.Date("2022-11-08"))
 N_RECENT <- 3
 PROJECTIONS <- c(rule = "all", latest = "latest", recent = "recent")
 GG22_SENT_AS_OF <- "2022-11-28"
@@ -216,6 +250,112 @@ read_mail <- function() {
        source_ids = ids_of(sent, mv))
 }
 
+# Early voting, mail returns and same-day registration: the GG26 campaign files at their latest
+# as_of and the GG22 comparison points. Returns county x party (DEM/REP/OTH) tibbles.
+read_early <- function(training) {
+  con <- db_connect()
+  on.exit(DBI::dbDisconnect(con))
+  latest <- function(election, family, geography) {
+    db_query(con, "SELECT MAX(as_of) AS a FROM turnout_counts WHERE election = ? AND family = ? AND geography = ?",
+             params = list(election, family, geography))$a
+  }
+  checks <- character()
+  ev_as_of <- latest("GG26", "early-voting", "county-party")
+  if (is.na(ev_as_of)) stop("no GG26 early-voting county-party file in skipjack.db")
+  ev <- db_query(con, "
+    SELECT county, party, measure, value, source_id FROM turnout_counts
+    WHERE election = 'GG26' AND family = 'early-voting' AND geography = 'county-party'
+      AND category = 'ALL' AND measure IN ('total', 'eligible') AND as_of = ?", params = list(ev_as_of))
+  check_counties(ev$county, "GG26 early-voting")
+  ev26 <- ev |> mutate(party_group = party_group(party)) |>
+    group_by(county, party_group) |>
+    summarise(early = sum(value[measure == "total"]), ev_eligible = sum(value[measure == "eligible"]), .groups = "drop")
+  checks <- c(checks, check(nrow(ev26) == 72 && all(ev26$early >= 0), "GG26 early voting has 72 county x party cells"))
+
+  sr_as_of <- latest("GG26", "sent-returned", "county")
+  days_out <- as.numeric(ELECTION_DAY[["GG26"]] - as.Date(sr_as_of))
+  sr22_dates <- db_query(con, "SELECT DISTINCT as_of FROM turnout_counts WHERE election = 'GG22'
+                               AND family = 'sent-returned' AND geography = 'county'")$as_of
+  target22 <- ELECTION_DAY[["GG22"]] - days_out
+  sr22_as_of <- as.character(max(as.Date(sr22_dates)[as.Date(sr22_dates) <= target22]))
+  if (is.na(sr22_as_of)) stop("no GG22 sent-returned daily file on or before ", target22)
+  sr <- function(election, as_of) {
+    db_query(con, "
+      SELECT county, party AS party_group, measure, value, source_id FROM turnout_counts
+      WHERE election = ? AND family = 'sent-returned' AND geography = 'county' AND category = 'ALL'
+        AND party IN ('DEM', 'REP', 'OTH') AND measure IN ('sent', 'received') AND as_of = ?",
+      params = list(election, as_of))
+  }
+  r26 <- sr("GG26", sr_as_of); r22 <- sr("GG22", sr22_as_of)
+  check_counties(r26$county, "GG26 sent-returned"); check_counties(r22$county, "GG22 sent-returned")
+  wide <- function(d) d |> select(-source_id) |> tidyr::pivot_wider(names_from = measure, values_from = value)
+  mail26 <- wide(r26) |> rename(sent26 = sent, received26 = received)
+  mail22 <- wide(r22) |> rename(sent22_d = sent, received22_d = received)
+  checks <- c(checks, check(nrow(mail26) == 72 && nrow(mail22) == 72 && !anyNA(mail26) && !anyNA(mail22),
+                            "GG26 and GG22 sent and received for 72 county x party cells"))
+
+  sd_as_of <- latest("GG26", "same-day", "county-party")
+  sd26 <- db_query(con, "
+    SELECT county, party, measure, value, source_id FROM turnout_counts
+    WHERE election = 'GG26' AND family = 'same-day' AND geography = 'county-party' AND category = 'ALL'
+      AND measure IN ('new-total', 'addrchg-total') AND as_of = ?", params = list(sd_as_of))
+  sdc26 <- db_query(con, "
+    SELECT county, measure, value, source_id FROM turnout_counts
+    WHERE election = 'GG26' AND family = 'same-day' AND geography = 'county' AND category = 'ALL' AND party = 'ALL'
+      AND measure IN ('new-total', 'addrchg-total') AND as_of = (SELECT MAX(as_of) FROM turnout_counts
+        WHERE election = 'GG26' AND family = 'same-day' AND geography = 'county')")
+  sd22 <- db_query(con, "
+    SELECT county, measure, value, source_id FROM turnout_counts
+    WHERE election = 'GG22' AND family = 'same-day' AND geography = 'county' AND category = 'ALL' AND party = 'ALL'
+      AND measure IN ('new-total', 'new-election-day', 'addrchg-total') AND as_of = (SELECT MAX(as_of) FROM turnout_counts
+        WHERE election = 'GG22' AND family = 'same-day' AND geography = 'county')")
+  check_counties(sd26$county, "GG26 same-day"); check_counties(sdc26$county, "GG26 same-day county")
+  check_counties(sd22$county, "GG22 same-day")
+  sdr26_cp <- sd26 |> filter(measure == "new-total") |> mutate(party_group = party_group(party)) |>
+    group_by(county, party_group) |> summarise(new26 = sum(value), .groups = "drop")
+  sdr_cty <- sdc26 |> select(-source_id) |> tidyr::pivot_wider(names_from = measure, values_from = value) |>
+    transmute(county, new26_ev = `new-total`, addrchg26 = `addrchg-total`) |>
+    inner_join(sd22 |> select(-source_id) |> tidyr::pivot_wider(names_from = measure, values_from = value) |>
+                 transmute(county, new22 = `new-total`, new22_ed = `new-election-day`, new22_ev = new22 - new22_ed,
+                           addrchg22 = `addrchg-total`), by = "county")
+  checks <- c(checks, check(nrow(sdr_cty) == 24 && !anyNA(sdr_cty) && all(sdr_cty$new22_ev >= 0),
+                            "GG26 and GG22 same-day county files have new registrants for 24 counties"))
+
+  ev22 <- training |> filter(election == "GG22") |>
+    select(county, party_group, early22 = early_voting, vbm22 = vote_by_mail, active22 = active)
+  cells <- ev26 |> inner_join(mail26, by = c("county", "party_group")) |>
+    inner_join(mail22, by = c("county", "party_group")) |> inner_join(ev22, by = c("county", "party_group"))
+  checks <- c(checks, check(nrow(cells) == 72, "early, mail and GG22 rows join on 72 cells"))
+  list(cells = cells, sdr_cp = sdr26_cp, sdr_cty = sdr_cty, days_out = days_out,
+       as_of = list(early_voting = ev_as_of, sent_returned_gg26 = sr_as_of, sent_returned_gg22 = sr22_as_of,
+                    same_day_gg26 = sd_as_of),
+       checks = checks, source_ids = ids_of(ev, r26, r22, sd26, sdc26, sd22))
+}
+
+# Same-day registration beyond GG22's, per county x party (see SDR_NOTE).
+sdr_extra <- function(early, den, cells) {
+  sc <- early$sdr_cty
+  growth <- sum(sc$new26_ev) / sum(sc$new22_ev)
+  act26 <- den |> group_by(county) |> summarise(active26 = sum(active), .groups = "drop")
+  act22 <- early$cells |> group_by(county) |> summarise(active22 = sum(active22), .groups = "drop")
+  cty <- sc |> inner_join(act26, by = "county") |> inner_join(act22, by = "county") |>
+    mutate(new26_ed_projected = new22_ed * growth, sdr26 = new26_ev + new26_ed_projected,
+           sdr22_scaled = new22 * active26 / active22, extra = sdr26 - sdr22_scaled)
+  state_mix <- early$sdr_cp |> group_by(party_group) |> summarise(n = sum(new26), .groups = "drop") |>
+    mutate(share = n / sum(n))
+  cp <- cells |> select(cell, county, party_group) |>
+    left_join(early$sdr_cp, by = c("county", "party_group")) |>
+    mutate(new26 = coalesce(new26, 0)) |>
+    group_by(county) |>
+    mutate(share = if (sum(new26) > 0) new26 / sum(new26) else state_mix$share[match(party_group, state_mix$party_group)]) |>
+    ungroup() |>
+    left_join(select(cty, county, extra), by = "county") |>
+    mutate(extra = extra * share)
+  list(county = cty, cell = cp$extra, growth = growth,
+       checks = check(abs(sum(cp$extra) - sum(cty$extra)) < 1e-6 && nrow(cty) == 24,
+                      "same-day extra splits by party without loss for 24 counties"))
+}
+
 # Project each county x party (DEM/REP/OTH) sent series to `to`: method "all" is an OLS line over
 # every snapshot, "recent" an OLS line over the last N_RECENT snapshots, "latest" holds the latest
 # count. Every projection is floored at the latest observed count; ALL is the sum of the three
@@ -223,14 +363,16 @@ read_mail <- function() {
 project_sent <- function(sent, to = REQUEST_DEADLINE, method = "all") {
   if (!method %in% PROJECTIONS) stop("project_sent(): unknown method ", method)
   days <- sort(unique(as.Date(sent$as_of)))
-  use <- if (method == "recent") tail(days, N_RECENT) else days
+  # Sending is over once a snapshot is dated on or after `to`: every method holds the latest count.
+  fit_method <- if (max(days) >= to) "latest" else method
+  use <- if (fit_method == "recent") tail(days, N_RECENT) else days
   parties <- sent |>
     filter(party %in% PARTY_GROUPS) |>
     mutate(day = as.numeric(as.Date(as_of) - to)) |>   # day = 0 at `to`
     group_by(county, party) |>
     group_modify(function(d, key) {
       latest <- d$value[which.max(d$day)]
-      fit <- if (method == "latest") NULL else coef(lm(value ~ day, data = d[as.Date(d$as_of) %in% use, ]))
+      fit <- if (fit_method == "latest") NULL else coef(lm(value ~ day, data = d[as.Date(d$as_of) %in% use, ]))
       raw <- if (is.null(fit)) latest else unname(fit[1])
       tibble(n_snapshots = sum(as.Date(d$as_of) %in% use), latest = latest,
              slope = if (is.null(fit)) 0 else unname(fit[2]), unfloored = raw, projected = max(raw, latest))
@@ -295,7 +437,7 @@ vote_ratio <- function(x) ifelse(x >= RATIO_CUTS[2], 1L, ifelse(x <= RATIO_CUTS[
 weight_of <- function(votes) round(pmin(W_BOUNDS[2], pmax(W_BOUNDS[1], W_START + W_STEP * votes)), 6)
 party_vec <- function(df, col) df[[col]][match(PARTY_GROUPS, df$party)]
 
-level_rule <- function(inp, projs) {
+level_rule <- function(inp, projs, early) {
   st <- inp$indices |> filter(county == STATE_LABEL)
   st <- st[match(PARTY_GROUPS, st$party_group), ]
   if (anyNA(st$county)) stop("indices.csv lacks Maryland rows for DEM, REP and OTH")
@@ -322,7 +464,15 @@ level_rule <- function(inp, projs) {
   vote_primary <- ifelse(is_oth, 0L, vote_ratio(primary_index))
   proj_rule <- party_vec(sent_state$rule, "projected")
   mail_index <- mail_index_of(proj_rule)
-  votes <- vote_reg + vote_ratio(mail_index) + vote_primary
+  bk <- early$cells |> group_by(party_group) |>
+    summarise(early26 = sum(early), received26 = sum(received26), early22 = sum(early22),
+              received22 = sum(received22_d), .groups = "drop")
+  bk <- bk[match(PARTY_GROUPS, bk$party_group), ]
+  banked26 <- bk$early26 + bk$received26
+  banked22 <- bk$early22 + bk$received22
+  banked_index <- (banked26 / active26) / (banked22 / active22)
+  vote_banked <- vote_ratio(banked_index)
+  votes <- vote_reg + vote_ratio(mail_index) + vote_primary + vote_banked
   rule <- tibble(
     party_group = PARTY_GROUPS,
     reg_momentum_2026 = m26, reg_momentum_2022 = m22, reg_momentum_2018 = m18,
@@ -333,6 +483,11 @@ level_rule <- function(inp, projs) {
     gp26_ballots = gp("GP26"), gp26_active = gp("GP26", "a"), gp22_ballots = gp("GP22"), gp22_active = gp("GP22", "a"),
     primary_count_ratio = round(primary_count_ratio, 6), primary_index = round(primary_index, 6),
     vote_primary = vote_primary,
+    days_before_election = early$days_out,
+    gg26_early = bk$early26, gg26_mail_received = bk$received26, gg26_banked = banked26,
+    gg22_early = bk$early22, gg22_mail_received = bk$received22, gg22_banked = banked22,
+    banked_count_ratio = round(banked26 / banked22, 6), banked_index = round(banked_index, 6),
+    vote_banked = vote_banked,
     vote_sum = votes,
     w = weight_of(votes)
   )
@@ -340,7 +495,7 @@ level_rule <- function(inp, projs) {
   for (alt in c("latest", "recent")) {
     pa <- party_vec(sent_state[[alt]], "projected")
     mi <- mail_index_of(pa)
-    v <- vote_reg + vote_ratio(mi) + vote_primary
+    v <- vote_reg + vote_ratio(mi) + vote_primary + vote_banked
     rule[[paste0("gg26_sent_projected_", alt)]] <- round(pa, 1)
     rule[[paste0("mail_index_", alt)]] <- round(mi, 6)
     rule[[paste0("vote_mail_", alt)]] <- vote_ratio(mi)
@@ -394,10 +549,11 @@ identity_check <- function(alpha, inp, cells, eps) {
   list(result = res, checks = checks)
 }
 
-forecast_draws <- function(alpha, rule, inp, cells, eps) {
+forecast_draws <- function(alpha, rule, inp, cells, eps, extra) {
   comp_c <- centre_comp(inp$comp, inp$den, cells)
   w <- function(col) setNames(rule[[col]], rule$party_group)
-  run <- function(a, offset = comp_c) cell_ballots(inp$den$active, alpha_cells(a, cells), inp$s, offset, eps)
+  # extra: same-day registrants beyond GG22's, per cell, added to every draw (SDR_NOTE).
+  run <- function(a, offset = comp_c) cell_ballots(inp$den$active, alpha_cells(a, cells), inp$s, offset, eps) + extra
   central <- mix_alpha(alpha, w("w"))
   list(
     low = run(alpha$GG22),
@@ -526,51 +682,74 @@ statewide_table <- function(ballots, inp, cells, as_of) {
            gg26_mail_as_of = as_of)
 }
 
-mode_split <- function(ballots, sw, inp, cells, proj, mail_voting, as_of) {
+mode_split <- function(ballots, sw, inp, cells, early, as_of) {
   # County ballots: the central county means, rounded by largest remainder so they sum to the
   # statewide central total in forecast_statewide.csv.
   state_total <- sw$mean[sw$scenario == "central" & sw$measure == "ballots"]
   county_mean <- rowMeans(county_sums(ballots$central, cells))
   central <- tibble(county = CANONICAL_COUNTIES, ballots_mean = split_integer(state_total, county_mean))
-  rr <- mail_voting |>
-    select(election, county, measure, value) |>
-    tidyr::pivot_wider(names_from = measure, values_from = value) |>
-    group_by(county) |>
-    summarise(return_rate = mean(received / sent), n = n(), .groups = "drop")
-  if (!all(rr$n == 2)) stop("return rate needs GG22 and PG24 for every county")
+  ec <- early$cells |> group_by(county) |>
+    summarise(early = sum(early), sent26 = sum(sent26), received26 = sum(received26),
+              received22_d = sum(received22_d), vbm22 = sum(vbm22), .groups = "drop") |>
+    mutate(late_multiplier = vbm22 / received22_d)
   g22 <- inp$ref$GG22 |> group_by(county) |>
     summarise(across(c(ballots_cast, election_day, early_voting, vote_by_mail, provisional), sum), .groups = "drop")
   g22 <- bind_rows(g22, g22 |> summarise(county = STATE_LABEL, across(-county, sum))) |>
-    mutate(prov_share = provisional / ballots_cast, early_ratio = early_voting / (early_voting + election_day),
+    mutate(prov_share = provisional / ballots_cast,
            gg22_share_mail = round(vote_by_mail / ballots_cast, 6), gg22_share_early = round(early_voting / ballots_cast, 6),
            gg22_share_election_day = round(election_day / ballots_cast, 6),
            gg22_share_provisional = round(provisional / ballots_cast, 6))
-  ps <- proj |> filter(party == "ALL") |> select(county, projected_sent = projected)
   out <- central |>
-    left_join(ps, by = "county") |> left_join(select(rr, county, return_rate), by = "county") |>
-    left_join(select(g22, county, prov_share, early_ratio), by = "county") |>
+    left_join(ec, by = "county") |>
+    left_join(select(g22, county, prov_share), by = "county") |>
     mutate(
-      mail_raw = projected_sent * return_rate,
+      mail_raw = pmin(received26 * late_multiplier, sent26),
       mail_capped = mail_raw > MAIL_CAP * ballots_mean,
       mail = round(pmin(mail_raw, MAIL_CAP * ballots_mean)),
       provisional = round(prov_share * ballots_mean),
-      early = round((ballots_mean - mail - provisional) * early_ratio),
       election_day = ballots_mean - mail - provisional - early
     )
   if (anyNA(out)) stop("mode split has missing inputs")
-  state <- out |> summarise(county = STATE_LABEL, ballots_mean = sum(ballots_mean), projected_sent = sum(projected_sent),
+  state <- out |> summarise(county = STATE_LABEL, ballots_mean = sum(ballots_mean), sent26 = sum(sent26),
+                            received26 = sum(received26), received22_d = sum(received22_d), vbm22 = sum(vbm22),
                             mail_raw = sum(mail_raw), mail_capped = any(mail_capped), mail = sum(mail),
                             provisional = sum(provisional), early = sum(early), election_day = sum(election_day)) |>
-    mutate(return_rate = mail_raw / projected_sent)
+    mutate(late_multiplier = vbm22 / received22_d)
   bind_rows(out, state) |>
     left_join(select(g22, county, starts_with("gg22_share_")), by = "county") |>
-    transmute(county, ballots_mean, projected_sent = round(projected_sent, 1), return_rate = round(return_rate, 6),
+    transmute(county, ballots_mean, mail_sent = sent26, mail_received = received26,
+              late_multiplier = round(late_multiplier, 6), return_rate = round(mail / sent26, 6),
               mail, early, election_day, provisional,
               share_mail = round(mail / ballots_mean, 6), share_early = round(early / ballots_mean, 6),
               share_election_day = round(election_day / ballots_mean, 6),
               share_provisional = round(provisional / ballots_mean, 6),
               gg22_share_mail, gg22_share_early, gg22_share_election_day, gg22_share_provisional,
               mail_capped, gg26_mail_as_of = as_of)
+}
+
+# Every scenario against the ballots banked before election day: banked = GG26 early voting plus
+# mail (received so far times GG22's late-arrival multiplier, capped at sent), statewide; the
+# election-day and provisional ballots each scenario implies; and that as a rate of the registrants
+# who have not voted early or by mail, beside the same rate in GG22 and GG18 (training.csv).
+early_vote_check <- function(ballots, sw, inp, early, ms) {
+  st <- ms |> filter(county == STATE_LABEL)
+  banked <- st$early + st$mail
+  active26 <- sum(inp$den$active)
+  rows <- lapply(c("low", "central", "high"), function(sc) {
+    b <- sw$mean[sw$scenario == sc & sw$measure == "ballots"]
+    tibble(scenario = sc, ballots = b, active = active26, early = st$early, mail = st$mail, banked = banked,
+           election_day_and_provisional = b - banked, not_yet_voted = active26 - banked)
+  })
+  act <- lapply(REFERENCE, function(y) {
+    r <- inp$ref[[y]]
+    tibble(scenario = paste0("actual_", y), ballots = sum(r$ballots_cast), active = sum(r$active),
+           early = sum(r$early_voting), mail = sum(r$vote_by_mail), banked = sum(r$early_voting + r$vote_by_mail),
+           election_day_and_provisional = sum(r$election_day + r$provisional),
+           not_yet_voted = sum(r$active) - sum(r$early_voting + r$vote_by_mail))
+  })
+  bind_rows(c(rows, act)) |>
+    mutate(banked_share = round(banked / ballots, 6),
+           rate_not_yet_voted = round(election_day_and_provisional / not_yet_voted, 6))
 }
 
 # ---- checks on outputs -------------------------------------------------------------------
@@ -632,7 +811,8 @@ SOURCES <- list(
   training = file.path(INPUTS_DIR, "training.csv"),
   denominators = file.path(INPUTS_DIR, "denominators_gg26.csv"),
   indices = file.path(INPUTS_DIR, "indices.csv"),
-  mail = "skipjack.db turnout_counts: GG26 family 'sent-returned' county ALL measure sent, every daily as_of; GG22 and PG24 family 'mail-voting' county ALL sent and received at the latest as_of"
+  mail = "skipjack.db turnout_counts: GG26 family 'sent-returned' county ALL measure sent, every daily as_of; GG22 and PG24 family 'mail-voting' county ALL sent and received at the latest as_of",
+  early = "skipjack.db turnout_counts: GG26 family 'early-voting' county-party total and eligible at the latest as_of; GG26 and GG22 family 'sent-returned' county sent and received (GG26 latest, GG22 the same number of days before election day); GG26 family 'same-day' county-party and county, GG22 family 'same-day' county, at the latest as_of"
 )
 
 main <- function() {
@@ -642,16 +822,21 @@ main <- function() {
   gh <- gauss_hermite_normal(N_NODES)
   inp <- read_inputs(cells)
   mail <- read_mail()
+  early <- read_early(inp$training)
   as_of <- max(mail$sent$as_of)
   projs <- lapply(PROJECTIONS, function(m) project_sent(mail$sent, REQUEST_DEADLINE, m))
   proj <- projs$rule
   ols_all <- proj |> filter(party == "ALL") |>
     left_join(mail$sent |> filter(party == "ALL") |> mutate(day = as.numeric(as.Date(as_of) - REQUEST_DEADLINE)) |>
                 group_by(county) |> summarise(direct = unname(coef(lm(value ~ day))[1]), .groups = "drop"), by = "county")
-  checks <- c(inp$checks, mail$checks,
+  after_deadline <- as.Date(as_of) >= REQUEST_DEADLINE
+  checks <- c(inp$checks, mail$checks, early$checks,
               "gauss_hermite_normal(20) integrates Z^2 under N(0, 1) to 1 within 1e-10 (checked when model.R loads)",
+              if (after_deadline) "sent-returned is dated on or after the request deadline, so every projection holds the latest count" else
               check(all(abs(ols_all$unfloored - ols_all$direct) < 1e-6),
                     "OLS projections of DEM + REP + OTH sum to the OLS projection of ALL per county"))
+  sdr <- sdr_extra(early, inp$den, cells)
+  checks <- c(checks, sdr$checks)
   floors <- bind_rows(projs) |> filter(party != "ALL", unfloored < latest) |> transmute(method, county, party)
 
   # eps: N(0, sigma_obs^2) per cell per draw, drawn once and shared by every scenario. Antithetic:
@@ -666,7 +851,7 @@ main <- function() {
   checks <- c(checks, ref$checks)
   ref_tab <- reference_table(alpha, inp, cells)
 
-  lr <- level_rule(inp, projs)
+  lr <- level_rule(inp, projs, early)
   rule <- lr$rule
   checks <- c(checks, lr$checks)
   cat("\nLevel rule:\n"); print(as.data.frame(rule), row.names = FALSE)
@@ -674,21 +859,31 @@ main <- function() {
   ident <- identity_check(alpha, inp, cells, eps)
   checks <- c(checks, ident$checks)
 
-  ballots <- forecast_draws(alpha, rule, inp, cells, eps)
+  ballots <- forecast_draws(alpha, rule, inp, cells, eps, sdr$cell)
   cp <- county_party_table(ballots, inp, cells, as_of)
   ct <- county_table(ballots, inp, cells, as_of)
   sw <- statewide_table(ballots, inp, cells, as_of)
-  ms <- mode_split(ballots, sw, inp, cells, proj, mail$mail_voting, as_of)
+  ms <- mode_split(ballots, sw, inp, cells, early, as_of)
+  evc <- early_vote_check(ballots, sw, inp, early, ms)
   oc <- output_checks(cp, ct, sw, ms, alpha, ballots, cells)
   checks <- c(checks, oc$checks)
 
   diffs <- sw |> filter(measure == "ballots_minus_central") |> select(scenario, mean, q05, q95)
   centring_means <- tapply(inp$comp$comp * inp$den$active, cells$party_group, sum) / tapply(inp$den$active, cells$party_group, sum)
   text_tab <- tibble(rule = paste(LEVEL_RULE, collapse = " "), mail_note = MAIL_NOTE, interval_note = INTERVAL_NOTE,
-                     comp_note = paste(unlist(COMP_NOTES), collapse = " "))
+                     comp_note = paste(unlist(COMP_NOTES), collapse = " "), early_note = EARLY_NOTE, sdr_note = SDR_NOTE)
+  sdr_tab <- sdr$county |>
+    transmute(county, new26_ev, new26_ed_projected = round(new26_ed_projected, 1), sdr26 = round(sdr26, 1),
+              new22_ev, new22_ed, new22, sdr22_scaled = round(sdr22_scaled, 1), extra = round(extra, 1),
+              addrchg26, addrchg22) |>
+    mutate(county = factor(county, CANONICAL_COUNTIES)) |> arrange(county) |> mutate(county = as.character(county))
+  sdr_tab <- bind_rows(sdr_tab, sdr_tab |> summarise(county = STATE_LABEL, across(-county, sum))) |>
+    mutate(ev_growth_statewide = round(sdr$growth, 6))
 
   # Write.
-  common <- list(level_rule = LEVEL_RULE, mail_note = MAIL_NOTE, composition = COMP_NOTES, eps = EPS_NOTE,
+  common <- list(level_rule = LEVEL_RULE, mail_note = MAIL_NOTE, early_note = EARLY_NOTE, sdr_note = SDR_NOTE,
+                 early_as_of = early$as_of, days_before_election = early$days_out,
+                 composition = COMP_NOTES, eps = EPS_NOTE,
                  interval_note = INTERVAL_NOTE, mail_voting_note = MAIL_VOTING_NOTE,
                  mail_voting_as_of = mail$mail_voting_as_of, seed = SEED, draws = K, sigma_obs = inp$sigma,
                  quadrature = paste(N_NODES, "Gauss-Hermite nodes (Golub-Welsch, model.R gauss_hermite_normal)"),
@@ -696,7 +891,8 @@ main <- function() {
   write_out <- function(df, name, description, extra = list()) {
     f <- file.path(OUT_DIR, name)
     write_input_csv(df, f)
-    write_provenance(f, description, sources = SOURCES, generated_by = SCRIPT, source_ids = mail$source_ids,
+    write_provenance(f, description, sources = SOURCES, generated_by = SCRIPT,
+                     source_ids = sort(unique(c(mail$source_ids, early$source_ids))),
                      checks = checks, extra = c(common, extra))
   }
   write_out(ref_tab, "reference_levels.csv",
@@ -727,10 +923,14 @@ main <- function() {
                  order_notes = oc$order_notes))
   capped <- ms$county[ms$mail_capped & ms$county != STATE_LABEL]
   write_out(ms, "mode_split.csv",
-            "Central-scenario GG26 ballots by mode per county and statewide (county = Maryland): mail = projected GG26 sent (ALL parties, the rule's projection) x return rate (mean of GG22 and PG24 received / sent, mail-voting at its latest as_of), capped at 0.9 x ballots; provisional at GG22's share of the county's ballots; early vs election day by GG22's early / (early + election day). County ballots are the central means rounded by largest remainder to sum to the statewide central total (each within 1 of forecast_county.csv). gg22_share_* are GG22's actual mode shares.",
-            list(capped_counties = as.list(capped),
-                 sent_projection = proj |> filter(party == "ALL") |>
-                   transmute(county, latest, slope_per_day = round(slope, 3), projected = round(projected, 1))))
+            "Central-scenario GG26 ballots by mode per county and statewide (county = Maryland), anchored on the ballots already cast: early = GG26 early-voting total (the board's unofficial eight-day file; early voting is over); mail = GG26 mail received so far x late_multiplier (GG22 certified vote-by-mail / GG22 received the same number of days before election day), capped at GG26 sent and at 0.9 x ballots; provisional at GG22's share of the county's ballots; election day = the rest. return_rate is projected mail / sent. County ballots are the central means rounded by largest remainder to sum to the statewide central total (each within 1 of forecast_county.csv). gg22_share_* are GG22's actual mode shares.",
+            list(capped_counties = as.list(capped), early_note = EARLY_NOTE))
+  write_out(evc, "early_vote_check.csv",
+            "Each scenario against the ballots banked before election day, statewide: banked = GG26 early voting + projected mail (mode_split.csv), election_day_and_provisional = scenario ballots - banked, not_yet_voted = projected 2026 active - banked, rate_not_yet_voted = their ratio. actual_GG18 and actual_GG22 rows give the same quantities from the certified modes and active registration in training.csv.",
+            list(note = "The banked ballots are the same in every 2026 scenario; what differs is how many election-day and provisional ballots the scenario needs, and so the rate at which registrants who have not yet voted must turn out on November 3."))
+  write_out(sdr_tab, "same_day_registration.csv",
+            "Same-day registration per county and statewide (county = Maryland): GG26 new registrants during early voting (new26_ev) and election day projected (new26_ed_projected = GG22 election-day new registrants x ev_growth_statewide), GG22's (new22_ev, new22_ed, new22), GG22's scaled to 2026 active registration (sdr22_scaled), and extra = sdr26 - sdr22_scaled, the ballots added to every scenario; address changes (addrchg26, addrchg22) are shown but add nothing.",
+            list(sdr_note = SDR_NOTE))
 
   runtime <- round(proc.time()[["elapsed"]] - t0, 1)
   cat("\nReference levels:\n"); print(as.data.frame(ref_tab), row.names = FALSE)
@@ -740,6 +940,8 @@ main <- function() {
   cat("\nCentral county rates, highest:\n"); print(as.data.frame(head(select(cen, county, ballots_mean, rate_active_mean), 5)), row.names = FALSE)
   cat("\nCentral county rates, lowest:\n"); print(as.data.frame(tail(select(cen, county, ballots_mean, rate_active_mean), 5)), row.names = FALSE)
   cat("\nMode split statewide:\n"); print(as.data.frame(filter(ms, county == STATE_LABEL)), row.names = FALSE)
+  cat("\nEarly vote check:\n"); print(as.data.frame(evc), row.names = FALSE)
+  cat("\nSame-day registration, statewide:\n"); print(as.data.frame(filter(sdr_tab, county == STATE_LABEL)), row.names = FALSE)
   cat("Capped counties:", if (length(capped)) paste(capped, collapse = ", ") else "none", "\n")
   cat("Projection floors binding:", nrow(floors), "\n")
   cat("Runtime:", runtime, "s\n")
