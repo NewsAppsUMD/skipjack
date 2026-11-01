@@ -72,6 +72,8 @@ lrt <- rd(gg26("level_rule_text.csv"))
 bt <- rd(gg26("backtest.csv"))
 btc <- rd(gg26("backtest_cells.csv"))
 ms <- rd(gg26("mode_split.csv"))
+evc <- rd(gg26("early_vote_check.csv"))
+sdr <- rd(gg26("same_day_registration.csv"))
 cf <- rd(gg26("composition_factors.csv"))
 polls <- rd(inp("polls_2026.csv"))
 training <- rd(inp("training.csv"))
@@ -117,10 +119,13 @@ stopifnot(nrow(g22_el) == 24, all(g22_el$active_ir == g22_el$active),
           sum(g22_el$ballots) == sv("actual_GG22", "ballots"))
 gg22_rate_eligible <- sum(g22_el$ballots) / sum(g22_el$eligible)
 stopifnot(length(mail_as_of) == 1)
+early_as_of <- p_lr$early_as_of
+days_out <- lr$days_before_election[1]
 ```
 
 <p class="note">The forecast uses the State Board of Elections' mail-in figures through
-`r fdate(mail_as_of)`. Every number on this page is read from the model's
+`r fdate(mail_as_of)`, its unofficial early-voting counts through `r fdate(early_as_of$early_voting)`
+and its same-day registration counts through `r fdate(early_as_of$same_day_gg26)`. Every number on this page is read from the model's
 committed outputs in `data/turnout_model/`. Ballots cast counts every ballot: election day, early
 voting, mail-in and provisional. A turnout rate is always ballots cast divided by a named
 denominator: active registration, eligible registration (active plus inactive registrants) or
@@ -176,6 +181,10 @@ on eligible divides by that election's active plus inactive registrants, from th
 inactive counts. No inactive counts exist for 2018, so its rate on eligible is not available. CVAP
 comes from a single ACS vintage matched to 2026, so it is not used for the past elections.
 
+The 2026 forecasts include `r num(sdr$extra[sdr$county == STATE])` ballots from same-day
+registration beyond 2022's level, the same in every scenario; see
+[Ballots already cast](#ballots-already-cast).
+
 The 2026 rate on eligible is projected. There is no 2026 inactive count yet, so eligible is projected
 active registration times one plus the average of the 2022 and 2024 inactive-to-active ratios. The
 board's own published 2026 percentage will use its actual eligible count and will differ.
@@ -214,7 +223,8 @@ kable(vc, col.names = c("Random effect", "Variance (logit scale)", "Standard dev
 ```{r rule-numbers}
 w <- setNames(lr$w, lr$party_group)
 # The sentence below names which votes moved each party's weight; it is built from level_rule.csv.
-vote_names <- c(vote_reg = "registration momentum", vote_mail = "mail requests", vote_primary = "primary participation")
+vote_names <- c(vote_reg = "registration momentum", vote_mail = "mail requests", vote_primary = "primary participation",
+                vote_banked = "ballots banked before election day")
 moved <- vapply(c("DEM", "REP", "OTH"), function(pp) {
   r <- lr[lr$party_group == pp, ]
   v <- unlist(r[names(vote_names)])
@@ -232,6 +242,8 @@ lean_txt <- join(paste0(party_lab[lr$party_group], " ", lean(lr$w), " (w = ", lr
 
 # The mail-sensitivity paragraph, generated from level_rule.csv for each alternative projection.
 mail_methods <- c(`_latest` = "Holding the latest count", `_recent` = "Extending only the last three snapshots")
+# Once a snapshot is dated on or after the request deadline, every projection is the latest count.
+after_deadline <- as.Date(mail_as_of) >= as.Date("2026-10-27")
 mail_txt <- vapply(names(mail_methods), function(sfx) {
   idx <- lr[[paste0("mail_index", sfx)]]
   lower <- lr$party_group[idx < lr$mail_index]; higher <- lr$party_group[idx > lr$mail_index]
@@ -259,7 +271,7 @@ The rule, verbatim from `level_rule_text.csv`:
 ```{r rule-text, results = "asis"}
 rule <- lrt$rule[1]
 # Line breaks before each clause for reading; the words are unchanged.
-for (k in c(" low:", " high:", " central:", " w_p starts", " Votes, per", " 1\\. ", " 2\\. ", " 3\\. ",
+for (k in c(" low:", " high:", " central:", " w_p starts", " Votes, per", " 1\\. ", " 2\\. ", " 3\\. ", " 4\\. ",
             " Amendment:", " Caveat:", " level_rule.csv also")) {
   rule <- gsub(k, paste0("\n", sub("^ ", "", gsub("\\\\", "", k))), rule)
 }
@@ -283,7 +295,7 @@ lrtab <- bind_rows(
   row("Position between 2022 (0) and 2018 (1)", function(r) fx(r$reg_position, 2)),
   row("Vote: registration momentum", function(r) vt(r$vote_reg)),
   row("Mail ballots sent, latest", function(r) num(r$gg26_sent_latest)),
-  row("Mail ballots sent, projected to Oct. 27", function(r) num(r$gg26_sent_projected)),
+  row(if (after_deadline) "Mail ballots sent, used (latest; sending is over)" else "Mail ballots sent, projected to Oct. 27", function(r) num(r$gg26_sent_projected)),
   row("Mail ballots sent, 2022 final", function(r) num(r$gg22_sent_final)),
   row("Active registration, 2026 (projected)", function(r) num(r$active_2026)),
   row("Active registration, 2022", function(r) num(r$active_gg22)),
@@ -295,15 +307,20 @@ lrtab <- bind_rows(
   row("Primary ballots, raw count ratio 2026/2022", function(r) fx(r$primary_count_ratio)),
   row("Primary ballots per registrant, index 2026/2022", function(r) fx(r$primary_index)),
   row("Vote: primary participation", function(r) vt(r$vote_primary)),
+  row(paste0("Early votes, 2026 (", days_out, " days out)"), function(r) num(r$gg26_early)),
+  row(paste0("Mail ballots received, 2026 (", days_out, " days out)"), function(r) num(r$gg26_mail_received)),
+  row("Early votes, 2022", function(r) num(r$gg22_early)),
+  row(paste0("Mail ballots received, 2022 (", days_out, " days out)"), function(r) num(r$gg22_mail_received)),
+  row("Banked ballots, raw count ratio 2026/2022", function(r) fx(r$banked_count_ratio)),
+  row("Banked ballots per registrant, index 2026/2022", function(r) fx(r$banked_index)),
+  row("Vote: ballots banked before election day", function(r) vt(r$vote_banked)),
   row("Sum of votes", function(r) vt(r$vote_sum)),
   row("Weight on 2018 (w)", function(r) fx(r$w, 1)))
 kable(lrtab, align = c("l", "r", "r", "r"),
       caption = "The level rule's indices, votes and weights by party (level_rule.csv). Momentum is September active registration over the previous September's. OTH has no primary index: Maryland's primaries are closed.")
 ```
 
-**The mail vote depends on how the mail requests are projected.** The rule extends a straight line
-through every daily snapshot to the October 27 request deadline. `r mail_txt[["_latest"]]`
-`r mail_txt[["_recent"]]`
+`r if (after_deadline) paste0("**The mail-request deadline has passed.** The board's ", fdate(mail_as_of), " snapshot is dated after the October 27 deadline, so sending is over and every projection uses the latest count of ballots sent. The sensitivities below equal the rule.") else paste("**The mail vote depends on how the mail requests are projected.** The rule extends a straight line through every daily snapshot to the October 27 request deadline.", mail_txt[["_latest"]], mail_txt[["_recent"]])`
 
 ```{r mail-sens}
 mail_rows <- function(label, sfx) {
@@ -338,10 +355,86 @@ Caveats on the rule:
 
 - **Mail has no 2018 analogue.** 2018 came before the permanent mail-in list, so the mail index can
   only say whether voters are more or less engaged than in 2022.
+- **Banked ballots mix engagement with habit.** Voters have been moving from election day to early
+  voting and mail. A voter who voted on election day in 2022 and early in 2026 raises the banked
+  index without adding a ballot. The lowest party index is `r sprintf("%.2f", min(lr$banked_index))`
+  against the 1.05 threshold, and the vote moves w by one step, like the others.
 - **The 2026 primary had an incumbent governor; 2022's was an open seat.** That depresses the
   primary index for reasons unrelated to November. The 2026 primary's party split is also an
   estimate from the voter file.
 - **Momentum outside the analogue range votes 0.** `r out_txt`
+
+## Ballots already cast
+
+```{r early-data}
+ev <- function(sc, col) evc[[col]][evc$scenario == sc]
+stopifnot(all(c("low", "central", "high", "actual_GG22", "actual_GG18") %in% evc$scenario),
+          ev("central", "banked") == ms$early[ms$county == STATE] + ms$mail[ms$county == STATE])
+lrs <- lr |> summarise(e26 = sum(gg26_early), e22 = sum(gg22_early), m26 = sum(gg26_mail_received),
+                       m22 = sum(gg22_mail_received), a26 = sum(active_2026), a22 = sum(active_gg22))
+sd_st <- sdr |> filter(county == STATE)
+r22 <- ev("actual_GG22", "rate_not_yet_voted"); r18 <- ev("actual_GG18", "rate_not_yet_voted")
+where <- function(x) if (x < r22) "below 2022's" else if (x > r18) "above 2018's" else "between 2022's and 2018's"
+evc_txt <- paste0("The low scenario needs ", pct(ev("low", "rate_not_yet_voted")), " of them, ", where(ev("low", "rate_not_yet_voted")),
+                  " rate; central needs ", pct(ev("central", "rate_not_yet_voted")), ", ", where(ev("central", "rate_not_yet_voted")),
+                  "; high needs ", pct(ev("high", "rate_not_yet_voted")), ", ", where(ev("high", "rate_not_yet_voted")), ".")
+bv <- setNames(lr$vote_banked, lr$party_group)
+banked_vote_txt <- if (all(bv == 1)) "Every party is above 2022 by more than 5%, so every party gets a 2018-like vote" else
+  paste0("The vote is ", join(paste0(party_short[names(bv)], " ", vt(bv))))
+low_txt <- if (ev("low", "rate_not_yet_voted") < r22) paste0("Read against that, the low scenario asks for less on election day than 2022 delivered (",
+  pct(ev("low", "rate_not_yet_voted")), " against ", pct(r22), "), from a pool that has already given up its likeliest voters to early voting and mail.") else
+  paste0("The low scenario asks for ", pct(ev("low", "rate_not_yet_voted")), " on election day, against 2022's ", pct(r22), ".")
+```
+
+Early voting ended on `r fdate(early_as_of$early_voting, FALSE)`. Voters cast `r num(lrs$e26)` ballots in the eight days, by the
+board's unofficial count, against `r num(lrs$e22)` in 2022's certified count, a rise of
+`r pct(lrs$e26 / lrs$e22 - 1, 0)` on registration that grew `r pct(lrs$a26 / lrs$a22 - 1, 0)`. By
+`r fdate(mail_as_of)`, `r days_out` days before the election, `r num(lrs$m26)` mail ballots had come
+back, against `r num(lrs$m22)` at the same point in 2022. The model uses these numbers in three
+places:
+
+- **A fourth vote in the level rule.** Early votes plus mail ballots back, per registrant, against
+  2022 at the same number of days out:
+  `r tolower(substr(banked_vote_txt, 1, 1))``r substr(banked_vote_txt, 2, nchar(banked_vote_txt))` (see the level rule above).
+- **The mode split.** Early voting is no longer a forecast: it is the count. Mail is the ballots
+  received so far times 2022's late-arrival multiplier, the certified vote-by-mail count over the
+  ballots back `r days_out` days before that election, `r sprintf("%.2f", ms$late_multiplier[ms$county == STATE])`
+  statewide. Election day is what is left.
+- **A check on each scenario.** `r num(ev("central", "banked"))` ballots are already banked or on
+  their way: `r num(ev("central", "early"))` early and `r num(ev("central", "mail"))` mail, projected. That leaves
+  `r num(ev("central", "not_yet_voted"))` active registrants who have not voted. Each scenario
+  implies how many of them must vote on election day or provisionally. In 2022,
+  `r pct(r22)` of the registrants who had not voted early or by mail turned out on election day;
+  in 2018, `r pct(r18)`. `r evc_txt`
+
+```{r early-table}
+lab <- c(low = "2026 low", central = "2026 central", high = "2026 high", actual_GG22 = "2022 actual", actual_GG18 = "2018 actual")
+kable(evc |> mutate(Scenario = lab[scenario]) |>
+        transmute(Scenario, `Ballots cast` = num(ballots), Early = num(early), `Mail-in` = num(mail),
+                  `Banked share` = pct(banked_share), `Election day and provisional` = num(election_day_and_provisional),
+                  `Registrants not yet voted` = num(not_yet_voted), `Rate among them` = pct(rate_not_yet_voted)),
+      align = c("l", rep("r", 7)),
+      caption = "Ballots banked before election day and what each scenario needs on November 3 (early_vote_check.csv). 2026 early voting is the board's unofficial count; 2026 mail is projected from ballots received so far. Registrants are active registration.")
+```
+
+People who have already voted are the likeliest voters. With a larger share of registrants banked
+than in 2022, the ones left are, all else equal, less likely to vote than 2022's were. That makes
+this check one-sided: a scenario that needs a higher rate than 2022's from them is asking for more
+enthusiasm than in 2022, not just a change of habit. `r low_txt`
+
+**Same-day registration.** During early voting, `r num(sd_st$new26_ev)` people registered and voted
+at once, against `r num(sd_st$new22_ev)` in 2022, and `r num(sd_st$addrchg26)` registered voters
+updated their address and voted (`r num(sd_st$addrchg22)` in 2022). New registrants are not in the
+September-based 2026 registration, so they add ballots the cells cannot see. 2022's same-day
+registrants are already in the reference levels, because certified ballots include them, so the
+model adds only 2026's excess: election-day same-day registration is projected at 2022's
+county counts (`r num(sd_st$new22_ed)` statewide) times the growth in early-voting same-day
+registration (`r sprintf("%.2f", sd_st$ev_growth_statewide)`x), for `r num(sd_st$sdr26)` new
+registrants in all, against `r num(sd_st$sdr22_scaled)` for 2022 scaled to 2026 registration. The
+difference, `r num(sd_st$extra)` ballots, is added to every scenario. Address changes add nothing:
+those voters are already on the rolls.
+
+<p class="note">`r lrt$early_note[1]` `r lrt$sdr_note[1]`</p>
 
 ## Counties
 
@@ -580,19 +673,20 @@ kable(tibble(Mode = unname(modes),
       align = c("l", "r", "r", "r"), caption = "Statewide ballots cast by mode, central scenario (mode_split.csv).")
 ```
 
-Mail ballots are the projected number sent, `r num(msw$projected_sent)` statewide, times a return
-rate of `r pct(msw$return_rate)`. The return rate is each county's average of the 2022 and 2024
-general elections (ballots received over ballots sent). The projection extends a straight line
-through the daily counts of ballots sent to the October 27 request deadline. It assumes no ballots
-are sent after that date. Provisional ballots keep their 2022 share of each county's vote, and the
-rest splits between early voting and election day in 2022's proportions. `r cap_txt`
+Early voting is the board's unofficial count, `r num(msw$early)` statewide; early voting is over.
+Mail ballots are the `r num(msw$mail_received)` received by `r fdate(mail_as_of)` times 2022's
+late-arrival multiplier in each county (certified vote-by-mail over the ballots back the same number
+of days before that election), capped at the ballots sent. That is `r num(msw$mail)` mail ballots,
+`r pct(msw$return_rate)` of the `r num(msw$mail_sent)` sent. Provisional ballots keep their 2022
+share of each county's vote, and election day is the rest. `r cap_txt`
 
 ```{r mode-cty}
 kable(mcty |> transmute(County = county, `Ballots cast` = num(ballots_mean), `Mail-in` = num(mail),
                         `Early voting` = num(early), `Election day` = num(election_day),
                         Provisional = num(provisional), `Mail share` = pct(share_mail),
-                        `Mail share, 2022` = pct(gg22_share_mail), `Return rate` = pct(return_rate)),
-      align = c("l", rep("r", 8)),
+                        `Mail share, 2022` = pct(gg22_share_mail), `Early share` = pct(share_early),
+                        `Early share, 2022` = pct(gg22_share_early), `Return rate` = pct(return_rate)),
+      align = c("l", rep("r", 10)),
       caption = "Central scenario by county and mode. County ballots are rounded to sum to the statewide total.")
 ```
 
@@ -608,9 +702,11 @@ moore_margin <- round(100 * (gov$governor_dem - gov$governor_rep))
 - **Late changes in the races.** The governor's race polls at Moore +`r moore_margin` (UMBC). A
   tightening race, or a hot down-ballot contest, could lift turnout above the rule's blend.
 - **Changes to mail voting.** A court ruling, or a change to a deadline for mail ballots, would
-  break the mail projection.
-- **A registration surge after September.** The denominators come from September 2026 active
-  registration.
+  break the mail projection, which assumes late ballots arrive as they did in 2022.
+- **Election-day same-day registration.** It is projected from 2022's county counts and the growth
+  in early-voting same-day registration. Other registration after September is not modelled: the
+  denominators come from September 2026 active registration.
+- **The early-vote count is unofficial.** The certified early-voting count will differ slightly.
 - **Survivor bias in composition.** The 2022 age mix is built from today's voter file, which lacks
   people who died or moved since 2022.
 - **The 2026 primary's party split is estimated.** The board has not yet published 2026 primary
@@ -630,7 +726,7 @@ make turnout-model
 
 The scripts use the renv project in `scripts/turnout_model/` (`renv.lock`); see
 `scripts/turnout_model/README.md`. The forecast reads the board's mail-in files through
-`r fdate(mail_as_of)`. Every input and output has a provenance file:
+`r fdate(mail_as_of)` and its early-voting and same-day files through `r fdate(early_as_of$early_voting)`. Every input and output has a provenance file:
 
 ```{r provenance}
 pf <- c(list.files(p("data/turnout_model/inputs"), "_provenance\\.json$", full.names = TRUE),
@@ -661,8 +757,8 @@ cty_line <- function(d) paste0(d$county, " ", pct(d$rate_active_mean), collapse 
 md <- c(
   "# Maryland 2026 general election turnout forecast",
   "",
-  paste0("Mail-in data through ", fdate(mail_as_of),
-         ". Generated by `scripts/turnout_model/report.Rmd`; the full report is `docs/turnout-model-2026.html`."),
+  paste0("Mail-in data through ", fdate(mail_as_of), "; early voting and same-day registration through ",
+         fdate(early_as_of$early_voting), ". Generated by `scripts/turnout_model/report.Rmd`; the full report is `docs/turnout-model-2026.html`."),
   "",
   "## Statewide ballots cast",
   "",
@@ -676,6 +772,16 @@ md <- c(
          pct(sv("actual_GG22", "rate_active")), " of active registration, ", pct(gg22_rate_eligible),
          " of eligible registration) and ", num(sv("actual_GG18", "ballots")),
          " in 2018 (", pct(sv("actual_GG18", "rate_active")), ")."),
+  "",
+  "## Ballots already cast",
+  "",
+  paste0(num(ev("central", "early")), " early votes (unofficial, voting over) and ", num(lrs$m26),
+         " mail ballots received by ", fdate(mail_as_of), ", projected to ", num(ev("central", "mail")),
+         " mail ballots in all: ", num(ev("central", "banked")), " ballots banked before election day, ",
+         pct(ev("central", "banked") / ev("actual_GG22", "banked") - 1, 0), " more than 2022's ",
+         num(ev("actual_GG22", "banked")), ". The central forecast needs ", pct(ev("central", "rate_not_yet_voted")),
+         " of the registrants who have not yet voted to vote on November 3 (2022: ", pct(r22), "; 2018: ", pct(r18), "). ",
+         "Same-day registration beyond 2022's level adds ", num(sd_st$extra), " ballots to every scenario."),
   "",
   "## Party mix of the electorate",
   "",
@@ -693,10 +799,11 @@ md <- c(
   "## Caveats",
   "",
   "- The spread between scenarios is the real uncertainty; within-scenario intervals are narrow by construction.",
-  "- The central weights come from a written rule; the mail index has no 2018 analogue and depends on how requests are projected.",
+  "- The central weights come from a written rule; the mail and banked-ballot indices have no 2018 analogue, and the banked index counts voters who moved from election day to early voting as engagement.",
+  "- The early-voting count is the board's unofficial tally; late mail is projected at 2022's rate of arrival.",
   "- The 2026 primary had an incumbent governor, and its party split is estimated from the voter file.",
   "- Composition is centred within party because the voter file lacks the 2022 voters who died or moved.",
-  "- Not modelled: election-day weather, late changes in the races, changes to mail-voting rules, registration after September.",
+  "- Not modelled: election-day weather, late changes in the races, changes to mail-voting rules, registration after September other than same-day registration.",
   "- The 2014 general is left out.",
   "- The board's 2018-2024 sheets divide by active registration; its 2026 guide divides by all eligible voters. Both are shown."
 )

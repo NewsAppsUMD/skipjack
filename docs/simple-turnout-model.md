@@ -2,7 +2,9 @@
 
 *Written 2026-10-18. A companion to the full model in `scripts/turnout_model/` and its report,
 `docs/turnout-model-2026.html`. Every number below comes from running the code in this document
-against the committed inputs.*
+against the committed inputs. Updated 2026-11-01 with a version that counts the early votes, mail
+ballots and same-day registrations already in, through the board's October 29 early-voting and
+October 30 mail-in files.*
 
 ## The idea in one paragraph
 
@@ -11,6 +13,10 @@ midterm, multiply it by the county's 2026 active registration, and add up the co
 has two recent midterms with certified county turnout, 2018 and 2022, and they bracket the
 plausible range: 2022 was a low-turnout year and 2018 a high one. A logistic regression with one
 dummy per county and one per election does exactly this, and gives it a formal structure.
+
+Five days out, more than half of the likely vote may already be in: early voting is over and most
+mail ballots are back. A second version below takes those ballots as known and models only the
+election-day vote.
 
 ## The model
 
@@ -132,6 +138,119 @@ points on average. That is worse than the county-dummy version, which fits the p
 covariate version is the better tool for explaining the pattern, and for predicting a place with
 no turnout history of its own.
 
+## A version that counts the ballots already cast
+
+The county-and-election model ignores how people vote. By November 1 that throws away the best
+evidence there is. Early voting ended on October 29, and the board's unofficial count is 604,396
+ballots, against 380,874 in 2022 and 663,188 in 2018. By October 30, four days before the
+election, 376,967 mail ballots had come back, against 360,354 four days before the 2022 election.
+
+The mode version splits each county's 2026 vote in two:
+
+```
+ballots = banked + (active - banked) * election-day rate
+```
+
+- **Banked** is the ballots cast before election day: the early-voting count plus mail ballots.
+  Mail is the ballots back so far times 2022's late-arrival multiplier for the county (2022's
+  certified mail vote over the ballots back four days before that election, 1.50 statewide),
+  capped at the ballots sent. Statewide that is 560,540 mail ballots and 1,164,936 banked.
+- **The election-day rate** is the share of registrants who had not banked a ballot who voted on
+  election day or provisionally. It was 34.6% statewide in 2022 and 48.9% in 2018. Each county
+  keeps its own rate, and `w` blends the two years on the log-odds scale, as before.
+
+| Scenario | Weight on 2018 | Election-day and provisional | Ballots cast | Rate on active registration |
+|---|---|---|---|---|
+| 2022-like election day | 0 | 1,086,099 | 2,251,035 | 52.3% |
+| Halfway | 0.5 | 1,302,923 | 2,467,859 | 57.4% |
+| 2018-like election day | 1 | 1,534,640 | 2,699,576 | 62.8% |
+
+```r
+library(dplyr)
+library(tidyr)
+
+# Past midterms by county: ballots banked before election day (early + mail), and the
+# election-day rate among the registrants who had not banked one.
+past <- training |>
+  filter(election %in% c("GG18", "GG22")) |>
+  group_by(election, county) |>
+  summarise(active = sum(active), banked = sum(early_voting + vote_by_mail),
+            on_day = sum(election_day + provisional), .groups = "drop") |>
+  mutate(pool = active - banked, rate = on_day / pool)
+
+# 2026 so far: the early-voting count (voting is over) and mail ballots sent and received.
+ev <- read.csv("data/turnout/GG26/early-voting/county/2026-10-29.csv") |>
+  filter(measure == "total") |>
+  select(county, early = value)
+mail <- read.csv("data/turnout/GG26/sent-returned/county/2026-10-30.csv") |>
+  filter(category == "ALL", party == "ALL") |>
+  pivot_wider(id_cols = county, names_from = measure, values_from = value)
+
+# 2022's late-arrival multiplier: final mail vote over ballots back 4 days before election day.
+mail22 <- read.csv("data/turnout/GG22/sent-returned/county/2022-11-04.csv") |>
+  filter(category == "ALL", party == "ALL", measure == "received") |>
+  select(county, received22 = value) |>
+  inner_join(training |> filter(election == "GG22") |> group_by(county) |>
+               summarise(vbm22 = sum(vote_by_mail)), by = "county") |>
+  mutate(late = vbm22 / received22)
+
+now <- active26 |>
+  inner_join(ev, by = "county") |>
+  inner_join(mail, by = "county") |>
+  inner_join(mail22, by = "county") |>
+  mutate(mail = pmin(received * late, sent), banked = early + mail, pool = active - banked)
+
+# w is the weight on 2018's election-day rate.
+forecast_modes <- function(w) {
+  rates <- past |> select(election, county, rate) |> pivot_wider(names_from = election, values_from = rate)
+  now |>
+    inner_join(rates, by = "county") |>
+    mutate(rate = plogis(w * qlogis(GG18) + (1 - w) * qlogis(GG22)),
+           ballots = banked + pool * rate)
+}
+
+sum(forecast_modes(0.5)$ballots)   # 2,467,859
+```
+
+Every scenario here is higher than the matching scenario in the first version. Even a
+2022-like election day gives 2,251,035 ballots, close to the first version's halfway case. The
+two versions bracket one question the data cannot answer by itself: are the extra early voters
+new voters, or 2022's election-day voters who came earlier?
+
+- **The first version** reads the jump in early voting as a change of habit. It ignores modes, so
+  every early vote in 2026 is one fewer election-day vote.
+- **The mode version** reads it as new voters. It assumes the registrants who have not voted turn
+  out at a past year's election-day rate. They will not: the people who voted early are the
+  likeliest voters, so the ones left are less likely to vote than 2022's were. That pushes the
+  mode version too high.
+
+The truth is somewhere between. The 2024 presidential general shows the habit is shifting: 57.5%
+of its ballots were early or by mail, against 45.4% in 2022 and 33.6% in 2018. A useful way to
+read the two versions together is to ask what election-day rate a total requires. The first
+version's halfway case, 2,332,841 ballots, needs 37.2% of the registrants who have not voted to
+vote on November 3, a little above 2022's 34.6%.
+
+**Same-day registration.** Maryland lets people register and vote at once, during early voting
+and on election day. Those voters are not in the September registration that every version of
+this model multiplies, so they are ballots the cells cannot see. 2022's same-day registrants are
+already inside its rates, because certified ballots cast include them, so only 2026's excess
+matters. During early voting, 3,802 people registered and voted, against 2,442 in 2022, a rise of
+56%. If election-day same-day registration grows as much from 2022's 11,456, 2026 has about
+21,600 same-day registrants, against about 14,500 for 2022's count scaled to 2026 registration.
+The difference, about 7,100 ballots, is 0.3% of the vote. The 3,562 voters who changed their
+address at the polls (1,730 in 2022) were already registered and add nothing.
+
+```r
+sd26 <- read.csv("data/turnout/GG26/same-day/county/2026-10-29.csv")
+sd22 <- read.csv("data/turnout/GG22/same-day/county/2022-11-08.csv")
+n <- function(d, m) sum(d$value[d$measure == m])
+
+growth <- n(sd26, "new-total") / (n(sd22, "new-total") - n(sd22, "new-election-day"))
+sdr26 <- n(sd26, "new-total") + n(sd22, "new-election-day") * growth
+active22 <- sum(as.numeric(past$active[past$election == "GG22"]))
+sdr26 - n(sd22, "new-total") * sum(as.numeric(now$active)) / active22   # 7,142
+```
+
 ## How well it predicts
 
 The full model's backtest used a party-level version of this approach as its naive baseline. Each
@@ -149,13 +268,15 @@ past.
 
 ## How it compares with the full model
 
-The halfway scenario is 2,332,841 ballots, about 2% above the full model's central forecast of
-2,282,279. Most of the gap is the level: the full model's level rule puts 2026 at 0.4 of the way
-from 2022 to 2018 for Democrats and Republicans, not 0.5. County by county, the simple model runs
-between 0.9% below and 3.1% above the full model's central forecast. The largest gaps are Howard,
-Somerset, Montgomery and Dorchester.
+The halfway scenario is 2,332,841 ballots, within 0.1% of the full model's central forecast of
+2,330,865. That agreement is partly luck. The full model's level rule now puts Democrats and
+Republicans halfway between 2022 and 2018 and everyone else at 0.7 of the way to 2018, after the
+early-vote and mail returns gave every party a 2018-like vote. It also adds 7,142 same-day
+registrants. (Before the early-vote data, on October 16, its central forecast was 2,282,279.)
+County by county, the simple model runs between 2.7% below and 1.3% above the full model's
+central forecast. The largest gaps are Cecil, Somerset, Howard and Garrett.
 
-The full model adds four things to this one:
+The full model adds five things to this one:
 
 - **A party split.** It forecasts Democrats, Republicans and everyone else separately in each
   county, which also gives the electorate's partisan mix.
@@ -164,17 +285,27 @@ The full model adds four things to this one:
 - **Cell-level noise.** The term the quasibinomial dispersion is pointing at, which also produces
   intervals.
 - **Composition and a written level rule.** An adjustment for how the electorate has changed
-  since 2022, and a rule that sets `w` from registration, mail-in and primary data instead of by
-  hand.
+  since 2022, and a rule that sets `w` from registration, mail-in, primary and early-vote data
+  instead of by hand.
+- **The ballots already cast, used carefully.** The early votes and mail returns per registrant,
+  against 2022 at the same number of days out, cast one vote in the level rule rather than setting
+  the total outright, which keeps a change of habit from being read as a surge. They also fix the
+  mode split, and the full report shows the election-day rate each scenario needs. Same-day
+  registration beyond 2022's level is added to every scenario.
 
 ## What it cannot do
 
 - **Choose the level.** The weight on 2018 versus 2022 is the main forecasting decision, and this
-  model leaves it entirely to you.
+  model leaves it entirely to you. The early vote narrows it but does not settle it, because it
+  cannot tell new voters from voters who changed how they vote.
 - **Give intervals for 2026.** Its standard errors describe the fit to the past, not the
   uncertainty about the coming election.
 - **See change.** It assumes each county's turnout relative to the state holds steady, so it
-  ignores shifts in age, party or new registrants.
+  ignores shifts in age, party or new registrants. The mode version sees the early vote, but
+  assumes the voters left behave like a past year's.
+- **Use official counts for 2026.** The early-voting and same-day figures are the board's
+  unofficial campaign tallies, and the mail figures count envelopes back before the canvass
+  accepts or rejects them.
 - **Use the eligible denominator.** It works on active registration, as the board's 2018 and 2022
   sheets did. The board's 2026 guide divides by all eligible voters (active plus inactive), which
   gives a lower percentage.

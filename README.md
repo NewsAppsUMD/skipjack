@@ -228,7 +228,11 @@ show how far the estimates sit from the Census.
 `scripts/turnout_model/` is an R model of turnout in the November 3, 2026 general election: ballots
 cast and turnout rates by county and party group (Democrats, Republicans, everyone else), summed to
 the state. It brackets 2026 between the 2022 and 2018 midterms and picks a central blend with a
-written rule fed by registration, mail-in requests and the primary. Polls are only a cross-check.
+written rule fed by registration, mail-in requests, the primary and the ballots banked before
+election day (early votes and mail returns against 2022 at the same point). Its mode split starts
+from the early votes and mail ballots already cast, and it adds same-day registrants beyond 2022's
+level. Polls are only a cross-check. `docs/simple-turnout-model.md` walks through a much simpler
+version, with and without the ballots already cast.
 
 ```bash
 make build-db

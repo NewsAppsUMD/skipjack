@@ -2,7 +2,7 @@
   "file": "data/turnout_model/inputs/training.csv",
   "description": "Ballots cast and active registration by election x county x party group (DEM, REP, OTH = all other parties and unaffiliated).",
   "generated_by": "scripts/turnout_model/01_build_inputs.R",
-  "run_date": "2026-10-17T16:33:14-0400",
+  "run_date": "2026-11-01T14:59:08+0000",
   "sources": {
     "certified": "turnout_counts: family 'official-turnout', geography 'county', category 'ALL', latest as_of per election (GG18 2018-11-06, GG22 2022-12-08, GP22 2022-08-18, PP24 2024-06-07, PG24 2024-12-11); ballots_cast = election-day + early-voting + vote-by-mail + provisional; active = the 'eligible' measure",
     "gp26_totals": "turnout_counts: family 'county-canvass', election GP26, geography 'county', party ALL, measure total, as_of 2026-07-23",

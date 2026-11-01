@@ -2,7 +2,7 @@
   "file": "data/turnout_model/inputs/denominators_gg26.csv",
   "description": "Projected GG26 active registration (the election-day 'eligible' measure) and active + inactive by county x party group, with county CVAP.",
   "generated_by": "scripts/turnout_model/01_build_inputs.R",
-  "run_date": "2026-10-17T16:33:16-0400",
+  "run_date": "2026-11-01T14:59:09+0000",
   "sources": {
     "active_2026_09": "voter_registration: report_date 2026-09, active_voters grouped to DEM/REP/OTH",
     "eligible_ratio_2018": "turnout_counts official-turnout GG18 eligible (as_of 2018-11-06) / voter_registration 2018-09 active, per county x party group",

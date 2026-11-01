@@ -13,8 +13,8 @@ Run every script with Rscript from the repo root, after `make build-db` has buil
     Rscript scripts/turnout_model/03_compose.R
     Rscript scripts/turnout_model/04_forecast.R
 
-After a new GG26 mail-in snapshot reaches `skipjack.db`, rerun 01 (which rebuilds `indices.csv`)
-and then 04. 04 reads the daily snapshots straight from the database, but its level rule reads
+After a new GG26 mail-in, early-voting or same-day snapshot reaches `skipjack.db`, rerun 01 (which
+rebuilds `indices.csv`) and then 04. 04 reads the daily snapshots straight from the database, but its level rule reads
 the mail figures in `indices.csv` and checks that the two agree. 02 and 03 depend only on
 certified results and the voter file, so they need no rerun.
 
@@ -93,14 +93,34 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
       sensitivities `central_mail_latest` and `central_mail_recent`, each with
       `ballots_minus_central`.
     - `headline_range` is the range to quote: low's q05 to high's q95, around the central mean.
-  - `mode_split.csv`: the central scenario by mode, per county and for Maryland. County ballots
-    are rounded by largest remainder so they sum to the statewide central total. Columns
-    `gg22_share_*` give GG22's actual mode shares for comparison.
+  - `mode_split.csv`: the central scenario by mode, per county and for Maryland, anchored on the
+    ballots already cast. Early voting is the GG26 early-voting total from the board's unofficial
+    eight-day county-party file. Mail is the GG26 ballots received so far times GG22's
+    late-arrival multiplier (GG22 certified vote-by-mail over GG22 received the same number of
+    days before election day), capped at ballots sent and at 0.9 x ballots. Provisional keeps
+    GG22's share; election day is the rest. County ballots are rounded by largest remainder so
+    they sum to the statewide central total. Columns `gg22_share_*` give GG22's actual mode
+    shares for comparison.
+  - `early_vote_check.csv`: each scenario against the ballots banked before election day
+    (early + projected mail): the election-day and provisional ballots it implies and, as
+    `rate_not_yet_voted`, the share of not-yet-voted active registrants that must turn out on
+    election day, beside the same rate in GG22 and GG18.
+  - `same_day_registration.csv`: same-day new registrants per county, GG26 (early voting, plus
+    election day projected) against GG22's scaled to 2026 registration, and `extra`, the
+    difference, which every scenario adds as ballots.
 
-  Each cell is `ballots = active_2026 * invlogit(alpha_scenario + s + comp_centred + eps)`.
+  Each cell is `ballots = active_2026 * invlogit(alpha_scenario + s + comp_centred + eps) + sdr_extra`.
   comp is centred within each party (weighted by 2026 active) because its statewide level is not
   identified. The scenario `central_comp_level` uses the uncentred comp as a sensitivity.
   eps is antithetic: draws 501-1000 reuse the negated eps of draws 1-500.
+
+  `sdr_extra` is same-day registration beyond GG22's: the certified ballots of GG18 and GG22
+  already include their same-day registrants, so the reference levels carry them, and only
+  2026's excess is added. Per county it is GG26's early-voting new registrants plus GG22's
+  election-day new registrants times the statewide growth of early-voting same-day registration,
+  minus GG22's new registrants scaled by 2026/2022 active registration; it is split by party in
+  the proportions of GG26's early-voting same-day registrants and is the same in every scenario
+  and draw. Address changes at the polls add nothing.
 
   The level rule, on the logit scale per party p:
   - low = alpha*_GG22
@@ -119,12 +139,20 @@ After adding a dependency to `DESCRIPTION`, run `renv::snapshot()` here and comm
      - The vote depends on the projection choice. The sent series is step-like, so the slope
        over all snapshots is much steeper than the last few days'. Holding the latest count, or
        extending only the last three snapshots, gives lower indices; see the sensitivity columns
-       and scenarios.
+       and scenarios. Once a snapshot is dated on or after the deadline, sending is over and
+       every method holds the latest count.
      - No GG22 trajectory of daily sent counts exists to anchor the choice.
   3. Primary participation per registrant. GP26 ballots per active registrant over GP22's.
      OTH's vote is always 0, because the primaries are closed.
+  4. Ballots banked before election day per registrant. GG26 early votes (unofficial eight-day
+     file, latest) plus mail ballots received by the latest sent-returned snapshot, per 2026
+     active registrant, over GG22's certified early votes plus mail ballots received the same
+     number of days before its election day (the backfilled daily files), per GG22 active
+     registrant. Part of a high index is voters moving from election day to early voting and
+     mail rather than more voters, so it moves w one step like the others instead of setting
+     the level.
 
-  Indices 2 and 3 vote +1 at 1.05 or above and -1 at 0.95 or below. `level_rule.csv` also
+  Indices 2, 3 and 4 vote +1 at 1.05 or above and -1 at 0.95 or below. `level_rule.csv` also
   shows the raw-count ratios beside the per-registrant indices.
 
   An identity check refits GG18 and GG22 from their own levels and must reproduce each party's
