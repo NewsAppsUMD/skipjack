@@ -95,7 +95,8 @@ def test_downloads_are_only_aggregates():
     files = download_files(DATA_DIR)
     assert all(f.suffix in DOWNLOAD_SUFFIXES for f in files)
     assert all(
-        f.parts[0] in {"voter_registration", "voter_file", "turnout", "results"} for f in files
+        f.parts[0] in {"voter_registration", "voter_file", "turnout", "results", "turnout_model"}
+        for f in files
     )
 
 
@@ -259,6 +260,19 @@ def test_the_turnout_pages_and_downloads_are_published(root_site, project_site):
     assert f"{headline['requests']['requests_total']:,}" in html  # requests statewide
     assert 'src="/skipjack/static/turnout.js"' in html
     assert f'href="/skipjack/downloads/{csv_stem}.csv"' in html
+
+
+@needs_db
+def test_the_turnout_forecast_and_its_files_are_published(root_site, project_site):
+    for out, _ in (root_site, project_site):
+        assert (out / "turnout" / "forecast" / "index.html").is_file()
+        assert (out / "turnout" / "forecast" / "report" / "index.html").is_file()
+        assert (out / "downloads" / "turnout_model" / "gg26" / "forecast_county.csv").is_file()
+        # the draw files are .csv.gz and stay unpublished
+        assert not list((out / "downloads" / "turnout_model").rglob("*.gz"))
+    html = (project_site[0] / "turnout" / "forecast" / "index.html").read_text()
+    assert 'href="/skipjack/downloads/turnout_model/gg26/forecast_county.csv"' in html
+    assert 'href="/skipjack/turnout/forecast/"' in html  # the nav dropdown
 
 
 @needs_db

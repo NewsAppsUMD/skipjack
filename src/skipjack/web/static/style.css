@@ -184,6 +184,14 @@ header nav ul {
     flex-wrap: wrap;
 }
 
+/* A nav dropdown's label reads as one of the links beside it, not as a form field. */
+header nav details.dropdown summary:not([role]) {
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: var(--pico-primary);
+}
+
 /* Sortable table headings (see sortable.js). */
 th.sortable {
     cursor: pointer;

@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+
+{% block title %}2026 turnout forecast{% endblock %}
+
+{% macro ballots(v) -%}{{ "{:,.0f}".format(v) }}{%- endmacro %}
+{% macro vote(v) -%}{% if v > 0 %}toward 2018{% elif v < 0 %}toward 2022{% else %}<span class="muted">neither</span>{% endif %}{%- endmacro %}
+
+{% block content %}
+<div class="viz-root">
+<h1>How many Marylanders will vote in 2026?</h1>
+<p class="secondary">A forecast of ballots cast in the November 3, 2026 general election, by county and party,
+    built from the statewide voter list, the 2018 and 2022 midterms and the State Board's 2026 mail-in and early-voting
+    reports. Mail-in data through {{ f.mail_as_of|day_label }}; early voting through {{ f.early_as_of|day_label }}.
+    Model last run {{ f.run_date|day_label }}.</p>
+
+<div class="callout">
+    <strong>This is a forecast, not a count.</strong>
+    The figures below are what the model expects from what was known before election day. The
+    <a href="{{ base }}/turnout/gg26/">2026 general election page</a> tracks the State Board's actual reports.
+</div>
+
+{% set c = f.central %}
+<div class="section-head"><h2>The short version</h2></div>
+<ul class="highlights">
+    <li>The central forecast is <strong>{{ ballots(c.ballots) }} ballots</strong>, {{ m.p(c.rate_active, 1) }} of active
+        registration ({{ m.p(c.rate_eligible, 1) }} of all eligible voters, active plus inactive).</li>
+    <li>The range to quote is {{ ballots(f.range.low) }} to {{ ballots(f.range.high) }} ballots,
+        {{ m.p(f.range.rate_low, 1) }} to {{ m.p(f.range.rate_high, 1) }} of active registration. For comparison,
+        {{ ballots(f.actual[2022].ballots) }} ballots were cast in 2022 ({{ m.p(f.actual[2022].rate_active, 1) }}) and
+        {{ ballots(f.actual[2018].ballots) }} in 2018 ({{ m.p(f.actual[2018].rate_active, 1) }}).</li>
+    <li>Early votes plus the mail ballots expected in all come to {{ ballots(f.early.banked) }},
+        {{ "%.0f"|format(100 * (f.early.banked / f.early.banked_2022 - 1)) }}% more than the same count in 2022
+        ({{ ballots(f.early.banked_2022) }}). The central forecast needs {{ m.p(f.early.need.central, 1) }} of the
+        active registrants who have not yet voted to turn out on election day; in 2022 that rate was
+        {{ m.p(f.early.need_2022, 1) }}, in 2018 {{ m.p(f.early.need_2018, 1) }}.</li>
+</ul>
+
+<div class="tiles">
+    {% for s in f.scenarios %}
+    <div class="tile">
+        <div class="v">{{ ballots(s.ballots) }}</div>
+        <div class="l">{{ s.label }} &middot; {{ m.p(s.rate_active, 1) }} of active</div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="section-head"><h2>Three scenarios</h2></div>
+<p>The model does not pick one turnout level. It calibrates each party's turnout to the two most recent midterms,
+    2022 (low) and 2018 (high), and sets a central scenario between them using a rule written before the 2026
+    numbers came in. The spread between low and high is the real uncertainty: the 90% intervals within each
+    scenario are narrow because they carry only county-level noise.</p>
+<div class="overflow-auto">
+<table>
+    <thead>
+        <tr>
+            <th>Scenario</th>
+            <th class="num">Ballots cast</th>
+            <th class="num">90% interval</th>
+            <th class="num">Rate on active</th>
+            <th class="num">Rate on eligible</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in f.scenarios %}
+        <tr>
+            <td>{{ s.label }}</td>
+            <td class="num">{{ ballots(s.ballots) }}</td>
+            <td class="num">{{ ballots(s.q05) }} to {{ ballots(s.q95) }}</td>
+            <td class="num">{{ m.p(s.rate_active, 1) }}</td>
+            <td class="num">{{ m.p(s.rate_eligible, 1) }}</td>
+        </tr>
+        {% endfor %}
+        {% for year in (2022, 2018) %}
+        <tr class="muted">
+            <td>Actual, {{ year }}</td>
+            <td class="num">{{ ballots(f.actual[year].ballots) }}</td>
+            <td class="num"></td>
+            <td class="num">{{ m.p(f.actual[year].rate_active, 1) }}</td>
+            <td class="num"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p><small>The State Board's 2018&ndash;2024 turnout sheets divide by active registration; its 2026 guide divides by
+    all eligible voters, active plus inactive. The 2026 eligible count is projected, so the Board's own percentage
+    will differ slightly.</small></p>
+
+<h3 style="font-size:1.05rem">How the central scenario is set</h3>
+<p>Each party starts halfway between its 2022 and 2018 turnout. Four measures of 2026 engagement, each compared
+    with 2022, can move it 10 points of the way toward one year or the other, between 20% and 80% of the way to 2018.</p>
+<div class="overflow-auto">
+<table>
+    <thead>
+        <tr>
+            <th>Party</th>
+            {% for v in f.votes %}<th>{{ v }}</th>{% endfor %}
+            <th class="num">Weight on 2018</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in f.rule %}
+        <tr>
+            <td>{{ r.label }}</td>
+            {% for v in r.votes %}<td>{{ vote(v) }}</td>{% endfor %}
+            <td class="num">{{ m.p(100 * r.w, 0) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="section-head"><h2>Ballots already cast</h2></div>
+<p>{{ ballots(f.early.early) }} people voted early (the State Board's unofficial count; early voting is over) and
+    {{ ballots(f.early.mail_received) }} mail ballots had come back by {{ f.mail_as_of|day_label }}. At 2022's rate of
+    late arrival, the model expects {{ ballots(f.early.mail_projected) }} mail ballots in all. Same-day registration
+    above 2022's level adds {{ ballots(f.early.sdr_extra) }} ballots to every scenario.</p>
+<div class="overflow-auto">
+<table>
+    <thead>
+        <tr>
+            <th>How ballots are cast (central)</th>
+            <th class="num">Ballots</th>
+            <th class="num">Share</th>
+            <th class="num">2022 share</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in f.early.modes %}
+        <tr>
+            <td>{{ r.label }}</td>
+            <td class="num">{{ ballots(r.ballots) }}</td>
+            <td class="num">{{ m.p(r.share, 1) }}</td>
+            <td class="num">{{ m.p(r.share_2022, 1) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p>The share of active registrants who have not yet voted that each scenario needs on election day:
+    low {{ m.p(f.early.need.low, 1) }}, central {{ m.p(f.early.need.central, 1) }},
+    high {{ m.p(f.early.need.high, 1) }}. The same rate was {{ m.p(f.early.need_2022, 1) }} in 2022 and
+    {{ m.p(f.early.need_2018, 1) }} in 2018. Some of 2026's early surge is voters who used to vote on election day,
+    so a large early vote does not by itself mean a large turnout.</p>
+
+<div class="section-head"><h2>Who votes</h2></div>
+<p>Party is the voter's registered party. The model forecasts each party's turnout separately, so the mix of the
+    electorate follows from those rates.</p>
+<div class="overflow-auto">
+<table>
+    <thead>
+        <tr>
+            <th>Party</th>
+            <th class="num">Central turnout (active)</th>
+            <th class="num">2022</th>
+            <th class="num">2018</th>
+            <th class="num">Central share of ballots</th>
+            <th class="num">2022</th>
+            <th class="num">2018</th>
+            {% if f.poll %}<th class="num">{{ f.poll.pollster }} likely voters</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in f.parties %}
+        <tr>
+            <td>{{ p.label }}</td>
+            <td class="num">{{ m.p(p.rate.central, 1) }}</td>
+            <td class="num">{{ m.p(p.rate_2022, 1) }}</td>
+            <td class="num">{{ m.p(p.rate_2018, 1) }}</td>
+            <td class="num">{{ m.p(p.share.central, 1) }}</td>
+            <td class="num">{{ m.p(p.share_2022, 1) }}</td>
+            <td class="num">{{ m.p(p.share_2018, 1) }}</td>
+            {% if f.poll %}<td class="num">{{ m.p(f.poll.shares[loop.index0], 0) }}</td>{% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% if f.poll %}<p><small>The <a href="{{ f.poll.url }}">{{ f.poll.pollster }} poll</a> (fielded through
+    {{ f.poll.field_end|day_label }}) reports its likely voters' party mix unweighted; it is shown for comparison
+    and does not enter the model.</small></p>{% endif %}
+
+<div class="section-head"><h2>Counties</h2></div>
+<p>Turnout as a share of each county's active registration. Click a column heading to sort.</p>
+<div class="overflow-auto">
+<table data-sortable>
+    <thead>
+        <tr>
+            <th>County</th>
+            <th class="num">Active</th>
+            <th class="num">Central ballots</th>
+            <th class="num">Low</th>
+            <th class="num">Central</th>
+            <th class="num">High</th>
+            <th class="num">2022</th>
+            <th class="num">2018</th>
+            {% if f.has_county_need %}<th class="num">Election-day rate needed</th>{% endif %}
+            <th class="num">Mail</th>
+            <th class="num">Early</th>
+            <th class="num">Election day</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in f.counties %}
+        <tr>
+            <td>{{ c.county }}</td>
+            <td class="num" data-sort="{{ c.active }}">{{ ballots(c.active) }}</td>
+            <td class="num" data-sort="{{ c.ballots_central }}">{{ ballots(c.ballots_central) }}</td>
+            <td class="num">{{ m.p(c.rate_low, 1) }}</td>
+            <td class="num"><strong>{{ m.p(c.rate_central, 1) }}</strong></td>
+            <td class="num">{{ m.p(c.rate_high, 1) }}</td>
+            <td class="num">{{ m.p(c.rate_actual_GG22, 1) }}</td>
+            <td class="num">{{ m.p(c.rate_actual_GG18, 1) }}</td>
+            {% if f.has_county_need %}<td class="num">{{ m.p(c.need, 1) }}</td>{% endif %}
+            <td class="num">{{ m.p(c.share_mail, 0) }}</td>
+            <td class="num">{{ m.p(c.share_early, 0) }}</td>
+            <td class="num">{{ m.p(c.share_election_day, 0) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p><small>Mail, early and election day are each county's central forecast split by how ballots are cast; provisional
+    ballots make up the rest.</small></p>
+
+<div class="section-head"><h2>How the model works</h2></div>
+<p>The model, fit in R, is a regression of ballots cast over active registration by county and party in six
+    elections: the 2018 and 2022 midterms, the 2022 and 2026 primaries and the 2024 primary and general. It separates
+    each election's statewide party level from a lasting pattern by county and party, with county census measures
+    (education, age, mobility, home ownership). Each 2026 county-and-party group is then adjusted for how its
+    registrants differ from 2022's in age and in how recently they registered, measured from the statewide voter
+    list. The scenarios supply the statewide level.</p>
+<p>Leaving one midterm out at a time and giving the model that year's true statewide party levels, its county
+    turnout rates missed by these many percentage points on average. The naive forecast uses the other midterm's
+    county pattern instead:</p>
+<div class="overflow-auto">
+<table>
+    <thead>
+        <tr><th>Held out</th><th>Grain</th><th class="num">Model</th><th class="num">Naive</th></tr>
+    </thead>
+    <tbody>
+        {% for b in f.backtest %}
+        <tr>
+            <td>{{ b.held_out }}</td>
+            <td>{{ b.grain }}</td>
+            <td class="num">{{ "%.1f"|format(b.model) }}</td>
+            <td class="num">{{ "%.1f"|format(b.naive) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="section-head" id="caveats"><h2>What to keep in mind</h2></div>
+<ul>
+    {% for c in f.caveats %}<li>{{ c }}</li>{% endfor %}
+</ul>
+
+<div class="section-head"><h2>Sources and data</h2></div>
+<p>{% if has_report %}The <a href="{{ base }}/turnout/forecast/report/">full technical report</a> sets out the model, the
+    rule for the central scenario verbatim, every index and the checks the run passed. {% endif %}The code is in
+    <code>scripts/turnout_model</code>. Every output has a provenance file naming its sources and run date:</p>
+<ul class="toc">
+    {% for d in f.downloads %}
+    <li><a href="{{ base }}/downloads/{{ d }}">{{ d.rsplit("/", 1)[-1] }}</a>
+        (<a href="{{ base }}/downloads/{{ d[:-4] }}_provenance.json">provenance</a>)</li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

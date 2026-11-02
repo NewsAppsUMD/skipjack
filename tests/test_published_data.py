@@ -56,5 +56,11 @@ def test_snapshot_files_hold_no_personal_data_or_file_names(snapshot):
 def test_downloads_only_include_expected_folders_and_types():
     files = download_files(DATA_DIR)
     assert files
-    assert {f.parts[0] for f in files} <= {"voter_registration", "voter_file", "turnout", "results"}
+    assert {f.parts[0] for f in files} <= {
+        "voter_registration",
+        "voter_file",
+        "turnout",
+        "results",
+        "turnout_model",
+    }
     assert {f.suffix for f in files} <= {".csv", ".json"}
