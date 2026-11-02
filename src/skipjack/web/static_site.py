@@ -24,6 +24,8 @@ from fastapi.testclient import TestClient
 from skipjack.web.app import app, configure_templates
 from skipjack.web.bulk import BULK_FILES, bulk_csv
 from skipjack.web.compare import snapshot_pairs
+from skipjack.web.forecast import available as forecast_available
+from skipjack.web.forecast import report_available
 from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
@@ -115,6 +117,10 @@ def page_urls() -> list[str]:
     if turnout_urls:
         urls.append("/turnout/")
         urls += turnout_urls
+    if forecast_available():
+        urls.append("/turnout/forecast/")
+        if report_available():
+            urls.append("/turnout/forecast/report/")
     if results_urls:
         urls.append("/results/")
         urls += results_urls

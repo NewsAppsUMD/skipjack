@@ -247,6 +247,12 @@ make turnout-model
 `docs/turnout-model-2026.html`, with a short summary in `docs/turnout-model-2026.md`.
 `scripts/turnout_model/README.md` explains every file and the level rule.
 
+The site publishes the forecast at `/turnout/forecast/` (under the Turnout menu), read straight
+from the committed CSVs in `data/turnout_model/gg26/`, with the knitted report at
+`/turnout/forecast/report/` and every model input and output CSV offered for download. The
+page changes only when the model is rerun and its outputs committed; the daily snapshots do not
+move it.
+
 ## Publishing
 
 `.github/workflows/pages.yml` publishes the site on every push to `main`. It installs from the

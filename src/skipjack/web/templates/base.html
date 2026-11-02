@@ -21,7 +21,15 @@
                 <li><a href="{{ base }}/voters/">Voter Registration</a></li>
                 <li><a href="{{ base }}/voters/file/">Voter File</a></li>
                 <li><a href="{{ base }}/voters/young/">Young Voters</a></li>
-                <li><a href="{{ base }}/turnout/">Turnout</a></li>
+                <li>
+                    <details class="dropdown">
+                        <summary>Turnout</summary>
+                        <ul>
+                            <li><a href="{{ base }}/turnout/">Elections</a></li>
+                            <li><a href="{{ base }}/turnout/forecast/">2026 forecast</a></li>
+                        </ul>
+                    </details>
+                </li>
                 <li><a href="{{ base }}/results/">Results</a></li>
                 <li><a href="{{ base }}/data/">Data</a></li>
                 {% if not static_site %}<li><a href="{{ base }}/explorer/">Data Explorer</a></li>{% endif %}

@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import HTMLResponse
 
 from skipjack.pipeline.turnout import ELECTIONS
+from skipjack.web import forecast as fc
 from skipjack.web import turnout as qt
 from skipjack.web.dates import day_label
 from skipjack.web.db import get_db
@@ -20,6 +22,27 @@ async def index(request: Request):
     return request.app.state.templates.TemplateResponse(
         request, "turnout_index.html", {"elections": elections}
     )
+
+
+@router.get("/forecast/")
+async def forecast(request: Request):
+    """The 2026 general election turnout forecast, from the model's committed outputs.
+    Declared before /{slug}/ so "forecast" is never read as an election."""
+    if not fc.available():
+        raise HTTPException(status_code=404)
+    return request.app.state.templates.TemplateResponse(
+        request,
+        "turnout_forecast.html",
+        {"f": fc.build_forecast(), "has_report": fc.report_available()},
+    )
+
+
+@router.get("/forecast/report/")
+async def forecast_report():
+    """The model's full technical report, knitted by scripts/turnout_model/report.Rmd."""
+    if not fc.report_available():
+        raise HTTPException(status_code=404)
+    return HTMLResponse(fc.REPORT_PATH.read_text(encoding="utf-8"))
 
 
 @router.get("/{slug}/")
