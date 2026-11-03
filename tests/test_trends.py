@@ -434,3 +434,16 @@ def test_combined_downloads():
     assert rows[0][-1] == "source_id" and rows[1][-1] == "sbe-vrar-2010-01"
     assert client.get("/downloads/combined/nope.csv").status_code == 404
     assert "registration_summary_all.csv" in client.get("/data/").text
+
+
+@needs_db
+def test_voters_page_opens_with_a_statewide_summary():
+    html = page("/voters/")
+    assert (
+        "Maryland had 4,344,728 active registered voters in October 2026, up 10,874 (+0.3%) "
+        "from September 2026 and up 29,913 (+0.7%) from October 2025."
+    ) in html
+    assert "Democrats were 51.5% of them, Republicans 23.4% and unaffiliated voters 23.3%." in html
+    # The first report has nothing to compare with, so the sentence stops at the total.
+    first = page("/voters/month/2010-01/")
+    assert "active registered voters in January 2010." in first

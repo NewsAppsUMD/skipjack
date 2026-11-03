@@ -11,6 +11,7 @@ from skipjack.web import errata
 from skipjack.web.dates import month_label, shift_month
 from skipjack.web.db import get_db
 from skipjack.web.maps import registration_maps
+from skipjack.web.summary import direction, signed
 from skipjack.web.urls import resolve_slug, slugify
 
 router = APIRouter(prefix="/voters")
@@ -124,8 +125,42 @@ def _month_page(request: Request, report_date: str | None):
             "changes": changes,
             "source": source,
             "county_maps": county_maps,
+            "summary": _summary(selected_date, statewide, statewide_total, party_names, changes),
         },
     )
+
+
+def _summary(report_date, statewide, statewide_total, party_names, changes) -> list[str]:
+    """One or two sentences on the month statewide: the total, its change and the party split."""
+    if not report_date or not statewide_total:
+        return []
+    parts = []
+    for key in ("month", "year"):
+        c = changes[key]["state"] if changes[key] else None
+        if c is None:
+            continue
+        since = month_label(changes[key]["since"])
+        parts.append(
+            f"unchanged from {since}"
+            if c["n"] == 0
+            else f"{direction(c['n'])} {abs(c['n']):,} ({signed(c['pct'], 1, '%')}) from {since}"
+        )
+    sentences = [
+        f"Maryland had {statewide_total:,} active registered voters in {month_label(report_date)}"
+        + (", " + " and ".join(parts) if parts else "")
+        + "."
+    ]
+    # By name, so Unaffiliated is found under UNAF or UNA.
+    by_name: dict[str, int] = {}
+    for code, v in statewide.items():
+        by_name[party_names[code]] = by_name.get(party_names[code], 0) + v
+    share = {p: 100 * by_name[p] / statewide_total for p in by_name}
+    if all(p in share for p in ("Democratic", "Republican", "Unaffiliated")):
+        sentences.append(
+            f"Democrats were {share['Democratic']:.1f}% of them, Republicans "
+            f"{share['Republican']:.1f}% and unaffiliated voters {share['Unaffiliated']:.1f}%."
+        )
+    return sentences
 
 
 def _totals_by(conn, report_date: str) -> tuple[dict[str, int], dict[str, int]] | None:

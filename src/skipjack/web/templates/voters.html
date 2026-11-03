@@ -45,6 +45,7 @@
 {{ m.registration_nav("month") }}
 <h1>Registered Voters by County</h1>
 <p><em>as of {{ selected_date }}</em></p>
+{% if summary %}<p class="lede">{{ summary|join(" ") }}</p>{% endif %}
 <p><a href="{{ base }}/voters/file/">Participation among current voters (voter file)</a></p>
 
 <label class="sr-only" for="month-select">Report month</label>
