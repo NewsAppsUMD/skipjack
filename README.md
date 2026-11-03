@@ -17,7 +17,7 @@ Once GitHub Pages is switched on, the site publishes to
 
 | Dataset | Coverage | Source |
 |---|---|---|
-| **Voter registration by county and party** | Jan 2010 to Sep 2026, 201 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
+| **Voter registration by county and party** | Jan 2010 to Oct 2026, 202 monthly reports | State Board of Elections (SBE) *Voter Registration Activity Reports*, PDF |
 | **Registration activity** (address, name and party changes, inactive voters) | Same reports | Same |
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
 | **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The certified reports of the 2022 and 2026 primaries, the 2018 and 2022 generals and the 2024 primary and general, and snapshots of the 2026 general election's, daily as they change; the daily mail-in sent-and-returned reports of the 2022 and 2024 generals | SBE press-room statistical reports (2018: the SBE's election archive), PDF and XLSX; the earlier daily reports as [maryland_git_scraping](https://github.com/dwillis/maryland_git_scraping) saved them |

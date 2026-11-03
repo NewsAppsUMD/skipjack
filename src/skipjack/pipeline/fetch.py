@@ -24,10 +24,10 @@ SBE_BASE = "https://elections.maryland.gov"
 SOURCE_NAME = "Maryland State Board of Elections"
 
 
-def vrar_url(year: int, month: int) -> str:
+def vrar_url(year: int, month: int, sep: str = "_") -> str:
     if year >= 2016:
-        return f"{SBE_BASE}/pdf/vrar/{year}/MSR-{year}_{month:02d}.pdf"
-    return f"{SBE_BASE}/pdf/vrar/MSR-{year}_{month:02d}.pdf"
+        return f"{SBE_BASE}/pdf/vrar/{year}/MSR-{year}{sep}{month:02d}.pdf"
+    return f"{SBE_BASE}/pdf/vrar/MSR-{year}{sep}{month:02d}.pdf"
 
 
 def vrar_source_id(year: int, month: int) -> str:
@@ -97,10 +97,14 @@ def fetch_vrar(year: int, month: int, force: bool = False) -> SourceRecord | Non
             logger.info("Already archived: %s", source_id)
             return existing
 
-    url = vrar_url(year, month)
     dest = vrar_local_path(year, month)
 
-    if not fetch_file(url, dest, expect_pdf=True):
+    # SBE has named reports MSR-YYYY_MM.pdf, but October 2026 arrived as MSR-YYYY-MM.pdf.
+    for sep in ("_", "-"):
+        url = vrar_url(year, month, sep)
+        if fetch_file(url, dest, expect_pdf=True):
+            break
+    else:
         return None
 
     record = SourceRecord.create(

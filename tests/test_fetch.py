@@ -126,6 +126,31 @@ def test_vrar_from_another_machine_is_not_downloaded_again(archives, forbid_down
     assert len(read_manifest(fetch.MANIFEST_PATH)) == 1  # no second row appended
 
 
+def test_vrar_falls_back_to_the_hyphenated_name(archives, monkeypatch):
+    """SBE named October 2026 MSR-2026-10.pdf, after years of MSR-YYYY_MM.pdf."""
+    tried = []
+
+    def fake_fetch(url, dest, timeout=30.0, expect_pdf=False):
+        tried.append(url)
+        if not url.endswith("MSR-2026-10.pdf"):
+            return False
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(b"%PDF")
+        return True
+
+    monkeypatch.setattr(fetch, "fetch_file", fake_fetch)
+
+    record = fetch.fetch_vrar(2026, 10)
+
+    assert tried == [
+        "https://elections.maryland.gov/pdf/vrar/2026/MSR-2026_10.pdf",
+        "https://elections.maryland.gov/pdf/vrar/2026/MSR-2026-10.pdf",
+    ]
+    assert record is not None
+    assert record.source_url == tried[1]
+    assert Path(record.local_path).name == "MSR-2026_10.pdf"
+
+
 def test_district_file_from_another_machine_is_not_downloaded_again(archives, forbid_downloads):
     url = "https://elections.maryland.gov/pdf/vreg/2022/VR-2022-Governor.pdf"
     pdf = archives / "sbe/voter_registration/by_district/VR-2022-Governor.pdf"

@@ -322,8 +322,8 @@ def test_new_pages_render_with_the_section_nav(path):
 @needs_db
 def test_methods_page_describes_the_latest_twelve_months():
     html = page("/voters/methods/")
-    assert "October 2025 to September 2026" in html
-    assert "Motor Vehicle Administration (75%)" in html
+    assert "November 2025 to October 2026" in html
+    assert "Motor Vehicle Administration (72%)" in html
     assert "Online (87%)" in html  # concentrated in election years
     assert 'id="trend-data"' in html and 'src="/static/breakdown.js"' in html
 
@@ -332,8 +332,8 @@ def test_methods_page_describes_the_latest_twelve_months():
 def test_removals_page_warns_that_county_transfers_are_not_departures():
     html = page("/voters/removals/")
     assert "Removals are not all voters leaving Maryland" in html
-    assert "105,025" in html  # transfers out in the 12 months to September 2026
-    assert "−853" in html  # change in the rolls over the same months
+    assert "105,480" in html  # transfers out in the 12 months to October 2026
+    assert "+65,792" in html  # change in the rolls over the same months
 
 
 @needs_db
@@ -342,7 +342,7 @@ def test_party_switching_page_lists_every_primary_without_overclaiming():
     assert html.count("/voters/month/20") >= 9
     assert "In 4 of the 9 primaries" in html
     assert "The pattern is not the same every year." in html
-    assert "The 2026 figures cover only the 9 months reported so far." in html
+    assert "The 2026 figures cover only the 10 months reported so far." in html
     assert "coded IND" in html  # the 2010 spike is named, not explained
 
 
@@ -402,10 +402,10 @@ def test_home_page_highlights_describe_the_latest_report(monkeypatch):
 
     monkeypatch.setattr(home, "_today", lambda: date(2026, 9, 1))  # the registration lead
     html = page("/")
-    assert "September 2026 in registration" in html
-    assert "4,333,854 active registered voters in September 2026" in html
+    assert "October 2026 in registration" in html
+    assert "4,344,728 active registered voters in October 2026" in html
     assert 'id="home-data"' in html
-    assert "Registration through September 2026" in html
+    assert "Registration through October 2026" in html
     assert "Party share of active voters" in html
     for label in ("Democratic share", "Republican share", "Unaffiliated share"):
         assert label in html
