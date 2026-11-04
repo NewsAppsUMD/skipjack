@@ -1,0 +1,55 @@
+{# The unofficial count's banner and canvass table. Import with context:
+   {% import "_unofficial.html" as u with context %}, then {{ u.banner() }} where `unofficial`
+   (routes/results.py::_page_context) is set. Both render nothing for certified results. #}
+
+{% set CANVASS_TEXT = {"complete": "done", "partial": "partly", "not_reported": "not yet"} %}
+
+{% macro banner(full=true) -%}
+{% if unofficial %}
+<div class="callout unofficial-banner" role="note">
+    <p><strong>Unofficial and incomplete.</strong> This is the State Board of Elections' running
+        count as of {{ unofficial.as_of }}. Provisional ballots and some mail-in ballots have
+        not been counted yet, so every total here can still change. No winners are marked.</p>
+    {% if full %}
+    <p>The counties count in stages:
+        {% for c in unofficial.canvasses -%}
+        {{ c.label|lower }}, {{ c.counties }} of 24 counties reporting{% if not loop.last %}; {% endif %}
+        {%- endfor %}.
+        <a href="#canvass">Each county's progress</a>.</p>
+    {% endif %}
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% macro canvass_table() -%}
+{% if unofficial %}
+<section aria-labelledby="canvass">
+<h2 id="canvass">The count, county by county</h2>
+<p class="secondary">Which of the five counts each county has reported to the State Board,
+    as of {{ unofficial.as_of }}. "Partly" means the county has reported some of that count.</p>
+<div class="overflow-auto">
+<table data-sortable class="results-table compact">
+    <caption class="sr-only">Each county's counts reported as of {{ unofficial.as_of }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">County</th>
+            <th scope="col" class="num">Election-day precincts</th>
+            {% for c in unofficial.canvasses %}<th scope="col">{{ c.label }}</th>{% endfor %}
+            <th scope="col">County last reported</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in unofficial.canvass %}
+        <tr>
+            <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/county/{{ row.slug }}/">{{ row.county }}</a></th>
+            <td class="num">{{ row.precincts_reported }} of {{ row.precincts_total }}</td>
+            {% for s in row.states %}<td{% if s == "not_reported" %} class="muted"{% endif %}>{{ CANVASS_TEXT[s] }}</td>{% endfor %}
+            <td>{{ row.last_updated }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</section>
+{% endif %}
+{%- endmacro %}

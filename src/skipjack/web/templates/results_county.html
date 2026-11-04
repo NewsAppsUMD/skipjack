@@ -1,17 +1,27 @@
 {% extends "base.html" %}
 {% import "_results.html" as r with context %}
+{% import "_unofficial.html" as u with context %}
 {% block title %}{{ county }}: {{ election.name.title() }} results{% endblock %}
 
 {% block content %}
 <div class="viz-root">
 {{ r.breadcrumb(election, [("By county", base ~ "/results/" ~ election.slug ~ "/county/"), (county, none)]) }}
-<h1>{{ county }}</h1>
+<h1>{{ county }}{% if unofficial %} <span class="tag">unofficial</span>{% endif %}</h1>
+{{ u.banner(full=false) }}
 <p class="secondary">{{ election.name.title() }}: every contest on the county's ballot.</p>
 
+{% if unofficial %}
+{% set mine = unofficial.canvass|selectattr("county", "equalto", county)|first %}
+{% if mine %}<p class="note">{{ county }} has reported {{ mine.precincts_reported }} of
+    {{ mine.precincts_total }} election-day precincts. Its counts:
+    {% for c in unofficial.canvasses %}{{ c.label|lower }} {{ {"complete": "done", "partial": "partly reported", "not_reported": "not yet reported"}[mine.states[loop.index0]] }}{% if not loop.last %}; {% endif %}{% endfor %}.
+    A dot marks who has the most votes in {{ county }} so far.</p>{% endif %}
+{% else %}
 <p class="note">On a contest that has its own page, a check mark is the result of the whole
     contest (won statewide, won the district, or retained), not this county's; a dot marks who
     has the most votes in {{ county }}. On a county office the check mark is this county's own
     result.</p>
+{% endif %}
 
 {% if mail_pair %}
 <p class="note">"{{ mail_pair[0] }}" and "{{ mail_pair[1] }}" are the State Board's two

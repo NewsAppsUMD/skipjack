@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% import "_results.html" as r with context %}
+{% import "_unofficial.html" as u with context %}
 {% block title %}{{ election.name.title() }} results by county{% endblock %}
 
 {% block content %}
 <div class="viz-root">
 {{ r.breadcrumb(election, [("By county", none)]) }}
-<h1>{{ election.name.title() }}, by county</h1>
+<h1>{{ election.name.title() }}, by county{% if unofficial %} <span class="tag">unofficial</span>{% endif %}</h1>
+{{ u.banner(full=false) }}
 <p class="secondary">Pick a county to see every contest on its ballot, with the vote counts by way of voting.</p>
 
 <div class="overflow-auto">
@@ -29,6 +31,8 @@
     </tbody>
 </table>
 </div>
+
+{{ u.canvass_table() }}
 
 {{ r.source_strip(sources, data_page, "these pages") }}
 </div>

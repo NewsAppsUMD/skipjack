@@ -235,7 +235,9 @@ def _election_record(code: str) -> dict:
 
 
 def elections(conn: sqlite3.Connection) -> list[dict]:
-    """Elections with results rows, newest first (a general before its year's primary)."""
+    """Elections with certified results rows, newest first (a general before its year's
+    primary). The results pages list an election being counted too: see
+    ``skipjack.web.results_unofficial.site_elections``."""
     codes = [r[0] for r in conn.execute("SELECT DISTINCT election FROM results_county")]
     found = [_election_record(c) for c in codes if c in RESULTS_ELECTIONS]
     return sorted(found, key=lambda e: (-e["year"], e["kind"] != "general"))

@@ -134,6 +134,25 @@ Task 1 fetches fresh copies for the fixtures rather than depending on that direc
   shows statewide 1,163,909 for Moore (fixture snapshot) and a map. PG24 pages are unchanged
   (no banner, no unofficial rows).
 
+- Done 2026-11-04. Decisions made while building:
+  - `results.elections()` stays certified-only, because the About page counts certified files
+    from it and the real-data tests run the certified queries over it. A new
+    `results_unofficial.site_elections()` lists the certified elections plus a live one. The
+    routes and the static site read that, and `contest_slugs_for` / `county_slugs_for` pick the
+    right module. The static-site part of Task 6 is therefore already done.
+  - The hub's district lists show "Ahead so far, with votes": the top `vote_for` candidates by
+    votes counted, never a winner mark. Retention contests show none.
+  - Party names are mapped to the certified files' codes (Democratic → DEM and so on), so the
+    D − R margin map works unchanged.
+  - The as-of time reads "4:02 p.m. on Nov. 4, 2026", so a sentence never ends on "p.m.".
+  - **Contest-page URLs will change at certification.** The election, county-index and county
+    URLs stay the same, but the unofficial pages use the board's office names
+    (`representative-in-congress-district-1-all`) and the certified CSVs use their own
+    (`u-s-congress-1-all` in earlier years). Links to a GG26 contest page will 404 once the
+    certified results replace these pages, unless redirects are added then.
+  - Checked in the browser: the hub, contest page with map, county page and canvass table.
+    At phone width the page does not scroll sideways. The site has no dark theme.
+
 ## Task 5: web, ballot questions
 
 - `web/results_unofficial.py`: a `questions` group on the hub (Questions 1–3, statewide

@@ -14,17 +14,19 @@ from fastapi import APIRouter, HTTPException, Request
 
 from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
 from skipjack.web import results as qr
+from skipjack.web import results_unofficial as qu
 from skipjack.web.db import get_db
 from skipjack.web.maps import results_map
 
 router = APIRouter(prefix="/results")
 
 _SOURCE_ID = re.compile(r"-county-(\d\d)-(\w+)$")
+_UNOFFICIAL_SOURCE_ID = re.compile(r"_by_county_(\d+)$")
 
 
 def _code(conn: sqlite3.Connection, slug: str) -> str:
     """The election code for a slug, or a 404 when it has no results rows."""
-    code = next((e["code"] for e in qr.elections(conn) if e["slug"] == slug), None)
+    code = next((e["code"] for e in qu.site_elections(conn) if e["slug"] == slug), None)
     if code is None:
         raise HTTPException(status_code=404)
     return code
@@ -46,7 +48,9 @@ def source_links(conn: sqlite3.Connection, source_ids: list[str]) -> list[dict]:
         if sid not in urls:
             continue
         label = sid
-        if m := _SOURCE_ID.search(sid):
+        if m := _UNOFFICIAL_SOURCE_ID.search(sid):
+            label = COUNTY_CODES.get(f"{int(m.group(1)):02d}", sid)
+        elif m := _SOURCE_ID.search(sid):
             county = COUNTY_CODES.get(m.group(1), m.group(1))
             party = qr.PARTY_LABELS.get(m.group(2), "")
             label = f"{county}, {party}" if party else county
@@ -54,7 +58,27 @@ def source_links(conn: sqlite3.Connection, source_ids: list[str]) -> list[dict]:
     return links
 
 
+def _queries(code: str):
+    """The query module for an election: the unofficial count while it is live, else the
+    certified results."""
+    return qu if qu.is_unofficial(code) else qr
+
+
+def _page_context(conn: sqlite3.Connection, code: str) -> dict:
+    """What every results page needs besides its own figures: where the numbers come from and,
+    for an election being counted, the unofficial banner's facts."""
+    if qu.is_unofficial(code):
+        unofficial = qu.unofficial_context(conn, code)
+        return {
+            "unofficial": unofficial,
+            "data_page": unofficial["board_url"] if unofficial else "",
+        }
+    return {"unofficial": None, "data_page": RESULTS_ELECTIONS[code].base_url}
+
+
 def _election_sources(conn: sqlite3.Connection, code: str) -> list[dict]:
+    if qu.is_unofficial(code):
+        return source_links(conn, qu.election_source_ids(conn, code))
     ids = [
         r[0]
         for r in conn.execute(
@@ -82,12 +106,13 @@ def _render(request: Request, template: str, context: dict):
 @router.get("/")
 async def index(request: Request):
     with get_db() as conn:
-        elections = qr.elections(conn)
+        elections = qu.site_elections(conn)
     years: dict[int, dict] = {}
     for e in elections:  # newest first already
         years.setdefault(e["year"], {"year": e["year"], "primary": None, "general": None})
         years[e["year"]][e["kind"]] = e
-    data_page = RESULTS_ELECTIONS[elections[0]["code"]].base_url if elections else ""
+    certified = [e for e in elections if not e.get("unofficial")]
+    data_page = RESULTS_ELECTIONS[certified[0]["code"]].base_url if certified else ""
     return _render(
         request, "results_index.html", {"years": list(years.values()), "data_page": data_page}
     )
@@ -97,19 +122,15 @@ async def index(request: Request):
 async def election(request: Request, slug: str):
     with get_db() as conn:
         code = _code(conn, slug)
-        data = qr.hub(conn, code)
+        data = _queries(code).hub(conn, code)
         if data is None:
             raise HTTPException(status_code=404)
         sources = _election_sources(conn, code)
+        context = _page_context(conn, code)
     return _render(
         request,
         "results_election.html",
-        {
-            "election": data["election"],
-            "groups": data["groups"],
-            "sources": sources,
-            "data_page": RESULTS_ELECTIONS[code].base_url,
-        },
+        {"election": data["election"], "groups": data["groups"], "sources": sources, **context},
     )
 
 
@@ -117,10 +138,11 @@ async def election(request: Request, slug: str):
 async def county_index(request: Request, slug: str):
     with get_db() as conn:
         code = _code(conn, slug)
-        data = qr.county_list(conn, code)
+        data = _queries(code).county_list(conn, code)
         if data is None:
             raise HTTPException(status_code=404)
         sources = _election_sources(conn, code)
+        context = _page_context(conn, code)
     return _render(
         request,
         "results_county_index.html",
@@ -129,7 +151,7 @@ async def county_index(request: Request, slug: str):
             "counties": data["counties"],
             "party_labels": qr.PARTY_LABELS,
             "sources": sources,
-            "data_page": RESULTS_ELECTIONS[code].base_url,
+            **context,
         },
     )
 
@@ -138,10 +160,11 @@ async def county_index(request: Request, slug: str):
 async def county(request: Request, slug: str, county_slug: str):
     with get_db() as conn:
         code = _code(conn, slug)
-        data = qr.county_page(conn, code, county_slug)
+        data = _queries(code).county_page(conn, code, county_slug)
         if data is None:
             raise HTTPException(status_code=404)
         sources = source_links(conn, data["source_ids"])
+        context = _page_context(conn, code)
     return _render(
         request,
         "results_county.html",
@@ -152,7 +175,7 @@ async def county(request: Request, slug: str, county_slug: str):
             "mail_pair": mail_pair(data["vote_types"]),
             "groups": data["groups"],
             "sources": sources,
-            "data_page": RESULTS_ELECTIONS[code].base_url,
+            **context,
         },
     )
 
@@ -161,10 +184,12 @@ async def county(request: Request, slug: str, county_slug: str):
 async def contest(request: Request, slug: str, contest_slug: str):
     with get_db() as conn:
         code = _code(conn, slug)
-        data = qr.contest(conn, code, contest_slug) if contest_slug != "county" else None
+        q = _queries(code)
+        data = q.contest(conn, code, contest_slug) if contest_slug != "county" else None
         if data is None:
             raise HTTPException(status_code=404)
         sources = source_links(conn, data["source_ids"])
+        context = _page_context(conn, code)
     return _render(
         request,
         "results_contest.html",
@@ -174,6 +199,6 @@ async def contest(request: Request, slug: str, contest_slug: str):
             "county_maps": results_map(data),
             "sources": sources,
             "mail_pair": mail_pair(data["vote_types"]),
-            "data_page": RESULTS_ELECTIONS[code].base_url,
+            **context,
         },
     )

@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% import "_results.html" as r with context %}
 {% import "_maps.html" as maps with context %}
+{% import "_unofficial.html" as u with context %}
 {% block title %}{{ contest.title }}, {{ election.name.title() }}{% endblock %}
 
 {% block content %}
 <div class="viz-root">
 {{ r.breadcrumb(election, [(contest.title, none)]) }}
-<h1>{{ contest.title }}</h1>
+<h1>{{ contest.title }}{% if unofficial %} <span class="tag">unofficial</span>{% endif %}</h1>
+{{ u.banner(full=false) }}
 <p class="secondary">{{ contest.scope_label }}{% if contest.party_label %}, {{ contest.party_label }} primary{% endif %}.
     {{ election.name.title() }}, {{ contest.counties_reporting }} count{{ 'y' if contest.counties_reporting == 1 else 'ies' }}.
-    Totals are the county results added up; a check mark is the State Board's {{ "retention result" if contest.has_against else "winner flag" }}.</p>
+    Totals are the county results added up{% if not unofficial %}; a check mark is the State Board's {{ "retention result" if contest.has_against else "winner flag" }}{% endif %}.</p>
 
 {% set totals_label = "Statewide" if contest.scope == "statewide" else "Totals" %}
 <h2>{{ totals_label }}</h2>
@@ -22,6 +24,8 @@
 {% if county_maps %}
 {{ maps.map_defs() }}
 {% for m in county_maps %}{{ maps.county_map(m) }}{% endfor %}
+{% if unofficial %}<p class="note">The map shows the votes counted as of {{ unofficial.as_of }}.
+    Counties still counting mail-in and provisional ballots can shift.</p>{% endif %}
 {% endif %}
 
 {% if contest.multi_winner and not contest.has_against %}

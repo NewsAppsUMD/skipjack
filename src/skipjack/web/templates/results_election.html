@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% import "_results.html" as r with context %}
+{% import "_unofficial.html" as u with context %}
 {% block title %}{{ election.name.title() }} results{% endblock %}
 
 {% block content %}
 <div class="viz-root">
 {{ r.breadcrumb(election) }}
-<h1>{{ election.name.title() }}</h1>
+<h1>{{ election.name.title() }}{% if unofficial %} <span class="tag">unofficial</span>{% endif %}</h1>
+{{ u.banner() }}
 <p class="secondary">{{ election.kind.title() }} election{% if election.election_day %}, {{ election.election_day|day_label }}{% endif %}.
-    Totals are the county results added up; a check mark is the State Board's own
-    winner flag. <a href="{{ base }}/results/{{ election.slug }}/county/">Results by county</a>.</p>
+    Totals are the county results added up{% if not unofficial %}; a check mark is the State Board's own
+    winner flag{% endif %}. <a href="{{ base }}/results/{{ election.slug }}/county/">Results by county</a>.</p>
 
 {% if groups %}
 <nav class="subnav" aria-label="Contests">
@@ -38,12 +40,16 @@
         ({{ g.contests|selectattr("party_label", "equalto", party)|list|length }} contests)</summary>
     <table class="results-table compact">
         <caption class="sr-only">{{ g.label }}{% if party %}, {{ party }}{% endif %}: winners by district</caption>
-        <thead><tr><th scope="col">District</th><th scope="col">Winner{{ "s" if g.scope == "delegates" }} and votes</th></tr></thead>
+        <thead><tr><th scope="col">District</th><th scope="col">{% if unofficial %}Ahead so far, with votes{% else %}Winner{{ "s" if g.scope == "delegates" }} and votes{% endif %}</th></tr></thead>
         <tbody>
         {% for c in g.contests if c.party_label == party %}
         <tr>
             <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/{{ c.slug }}/">{{ c.district }}</a></th>
+            {% if unofficial %}
+            <td>{% for w in c.ahead %}{{ w.name }}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.votes(w.total) }}{% if not loop.last %}; {% endif %}{% endfor %}</td>
+            {% else %}
             <td>{% for w in c.candidates if w.winner %}{{ w.name }}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.winner() }} {{ r.votes(w.total) }}{% if not loop.last %}; {% endif %}{% else %}<span class="muted">no winner flagged</span>{% endfor %}</td>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>
@@ -53,6 +59,8 @@
 {% endif %}
 </section>
 {% endfor %}
+
+{{ u.canvass_table() }}
 
 {{ r.source_strip(sources, data_page, "this election's results") }}
 </div>
