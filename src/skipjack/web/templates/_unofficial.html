@@ -53,3 +53,38 @@
 </section>
 {% endif %}
 {%- endmacro %}
+
+{# A ballot question's choices: For and Against, with a column per way of voting when
+   vote_types is given. Shares are of the For and Against votes counted so far. #}
+{% macro question_table(q, caption, vote_types=[], compact=false) -%}
+<div class="overflow-auto">
+<table class="results-table{% if compact %} compact{% endif %}">
+    <caption class="sr-only">{{ caption }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">Choice</th>
+            {% for v in vote_types %}<th scope="col" class="num">{{ v.label }}</th>{% endfor %}
+            <th scope="col" class="num">Votes so far</th>
+            <th scope="col" class="num">Share so far</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in q.choices %}
+        <tr>
+            <th scope="row">{{ c.label }}</th>
+            {% for v in vote_types %}<td class="num">{% if c.votes[v.stem] is none %}<span class="muted">not yet counted</span>{% else %}{{ "{:,}".format(c.votes[v.stem]) }}{% endif %}</td>{% endfor %}
+            <td class="num">{{ "{:,}".format(c.total) }}</td>
+            <td class="num">{% if c.share is none %}<span class="muted">&mdash;</span>{% else %}{{ "%.1f"|format(c.share) }}%{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{%- endmacro %}
+
+{# The heading lines under a question's title: its chapter and short title, and the board's
+   question text. #}
+{% macro question_detail(q) -%}
+{% if q.detail %}<p class="secondary">{{ q.detail }}</p>{% endif %}
+{% if q.text_url %}<p class="note"><a href="{{ q.text_url }}" target="_blank" rel="noopener">The question as it appears on the ballot</a> (State Board of Elections)</p>{% endif %}
+{%- endmacro %}

@@ -204,3 +204,86 @@ def test_pages_disappear_once_certified(client, monkeypatch):
     assert client.get("/results/gg26/").status_code == 404
     assert client.get("/results/gg26/governor-lt-governor-all/").status_code == 404
     assert "count in progress" not in client.get("/results/").text
+
+
+# --- ballot questions -----------------------------------------------------------------------
+
+
+def test_statewide_questions_on_the_hub(db):
+    found = qu.hub(db, "GG26")["questions"]
+    assert [q["slug"] for q in found] == ["question-1", "question-2", "question-3"]
+    q1 = found[0]
+    assert q1["title"] == "Question 1: Constitutional Amendment"
+    assert q1["detail"].endswith("Arbitration Reform for State Employees Act of 2026")
+    assert (q1["for"], q1["against"]) == (1304321, 438763)
+    assert [c["label"] for c in q1["choices"]] == [
+        "For the Constitutional Amendment", "Against the Constitutional Amendment"
+    ]  # fmt: skip
+    assert round(q1["share_for"], 1) == 74.8
+
+
+def test_question_page_data(db):
+    q = qu.question(db, "GG26", "question-1")
+    assert q["counties_reporting"] == 24
+    assert q["choices"][0]["votes"]["provisional"] is None
+    caroline = next(r for r in q["county_rows"] if r["county"] == "Caroline")
+    # Caroline's question table prints 0 for mail-in; its mail-in count has not reported
+    assert caroline["not_counted"] == ["Mail-In Ballot", "Provisional"]
+    assert caroline["total"] == caroline["for"] + caroline["against"]
+    assert len(q["source_ids"]) == 24
+    assert qu.question(db, "GG26", "question-9") is None
+    assert "question-1" in qu.contest_slugs(db, "GG26")
+
+
+def test_county_questions_put_statewide_first_and_keep_their_own(db):
+    page = qu.county_page(db, "GG26", "baltimore-county")
+    offices = [(q["office"], q["statewide"]) for q in page["questions"]]
+    assert offices[:3] == [
+        ("Question 1: Constitutional Amendment", True),
+        ("Question 2: Constitutional Amendment", True),
+        ("Question 3: Constitutional Amendment", True),
+    ]
+    lettered = [q for q in page["questions"] if not q["statewide"]]
+    assert lettered and all(q["slug"] is None for q in lettered)
+    assert lettered[0]["text_url"].startswith("https://elections.maryland.gov/")
+
+
+def test_question_map_is_for_minus_against():
+    from skipjack.web.maps import question_map
+
+    rows = [
+        {"county": "Allegany", "for": 75, "against": 25, "total": 100},
+        {"county": "Garrett", "for": 40, "against": 60, "total": 100},
+    ]
+    (m,) = question_map({"county_rows": rows})
+    labels = {c["name"]: c["label"] for c in m["counties"]}
+    assert labels["Allegany"] == "Allegany: +50 points"
+    assert labels["Garrett"] == "Garrett: -20 points"
+    assert labels["Kent"] == "Kent: no votes counted"
+    assert m["legend"][0]["text"].startswith("more against")
+    assert question_map({"county_rows": []}) == []
+
+
+def test_question_page(client):
+    html = client.get("/results/gg26/question-1/").text
+    assert "Unofficial and incomplete." in html
+    assert "1,304,321" in html
+    assert "gen_qtext_2026_C_1.html" in html
+    assert "question-margin" in html
+    assert "mail-in ballot, provisional" in html  # Caroline's row
+    assert "/results/gg26/county/caroline/#question-1-constitutional-amendment" in html
+    assert client.get("/results/gg26/question-9/").status_code == 404
+
+
+def test_hub_and_county_pages_list_questions(client):
+    hub = client.get("/results/gg26/").text
+    assert 'id="questions"' in hub
+    assert "/results/gg26/question-3/" in hub
+    county = client.get("/results/gg26/county/baltimore-county/").text
+    assert 'id="question-1-constitutional-amendment"' in county
+    assert "county question" in county
+
+
+def test_question_pages_disappear_once_certified(client, monkeypatch):
+    monkeypatch.setattr(RESULTS_ELECTIONS["GG26"], "published", True)
+    assert client.get("/results/gg26/question-1/").status_code == 404

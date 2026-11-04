@@ -11,11 +11,16 @@ render either. The differences:
 - no candidate carries a winner flag: the board marks none while it counts, and we compute none;
 - a judge's continuance (Yes / No rows on the board's pages) becomes one candidate with the
   Yes votes as its total and the No votes as ``against``, the shape of a certified retention;
-- ballot questions are not on these pages yet (Task 5 of the plan).
+- ballot questions have their own shape (``questions``, ``question``, and a ``questions`` list
+  on the hub and county pages): each choice ("For the Constitutional Amendment", "Against …")
+  with its votes. The numbered questions are statewide and get a page each (``question-1``);
+  the lettered ones are a county's own and appear on its page only. The certified results do
+  not cover questions yet.
 """
 
 from __future__ import annotations
 
+import re
 import sqlite3
 from datetime import datetime
 
@@ -320,9 +325,10 @@ def _pages(conn: sqlite3.Connection, code: str) -> list[dict]:
 
 
 def contest_slugs(conn: sqlite3.Connection, code: str) -> list[str]:
+    """The contest and statewide question page slugs (the static site reads this list)."""
     if not is_live(code):
         return []
-    return [c["slug"] for c in _pages(conn, code)]
+    return [c["slug"] for c in _pages(conn, code)] + [q["slug"] for q in questions(conn, code)]
 
 
 def _record(code: str) -> dict:
@@ -362,7 +368,7 @@ def hub(conn: sqlite3.Connection, code: str) -> dict | None:
             )
         if summaries:
             groups.append({"scope": scope, "label": SCOPE_LABELS[scope], "contests": summaries})
-    return {"election": _record(code), "groups": groups}
+    return {"election": _record(code), "groups": groups, "questions": questions(conn, code)}
 
 
 def contest(conn: sqlite3.Connection, code: str, slug: str) -> dict | None:
@@ -487,12 +493,14 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
                 "tied": tied,
             }
         )
+    county_questions = _county_questions(conn, code, county)
     return {
         "election": _record(code),
         "county": county,
         "slug": county_slug,
         "vote_types": _vote_types(),
         "groups": [{"party_file": "all", "label": "", "contests": contests}],
+        "questions": county_questions,
         "source_ids": sorted({r["source_id"] for r in rows}),
     }
 
@@ -512,3 +520,161 @@ def election_source_ids(conn: sqlite3.Connection, code: str) -> list[str]:
 def is_unofficial(code: str) -> bool:
     """Whether the site shows this election from the unofficial count."""
     return code in RESULTS_ELECTIONS and is_live(code)
+
+
+# --- ballot questions -----------------------------------------------------------------------
+
+STATEWIDE_QUESTION_RE = re.compile(r"^Question (\d+): ")
+
+
+def question_slug(office: str) -> str | None:
+    """'Question 1: Constitutional Amendment' -> 'question-1'; None for a county's lettered
+    question, which has no page of its own."""
+    m = STATEWIDE_QUESTION_RE.match(office)
+    return f"question-{m.group(1)}" if m else None
+
+
+def _side(choice: str) -> str:
+    if choice.startswith("For"):
+        return "for"
+    if choice.startswith("Against"):
+        return "against"
+    raise ValueError(f"a question choice that is neither for nor against: {choice!r}")
+
+
+def _question_rows(
+    conn: sqlite3.Connection, code: str, *, office: str | None = None, county: str | None = None
+) -> list[dict]:
+    snap = latest_snapshot(conn, code)
+    if snap is None:
+        return []
+    where = "r.election = ? AND r.snapshot = ? AND r.kind = 'question'"
+    args: list = [code, snap]
+    for column, value in (("office", office), ("county", county)):
+        if value is not None:
+            where += f" AND r.{column} = ?"
+            args.append(value)
+    rows = conn.execute(
+        f"""SELECT r.id, r.source_id, r.county, r.office, r.detail, r.text_url, r.choice,
+                   r.total_votes
+            FROM results_unofficial r WHERE {where} ORDER BY r.id""",
+        args,
+    ).fetchall()
+    votes: dict[int, dict] = {}
+    for result_id, stem, n in conn.execute(
+        f"""SELECT v.result_id, v.vote_type, v.votes FROM results_unofficial_votes v
+            JOIN results_unofficial r ON r.id = v.result_id WHERE {where}""",
+        args,
+    ):
+        votes.setdefault(result_id, {})[stem] = n
+    return [
+        {"id": rid, "source_id": sid, "county": cty, "office": off, "detail": detail,
+         "text_url": url, "choice": choice, "side": _side(choice), "total": total,
+         "votes": votes.get(rid, dict.fromkeys(STEMS))}
+        for rid, sid, cty, off, detail, url, choice, total in rows
+    ]  # fmt: skip
+
+
+def _choices(rows: list[dict]) -> list[dict]:
+    """The question's choices summed over ``rows``, For first, each with its share of the For
+    and Against votes counted so far."""
+    by_side: dict[str, dict] = {}
+    for r in rows:
+        c = by_side.setdefault(
+            r["side"],
+            {"label": r["choice"], "side": r["side"], "total": 0, "votes": dict.fromkeys(STEMS)},
+        )
+        c["total"] += r["total"]
+        for stem in STEMS:
+            c["votes"][stem] = _add(c["votes"][stem], r["votes"].get(stem))
+    out = [by_side[s] for s in ("for", "against") if s in by_side]
+    cast = sum(c["total"] for c in out)
+    for c in out:
+        c["share"] = 100 * c["total"] / cast if cast else None
+    return out
+
+
+def _question_info(rows: list[dict]) -> dict:
+    first = rows[0]
+    choices = _choices(rows)
+    by = {c["side"]: c for c in choices}
+    return {
+        "office": first["office"],
+        "title": first["office"],
+        "detail": first["detail"],
+        "text_url": first["text_url"],
+        "slug": question_slug(first["office"]),
+        "choices": choices,
+        "for": by.get("for", {}).get("total"),
+        "against": by.get("against", {}).get("total"),
+        "share_for": by.get("for", {}).get("share"),
+    }
+
+
+def questions(conn: sqlite3.Connection, code: str) -> list[dict]:
+    """The statewide (numbered) questions, in ballot order, with statewide totals. A numbered
+    question missing from any county's ballot is left out: it would not be statewide."""
+    if not is_live(code):
+        return []
+    by_office: dict[str, list[dict]] = {}
+    for r in _question_rows(conn, code):
+        if question_slug(r["office"]):
+            by_office.setdefault(r["office"], []).append(r)
+    return [
+        _question_info(rows)
+        for rows in by_office.values()
+        if len({r["county"] for r in rows}) == N_COUNTIES
+    ]
+
+
+def question(conn: sqlite3.Connection, code: str, slug: str) -> dict | None:
+    """A statewide question's page: the statewide choices by way of voting and each county's
+    For and Against."""
+    found = next((q for q in questions(conn, code) if q["slug"] == slug), None)
+    if found is None:
+        return None
+    rows = _question_rows(conn, code, office=found["office"])
+    labels = {stem: label for label, stem in VOTE_TYPES}
+    county_rows = []
+    for county in COUNTY_CODES.values():
+        mine = [r for r in rows if r["county"] == county]
+        if not mine:
+            continue
+        sides = {r["side"]: r for r in mine}
+        yes = sides.get("for", {}).get("total", 0)
+        no = sides.get("against", {}).get("total", 0)
+        county_rows.append(
+            {
+                "county": county,
+                "slug": slugify(county),
+                "for": yes,
+                "against": no,
+                "total": yes + no,
+                "share_for": 100 * yes / (yes + no) if yes + no else None,
+                "not_counted": [
+                    labels[s] for s in STEMS if all(r["votes"].get(s) is None for r in mine)
+                ],
+            }
+        )
+    return {
+        **found,
+        "election": _record(code),
+        "vote_types": _vote_types(),
+        "county_rows": county_rows,
+        "counties_reporting": len(county_rows),
+        "source_ids": [r["source_id"] for r in rows if r["side"] == "for"],
+    }
+
+
+def _county_questions(conn: sqlite3.Connection, code: str, county: str) -> list[dict]:
+    """Every question on a county's ballot, statewide ones first, as the county voted."""
+    by_office: dict[str, list[dict]] = {}
+    for r in _question_rows(conn, code, county=county):
+        by_office.setdefault(r["office"], []).append(r)
+    out = []
+    for office, rows in by_office.items():
+        info = _question_info(rows)
+        info["anchor"] = slugify(office)
+        info["statewide"] = info["slug"] is not None
+        out.append(info)
+    return sorted(out, key=lambda q: (not q["statewide"], _natural(q["office"])))

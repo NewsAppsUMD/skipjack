@@ -448,3 +448,26 @@ def results_map(contest: dict) -> list[dict]:
             none_text="not on the ballot, or no votes cast", linked_counties=cells,
         )
     ]  # fmt: skip
+
+
+def question_map(question: dict) -> list[dict]:
+    """The map on a ballot question's page (``results_unofficial.question()``'s dict): each
+    county's For minus Against, in points of the votes counted there, on a scale centred on
+    zero, so a county that voted the question down reads as the other colour. Rows link to
+    ``#county-<slug>`` on the same page."""
+    rows = question["county_rows"]
+    if not rows:
+        return []
+    values = {
+        r["county"]: (100 * (r["for"] - r["against"]) / r["total"] if r["total"] else None)
+        for r in rows
+    }
+    return [
+        county_map(
+            "question-margin", "For minus Against", values,
+            diverging(list(values.values()), " pts", labels=("more against", "more for")),
+            fmt_points(0), link="row",
+            caption="share of the county's votes on the question, in points",
+            none_text="no votes counted", linked_counties={r["county"] for r in rows},
+        )
+    ]  # fmt: skip

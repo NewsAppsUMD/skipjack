@@ -29,7 +29,7 @@
 {% endif %}
 
 <nav class="subnav" aria-label="Sections of this page">
-    {% for g in groups %}<a href="#section-{{ g.party_file }}">{{ g.label + " ballot" if g.label else "Contests" }} ({{ g.contests|length }})</a>{% endfor %}
+    {% for g in groups %}<a href="#section-{{ g.party_file }}">{{ g.label + " ballot" if g.label else "Contests" }} ({{ g.contests|length }})</a>{% endfor %}{% if questions %}<a href="#questions">Ballot questions ({{ questions|length }})</a>{% endif %}
 </nav>
 
 {% for g in groups %}
@@ -52,6 +52,19 @@
 {% endfor %}
 </section>
 {% endfor %}
+
+{% if questions %}
+<section aria-labelledby="questions">
+<h2 id="questions">Ballot questions</h2>
+{% for q in questions %}
+<article class="contest-card" id="{{ q.anchor }}">
+    <h3>{% if q.slug %}<a href="{{ base }}/results/{{ election.slug }}/{{ q.slug }}/">{{ q.title }}</a>{% else %}{{ q.title }} <span class="tag">county question</span>{% endif %}</h3>
+    {{ u.question_detail(q) }}
+    {{ u.question_table(q, q.title ~ " in " ~ county, vote_types, compact=true) }}
+</article>
+{% endfor %}
+</section>
+{% endif %}
 
 {{ r.source_strip(sources, data_page, "this page") }}
 </div>

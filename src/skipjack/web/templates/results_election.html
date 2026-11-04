@@ -14,7 +14,7 @@
 
 {% if groups %}
 <nav class="subnav" aria-label="Contests">
-    {% for g in groups %}<a href="#{{ g.scope }}">{{ g.label }}</a>{% endfor %}
+    {% for g in groups %}<a href="#{{ g.scope }}">{{ g.label }}</a>{% endfor %}{% if questions %}<a href="#questions">Ballot questions</a>{% endif %}
 </nav>
 {% endif %}
 
@@ -59,6 +59,22 @@
 {% endif %}
 </section>
 {% endfor %}
+
+{% if questions %}
+<section aria-labelledby="questions">
+<h2 id="questions">Ballot questions</h2>
+<p class="secondary">The statewide questions. Each county's own questions are on its
+    <a href="{{ base }}/results/{{ election.slug }}/county/">county page</a>.</p>
+{% for q in questions %}
+<article class="contest-card">
+    <h3><a href="{{ base }}/results/{{ election.slug }}/{{ q.slug }}/">{{ q.title }}</a></h3>
+    {% if q.detail %}<p class="secondary">{{ q.detail }}</p>{% endif %}
+    {{ u.question_table(q, q.title ~ ", statewide", compact=true) }}
+    <p class="note"><a href="{{ base }}/results/{{ election.slug }}/{{ q.slug }}/">County results and map</a></p>
+</article>
+{% endfor %}
+</section>
+{% endif %}
 
 {{ u.canvass_table() }}
 

@@ -16,7 +16,7 @@ from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
 from skipjack.web import results as qr
 from skipjack.web import results_unofficial as qu
 from skipjack.web.db import get_db
-from skipjack.web.maps import results_map
+from skipjack.web.maps import question_map, results_map
 
 router = APIRouter(prefix="/results")
 
@@ -130,7 +130,13 @@ async def election(request: Request, slug: str):
     return _render(
         request,
         "results_election.html",
-        {"election": data["election"], "groups": data["groups"], "sources": sources, **context},
+        {
+            "election": data["election"],
+            "groups": data["groups"],
+            "questions": data.get("questions", []),
+            "sources": sources,
+            **context,
+        },
     )
 
 
@@ -174,6 +180,7 @@ async def county(request: Request, slug: str, county_slug: str):
             "vote_types": data["vote_types"],
             "mail_pair": mail_pair(data["vote_types"]),
             "groups": data["groups"],
+            "questions": data.get("questions", []),
             "sources": sources,
             **context,
         },
@@ -185,6 +192,23 @@ async def contest(request: Request, slug: str, contest_slug: str):
     with get_db() as conn:
         code = _code(conn, slug)
         q = _queries(code)
+        if q is qu and contest_slug.startswith("question-"):
+            question = qu.question(conn, code, contest_slug)
+            if question is None:
+                raise HTTPException(status_code=404)
+            sources = source_links(conn, question["source_ids"])
+            context = _page_context(conn, code)
+            return _render(
+                request,
+                "results_question.html",
+                {
+                    "question": question,
+                    "election": question["election"],
+                    "county_maps": question_map(question),
+                    "sources": sources,
+                    **context,
+                },
+            )
         data = q.contest(conn, code, contest_slug) if contest_slug != "county" else None
         if data is None:
             raise HTTPException(status_code=404)

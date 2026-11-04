@@ -167,6 +167,19 @@ Task 1 fetches fresh copies for the fixtures rather than depending on that direc
 - Tests: the Question 1 page shows For 1,303,235 statewide, links to the question text and has a
   map. Allegany's county page lists Questions 1–3 with provisional "not yet counted".
 
+- Done 2026-11-04. Decisions made while building:
+  - The map is each county's For minus Against in points, on a scale centred on zero, rather
+    than the For share. A plain share scale hides the 50% line, which is what decides whether
+    a question passes or fails in a county.
+  - Lettered questions belong to one county each ("Question A" is a different question in each
+    of eight counties), so they appear only on their county's page, tagged "county question".
+    Numbered questions count as statewide only when they are on all 24 counties' ballots.
+  - The county table on a question page names the vote types each county has not reported
+    yet (Caroline: mail-in and provisional), using the zeros that the parse turned into
+    not-yet-counted.
+  - A question links to the board's ballot text (`gen_qtext_2026_C_<n>.html`) and does not
+    copy it.
+
 ## Task 6: publish gate, downloads, site, docs
 
 - `web/downloads.py`: add `results_unofficial` to `DOWNLOAD_ROOTS`. A file is offered only when

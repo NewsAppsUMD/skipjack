@@ -190,5 +190,6 @@ cost nothing.
 
 1. Margin maps stay during the count, captioned with the board's last-refreshed time.
 2. Ballot questions are included: statewide Questions 1–3 get their own pages, and county
-   questions appear on county pages.
+   questions appear on county pages. (Built with a For minus Against map rather than a
+   For-share map, so a county voting a question down stands out.)
 3. The newest unofficial snapshot is offered for download, labelled unofficial and gated by §3.
