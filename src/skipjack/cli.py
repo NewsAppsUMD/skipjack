@@ -143,6 +143,43 @@ def cmd_results_parse(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
+def cmd_unofficial_fetch(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.results_unofficial import (
+        UNOFFICIAL_RESULTS,
+        UnofficialFetchError,
+        is_live,
+        unofficial_fetch,
+    )
+
+    if args.election not in UNOFFICIAL_RESULTS:
+        print(f"known elections: {', '.join(UNOFFICIAL_RESULTS)}", file=sys.stderr)
+        sys.exit(1)
+    if not is_live(args.election):
+        print(f"{args.election}: certified results are published; no unofficial count to fetch")
+        return
+    try:
+        snap = unofficial_fetch(args.election)
+    except UnofficialFetchError as err:
+        print(f"{args.election}: {err}", file=sys.stderr)
+        sys.exit(1)
+    print(f"Archived snapshot {snap}" if snap else "Nothing new: the board has not refreshed")
+
+
+def cmd_unofficial_parse(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.results_unofficial import UNOFFICIAL_RESULTS, unofficial_parse
+
+    if args.election not in UNOFFICIAL_RESULTS:
+        print(f"known elections: {', '.join(UNOFFICIAL_RESULTS)}", file=sys.stderr)
+        sys.exit(1)
+    written, failed = unofficial_parse(args.election, snapshot=args.snapshot, force=args.force)
+    print(f"Parsed {len(written)} snapshots -> data/results_unofficial/{args.election}/")
+    if failed:
+        print(f"{len(failed)} snapshots failed their checks and were not written:")
+        for line in failed:
+            print(f"  {line}")
+        sys.exit(1)
+
+
 def cmd_turnout_parse(args: argparse.Namespace) -> None:
     from skipjack.pipeline.turnout import turnout_parse
 
@@ -285,6 +322,18 @@ def main(argv: list[str] | None = None) -> None:
     results_parse_p.add_argument("--force", action="store_true")
     results_parse_p.add_argument("--election", help="Only one election (e.g. GP26)")
 
+    unofficial_fetch_p = sub.add_parser(
+        "unofficial-fetch", help="Archive a snapshot of the board's unofficial results pages"
+    )
+    unofficial_fetch_p.add_argument("--election", default="GG26")
+
+    unofficial_parse_p = sub.add_parser(
+        "unofficial-parse", help="Check and parse archived unofficial results snapshots"
+    )
+    unofficial_parse_p.add_argument("--election", default="GG26")
+    unofficial_parse_p.add_argument("--snapshot", help="Only this snapshot (2026-11-04T092122)")
+    unofficial_parse_p.add_argument("--force", action="store_true", help="Re-parse every snapshot")
+
     turnout_parse_p = sub.add_parser("turnout-parse", help="Parse archived turnout files into CSVs")
     turnout_parse_p.add_argument(
         "--as-of", dest="as_of", metavar="YYYY-MM-DD", help="Only this snapshot"
@@ -345,6 +394,8 @@ def main(argv: list[str] | None = None) -> None:
         "turnout-parse": cmd_turnout_parse,
         "results-fetch": cmd_results_fetch,
         "results-parse": cmd_results_parse,
+        "unofficial-fetch": cmd_unofficial_fetch,
+        "unofficial-parse": cmd_unofficial_parse,
         "voterfile": cmd_voterfile,
         "race-input": cmd_race_input,
         "build-site": cmd_build_site,

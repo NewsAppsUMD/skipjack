@@ -82,6 +82,19 @@ Task 1 fetches fresh copies for the fixtures rather than depending on that direc
 - Run it for real, check the numbers against the board's Governor page by eye, and commit the
   archives, manifest and data.
 
+- Done 2026-11-04: snapshot 2026-11-04T160222 (refreshed 04:02:22 PM) is archived and parsed.
+  Every check passed: 2,703 rows and 145 statewide tables (the circuit-court page per county).
+  Decisions made while building:
+  - A snapshot is skipped when its name (the board's refreshed time) is already archived. The
+    board's time stays put while nothing changes (09:21:22 AM was still current at 11:40 AM), so
+    the name is enough to know nothing is new, and no per-page hashes are compared.
+  - The home page's own "Last updated" time is logged when it differs from the results pages,
+    not treated as fatal. A cached home page should not block a snapshot.
+  - The statewide Supreme Court page puts the judge's "Vote Yes or No" heading in an `<h4>`
+    under the district, where the county pages use an `<h3>`. The reader accepts it at either
+    level.
+  - The statewide pages are read only for the cross-check. Nothing from them is written.
+
 ## Task 3: schema and loader
 
 - `models.py`: `results_unofficial` (`id, source_id REFERENCES sources, election, snapshot,

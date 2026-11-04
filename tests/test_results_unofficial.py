@@ -8,6 +8,7 @@ questions page and the home page with the canvass-status table.
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -267,3 +268,338 @@ def test_mail_in_zero_stays_when_only_the_second_mail_in_canvass_is_unreported()
 def test_apply_not_reported_needs_the_countys_status(allegany):
     with pytest.raises(ru.UnofficialParseError, match="Allegany"):
         ru.apply_not_reported(allegany, {})
+
+
+# --- a whole snapshot, built small ------------------------------------------------------------
+# Synthetic pages in the board's markup: every county votes for Governor (two tickets) and on
+# Question 1 (which prints 0 for provisional, as the board's question tables do); the statewide
+# Governor and questions pages carry the sums. The other statewide office pages are empty.
+
+REFRESHED = "11/04/2026 09:21:22 AM"
+HEAD = (
+    "<th>Early Voting</th><th>Election Day</th><th>Mail-In Ballot</th><th>Provisional</th>"
+    "<th>Total</th><th>Percentage</th>"
+)
+
+
+def _n(v) -> str:
+    return "NR" if v is None else f"{v:,}"
+
+
+def _cells(votes) -> str:
+    return (
+        "".join(f"<td>{_n(v)}</td>" for v in votes)
+        + f"<td>{_n(sum(v or 0 for v in votes))}</td><td>1%</td>"
+    )
+
+
+def _governor(rows) -> str:
+    body = "".join(
+        f"<tr><td><div>{name}</div></td><td>{party}</td>{_cells(v)}</tr>" for name, party, v in rows
+    )
+    totals = [None if all(v[i] is None for _, _, v in rows) else sum(v[i] or 0 for _, _, v in rows)
+              for i in range(4)]  # fmt: skip
+    return (
+        "<h2>Governor / Lt. Governor</h2><h3>Vote for 1</h3>(1 of 1 election day precincts reported)"
+        f'<div class="tableWrapper"><table class="table-banded"><thead><tr><th>Name</th>'
+        f"<th>Party</th>{HEAD}</tr></thead><tbody>{body}"
+        f"<tr><td><div><b>Totals</b></div></td><td></td>{_cells(totals)}</tr></tbody></table></div>"
+    )
+
+
+def _question(rows) -> str:
+    body = "".join(f"<tr><th><span>{label}</span></th>{_cells(v)}</tr>" for label, v in rows)
+    totals = [sum(v[i] or 0 for _, v in rows) for i in range(4)]
+    return (
+        "<hgroup><h2>Question 1: Constitutional Amendment</h2><div><p>(Ch. 1)</p><p>A title</p>"
+        '</div><a href="gen_qtext_2026_C_1.html">View Question Text</a></hgroup>'
+        "<div>(1 of 1 election day precincts reported)</div>"
+        f'<div class="tableWrapper"><table class="table-banded"><thead><tr><th>Question 1</th>'
+        f"{HEAD}</tr></thead><tbody>{body}"
+        f"<tr><th><span><b>Totals</b></span></th>{_cells(totals)}</tr></tbody></table></div>"
+    )
+
+
+def _page(subject: str, body: str, refreshed: str = REFRESHED) -> bytes:
+    return (
+        f'<html><body><nav><h2>Menu</h2></nav><section id="bodyMain"><h1> Unofficial 2026 '
+        f"Gubernatorial General Election Results for {subject}</h1>"
+        f"<div>Last refreshed: {refreshed}</div>{body}</section><footer></footer></body></html>"
+    ).encode()
+
+
+COUNTY_NAMES_IN_ORDER = list(ru.COUNTY_CODES.values())
+SUBJECTS = {
+    n: (name if name in ("Baltimore City", "Baltimore County") else f"{name} County").replace(
+        "St. Mary's", "Saint Mary's"
+    )
+    for n, name in enumerate(COUNTY_NAMES_IN_ORDER, start=1)
+}
+
+
+def _status(refreshed: str = REFRESHED) -> bytes:
+    done = '<td><img alt="Canvass Complete" src="/img/check.gif"/></td>'
+    rows = "".join(
+        f"<tr><td><a>{name.replace('St. ', 'Saint ')}</a></td><td>11/03/26 10:00 PM</td>"
+        f"<td>1 of 1</td>{done}{done}{done}<td></td><td></td></tr>"
+        for name in COUNTY_NAMES_IN_ORDER
+    )
+    return (
+        f'<html><body><section id="bodyMain"><p>Last updated {refreshed}</p><table><thead><tr>'
+        "<th>County</th><th>Last Updated</th><th># Precincts Reporting</th><th>EV</th><th>EN</th>"
+        f"<th>MIB 1</th><th>Prov</th><th>MIB 2</th></tr></thead><tbody>{rows}</tbody></table>"
+        "</section></body></html>"
+    ).encode()
+
+
+def snapshot_pages(
+    refreshed: str = REFRESHED, tweak=None, bump: int | None = None
+) -> dict[str, bytes]:
+    """The pages of one snapshot. ``bump`` adds an early vote to Moore in that county after
+    the statewide sums are taken, so its page adds up but the state does not."""
+    pages: dict[str, bytes] = {}
+    gov_total = [[0] * 4, [0] * 4]
+    q_total = [[0] * 4, [0] * 4]
+    for n, subject in SUBJECTS.items():
+        moore, cox = [n, 2 * n, n, None], [1, n, 0, None]
+        yes, no = [n, n, 1, 0], [1, 1, 0, 0]
+        for acc, v in ((gov_total[0], moore), (gov_total[1], cox), (q_total[0], yes),
+                       (q_total[1], no)):  # fmt: skip
+            for i in range(4):
+                acc[i] += v[i] or 0
+        if n == bump:
+            moore[0] += 1
+        body = _governor([("Wes Moore and Aruna Miller", "Democratic", moore),
+                          ("Dan Cox and Rob Krop", "Republican", cox)])  # fmt: skip
+        body += _question([("For the Constitutional Amendment", yes),
+                           ("Against the Constitutional Amendment", no)])  # fmt: skip
+        pages[f"gen_results_2026_by_county_{n}.html"] = _page(subject, body, refreshed)
+    nr = lambda v: [*v[:3], None]  # noqa: E731 - the statewide pages print NR for provisional
+    pages["gen_results_2026_1.html"] = _page(
+        "Governor / Lt. Governor",
+        _governor(
+            [
+                ("Wes Moore and Aruna Miller", "Democratic", nr(gov_total[0])),
+                ("Dan Cox and Rob Krop", "Republican", nr(gov_total[1])),
+            ]
+        ),  # fmt: skip
+        refreshed,
+    )
+    for n in range(2, 10):
+        pages[f"gen_results_2026_{n}.html"] = _page(f"Office {n}", "", refreshed)
+    pages["gen_qresults_2026_1_00_ALL.html"] = _page(
+        "All State Questions",
+        _question(
+            [
+                ("For the Constitutional Amendment", nr(q_total[0])),
+                ("Against the Constitutional Amendment", nr(q_total[1])),
+            ]
+        ),  # fmt: skip
+        refreshed,
+    )
+    pages["status.html"] = _status(refreshed)
+    if tweak:
+        tweak(pages)
+    return pages
+
+
+class FakeResp:
+    def __init__(self, content: bytes):
+        self.content = content
+
+    def raise_for_status(self):
+        pass
+
+
+def serve(pages_for_call):
+    """A stand-in httpx.Client; pages_for_call(call number) gives the pages for that pass."""
+    calls = {"n": 0}
+
+    class Client:
+        def __init__(self, *a, **k):
+            calls["n"] += 1
+            self.pages = pages_for_call(calls["n"])
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def get(self, url):
+            name = url.rsplit("/", 1)[-1] or "status.html"
+            if url == "https://elections.maryland.gov/":
+                name = "status.html"
+            return FakeResp(self.pages[name])
+
+    return Client, calls
+
+
+@pytest.fixture
+def env(tmp_path, monkeypatch):
+    from skipjack.pipeline import fetch
+
+    arch = tmp_path / "archives"
+    monkeypatch.setattr(ru, "ARCHIVES_DIR", arch)
+    monkeypatch.setattr(ru, "MANIFEST_PATH", tmp_path / "manifest.csv")
+    monkeypatch.setattr(ru, "DATA_DIR", tmp_path / "data")
+    monkeypatch.setattr(fetch, "ARCHIVES_DIR", arch)
+    return tmp_path
+
+
+def test_registry_lists_the_35_pages():
+    pages = ru.UNOFFICIAL_RESULTS["GG26"].pages()
+    assert len(pages) == 35
+    assert pages[0][1].endswith("/2026/General_results/gen_results_2026_by_county_1.html")
+    assert pages[-1] == ("status.html", "https://elections.maryland.gov/")
+
+
+def test_gg26_is_live_until_its_certified_results_are_published(monkeypatch):
+    from skipjack.pipeline.results import RESULTS_ELECTIONS
+
+    assert ru.is_live("GG26")
+    assert not ru.is_live("GP26")
+    monkeypatch.setattr(RESULTS_ELECTIONS["GG26"], "published", True)
+    assert not ru.is_live("GG26")
+
+
+def test_fetch_archives_a_snapshot_named_by_the_boards_time(env, monkeypatch):
+    client, _ = serve(lambda n: snapshot_pages())
+    monkeypatch.setattr(ru.httpx, "Client", client)
+    assert ru.unofficial_fetch("GG26") == "2026-11-04T092122"
+    snap = env / "archives/sbe/results-unofficial/GG26/2026-11-04T092122"
+    assert len(list(snap.iterdir())) == 35
+    rows = ru.read_manifest(ru.MANIFEST_PATH)
+    assert len(rows) == 35
+    assert (
+        rows[0].source_id
+        == "sbe-results-unofficial-GG26-2026-11-04T092122-gen_results_2026_by_county_1"
+    )
+    # the board has not refreshed since: nothing new
+    assert ru.unofficial_fetch("GG26") is None
+    assert len(ru.read_manifest(ru.MANIFEST_PATH)) == 35
+
+
+def test_fetch_retries_once_when_a_refresh_lands_mid_fetch(env, monkeypatch):
+    def mixed(pages):
+        pages["gen_results_2026_by_county_5.html"] = pages[
+            "gen_results_2026_by_county_5.html"
+        ].replace(b"09:21:22", b"09:31:22")
+
+    client, calls = serve(lambda n: snapshot_pages(tweak=mixed) if n == 1 else snapshot_pages())
+    monkeypatch.setattr(ru.httpx, "Client", client)
+    assert ru.unofficial_fetch("GG26") == "2026-11-04T092122"
+    assert calls["n"] == 2
+
+
+def test_fetch_gives_up_on_mixed_times_twice_and_writes_nothing(env, monkeypatch):
+    def mixed(pages):
+        pages["gen_results_2026_1.html"] = snapshot_pages("11/04/2026 09:31:22 AM")[
+            "gen_results_2026_1.html"
+        ]
+
+    client, _ = serve(lambda n: snapshot_pages(tweak=mixed))
+    monkeypatch.setattr(ru.httpx, "Client", client)
+    with pytest.raises(ru.UnofficialFetchError, match="different refreshed times"):
+        ru.unofficial_fetch("GG26")
+    assert ru.snapshots("GG26") == []
+    assert not ru.MANIFEST_PATH.exists()
+
+
+def test_fetch_and_parse_do_nothing_once_certified(env, monkeypatch):
+    from skipjack.pipeline.results import RESULTS_ELECTIONS
+
+    monkeypatch.setattr(RESULTS_ELECTIONS["GG26"], "published", True)
+    monkeypatch.setattr(ru.httpx, "Client", lambda *a, **k: pytest.fail("fetched"))
+    assert ru.unofficial_fetch("GG26") is None
+    assert ru.unofficial_parse("GG26") == ([], [])
+
+
+def _fetch(monkeypatch, **kw):
+    client, _ = serve(lambda n: snapshot_pages(**kw))
+    monkeypatch.setattr(ru.httpx, "Client", client)
+    return ru.unofficial_fetch("GG26")
+
+
+def test_parse_writes_a_csv_per_county_and_the_canvass_status(env, monkeypatch):
+    snap = _fetch(monkeypatch)
+    assert ru.unofficial_parse("GG26") == ([snap], [])
+    out = env / "data/results_unofficial/GG26" / snap
+    files = sorted(p.name for p in (out / "county").glob("*.csv"))
+    assert len(files) == 24
+    assert files[0] == "01-allegany.csv"
+    assert "19-st-marys.csv" in files
+    import csv as csv_mod
+
+    with open(out / "county/01-allegany.csv") as f:
+        rows = list(csv_mod.DictReader(f))
+    gov = rows[0]
+    assert (gov["county"], gov["kind"], gov["candidate"], gov["party"]) == (
+        "Allegany", "contest", "Wes Moore and Aruna Miller", "Democratic"
+    )  # fmt: skip
+    assert (gov["early"], gov["election_day"], gov["mail_in"], gov["provisional"]) == (
+        "1",
+        "2",
+        "1",
+        "",
+    )
+    q = rows[2]
+    assert q["kind"] == "question"
+    assert q["choice"] == "For the Constitutional Amendment"
+    assert q["provisional"] == ""  # printed 0, the provisional canvass has not reported
+    assert q["mail_in"] == "1"
+    assert q["text_url"].endswith("/2026/General_results/gen_qtext_2026_C_1.html")
+    side = ru.ProvenanceSidecar.read(out / "county/01-allegany_provenance.json")
+    assert side.family == "results-unofficial"
+    assert side.checks["unofficial"] is True
+    assert side.checks["statewide_check"].startswith("ok: 2 statewide tables")
+    assert side.checks["zeros_not_reported"] == 2
+    with open(out / "canvass-status.csv") as f:
+        status = list(csv_mod.DictReader(f))
+    assert len(status) == 24
+    assert (status[0]["mib1"], status[0]["prov"]) == ("complete", "not_reported")
+    # parsed snapshots are not parsed again
+    assert ru.unofficial_parse("GG26") == ([], [])
+
+
+def test_parse_refuses_a_snapshot_whose_counties_do_not_sum_to_the_state(env, monkeypatch):
+    snap = _fetch(monkeypatch, bump=3)
+    written, failures = ru.unofficial_parse("GG26")
+    assert written == []
+    assert len(failures) == 1 and snap in failures[0]
+    assert "do not sum to the statewide figures" in failures[0]
+    assert not (env / "data/results_unofficial/GG26" / snap).exists()
+
+
+def test_parse_refuses_a_row_that_does_not_add_up(env, monkeypatch):
+    def bad_total(pages):
+        p = pages["gen_results_2026_by_county_3.html"].decode()
+        # Moore in county 3: 3 + 6 + 3 = 12; print 13
+        pages["gen_results_2026_by_county_3.html"] = p.replace(
+            "<td>12</td>", "<td>13</td>", 1
+        ).encode()
+
+    _fetch(monkeypatch, tweak=bad_total)
+    written, failures = ru.unofficial_parse("GG26")
+    assert written == [] and "do not add up" in failures[0]
+
+
+def test_parse_refuses_archived_bytes_that_do_not_match_the_manifest(env, monkeypatch):
+    snap = _fetch(monkeypatch)
+    page = env / "archives/sbe/results-unofficial/GG26" / snap / "gen_results_2026_1.html"
+    page.write_bytes(page.read_bytes() + b" ")
+    written, failures = ru.unofficial_parse("GG26")
+    assert written == [] and "sha256" in failures[0]
+
+
+def test_check_statewide_compares_a_county_split_table_with_that_county():
+    county = ru.read_results_page(page("gen_results_2026_by_county_1.html"))
+    governor = contest(county, "Governor / Lt. Governor")
+    split = replace(governor, area="Allegany County")
+    statewide = ru.Page("Governor / Lt. Governor", None, county.last_refreshed, (split,))
+    assert ru.check_statewide([county], [statewide]) == 1
+    wrong = replace(split, area="Garrett County")
+    with pytest.raises(ru.UnofficialParseError, match="no county page"):
+        ru.check_statewide(
+            [county], [ru.Page("Governor / Lt. Governor", None, county.last_refreshed, (wrong,))]
+        )
