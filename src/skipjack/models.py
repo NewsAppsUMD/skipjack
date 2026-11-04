@@ -164,4 +164,67 @@ CREATE INDEX IF NOT EXISTS idx_results_county_contest
     ON results_county (election, office, district, party_file);
 CREATE INDEX IF NOT EXISTS idx_results_county_county ON results_county (election, county);
 CREATE INDEX IF NOT EXISTS idx_results_votes_result ON results_votes (result_id);
+
+-- The board's unofficial running count while an election is canvassed (GG26): one row per
+-- candidate, judge's Yes/No or question choice per table on a county page, per snapshot (the
+-- board's Last refreshed time, e.g. 2026-11-04T160222). Kept apart from results_county, which
+-- holds certified results only. kind is contest / retention / question; candidate_heading is
+-- the judge for a retention; choice is Yes/No or For/Against; area is a sub-heading that is not
+-- a vote-for line. total_votes is the board's printed total.
+CREATE TABLE IF NOT EXISTS results_unofficial (
+    id INTEGER PRIMARY KEY,
+    source_id TEXT REFERENCES sources(source_id),
+    election TEXT NOT NULL,
+    snapshot TEXT NOT NULL,
+    last_refreshed TEXT NOT NULL,
+    county TEXT NOT NULL,
+    kind TEXT NOT NULL,
+    office TEXT NOT NULL,
+    district TEXT NOT NULL,
+    area TEXT NOT NULL,
+    vote_for INTEGER,
+    seat_rule TEXT NOT NULL,
+    candidate_heading TEXT NOT NULL,
+    detail TEXT NOT NULL,
+    text_url TEXT NOT NULL,
+    precincts_reported INTEGER,
+    precincts_total INTEGER,
+    candidate TEXT NOT NULL,
+    choice TEXT NOT NULL,
+    party TEXT NOT NULL,
+    write_in INTEGER NOT NULL,
+    total_votes INTEGER NOT NULL
+);
+
+-- A results_unofficial row's votes by vote type (early, election_day, mail_in, provisional).
+-- votes is NULL where the board printed NR, or a 0 in a canvass the county had not reported:
+-- not yet counted, never zero.
+CREATE TABLE IF NOT EXISTS results_unofficial_votes (
+    result_id INTEGER NOT NULL REFERENCES results_unofficial(id),
+    vote_type TEXT NOT NULL,
+    votes INTEGER
+);
+
+-- Each county's canvasses in one snapshot, from the board's home page: complete / partial /
+-- not_reported for early voting, election night, the two mail-in canvasses and provisional.
+CREATE TABLE IF NOT EXISTS results_unofficial_status (
+    source_id TEXT REFERENCES sources(source_id),
+    election TEXT NOT NULL,
+    snapshot TEXT NOT NULL,
+    county TEXT NOT NULL,
+    last_updated TEXT NOT NULL,
+    precincts_reported INTEGER NOT NULL,
+    precincts_total INTEGER NOT NULL,
+    ev TEXT NOT NULL,
+    en TEXT NOT NULL,
+    mib1 TEXT NOT NULL,
+    prov TEXT NOT NULL,
+    mib2 TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_results_unofficial_contest
+    ON results_unofficial (election, snapshot, office, district);
+CREATE INDEX IF NOT EXISTS idx_results_unofficial_county
+    ON results_unofficial (election, snapshot, county);
+CREATE INDEX IF NOT EXISTS idx_results_unofficial_votes_result
+    ON results_unofficial_votes (result_id);
 """
