@@ -210,6 +210,11 @@ Task 1 fetches fresh copies for the fixtures rather than depending on that direc
 - Before the provisional and second mail-in canvass days, run `make results-unofficial` by hand
   and push. Unchanged snapshots are skipped, so extra runs cost nothing.
 
+- Done 2026-11-05. The unofficial fetch and parse are their own step with
+  `continue-on-error`, so a failed snapshot (a refresh landing mid-fetch twice, or a page that
+  no longer adds up) does not hold back the day's turnout snapshot; a last step turns the run
+  red when it failed. The schedule stays once a day at 1:37 p.m. Eastern.
+
 ## Task 8: verification
 
 - `make results-unofficial`, `make build-db`, `pytest -m "not slow"`,
