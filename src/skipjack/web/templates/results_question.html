@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "_results.html" as r with context %}
+{% import "_maps.html" as maps with context %}
+{% import "_unofficial.html" as u with context %}
+{% block title %}{{ question.title }}, {{ election.name.title() }}{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ r.breadcrumb(election, [(question.title, none)]) }}
+<h1>{{ question.title }}{% if unofficial %} <span class="tag">unofficial</span>{% endif %}</h1>
+{{ u.banner(full=false) }}
+{{ u.question_detail(question) }}
+<p class="secondary">Statewide ballot question. {{ election.name.title() }},
+    {{ question.counties_reporting }} counties. Totals are the county results added up.</p>
+
+<h2>Statewide</h2>
+{{ u.question_table(question, question.title ~ ", statewide by way of voting", question.vote_types) }}
+
+{% if county_maps %}
+{{ maps.map_defs() }}
+{% for m in county_maps %}{{ maps.county_map(m) }}{% endfor %}
+{% if unofficial %}<p class="note">The map shows the votes counted as of {{ unofficial.as_of }}.
+    Counties still counting mail-in and provisional ballots can shift.</p>{% endif %}
+{% endif %}
+
+<h2>By county</h2>
+<div class="overflow-auto">
+<table data-sortable class="results-table county-table">
+    <caption class="sr-only">{{ question.title }} by county</caption>
+    <thead>
+        <tr>
+            <th scope="col">County</th>
+            <th scope="col" class="num">For</th>
+            <th scope="col" class="num">Against</th>
+            <th scope="col" class="num">For, share so far</th>
+            <th scope="col">Not yet counted</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in question.county_rows %}
+        <tr id="county-{{ row.slug }}">
+            <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/county/{{ row.slug }}/#{{ question.title|slug }}">{{ row.county }}</a></th>
+            <td class="num" data-sort="{{ row.for }}">{{ r.votes(row.for) }}</td>
+            <td class="num" data-sort="{{ row.against }}">{{ r.votes(row.against) }}</td>
+            <td class="num" data-sort="{{ '' if row.share_for is none else row.share_for }}">{% if row.share_for is none %}<span class="muted">&mdash;</span>{% else %}{{ "%.1f"|format(row.share_for) }}%{% endif %}</td>
+            <td class="muted">{{ row.not_counted|join(", ")|lower if row.not_counted else "" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{{ r.source_strip(sources, data_page, "this question") }}
+</div>
+{% endblock %}

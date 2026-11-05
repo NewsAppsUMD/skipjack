@@ -29,7 +29,7 @@ from skipjack.web.forecast import report_available
 from skipjack.web.db import get_db
 from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
-from skipjack.web.results import contest_slugs, county_slugs, elections
+from skipjack.web.results_unofficial import contest_slugs_for, county_slugs_for, site_elections
 from skipjack.web.turnout import publishable_geographies, same_day_statewide
 from skipjack.web.race import snapshots_with_race
 from skipjack.web.young import snapshots_with_young
@@ -93,12 +93,12 @@ def page_urls() -> list[str]:
                 turnout_urls.append(f"/turnout/{code.lower()}/same-day/")
         results_urls: list[str] = []
         try:
-            found = elections(conn)
+            found = site_elections(conn)
             for e in found:
                 base = f"/results/{e['slug']}/"
                 results_urls += [base, base + "county/"]
-                results_urls += [f"{base}county/{c}/" for c in county_slugs(conn, e["code"])]
-                results_urls += [f"{base}{c}/" for c in contest_slugs(conn, e["code"])]
+                results_urls += [f"{base}county/{c}/" for c in county_slugs_for(conn, e["code"])]
+                results_urls += [f"{base}{c}/" for c in contest_slugs_for(conn, e["code"])]
         except sqlite3.OperationalError:  # no results tables in an older database
             results_urls = []
     if not dates:

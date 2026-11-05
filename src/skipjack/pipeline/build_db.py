@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import json
 import logging
 import sqlite3
@@ -399,6 +400,160 @@ def _check_results_file(df: pl.DataFrame, prov: dict, csv_path: Path, code: str)
         )
 
 
+# --- the unofficial running count (see pipeline/results_unofficial.py) ------------------------
+
+_UNOFFICIAL_INTS = {"vote_for", "precincts_reported", "precincts_total"}
+_UNOFFICIAL_TEXT = [
+    "election", "snapshot", "last_refreshed", "county", "kind", "office", "district", "area",
+    "vote_for", "seat_rule", "candidate_heading", "detail", "text_url", "precincts_reported",
+    "precincts_total", "candidate", "choice", "party",
+]  # fmt: skip
+_UNOFFICIAL_KINDS = {"contest", "retention", "question"}
+_CANVASS_VALUES = {"complete", "partial", "not_reported"}
+
+
+def _read_unofficial_csv(csv_path: Path) -> tuple[dict, list[dict]]:
+    prov = load_provenance(csv_path)
+    if not prov:
+        raise ResultsLoadError(
+            f"{csv_path}: no provenance sidecar; refusing to load an unattributable file"
+        )
+    with csv_path.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        raise ResultsLoadError(f"{csv_path}: no rows")
+    return prov, rows
+
+
+def _int_or_none(value: str, csv_path: Path, column: str) -> int | None:
+    if value == "":
+        return None
+    if not (value.isascii() and value.isdigit()):
+        raise ResultsLoadError(f"{csv_path}: {column} is not a count: {value!r}")
+    return int(value)
+
+
+def _check_unofficial_ids(rows: list[dict], prov: dict, csv_path: Path, code: str, snap: str):
+    for column, want in (("election", code), ("snapshot", snap)):
+        found = sorted({r[column] for r in rows})
+        if found != [want]:
+            raise ResultsLoadError(
+                f"{csv_path}: {column} column holds {found} but the directory says {want!r}"
+            )
+    if prov.get("election") != code:
+        raise ResultsLoadError(f"{csv_path}: the sidecar's election is {prov.get('election')!r}")
+
+
+def load_results_unofficial(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
+    """Load every snapshot under data/results_unofficial/<CODE>/<snapshot>/: the county CSVs
+    (melting the four vote types, NULL where not yet counted) and the canvass status.
+    Returns the number of results_unofficial rows loaded."""
+    from skipjack.pipeline.results_unofficial import CANVASSES, VOTE_STEMS, source_id
+
+    root = data_dir / "results_unofficial"
+    if not root.exists():
+        return 0
+    next_id = conn.execute("SELECT COALESCE(MAX(id), 0) FROM results_unofficial").fetchone()[0] + 1
+    total = 0
+    for snap_dir in sorted(p for p in root.glob("*/*") if p.is_dir() and p.name[0] != "."):
+        code, snap = snap_dir.parent.name, snap_dir.name
+        year = RESULTS_ELECTIONS[code].year if code in RESULTS_ELECTIONS else None
+        if year is None:
+            raise ResultsLoadError(f"{snap_dir}: unknown election code {code!r}")
+        for csv_path in sorted((snap_dir / "county").glob("*.csv")):
+            prov, rows = _read_unofficial_csv(csv_path)
+            _check_unofficial_ids(rows, prov, csv_path, code, snap)
+            number, _, slug = csv_path.stem.partition("-")
+            county = COUNTY_CODES.get(number)
+            if county is None or slug != county_slug(county):
+                raise ResultsLoadError(f"{csv_path}: file name does not match a registry county")
+            counties = sorted({r["county"] for r in rows})
+            if counties != [county]:
+                raise ResultsLoadError(
+                    f"{csv_path}: county column holds {counties} but the file is {county!r}"
+                )
+            expected = source_id(code, snap, f"gen_results_{year}_by_county_{int(number)}.html")
+            if prov.get("source_id") != expected:
+                raise ResultsLoadError(
+                    f"{csv_path}: sidecar source_id {prov.get('source_id')!r}, expected {expected!r}"
+                )
+            want_rows = (prov.get("checks") or {}).get("rows")
+            if want_rows is not None and want_rows != len(rows):
+                raise ResultsLoadError(
+                    f"{csv_path}: {len(rows)} data rows but the sidecar's checks say {want_rows}"
+                )
+            _upsert_source(conn, prov)
+            unofficial_rows, vote_rows = [], []
+            for line, row in enumerate(rows, start=2):
+                if row["kind"] not in _UNOFFICIAL_KINDS:
+                    raise ResultsLoadError(f"{csv_path}: row {line}: kind {row['kind']!r}")
+                if row["write_in"] not in ("0", "1"):
+                    raise ResultsLoadError(f"{csv_path}: row {line}: write_in {row['write_in']!r}")
+                votes = {s: _int_or_none(row[s], csv_path, s) for s in VOTE_STEMS}
+                printed = _int_or_none(row["total"], csv_path, "total")
+                if printed is None or sum(v or 0 for v in votes.values()) != printed:
+                    raise ResultsLoadError(
+                        f"{csv_path}: row {line} ({row['candidate'] or row['choice']}): the vote "
+                        f"types do not add up to the total {row['total']!r}"
+                    )
+                text = [
+                    _int_or_none(row[c], csv_path, c) if c in _UNOFFICIAL_INTS else row[c]
+                    for c in _UNOFFICIAL_TEXT
+                ]
+                unofficial_rows.append(
+                    (next_id, prov["source_id"], *text, int(row["write_in"]), printed)
+                )
+                vote_rows += [(next_id, s, votes[s]) for s in VOTE_STEMS]
+                next_id += 1
+            conn.executemany(
+                f"""INSERT INTO results_unofficial
+                    (id, source_id, {", ".join(_UNOFFICIAL_TEXT)}, write_in, total_votes)
+                    VALUES ({", ".join("?" * (len(_UNOFFICIAL_TEXT) + 4))})""",
+                unofficial_rows,
+            )
+            conn.executemany(
+                "INSERT INTO results_unofficial_votes (result_id, vote_type, votes) VALUES (?, ?, ?)",
+                vote_rows,
+            )
+            total += len(unofficial_rows)
+
+        status_path = snap_dir / "canvass-status.csv"
+        if not status_path.exists():
+            raise ResultsLoadError(f"{snap_dir}: no canvass-status.csv")
+        prov, rows = _read_unofficial_csv(status_path)
+        _check_unofficial_ids(rows, prov, status_path, code, snap)
+        if sorted(r["county"] for r in rows) != sorted(COUNTY_CODES.values()):
+            raise ResultsLoadError(f"{status_path}: the rows are not the 24 counties")
+        columns = ["ev", "en", "mib1", "prov", "mib2"]
+        assert len(columns) == len(CANVASSES)
+        for r in rows:
+            bad = [r[c] for c in columns if r[c] not in _CANVASS_VALUES]
+            if bad:
+                raise ResultsLoadError(f"{status_path}: {r['county']}: canvass state {bad}")
+        _upsert_source(conn, prov)
+        conn.executemany(
+            """INSERT INTO results_unofficial_status
+               (source_id, election, snapshot, county, last_updated, precincts_reported,
+                precincts_total, ev, en, mib1, prov, mib2)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            [
+                (
+                    prov["source_id"],
+                    code,
+                    snap,
+                    r["county"],
+                    r["last_updated"],
+                    int(r["precincts_reported"]),
+                    int(r["precincts_total"]),
+                    *(r[c] for c in columns),
+                )
+                for r in rows
+            ],  # fmt: skip
+        )
+    logger.info("Loaded unofficial results: %d rows", total)
+    return total
+
+
 def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     if db_path.exists():
         db_path.unlink()
@@ -409,6 +564,7 @@ def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     counts["voter_file"] = load_voter_file(conn, data_dir)
     counts["turnout"] = load_turnout(conn, data_dir)
     counts["results"] = load_results(conn, data_dir)
+    counts["results_unofficial"] = load_results_unofficial(conn, data_dir)
     conn.commit()
     conn.close()
 

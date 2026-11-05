@@ -1,0 +1,90 @@
+{# The unofficial count's banner and canvass table. Import with context:
+   {% import "_unofficial.html" as u with context %}, then {{ u.banner() }} where `unofficial`
+   (routes/results.py::_page_context) is set. Both render nothing for certified results. #}
+
+{% set CANVASS_TEXT = {"complete": "done", "partial": "partly", "not_reported": "not yet"} %}
+
+{% macro banner(full=true) -%}
+{% if unofficial %}
+<div class="callout unofficial-banner" role="note">
+    <p><strong>Unofficial and incomplete.</strong> This is the State Board of Elections' running
+        count as of {{ unofficial.as_of }}. Provisional ballots and some mail-in ballots have
+        not been counted yet, so every total here can still change. No winners are marked.</p>
+    {% if full %}
+    <p>The counties count in stages:
+        {% for c in unofficial.canvasses -%}
+        {{ c.label|lower }}, {{ c.counties }} of 24 counties reporting{% if not loop.last %}; {% endif %}
+        {%- endfor %}.
+        <a href="#canvass">Each county's progress</a>.</p>
+    {% endif %}
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% macro canvass_table() -%}
+{% if unofficial %}
+<section aria-labelledby="canvass">
+<h2 id="canvass">The count, county by county</h2>
+<p class="secondary">Which of the five counts each county has reported to the State Board,
+    as of {{ unofficial.as_of }}. "Partly" means the county has reported some of that count.</p>
+<div class="overflow-auto">
+<table data-sortable class="results-table compact">
+    <caption class="sr-only">Each county's counts reported as of {{ unofficial.as_of }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">County</th>
+            <th scope="col" class="num">Election-day precincts</th>
+            {% for c in unofficial.canvasses %}<th scope="col">{{ c.label }}</th>{% endfor %}
+            <th scope="col">County last reported</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in unofficial.canvass %}
+        <tr>
+            <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/county/{{ row.slug }}/">{{ row.county }}</a></th>
+            <td class="num">{{ row.precincts_reported }} of {{ row.precincts_total }}</td>
+            {% for s in row.states %}<td{% if s == "not_reported" %} class="muted"{% endif %}>{{ CANVASS_TEXT[s] }}</td>{% endfor %}
+            <td>{{ row.last_updated }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</section>
+{% endif %}
+{%- endmacro %}
+
+{# A ballot question's choices: For and Against, with a column per way of voting when
+   vote_types is given. Shares are of the For and Against votes counted so far. #}
+{% macro question_table(q, caption, vote_types=[], compact=false) -%}
+<div class="overflow-auto">
+<table class="results-table{% if compact %} compact{% endif %}">
+    <caption class="sr-only">{{ caption }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">Choice</th>
+            {% for v in vote_types %}<th scope="col" class="num">{{ v.label }}</th>{% endfor %}
+            <th scope="col" class="num">Votes so far</th>
+            <th scope="col" class="num">Share so far</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in q.choices %}
+        <tr>
+            <th scope="row">{{ c.label }}</th>
+            {% for v in vote_types %}<td class="num">{% if c.votes[v.stem] is none %}<span class="muted">not yet counted</span>{% else %}{{ "{:,}".format(c.votes[v.stem]) }}{% endif %}</td>{% endfor %}
+            <td class="num">{{ "{:,}".format(c.total) }}</td>
+            <td class="num">{% if c.share is none %}<span class="muted">&mdash;</span>{% else %}{{ "%.1f"|format(c.share) }}%{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{%- endmacro %}
+
+{# The heading lines under a question's title: its chapter and short title, and the board's
+   question text. #}
+{% macro question_detail(q) -%}
+{% if q.detail %}<p class="secondary">{{ q.detail }}</p>{% endif %}
+{% if q.text_url %}<p class="note"><a href="{{ q.text_url }}" target="_blank" rel="noopener">The question as it appears on the ballot</a> (State Board of Elections)</p>{% endif %}
+{%- endmacro %}

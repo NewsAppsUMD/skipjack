@@ -95,7 +95,15 @@ def test_downloads_are_only_aggregates():
     files = download_files(DATA_DIR)
     assert all(f.suffix in DOWNLOAD_SUFFIXES for f in files)
     assert all(
-        f.parts[0] in {"voter_registration", "voter_file", "turnout", "results", "turnout_model"}
+        f.parts[0]
+        in {
+            "voter_registration",
+            "voter_file",
+            "turnout",
+            "results",
+            "results_unofficial",
+            "turnout_model",
+        }
         for f in files
     )
 

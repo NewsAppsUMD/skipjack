@@ -1,4 +1,5 @@
-# Snapshots the press-room turnout files once a day during a campaign.
+# Snapshots the press-room turnout files once a day during a campaign, and, while GG26 is being
+# counted, the State Board's unofficial results pages.
 #
 # What it does: fetch any changed turnout file (sha-deduped, so an unchanged day
 # downloads nothing new), parse the new snapshots into data/turnout/, rebuild the
@@ -14,6 +15,11 @@
 # after its canvass, and GP26's denominator files (official-turnout, eligible) went back
 # to placeholder pages when the SBE re-published its tree on 2026-10-10 -- they ingest
 # automatically when the board re-publishes. Disable only when nothing is pending.
+#
+# The unofficial results step snapshots the board's running GG26 count (an unchanged refresh
+# is skipped) and does nothing once GG26's certified results are published. It may fail on its
+# own -- a board refresh landing mid-fetch twice, or a page that no longer adds up -- without
+# holding back the turnout snapshot: the run commits and publishes what did work, then goes red.
 name: Turnout snapshot
 
 on:
@@ -49,12 +55,19 @@ jobs:
           uv run skipjack turnout-fetch
           uv run skipjack turnout-parse
 
+      - name: Fetch and parse the unofficial results
+        id: unofficial
+        continue-on-error: true
+        run: |
+          uv run skipjack unofficial-fetch
+          uv run skipjack unofficial-parse
+
       - name: Check for changes
         id: changed
         # git diff --quiet sees only tracked files; a new snapshot day is new files,
         # so the check is on the working tree's status
         run: |
-          if [ -z "$(git status --porcelain -- data/turnout archives/sbe/campaign_stats archives/manifest.csv)" ]; then
+          if [ -z "$(git status --porcelain -- data/turnout data/results_unofficial archives/sbe/campaign_stats archives/sbe/results-unofficial archives/manifest.csv)" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -69,8 +82,8 @@ jobs:
         run: |
           git config user.name "skipjack bot"
           git config user.email "noreply@github.com"
-          git add data/turnout archives/sbe/campaign_stats archives/manifest.csv
-          git commit -m "turnout snapshot $(date -u +%F)"
+          git add data/turnout data/results_unofficial archives/sbe/campaign_stats archives/sbe/results-unofficial archives/manifest.csv
+          git commit -m "turnout and results snapshot $(date -u +%F)"
           git push
 
       - name: Publish the site (the bot push alone does not trigger Pages)
@@ -78,3 +91,9 @@ jobs:
         run: gh workflow run pages.yml --ref main
         env:
           GH_TOKEN: ${{ github.token }}
+
+      - name: Report a failed unofficial results snapshot
+        if: steps.unofficial.outcome == 'failure'
+        run: |
+          echo "::error::The unofficial results step failed; see its log. Turnout was still committed."
+          exit 1

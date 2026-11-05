@@ -1,4 +1,4 @@
-.PHONY: fetch parse turnout results voterfile race build-db site serve test clean turnout-model
+.PHONY: fetch parse turnout results results-unofficial voterfile race build-db site serve test clean turnout-model
 
 fetch:
 	uv run skipjack fetch
@@ -16,6 +16,12 @@ turnout:
 results:
 	uv run skipjack results-fetch
 	uv run skipjack results-parse
+
+# The board's unofficial running count while an election is canvassed (GG26); does nothing once
+# its certified results are published. Usage: make results-unofficial
+results-unofficial:
+	uv run skipjack unofficial-fetch
+	uv run skipjack unofficial-parse
 
 # Usage: make voterfile VOTERFILE_DIR="/path/to/voter files"
 voterfile:

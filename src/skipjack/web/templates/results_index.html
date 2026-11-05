@@ -16,7 +16,7 @@
 <div class="grid">
     {% for e in [y.primary, y.general] if e %}
     <article>
-        <h3><a href="{{ base }}/results/{{ e.slug }}/">{{ e.name.title() }}</a></h3>
+        <h3><a href="{{ base }}/results/{{ e.slug }}/">{{ e.name.title() }}</a>{% if e.unofficial %} <span class="tag">unofficial, count in progress</span>{% endif %}</h3>
         <p>{{ e.kind.title() }} election{% if e.election_day %}, {{ e.election_day|day_label }}{% endif %}.</p>
         <p><a href="{{ base }}/results/{{ e.slug }}/" role="button">Contests</a>
             <a href="{{ base }}/results/{{ e.slug }}/county/">By county</a></p>

@@ -1,0 +1,77 @@
+election,snapshot,last_refreshed,county,kind,office,district,area,vote_for,seat_rule,candidate_heading,detail,text_url,precincts_reported,precincts_total,candidate,choice,party,write_in,early,election_day,mail_in,provisional,total
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Governor / Lt. Governor,,,1,,,,,47,47,Wes Moore and Aruna Miller,,Democratic,0,5438,8690,4672,,18800
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Governor / Lt. Governor,,,1,,,,,47,47,Dan Cox and Rob Krop,,Republican,0,7148,17099,2194,,26441
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Governor / Lt. Governor,,,1,,,,,47,47,Andy Ellis and Owen Silverman Andrews,,Green,0,209,562,128,,899
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Governor / Lt. Governor,,,1,,,,,47,47,Cathy White and Cathy Permut,,Working Class Party,0,197,561,168,,926
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Governor / Lt. Governor,,,1,,,,,47,47,Other Write-Ins,,,1,16,40,16,,72
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Comptroller,,,1,,,,,47,47,Brooke Elizabeth Lierman,,Democratic,0,5774,9673,4876,,20323
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Comptroller,,,1,,,,,47,47,Sonya Dunn,,Republican,0,7001,16634,2151,,25786
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Comptroller,,,1,,,,,47,47,Other Write-Ins,,,1,10,19,4,,33
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Attorney General,,,1,,,,,47,47,Anthony G. Brown,,Democratic,0,5806,9712,4919,,20437
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Attorney General,,,1,,,,,47,47,"James B. Rutledge, III",,Republican,0,7112,16972,2263,,26347
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Attorney General,,,1,,,,,47,47,Other Write-Ins,,,1,9,21,2,,32
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Representative in Congress,District 6,,1,,,,,47,47,April McClain Delaney,,Democratic,0,5695,9483,4876,,20054
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Representative in Congress,District 6,,1,,,,,47,47,Robin Ficker,,Republican,0,6865,16418,2087,,25370
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Representative in Congress,District 6,,1,,,,,47,47,Moshe Y. Landman,,Green,0,305,775,165,,1245
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Representative in Congress,District 6,,1,,,,,47,47,Other Write-Ins,,,1,35,68,25,,128
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State Senator,District 1,,1,,,,,11,11,Ashley Emerick,,Democratic,0,1137,1663,972,,3772
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State Senator,District 1,,1,,,,,11,11,Mike McKay,,Republican,0,2374,5233,661,,8268
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State Senator,District 1,,1,,,,,11,11,Other Write-Ins,,,1,1,11,0,,12
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State Senator,District 2,,1,,,,,36,36,Eric Martin Van Buren,,Democratic,0,4311,7691,3507,,15509
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State Senator,District 2,,1,,,,,36,36,Paul D. Corderman,,Republican,0,5099,12191,1964,,19254
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State Senator,District 2,,1,,,,,36,36,Other Write-Ins,,,1,16,16,5,,37
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 1C,,1,,,,,11,11,Seth Funk,,Democratic,0,1145,1686,968,,3799
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 1C,,1,,,,,11,11,Terry Baker,,Republican,0,2354,5168,685,,8207
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 1C,,1,,,,,11,11,Other Write-Ins,,,1,2,8,0,,10
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2A,,2,,,,,25,25,John D. Leonard,,Democratic,0,2685,4717,2527,,9929
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2A,,2,,,,,25,25,Brandon Thompson,,Democratic,0,2682,4757,2517,,9956
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2A,,2,,,,,25,25,William Valentine,,Republican,0,3570,9332,1163,,14065
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2A,,2,,,,,25,25,William J. Wivell,,Republican,0,3664,9434,1323,,14421
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2A,,2,,,,,25,25,Other Write-Ins,,,1,15,18,7,,40
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2B,,1,,,,,11,11,Matthew J. Schindler,,Democratic,0,1780,2890,1183,,5853
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2B,,1,,,,,11,11,Brenda J. Thiam,,Republican,0,1012,1850,364,,3226
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,House of Delegates,District 2B,,1,,,,,11,11,Other Write-Ins,,,1,9,11,2,,22
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Jonathan Fish,,Democratic,0,4856,8149,4089,,17094
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,"Les McIntosh, Sr.",,Democratic,0,5029,8338,4150,,17517
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Teri Pailen,,Democratic,0,3942,6791,3709,,14442
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Lara A. Shepherd,,Democratic,0,5486,9230,4540,,19256
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Dave Williams,,Democratic,0,5030,8143,4381,,17554
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,John F. Barr,,Republican,0,5610,12403,2098,,20111
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Charles Burkett,,Republican,0,6305,14448,1987,,22740
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Jeffrey A. Cline,,Republican,0,5890,13272,2129,,21291
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Randy Leatherman,,Republican,0,6550,14925,2214,,23689
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Dan Young,,Republican,0,6434,14840,1996,,23270
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Taj Smith,,Unaffiliated,0,2783,5129,1468,,9380
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,County Commissioner,,,5,,,,,47,47,Other Write-Ins,,,1,127,424,19,,570
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,retention,"Judge, Appellate Court of Maryland At Large",,,,,Dan Friedman,,,47,47,Dan Friedman,Yes,,0,9128,17900,5250,,32278
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,retention,"Judge, Appellate Court of Maryland At Large",,,,,Dan Friedman,,,47,47,Dan Friedman,No,,0,1744,4456,549,,6749
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Treasurer,,,1,,,,,47,47,John McElroy,,Republican,0,9143,20691,3806,,33640
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Treasurer,,,1,,,,,47,47,Other Write-Ins,,,1,390,681,207,,1278
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State's Attorney,,,1,,,,,47,47,Gina M. Cirincion,,Republican,0,9106,20432,3877,,33415
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,State's Attorney,,,1,,,,,47,47,Other Write-Ins,,,1,402,727,186,,1315
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Clerk of the Circuit Court,,,1,,,,,47,47,Kevin R. Tucker,,Republican,0,9185,20655,3817,,33657
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Clerk of the Circuit Court,,,1,,,,,47,47,Other Write-Ins,,,1,327,556,151,,1034
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Register of Wills,,,1,,,,,47,47,Lacy M. Flook,,Republican,0,9126,20516,3807,,33449
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Register of Wills,,,1,,,,,47,47,Other Write-Ins,,,1,342,549,172,,1063
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Judge of the Orphans' Court,,,3,,,,,47,47,Mark P. Brugh,,Democratic,0,5115,8181,4327,,17623
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Judge of the Orphans' Court,,,3,,,,,47,47,Melinda S. Malott,,Democratic,0,5704,9503,4769,,19976
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Judge of the Orphans' Court,,,3,,,,,47,47,Shawn Perry,,Democratic,0,5066,8260,4183,,17509
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Judge of the Orphans' Court,,,3,,,,,47,47,Paul D. Banister,,Republican,0,6305,14619,1985,,22909
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Judge of the Orphans' Court,,,3,,,,,47,47,Debra Breeding,,Republican,0,6383,14764,2032,,23179
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Judge of the Orphans' Court,,,3,,,,,47,47,Jim Nipps,,Republican,0,6286,14164,1956,,22406
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Judge of the Orphans' Court,,,3,,,,,47,47,Other Write-Ins,,,1,21,29,5,,55
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Sheriff,,,1,,,,,47,47,Junior P. McLeod,,Democratic,0,5184,8784,4156,,18124
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Sheriff,,,1,,,,,47,47,Brian K. Albert,,Republican,0,7296,16904,2602,,26802
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Sheriff,,,1,,,,,47,47,Other Write-Ins,,,1,18,38,8,,64
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Board of Education,,,3,,,,,47,47,Pieter Bickford,,,0,6176,11214,4344,,21734
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Board of Education,,,3,,,,,47,47,Darrell E. Evans,,,0,4701,9385,1727,,15813
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Board of Education,,,3,,,,,47,47,Mike Guessford,,,0,5814,12209,2515,,20538
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Board of Education,,,3,,,,,47,47,Robin A. Merchant-Spickler,,,0,5430,10485,3858,,19773
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Board of Education,,,3,,,,,47,47,Linda Murray,,,0,6001,11716,4141,,21858
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,contest,Board of Education,,,3,,,,,47,47,Other Write-Ins,,,1,163,344,53,,560
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,question,Question 1: Constitutional Amendment,,,,,,(Ch. 155 of the 2026 Legislative Session) — Arbitration Reform for State Employees Act of 2026,https://elections.maryland.gov/elections/2026/General_results/gen_qtext_2026_C_1.html,47,47,,For the Constitutional Amendment,,0,8030,16313,5302,,29645
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,question,Question 1: Constitutional Amendment,,,,,,(Ch. 155 of the 2026 Legislative Session) — Arbitration Reform for State Employees Act of 2026,https://elections.maryland.gov/elections/2026/General_results/gen_qtext_2026_C_1.html,47,47,,Against the Constitutional Amendment,,0,3991,8526,1278,,13795
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,question,Question 2: Constitutional Amendment,,,,,,(Ch. 878 of the 2026 Legislative Session) — Temporary Appointments on the Commission on Judicial Disabilities,https://elections.maryland.gov/elections/2026/General_results/gen_qtext_2026_C_2.html,47,47,,For the Constitutional Amendment,,0,6775,13041,4759,,24575
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,question,Question 2: Constitutional Amendment,,,,,,(Ch. 878 of the 2026 Legislative Session) — Temporary Appointments on the Commission on Judicial Disabilities,https://elections.maryland.gov/elections/2026/General_results/gen_qtext_2026_C_2.html,47,47,,Against the Constitutional Amendment,,0,5173,11714,1757,,18644
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,question,Question 3: Constitutional Amendment,,,,,,(Ch. 881 of the 2026 Legislative Session) — Election Districts – General Assembly and Representatives in Congress,https://elections.maryland.gov/elections/2026/General_results/gen_qtext_2026_C_3.html,47,47,,For the Constitutional Amendment,,0,5738,10020,4453,,20211
+GG26,2026-11-04T160222,11/04/2026 04:02:22 PM,Washington,question,Question 3: Constitutional Amendment,,,,,,(Ch. 881 of the 2026 Legislative Session) — Election Districts – General Assembly and Representatives in Congress,https://elections.maryland.gov/elections/2026/General_results/gen_qtext_2026_C_3.html,47,47,,Against the Constitutional Amendment,,0,6711,15938,2081,,24730

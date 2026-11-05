@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv as csvlib
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -12,7 +13,14 @@ from fastapi.responses import FileResponse
 from skipjack.pipeline.turnout import may_publish
 from skipjack.web.bulk import BULK_FILES, DESCRIPTIONS
 from skipjack.pipeline.results import RESULTS_ELECTIONS
-from skipjack.web.downloads import DOWNLOAD_SUFFIXES, download_files, results_published
+from skipjack.pipeline.results_unofficial import UNOFFICIAL_RESULTS
+from skipjack.web.downloads import (
+    DOWNLOAD_SUFFIXES,
+    download_files,
+    results_published,
+    unofficial_offered,
+    unofficial_snapshot,
+)
 from skipjack.web.paths import DATA_DIR
 
 router = APIRouter()
@@ -76,6 +84,60 @@ async def results_download(relative: str):
         if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
             return FileResponse(target)
     raise HTTPException(404)
+
+
+@router.get("/downloads/results_unofficial/{relative:path}")
+async def results_unofficial_download(relative: str):
+    """Serve an unofficial-results CSV or provenance file: only the newest snapshot, and only
+    while the count runs (until the certified results are published)."""
+    parts = Path(relative).parts
+    if not any(p in ("..", ".") for p in parts) and unofficial_offered(DATA_DIR, parts):
+        target = DATA_DIR / "results_unofficial" / relative
+        if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
+            return FileResponse(target)
+    raise HTTPException(404)
+
+
+def _file(data_dir: Path, csv_path: Path, name: str) -> dict:
+    return {
+        "name": name,
+        "path": csv_path.relative_to(data_dir).as_posix(),
+        "provenance": csv_path.with_name(csv_path.stem + "_provenance.json")
+        .relative_to(data_dir)
+        .as_posix(),
+    }
+
+
+def results_unofficial_listing(data_dir: Path) -> list[dict]:
+    """One block per live unofficial count: its newest snapshot's canvass status and county
+    CSVs, with the board's refreshed time."""
+    from skipjack.web.results_unofficial import _as_of
+
+    blocks: list[dict] = []
+    for code in sorted(UNOFFICIAL_RESULTS):
+        snapshot = unofficial_snapshot(data_dir, code)
+        if snapshot is None:
+            continue
+        snap_dir = data_dir / "results_unofficial" / code / snapshot
+        counties = sorted((snap_dir / "county").glob("*.csv"))
+        if not counties:
+            continue
+        with counties[0].open(newline="") as f:
+            refreshed = next(csvlib.DictReader(f))["last_refreshed"]
+        files = [_file(data_dir, c, c.stem) for c in counties]
+        status = snap_dir / "canvass-status.csv"
+        if status.is_file():
+            files.insert(0, _file(data_dir, status, status.stem))
+        blocks.append(
+            {
+                "code": code,
+                "name": RESULTS_ELECTIONS[code].name,
+                "snapshot": snapshot,
+                "as_of": _as_of(refreshed),
+                "files": files,
+            }
+        )
+    return blocks
 
 
 def results_listing(data_dir: Path) -> list[dict]:
@@ -186,6 +248,7 @@ async def data_page(request: Request):
             "snapshots": voter_file_listing(DATA_DIR),
             "turnout_sections": turnout_listing(DATA_DIR),
             "results_sections": results_listing(DATA_DIR),
+            "unofficial_sections": results_unofficial_listing(DATA_DIR),
             "discrepancies": "voter_registration/source_discrepancies.csv" in available,
         },
     )
