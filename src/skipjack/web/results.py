@@ -537,6 +537,9 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
                 "scope": scope,
                 "candidates": candidates,
                 "has_against": has_against,
+                # seats: the SBE flags one winner per seat (a county office's flags are the
+                # county's own); read by skipjack.web.ticket
+                "seats": max(1, sum(c["winner"] for c in candidates)),
                 "leader": leader,
                 "tied": tied,
             }

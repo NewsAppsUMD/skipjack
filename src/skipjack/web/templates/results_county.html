@@ -29,7 +29,7 @@
 {% endif %}
 
 <nav class="subnav" aria-label="Sections of this page">
-    {% for g in groups %}<a href="#section-{{ g.party_file }}">{{ g.label + " ballot" if g.label else "Contests" }} ({{ g.contests|length }})</a>{% endfor %}{% if questions %}<a href="#questions">Ballot questions ({{ questions|length }})</a>{% endif %}
+    {% for g in groups %}<a href="#section-{{ g.party_file }}">{{ g.label + " ballot" if g.label else "Contests" }} ({{ g.contests|length }})</a>{% endfor %}{% if outran %}<a href="#outran">Ahead of the ticket ({{ outran.rows|length }})</a>{% endif %}{% if questions %}<a href="#questions">Ballot questions ({{ questions|length }})</a>{% endif %}
 </nav>
 
 {% for g in groups %}
@@ -52,6 +52,54 @@
 {% endfor %}
 </section>
 {% endfor %}
+
+{% if outran %}
+<section aria-labelledby="outran">
+<h2 id="outran">Ahead of the ticket</h2>
+<p>Down-ballot candidates who got more votes{% if unofficial %} so far{% endif %} in {{ county }} than
+    their party's candidate for <a href="#{{ outran.top_anchor }}">{{ outran.top_title }}</a>
+    ({% for t in outran.ticket %}{{ t.name }}, {{ t.party }}: {{ "{:,}".format(t.total) }}{% if not loop.last %}; {% endif %}{% endfor %}).
+    {% if outran.rows %}{{ outran.rows|length }} of the {{ outran.compared }} candidates compared ran ahead.{% elif outran.compared %}None of the {{ outran.compared }} candidates compared ran ahead.{% else %}No candidate on this ballot could be compared.{% endif %}</p>
+{% if outran.rows %}
+<div class="overflow-auto">
+<table class="results-table compact">
+    <caption class="sr-only">Candidates who outran their party's candidate for {{ outran.top_title }} in {{ county }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">Candidate</th>
+            <th scope="col">Party</th>
+            <th scope="col">Contest</th>
+            <th scope="col" class="num">Votes</th>
+            <th scope="col" class="num">{{ outran.top_title }} votes</th>
+            <th scope="col" class="num">Ahead by</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in outran.rows %}
+        <tr>
+            <th scope="row">{{ row.name }}</th>
+            <td>{{ row.party }}</td>
+            <td><a href="#{{ row.anchor }}">{{ row.contest }}</a></td>
+            <td class="num">{{ r.votes(row.votes) }}</td>
+            <td class="num">{{ r.votes(row.top_votes) }}</td>
+            <td class="num">{{ "{:,}".format(row.diff) }}{% if row.diff_pct is not none %} <span class="muted">({{ "%.1f"|format(row.diff_pct) }}%)</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+<p class="note">Only contests every {{ county }} voter had on the ballot are compared: statewide
+    races, a congressional or legislative district when the county lies wholly inside one, and
+    county offices elected countywide. The results files do not split the vote for {{ outran.top_title }}
+    by district, so a district that covers part of the county cannot be compared fairly and
+    is left out. So is a candidate with no opponent from another party, or in a contest with no
+    more candidates than seats, since every voter who marked that contest could only vote for them. In
+    a contest where voters choose several candidates, someone can also pick up votes from voters
+    whose own party fielded fewer candidates than seats. The percentage is the lead as a share of
+    the votes for the party's candidate for {{ outran.top_title }}.</p>
+</section>
+{% endif %}
 
 {% if questions %}
 <section aria-labelledby="questions">
