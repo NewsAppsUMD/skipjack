@@ -236,6 +236,22 @@ def test_canvass_status_values(status):
     assert by["Allegany"].canvass["MIB 1"] == "partial"
 
 
+@pytest.mark.parametrize("word", ["ate", "are"])
+def test_a_check_with_write_ins_assigned_is_a_complete_canvass(word):
+    """From 2026-11-05 the board marks a count with write-ins assigned with its own alt text."""
+    alt = f"Results have been reported and write-in votes {word} assigned."
+    html = page("status.html").replace('<img alt="Canvass Complete"', f'<img alt="{alt}"', 1)
+    assert ru.read_canvass_status(html)[0].canvass["EV"] == "complete"
+
+
+def test_an_unknown_canvass_mark_fails():
+    html = page("status.html").replace(
+        '<img alt="Canvass Complete"', '<img alt="Local results only"', 1
+    )
+    with pytest.raises(ru.UnofficialParseError, match="an unexpected canvass mark"):
+        ru.read_canvass_status(html)
+
+
 # --- a printed 0 in a canvass that has not reported -----------------------------------------
 
 

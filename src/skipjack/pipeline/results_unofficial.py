@@ -82,6 +82,11 @@ VOTE_TYPE_CANVASSES = {
 CANVASS_STATES = {
     "Canvass Complete": "complete",
     "Canvass Partially Complete": "partial",
+    # The check with a superscript w: "Results have been reported and write-in votes are
+    # assigned" (the page's key). Reported in full, with named write-ins on top. The alt text
+    # printed "ate" for "are" on 2026-11-05; both spellings are read.
+    "Results have been reported and write-in votes ate assigned.": "complete",
+    "Results have been reported and write-in votes are assigned.": "complete",
 }
 
 # Every office heading the 2026 general's pages print (2026-11-04). Listed explicitly so that a

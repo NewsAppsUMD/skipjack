@@ -223,6 +223,22 @@ Task 1 fetches fresh copies for the fixtures rather than depending on that direc
   and at phone width. Flip `published=True` locally and check that the GG26 pages and downloads
   disappear, then revert.
 
+- Done 2026-11-05. The live run found a canvass mark the reader did not know: from the
+  9:29 a.m. refresh, Anne Arundel's early-voting and election-night cells carry a check with a
+  superscript w, alt text "Results have been reported and write-in votes ate assigned." (the
+  page's key says "are assigned"). The parse failed loudly, as designed; the mark is now read as
+  complete in either spelling, and any other new mark still fails. The key also lists a
+  "Local" mark (only local offices posted) not yet seen on the page; it would fail the parse the
+  same way. Snapshot 2026-11-05T092946 then parsed with every check passing (2,199 rows; MIB 1
+  still 18 counties partial, Prov and MIB 2 none). 842 tests pass; the static site built with
+  `/skipjack` (1,257 pages, links checked) and copies only the newest snapshot's files. In the
+  browser, `/results/`, the hub, Governor, Question 1, the county index and the Caroline,
+  Allegany and Anne Arundel pages all read the 9:29 a.m. count with no winner marks, and none
+  scrolls sideways at 375px. The site has no dark theme, so there was none to check. With
+  `published=True` set locally, the pages, both download paths, the Data-page block, the
+  results index tag and the static site's GG26 URLs all dropped, the make target did nothing,
+  and the archives and parsed files stayed; the flag was then reverted.
+
 ## Follow-up (not in this plan)
 
 The certified pipeline should read `GG26_…QuestionResults.csv` before GG26 is certified, so
