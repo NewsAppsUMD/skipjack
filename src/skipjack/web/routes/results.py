@@ -15,6 +15,7 @@ from fastapi import APIRouter, HTTPException, Request
 from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
 from skipjack.web import results as qr
 from skipjack.web import results_unofficial as qu
+from skipjack.web import ticket
 from skipjack.web.db import get_db
 from skipjack.web.maps import question_map, results_map
 
@@ -181,6 +182,7 @@ async def county(request: Request, slug: str, county_slug: str):
             "mail_pair": mail_pair(data["vote_types"]),
             "groups": data["groups"],
             "questions": data.get("questions", []),
+            "outran": ticket.outran(data),
             "sources": sources,
             **context,
         },

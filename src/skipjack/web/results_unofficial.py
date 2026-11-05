@@ -489,6 +489,7 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
                 "scope": page["scope"] if page else "local",
                 "candidates": candidates,
                 "has_against": has_against,
+                "seats": vote_for,
                 "leader": leader,
                 "tied": tied,
             }

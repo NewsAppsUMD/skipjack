@@ -451,3 +451,16 @@ def test_real_every_page_renders(code):
         assert not re.search(r"\bNone\b", text), url
         assert not re.search(r"<tbody>\s*</tbody>", text), url
     assert client.get("/results/").status_code == 200
+
+
+def test_general_county_page_has_the_ahead_of_the_ticket_table(client):
+    # Allegany PG24: Trump 70, Harris 30; the sheriff (REP, 4 votes) is unopposed
+    html = client.get("/results/pg24/county/allegany/").text
+    assert 'id="outran"' in html and 'href="#outran"' in html
+    section = html[html.index('id="outran"') :]
+    assert "Trump, REP: 70" in section and "Harris, DEM: 30" in section
+    assert "No candidate on this ballot could be compared." in section
+
+
+def test_primary_county_page_has_no_ahead_of_the_ticket_table(client):
+    assert 'id="outran"' not in client.get("/results/gp26/county/garrett/").text
