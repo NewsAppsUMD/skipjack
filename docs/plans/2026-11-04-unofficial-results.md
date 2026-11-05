@@ -193,6 +193,13 @@ Task 1 fetches fresh copies for the fixtures rather than depending on that direc
 - README: one line under Results describing the unofficial track, `make results-unofficial`, and
   when it disappears.
 
+- Done 2026-11-05. `downloads.unofficial_snapshot` names a live election's newest parsed
+  snapshot directory (from the files, not the database, so the static site's copy and the live
+  route agree); `unofficial_offered` gates both `download_files` and the route. The Data page
+  lists the canvass status first, then the 24 county files, under "GG26 unofficial (as of …)",
+  with a note that a blank vote cell means not reported. Older snapshots stay in `data/` and the
+  archives but are never offered. The static-site test runs against the built `skipjack.db`.
+
 ## Task 7: cadence
 
 - `.github/workflows/turnout-daily.yml`: after the turnout step, add

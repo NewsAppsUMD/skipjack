@@ -20,7 +20,10 @@ from skipjack.pipeline.results import RESULTS_ELECTIONS
 from skipjack.web import results as qr
 from skipjack.web import results_unofficial as qu
 from skipjack.web.app import create_app
+from skipjack.web.downloads import download_files
+from skipjack.web.paths import DATA_DIR
 from skipjack.web.routes import results as results_route
+from skipjack.web.routes.data import results_unofficial_listing
 
 SNAP = "2026-11-04T160222"
 REPO_DATA = Path(__file__).resolve().parents[1] / "data"
@@ -287,3 +290,129 @@ def test_hub_and_county_pages_list_questions(client):
 def test_question_pages_disappear_once_certified(client, monkeypatch):
     monkeypatch.setattr(RESULTS_ELECTIONS["GG26"], "published", True)
     assert client.get("/results/gg26/question-1/").status_code == 404
+
+
+# --- downloads and the static site ----------------------------------------------------------
+
+
+@pytest.fixture
+def two_snapshots(tmp_path):
+    """A data folder holding the committed snapshot and an older one beside it."""
+    for snap in (SNAP, "2026-11-04T090000"):
+        shutil.copytree(
+            REPO_DATA / "results_unofficial" / "GG26" / SNAP,
+            tmp_path / "results_unofficial" / "GG26" / snap,
+        )
+    return tmp_path
+
+
+def test_only_the_newest_snapshot_is_offered(two_snapshots):
+    files = [p.as_posix() for p in download_files(two_snapshots)]
+    assert len(files) == 2 * 25  # 24 counties and the canvass status, each with its sidecar
+    assert all(f.startswith(f"results_unofficial/GG26/{SNAP}/") for f in files)
+    assert f"results_unofficial/GG26/{SNAP}/canvass-status.csv" in files
+    assert f"results_unofficial/GG26/{SNAP}/county/01-allegany_provenance.json" in files
+
+
+def test_the_listing_names_the_snapshot_and_its_time(two_snapshots):
+    (block,) = results_unofficial_listing(two_snapshots)
+    assert (block["code"], block["snapshot"]) == ("GG26", SNAP)
+    assert block["as_of"] == "4:02 p.m. on Nov. 4, 2026"
+    assert block["files"][0] == {
+        "name": "canvass-status",
+        "path": f"results_unofficial/GG26/{SNAP}/canvass-status.csv",
+        "provenance": f"results_unofficial/GG26/{SNAP}/canvass-status_provenance.json",
+    }
+    assert block["files"][1]["name"] == "01-allegany"
+    assert len(block["files"]) == 25
+
+
+def test_certified_results_withdraw_the_unofficial_files(two_snapshots, monkeypatch):
+    monkeypatch.setattr(RESULTS_ELECTIONS["GG26"], "published", True)
+    assert not any(p.parts[0] == "results_unofficial" for p in download_files(two_snapshots))
+    assert results_unofficial_listing(two_snapshots) == []
+    # the parsed files themselves are kept; only the offer ends
+    assert (two_snapshots / "results_unofficial" / "GG26" / SNAP / "canvass-status.csv").is_file()
+
+
+needs_snapshot = pytest.mark.skipif(
+    not (DATA_DIR / "results_unofficial" / "GG26" / SNAP).is_dir(), reason="snapshot not parsed"
+)
+
+
+@needs_snapshot
+def test_the_data_page_and_route_offer_the_newest_snapshot(monkeypatch):
+    client = TestClient(create_app())
+    (block,) = results_unofficial_listing(DATA_DIR)
+    newest = block["snapshot"]
+    html = client.get("/data/").text
+    assert "GG26 unofficial (as of " in html
+    assert f"/downloads/results_unofficial/GG26/{newest}/county/01-allegany.csv" in html
+    got = client.get(f"/downloads/results_unofficial/GG26/{newest}/county/01-allegany.csv")
+    assert got.status_code == 200 and got.text.startswith("election,snapshot,last_refreshed")
+    sidecar = client.get(
+        f"/downloads/results_unofficial/GG26/{newest}/canvass-status_provenance.json"
+    )
+    assert sidecar.status_code == 200
+
+    monkeypatch.setattr(RESULTS_ELECTIONS["GG26"], "published", True)
+    assert (
+        client.get(
+            f"/downloads/results_unofficial/GG26/{newest}/county/01-allegany.csv"
+        ).status_code
+        == 404
+    )
+    assert "GG26 unofficial" not in client.get("/data/").text
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "GG26/%2e%2e/%2e%2e/voter_registration/source_discrepancies.csv",
+        "GG26/2000-01-01T000000/canvass-status.csv",  # not the newest snapshot
+        "GP26/2026-11-04T160222/canvass-status.csv",  # no unofficial count
+        f"GG26/{SNAP}/county/missing.csv",
+        f"GG26/{SNAP}",
+    ],
+)
+def test_paths_outside_the_newest_snapshot_are_404(path):
+    client = TestClient(create_app())
+    assert client.get(f"/downloads/results_unofficial/{path}").status_code == 404
+
+
+def _db_has_gg26_count() -> bool:
+    from skipjack.web.db import DB_PATH
+
+    if not DB_PATH.exists():
+        return False
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        return (
+            conn.execute(
+                "SELECT COUNT(*) FROM results_unofficial WHERE election = 'GG26'"
+            ).fetchone()[0]
+            > 0
+            and conn.execute("SELECT COUNT(*) FROM voter_registration").fetchone()[0] > 0
+        )
+    except sqlite3.OperationalError:
+        return False
+    finally:
+        conn.close()
+
+
+@pytest.mark.skipif(not _db_has_gg26_count(), reason="skipjack.db has no GG26 count")
+def test_the_static_site_plans_gg26_pages_only_while_live(monkeypatch):
+    from skipjack.web.static_site import page_urls
+
+    urls = set(page_urls())
+    assert {
+        "/results/gg26/",
+        "/results/gg26/county/",
+        "/results/gg26/county/caroline/",
+        "/results/gg26/governor-lt-governor-all/",
+        "/results/gg26/question-1/",
+    } <= urls
+    monkeypatch.setattr(RESULTS_ELECTIONS["GG26"], "published", True)
+    urls = set(page_urls())
+    assert not any(u.startswith("/results/gg26/") for u in urls)
+    assert "/results/" in urls

@@ -102,7 +102,7 @@
 {% endfor %}
 {% endif %}
 
-{% if results_sections %}
+{% if results_sections or unofficial_sections %}
 <h2>Election results</h2>
 <p>
     The State Board's county results files, one CSV per county and party file (a primary has
@@ -112,6 +112,24 @@
 {% for section in results_sections %}
 <section class="dataset">
     <h3>{{ section.code }} — {{ section.name }}</h3>
+    <p>
+        {% for f in section.files %}
+        <a href="{{ base }}/downloads/{{ f.path }}" style="white-space:nowrap">{{ f.name }}</a>
+        (<a href="{{ base }}/downloads/{{ f.provenance }}">provenance</a>)&nbsp;
+        {% endfor %}
+    </p>
+</section>
+{% endfor %}
+{% for section in unofficial_sections %}
+<section class="dataset">
+    <h3>{{ section.code }} unofficial (as of {{ section.as_of }}) — {{ section.name }}</h3>
+    <p>
+        The State Board's running count, read from its unofficial results pages: one CSV per
+        county, and the canvass-status file saying which of the five counts each county has
+        reported. Provisional ballots and some mail-in ballots are not counted yet, and a blank
+        vote cell means that count has not been reported, not zero. Only the newest snapshot
+        is offered, and these files are withdrawn when the certified results are published.
+    </p>
     <p>
         {% for f in section.files %}
         <a href="{{ base }}/downloads/{{ f.path }}" style="white-space:nowrap">{{ f.name }}</a>

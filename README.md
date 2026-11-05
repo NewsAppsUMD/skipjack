@@ -62,6 +62,11 @@ Once GitHub Pages is switched on, the site publishes to
   summed from the county files and checked against the board's statewide breakdown files. 2018 and
   earlier are not on the SBE's data pages as county CSVs, and precinct and ballot-question files are not
   loaded yet.
+  While the 2026 general is being counted, its pages show the board's unofficial results pages
+  instead, as of each refresh: marked unofficial and incomplete, with "not yet counted" for
+  canvasses a county has not reported, no winner marks, and the statewide ballot questions. The
+  newest snapshot is offered on the Data page. These pages and files drop out once the certified
+  results are published (`published` in the registry).
 - **Young voters**: how many 18-to-22-year-olds registered for the first time from January 1 to the
   snapshot date, against the same stretch of earlier election years, which party they choose, and how it
   differs by county. Earlier years are undercounted because voters leave the list, so the page measures
@@ -102,6 +107,7 @@ make serve       # http://127.0.0.1:8000
 | `make turnout` | Snapshot the press-room turnout files (`turnout-fetch`, `turnout-parse`) into `data/turnout/` |
 | `uv run skipjack turnout-backfill PATH` | Archive the daily mail-in sent-and-returned workbooks in a local clone of maryland_git_scraping (its `absentee/` folder), under each report's printed date; `turnout-parse` then writes them |
 | `make results` | Download and parse the SBE's county results files (`results-fetch`, `results-parse`) into `data/results/`; `uv run skipjack results-fetch --election GP26` does one election |
+| `make results-unofficial` | Snapshot and parse the board's running count of the 2026 general (`unofficial-fetch`, `unofficial-parse`) into `data/results_unofficial/`; does nothing once the certified results are published |
 | `make voterfile VOTERFILE_DIR="/path/to/voter files"` | Aggregate a statewide voter file into `data/voter_file/` |
 | `make build-db` | Build `skipjack.db` from everything in `data/` |
 | `make serve` | Run the site with auto-reload, with the Datasette explorer at `/explorer` |
@@ -162,6 +168,7 @@ data/voter_registration/activity/YYYY-MM.csv   report_date, county, measure, par
 data/voter_registration/summary/YYYY-MM.csv    report_date, section, category, party, value
 data/turnout/<election>/<family>/<geography>/<as-of>.csv   one press-room snapshot
 data/results/<CODE>/county/<NN>-<county>-<party>.csv   one county's results file
+data/results_unofficial/<CODE>/<snapshot>/county/<NN>-<county>.csv   one county's running count
 data/voter_file/<snapshot>/*.json              suppressed aggregates, plus snapshot.json
 ```
 

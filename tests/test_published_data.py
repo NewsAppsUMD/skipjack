@@ -61,6 +61,7 @@ def test_downloads_only_include_expected_folders_and_types():
         "voter_file",
         "turnout",
         "results",
+        "results_unofficial",
         "turnout_model",
     }
     assert {f.suffix for f in files} <= {".csv", ".json"}
