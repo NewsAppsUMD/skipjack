@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-sent-returned-legislative-20261103-3d1f8c8af60d",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/Absentees_Sent_and_Returned_by_Legislative.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 sent-returned (legislative) as of 2026-11-03",
+  "fetch_date": "2026-11-04T17:38:02+00:00",
+  "parse_date": "2026-11-04T17:46:24+00:00",
+  "sha256_original": "3d1f8c8af60d5a3eae18261d5e5d98537e8cb6c67e8e1d224401374039e9f9ad",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "sent-returned",
+  "geography": "legislative",
+  "notes": "GG26 sent-returned (legislative) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 4260,
+    "as_of": "2026-11-03"
+  }
+}
