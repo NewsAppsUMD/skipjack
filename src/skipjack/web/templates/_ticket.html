@@ -1,0 +1,37 @@
+{# The hub page's "ahead of the ticket" dot plot (web/ticket.py statewide()). Import with context:
+   {% import "_ticket.html" as t with context %} #}
+
+{% macro dot_plot(st, election, unofficial) -%}
+<section aria-labelledby="outran">
+<h2 id="outran">Ahead of the ticket</h2>
+{% set head = st.head.name.split(" and ")[0] %}
+<p>How far the other statewide {{ st.party_label }} candidates ran ahead of their ticket-mate for
+    {{ st.top_title }}, {{ head }}, in each county{% if unofficial %} so far{% endif %}:
+    the gap in votes as a share of {{ head }}'s own vote there.
+    {% for s in st.series %}{{ s.name }} ({{ s.contest|lower }}) got more votes in
+    {% if s.ahead == st.counties %}all {{ st.counties }}{% else %}{{ s.ahead }} of the {{ st.counties }}{% endif %}
+    counties, {{ "{:,}".format(s.lead|abs) }} {% if s.lead >= 0 %}more{% else %}fewer{% endif %} statewide.{% if not loop.last %} {% endif %}{% endfor %}</p>
+<figure class="dot-plot">
+    <ul class="dot-legend" aria-hidden="true">
+        {% for s in st.series %}<li><span class="dot-key" style="background: {{ s.color }}"></span>{{ s.name }} ({{ s.contest|lower }})</li>{% endfor %}
+    </ul>
+    <svg viewBox="0 0 {{ st.plot.width }} {{ st.plot.height }}" role="group"
+         aria-label="Lead over {{ st.head.name }} by county, as a share of {{ st.head.name }}'s vote">
+        {% for t in st.plot.ticks %}
+        <line x1="{{ t.x }}" y1="{{ st.plot.top - 6 }}" x2="{{ t.x }}" y2="{{ st.plot.height - 4 }}" class="dot-grid{% if t.x == st.plot.x0 %} dot-zero{% endif %}"></line>
+        <text x="{{ t.x }}" y="{{ st.plot.top - 12 }}" class="dot-tick">{{ t.label }}</text>
+        {% endfor %}
+        {% for r in st.plot.rows %}
+        <g role="img" aria-label="{{ r.county }}: {% for d in r.dots %}{{ d.series }} {{ "%+.1f"|format(d.diff_pct) }}%{% if not loop.last %}, {% endif %}{% endfor %}">
+            <title>{{ r.county }}: {{ head }} {{ "{:,}".format(r.top_votes) }}{% for d in r.dots %}; {{ d.series }} {{ "{:,}".format(d.votes) }} ({{ "%+.1f"|format(d.diff_pct) }}%){% endfor %}</title>
+            <a href="{{ base }}/results/{{ election.slug }}/county/{{ r.slug }}/#outran"><text x="{{ st.plot.label_x }}" y="{{ r.y + 4 }}" class="dot-label">{{ r.county }}</text></a>
+            <line x1="{{ r.x_min }}" y1="{{ r.y }}" x2="{{ r.x_max }}" y2="{{ r.y }}" class="dot-rule"></line>
+            {% for d in r.dots %}<circle cx="{{ d.x }}" cy="{{ r.y }}" r="5" fill="{{ d.color }}" class="dot"></circle>{% endfor %}
+        </g>
+        {% endfor %}
+    </svg>
+    <figcaption class="note">Counties sorted by {{ st.series[0].name }}'s gap. A county's name links to
+        its page, where every candidate on its ballot is compared with the ticket.</figcaption>
+</figure>
+</section>
+{%- endmacro %}

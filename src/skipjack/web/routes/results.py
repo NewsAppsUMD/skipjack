@@ -123,11 +123,16 @@ async def index(request: Request):
 async def election(request: Request, slug: str):
     with get_db() as conn:
         code = _code(conn, slug)
-        data = _queries(code).hub(conn, code)
+        q = _queries(code)
+        data = q.hub(conn, code)
         if data is None:
             raise HTTPException(status_code=404)
         sources = _election_sources(conn, code)
         context = _page_context(conn, code)
+        outran = None
+        if code in ticket.HUB_PLOT_ELECTIONS:
+            pages = [q.county_page(conn, code, s) for s in q.county_slugs(conn, code)]
+            outran = ticket.statewide([p for p in pages if p])
     return _render(
         request,
         "results_election.html",
@@ -135,6 +140,7 @@ async def election(request: Request, slug: str):
             "election": data["election"],
             "groups": data["groups"],
             "questions": data.get("questions", []),
+            "outran": outran,
             "sources": sources,
             **context,
         },

@@ -217,3 +217,72 @@ def test_real_gg22_calvert_residency_districts_and_dorchester_orphans_court():
     top = sum(c["total"] for c in contests[0]["candidates"])
     flags = dict(zip([c["title"] for c in contests], ticket.countywide(contests, top), strict=True))
     assert not flags["Judge Orphans' Court, District 2"]
+
+
+# --- the hub's statewide comparison
+
+
+def county(name, gov, *others):
+    return {
+        "county": name,
+        "election": {"kind": "general"},
+        "groups": [{"party_file": "all", "contests": [gov, *others]}],
+    }
+
+
+def gov(dem, rep):
+    return contest(
+        "Governor / Lt. Governor",
+        [cand("Moore and Miller", "DEM", dem), cand("Cox", "REP", rep)],
+        scope="statewide",
+    )
+
+
+def ag(dem, rep):
+    return contest(
+        "Attorney General",
+        [cand("Brown", "DEM", dem), cand("Rutledge", "REP", rep)],
+        scope="statewide",
+    )
+
+
+def test_statewide_compares_the_leading_party_s_other_statewide_candidates():
+    st = ticket.statewide(
+        [
+            county("Caroline", gov(100, 300), ag(120, 280)),
+            county("Montgomery", gov(1000, 300), ag(990, 300)),
+        ]
+    )
+    assert st["top_title"] == "Governor"
+    assert st["head"] == {"name": "Moore and Miller", "party": "DEM", "total": 1100}
+    [s] = st["series"]
+    assert (s["name"], s["total"], s["lead"], s["ahead"]) == ("Brown", 1110, 10, 1)
+    assert [r["county"] for r in st["rows"]] == ["Caroline", "Montgomery"]  # sorted by the gap
+    assert st["rows"][0]["values"][0]["diff"] == 20
+    assert st["rows"][0]["values"][0]["diff_pct"] == 20.0
+    assert st["rows"][1]["values"][0]["diff"] == -10
+    assert st["counties"] == 2
+
+
+def test_statewide_plot_puts_zero_on_a_line_and_scales_to_the_largest_gap():
+    st = ticket.statewide(
+        [county("A", gov(300, 100), ag(336, 80)), county("B", gov(300, 100), ag(291, 100))]
+    )
+    plot = st["plot"]
+    assert [t["label"] for t in plot["ticks"]] == ["-5%", "0", "+5%", "+10%", "+15%"]
+    assert plot["x0"] == plot["ticks"][1]["x"]
+    assert len(plot["rows"]) == 2
+    a, b = plot["rows"]
+    assert a["dots"][0]["x"] > plot["x0"] > b["dots"][0]["x"]
+    assert a["x_min"] == plot["x0"] and b["x_max"] == plot["x0"]
+
+
+def test_statewide_skips_unopposed_and_district_contests_and_primaries():
+    unopposed = contest("Comptroller", [cand("Lierman", "DEM", 150)], scope="statewide")
+    district = contest(
+        "Congress", [cand("D", "DEM", 150), cand("R", "REP", 10)], district="1", scope="congress"
+    )
+    assert ticket.statewide([county("A", gov(300, 100), unopposed, district)]) is None
+    primary = {**county("A", gov(300, 100), ag(1, 2)), "election": {"kind": "primary"}}
+    assert ticket.statewide([primary]) is None
+    assert ticket.statewide([]) is None

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "_results.html" as r with context %}
 {% import "_unofficial.html" as u with context %}
+{% import "_ticket.html" as t with context %}
 {% block title %}{{ election.name.title() }} results{% endblock %}
 
 {% block content %}
@@ -14,7 +15,7 @@
 
 {% if groups %}
 <nav class="subnav" aria-label="Contests">
-    {% for g in groups %}<a href="#{{ g.scope }}">{{ g.label }}</a>{% endfor %}{% if questions %}<a href="#questions">Ballot questions</a>{% endif %}
+    {% for g in groups %}<a href="#{{ g.scope }}">{{ g.label }}</a>{% endfor %}{% if outran %}<a href="#outran">Ahead of the ticket</a>{% endif %}{% if questions %}<a href="#questions">Ballot questions</a>{% endif %}
 </nav>
 {% endif %}
 
@@ -58,6 +59,7 @@
 {% endfor %}
 {% endif %}
 </section>
+{% if outran and g.scope == "statewide" %}{{ t.dot_plot(outran, election, unofficial) }}{% endif %}
 {% endfor %}
 
 {% if questions %}

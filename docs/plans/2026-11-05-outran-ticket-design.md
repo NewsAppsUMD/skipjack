@@ -44,3 +44,33 @@ District 2 (a lone special election, 0.24) is left out.
 
 In a multi-seat contest a candidate can pick up votes from voters whose own party fielded fewer
 candidates than seats; the note says so.
+
+## The election hub's dot plot (2026-11-06)
+
+Code: `ticket.statewide()` and `_plot()`, the macro in `templates/_ticket.html`, the
+`.dot-plot` rules in `static/style.css`, tests at the end of `tests/test_ticket.py`.
+
+On the GG26 hub page only (`ticket.HUB_PLOT_ELECTIONS`; the other generals' hubs do not get it,
+decided 2026-11-06), after the statewide section, a sorted dot plot: one row per
+county, one dot per other statewide candidate of the party leading the top of the ticket, the
+dot placed by the gap between that candidate's county votes and the ticket-mate's (President
+or Governor), as a share of the ticket-mate's vote. A sentence above gives each candidate's
+count of counties ahead and the statewide gap in votes. County names link to the county
+page's "Ahead of the ticket" table; each row has a tooltip with the votes.
+
+- **Which candidates.** The party is that of the top-of-ticket candidate with the most votes
+  statewide (Moore). Each statewide contest
+  gives one series, under the same opponent rule as the county table (no unopposed
+  candidates). Ballot order decides the series order and the sort column.
+- **Why a share, not votes.** Montgomery's 2,300-vote gap and Caroline's 500 are the same
+  story at different sizes; as shares (0.9% and 19.6% in the Nov 5 GG26 count) the
+  rural-to-suburban gradient is the picture.
+- **Layout is computed in Python** (`_plot`): a fixed 680-wide view box, 150 of it for labels
+  pinned to the left margin (the zero line moves when any gap is negative), ticks every 5 points on a domain rounded out to
+  the nearest 5. Colors are a fixed order of four non-partisan hues (teal, purple, gold,
+  magenta), so nothing reads as red or blue.
+- **Caveat worth a sentence in any write-up:** a third-party candidate for Governor (Green,
+  Working Class) has no counterpart in a two-way comptroller or attorney general race, so part
+  of the gap is those voters, not defectors. In GG26 the gap exceeds their combined vote.
+- The hub route builds every county page to get the figures (24 queries); the static site
+  renders each hub once, so the cost is only on the live server.
