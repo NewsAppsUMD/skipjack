@@ -376,10 +376,12 @@ def test_county_maps_ship_their_script_and_styles_under_the_base_path(root_site,
     assert 'src="/skipjack/static/maps.js"' in home
     assert 'href="/skipjack/static/maps.css"' in home
     # the lead's map links each county: to its trends in the registration lead, to the
-    # election's county table while an election is under way
+    # election's county table while an election is under way, to the contest's county row
+    # once its unofficial count is the lead
     assert (
         'href="/skipjack/voters/county/montgomery/"' in home
         or 'href="/skipjack/turnout/gg26/county/#county-montgomery"' in home
+        or 'href="/skipjack/results/gg26/governor-lt-governor-all/#county-montgomery"' in home
     )
     assert '<use href="#md-031"' in home
 

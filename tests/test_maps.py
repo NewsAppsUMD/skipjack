@@ -235,6 +235,61 @@ def test_the_home_lead_s_same_day_tab_lines_up_with_the_earlier_generals():
     assert f"{by_code['PG24']['through']:,} in the 2024 general election" in sentence
 
 
+def _results_live():
+    from skipjack.web import results_unofficial as qu
+    from skipjack.web.db import get_db
+
+    with get_db() as conn:
+        return any(e["code"] == "GG26" for e in qu.live_elections(conn))
+
+
+@needs_db
+@pytest.mark.skipif(not _results_live(), reason="no live GG26 unofficial count in the database")
+def test_home_leads_with_the_unofficial_count_once_election_day_has_come(home_today):
+    home_today("2026-11-06")
+    html = client.get("/").text
+    # a tab each for the statewide contests with both parties, each with its own margin map
+    assert map_titles(html) == ["Democratic minus Republican"] * 3
+    assert len(set(re.findall(r'data-map="(results-margin-[^"]+)"', html))) == 3
+    assert_outlines_once(html)
+    assert html.count("data-tab=") == 3 and "static/tabs.js" in html
+    assert "2026 General Election: unofficial results" in html
+    assert "Unofficial and incomplete." in html and "ahead so far" in html
+    assert "ballots so far" not in html
+    # each county links to its row on the contest page; the panel links to the page itself
+    assert 'href="/results/gg26/governor-lt-governor-all/#county-montgomery"' in html
+    assert 'href="/results/gg26/governor-lt-governor-all/"' in html
+
+
+@needs_db
+@pytest.mark.skipif(not _results_live(), reason="no live GG26 unofficial count in the database")
+def test_home_lead_s_unofficial_panels_carry_the_count_and_no_winner():
+    from datetime import date
+
+    from skipjack.web import results_unofficial as qu
+    from skipjack.web.db import get_db
+    from skipjack.web.routes.home import home_context
+
+    with get_db() as conn:
+        ctx = home_context(conn, date(2026, 11, 6))
+        gov = qu.contest(conn, "GG26", "governor-lt-governor-all")
+    lead = ctx["lead"]
+    assert [p["label"] for p in lead["panels"]][0] == "Governor / Lt. Governor"
+    first = lead["panels"][0]["tiles"][0]
+    leader = next(c for c in gov["candidates"] if not c["write_in"])
+    assert first["sub"] == f"{leader['total']:,} votes"
+    assert first["value_text"] == f"{leader['share']:.1f}%"
+    assert "Unofficial count as of" in ctx["now"]
+    assert "winner" not in " ".join(s for p in lead["panels"] for s in p["sentences"]).lower()
+
+
+@needs_db
+def test_home_still_leads_with_ballots_so_far_before_election_day(home_today):
+    home_today("2026-11-02")  # the count only exists from election day on
+    html = client.get("/").text
+    assert "ballots so far" in html and "unofficial results" not in html
+
+
 @needs_db
 def test_registration_month_has_three_maps():
     html = client.get("/voters/month/2026-08/").text

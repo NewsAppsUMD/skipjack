@@ -399,7 +399,9 @@ def race_maps(counties: list[dict], calibration: dict, labels: dict[str, str]) -
     return {"per_race": per_race, "gap": gap_map}
 
 
-def results_map(contest: dict) -> list[dict]:
+def results_map(
+    contest: dict, href_prefix: str | None = None, id_suffix: str = ""
+) -> list[dict]:
     """The map on a results contest page (``results.contest()``'s dict), as a list of one.
 
     A primary shows the winner's share of the vote in each county (the SBE's winner, else the
@@ -407,6 +409,9 @@ def results_map(contest: dict) -> list[dict]:
     parties, else the leader's share. Counties outside the contest are None (hatched). A
     retention question (for / against) has no meaningful map and returns []. Rows link to
     ``#county-<slug>`` on the same page; counties with no row are hatched and not linked.
+    Given ``href_prefix`` (a site path such as "/results/gg26/governor/") every county links to
+    that page's row instead, for a map shown on another page; ``id_suffix`` keeps the ids of
+    several such maps on one page apart.
     """
     candidates, rows = contest["candidates"], contest["county_rows"]
     if contest.get("has_against") or not candidates or not rows:
@@ -427,10 +432,11 @@ def results_map(contest: dict) -> list[dict]:
         values = {county: margin(r) for county, r in cells.items()}
         return [
             county_map(
-                "results-margin", "Democratic minus Republican", values,
+                f"results-margin{id_suffix}", "Democratic minus Republican", values,
                 party_margin(list(values.values())), fmt_margin, link="row",
                 caption="share of the county's votes in this contest, in points",
                 none_text="not on the ballot, or no votes cast", linked_counties=cells,
+                href_prefix=href_prefix,
             )
         ]  # fmt: skip
     top = next((i for i, c in enumerate(candidates) if c["winner"]), 0)
@@ -441,11 +447,12 @@ def results_map(contest: dict) -> list[dict]:
     )
     return [
         county_map(
-            "results-share", f"{label}: {name}", values,
+            f"results-share{id_suffix}", f"{label}: {name}", values,
             sequential(list(values.values()), "%"), fmt_pct(1), link="row",
             caption="share of the votes cast in the county",
             # a county with no votes cast at all is hatched with the counties off the ballot
             none_text="not on the ballot, or no votes cast", linked_counties=cells,
+            href_prefix=href_prefix,
         )
     ]  # fmt: skip
 

@@ -8,11 +8,18 @@ from datetime import date
 from fastapi import APIRouter, Request
 
 from skipjack.pipeline.turnout import ELECTIONS
+from skipjack.web import results_unofficial as qu
 from skipjack.web import trends
 from skipjack.web import turnout as qt
 from skipjack.web.dates import day_label, month_label
 from skipjack.web.db import get_db
-from skipjack.web.maps import early_voting_map, locator_map, same_day_map, turnout_live_maps
+from skipjack.web.maps import (
+    early_voting_map,
+    locator_map,
+    results_map,
+    same_day_map,
+    turnout_live_maps,
+)
 from skipjack.web.routes.turnout import _tiles
 from skipjack.web.routes.voters import county_registration
 from skipjack.web.summary import highlights
@@ -22,6 +29,74 @@ router = APIRouter()
 
 def _today() -> date:
     return date.today()
+
+
+def _short(name: str) -> str:
+    """A governor's ticket ("Wes Moore and Aruna Miller") as the candidate alone."""
+    return name.split(" and ")[0]
+
+
+def _results_election(conn: sqlite3.Connection, today: date) -> dict | None:
+    """The election whose unofficial count the home page should lead with on ``today``: one
+    being counted (``qu.live_elections``) whose election day has come."""
+    for e in qu.live_elections(conn):
+        if e["election_day"] and e["election_day"] <= today.isoformat():
+            return e
+    return None
+
+
+def _results_lead(conn: sqlite3.Connection, election: dict, unofficial: dict) -> dict | None:
+    """The lead block while an election is being counted: one tabbed panel for each statewide
+    contest with a Democrat and a Republican -- the candidates' shares, a sentence on who is
+    ahead so far and the county margin map linking to the contest page's county table. The
+    count is unofficial, so nothing says who won."""
+    code, slug = election["code"], election["slug"]
+    hub = qu.hub(conn, code)
+    statewide = next((g for g in hub["groups"] if g["scope"] == "statewide"), None) if hub else None
+    panels = []
+    for summary in statewide["contests"] if statewide else []:
+        if summary["has_against"] or not {"DEM", "REP"} <= {c["party"] for c in summary["candidates"]}:
+            continue
+        contest = qu.contest(conn, code, summary["slug"])
+        named = [c for c in contest["candidates"] if not c["write_in"]]
+        first, second = named[0], named[1]
+        contest_url = f"/results/{slug}/{summary['slug']}/"
+        maps = results_map(contest, href_prefix=contest_url, id_suffix=f"-{summary['slug']}")
+        panels.append(
+            {
+                "id": summary["slug"],
+                "label": summary["title"],
+                "tiles": [
+                    {
+                        "label": f"{_short(c['name'])}{' (' + c['party'] + ')' if c['party'] else ''}",
+                        "value_text": f"{c['share']:.1f}%",
+                        "sub": f"{c['total']:,} votes",
+                        "change": None,
+                    }
+                    for c in named
+                ],
+                "sentences": [
+                    f"{_short(first['name'])} is ahead so far, with {first['share']:.1f}% of "
+                    f"the {contest['total']:,} votes counted and {first['total'] - second['total']:,} "
+                    f"more than {_short(second['name'])}. "
+                    f"{contest['counties_reporting']} of 24 counties have reported some of their count."
+                ],
+                "map": maps[0] if maps else None,
+                "link": (contest_url, f"County results for {summary['title']}"),
+            }
+        )
+    if not panels:
+        return None
+    return {
+        "mode": "election",
+        "title": f"{election['name'].title()}: unofficial results",
+        "as_of": None,
+        "figures": [],
+        "tabs_label": "Statewide contests",
+        "panels": panels,
+        "link": (f"/results/{slug}/", "Every contest, and the count by county"),
+        "unofficial_as_of": unofficial["as_of"],
+    }
 
 
 def _election_lead(conn: sqlite3.Connection, row: dict, today: date) -> dict:
@@ -295,10 +370,20 @@ def home_context(conn: sqlite3.Connection, today: date | None = None) -> dict:
     latest_date = latest["report_date"] if latest else None
     summary = highlights(conn)
 
-    live = qt.lead_election(conn, today)
-    if live:
-        lead = _election_lead(conn, live, today)
-    else:
+    unofficial = None
+    live = None
+    lead = None
+    counted = _results_election(conn, today)
+    if counted:
+        unofficial = qu.unofficial_context(conn, counted["code"])
+        lead = _results_lead(conn, counted, unofficial) if unofficial else None
+        live = counted if lead else None
+    if lead is None:
+        live = qt.lead_election(conn, today)
+        unofficial = None
+        if live:
+            lead = _election_lead(conn, live, today)
+    if lead is None:
         locator = None
         if latest_date:
             _, county_list = county_registration(conn, latest_date)
@@ -310,7 +395,10 @@ def home_context(conn: sqlite3.Connection, today: date | None = None) -> dict:
     now = []
     if latest_date:
         now.append(f"Registration through {month_label(latest_date)}")
-    if live and lead["as_of"]:
+    if unofficial:
+        now.append(f"Unofficial count as of {unofficial['as_of']}")
+        now.append(f"Election day {day_label(live['election_day'])}")
+    elif live and lead["as_of"]:
         if lead.get("mail_as_of"):
             now.append(f"Mail-in ballots as of {day_label(lead['mail_as_of'])}")
         if lead.get("early_as_of"):
@@ -319,6 +407,7 @@ def home_context(conn: sqlite3.Connection, today: date | None = None) -> dict:
 
     return {
         "lead": lead,
+        "unofficial": unofficial,
         "now": " · ".join(now),
         "summary": summary,
         "flow": flow,
