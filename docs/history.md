@@ -1,81 +1,60 @@
 # A short history of Skipjack
 
-Skipjack set out to do one thing well: take Maryland election data out of scattered PDFs and
-spreadsheets, make it clean, and let every number be traced back to the document it came from.
-Here's how it got from an empty repo to election night in about five weeks.
+Maryland publishes plenty of election data, but it's spread across PDFs, spreadsheets and
+web pages that don't always agree. Skipjack started in the fall of 2026 to gather that data,
+check it, and present it clearly, with every number traceable to the document it came from.
+It's named for the Chesapeake Bay skipjack, Maryland's state boat.
 
-## October 1: launch
+## It started with who's registered
 
-The project began with an initial commit that already had plenty in it: 16 years of the State
-Board of Elections' monthly voter registration reports (January 2010 onward), parsers to read
-them, a small web app and a GitHub workflow. Skipjack was named for the Chesapeake Bay
-skipjack, Maryland's state boat.
+The first job was voter registration. Skipjack reads every monthly report the State Board of
+Elections has published since 2010 and turns them into tables that show how many voters each
+county and party has, and how that's changing. Along the way it found places where the board's
+own reports don't add up, and it lists them openly instead of quietly fixing them.
 
-## October 6–7: registration comes alive
+Snapshots of the statewide voter file came next, so readers could see who is on the rolls by
+age, party and district, how often those voters turn out, and how young voters are registering.
 
-Next came voter registration trends and better county pages, plus the first voter file
-snapshot (September 2024) and a look at young voters.
+## Then it learned to follow an election
 
-## October 10–11: turnout arrives
+Next Skipjack started tracking turnout as an election happens. It reads the board's daily
+reports on mail-in ballots requested, sent and returned, then early voting, same-day
+registration and provisional ballots. Each day's numbers are saved under their own date, so
+the site can show how the election is moving instead of only where it stands today.
 
-This was the busiest stretch. In two days Skipjack gained a full turnout track: design docs,
-database tables, a parser for each of the board's report types (mail-in requests, ballots
-sent and returned, early voting, same-day registration, provisionals, canvass counts) and the
-first snapshots of the 2026 general. The 2026 primary was backfilled, and the 2024 general
-followed. Along the way the project set a firm rule: certified elections show only their
-certified figures of record, never the board's unofficial tallies.
+Past elections get the same treatment, with one firm rule: once an election is certified,
+Skipjack shows only the certified figures. Unofficial counts never stand in for the official
+record.
 
-## October 12 onward: the bot takes a shift
+## It started running on its own
 
-A daily workflow started running, and the **skipjack bot** began committing turnout snapshots
-whenever the board posted new numbers. By October 14 that same run was redeploying the site
-itself.
+A daily bot checks the board for new reports, saves what's changed, and redeploys the site.
+During an election, the numbers stay current without anyone having to remember to update them.
 
-## October 13–14: geography and a new look
+## It added results and maps
 
-Turnout got county and congressional district pages. The site also got its brand: the
-skipjack logo in the masthead, the nav and the browser tab.
+Skipjack added election results for every primary and general since 2020, county by county
+and contest by contest, each checked against the statewide totals before it's published.
+County maps show turnout, mail-in returns and who led where, and turnout maps use green rather
+than red or blue so a return rate never looks partisan.
 
-## October 15: maps and results
+## It started looking ahead
 
-Server-rendered county maps showed up on five pages, along with estimated voter race
-(aggregates only). Then came the big one, a **Results** tab covering every primary and general
-from 2020 through the 2026 primary, county by county. Each file is checked against the
-statewide totals before it's published.
+Skipjack also forecasts turnout. The model looks at how each county and party has voted in
+past elections, how the electorate has changed, and how this year's mail-in and early voting
+compare, and estimates how many people will vote. The forecast has its own page that explains
+how it works and what it can't see.
 
-## October 17–18: a front page and a forecast
+## And it covered election night
 
-The home page was redesigned to lead with mail-in ballots while an election is under way.
-That same weekend brought a full **turnout model**, built in R: a multilevel fit across past
-elections, adjustments for how the electorate's makeup has shifted, a forecast for the 2026
-general by county and party, and a report that checks its own claims. A simpler companion
-model got its own explainer. Turnout maps switched to a green palette so a return rate never
-looks partisan.
+When the polls close, Skipjack follows the board's unofficial count as it comes in. It checks
+each update before publishing it and labels the results clearly as unofficial and incomplete.
+Readers can follow the statewide races, local contests and ballot questions, see which counties
+have reported, and find down-ballot candidates who ran ahead of their party's top-of-ticket
+nominee.
 
-## October 24–29: early voting and same-day registration
+## What it is today
 
-When early voting opened, Skipjack added it by county and district. Then came backfilled daily
-mail-in reports from 2022 and 2024, so this year's pace could be compared with theirs, and
-same-day registration counts for six elections. The home page put all of it in tabs.
-
-## November 1–3: forecast goes public
-
-The turnout model was updated to account for early votes, mail returns and same-day
-registration, and the forecast got its own place on the site under a Turnout menu. The
-October registration report landed, and the voters page started opening with a statewide
-summary.
-
-## November 4–6: election night and after
-
-On election night Skipjack started reading the board's **unofficial results** as they came
-in. Each snapshot is checked row by row and county by county before it goes up behind a clear
-"unofficial and incomplete" banner. Ballot questions, downloads and daily refreshes followed.
-Then came an **"ahead of the ticket"** feature showing down-ballot candidates who outpolled
-their party's top-of-ticket nominee, and a home page that leads with the live statewide races.
-
-## By the numbers
-
-- **~190 commits** in five weeks
-- **25** of them from the skipjack bot, keeping the data fresh
-- **202** monthly registration reports, from 2010 to now
-- One state boat, sailing on 🌊
+Skipjack is a one-stop guide to Maryland elections: who's registered, who's voting, how
+they're voting and who's winning, with every number traceable to its source. Every dataset is
+available to download, along with a record of where it came from.
