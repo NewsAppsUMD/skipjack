@@ -178,11 +178,20 @@ def test_home_has_a_locator_map_linking_to_every_county(home_today):
 
 @needs_db
 def test_home_leads_with_mail_and_early_voting_while_an_election_is_under_way(home_today):
+    from skipjack.web import turnout as qt
+    from skipjack.web.db import get_db
+
     home_today("2026-10-24")
     html = client.get("/").text
+    # the pinned day picks the lead, not the data: the same-day map is drawn only while the
+    # same-day and early-voting reports count the same days (not once election day is in)
+    with get_db() as conn:
+        same_days = qt.same_day(conn, "GG26")["as_of"] == qt.early_voting(conn, "GG26")["as_of"]
     # one tab panel each for the mail-in ballots, early voting and same-day registration,
     # each with its own map; the outlines drawn once
-    assert map_titles(html) == ["Mail ballots returned", "Early voters", "Same-day registration"]
+    assert map_titles(html) == ["Mail ballots returned", "Early voters"] + (
+        ["Same-day registration"] if same_days else []
+    )
     assert_outlines_once(html)
     assert html.count("data-tab=") == 3 and "static/tabs.js" in html
     assert "2026 general election: ballots so far" in html
@@ -191,7 +200,8 @@ def test_home_leads_with_mail_and_early_voting_while_an_election_is_under_way(ho
     for county in COUNTIES:
         assert f'href="/turnout/gg26/county/#county-{slugify(county)}"' in html
         # the same-day map links to its own page's county rows
-        assert f'href="/turnout/gg26/same-day/#county-{slugify(county)}"' in html
+        if same_days:
+            assert f'href="/turnout/gg26/same-day/#county-{slugify(county)}"' in html
     assert 'href="/turnout/gg26/same-day/"' in html
     assert "<dt>days to election day</dt><dd>10</dd>" in html
 
