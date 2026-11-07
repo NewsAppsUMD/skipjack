@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-07T171004-gen_results_2026_by_county_5",
+  "source_url": "https://elections.maryland.gov/elections/2026/General_results/gen_results_2026_by_county_5.html",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, gen_results_2026_by_county_5.html (refreshed 11/07/2026 05:10:04 PM)",
+  "fetch_date": "2026-11-07T22:27:17+00:00",
+  "parse_date": "2026-11-07T22:27:17+00:00",
+  "sha256_original": "ee1811afff9baaa5de4c0722f70a199968b05ca2159b9dbf2eac9b562f3db19f",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "county",
+  "notes": "GG26 Calvert, the board's unofficial and incomplete count as of 11/07/2026 05:10:04 PM. Empty vote cells are not reported (NR), or a printed 0 in a canvass the county had not reported.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "last_refreshed": "11/07/2026 05:10:04 PM",
+    "tables": 24,
+    "rows": 72,
+    "row_totals": "ok",
+    "table_totals": "ok",
+    "statewide_check": "ok: 145 statewide tables match the county pages (2703 rows checked across the snapshot)",
+    "zeros_not_reported": 6,
+    "canvass_status_source": "sbe-results-unofficial-GG26-2026-11-07T171004-status"
+  }
+}
