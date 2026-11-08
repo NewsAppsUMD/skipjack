@@ -494,7 +494,8 @@ def test_trends_index_lists_every_county_with_the_shift_and_the_map(history_clie
     row = table[table.index('href="/results/county/allegany/"') :]
     row = row[: row.index("</tr>")]
     assert "Republicans +39.6" in row
-    assert "−19.6" in row  # the shift, a real minus sign
+    assert "+19.6 Rep" in row  # the shifts name the party moved toward
+    assert "−19.6" not in row
     assert "Republicans +20.0" in row  # the latest governor's race
     # every county shares the years, so they go in the headers, not the cells
     assert "Latest governor, 2022" in html and "Latest president, 2024" in html

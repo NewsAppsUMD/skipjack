@@ -11,6 +11,11 @@
 {%- if v is none %}<span class="muted">&mdash;</span>{% elif v|round(1) == 0 %}even{% else %}{{ "D" if v > 0 else "R" }}+{{ "%.1f"|format(v|abs) }}{% endif -%}
 {%- endmacro %}
 
+{# A change in that margin, by the party it moved toward: "+6.6 Dem", "+8.9 Rep" or "no change". #}
+{% macro party_shift(v) -%}
+{%- if v is none %}<span class="muted">&mdash;</span>{% elif v|round(1) == 0 %}no change{% else %}+{{ "%.1f"|format(v|abs) }} {{ "Dem" if v > 0 else "Rep" }}{% endif -%}
+{%- endmacro %}
+
 {# The same margin spelled out, as maps.fmt_margin does but to a decimal. #}
 {% macro long_margin(v) -%}
 {%- if v is none %}<span class="muted">&mdash;</span>{% elif v|round(1) == 0 %}even{% else %}{{ "Democrats" if v > 0 else "Republicans" }} +{{ "%.1f"|format(v|abs) }}{% endif -%}

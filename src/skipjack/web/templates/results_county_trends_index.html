@@ -46,8 +46,8 @@
             <th scope="row"><a href="{{ base }}/results/county/{{ row.slug }}/">{{ row.county }}</a></th>
             {{ margin_cell(row.governor, not one_gov) }}
             {{ margin_cell(row.president, not one_pres) }}
-            <td class="num"{% if row.cycle_shift %} data-sort="{{ row.cycle_shift.value }}"{% endif %}>{% if row.cycle_shift %}{{ row.cycle_shift.value|signed(1) }}{% if not span %} <span class="muted">({{ row.cycle_shift.from }} to {{ row.cycle_shift.to }})</span>{% endif %}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
-            <td class="num"{% if row.shift is not none %} data-sort="{{ row.shift }}"{% endif %}>{% if row.shift is none %}<span class="muted">&mdash;</span>{% else %}{{ row.shift|signed(1) }} <span class="muted">(since {{ row.first.year }})</span>{% endif %}</td>
+            <td class="num"{% if row.cycle_shift %} data-sort="{{ row.cycle_shift.value }}"{% endif %}>{% if row.cycle_shift %}{{ t.party_shift(row.cycle_shift.value) }}{% if not span %} <span class="muted">({{ row.cycle_shift.from }} to {{ row.cycle_shift.to }})</span>{% endif %}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num"{% if row.shift is not none %} data-sort="{{ row.shift }}"{% endif %}>{% if row.shift is none %}<span class="muted">&mdash;</span>{% else %}{{ t.party_shift(row.shift) }} <span class="muted">(since {{ row.first.year }})</span>{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -56,7 +56,7 @@
 <p class="note">The margin is the Democratic minus Republican share of the county's votes for
     governor or president, in points. The shift between them is the later race's margin minus
     the earlier one's; the shift since the first general is the latest margin minus the margin
-    in the county's first general on file. A positive shift is toward the Democrats.
+    in the county's first general on file. Each shift names the party the county moved toward.
     {% if unofficial %}Source: the State Board of Elections'
     <a href="{{ data_page }}" target="_blank" rel="noopener">unofficial results pages</a>, as
     refreshed {{ unofficial.as_of }}, and its certified results files.{% else %}Source: the
