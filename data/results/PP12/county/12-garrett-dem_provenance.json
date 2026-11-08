@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-12-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Garrett_County_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Garrett results (dem)",
+  "fetch_date": "2026-11-08T01:34:51+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "9d3367598a0dcfeb391e0f0e9acf28fbc9f6a7fe0919f962ff8bc0be70c12bfa",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Garrett county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 24,
+    "row_totals": "ok",
+    "statewide_check": "ok: 113 statewide rows (113 for, 0 against) match State_Congressional_Districts_Democratic_2012_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

@@ -1,0 +1,39 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP12,Carroll,dem,President - Vice Pres,"",Barack Obama,DEM,1,0,394,2327,50,6,86,2863
+PP12,Carroll,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,111,822,14,1,31,979
+PP12,Carroll,dem,President - Vice Pres,01,Barack Obama,DEM,1,0,137,762,31,1,9,940
+PP12,Carroll,dem,President - Vice Pres,01,Uncommitted To Any Presidential Candidate,DEM,0,0,37,347,9,1,1,395
+PP12,Carroll,dem,President - Vice Pres,08,Barack Obama,DEM,1,0,257,1565,19,5,77,1923
+PP12,Carroll,dem,President - Vice Pres,08,Uncommitted To Any Presidential Candidate,DEM,0,0,74,475,5,0,30,584
+PP12,Carroll,dem,U.S. Senator,"",Raymond Levi Blagmon,DEM,0,0,10,97,0,0,2,109
+PP12,Carroll,dem,U.S. Senator,"",Ben Cardin,DEM,1,0,405,2470,49,5,86,3015
+PP12,Carroll,dem,U.S. Senator,"",J. P. Cusick,DEM,0,0,10,87,1,1,2,101
+PP12,Carroll,dem,U.S. Senator,"",Chris Garner,DEM,0,0,31,183,5,0,9,228
+PP12,Carroll,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,8,58,1,0,3,70
+PP12,Carroll,dem,U.S. Senator,"",C. Anthony Muse,DEM,0,0,23,128,1,0,8,160
+PP12,Carroll,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,13,95,2,1,4,115
+PP12,Carroll,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,2,36,1,0,1,40
+PP12,Carroll,dem,U.S. Senator,"",Lih Young,DEM,0,0,9,59,3,0,2,73
+PP12,Carroll,dem,Rep in Congress,01,John LaFerla,DEM,0,0,61,420,16,0,6,503
+PP12,Carroll,dem,Rep in Congress,01,Kim Letke,DEM,0,0,21,146,8,2,2,179
+PP12,Carroll,dem,Rep in Congress,01,Wendy Rosen,DEM,1,0,75,487,13,0,2,577
+PP12,Carroll,dem,Rep in Congress,08,George English,DEM,0,0,78,408,6,2,35,529
+PP12,Carroll,dem,Rep in Congress,08,Chris Van Hollen,DEM,1,0,230,1471,13,1,63,1778
+PP12,Carroll,dem,Female Delegates,01,Sandra H. Bjork,DEM,1,0,120,721,29,2,8,880
+PP12,Carroll,dem,Female Delegates,01,Laura Mitchell,DEM,1,0,128,752,29,2,8,919
+PP12,Carroll,dem,Female Delegates,01,Blair Burns Potter,DEM,1,0,113,686,27,2,8,836
+PP12,Carroll,dem,Female DEM Del/Alt,08,Margaret Byron,DEM,1,0,256,1473,14,4,76,1823
+PP12,Carroll,dem,Female DEM Del/Alt,08,Clara B. Floyd,DEM,1,0,239,1403,11,5,66,1724
+PP12,Carroll,dem,Female DEM Del/Alt,08,Almina Khorakiwala,DEM,1,0,223,1329,12,4,65,1633
+PP12,Carroll,dem,Female DEM Del/Alt,08,Susan Ness,DEM,1,0,240,1440,12,5,68,1765
+PP12,Carroll,dem,Female DEM Del/Alt,08,Myrna R. Whitworth,DEM,1,0,236,1362,12,4,69,1683
+PP12,Carroll,dem,Male DEM Del/Alt,01,David E. Carey,DEM,1,0,124,734,29,2,8,897
+PP12,Carroll,dem,Male DEM Del/Alt,01,Chuck Cook,DEM,1,0,115,678,29,2,8,832
+PP12,Carroll,dem,Male DEM Del/Alt,01,Jim Ireton,DEM,1,0,109,656,28,2,8,803
+PP12,Carroll,dem,Male DEM Del/Alt,01,Carl Widell,DEM,1,0,121,697,29,2,8,857
+PP12,Carroll,dem,Male Delegates,08,Joseph Aloysius Hennessey,DEM,0,0,96,599,5,0,25,725
+PP12,Carroll,dem,Male Delegates,08,Bob Kresslein,DEM,1,0,227,1333,10,4,70,1644
+PP12,Carroll,dem,Male Delegates,08,Spencer Overton,DEM,1,0,230,1284,9,5,62,1590
+PP12,Carroll,dem,Male Delegates,08,Jon Leslie Randall,DEM,1,0,222,1302,11,5,68,1608
+PP12,Carroll,dem,Male Delegates,08,Hans Riemer,DEM,1,0,218,1216,11,4,61,1510
+PP12,Carroll,dem,Male Delegates,08,Jeffrey Zane Slavin,DEM,1,0,218,1242,11,5,62,1538

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-06-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Caroline_County_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Caroline results (dem)",
+  "fetch_date": "2026-11-08T01:34:50+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "5c55942298d3668d3b7cbce6e17e89f2e79d6cdc6cf3e2607cb2ce06c28c8153",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Caroline county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 23,
+    "row_totals": "ok",
+    "statewide_check": "ok: 113 statewide rows (113 for, 0 against) match State_Congressional_Districts_Democratic_2012_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

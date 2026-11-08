@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-17-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Prince_Georges_County_NonPartisan_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Prince George's results (non)",
+  "fetch_date": "2026-11-08T01:34:53+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "c584d8dd04bd458ccd3aff36a12a641c3dc01f180b7df07317f4a9c1f40bbc56",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Prince George's county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 23,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2012_Primary.csv carries no statewide rows"
+  }
+}

@@ -1,0 +1,67 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP12,Baltimore County,dem,President - Vice Pres,"",Barack Obama,DEM,1,0,7493,29203,1008,303,92,38099
+PP12,Baltimore County,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,917,6860,282,34,13,8106
+PP12,Baltimore County,dem,President - Vice Pres,01,Barack Obama,DEM,1,0,312,1134,27,10,6,1489
+PP12,Baltimore County,dem,President - Vice Pres,01,Uncommitted To Any Presidential Candidate,DEM,0,0,136,601,12,4,3,756
+PP12,Baltimore County,dem,President - Vice Pres,02,Barack Obama,DEM,1,0,3658,13304,423,159,33,17577
+PP12,Baltimore County,dem,President - Vice Pres,02,Uncommitted To Any Presidential Candidate,DEM,0,0,421,3284,117,16,3,3841
+PP12,Baltimore County,dem,President - Vice Pres,03,Barack Obama,DEM,1,0,806,5165,249,49,13,6282
+PP12,Baltimore County,dem,President - Vice Pres,03,Uncommitted To Any Presidential Candidate,DEM,0,0,168,1683,78,10,2,1941
+PP12,Baltimore County,dem,President - Vice Pres,07,Barack Obama,DEM,1,0,2717,9600,309,85,40,12751
+PP12,Baltimore County,dem,President - Vice Pres,07,Uncommitted To Any Presidential Candidate,DEM,0,0,192,1292,75,4,5,1568
+PP12,Baltimore County,dem,U.S. Senator,"",Raymond Levi Blagmon,DEM,0,0,93,775,29,8,0,905
+PP12,Baltimore County,dem,U.S. Senator,"",Ben Cardin,DEM,1,0,6861,28351,1066,244,85,36607
+PP12,Baltimore County,dem,U.S. Senator,"",J. P. Cusick,DEM,0,0,96,803,20,7,3,929
+PP12,Baltimore County,dem,U.S. Senator,"",Chris Garner,DEM,0,0,175,1205,41,10,5,1436
+PP12,Baltimore County,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,75,636,31,2,0,744
+PP12,Baltimore County,dem,U.S. Senator,"",C. Anthony Muse,DEM,0,0,909,3462,39,46,8,4464
+PP12,Baltimore County,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,116,707,16,7,3,849
+PP12,Baltimore County,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,27,172,2,0,0,201
+PP12,Baltimore County,dem,U.S. Senator,"",Lih Young,DEM,0,0,73,418,12,2,0,505
+PP12,Baltimore County,dem,Rep in Congress,01,John LaFerla,DEM,0,0,161,573,18,3,5,760
+PP12,Baltimore County,dem,Rep in Congress,01,Kim Letke,DEM,0,0,89,351,7,2,1,450
+PP12,Baltimore County,dem,Rep in Congress,01,Wendy Rosen,DEM,1,0,149,704,9,2,2,866
+PP12,Baltimore County,dem,Rep in Congress,02,C. A. Dutch Ruppersberger,DEM,1,0,3409,13158,467,127,36,17197
+PP12,Baltimore County,dem,Rep in Congress,03,David H. Lockwood,DEM,0,0,100,1014,40,6,1,1161
+PP12,Baltimore County,dem,Rep in Congress,03,John Sarbanes,DEM,1,0,835,5672,277,31,12,6827
+PP12,Baltimore County,dem,Rep in Congress,07,Ty Glen Busch,DEM,0,0,68,402,16,1,1,488
+PP12,Baltimore County,dem,Rep in Congress,07,Elijah Cummings,DEM,1,0,2700,9701,336,52,38,12827
+PP12,Baltimore County,dem,Rep in Congress,07,Charles U. Smith,DEM,0,0,121,785,23,3,2,934
+PP12,Baltimore County,dem,Judge of the Circuit Court,03,Nancy M. Purpura,DEM,1,0,6021,24744,1006,250,82,32103
+PP12,Baltimore County,dem,Female Delegates,01,Sandra H. Bjork,DEM,1,0,326,1189,27,7,7,1556
+PP12,Baltimore County,dem,Female Delegates,01,Laura Mitchell,DEM,1,0,332,1191,28,5,7,1563
+PP12,Baltimore County,dem,Female Delegates,01,Blair Burns Potter,DEM,1,0,322,1136,27,5,7,1497
+PP12,Baltimore County,dem,Female DEM Del/Alt,02,Kameahle Christopher,DEM,1,0,3056,11313,352,98,28,14847
+PP12,Baltimore County,dem,Female DEM Del/Alt,02,Marietta A. English,DEM,1,0,3241,11790,374,99,29,15533
+PP12,Baltimore County,dem,Female DEM Del/Alt,02,Delores G. Kelley,DEM,1,0,3412,12418,391,109,30,16360
+PP12,Baltimore County,dem,Female DEM Del/Alt,02,Amanda Elizabeth Pleasant,DEM,1,0,3086,11394,365,87,29,14961
+PP12,Baltimore County,dem,Female Delegates,03,Donna S. Edwards,DEM,1,0,771,5011,221,30,9,6042
+PP12,Baltimore County,dem,Female Delegates,03,Sarah Flynn,DEM,1,0,758,4855,217,28,9,5867
+PP12,Baltimore County,dem,Female Delegates,03,Mary S. Marker,DEM,1,0,743,4712,211,27,9,5702
+PP12,Baltimore County,dem,Female Delegates,03,Donna M. Smith,DEM,1,0,742,4807,212,26,9,5796
+PP12,Baltimore County,dem,Female Delegates,07,Lisa Gladden,DEM,1,0,2501,8633,279,40,33,11486
+PP12,Baltimore County,dem,Female Delegates,07,Adrienne A. Jones,DEM,1,0,2496,8512,270,42,33,11353
+PP12,Baltimore County,dem,Female Delegates,07,Angela Lagdameo,DEM,1,0,2203,7551,238,35,25,10052
+PP12,Baltimore County,dem,Female Delegates,07,Catherine Pugh,DEM,0,0,622,2883,114,14,9,3642
+PP12,Baltimore County,dem,Female Delegates,07,Lucinda Ware,DEM,1,0,2239,7641,244,38,29,10191
+PP12,Baltimore County,dem,Female Delegates,07,Mary Washington,DEM,1,0,2306,7890,246,41,30,10513
+PP12,Baltimore County,dem,Male DEM Del/Alt,01,David E. Carey,DEM,1,0,333,1191,27,4,7,1562
+PP12,Baltimore County,dem,Male DEM Del/Alt,01,Chuck Cook,DEM,1,0,318,1151,26,5,6,1506
+PP12,Baltimore County,dem,Male DEM Del/Alt,01,Jim Ireton,DEM,1,0,320,1159,26,4,6,1515
+PP12,Baltimore County,dem,Male DEM Del/Alt,01,Carl Widell,DEM,1,0,327,1151,26,6,5,1515
+PP12,Baltimore County,dem,Male Delegates,02,Duane Tony Baysmore,DEM,1,0,3261,11729,356,97,28,15471
+PP12,Baltimore County,dem,Male Delegates,02,Jerome Foster,DEM,1,0,3172,11454,351,95,29,15101
+PP12,Baltimore County,dem,Male Delegates,02,Rick Martinez,DEM,1,0,3069,11466,352,94,30,15011
+PP12,Baltimore County,dem,Male Delegates,02,"John Olszewski, Jr.",DEM,1,0,3142,11895,370,94,29,15530
+PP12,Baltimore County,dem,Male DEM Del/Alt,03,William H. Cole,DEM,1,0,752,4753,219,29,10,5763
+PP12,Baltimore County,dem,Male DEM Del/Alt,03,Daniel Lory Ewald,DEM,1,0,725,4498,212,22,10,5467
+PP12,Baltimore County,dem,Male DEM Del/Alt,03,Guy J. Guzzone,DEM,1,0,718,4500,207,18,9,5452
+PP12,Baltimore County,dem,Male DEM Del/Alt,03,Anwer Hasan,DEM,1,0,645,3966,180,22,10,4823
+PP12,Baltimore County,dem,Male DEM Del/Alt,03,Noel Levy,DEM,0,0,263,2401,109,15,3,2791
+PP12,Baltimore County,dem,Male DEM Del/Alt,03,Bill Romani,DEM,1,0,695,4315,197,20,9,5236
+PP12,Baltimore County,dem,Male DEM Del/Alt,07,Calvin Ball,DEM,1,0,2455,8456,263,37,31,11242
+PP12,Baltimore County,dem,Male DEM Del/Alt,07,Mitch Case,DEM,1,0,2319,7992,246,33,31,10621
+PP12,Baltimore County,dem,Male DEM Del/Alt,07,Herbert S. Graves,DEM,1,0,2360,8141,252,36,30,10819
+PP12,Baltimore County,dem,Male DEM Del/Alt,07,Clarence K. Lam,DEM,1,0,2300,7912,240,35,30,10517
+PP12,Baltimore County,dem,Male DEM Del/Alt,07,"Fred D. Mason, Jr.",DEM,1,0,2367,8097,253,35,28,10780
+PP12,Baltimore County,dem,Male DEM Del/Alt,07,Charles U. Smith,DEM,0,0,315,1809,87,5,3,2219

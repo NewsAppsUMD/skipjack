@@ -1,0 +1,60 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP12,Baltimore City,dem,President - Vice Pres,"",Barack Obama,DEM,1,0,6798,31751,1144,598,57,40348
+PP12,Baltimore City,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,213,1705,84,15,6,2023
+PP12,Baltimore City,dem,President - Vice Pres,02,Barack Obama,DEM,1,0,578,3012,61,75,5,3731
+PP12,Baltimore City,dem,President - Vice Pres,02,Uncommitted To Any Presidential Candidate,DEM,0,0,16,194,7,3,0,220
+PP12,Baltimore City,dem,President - Vice Pres,03,Barack Obama,DEM,1,0,1224,6502,321,55,11,8113
+PP12,Baltimore City,dem,President - Vice Pres,03,Uncommitted To Any Presidential Candidate,DEM,0,0,134,1019,55,6,1,1215
+PP12,Baltimore City,dem,President - Vice Pres,07,Barack Obama,DEM,1,0,4996,22237,762,468,41,28504
+PP12,Baltimore City,dem,President - Vice Pres,07,Uncommitted To Any Presidential Candidate,DEM,0,0,63,492,22,6,5,588
+PP12,Baltimore City,dem,U.S. Senator,"",Raymond Levi Blagmon,DEM,0,0,85,512,20,8,0,625
+PP12,Baltimore City,dem,U.S. Senator,"",Ben Cardin,DEM,1,0,5526,24839,988,351,48,31752
+PP12,Baltimore City,dem,U.S. Senator,"",J. P. Cusick,DEM,0,0,31,239,14,6,1,291
+PP12,Baltimore City,dem,U.S. Senator,"",Chris Garner,DEM,0,0,42,318,25,11,0,396
+PP12,Baltimore City,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,35,200,20,7,0,262
+PP12,Baltimore City,dem,U.S. Senator,"",C. Anthony Muse,DEM,0,0,1184,6552,71,169,10,7986
+PP12,Baltimore City,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,31,188,12,14,2,247
+PP12,Baltimore City,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,1,47,1,1,0,50
+PP12,Baltimore City,dem,U.S. Senator,"",Lih Young,DEM,0,0,32,352,32,17,1,434
+PP12,Baltimore City,dem,Rep in Congress,02,C. A. Dutch Ruppersberger,DEM,1,0,417,2147,59,34,4,2661
+PP12,Baltimore City,dem,Rep in Congress,03,David H. Lockwood,DEM,0,0,107,863,35,9,1,1015
+PP12,Baltimore City,dem,Rep in Congress,03,John Sarbanes,DEM,1,0,1152,6279,332,24,12,7799
+PP12,Baltimore City,dem,Rep in Congress,07,Ty Glen Busch,DEM,0,0,65,373,16,12,1,467
+PP12,Baltimore City,dem,Rep in Congress,07,Elijah Cummings,DEM,1,0,4786,21457,738,379,44,27404
+PP12,Baltimore City,dem,Rep in Congress,07,Charles U. Smith,DEM,0,0,142,591,18,12,1,764
+PP12,Baltimore City,dem,Judge of the Circuit Court,08,Kendra Y. Ausby,DEM,1,0,4654,19944,697,277,39,25611
+PP12,Baltimore City,dem,Judge of the Circuit Court,08,Jeannie J. Hong,DEM,1,0,4470,18830,656,228,38,24222
+PP12,Baltimore City,dem,Judge of the Circuit Court,08,Charles J. Peters,DEM,1,0,4473,18936,670,208,40,24327
+PP12,Baltimore City,dem,Judge of the Circuit Court,08,Michael W. Reed,DEM,1,0,4555,19533,699,233,38,25058
+PP12,Baltimore City,dem,Judge of the Circuit Court,08,Yolanda A. Tanner,DEM,1,0,4731,20296,720,299,42,26088
+PP12,Baltimore City,dem,Judge of the Circuit Court,08,David W. Young,DEM,1,0,4784,20565,739,289,41,26418
+PP12,Baltimore City,dem,Female DEM Del/Alt,02,Kameahle Christopher,DEM,1,0,439,2213,40,22,3,2717
+PP12,Baltimore City,dem,Female DEM Del/Alt,02,Marietta A. English,DEM,1,0,470,2282,41,24,4,2821
+PP12,Baltimore City,dem,Female DEM Del/Alt,02,Delores G. Kelley,DEM,1,0,466,2331,42,28,4,2871
+PP12,Baltimore City,dem,Female DEM Del/Alt,02,Amanda Elizabeth Pleasant,DEM,1,0,438,2176,39,23,4,2680
+PP12,Baltimore City,dem,Female Delegates,03,Donna S. Edwards,DEM,1,0,1088,5714,247,29,10,7088
+PP12,Baltimore City,dem,Female Delegates,03,Sarah Flynn,DEM,1,0,1054,5448,237,25,9,6773
+PP12,Baltimore City,dem,Female Delegates,03,Mary S. Marker,DEM,1,0,1023,5344,237,24,8,6636
+PP12,Baltimore City,dem,Female Delegates,03,Donna M. Smith,DEM,1,0,1031,5373,236,24,9,6673
+PP12,Baltimore City,dem,Female Delegates,07,Lisa Gladden,DEM,1,0,4377,18282,631,283,40,23613
+PP12,Baltimore City,dem,Female Delegates,07,Adrienne A. Jones,DEM,1,0,3937,16119,543,245,30,20874
+PP12,Baltimore City,dem,Female Delegates,07,Angela Lagdameo,DEM,1,0,3448,14114,460,216,26,18264
+PP12,Baltimore City,dem,Female Delegates,07,Catherine Pugh,DEM,0,0,1456,6839,201,108,15,8619
+PP12,Baltimore City,dem,Female Delegates,07,Lucinda Ware,DEM,1,0,3566,14282,475,209,28,18560
+PP12,Baltimore City,dem,Female Delegates,07,Mary Washington,DEM,1,0,3829,15572,533,222,28,20184
+PP12,Baltimore City,dem,Male Delegates,02,Duane Tony Baysmore,DEM,1,0,473,2381,46,25,5,2930
+PP12,Baltimore City,dem,Male Delegates,02,Jerome Foster,DEM,1,0,457,2298,41,23,4,2823
+PP12,Baltimore City,dem,Male Delegates,02,Rick Martinez,DEM,1,0,446,2171,37,21,4,2679
+PP12,Baltimore City,dem,Male Delegates,02,"John Olszewski, Jr.",DEM,1,0,450,2176,39,21,4,2690
+PP12,Baltimore City,dem,Male DEM Del/Alt,03,William H. Cole,DEM,1,0,1097,5774,236,28,8,7143
+PP12,Baltimore City,dem,Male DEM Del/Alt,03,Daniel Lory Ewald,DEM,1,0,1006,5313,211,23,9,6562
+PP12,Baltimore City,dem,Male DEM Del/Alt,03,Guy J. Guzzone,DEM,1,0,1021,5365,203,24,10,6623
+PP12,Baltimore City,dem,Male DEM Del/Alt,03,Anwer Hasan,DEM,1,0,940,5027,206,22,8,6203
+PP12,Baltimore City,dem,Male DEM Del/Alt,03,Noel Levy,DEM,0,0,262,1563,88,5,2,1920
+PP12,Baltimore City,dem,Male DEM Del/Alt,03,Bill Romani,DEM,1,0,991,5108,218,25,9,6351
+PP12,Baltimore City,dem,Male DEM Del/Alt,07,Calvin Ball,DEM,1,0,4307,18291,592,289,32,23511
+PP12,Baltimore City,dem,Male DEM Del/Alt,07,Mitch Case,DEM,1,0,3962,16330,530,236,30,21088
+PP12,Baltimore City,dem,Male DEM Del/Alt,07,Herbert S. Graves,DEM,1,0,4054,16671,545,241,35,21546
+PP12,Baltimore City,dem,Male DEM Del/Alt,07,Clarence K. Lam,DEM,1,0,3947,16242,513,231,32,20965
+PP12,Baltimore City,dem,Male DEM Del/Alt,07,"Fred D. Mason, Jr.",DEM,1,0,4049,16819,541,251,31,21691
+PP12,Baltimore City,dem,Male DEM Del/Alt,07,Charles U. Smith,DEM,0,0,381,1752,54,24,7,2218

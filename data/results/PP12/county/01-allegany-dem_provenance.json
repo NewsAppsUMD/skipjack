@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-01-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Allegany_County_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Allegany results (dem)",
+  "fetch_date": "2026-11-08T01:34:48+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "8e825db4333a3bcd818fd353144980d01c8ef3a1a837ab83bed37fb7d6a97cf7",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Allegany county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 24,
+    "row_totals": "ok",
+    "statewide_check": "ok: 113 statewide rows (113 for, 0 against) match State_Congressional_Districts_Democratic_2012_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

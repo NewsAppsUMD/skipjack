@@ -1,0 +1,57 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP12,Howard,dem,President - Vice Pres,"",Barack Obama,DEM,1,0,3223,12614,209,161,52,16259
+PP12,Howard,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,375,1607,18,10,8,2018
+PP12,Howard,dem,President - Vice Pres,02,Barack Obama,DEM,1,0,155,1211,21,16,8,1411
+PP12,Howard,dem,President - Vice Pres,02,Uncommitted To Any Presidential Candidate,DEM,0,0,13,128,1,5,3,150
+PP12,Howard,dem,President - Vice Pres,03,Barack Obama,DEM,1,0,850,4402,85,62,18,5417
+PP12,Howard,dem,President - Vice Pres,03,Uncommitted To Any Presidential Candidate,DEM,0,0,69,466,8,3,5,551
+PP12,Howard,dem,President - Vice Pres,07,Barack Obama,DEM,1,0,2218,7001,103,83,26,9431
+PP12,Howard,dem,President - Vice Pres,07,Uncommitted To Any Presidential Candidate,DEM,0,0,293,1013,9,2,0,1317
+PP12,Howard,dem,U.S. Senator,"",Raymond Levi Blagmon,DEM,0,0,47,242,5,4,1,299
+PP12,Howard,dem,U.S. Senator,"",Ben Cardin,DEM,1,0,3125,11936,197,126,47,15431
+PP12,Howard,dem,U.S. Senator,"",J. P. Cusick,DEM,0,0,27,189,3,1,0,220
+PP12,Howard,dem,U.S. Senator,"",Chris Garner,DEM,0,0,97,449,7,8,0,561
+PP12,Howard,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,30,138,1,3,0,172
+PP12,Howard,dem,U.S. Senator,"",C. Anthony Muse,DEM,0,0,165,811,6,13,4,999
+PP12,Howard,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,31,155,4,3,2,195
+PP12,Howard,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,5,49,0,3,0,57
+PP12,Howard,dem,U.S. Senator,"",Lih Young,DEM,0,0,31,167,0,3,2,203
+PP12,Howard,dem,Rep in Congress,02,C. A. Dutch Ruppersberger,DEM,1,0,145,1009,18,15,11,1198
+PP12,Howard,dem,Rep in Congress,03,David H. Lockwood,DEM,0,0,75,521,5,10,3,614
+PP12,Howard,dem,Rep in Congress,03,John Sarbanes,DEM,1,0,781,4102,83,46,17,5029
+PP12,Howard,dem,Rep in Congress,07,Ty Glen Busch,DEM,0,0,81,352,4,4,0,441
+PP12,Howard,dem,Rep in Congress,07,Elijah Cummings,DEM,1,0,2253,6947,102,66,26,9394
+PP12,Howard,dem,Rep in Congress,07,Charles U. Smith,DEM,0,0,137,597,4,2,0,740
+PP12,Howard,dem,Judge of the Circuit Court,05,Clarke F. Ahlers,DEM,0,0,804,4093,48,53,16,5014
+PP12,Howard,dem,Judge of the Circuit Court,05,Lenore R. Gelfman,DEM,1,0,2726,10362,172,89,36,13385
+PP12,Howard,dem,Judge of the Circuit Court,05,William V. Tucker,DEM,1,0,2390,8765,135,85,34,11409
+PP12,Howard,dem,Female DEM Del/Alt,02,Kameahle Christopher,DEM,1,0,144,1011,11,7,8,1181
+PP12,Howard,dem,Female DEM Del/Alt,02,Marietta A. English,DEM,1,0,146,1062,13,10,9,1240
+PP12,Howard,dem,Female DEM Del/Alt,02,Delores G. Kelley,DEM,1,0,151,1092,14,7,6,1270
+PP12,Howard,dem,Female DEM Del/Alt,02,Amanda Elizabeth Pleasant,DEM,1,0,140,1021,13,10,6,1190
+PP12,Howard,dem,Female Delegates,03,Donna S. Edwards,DEM,1,0,780,4076,75,48,14,4993
+PP12,Howard,dem,Female Delegates,03,Sarah Flynn,DEM,1,0,747,3916,70,43,16,4792
+PP12,Howard,dem,Female Delegates,03,Mary S. Marker,DEM,1,0,737,3836,80,39,15,4707
+PP12,Howard,dem,Female Delegates,03,Donna M. Smith,DEM,1,0,731,3847,72,43,14,4707
+PP12,Howard,dem,Female Delegates,07,Lisa Gladden,DEM,1,0,2002,6328,94,57,19,8500
+PP12,Howard,dem,Female Delegates,07,Adrienne A. Jones,DEM,1,0,1965,6255,96,53,18,8387
+PP12,Howard,dem,Female Delegates,07,Angela Lagdameo,DEM,1,0,1912,5988,95,53,16,8064
+PP12,Howard,dem,Female Delegates,07,Catherine Pugh,DEM,0,0,441,1574,12,9,3,2039
+PP12,Howard,dem,Female Delegates,07,Lucinda Ware,DEM,1,0,1967,6082,93,56,17,8215
+PP12,Howard,dem,Female Delegates,07,Mary Washington,DEM,1,0,1963,6158,93,52,18,8284
+PP12,Howard,dem,Male Delegates,02,Duane Tony Baysmore,DEM,1,0,144,1040,12,10,6,1212
+PP12,Howard,dem,Male Delegates,02,Jerome Foster,DEM,1,0,144,1069,15,11,7,1246
+PP12,Howard,dem,Male Delegates,02,Rick Martinez,DEM,1,0,140,1034,13,8,7,1202
+PP12,Howard,dem,Male Delegates,02,"John Olszewski, Jr.",DEM,1,0,139,996,14,9,6,1164
+PP12,Howard,dem,Male DEM Del/Alt,03,William H. Cole,DEM,1,0,718,3792,67,43,15,4635
+PP12,Howard,dem,Male DEM Del/Alt,03,Daniel Lory Ewald,DEM,1,0,675,3592,62,39,15,4383
+PP12,Howard,dem,Male DEM Del/Alt,03,Guy J. Guzzone,DEM,1,0,792,4105,82,45,15,5039
+PP12,Howard,dem,Male DEM Del/Alt,03,Anwer Hasan,DEM,1,0,658,3435,61,38,15,4207
+PP12,Howard,dem,Male DEM Del/Alt,03,Noel Levy,DEM,0,0,106,755,12,9,3,885
+PP12,Howard,dem,Male DEM Del/Alt,03,Bill Romani,DEM,1,0,674,3498,67,35,14,4288
+PP12,Howard,dem,Male DEM Del/Alt,07,Calvin Ball,DEM,1,0,2095,6492,97,61,22,8767
+PP12,Howard,dem,Male DEM Del/Alt,07,Mitch Case,DEM,1,0,1925,6054,94,55,19,8147
+PP12,Howard,dem,Male DEM Del/Alt,07,Herbert S. Graves,DEM,1,0,1953,6105,94,53,18,8223
+PP12,Howard,dem,Male DEM Del/Alt,07,Clarence K. Lam,DEM,1,0,1942,6028,93,56,18,8137
+PP12,Howard,dem,Male DEM Del/Alt,07,"Fred D. Mason, Jr.",DEM,1,0,1951,6136,91,52,17,8247
+PP12,Howard,dem,Male DEM Del/Alt,07,Charles U. Smith,DEM,0,0,349,1297,12,6,2,1666

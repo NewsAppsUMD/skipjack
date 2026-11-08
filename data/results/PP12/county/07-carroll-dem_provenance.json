@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-07-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Carroll_County_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Carroll results (dem)",
+  "fetch_date": "2026-11-08T01:34:50+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "f7121f37f1aba80bbdc817bdb6a17b6728020b8e84ac266cc254d1cf02669b9c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Carroll county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 38,
+    "row_totals": "ok",
+    "statewide_check": "ok: 113 statewide rows (113 for, 0 against) match State_Congressional_Districts_Democratic_2012_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

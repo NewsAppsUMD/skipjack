@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-08-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Cecil_County_Republican_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Cecil results (rep)",
+  "fetch_date": "2026-11-08T01:34:50+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "4f3376a5b34eb4a1771ad66d64c42b148f61fe3c7f25d2c82b34d12f5a962964",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Cecil county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 82,
+    "row_totals": "ok",
+    "statewide_check": "ok: 292 statewide rows (292 for, 0 against) match State_Congressional_Districts_Republican_2012_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

@@ -1,0 +1,24 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP12,Kent,dem,President - Vice Pres,"",Barack Obama,DEM,1,0,344,775,35,7,8,1169
+PP12,Kent,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,32,227,6,2,3,270
+PP12,Kent,dem,President - Vice Pres,01,Barack Obama,DEM,1,0,344,775,35,7,8,1169
+PP12,Kent,dem,President - Vice Pres,01,Uncommitted To Any Presidential Candidate,DEM,0,0,32,227,6,2,3,270
+PP12,Kent,dem,U.S. Senator,"",Raymond Levi Blagmon,DEM,0,0,5,24,0,0,0,29
+PP12,Kent,dem,U.S. Senator,"",Ben Cardin,DEM,1,0,348,849,33,8,7,1245
+PP12,Kent,dem,U.S. Senator,"",J. P. Cusick,DEM,0,0,4,21,2,0,0,27
+PP12,Kent,dem,U.S. Senator,"",Chris Garner,DEM,0,0,5,29,1,0,1,36
+PP12,Kent,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,5,24,1,0,0,30
+PP12,Kent,dem,U.S. Senator,"",C. Anthony Muse,DEM,0,0,4,23,0,0,1,28
+PP12,Kent,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,3,15,1,0,0,19
+PP12,Kent,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,1,4,0,0,0,5
+PP12,Kent,dem,U.S. Senator,"",Lih Young,DEM,0,0,3,10,0,0,1,14
+PP12,Kent,dem,Rep in Congress,01,John LaFerla,DEM,0,0,296,745,28,4,5,1078
+PP12,Kent,dem,Rep in Congress,01,Kim Letke,DEM,0,0,19,47,4,0,4,74
+PP12,Kent,dem,Rep in Congress,01,Wendy Rosen,DEM,1,0,58,215,6,4,1,284
+PP12,Kent,dem,Female Delegates,01,Sandra H. Bjork,DEM,1,0,316,734,29,4,6,1089
+PP12,Kent,dem,Female Delegates,01,Laura Mitchell,DEM,1,0,285,700,29,6,7,1027
+PP12,Kent,dem,Female Delegates,01,Blair Burns Potter,DEM,1,0,270,635,25,4,7,941
+PP12,Kent,dem,Male DEM Del/Alt,01,David E. Carey,DEM,1,0,298,708,30,4,7,1047
+PP12,Kent,dem,Male DEM Del/Alt,01,Chuck Cook,DEM,1,0,277,665,28,4,7,981
+PP12,Kent,dem,Male DEM Del/Alt,01,Jim Ireton,DEM,1,0,275,633,25,3,6,942
+PP12,Kent,dem,Male DEM Del/Alt,01,Carl Widell,DEM,1,0,281,649,25,2,6,963

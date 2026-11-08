@@ -1,0 +1,69 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP12,Dorchester,rep,President - Vice Pres,"",Newt Gingrich,REP,0,0,23,277,7,6,2,315
+PP12,Dorchester,rep,President - Vice Pres,"",Jon Huntsman,REP,0,0,4,6,0,0,0,10
+PP12,Dorchester,rep,President - Vice Pres,"",Fred Karger,REP,0,0,2,1,0,0,0,3
+PP12,Dorchester,rep,President - Vice Pres,"",Ron Paul,REP,0,0,13,125,5,3,1,147
+PP12,Dorchester,rep,President - Vice Pres,"",Rick Perry,REP,0,0,1,8,0,0,1,10
+PP12,Dorchester,rep,President - Vice Pres,"",Buddy Roemer,REP,0,0,2,12,0,1,0,15
+PP12,Dorchester,rep,President - Vice Pres,"",Mitt Romney,REP,1,0,136,871,19,7,4,1037
+PP12,Dorchester,rep,President - Vice Pres,"",Rick Santorum,REP,0,0,66,569,9,8,8,660
+PP12,Dorchester,rep,President - Vice Pres,01,Newt Gingrich,REP,0,0,23,277,7,6,2,315
+PP12,Dorchester,rep,President - Vice Pres,01,Jon Huntsman,REP,0,0,4,6,0,0,0,10
+PP12,Dorchester,rep,President - Vice Pres,01,Fred Karger,REP,0,0,2,1,0,0,0,3
+PP12,Dorchester,rep,President - Vice Pres,01,Ron Paul,REP,0,0,13,125,5,3,1,147
+PP12,Dorchester,rep,President - Vice Pres,01,Rick Perry,REP,0,0,1,8,0,0,1,10
+PP12,Dorchester,rep,President - Vice Pres,01,Buddy Roemer,REP,0,0,2,12,0,1,0,15
+PP12,Dorchester,rep,President - Vice Pres,01,Mitt Romney,REP,1,0,136,871,19,7,4,1037
+PP12,Dorchester,rep,President - Vice Pres,01,Rick Santorum,REP,0,0,66,569,9,8,8,660
+PP12,Dorchester,rep,U.S. Senator,"",Joseph Alexander,REP,0,0,24,128,1,4,2,159
+PP12,Dorchester,rep,U.S. Senator,"",Daniel John Bongino,REP,1,0,24,270,4,3,0,301
+PP12,Dorchester,rep,U.S. Senator,"",Robert BRO Broadus,REP,0,0,12,91,0,1,0,104
+PP12,Dorchester,rep,U.S. Senator,"","William Thomas Capps, Jr.",REP,0,0,4,52,0,0,0,56
+PP12,Dorchester,rep,U.S. Senator,"",Richard J. Douglas,REP,0,0,65,593,9,3,5,675
+PP12,Dorchester,rep,U.S. Senator,"",Rick Hoover,REP,0,0,9,67,2,3,2,83
+PP12,Dorchester,rep,U.S. Senator,"",David Jones,REP,0,0,12,94,4,0,2,112
+PP12,Dorchester,rep,U.S. Senator,"",John B. Kimble,REP,0,0,16,97,0,1,1,115
+PP12,Dorchester,rep,U.S. Senator,"",Brian Vaeth,REP,0,0,2,19,0,0,0,21
+PP12,Dorchester,rep,U.S. Senator,"",Corrogan R. Vaughn,REP,0,0,4,57,0,2,1,64
+PP12,Dorchester,rep,Rep in Congress,01,Andy Harris,REP,1,0,207,1523,34,21,15,1800
+PP12,Dorchester,rep,Republican Delegates,01,Richard L. Andrews,REP,0,0,2,36,0,1,0,39
+PP12,Dorchester,rep,Republican Delegates,01,Greg Belcher,REP,0,0,31,325,4,3,5,368
+PP12,Dorchester,rep,Republican Delegates,01,Aaron Bramble,REP,0,0,40,407,5,4,5,461
+PP12,Dorchester,rep,Republican Delegates,01,Richard F. Colburn,REP,0,0,126,858,21,6,8,1019
+PP12,Dorchester,rep,Republican Delegates,01,Kathryn M. Danner Smith,REP,0,0,3,18,0,0,0,21
+PP12,Dorchester,rep,Republican Delegates,01,Michael W. Dawson,REP,0,0,1,19,0,0,0,20
+PP12,Dorchester,rep,Republican Delegates,01,Scott DeLong,REP,0,0,13,94,4,3,0,114
+PP12,Dorchester,rep,Republican Delegates,01,Shane Gordon Dover,REP,0,0,13,92,4,2,0,111
+PP12,Dorchester,rep,Republican Delegates,01,Adelaide Addie Eckardt,REP,1,0,163,1067,21,10,7,1268
+PP12,Dorchester,rep,Republican Delegates,01,Donald C. Frazier,REP,0,0,5,30,0,1,0,36
+PP12,Dorchester,rep,Republican Delegates,01,Joseph M. Getty,REP,1,0,75,495,9,5,2,586
+PP12,Dorchester,rep,Republican Delegates,01,Bill Harris,REP,0,0,17,200,3,5,2,227
+PP12,Dorchester,rep,Republican Delegates,01,"Stephen S. Hershey, Jr.",REP,0,0,12,150,2,5,1,170
+PP12,Dorchester,rep,Republican Delegates,01,Mark Goldsborough McIver,REP,0,0,11,146,1,3,1,162
+PP12,Dorchester,rep,Republican Delegates,01,Mark M. Novak,REP,0,0,3,25,0,1,0,29
+PP12,Dorchester,rep,Republican Delegates,01,Hank Piasecki,REP,0,0,35,295,4,4,3,341
+PP12,Dorchester,rep,Republican Delegates,01,Audrey E. Scott,REP,1,0,85,442,10,5,1,543
+PP12,Dorchester,rep,Republican Delegates,01,Victoria Lynn Seitzinger,REP,0,0,11,83,4,2,0,100
+PP12,Dorchester,rep,Republican Delegates,01,Lowell D. Sheets,REP,0,0,0,6,0,0,0,6
+PP12,Dorchester,rep,Republican Delegates,01,Derrick A. Smith,REP,0,0,4,6,0,0,0,10
+PP12,Dorchester,rep,Republican Delegates,01,Dick Sossi,REP,0,0,4,34,1,1,0,40
+PP12,Dorchester,rep,Republican Delegates,01,Sandra B. Terpeluk,REP,0,0,1,12,0,0,1,14
+PP12,Dorchester,rep,Republican Delegates,01,Eric Wargotz,REP,0,0,9,63,0,1,1,74
+PP12,Dorchester,rep,Republican Delegates,01,Don Warner,REP,0,0,2,10,2,1,0,15
+PP12,Dorchester,rep,Republican Delegates,01,Diana Waterman,REP,0,0,2,22,0,0,1,25
+PP12,Dorchester,rep,Republican Alternates,01,Hunter Becknell,REP,0,0,12,69,0,0,0,81
+PP12,Dorchester,rep,Republican Alternates,01,James Douglas Burns,REP,0,0,5,102,1,1,0,109
+PP12,Dorchester,rep,Republican Alternates,01,Siriwan Anna Burns,REP,0,0,6,34,0,0,0,40
+PP12,Dorchester,rep,Republican Alternates,01,Sharon Maenner Carrick,REP,0,0,14,114,4,1,1,134
+PP12,Dorchester,rep,Republican Alternates,01,Kenneth E. Gostomski,REP,0,0,4,46,2,2,0,54
+PP12,Dorchester,rep,Republican Alternates,01,Francis F. Grambo,REP,0,0,17,141,5,2,0,165
+PP12,Dorchester,rep,Republican Alternates,01,Kellee Joan Kennett,REP,0,0,51,495,8,6,6,566
+PP12,Dorchester,rep,Republican Alternates,01,Bonnie N. Luna,REP,1,0,113,705,13,4,4,839
+PP12,Dorchester,rep,Republican Alternates,01,Susan K. McComas,REP,0,0,21,129,1,3,2,156
+PP12,Dorchester,rep,Republican Alternates,01,Mike McDermott,REP,0,0,41,359,4,8,4,416
+PP12,Dorchester,rep,Republican Alternates,01,Andi Morony,REP,1,0,98,610,11,5,5,729
+PP12,Dorchester,rep,Republican Alternates,01,Wayne Norman,REP,0,0,27,302,3,5,3,340
+PP12,Dorchester,rep,Republican Alternates,01,Michael J. Pappas,REP,1,0,103,630,12,5,5,755
+PP12,Dorchester,rep,Republican Alternates,01,James Reilly,REP,0,0,4,62,0,1,2,69
+PP12,Dorchester,rep,Republican Alternates,01,Michael J. Roseberry,REP,0,0,21,131,5,4,0,161
+PP12,Dorchester,rep,Republican Alternates,01,Christina M. Trotta,REP,0,0,18,131,5,2,1,157

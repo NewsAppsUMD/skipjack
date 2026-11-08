@@ -1,0 +1,41 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP12,Frederick,dem,President - Vice Pres,"",Barack Obama,DEM,1,0,1198,8326,165,27,158,9874
+PP12,Frederick,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,157,1684,31,7,29,1908
+PP12,Frederick,dem,President - Vice Pres,06,Barack Obama,DEM,1,0,763,4736,165,19,43,5726
+PP12,Frederick,dem,President - Vice Pres,06,Uncommitted To Any Presidential Candidate,DEM,0,0,94,720,31,4,4,853
+PP12,Frederick,dem,President - Vice Pres,08,Barack Obama,DEM,1,0,435,3590,0,8,115,4148
+PP12,Frederick,dem,President - Vice Pres,08,Uncommitted To Any Presidential Candidate,DEM,0,0,63,964,0,3,25,1055
+PP12,Frederick,dem,U.S. Senator,"",Raymond Levi Blagmon,DEM,0,0,19,219,4,0,8,250
+PP12,Frederick,dem,U.S. Senator,"",Ben Cardin,DEM,1,0,1129,7410,136,18,137,8830
+PP12,Frederick,dem,U.S. Senator,"",J. P. Cusick,DEM,0,0,17,211,4,1,2,235
+PP12,Frederick,dem,U.S. Senator,"",Chris Garner,DEM,0,0,49,547,8,3,10,617
+PP12,Frederick,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,11,130,6,1,5,153
+PP12,Frederick,dem,U.S. Senator,"",C. Anthony Muse,DEM,0,0,45,383,3,1,3,435
+PP12,Frederick,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,25,316,6,2,6,355
+PP12,Frederick,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,2,56,2,0,0,60
+PP12,Frederick,dem,U.S. Senator,"",Lih Young,DEM,0,0,20,238,10,0,4,272
+PP12,Frederick,dem,Rep in Congress,06,Charles Bailey,DEM,0,0,34,216,14,0,4,268
+PP12,Frederick,dem,Rep in Congress,06,John Delaney,DEM,1,0,448,3002,81,12,26,3569
+PP12,Frederick,dem,Rep in Congress,06,Rob Garagiola,DEM,0,0,215,1354,35,3,12,1619
+PP12,Frederick,dem,Rep in Congress,06,Ron Little,DEM,0,0,38,256,20,0,1,315
+PP12,Frederick,dem,Rep in Congress,06,Milad Pooran,DEM,0,0,111,539,16,1,3,670
+PP12,Frederick,dem,Rep in Congress,08,George English,DEM,0,0,55,672,0,2,31,760
+PP12,Frederick,dem,Rep in Congress,08,Chris Van Hollen,DEM,1,0,397,3441,0,6,95,3939
+PP12,Frederick,dem,Judge of the Circuit Court,06,"William Rogers Nicklas, Jr.",DEM,1,0,998,7421,150,19,151,8739
+PP12,Frederick,dem,Female Delegates,06,Jennifer M. Hosey,DEM,1,0,665,4251,137,11,41,5105
+PP12,Frederick,dem,Female Delegates,06,Caitlyn Leiter-Mason,DEM,1,0,658,4076,134,12,39,4919
+PP12,Frederick,dem,Female Delegates,06,Elizabeth Paul,DEM,1,0,660,4106,138,11,39,4954
+PP12,Frederick,dem,Female DEM Del/Alt,08,Margaret Byron,DEM,1,0,395,3416,0,6,100,3917
+PP12,Frederick,dem,Female DEM Del/Alt,08,Clara B. Floyd,DEM,1,0,386,3275,0,5,95,3761
+PP12,Frederick,dem,Female DEM Del/Alt,08,Almina Khorakiwala,DEM,1,0,378,3160,0,6,91,3635
+PP12,Frederick,dem,Female DEM Del/Alt,08,Susan Ness,DEM,1,0,385,3304,0,4,95,3788
+PP12,Frederick,dem,Female DEM Del/Alt,08,Myrna R. Whitworth,DEM,1,0,383,3213,0,4,91,3691
+PP12,Frederick,dem,Male DEM Del/Alt,06,Brian K. Grim,DEM,1,0,622,4057,132,10,40,4861
+PP12,Frederick,dem,Male DEM Del/Alt,06,Michael A. Sesma,DEM,1,0,620,3990,132,12,39,4793
+PP12,Frederick,dem,Male DEM Del/Alt,06,Thomas G. Slater,DEM,1,0,698,4253,151,12,42,5156
+PP12,Frederick,dem,Male Delegates,08,Joseph Aloysius Hennessey,DEM,0,0,75,1092,0,1,23,1191
+PP12,Frederick,dem,Male Delegates,08,Bob Kresslein,DEM,1,0,405,3240,0,5,100,3750
+PP12,Frederick,dem,Male Delegates,08,Spencer Overton,DEM,1,0,387,3095,0,4,95,3581
+PP12,Frederick,dem,Male Delegates,08,Jon Leslie Randall,DEM,1,0,384,3089,0,4,95,3572
+PP12,Frederick,dem,Male Delegates,08,Hans Riemer,DEM,1,0,371,2951,0,4,89,3415
+PP12,Frederick,dem,Male Delegates,08,Jeffrey Zane Slavin,DEM,1,0,368,2964,0,4,86,3422

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-04-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Baltimore_County_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Baltimore County results (dem)",
+  "fetch_date": "2026-11-08T01:34:49+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "6c2ba5c0ae6ed9ac7acfcccd93ac73041292894c0192601a85d7fa42ac181fe6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Baltimore County county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 66,
+    "row_totals": "ok",
+    "statewide_check": "ok: 113 statewide rows (113 for, 0 against) match State_Congressional_Districts_Democratic_2012_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

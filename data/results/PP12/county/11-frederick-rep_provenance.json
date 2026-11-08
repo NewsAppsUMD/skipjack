@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-11-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Frederick_County_Republican_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Frederick results (rep)",
+  "fetch_date": "2026-11-08T01:34:51+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "e70aafd768cb68701f411200632704cf9598eab69368d0c70132737217b83bca",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Frederick county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 98,
+    "row_totals": "ok",
+    "statewide_check": "ok: 292 statewide rows (292 for, 0 against) match State_Congressional_Districts_Republican_2012_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

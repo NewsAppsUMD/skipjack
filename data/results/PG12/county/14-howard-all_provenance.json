@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG12-county-14-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Howard_County_2012_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Howard results (all)",
+  "fetch_date": "2026-11-08T01:34:46+00:00",
+  "parse_date": "2026-11-08T01:50:47+00:00",
+  "sha256_original": "ba37a918beb56051bfbcb31ae663cf36dde37248613f0ae9dcdb840a54e35a84",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG12 Howard county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 73,
+    "row_totals": "ok",
+    "statewide_check": "ok: 98 statewide rows (92 for, 6 against) match State_Congressional_Districts_2012_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only); the board's own figures disagree on President - Vice Pres / Other Write-Ins (BOT): counties 7245, statewide row 7247 (listed in STATEWIDE_CHECK_EXCEPTIONS, recorded, not corrected)"
+  }
+}

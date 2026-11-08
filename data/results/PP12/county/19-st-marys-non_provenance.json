@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-19-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/St._Marys_County_NonPartisan_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 St. Mary's results (non)",
+  "fetch_date": "2026-11-08T01:34:53+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "92f32a0651921942d010ac1f7b5006f4ed273e1b2e19996730e3162c44b8280a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 St. Mary's county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 6,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2012_Primary.csv carries no statewide rows"
+  }
+}

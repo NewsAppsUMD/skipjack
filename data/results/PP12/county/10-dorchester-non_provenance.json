@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP12-county-10-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Dorchester_County_NonPartisan_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Dorchester results (non)",
+  "fetch_date": "2026-11-08T01:34:51+00:00",
+  "parse_date": "2026-11-08T01:50:46+00:00",
+  "sha256_original": "e23753dc34ff7c04447e8b331adfd8c5037cb4c4cb51bc9d16a29817ffd08980",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP12 Dorchester county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2012_Primary.csv carries no statewide rows"
+  }
+}
