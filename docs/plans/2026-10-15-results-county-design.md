@@ -58,6 +58,10 @@ page, so its check is only the per-row total.
 files on these pages; the partisan county results are not there as CSVs. Out of scope; the plan
 notes it so a later pass can use another source.
 
+> Correction (2026-11-07): that was wrong. The archive pages for 2010 through 2018 publish the
+> partisan county files in the same layout as 2020, and their statewide district files carry
+> election-day votes only. See `2026-11-07-results-trends-design.md`; those elections are loaded.
+
 ## Design
 
 Copy the turnout pipeline's shape (`src/skipjack/pipeline/turnout.py`): a registry of elections
