@@ -124,7 +124,7 @@ ink with dots coloured by the leading party, the statewide margin in gray, the b
 them labelled "lean vs the state"). (2) "The ballot, election by election": a grid of offices by
 general, each tile on the margin ramp with the margin printed where it fits, uncontested tiles in
 one hue, absent offices hatched, redistricting breaks as a gap. (3) Office lines: small
-multiples of Dem and Rep share per office with at least three points. (4) "Ahead of the ticket,
+multiples of Dem and Rep share per office with at least two points. (4) "Ahead of the ticket,
 over time": a dot row per general, zero at the top-of-ticket Dem share, a dot per county office,
 at most four named and the rest folded into gray. (5) Ballots cast per general, presidential and
 gubernatorial years in two steps of one green ramp. (6) Primaries: Dem vs Rep ballots per
@@ -156,3 +156,23 @@ lean strip and counts.
   office spellings live in the crosswalk's `UNOFFICIAL_OFFICE_NAMES`.
 - School boards are nonpartisan: a contest with no Democrat and no Republican is drawn as a
   neutral "NP" tile, not as uncontested.
+
+## As built (2026-11-07)
+
+Deliberate departures from the first draft above, decided while building against the real pages:
+
+- Share-line cards draw any office with at least two general points (two points are a trend);
+  offices with one point are tables only. State Senate and House of Delegates cards, sparse ones
+  included, sit in one collapsed disclosure so the State section stays short.
+- Grid tiles carry no party chips and cards carry no winner-name labels: text never takes a
+  series colour, and names would crowd a 300-pixel card. A tile with only one major party on the
+  ballot is a light tint of that party with "D" or "R"; a nonpartisan contest is a neutral "NP"
+  tile; an office off that year's ballot is hatched; the unofficial count is an outlined tile.
+- The lean chart's zero line is a hairline, not ink; the county line is ink and the state line
+  gray, which is where the emphasis belongs. Its range is fitted to the data, so a one-sided
+  county fills the plot.
+- On phones the full-width charts scroll sideways at their natural size rather than shrinking.
+- Winners-wall runs merge across the board's own spelling drift (first and last name, same party)
+  and across rotated ballot order in multi-seat contests.
+- Baltimore City's county level is labelled "City"; its mayor, council president, comptroller and
+  council are county-level offices there, so its presidential years do have county offices.
