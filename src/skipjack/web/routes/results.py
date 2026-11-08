@@ -16,7 +16,7 @@ from fastapi import APIRouter, HTTPException, Request
 
 from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
 from skipjack.web import results as qr
-from skipjack.web import results_trends
+from skipjack.web import results_trends, results_trends_plot
 from skipjack.web import results_unofficial as qu
 from skipjack.web import ticket
 from skipjack.web.db import get_db
@@ -26,6 +26,7 @@ router = APIRouter(prefix="/results")
 
 _SOURCE_ID = re.compile(r"-county-(\d\d)-(\w+)$")
 _UNOFFICIAL_SOURCE_ID = re.compile(r"_by_county_(\d+)$")
+_SOURCE_ELECTION = re.compile(r"^sbe-results-(?:unofficial-)?([A-Z]{2}\d{2})-")
 
 
 def _code(conn: sqlite3.Connection, slug: str) -> str:
@@ -36,8 +37,19 @@ def _code(conn: sqlite3.Connection, slug: str) -> str:
     return code
 
 
-def source_links(conn: sqlite3.Connection, source_ids: list[str]) -> list[dict]:
-    """The SBE CSV behind each source id, labelled by county and party file, in input order."""
+def _election_label(sid: str) -> str | None:
+    """The short name of the election a source id belongs to ("2018 general"), or None."""
+    m = _SOURCE_ELECTION.match(sid)
+    e = RESULTS_ELECTIONS.get(m.group(1)) if m else None
+    return f"{e.year} {e.kind}" if e else None
+
+
+def source_links(
+    conn: sqlite3.Connection, source_ids: list[str], with_election: bool = False
+) -> list[dict]:
+    """The SBE CSV behind each source id, labelled by county and party file, in input order;
+    with ``with_election``, as a page spanning elections needs, the election leads the label
+    ("2018 general, Montgomery, Democratic")."""
     ids = list(dict.fromkeys(source_ids))
     if not ids:
         return []
@@ -58,6 +70,8 @@ def source_links(conn: sqlite3.Connection, source_ids: list[str]) -> list[dict]:
             county = COUNTY_CODES.get(m.group(1), m.group(1))
             party = qr.PARTY_LABELS.get(m.group(2), "")
             label = f"{county}, {party}" if party else county
+        if with_election and (election := _election_label(sid)):
+            label = f"{election}, {label}"
         links.append({"label": label, "url": urls[sid]})
     return links
 
@@ -156,10 +170,13 @@ async def trends_county(request: Request, county_slug: str):
         trends = results_trends.county_trends(conn, county_slug)
         if trends is None:
             raise HTTPException(status_code=404)
-        sources = source_links(conn, trends["source_ids"])
+        sources = source_links(conn, trends["source_ids"], with_election=True)
         context = _trends_context(conn, trends["generals"])
+    plots = results_trends_plot.county_plots(trends)
     return _render(
-        request, "results_county_trends.html", {"trends": trends, "sources": sources, **context}
+        request,
+        "results_county_trends.html",
+        {"trends": trends, "plots": plots, "sources": sources, **context},
     )
 
 

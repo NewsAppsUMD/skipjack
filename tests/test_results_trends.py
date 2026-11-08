@@ -397,11 +397,11 @@ def test_ticket_gap_uses_countywide_contested_county_offices_only(allegany):
 def test_disagreements_newest_first(history):
     garrett = results_trends.county_trends(history, "garrett")
     got = garrett["summary"]["disagreements"]
-    assert [(d["election"], d["title"]) for d in got] == [
-        ("GG22", "Governor"),
-        ("GP22", "Governor / Lt. Governor (Democratic)"),
-        ("PG16", "President"),
-        ("GP14", "Governor / Lt. Governor (Democratic)"),
+    assert [(d["election"], d["title"], d["party_label"]) for d in got] == [
+        ("GG22", "Governor", None),
+        ("GP22", "Governor", "Democratic primary"),
+        ("PG16", "President", None),
+        ("GP14", "Governor", "Democratic primary"),
     ]
     assert got[0]["county_leader"] == {"name": "Dan Cox", "party": "REP"}
     assert got[0]["statewide_winner"] == {"name": "Wes Moore", "party": "DEM"}
@@ -431,6 +431,50 @@ def test_winners_wall_collapses_runs(allegany):
     ]
     assert "board_of_education-1" not in wall  # no general winners
     assert [w["id"] for w in allegany["summary"]["winners_wall"]][:2] == ["president", "us_house-6"]
+
+
+def test_winners_wall_merges_a_winner_whose_middle_name_or_suffix_drifts(conn):
+    for code, name in (
+        ("GG14", "John Delaney"),
+        ("PG16", "John K. Delaney"),
+        ("GG22", "John K. Delaney, Jr."),
+    ):
+        for county in COUNTIES:
+            add(conn, code, county, "all", "Governor / Lt. Governor", "",
+                [("Rep R", "REP", False, 40), ("Dem D", "DEM", True, 60)])  # fmt: skip
+            add(conn, code, county, "all", "U.S. Congress", "6",
+                [("Other O", "REP", False, 40), (name, "DEM", True, 60)])  # fmt: skip
+    # a different person with the same first name, and the same name on another party line
+    add(conn, "PG24", "Allegany", "all", "President - Vice Pres", "",
+        [("Rep R", "REP", False, 40), ("Dem D", "DEM", True, 60)])  # fmt: skip
+    add(conn, "PG24", "Allegany", "all", "U.S. Congress", "6",
+        [("Other O", "REP", False, 40), ("John Smith", "DEM", True, 60)])  # fmt: skip
+    add(conn, "PG24", "Garrett", "all", "President - Vice Pres", "",
+        [("Rep R", "REP", False, 40), ("Dem D", "DEM", True, 60)])  # fmt: skip
+    add(conn, "PG24", "Garrett", "all", "U.S. Congress", "6",
+        [("Other O", "DEM", False, 40), ("John K. Delaney", "REP", True, 60)])  # fmt: skip
+    wall = {
+        w["id"]: w
+        for w in results_trends.county_trends(conn, "allegany")["summary"]["winners_wall"]
+    }
+    assert wall["us_house-6"]["runs"] == [
+        {"name": "John K. Delaney, Jr.", "party": "DEM", "years": [2014, 2016, 2022]},
+        {"name": "John Smith", "party": "DEM", "years": [2024]},
+    ]
+    wall = {
+        w["id"]: w for w in results_trends.county_trends(conn, "garrett")["summary"]["winners_wall"]
+    }
+    assert [r["years"] for r in wall["us_house-6"]["runs"]] == [[2014, 2016, 2022], [2024]]
+
+
+@pytest.mark.parametrize(
+    ("a", "b", "same"),
+    [("John Delaney", "John K. Delaney", True), ("John Delaney", "JOHN DELANEY, JR.", True),
+     ("David Trone", "David J. Trone", True), ("Ann A", "Bob B", False),
+     ("John Delaney", "John Smith", False), ("Delaney", "John Delaney", False)],
+)  # fmt: skip
+def test_same_person(a, b, same):
+    assert results_trends._same_person(a, b) is same
 
 
 def test_source_ids_in_first_seen_order(allegany):

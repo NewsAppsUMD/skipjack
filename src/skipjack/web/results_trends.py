@@ -327,11 +327,20 @@ def _ticket_gap(top: dict | None, contests: list[dict], points: dict) -> dict | 
     }
 
 
+PRIMARY_LABELS = {
+    "dem": "Democratic primary",
+    "rep": "Republican primary",
+    "non": "Nonpartisan primary",
+}
+
+
 def _primary_disagreements(election: dict, county_slug: str, contests: list[dict]) -> list[dict]:
-    """Statewide primary contests where the county's leader is not the flagged nominee."""
+    """Statewide primary contests where the county's leader is not the flagged nominee, each
+    titled by the crosswalk with the party's primary named separately."""
     out = []
     for contest in contests:
-        if contest["scope"] != "statewide" or _shown_office(contest) is None:
+        office = _shown_office(contest)
+        if contest["scope"] != "statewide" or office is None:
             continue
         leader = contest["leader"]
         winners = [c for c in contest["candidates"] if c["winner"]]
@@ -344,7 +353,8 @@ def _primary_disagreements(election: dict, county_slug: str, contests: list[dict
                 "election": election["code"],
                 "year": election["year"],
                 "kind": "primary",
-                "title": contest["title"],
+                "title": _series_title(office, _district(contest["district"])),
+                "party_label": PRIMARY_LABELS.get(contest["party_file"], contest["party_file"]),
                 "county_leader": {"name": led["name"], "party": led["party"]},
                 "statewide_winner": {"name": winners[0]["name"], "party": winners[0]["party"]},
                 "href": href,
@@ -370,6 +380,7 @@ def _general_disagreements(election: dict, contests: list[dict], points: dict) -
                 "year": election["year"],
                 "kind": "general",
                 "title": series["title"],
+                "party_label": None,
                 "county_leader": {"name": led["name"], "party": led["party"]},
                 "statewide_winner": point["winners"][0],
                 "href": point["href"],
@@ -378,9 +389,33 @@ def _general_disagreements(election: dict, contests: list[dict], points: dict) -
     return out
 
 
+_NAME_SUFFIXES = {"jr", "sr", "ii", "iii", "iv"}
+
+
+def _name_key(name: str) -> tuple[str, str] | None:
+    tokens = [t for t in re.sub(r"[^\w\s]", "", name.lower()).split() if t not in _NAME_SUFFIXES]
+    return (tokens[0], tokens[-1]) if len(tokens) > 1 else None
+
+
+def _same_person(a: str, b: str) -> bool:
+    """Whether two spellings name one candidate: the first and last tokens match, case and
+    punctuation aside, suffixes (Jr., Sr., II, III, IV) ignored, so a middle initial that
+    comes and goes between elections does not split a run. A one-token name never matches."""
+    ka, kb = _name_key(a), _name_key(b)
+    return ka is not None and ka == kb
+
+
+def _same_winners(a: list[dict], b: list[dict]) -> bool:
+    return len(a) == len(b) and all(
+        x["party"] == y["party"] and _same_person(x["name"], y["name"])
+        for x, y in zip(a, b, strict=True)
+    )
+
+
 def _winners_wall(all_series: list[dict], generals: list[dict]) -> list[dict]:
     """Per series, its general winners in order, consecutive generals with the same winner
-    (or, for a multi-seat contest, the same set of winners) collapsed into one run."""
+    (or, for a multi-seat contest, the same set of winners) collapsed into one run, shown
+    under the latest spelling of the name (``_same_person``)."""
     wall = []
     for s in all_series:
         runs: list[dict] = []
@@ -389,10 +424,15 @@ def _winners_wall(all_series: list[dict], generals: list[dict]) -> list[dict]:
                 continue
             name = ", ".join(w["name"] for w in p["winners"])
             party = ", ".join(w["party"] for w in p["winners"])
-            if runs and (runs[-1]["name"], runs[-1]["party"]) == (name, party):
+            if runs and _same_winners(runs[-1]["winners"], p["winners"]):
                 runs[-1]["years"].append(e["year"])
+                runs[-1]["name"], runs[-1]["winners"] = name, p["winners"]
             else:
-                runs.append({"name": name, "party": party, "years": [e["year"]]})
+                runs.append(
+                    {"name": name, "party": party, "years": [e["year"]], "winners": p["winners"]}
+                )
+        for run in runs:
+            del run["winners"]
         if runs:
             wall.append({"id": s["id"], "title": s["title"], "level": s["level"], "runs": runs})
     return wall

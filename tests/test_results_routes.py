@@ -23,7 +23,7 @@ from skipjack.web.routes import results as results_route
 def add(conn, election, county, party_file, office, district, candidates):
     """Rows for one contest in one county; a candidate is (name, party, winner, votes, ...)
     with votes a {vote type stem: n} dict, then optionally an `against` count and write_in."""
-    code = {"Allegany": "01", "Garrett": "11"}[county]
+    code = {"Allegany": "01", "Garrett": "11", "Baltimore City": "03"}[county]
     sid = f"sbe-results-{election}-county-{code}-{party_file}"
     conn.execute(
         "INSERT OR IGNORE INTO sources (source_id, source_url, source_name, fetch_date)"
@@ -478,7 +478,7 @@ def history_client(data):
         add(data, "GG22", county, "all", "Governor / Lt. Governor", "",
             [("Dan Cox", "REP", False, {"early": cox}), ("Wes Moore", "DEM", True, {"early": moore})])  # fmt: skip
         add(data, "GG22", county, "all", "Sheriff", "",
-            [("Sal Sheriff", "REP", True, {"early": 5}), ("Dee Sheriff", "DEM", False, {"early": 3})])  # fmt: skip
+            [("Sal Sheriff", "REP", True, {"early": 50}), ("Dee Sheriff", "DEM", False, {"early": 30})])  # fmt: skip
     return TestClient(create_app())
 
 
@@ -509,7 +509,7 @@ def test_trends_county_page_sections_and_links(history_client):
     grid = html[html.index('id="ballot"') :]
     assert '<a href="/results/gg22/county/allegany/#' in grid
     assert "R+20.0" in grid
-    assert "unopp." in grid  # the sheriff in 2024 had no Democrat
+    assert "R only" in grid  # the sheriff in 2024 had no Democrat
     assert "source-strip" in html and "elections.maryland.gov" in html
     assert 'href="/results/county/allegany/"' in html  # the county nav's own link
     assert 'href="/voters/county/allegany/"' in html
@@ -541,3 +541,97 @@ def test_results_pages_link_to_the_trends(client):
     assert "County files start with the 2010 elections." in client.get("/results/").text
     county = client.get("/results/pg24/county/allegany/").text
     assert 'href="/results/county/allegany/">results over time</a>' in county
+
+
+def test_source_links_can_carry_the_election(history_client, data):
+    links = results_route.source_links(
+        data,
+        ["sbe-results-PG24-county-01-all", "sbe-results-GP26-county-11-dem"],
+        with_election=True,
+    )
+    assert [x["label"] for x in links] == [
+        "2024 general, Allegany",
+        "2026 primary, Frederick, Democratic",
+    ]
+    plain = results_route.source_links(data, ["sbe-results-PG24-county-01-all"])
+    assert [x["label"] for x in plain] == ["Allegany"]
+    html = history_client.get("/results/county/allegany/").text
+    strip = html[html.index("source-strip") :]
+    assert "2022 general, Allegany" in strip and "2026 primary, Allegany, Democratic" in strip
+
+
+def test_trends_county_page_draws_each_section_with_a_table_twin(history_client):
+    html = history_client.get("/results/county/allegany/").text
+    sections = ["lean", "ballot", "federal", "ticket", "ballots", "primaries", "disagreements"]
+    for a, b in zip(sections, sections[1:], strict=False):
+        part = html[html.index(f'id="{a}"') : html.index(f'id="{b}"')]
+        if a in ("lean", "ballot", "ticket", "ballots", "primaries"):
+            assert (
+                "<svg" in part and '<details class="trend-table"><summary>Table</summary>' in part
+            ), a
+    lean = html[html.index('id="lean"') : html.index('id="ballot"')]
+    # the lead sentence and the hero figures: Cox +20 in 2022, Trump +39.6 in 2024
+    flat = " ".join(lean.split())
+    assert "Allegany has voted Republican for president or governor in 2 of 2 generals since 2022" in flat  # fmt: skip
+    assert "its margin widened from R+20.0 in 2022 to R+39.6 in 2024" in flat
+    assert '<p class="trend-hero"><strong>R+39.6</strong>' in lean and "<strong>\u221219.6</strong> since 2022" in lean  # fmt: skip
+    assert 'class="trend-dot-rep"' in lean and "lean vs. the state" in lean
+    assert "<title>2022 Governor: Allegany R+20.0, Maryland R+30.0, lean +10.0</title>" in lean
+    grid = html[html.index('id="ballot"') : html.index('id="federal"')]
+    assert 'id="trend-hatch"' in grid and 'class="trend-cell trend-absent"' in grid
+    assert 'class="trend-cell trend-only-rep"' in grid and ">R+20<" in grid
+    assert "<title>2022 Sheriff: R+25.0</title>" in grid and "<title>2024 Sheriff: only a Republican on the ballot</title>" in grid  # fmt: skip
+    # the federal level: the president has one point, so a table alone, no card
+    federal = html[html.index('id="federal"') : html.index('id="state"')]
+    assert "<svg" not in federal and 'id="president"' in federal
+    county = html[html.index('id="county"') : html.index('id="ticket"')]
+    assert '<article class="viz-card trend-card" id="sheriff">' in county
+    assert (
+        "trend-line-rep" in county
+        and '<text x="' in county
+        and ">100%<" in county
+        and ">38%<" in county
+    )  # the latest shares
+    ticket = html[html.index('id="ticket"') : html.index('id="ballots"')]
+    assert "2022, Governor" in ticket and "Sheriff: Dem share 37.5%, 2.5 points below the Democratic ticket" in ticket  # fmt: skip
+    ballots = html[html.index('id="ballots"') : html.index('id="primaries"')]
+    assert (
+        'class="trend-col trend-col-pres"' in ballots and ">101<" in ballots
+    )  # the 2024 total, the max and latest
+    primaries = html[html.index('id="primaries"') : html.index('id="disagreements"')]
+    assert ">D 73%<" in primaries  # 131 Democratic ballots of 180
+    assert "None" not in html
+
+
+def test_trends_county_page_marks_new_lines_on_a_redistricted_series(history_client, data):
+    for code, name in (("GG18", "Dave Trone"), ("PG24", "April Delaney")):
+        add(data, code, "Allegany", "all", "U.S. Congress", "6",
+            [("Neil Parrott", "REP", False, {"early": 55}), (name, "DEM", True, {"early": 45})])  # fmt: skip
+    html = history_client.get("/results/county/allegany/").text
+    federal = html[html.index('id="federal"') : html.index('id="state"')]
+    assert 'id="us_house-6"' in federal and ">new lines<" in federal
+    assert "Lines redrawn for 2022." in federal
+    # a general without a top-of-ticket contest leaves a gap, not a crash
+    assert "2018" in html[html.index('id="lean"') : html.index('id="ballot"')]
+
+
+def test_trends_baltimore_city_level_is_the_city(history_client, data):
+    for code in ("GG22", "PG24"):
+        office = "Governor / Lt. Governor" if code == "GG22" else "President - Vice Pres"
+        add(data, code, "Baltimore City", "all", office, "",
+            [("Rep R", "REP", False, {"early": 30}), ("Dem D", "DEM", True, {"early": 70})])  # fmt: skip
+    html = history_client.get("/results/county/baltimore-city/").text
+    assert '<h2 id="county">City</h2>' in html and '<a href="#county">City</a>' in html
+    assert '<h2 id="county">County</h2>' in history_client.get("/results/county/allegany/").text
+
+
+def test_every_trend_class_the_templates_emit_is_styled():
+    from pathlib import Path
+
+    root = Path(results.__file__).parent
+    css = (root / "static" / "style.css").read_text()
+    html = (root / "templates" / "_results_trends.html").read_text()
+    classes = set(re.findall(r"trend-[a-z-]+[a-z]", html)) - {"trend-hatch"}  # the pattern's id
+    assert classes >= {"trend-legend", "trend-table", "trend-hero", "trend-cell-unofficial"}
+    missing = sorted(c for c in classes if f".{c}" not in css)
+    assert missing == []

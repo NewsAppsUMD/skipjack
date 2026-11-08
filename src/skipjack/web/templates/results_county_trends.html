@@ -4,6 +4,9 @@
 {% import "_results_trends.html" as t with context %}
 {% import "_unofficial.html" as u with context %}
 {% block title %}{{ trends.county }}: results over time{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
 
 {% block content %}
 <div class="viz-root">
@@ -21,7 +24,7 @@
     <a href="#ballot">The ballot</a>
     <a href="#federal">Federal</a>
     <a href="#state">State</a>
-    <a href="#county">County</a>
+    <a href="#county">{{ t.level_label("county", "County", trends) }}</a>
     <a href="#ticket">Against the ticket</a>
     <a href="#ballots">Ballots cast</a>
     <a href="#primaries">Primaries</a>
@@ -31,38 +34,37 @@
 
 <section aria-labelledby="lean">
 <h2 id="lean">Lean</h2>
-<p>{{ trends.county }}'s margin for president or governor against Maryland's.</p>
-{{ t.lean(trends) }}
+{{ t.lean(trends, plots) }}
 </section>
 
 <section aria-labelledby="ballot">
 <h2 id="ballot">The ballot</h2>
 <p>Every office {{ trends.county }} has voted on, with the margin in each general election.</p>
-{{ t.ballot_grid(trends) }}
+{{ t.ballot_grid(trends, plots) }}
 </section>
 
 {% for lv in trends.levels %}
 <section aria-labelledby="{{ lv.level }}">
-<h2 id="{{ lv.level }}">{{ lv.label }}</h2>
-{{ t.level(lv, trends) }}
+<h2 id="{{ lv.level }}">{{ t.level_label(lv.level, lv.label, trends) }}</h2>
+{{ t.level(lv, trends, plots) }}
 </section>
 {% endfor %}
 
 <section aria-labelledby="ticket">
 <h2 id="ticket">Against the ticket</h2>
 <p>How county offices ran against the top of the ticket.</p>
-{{ t.ticket_gap(trends) }}
+{{ t.ticket_gap(trends, plots) }}
 </section>
 
 <section aria-labelledby="ballots">
 <h2 id="ballots">Ballots cast</h2>
 <p>Votes for president or governor in {{ trends.county }}, general by general.</p>
-{{ t.ballots_cast(trends) }}
+{{ t.ballots_cast(trends, plots) }}
 </section>
 
 <section aria-labelledby="primaries">
 <h2 id="primaries">Primaries</h2>
-{{ t.primaries(trends) }}
+{{ t.primaries(trends, plots) }}
 </section>
 
 <section aria-labelledby="disagreements">

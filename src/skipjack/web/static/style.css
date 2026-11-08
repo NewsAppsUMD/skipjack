@@ -353,3 +353,87 @@ nav.breadcrumb { display: block; }
 .dot { stroke: #ffffff; stroke-width: 1.5; }
 .dot-plot g:hover .dot { stroke: #0b0b0b; }
 .dot-plot figcaption { margin-top: 0.4rem; }
+
+/* The county results-over-time figures (templates/_results_trends.html, web/results_trends_plot.py).
+   Blue and red only for the parties; the margin tiles reuse the maps' ramp (maps.css). */
+.trend { margin: 0 0 1.5rem; max-width: 760px; }
+.trend svg { display: block; width: 100%; height: auto; overflow: visible; }
+.trend-lead { font-size: 1.05rem; }
+.trend-hero { font-size: 0.95rem; color: #52514e; }
+.trend-hero strong { font-size: 1.6rem; font-variant-numeric: proportional-nums; color: #0b0b0b; margin-right: 0.15rem; }
+.trend-legend { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; list-style: none; padding: 0;
+                margin: 0 0 0.4rem; font-size: 0.85rem; color: #52514e; }
+.trend-legend li { display: flex; align-items: center; gap: 0.35rem; margin: 0; }
+.trend-key { width: 14px; height: 14px; border-radius: 2px; display: inline-block; background: #efece4; }
+.trend-key-ink { height: 2px; background: #1f1e1c; }
+.trend-key-gray { height: 2px; background: #898781; }
+.trend-key-dem { height: 2px; background: #2a78d6; }
+.trend-key-rep { height: 2px; background: #e34948; }
+.trend-key.map-party-0 { background: #b8232a; } .trend-key.map-party-1 { background: #f19a95; }
+.trend-key.map-party-2 { background: #efece4; } .trend-key.map-party-3 { background: #93b9ea; }
+.trend-key.map-party-4 { background: #1d5aa8; }
+.trend-key.trend-only-dem { background: #dbe7f8; } .trend-key.trend-only-rep { background: #fadcdb; }
+.trend-key.trend-np { background: #efece4; }
+.trend-key.trend-absent { background: repeating-linear-gradient(45deg, #f3f1ea 0 3px, #c3c2b7 3px 5px); }
+.trend-key.trend-col-pres { background: #2f8a34; } .trend-key.trend-col-gub { background: #addaa2; }
+.trend-key.trend-col-dem { background: #2a78d6; } .trend-key.trend-col-rep { background: #e34948; }
+.trend-grid-line { stroke: #e1e0d9; stroke-width: 1; shape-rendering: crispEdges; }
+.trend-zero { stroke: #c3c2b7; stroke-width: 1; shape-rendering: crispEdges; }
+.trend-tick { font-size: 11px; fill: #52514e; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.trend-tick-end { text-anchor: end; }
+.trend-unofficial { font-size: 9px; fill: #898781; text-transform: uppercase; letter-spacing: 0.04em; }
+.trend-label { font-size: 12px; fill: #0b0b0b; text-anchor: end; }
+.trend-level { font-size: 11px; fill: #52514e; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.trend-band { fill: #efece4; opacity: 0.6; }
+.trend-band-label { font-size: 11px; fill: #52514e; }
+.trend-line-ink, .trend-line-gray, .trend-line-dem, .trend-line-rep { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.trend-line-ink { stroke: #1f1e1c; }
+.trend-line-gray { stroke: #898781; }
+.trend-line-dem { stroke: #2a78d6; }
+.trend-line-rep { stroke: #e34948; }
+.trend-dot-dem { fill: #2a78d6; stroke: #2a78d6; stroke-width: 2; }
+.trend-dot-rep { fill: #e34948; stroke: #e34948; stroke-width: 2; }
+.trend-dot-even { fill: #1f1e1c; stroke: #1f1e1c; stroke-width: 2; }
+.trend-dot-gray { fill: #898781; stroke: #898781; stroke-width: 2; }
+.trend-dot { stroke: #ffffff; stroke-width: 1.5; }
+.trend-dot-hollow { fill: #ffffff; stroke-width: 2; }
+.trend-cycle { fill: #ffffff; stroke: #52514e; stroke-width: 1; }
+.trend-cycle-pres { fill: #52514e; }
+.trend-rule { stroke: #e1e0d9; stroke-width: 1; }
+.trend a { text-decoration: none; }
+.trend a:hover .trend-label, .trend a:focus .trend-label { text-decoration: underline; }
+.trend a:hover circle, .trend a:focus circle { stroke: #0b0b0b; }
+.trend a:focus { outline: none; }
+.trend-grid-figure { max-width: none; }
+.trend-grid { font-size: 11px; }
+.trend-grid .trend-label { font-size: 11px; }
+.trend-cell { stroke: none; }
+.trend-cell-text { font-size: 11px; fill: #0b0b0b; text-anchor: middle; pointer-events: none; font-variant-numeric: tabular-nums; }
+.trend-cell-light { fill: #ffffff; }
+.trend-only-dem { fill: #dbe7f8; }
+.trend-only-rep { fill: #fadcdb; }
+.trend-np { fill: #efece4; }
+.trend-absent { fill: url(#trend-hatch); }
+.trend-cell-unofficial { stroke: #52514e; stroke-width: 1.5; stroke-dasharray: none; }
+.trend-break { stroke: #1f1e1c; stroke-width: 2; }
+.trend-grid a:hover .trend-cell, .trend-grid a:focus .trend-cell { stroke: #0b0b0b; stroke-width: 1.5; }
+.trend-break-line { stroke: #c3c2b7; stroke-width: 1; shape-rendering: crispEdges; }
+.trend-break-label { font-size: 9px; fill: #898781; }
+.trend-end { font-size: 11px; fill: #0b0b0b; font-weight: 600; font-variant-numeric: tabular-nums; }
+.trend-col { stroke: none; }
+.trend-col-pres { fill: #2f8a34; stroke: #2f8a34; }
+.trend-col-gub { fill: #addaa2; stroke: #addaa2; }
+.trend-col-dem { fill: #2a78d6; stroke: #2a78d6; }
+.trend-col-rep { fill: #e34948; stroke: #e34948; }
+.trend-col-hollow { fill: #ffffff; stroke-width: 2; }
+.trend a:hover .trend-col, .trend a:focus .trend-col { stroke: #0b0b0b; stroke-width: 1.5; }
+.trend-col-label { font-size: 11px; fill: #0b0b0b; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.trend-table summary { font-size: 0.85rem; color: #52514e; cursor: pointer; }
+.trend-table { margin: 0.4rem 0 0; }
+.trend-table table { margin-top: 0.5rem; }
+.trend-more { margin: 0 0 1.25rem; }
+.trend-more summary { font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-bottom: 0.75rem; }
+.trend-card h3 { font-size: 0.95rem; margin: 0 0 0.25rem; }
+.trend-card svg { max-width: 340px; }
+.trend-multiples { margin-bottom: 1.25rem; }
+.trend figcaption { margin-top: 0.4rem; }
