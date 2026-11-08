@@ -414,6 +414,12 @@ def real():
         ("PG20", "president-vice-pres-all", "Joe Biden", 1_985_023),
         ("GP26", "governor-lt-governor-dem", "Wes Moore and Aruna Miller", 558_768),
         ("PG24", "president-vice-pres-all", "Kamala D. Harris and Tim Walz", 1_902_577),
+        # the 2010-2018 files name the top of the ticket only
+        ("GG18", "governor-lt-governor-all", "Larry Hogan", 1_275_644),
+        ("PG16", "president-vice-pres-all", "Hillary Clinton", 1_677_928),
+        ("GG14", "governor-lt-governor-all", "Larry Hogan", 884_400),
+        ("PG12", "president-vice-pres-all", "Barack Obama", 1_677_844),
+        ("GG10", "governor-lt-governor-all", "Martin O'Malley", 1_044_961),
     ],
 )
 def test_real_statewide_totals(real, code, slug, name, total):

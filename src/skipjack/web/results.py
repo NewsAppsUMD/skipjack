@@ -33,7 +33,7 @@ STATEWIDE_OFFICES = (
     "Judge Spec Appeal at Lg",
     "Judge Special Appeals At Large",
 )
-CONGRESS_OFFICES = ("U.S. Congress", "Representative in Congress")
+CONGRESS_OFFICES = ("U.S. Congress", "Rep in Congress", "Representative in Congress")
 SENATE_OFFICES = ("State Senator",)
 DELEGATES_OFFICES = ("House of Delegates",)
 # Everything else the SBE files carry. Listed explicitly so that a new office in a new
@@ -45,6 +45,7 @@ LOCAL_OFFICES = (
     "Judge Spec Appeals",
     "Judge Special Appeals",
     "MD Supreme Court",
+    "Board of Ed At Large",
     "Board of Ed at Large",
     "Board of Education",
     "Board of Education At Large",
@@ -52,6 +53,7 @@ LOCAL_OFFICES = (
     "Council - City of Cumberland",
     "County Commissioner",
     "County Commissioner At Large",
+    "Cty Commission at Large",  # the 2010-2018 spelling of County Commissioner At Large
     "County Council",
     "County Council At Large",
     "County Executive",
@@ -59,6 +61,7 @@ LOCAL_OFFICES = (
     "Hagerstown Council",
     "Judge Circuit Court",
     "Judge of the Circuit Court",
+    "Judge Orphans Court",
     "Judge Orphans' Court",
     "Mayor",
     "Mayor of Cumberland",
@@ -72,7 +75,12 @@ LOCAL_OFFICES = (
     "State's Attorney",
     "Treasurer",
     # party central committees
+    "Chair REP Cent Comm",
     "DEM Cent Comm",
+    "DEM Cent Comm Female",
+    "DEM Cent Comm Female At Large",
+    "DEM Cent Comm Male",
+    "DEM Cent Comm Male At Large",
     "DEM Cent Comm at Large",
     "DEM Cent Comm at Lg",
     "DEM Cent Committee",
@@ -83,7 +91,9 @@ LOCAL_OFFICES = (
     # presidential-primary convention delegates and alternates (by congressional district,
     # not the legislature's House of Delegates)
     "Democratic Delegates",
+    "Female DEM Del/Alt",
     "Female Delegates",
+    "Male DEM Del/Alt",
     "Male Delegates",
     "REP Alternates",
     "REP Delegates",
