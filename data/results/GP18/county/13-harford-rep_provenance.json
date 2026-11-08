@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP18-county-13-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Harford_County_Republican_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Harford results (rep)",
+  "fetch_date": "2026-11-08T01:34:21+00:00",
+  "parse_date": "2026-11-08T01:50:50+00:00",
+  "sha256_original": "863268a952174dc531b34749e8efc0d5f48d5dbe381afe0e289b2ff8e7ffbbf1",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP18 Harford county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 93,
+    "row_totals": "ok",
+    "statewide_check": "ok: 221 statewide rows (221 for, 0 against) match State_Congressional_Districts_Republican_2018_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

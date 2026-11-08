@@ -1,0 +1,56 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP18,Calvert,rep,Governor / Lt. Governor,"",Larry Hogan,REP,1,0,1520,6778,138,105,85,8626
+GP18,Calvert,rep,Comptroller,"",Anjali Reed Phukan,REP,1,0,1006,4976,102,76,60,6220
+GP18,Calvert,rep,Attorney General,"",Craig Wolf,REP,1,0,1060,5227,105,81,61,6534
+GP18,Calvert,rep,U.S. Senator,"",Tony Campbell,REP,1,0,203,982,10,15,12,1222
+GP18,Calvert,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,811,3334,66,53,40,4304
+GP18,Calvert,rep,U.S. Senator,"",Evan M. Cronhardt,REP,0,0,25,123,5,2,2,157
+GP18,Calvert,rep,U.S. Senator,"",Nnabu Eze,REP,0,0,8,43,2,2,0,55
+GP18,Calvert,rep,U.S. Senator,"",John R. Graziani,REP,0,0,24,201,4,1,1,231
+GP18,Calvert,rep,U.S. Senator,"",Christina J. Grigorian,REP,0,0,117,619,16,4,13,769
+GP18,Calvert,rep,U.S. Senator,"",Albert Binyahmin Howard,REP,0,0,3,36,0,1,0,40
+GP18,Calvert,rep,U.S. Senator,"",Bill Krehnbrink,REP,0,0,18,78,1,4,0,101
+GP18,Calvert,rep,U.S. Senator,"","Gerald I. Smith, Jr.",REP,0,0,24,152,3,0,3,182
+GP18,Calvert,rep,U.S. Senator,"",Blaine Taylor,REP,0,0,16,143,6,3,1,169
+GP18,Calvert,rep,U.S. Senator,"",Brian Charles Vaeth,REP,0,0,19,110,3,2,2,136
+GP18,Calvert,rep,Representative in Congress,05,"William A. Devine, III",REP,1,0,626,2964,54,49,40,3733
+GP18,Calvert,rep,Representative in Congress,05,Johnny Rice,REP,0,0,401,2120,35,31,25,2612
+GP18,Calvert,rep,State Senator,27,"Roussan Rou Etienne, Jr.",REP,0,0,205,915,10,14,8,1152
+GP18,Calvert,rep,State Senator,27,Jesse Allen Peed,REP,1,0,815,3335,48,45,32,4275
+GP18,Calvert,rep,State Senator,29,Jack Bailey,REP,1,0,92,641,17,7,13,770
+GP18,Calvert,rep,State Senator,29,Steve Waugh,REP,0,0,123,839,45,16,23,1046
+GP18,Calvert,rep,House of Delegates,27B,Philip A. Parenti,REP,0,0,168,774,9,12,6,969
+GP18,Calvert,rep,House of Delegates,27B,Michael A. Thomas,REP,1,0,238,1058,16,6,9,1327
+GP18,Calvert,rep,House of Delegates,27C,Mark N. Fisher,REP,1,0,688,2727,34,35,25,3509
+GP18,Calvert,rep,House of Delegates,29C,Gerald W. Jerry Clark,REP,1,0,143,1149,61,17,30,1400
+GP18,Calvert,rep,Cty Commission at Large,"",Patrick E. Flaherty,REP,0,0,242,1287,26,18,28,1601
+GP18,Calvert,rep,Cty Commission at Large,"",Earl Buddy Hance,REP,1,0,933,4077,86,61,42,5199
+GP18,Calvert,rep,Cty Commission at Large,"",Bill Heine,REP,0,0,81,533,8,12,10,644
+GP18,Calvert,rep,Cty Commission at Large,"",Tom Hejl,REP,0,0,588,2148,45,29,32,2842
+GP18,Calvert,rep,Cty Commission at Large,"",Steve Weems,REP,1,0,861,3387,67,52,44,4411
+GP18,Calvert,rep,County Commissioner,001,Emad Emile Dides,REP,0,0,251,817,9,12,16,1105
+GP18,Calvert,rep,County Commissioner,001,Mike Hart,REP,1,0,1163,5356,116,81,66,6782
+GP18,Calvert,rep,County Commissioner,002,Mark Arness,REP,0,0,368,1937,36,31,24,2396
+GP18,Calvert,rep,County Commissioner,002,David A. Gatton,REP,0,0,428,1473,30,27,19,1977
+GP18,Calvert,rep,County Commissioner,002,Bruce Henkelman,REP,0,0,112,576,16,5,12,721
+GP18,Calvert,rep,County Commissioner,002,Thomas E. Tim Hutchins,REP,1,0,551,2228,43,33,29,2884
+GP18,Calvert,rep,County Commissioner,003,Kelly D. McConkey,REP,1,0,1082,5214,92,81,65,6534
+GP18,Calvert,rep,Treasurer,"",Nova Tracy-Soper,REP,1,0,1203,5470,110,81,71,6935
+GP18,Calvert,rep,State's Attorney,"",Kathryn AtLee Marsh,REP,0,0,557,2189,39,37,37,2859
+GP18,Calvert,rep,State's Attorney,"",Andrew S. Rappaport,REP,1,0,994,4559,97,66,48,5764
+GP18,Calvert,rep,Register of Wills,"",Mark S. Lynch,REP,1,0,1035,5044,101,78,66,6324
+GP18,Calvert,rep,Judge Orphans Court,"",Leslie M. Downs,REP,1,0,957,4495,94,67,60,5673
+GP18,Calvert,rep,Judge Orphans Court,"",Ted LeBlanc,REP,1,0,929,4102,87,66,55,5239
+GP18,Calvert,rep,Judge Orphans Court,"",Derek Sabedra,REP,1,0,749,3472,77,53,45,4396
+GP18,Calvert,rep,Sheriff,"",Mike Evans,REP,1,0,798,3698,78,51,59,4684
+GP18,Calvert,rep,Sheriff,"",Craig W. Kontra,REP,0,0,758,3125,52,54,24,4013
+GP18,Calvert,rep,Sheriff,"",Kinsey Weems,REP,0,0,57,272,12,3,7,351
+GP18,Calvert,rep,REP Cent Committee,"",Nick DePaulo,REP,1,0,759,3703,71,52,47,4632
+GP18,Calvert,rep,REP Cent Committee,"",Catherine Grasso,REP,1,0,833,3788,72,52,51,4796
+GP18,Calvert,rep,REP Cent Committee,"",Eric Hiltpold,REP,1,0,705,3317,72,48,47,4189
+GP18,Calvert,rep,REP Cent Committee,"",Robert W. Rob Reed,REP,1,0,758,3618,72,53,49,4550
+GP18,Calvert,rep,REP Cent Committee,"",Richard A. Romer,REP,1,0,703,3312,70,43,46,4174
+GP18,Calvert,rep,REP Cent Committee,"",Sarah Elisabeth Rosier,REP,1,0,740,3555,69,46,47,4457
+GP18,Calvert,rep,REP Cent Committee,"",J.P. Sherkus,REP,1,0,702,3262,66,47,46,4123
+GP18,Calvert,rep,REP Cent Committee,"",Cal Steuart,REP,1,0,824,3664,72,48,54,4662
+GP18,Calvert,rep,REP Cent Committee,"",David A. Wiley,REP,1,0,729,3515,72,47,46,4409

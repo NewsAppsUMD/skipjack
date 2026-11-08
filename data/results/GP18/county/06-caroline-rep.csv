@@ -1,0 +1,55 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP18,Caroline,rep,Governor / Lt. Governor,"",Larry Hogan,REP,1,0,702,2172,29,30,10,2943
+GP18,Caroline,rep,Comptroller,"",Anjali Reed Phukan,REP,1,0,491,1565,22,25,7,2110
+GP18,Caroline,rep,Attorney General,"",Craig Wolf,REP,1,0,546,1681,23,26,7,2283
+GP18,Caroline,rep,U.S. Senator,"",Tony Campbell,REP,1,0,132,450,4,6,1,593
+GP18,Caroline,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,119,444,8,6,2,579
+GP18,Caroline,rep,U.S. Senator,"",Evan M. Cronhardt,REP,0,0,12,25,0,1,1,39
+GP18,Caroline,rep,U.S. Senator,"",Nnabu Eze,REP,0,0,8,21,0,0,0,29
+GP18,Caroline,rep,U.S. Senator,"",John R. Graziani,REP,0,0,44,128,0,1,1,174
+GP18,Caroline,rep,U.S. Senator,"",Christina J. Grigorian,REP,0,0,85,269,2,2,2,360
+GP18,Caroline,rep,U.S. Senator,"",Albert Binyahmin Howard,REP,0,0,6,25,0,1,0,32
+GP18,Caroline,rep,U.S. Senator,"",Bill Krehnbrink,REP,0,0,19,47,0,3,0,69
+GP18,Caroline,rep,U.S. Senator,"","Gerald I. Smith, Jr.",REP,0,0,41,91,1,1,0,134
+GP18,Caroline,rep,U.S. Senator,"",Blaine Taylor,REP,0,0,23,76,2,1,0,102
+GP18,Caroline,rep,U.S. Senator,"",Brian Charles Vaeth,REP,0,0,5,38,0,0,1,44
+GP18,Caroline,rep,Representative in Congress,01,Martin Elborn,REP,0,0,61,211,3,6,0,281
+GP18,Caroline,rep,Representative in Congress,01,Andy Harris,REP,1,0,601,1853,22,21,11,2508
+GP18,Caroline,rep,Representative in Congress,01,Lamont Taylor,REP,0,0,35,79,2,3,1,120
+GP18,Caroline,rep,State Senator,36,"Stephen S. Hershey, Jr.",REP,1,0,578,1327,22,19,4,1950
+GP18,Caroline,rep,State Senator,37,Adelaide Addie Eckardt,REP,1,0,54,526,4,9,5,598
+GP18,Caroline,rep,House of Delegates,36,Jeff Ghrist,REP,1,0,589,1449,23,16,5,2082
+GP18,Caroline,rep,House of Delegates,36,"Michael D. Smigiel, Jr.",REP,0,0,112,255,2,5,2,376
+GP18,Caroline,rep,House of Delegates,36,Jay A. Jacobs,REP,1,0,383,825,16,11,4,1239
+GP18,Caroline,rep,House of Delegates,36,Steven James Arentz,REP,1,0,338,736,17,9,2,1102
+GP18,Caroline,rep,House of Delegates,36,Rick Bowers,REP,0,0,94,267,1,6,2,370
+GP18,Caroline,rep,House of Delegates,36,Wick Dudley,REP,0,0,87,242,2,3,1,335
+GP18,Caroline,rep,House of Delegates,37B,Christopher T. Adams,REP,1,0,32,274,2,7,2,317
+GP18,Caroline,rep,House of Delegates,37B,Mimi Gedamu,REP,0,0,4,23,0,2,0,29
+GP18,Caroline,rep,House of Delegates,37B,Keith Graffius,REP,0,0,16,186,2,4,2,210
+GP18,Caroline,rep,House of Delegates,37B,Johnny Mautz,REP,1,0,49,502,3,7,6,567
+GP18,Caroline,rep,County Commissioner,"",Frank Bartz,REP,0,0,298,782,6,7,4,1097
+GP18,Caroline,rep,County Commissioner,"",Russell Dukes,REP,0,0,132,536,8,8,3,687
+GP18,Caroline,rep,County Commissioner,"",Michael Charles Forrester,REP,0,0,50,187,2,6,1,246
+GP18,Caroline,rep,County Commissioner,"",Daniel Franklin,REP,1,0,262,812,14,11,5,1104
+GP18,Caroline,rep,County Commissioner,"","Wilbur Levengood, Jr.",REP,1,0,321,922,15,12,4,1274
+GP18,Caroline,rep,County Commissioner,"","John Harrison Milligan, Jr.",REP,0,0,44,182,1,5,3,235
+GP18,Caroline,rep,County Commissioner,"","Kevin Eugene Parks, Sr.",REP,0,0,185,647,4,9,2,847
+GP18,Caroline,rep,County Commissioner,"",Larry C. Porter,REP,1,0,500,1342,21,17,6,1886
+GP18,Caroline,rep,Judge of the Circuit Court,02,Dennis Farina,REP,0,0,270,835,9,16,7,1137
+GP18,Caroline,rep,Judge of the Circuit Court,02,Jonathan G. Newell,REP,1,0,456,1390,16,15,4,1881
+GP18,Caroline,rep,State's Attorney,"",Maureen D. Keogh,REP,0,0,329,1028,7,12,8,1384
+GP18,Caroline,rep,State's Attorney,"",Joe Riley,REP,1,0,384,1115,18,14,1,1532
+GP18,Caroline,rep,Clerk Circuit Court,"",Terry Lord,REP,1,0,519,1532,19,12,5,2087
+GP18,Caroline,rep,Clerk Circuit Court,"",Bill Rude,REP,0,0,79,243,3,5,1,331
+GP18,Caroline,rep,Clerk Circuit Court,"",Steve Stouffer,REP,0,0,122,366,4,10,3,505
+GP18,Caroline,rep,Register of Wills,"",Jim Phelps,REP,1,0,615,1796,27,25,8,2471
+GP18,Caroline,rep,Judge Orphans Court,"",Ellery Adams,REP,1,0,315,864,14,18,6,1217
+GP18,Caroline,rep,Judge Orphans Court,"",Ron Fearins,REP,1,0,341,1000,15,13,8,1377
+GP18,Caroline,rep,Judge Orphans Court,"",Conway Gregory,REP,0,0,333,818,16,13,6,1186
+GP18,Caroline,rep,Judge Orphans Court,"",Jeff Porter,REP,1,0,445,1345,18,16,6,1830
+GP18,Caroline,rep,Sheriff,"",Randy Bounds,REP,1,0,609,1832,24,29,9,2503
+GP18,Caroline,rep,REP Cent Committee,"",George Bacorn,REP,1,0,566,1505,18,23,8,2120
+GP18,Caroline,rep,REP Cent Committee,"",Garrett Shull,REP,1,0,404,1110,18,17,7,1556
+GP18,Caroline,rep,REP Cent Committee,"",Steve Stouffer,REP,1,0,468,1363,19,20,8,1878
+GP18,Caroline,rep,REP Cent Committee,"","John Trevor Wingrove, Sr.",REP,1,0,343,980,17,14,7,1361

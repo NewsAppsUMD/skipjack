@@ -1,0 +1,978 @@
+"County","Candidate Name","Party","Office Name","Office District","Winner", CONG 04,CONG 08,CONG 07,CONG 01,CONG 05,CONG 03,CONG 02,CONG 06
+00,"Larry Hogan",REP,Governor / Lt. Governor,,Y,10092,20229,10935,41680,19174,14855,16121,24417
+00,"Anjali Reed Phukan",REP,Comptroller            ,,Y,8230,16271,8625,31943,14746,12103,12872,18997
+00,"Craig Wolf",REP,Attorney General       ,,Y,8570,17188,9095,34113,15516,12733,13572,20188
+00,"Tony Campbell",REP,U.S. Senator           ,,Y,2726,5310,2853,9346,3677,4135,4698,6020
+00,"Chris Chaffee",REP,U.S. Senator           ,,,2095,3267,1595,8025,7891,2413,2187,4118
+00,"Evan M. Cronhardt",REP,U.S. Senator           ,,,230,453,288,729,345,400,381,469
+00,"Nnabu Eze",REP,U.S. Senator           ,,,214,348,266,519,237,333,268,367
+00,"John R. Graziani",REP,U.S. Senator           ,,,743,1499,898,3240,762,1241,1612,1496
+00,"Christina J. Grigorian",REP,U.S. Senator           ,,,1557,3329,1597,5862,2177,2427,2477,4032
+00,"Albert Binyahmin Howard",REP,U.S. Senator           ,,,94,282,160,472,173,328,169,336
+00,"Bill Krehnbrink",REP,U.S. Senator           ,,,148,320,171,750,281,272,305,357
+00,"Gerald I. Smith, Jr.",REP,U.S. Senator           ,,,293,764,415,1511,450,465,535,1197
+00,"Blaine Taylor",REP,U.S. Senator           ,,,270,953,415,1624,554,476,727,1551
+00,"Brian Charles Vaeth",REP,U.S. Senator           ,,,257,384,444,1079,298,519,625,297
+00,"Martin Elborn",REP,Representative in Congress,01,,,,,4030,,,,
+00,"Andy Harris",REP,Representative in Congress,01,Y,,,,35339,,,,
+00,"Lamont Taylor",REP,Representative in Congress,01,,,,,1800,,,,
+00,"Liz Matory",REP,Representative in Congress,02,Y,,,,,,,5358,
+00,"Hubert Owens, Jr.",REP,Representative in Congress,02,,,,,,,,2250,
+00,"Mark Shell",REP,Representative in Congress,02,,,,,,,,3158,
+00,"Mitchell J. Toland, Jr.",REP,Representative in Congress,02,,,,,,,,2263,
+00,"Charles Anthony",REP,Representative in Congress,03,Y,,,,,,5159,,
+00,"Thomas E. Pinkston Harris",REP,Representative in Congress,03,,,,,,,4297,,
+00,"Rob Seyfferth",REP,Representative in Congress,03,,,,,,,2462,,
+00,"George McDermott",REP,Representative in Congress,04,Y,8548,,,,,,,
+00,"William A. Devine, III",REP,Representative in Congress,05,Y,,,,,8618,,,
+00,"Johnny Rice",REP,Representative in Congress,05,,,,,,6520,,,
+00,"Kurt Elsasser",REP,Representative in Congress,06,,,,,,,,,2063
+00,"Amie Hoeber",REP,Representative in Congress,06,Y,,,,,,,,15622
+00,"Lisa Lloyd",REP,Representative in Congress,06,,,,,,,,,4074
+00,"Bradley St. Rohrs",REP,Representative in Congress,06,,,,,,,,,1313
+00,"Ray Bly",REP,Representative in Congress,07,,,,1370,,,,,
+00,"Richmond Davis",REP,Representative in Congress,07,Y,,,2530,,,,,
+00,"William T. Newton",REP,Representative in Congress,07,,,,1808,,,,,
+00,"Michael Pearson",REP,Representative in Congress,07,,,,2439,,,,,
+00,"Bridgette L. Cooper",REP,Representative in Congress,08,,,5000,,,,,,
+00,"John Walsh",REP,Representative in Congress,08,Y,,7275,,,,,,
+00,"Victor Williams",REP,Representative in Congress,08,,,3745,,,,,,
+00,"George C. Edwards",REP,State Senator          ,01,Y,,,,,,,,8527
+00,"Andrew A. Serafini",REP,State Senator          ,02,Y,,,,,,,,4805
+00,"Craig Giangrande",REP,State Senator          ,03,Y,,1078,,,,,,2878
+00,"Billy Shreve",REP,State Senator          ,03,,,274,,,,,,862
+00,"Michael Hough",REP,State Senator          ,04,Y,,6755,,,,,,776
+00,"Justin Ready",REP,State Senator          ,05,Y,,3656,,4648,,,,
+00,"Janice Lee Dymowski",REP,State Senator          ,06,,,,,,,,796,
+00,"Johnny R. Salling",REP,State Senator          ,06,Y,,,,,,,2505,
+00,"J. B. Jennings",REP,State Senator          ,07,Y,,,660,4501,,,1702,
+00,"Christian Miele",REP,State Senator          ,08,Y,,,,1047,,1535,1219,
+00,"Gail H. Bates",REP,State Senator          ,09,Y,,600,2313,,,48,,
+00,"Reid J. Novotny",REP,State Senator          ,09,,,956,1809,,,53,,
+00,"Stephanie Boston",REP,State Senator          ,10,Y,,,355,,,,630,
+00,"Joseph D. Joe Hooe",REP,State Senator          ,12,Y,,,1376,,,637,234,
+00,"Robert Drozd",REP,State Senator          ,14,Y,,580,,,,949,,289
+00,"David Wilson",REP,State Senator          ,15,Y,,65,,,,,,1713
+00,"Marcus Alzona",REP,State Senator          ,16,Y,,1260,,,,,,116
+00,"Josephine J. Wang",REP,State Senator          ,17,Y,,508,,,,,,519
+00,"Alirio E. Martinez, Jr.",REP,State Senator          ,19,Y,,699,,,,48,,627
+00,"Dwight Patel",REP,State Senator          ,20,Y,,382,,,,97,,
+00,"Lee Havis",REP,State Senator          ,21,Y,579,,,,220,283,,
+00,"Ike Puzon",REP,State Senator          ,26,Y,152,,,,159,,,
+00,"Roussan Rou Etienne, Jr.",REP,State Senator          ,27,,,,,,1101,,,
+00,"Jesse Allen Peed",REP,State Senator          ,27,Y,,,,,3842,,,
+00,"John Leonard",REP,State Senator          ,28,Y,,,,,2218,,,
+00,"Jack Bailey",REP,State Senator          ,29,Y,,,,,3459,,,
+00,"Steve Waugh",REP,State Senator          ,29,,,,,,2718,,,
+00,"Ron George",REP,State Senator          ,30,Y,786,,,,1466,1494,,
+00,"Bryan W. Simonaire",REP,State Senator          ,31,Y,2361,,,,,2007,316,
+00,"Maureen Bryant",REP,State Senator          ,32,,84,,,,,728,420,
+00,"John Grasso",REP,State Senator          ,32,Y,106,,,,,735,360,
+00,"Edward R. Reilly",REP,State Senator          ,33,Y,4256,,,,709,823,,
+00,"Bob Cassilly",REP,State Senator          ,34,Y,,,,2021,,,2139,
+00,"Jason C. Gallion",REP,State Senator          ,35,Y,,,,6158,,,,
+00,"Stephen S. Hershey, Jr.",REP,State Senator          ,36,Y,,,,6272,,,,
+00,"Adelaide Addie Eckardt",REP,State Senator          ,37,Y,,,,5684,,,,
+00,"Mary Beth Carozza",REP,State Senator          ,38,Y,,,,5970,,,,
+00,"Al Phillips",REP,State Senator          ,39,Y,,,,,,,,1054
+00,"Chris West",REP,State Senator          ,42,Y,,,1308,830,,329,2687,
+00,"Victor Clark, Jr.",REP,State Senator          ,44,Y,,,778,,,,,
+00,"Christine Digman",REP,State Senator          ,46,Y,,,32,,,495,112,
+00,"Fred Price, Jr.",REP,State Senator          ,47,Y,214,,,,,,,
+00,"Wendell R. Beitzel",REP,House of Delegates     ,01A,Y,,,,,,,,2692
+00,"James M. Virts, Jr.",REP,House of Delegates     ,01A,,,,,,,,,889
+00,"Jason C. Buckel",REP,House of Delegates     ,01B,Y,,,,,,,,2816
+00,"Nicole Alt-Myers",REP,House of Delegates     ,01C,,,,,,,,,1028
+00,"Jordan  Lysczek",REP,House of Delegates     ,01C,,,,,,,,,229
+00,"Mike McKay",REP,House of Delegates     ,01C,Y,,,,,,,,1849
+00,"Neil C. Parrott",REP,House of Delegates     ,02A,Y,,,,,,,,3844
+00,"William Joseph Wivell",REP,House of Delegates     ,02A,Y,,,,,,,,3332
+00,"Paul D. Corderman",REP,House of Delegates     ,02B,Y,,,,,,,,847
+00,"Mike Bowersox",REP,House of Delegates     ,03A,Y,,358,,,,,,1694
+00,"James Dvorak",REP,House of Delegates     ,03A,Y,,319,,,,,,1545
+00,"William Bill Folden",REP,House of Delegates     ,03B,Y,,737,,,,,,1351
+00,"Barrie S. Ciliberti",REP,House of Delegates     ,04,Y,,5383,,,,,,626
+00,"Dan Cox",REP,House of Delegates     ,04,Y,,5958,,,,,,641
+00,"Jesse T. Pippy",REP,House of Delegates     ,04,Y,,5395,,,,,,623
+00,"David Ellin",REP,House of Delegates     ,05,,,1420,,1837,,,,
+00,"Susan Krebs",REP,House of Delegates     ,05,Y,,3334,,4028,,,,
+00,"April Rose",REP,House of Delegates     ,05,Y,,2862,,3534,,,,
+00,"Haven Shoemaker",REP,House of Delegates     ,05,Y,,2904,,3901,,,,
+00,"Robin L. Grammer",REP,House of Delegates     ,06,Y,,,,,,,2246,
+00,"Bob Long",REP,House of Delegates     ,06,Y,,,,,,,2568,
+00,"Ric Metzgar",REP,House of Delegates     ,06,Y,,,,,,,2541,
+00,"Jake Mohorovic",REP,House of Delegates     ,06,,,,,,,,1003,
+00,"Lauren Arikan",REP,House of Delegates     ,07,Y,,,353,2020,,,816,
+00,"Joshua Barlow",REP,House of Delegates     ,07,,,,77,763,,,241,
+00,"Russ English, Jr.",REP,House of Delegates     ,07,,,,14,185,,,92,
+00,"Michael A. Geppi",REP,House of Delegates     ,07,,,,173,967,,,326,
+00,"Norm Gifford",REP,House of Delegates     ,07,,,,18,94,,,49,
+00,"Rick Impallaria",REP,House of Delegates     ,07,Y,,,249,1883,,,851,
+00,"Tammy Larkin",REP,House of Delegates     ,07,,,,132,960,,,365,
+00,"Trevor Leach",REP,House of Delegates     ,07,,,,11,64,,,34,
+00,"Bill Paulshock",REP,House of Delegates     ,07,,,,156,1371,,,495,
+00,"Aaron Penman",REP,House of Delegates     ,07,,,,151,1631,,,428,
+00,"David Seman",REP,House of Delegates     ,07,,,,135,946,,,238,
+00,"Angela Sudano-Marcellino",REP,House of Delegates     ,07,,,,41,227,,,98,
+00,"Kathy Szeliga",REP,House of Delegates     ,07,Y,,,515,3193,,,1276,
+00,"Ben Boehl",REP,House of Delegates     ,08,,,,,244,,331,307,
+00,"Joseph C. Boteler, III",REP,House of Delegates     ,08,Y,,,,578,,887,594,
+00,"Joe Cluster",REP,House of Delegates     ,08,Y,,,,690,,1029,724,
+00,"Kevin Leary",REP,House of Delegates     ,08,,,,,296,,390,425,
+00,"Joe Norman",REP,House of Delegates     ,08,Y,,,,488,,690,566,
+00,"Norma Secoura",REP,House of Delegates     ,08,,,,,310,,562,400,
+00,"Jared Wineberg",REP,House of Delegates     ,08,,,,,48,,130,112,
+00,"Trent Kittleman",REP,House of Delegates     ,09A,Y,,1332,2563,,,88,,
+00,"Warren E. Miller",REP,House of Delegates     ,09A,Y,,1215,2469,,,68,,
+00,"Bob Flanagan",REP,House of Delegates     ,09B,Y,,,1002,,,,,
+00,"Michael Tyrone Brown, Sr.",REP,House of Delegates     ,10,,,,125,,,,267,
+00,"George H. Harman",REP,House of Delegates     ,10,Y,,,266,,,,486,
+00,"Matthew Kaliszak",REP,House of Delegates     ,10,Y,,,204,,,,391,
+00,"Brian Marcos",REP,House of Delegates     ,10,Y,,,225,,,,415,
+00,"Jonathan Porter",REP,House of Delegates     ,11,Y,,,527,,,818,731,
+00,"Bob Cockey",REP,House of Delegates     ,12,Y,,,1154,,,524,199,
+00,"Melanie Harris",REP,House of Delegates     ,12,Y,,,1226,,,570,198,
+00,"Michael Russell",REP,House of Delegates     ,12,Y,,,1136,,,499,194,
+00,"Chris Yates",REP,House of Delegates     ,13,Y,,,155,,,1393,452,
+00,"Kevin Dorrance",REP,House of Delegates     ,14,Y,,498,,,,861,,263
+00,"Patricia Fenati",REP,House of Delegates     ,14,Y,,560,,,,914,,276
+00,"Michael A. Ostroff",REP,House of Delegates     ,14,Y,,502,,,,872,,260
+00,"Laurie Halverson",REP,House of Delegates     ,15,Y,,64,,,,,,1637
+00,"Harvey Jacobs",REP,House of Delegates     ,15,Y,,64,,,,,,1570
+00,"Marc A. King",REP,House of Delegates     ,15,Y,,55,,,,,,1540
+00,"Bill Day",REP,House of Delegates     ,16,Y,,1341,,,,,,115
+00,"George Ivan Hernandez",REP,House of Delegates     ,17,Y,,502,,,,,,507
+00,"Linda Willard",REP,House of Delegates     ,18,Y,,902,,,,,,
+00,"Helen Domenici",REP,House of Delegates     ,19,Y,,610,,,,44,,538
+00,"Dave Pasti",REP,House of Delegates     ,19,Y,,707,,,,49,,637
+00,"Martha Schaerr",REP,House of Delegates     ,19,Y,,622,,,,49,,564
+00,"Chike Anyanwu",REP,House of Delegates     ,21,Y,462,,,,167,232,,
+00,"Richard Douglas",REP,House of Delegates     ,21,Y,554,,,,200,268,,
+00,"Winnie Obike",REP,House of Delegates     ,22,Y,76,,,,327,,,
+00,"Kathleen Kositzky Crank",REP,House of Delegates     ,23A,Y,81,,,,234,,,
+00,"Philip A. Parenti",REP,House of Delegates     ,27B,,,,,,877,,,
+00,"Michael A. Thomas",REP,House of Delegates     ,27B,Y,,,,,1122,,,
+00,"Mark N. Fisher",REP,House of Delegates     ,27C,Y,,,,,2727,,,
+00,"Dave Campbell",REP,House of Delegates     ,28,Y,,,,,1352,,,
+00,"Jim Crawford",REP,House of Delegates     ,28,Y,,,,,1727,,,
+00,"Bill Dotson",REP,House of Delegates     ,28,Y,,,,,2047,,,
+00,"Vanessa Jones",REP,House of Delegates     ,28,,,,,,774,,,
+00,"Matt Morgan",REP,House of Delegates     ,29A,Y,,,,,1884,,,
+00,"Deb Rey",REP,House of Delegates     ,29B,Y,,,,,1128,,,
+00,"Gerald W. Jerry Clark",REP,House of Delegates     ,29C,Y,,,,,2086,,,
+00,"B. Darren Burns",REP,House of Delegates     ,30A,,207,,,,28,469,,
+00,"Chelsea Gill",REP,House of Delegates     ,30A,Y,236,,,,41,543,,
+00,"Bob O'Shea",REP,House of Delegates     ,30A,Y,411,,,,55,941,,
+00,"Doug Rathell",REP,House of Delegates     ,30A,,211,,,,25,411,,
+00,"Seth Howard",REP,House of Delegates     ,30B,Y,46,,,,1192,,,
+00,"Tom Walters",REP,House of Delegates     ,30B,,104,,,,335,,,
+00,"Brooks Bennett",REP,House of Delegates     ,31A,Y,,,,,,355,307,
+00,"Brian Chisholm",REP,House of Delegates     ,31B,Y,1860,,,,,1275,,
+00,"Nicholaus R. Kipke",REP,House of Delegates     ,31B,Y,2040,,,,,1436,,
+00,"John R. Leopold",REP,House of Delegates     ,31B,,437,,,,,364,,
+00,"David Therrien",REP,House of Delegates     ,31B,,442,,,,,255,,
+00,"Mark E. Bailey",REP,House of Delegates     ,32,Y,135,,,,,1058,536,
+00,"Patty Ewing",REP,House of Delegates     ,32,Y,173,,,,,1282,695,
+00,"Tim Walters",REP,House of Delegates     ,32,Y,149,,,,,1155,604,
+00,"Tom Angelis",REP,House of Delegates     ,33,,542,,,,106,146,,
+00,"Stacie MacDonald",REP,House of Delegates     ,33,,1997,,,,316,406,,
+00,"Michael Edward Malone",REP,House of Delegates     ,33,Y,2513,,,,413,510,,
+00,"Tony McConkey",REP,House of Delegates     ,33,Y,2087,,,,273,488,,
+00,"Connor McCoy",REP,House of Delegates     ,33,,368,,,,53,107,,
+00,"Sid Saab",REP,House of Delegates     ,33,Y,3386,,,,514,669,,
+00,"Jerry Walker",REP,House of Delegates     ,33,,1602,,,,325,248,,
+00,"R. Douglas Anstine",REP,House of Delegates     ,34A,,,,,2,,,125,
+00,"Glen Glass",REP,House of Delegates     ,34A,Y,,,,46,,,1220,
+00,"J.D. Russell",REP,House of Delegates     ,34A,Y,,,,42,,,1152,
+00,"Monica A. Worrell",REP,House of Delegates     ,34A,,,,,49,,,1130,
+00,"Jan Marie Christensen",REP,House of Delegates     ,34B,,,,,356,,,34,
+00,"Susan K. McComas",REP,House of Delegates     ,34B,Y,,,,656,,,59,
+00,"James V.  Capt'n Jim McMahan",REP,House of Delegates     ,34B,,,,,439,,,43,
+00,"Walter Butch Tilley",REP,House of Delegates     ,34B,,,,,695,,,51,
+00,"Kevin Bailey Hornberger",REP,House of Delegates     ,35A,Y,,,,1513,,,,
+00,"Andrew Cassilly",REP,House of Delegates     ,35B,Y,,,,4623,,,,
+00,"Teresa Reilly",REP,House of Delegates     ,35B,Y,,,,4243,,,,
+00,"Jeff Ghrist",REP,House of Delegates     ,36,Y,,,,4337,,,,
+00,"Michael D. Smigiel, Jr.",REP,House of Delegates     ,36,,,,,2009,,,,
+00,"Jay A. Jacobs",REP,House of Delegates     ,36,Y,,,,4514,,,,
+00,"Steven James Arentz",REP,House of Delegates     ,36,Y,,,,3776,,,,
+00,"Rick Bowers",REP,House of Delegates     ,36,,,,,1542,,,,
+00,"Wick Dudley",REP,House of Delegates     ,36,,,,,1433,,,,
+00,"Frank E. Cooke",REP,House of Delegates     ,37A,Y,,,,433,,,,
+00,"Christopher T. Adams",REP,House of Delegates     ,37B,Y,,,,2820,,,,
+00,"Mimi Gedamu",REP,House of Delegates     ,37B,,,,,483,,,,
+00,"Keith Graffius",REP,House of Delegates     ,37B,,,,,1572,,,,
+00,"Johnny Mautz",REP,House of Delegates     ,37B,Y,,,,4919,,,,
+00,"Charles James Otto",REP,House of Delegates     ,38A,Y,,,,2192,,,,
+00,"Carl Anderton, Jr.",REP,House of Delegates     ,38B,Y,,,,1005,,,,
+00,"Wayne A. Hartman",REP,House of Delegates     ,38C,Y,,,,1476,,,,
+00,"Joe Schanno",REP,House of Delegates     ,38C,,,,,1142,,,,
+00,"Jim Shaffer",REP,House of Delegates     ,38C,,,,,109,,,,
+00,"Ed Tinus",REP,House of Delegates     ,38C,,,,,247,,,,
+00,"Verelyn Gibbs Watson",REP,House of Delegates     ,39,Y,,,,,,,,1072
+00,"Stephen A. McIntire",REP,House of Delegates     ,42A,Y,,,,,,218,572,
+00,"Raymond C. Boccelli",REP,House of Delegates     ,42B,,,,393,249,,14,607,
+00,"Justin Kinsey",REP,House of Delegates     ,42B,,,,431,207,,16,266,
+00,"Nino Mangione",REP,House of Delegates     ,42B,Y,,,940,643,,75,1696,
+00,"Tim Robinson",REP,House of Delegates     ,42B,Y,,,672,466,,65,1436,
+00,"Ronald M. Owens-Bey",REP,House of Delegates     ,45,Y,,,62,,,129,75,
+00,"Jewel Rucker",REP,House of Delegates     ,45,Y,,,52,,,125,70,
+00,"Andy Zipay",REP,House of Delegates     ,45,Y,,,51,,,135,80,
+00,"Jeremy Baron",REP,House of Delegates     ,46,Y,,,28,,,444,95,
+00,"Nicholas Wentworth",REP,House of Delegates     ,46,Y,,,25,,,457,90,
+02,"Steve Schuh",REP,County Executive       ,,Y,7614,,,,2060,5929,1043,
+04,"Pat McDonough",REP,County Executive       ,,,,,2046,1429,,1528,5422,
+04,"Al Redmer, Jr.",REP,County Executive       ,,Y,,,3139,2053,,2073,6007,
+11,"Kathy Afzali",REP,County Executive       ,,Y,,3620,,,,,,2053
+11,"Kirby Delauter",REP,County Executive       ,,,,2909,,,,,,1454
+11,"Regina M. Williams",REP,County Executive       ,,,,2208,,,,,,1164
+13,"Barry Glassman",REP,County Executive       ,,Y,,,,7720,,,1910,
+13,"Mike Perrone, Jr.",REP,County Executive       ,,,,,,2885,,,928,
+14,"Allan H. Kittleman",REP,County Executive       ,,Y,,,4898,,,1835,587,
+16,"Robin Ficker",REP,County Executive       ,,Y,,4058,,,,1032,,4038
+17,"Jerry J. Mathis",REP,County Executive       ,,Y,1204,,,,1789,,,
+23,"Bob Culver",REP,County Executive       ,,Y,,,,2448,,,,
+08,"Bill Coutz",REP,County Council         ,002,Y,,,,2546,,,,
+08,"Richard E. Lewandowski",REP,County Council         ,002,,,,,1401,,,,
+08,"Al Miller",REP,County Council         ,003,Y,,,,2176,,,,
+08,"Dan Schneckenburger",REP,County Council         ,003,,,,,1393,,,,
+08,"Thomas J. Wilson",REP,County Council         ,003,,,,,645,,,,
+08,"Ed Larsen",REP,County Council         ,004,,,,,1715,,,,
+08,"George C. Patchell",REP,County Council         ,004,Y,,,,2294,,,,
+13,"Shawn A. Kingston",REP,Pres County Council,,,,,,1958,,,569,
+13,"Patrick Vincenti",REP,Pres County Council,,Y,,,,7508,,,2069,
+09,"Henry Thompson",REP,Pres County Commission,,Y,,,,,2630,,,
+19,"Randy Guy",REP,Pres County Commission,,Y,,,,,3815,,,
+21,"Chuck Callahan",REP,County Council         ,,Y,,,,1729,,,,
+21,"Frank Divilio",REP,County Council         ,,Y,,,,1449,,,,
+21,"Lisa Marie Ghezzi",REP,County Council         ,,,,,,1403,,,,
+21,"Corey W. Pack",REP,County Council         ,,Y,,,,1474,,,,
+21,"Laura Everngam Price",REP,County Council         ,,Y,,,,1365,,,,
+21,"Jennifer L. Williams",REP,County Council         ,,Y,,,,1416,,,,
+01,"Creade Brodie, Jr.",REP,County Commissioner    ,,Y,,,,,,,,3371
+01,"Dave Caporale",REP,County Commissioner    ,,Y,,,,,,,,3733
+01,"Stu Czapski",REP,County Commissioner    ,,,,,,,,,,1457
+01,"Jordan Vincent Hanna",REP,County Commissioner    ,,,,,,,,,,215
+01,"Jerry Rice",REP,County Commissioner    ,,,,,,,,,,972
+01,"David Alan Robison",REP,County Commissioner    ,,,,,,,,,,647
+01,"Jake Shade",REP,County Commissioner    ,,Y,,,,,,,,3362
+01,"Bill Valentine",REP,County Commissioner    ,,,,,,,,,,2390
+06,"Frank Bartz",REP,County Commissioner    ,,,,,,782,,,,
+06,"Russell Dukes",REP,County Commissioner    ,,,,,,536,,,,
+06,"Michael Charles Forrester",REP,County Commissioner    ,,,,,,187,,,,
+06,"Daniel Franklin",REP,County Commissioner    ,,Y,,,,812,,,,
+06,"Wilbur Levengood, Jr.",REP,County Commissioner    ,,Y,,,,922,,,,
+06,"John Harrison Milligan, Jr.",REP,County Commissioner    ,,,,,,182,,,,
+06,"Kevin Eugene Parks, Sr.",REP,County Commissioner    ,,,,,,647,,,,
+06,"Larry C. Porter",REP,County Commissioner    ,,Y,,,,1342,,,,
+15,"Aaron Bramble",REP,County Commissioner    ,,,,,,521,,,,
+15,"Bob Jacob",REP,County Commissioner    ,,Y,,,,638,,,,
+15,"Jim Luff",REP,County Commissioner    ,,,,,,411,,,,
+15,"Tom Mason",REP,County Commissioner    ,,Y,,,,543,,,,
+15,"William Short",REP,County Commissioner    ,,Y,,,,616,,,,
+22,"Terry L. Baker",REP,County Commissioner    ,,Y,,,,,,,,4196
+22,"Scott Bryan",REP,County Commissioner    ,,,,,,,,,,1069
+22,"Charles Burkett",REP,County Commissioner    ,,,,,,,,,,1786
+22,"Jeff Cline",REP,County Commissioner    ,,Y,,,,,,,,4017
+22,"David Ebersole",REP,County Commissioner    ,,,,,,,,,,999
+22,"Casey Hoffman",REP,County Commissioner    ,,,,,,,,,,999
+22,"Wayne K. Keefer",REP,County Commissioner    ,,Y,,,,,,,,3230
+22,"Wally McClure",REP,County Commissioner    ,,,,,,,,,,1110
+22,"Cort Meinelschmidt",REP,County Commissioner    ,,Y,,,,,,,,2266
+22,"Valerie Oliver",REP,County Commissioner    ,,,,,,,,,,1195
+22,"Donny Ravas",REP,County Commissioner    ,,,,,,,,,,1665
+22,"Anthony Robinson",REP,County Commissioner    ,,,,,,,,,,784
+22,"Randall Wagner",REP,County Commissioner    ,,Y,,,,,,,,3468
+11,"Philip Dacey",REP,County Council At Large,,Y,,4161,,,,,,2442
+11,"Danny Farrar",REP,County Council At Large,,Y,,3535,,,,,,1757
+11,"Justin M. Kiska",REP,County Council At Large,,,,2343,,,,,,1256
+11,"Jason Miller",REP,County Council At Large,,,,2727,,,,,,1435
+16,"Robert Dyer",REP,County Council At Large,,Y,,4178,,,,1033,,3975
+16,"Chris P. Fiotes, Jr.",REP,County Council At Large,,Y,,3734,,,,954,,3641
+16,"Penny Musser",REP,County Council At Large,,Y,,3818,,,,997,,3763
+16,"Shelly Skolnick",REP,County Council At Large,,Y,,3869,,,,984,,3717
+17,"Felicia Folarin",REP,County Council At Large,,Y,1183,,,,1729,,,
+23,"Julie D. Brewington",REP,County Council At Large,,Y,,,,1903,,,,
+23,"John T. Cannon",REP,County Council At Large,,Y,,,,2327,,,,
+05,"Patrick E. Flaherty",REP,Cty Commission at Large,,,,,,,1287,,,
+05,"Earl Buddy Hance",REP,Cty Commission at Large,,Y,,,,,4077,,,
+05,"Bill Heine",REP,Cty Commission at Large,,,,,,,533,,,
+05,"Tom Hejl",REP,Cty Commission at Large,,,,,,,2148,,,
+05,"Steve Weems",REP,Cty Commission at Large,,Y,,,,,3387,,,
+18,"Helen Bennett",REP,Cty Commission at Large,,,,,,1564,,,,
+18,"Jim Moran",REP,Cty Commission at Large,,Y,,,,1506,,,,
+02,"Kimberly McCoy Burns",REP,County Council         ,001,Y,,,,,,502,892,
+04,"Pete Melcavage, II",REP,County Council         ,001,Y,,,1293,,,412,118,
+10,"Don B. Satterfield",REP,County Council         ,001,Y,,,,453,,,,
+11,"Dylan Diggs",REP,County Council         ,001,,,595,,,,,,626
+11,"Kevin Grubb",REP,County Council         ,001,Y,,738,,,,,,765
+14,"Raj Kathuria",REP,County Council         ,001,Y,,,978,,,133,72,
+16,"Richard Banach",REP,County Council         ,001,Y,,1605,,,,,,821
+02,"Tom Gardner",REP,County Council         ,002,Y,413,,,,,1223,,
+04,"Michael Lee",REP,County Council         ,002,Y,,,110,,,908,625,
+11,"Tony Chmelik",REP,County Council         ,002,,,1201,,,,,,210
+11,"Steven  McKay",REP,County Council         ,002,Y,,1318,,,,,,249
+14,"John Liao",REP,County Council         ,002,Y,,,356,,,374,168,
+16,"Ed Amatetti",REP,County Council         ,002,Y,,135,,,,,,1171
+16,"Tom Ferleman",REP,County Council         ,002,,,53,,,,,,592
+16,"Kyle Sefcik",REP,County Council         ,002,,,171,,,,,,379
+23,"Marc Kilmer",REP,County Council         ,002,Y,,,,832,,,,
+02,"Dana Smallwood-Friia",REP,County Council         ,003,,404,,,,,385,,
+02,"Nathan Volke",REP,County Council         ,003,Y,1670,,,,,1320,,
+04,"Ed Hale, Jr.",REP,County Council         ,003,,,,1371,545,,,1127,
+04,"Wade Kach",REP,County Council         ,003,Y,,,1500,664,,,1182,
+04,"Doug Zinn",REP,County Council         ,003,,,,148,68,,,104,
+11,"Joe Parsley",REP,County Council         ,003,Y,,176,,,,,,1096
+23,"Larry W. Dodd",REP,County Council         ,003,Y,,,,501,,,,
+02,"Torrey J. Snow",REP,County Council         ,004,Y,982,,,,28,374,81,
+10,"Lenny Pfeffer",REP,County Council         ,004,Y,,,,227,,,,
+10,"Rick Price",REP,County Council         ,004,,,,,158,,,,
+10,"William Neil Windsor",REP,County Council         ,004,,,,,52,,,,
+11,"Jimmy W. Trout",REP,County Council         ,004,Y,,488,,,,,,1017
+14,"Lisa Kim",REP,County Council         ,004,Y,,,437,,,492,,
+23,"Suzanah Cain",REP,County Council         ,004,Y,,,,233,,,,
+02,"Amanda Fiedler",REP,County Council         ,005,Y,1608,,,,,468,,
+02,"Michael Anthony Peroutka",REP,County Council         ,005,,1425,,,,,420,,
+04,"David Marks",REP,County Council         ,005,Y,,,,1619,,754,1117,
+04,"Jay Payne",REP,County Council         ,005,,,,,331,,170,301,
+10,"Thomas Bradshaw",REP,County Council         ,005,,,,,200,,,,
+10,"Libby Handley Nagel",REP,County Council         ,005,Y,,,,300,,,,
+11,"Michael J. Blue",REP,County Council         ,005,Y,,1743,,,,,,0
+11,"William M. Valentine",REP,County Council         ,005,,,1381,,,,,,0
+14,"Jim Walsh",REP,County Council         ,005,,,,1140,,,57,,
+14,"David Yungmann",REP,County Council         ,005,Y,,,1752,,,40,,
+23,"Joe Holloway",REP,County Council         ,005,Y,,,,697,,,,
+02,"Michael Christman",REP,County Council         ,006,Y,850,,,,,1273,,
+04,"Glen Alan Geelhaar",REP,County Council         ,006,,,,,6,,59,64,
+04,"Erik Lofstad",REP,County Council         ,006,,,,,11,,79,215,
+04,"Ryan Nawrocki",REP,County Council         ,006,Y,,,,85,,453,1353,
+04,"Allen E. Robertson",REP,County Council         ,006,,,,,1,,34,176,
+04,"Deb Sullivan",REP,County Council         ,006,,,,,30,,243,822,
+02,"Jonathan Boniface",REP,County Council         ,007,,427,,,,1068,,,
+02,"Jessica Haire",REP,County Council         ,007,Y,437,,,,1313,,,
+04,"Todd Crandell",REP,County Council         ,007,Y,,,,,,,2578,
+04,"Dave Rader",REP,County Council         ,007,,,,,,,,647,
+13,"Donna Blasdell",REP,County Council         ,A,Y,,,,,,,562,
+13,"Paula R. Mullis",REP,County Council         ,A,,,,,,,,421,
+13,"Joe Woods",REP,County Council         ,B,Y,,,,2204,,,,
+13,"Susan Burdette",REP,County Council         ,C,,,,,602,,,,
+13,"Tony G Giangiordano",REP,County Council         ,C,Y,,,,1191,,,,
+13,"Patti Parker",REP,County Council         ,C,,,,,540,,,,
+13,"Jerry Scarborough",REP,County Council         ,D,,,,,1087,,,1,
+13,"Chad R. Shrodes",REP,County Council         ,D,Y,,,,2343,,,2,
+13,"Diane L. Sengstacke",REP,County Council         ,E,,,,,715,,,163,
+13,"Robert S. Wagner",REP,County Council         ,E,Y,,,,753,,,182,
+13,"Curtis L. Beulah",REP,County Council         ,F,Y,,,,221,,,820,
+13,"John Michael Finlayson",REP,County Council         ,F,,,,,26,,,113,
+13,"Amy Altmann Jahnigen",REP,County Council         ,F,,,,,160,,,363,
+05,"Emad Emile Dides",REP,County Commissioner    ,001,,,,,,817,,,
+05,"Mike Hart",REP,County Commissioner    ,001,Y,,,,,5356,,,
+07,"Katherine Adelaide",REP,County Commissioner    ,001,,,38,,750,,,,
+07,"Stephen Albert Wantz",REP,County Commissioner    ,001,Y,,142,,1867,,,,
+09,"Joe Crawford",REP,County Commissioner    ,001,Y,,,,,2663,,,
+12,"S. Larry Tichnell",REP,County Commissioner    ,001,Y,,,,,,,,2066
+18,"Joe Gannon",REP,County Commissioner    ,001,,,,,1474,,,,
+18,"Jack Wilson",REP,County Commissioner    ,001,Y,,,,1411,,,,
+19,"Eric Scott Colvin",REP,County Commissioner    ,001,Y,,,,,2721,,,
+19,"Mike Daras",REP,County Commissioner    ,001,,,,,,1121,,,
+24,"Merrill W. Lockfaw, Jr.",REP,County Commissioner    ,001,Y,,,,525,,,,
+05,"Mark Arness",REP,County Commissioner    ,002,,,,,,1937,,,
+05,"David A. Gatton",REP,County Commissioner    ,002,,,,,,1473,,,
+05,"Bruce Henkelman",REP,County Commissioner    ,002,,,,,,576,,,
+05,"Thomas E. Tim Hutchins",REP,County Commissioner    ,002,Y,,,,,2228,,,
+07,"C. Richard Weaver",REP,County Commissioner    ,002,Y,,,,2147,,,,
+12,"Paul C. Edwards",REP,County Commissioner    ,002,Y,,,,,,,,2078
+18,"George G. Sigler",REP,County Commissioner    ,002,,,,,1097,,,,
+18,"Steve Wilson",REP,County Commissioner    ,002,Y,,,,1610,,,,
+19,"Michael Hewitt",REP,County Commissioner    ,002,Y,,,,,3672,,,
+20,"Charles Fisher",REP,County Commissioner    ,002,Y,,,,131,,,,
+05,"Kelly D. McConkey",REP,County Commissioner    ,003,Y,,,,,5214,,,
+07,"Dennis E. Frazier",REP,County Commissioner    ,003,Y,,878,,,,,,
+07,"Tom Gordon",REP,County Commissioner    ,003,,,840,,,,,,
+12,"Fred Fox",REP,County Commissioner    ,003,,,,,,,,,678
+12,"Bob Gatto",REP,County Commissioner    ,003,,,,,,,,,944
+12,"Jim Hinebaugh, Jr.",REP,County Commissioner    ,003,Y,,,,,,,,886
+18,"Laura Bogley-Knickman",REP,County Commissioner    ,003,,,,,1115,,,,
+18,"Barry Donadio",REP,County Commissioner    ,003,,,,,613,,,,
+18,"Phil Dumenil",REP,County Commissioner    ,003,Y,,,,1176,,,,
+19,"John O'Connor",REP,County Commissioner    ,003,Y,,,,,3506,,,
+20,"Eldon Willing",REP,County Commissioner    ,003,Y,,,,245,,,,
+24,"Bud Church",REP,County Commissioner    ,003,Y,,,,489,,,,
+24,"Gary A. Millhoff",REP,County Commissioner    ,003,,,,,163,,,,
+07,"Christopher Eric Bouchat",REP,County Commissioner    ,004,Y,,905,,,,,,
+07,"W. Paul Burkett",REP,County Commissioner    ,004,,,744,,,,,,
+07,"Bret D. Grossnickle",REP,County Commissioner    ,004,,,325,,,,,,
+07,"Sean Shaffer",REP,County Commissioner    ,004,,,115,,,,,,
+09,"James Ashburn",REP,County Commissioner    ,004,Y,,,,,2590,,,
+18,"Mark A. Anderson",REP,County Commissioner    ,004,,,,,1314,,,,
+18,"Chris Corchiarino",REP,County Commissioner    ,004,Y,,,,1402,,,,
+19,"Todd B. Morgan",REP,County Commissioner    ,004,Y,,,,,3703,,,
+20,"Eddie Brimer",REP,County Commissioner    ,004,,,,,152,,,,
+20,"Charles Laird",REP,County Commissioner    ,004,Y,,,,322,,,,
+24,"Theodore Ted Elder",REP,County Commissioner    ,004,Y,,,,475,,,,
+07,"Kathy Fuller",REP,County Commissioner    ,005,,,613,,,,,,
+07,"Dave Greenwalt",REP,County Commissioner    ,005,,,130,,,,,,
+07,"Frank Robert",REP,County Commissioner    ,005,,,545,,,,,,
+07,"Ed Rothstein",REP,County Commissioner    ,005,Y,,1120,,,,,,
+20,"Mike Corbin",REP,County Commissioner    ,005,Y,,,,216,,,,
+24,"Chip Bertino",REP,County Commissioner    ,005,Y,,,,550,,,,
+24,"Madison Jim Bunting, Jr.",REP,County Commissioner    ,006,Y,,,,610,,,,
+24,"Joseph M. Mitrecic",REP,County Commissioner    ,007,Y,,,,409,,,,
+20,"Daniel William Powell",REP,Judge of the Circuit Court,01,Y,,,,1031,,,,
+23,"Kathleen L. Beckstead",REP,Judge of the Circuit Court,01,Y,,,,2141,,,,
+23,"Matthew A. Maciarello",REP,Judge of the Circuit Court,01,Y,,,,2424,,,,
+24,"Mary Peggy Kent",REP,Judge of the Circuit Court,01,Y,,,,2642,,,,
+24,"Beau H. Oglesby",REP,Judge of the Circuit Court,01,Y,,,,3046,,,,
+06,"Dennis Farina",REP,Judge of the Circuit Court,02,,,,,835,,,,
+06,"Jonathan G. Newell",REP,Judge of the Circuit Court,02,Y,,,,1390,,,,
+08,"Will Davis",REP,Judge of the Circuit Court,02,Y,,,,2231,,,,
+08,"Edwin B. Fockler, IV",REP,Judge of the Circuit Court,02,,,,,1242,,,,
+08,"Michael D. Smigiel, Sr.",REP,Judge of the Circuit Court,02,,,,,742,,,,
+15,"Harris Murphy",REP,Judge of the Circuit Court,02,Y,,,,971,,,,
+04,"Robert A. Cohen",REP,Judge of the Circuit Court,03,,,,1937,1212,,1521,4814,
+04,"Carey Deeley",REP,Judge of the Circuit Court,03,Y,,,2938,1844,,2124,6137,
+04,"Michael Finifter",REP,Judge of the Circuit Court,03,Y,,,2842,1870,,2182,6177,
+04,"Ruth Jakubowski",REP,Judge of the Circuit Court,03,Y,,,3070,2062,,2323,6868,
+04,"Dennis Robinson",REP,Judge of the Circuit Court,03,Y,,,2980,2063,,2219,6706,
+13,"Diane Adkins-Tobin",REP,Judge of the Circuit Court,03,,,,,4051,,,1184,
+13,"Paul W. Ishak",REP,Judge of the Circuit Court,03,Y,,,,6656,,,1738,
+13,"Lawrence F. Kreis, Jr.",REP,Judge of the Circuit Court,03,Y,,,,5728,,,1410,
+22,"Mark K. Boyer",REP,Judge of the Circuit Court,04,Y,,,,,,,,5017
+22,"Brett Wilson",REP,Judge of the Circuit Court,04,Y,,,,,,,,4905
+02,"Claudia Barber",REP,Judge of the Circuit Court,05,,312,,,,102,333,79,
+02,"Robert W. Burton",REP,Judge of the Circuit Court,05,,493,,,,119,442,85,
+02,"Mark W. Crooks",REP,Judge of the Circuit Court,05,Y,6056,,,,1535,4304,693,
+02,"Annette DeCesaris",REP,Judge of the Circuit Court,05,,718,,,,447,525,93,
+02,"Kathleen Elmore",REP,Judge of the Circuit Court,05,,416,,,,104,347,79,
+02,"Rickey Nelson Jones",REP,Judge of the Circuit Court,05,,115,,,,19,121,28,
+02,"Nevin L. Young",REP,Judge of the Circuit Court,05,,100,,,,33,150,34,
+07,"Maria L. Oesterreicher",REP,Judge of the Circuit Court,05,,,1119,,772,,,,
+07,"George Psoras, Jr.",REP,Judge of the Circuit Court,05,,,2092,,1602,,,,
+07,"Richard R. Titus",REP,Judge of the Circuit Court,05,Y,,2991,,2549,,,,
+11,"Julia Martz-Fisher",REP,Judge of the Circuit Court,06,Y,,6090,,,,,,3457
+11,"Ricky Sandy",REP,Judge of the Circuit Court,06,Y,,5844,,,,,,3310
+16,"James A. Bonifant",REP,Judge of the Circuit Court,06,Y,,3799,,,,972,,3634
+16,"Jeannie E. Cho",REP,Judge of the Circuit Court,06,Y,,3649,,,,930,,3479
+16,"Jill Reid Cummins",REP,Judge of the Circuit Court,06,Y,,3614,,,,922,,3470
+16,"Debra L. Dwyer",REP,Judge of the Circuit Court,06,Y,,3781,,,,961,,3622
+16,"Kevin G. Hessler",REP,Judge of the Circuit Court,06,Y,,3549,,,,904,,3465
+16,"David W. Lease",REP,Judge of the Circuit Court,06,Y,,3417,,,,870,,3353
+16,"Marylin Pierre",REP,Judge of the Circuit Court,06,,,2026,,,,505,,1901
+16,"Margaret Marie Schweitzer",REP,Judge of the Circuit Court,06,Y,,3429,,,,892,,3299
+09,"Donine Marie Carrington",REP,Judge of the Circuit Court,07,Y,,,,,2080,,,
+09,"Makeba Gibbs",REP,Judge of the Circuit Court,07,,,,,,575,,,
+09,"William R. Greer, Jr.",REP,Judge of the Circuit Court,07,Y,,,,,2518,,,
+17,"Tiffany H. Anderson",REP,Judge of the Circuit Court,07,Y,992,,,,1508,,,
+17,"Robin Bright",REP,Judge of the Circuit Court,07,Y,927,,,,1457,,,
+17,"Peter Killough",REP,Judge of the Circuit Court,07,Y,886,,,,1457,,,
+17,"William Snoddy",REP,Judge of the Circuit Court,07,Y,861,,,,1405,,,
+17,"Sean D. Wallace",REP,Judge of the Circuit Court,07,Y,898,,,,1488,,,
+17,"Judy Lynn Woodall",REP,Judge of the Circuit Court,07,Y,929,,,,1479,,,
+03,"Charles H. Dorsey",REP,Judge of the Circuit Court,08,Y,,,392,,,993,166,
+03,"Lynn Stewart Mays",REP,Judge of the Circuit Court,08,Y,,,356,,,951,153,
+03,"Dana Michele Middleton",REP,Judge of the Circuit Court,08,Y,,,361,,,962,157,
+03,"John Nugent",REP,Judge of the Circuit Court,08,Y,,,348,,,952,156,
+03,"Jennifer Bridget Schiffer",REP,Judge of the Circuit Court,08,Y,,,352,,,960,155,
+05,"Nova Tracy-Soper",REP,Treasurer              ,,Y,,,,,5470,,,
+19,"Christy Kelly",REP,Treasurer              ,,Y,,,,,3604,,,
+01,"Michael O. Twigg",REP,State's Attorney       ,,Y,,,,,,,,5017
+02,"Wes Adams",REP,State's Attorney       ,,Y,4679,,,,1139,3540,567,
+02,"Kathy Rogers",REP,State's Attorney       ,,,3696,,,,1263,2805,540,
+05,"Kathryn AtLee Marsh",REP,State's Attorney       ,,,,,,,2189,,,
+05,"Andrew S. Rappaport",REP,State's Attorney       ,,Y,,,,,4559,,,
+06,"Maureen D. Keogh",REP,State's Attorney       ,,,,,,1028,,,,
+06,"Joe Riley",REP,State's Attorney       ,,Y,,,,1115,,,,
+07,"Brian DeLeonardo",REP,State's Attorney       ,,Y,,5455,,4330,,,,
+08,"Amanda Bessicks",REP,State's Attorney       ,,Y,,,,2139,,,,
+08,"Karl H. Fockler",REP,State's Attorney       ,,,,,,1319,,,,
+08,"Kevin Urick",REP,State's Attorney       ,,,,,,740,,,,
+11,"Charlie Smith",REP,State's Attorney       ,,Y,,7168,,,,,,3920
+12,"Lisa Thayer Welch",REP,State's Attorney       ,,Y,,,,,,,,1996
+13,"Lisa H. Marts",REP,State's Attorney       ,,,,,,1978,,,525,
+13,"Albert Peisinger",REP,State's Attorney       ,,Y,,,,4029,,,981,
+13,"David Wesley Ryden",REP,State's Attorney       ,,,,,,3238,,,716,
+13,"Steven L. Trostle",REP,State's Attorney       ,,,,,,756,,,444,
+14,"Kim Yon Oldham",REP,State's Attorney       ,,Y,,,4110,,,1636,542,
+15,"Robert H. Strong",REP,State's Attorney       ,,Y,,,,835,,,,
+18,"Lance G. Richardson",REP,State's Attorney       ,,Y,,,,2615,,,,
+19,"Richard D. Fritz",REP,State's Attorney       ,,Y,,,,,3642,,,
+20,"Wess Garner",REP,State's Attorney       ,,Y,,,,944,,,,
+22,"Charles P. Strong, Jr.",REP,State's Attorney       ,,Y,,,,,,,,5173
+23,"Jamie Dykes",REP,State's Attorney       ,,Y,,,,2542,,,,
+24,"Kris Heiser",REP,State's Attorney       ,,Y,,,,2081,,,,
+24,"Bill McDermott",REP,State's Attorney       ,,,,,,1794,,,,
+01,"Dawne Lindsey",REP,Clerk Circuit Court,,Y,,,,,,,,5161
+02,"Doug Arnold",REP,Clerk Circuit Court,,Y,5110,,,,1523,3838,680,
+02,"Bonnie A. Shepke",REP,Clerk Circuit Court,,,2392,,,,586,1962,375,
+04,"Deb Hill",REP,Clerk Circuit Court,,Y,,,3963,2578,,2766,8737,
+06,"Terry Lord",REP,Clerk Circuit Court,,Y,,,,1532,,,,
+06,"Bill Rude",REP,Clerk Circuit Court,,,,,,243,,,,
+06,"Steve Stouffer",REP,Clerk Circuit Court,,,,,,366,,,,
+07,"Heather DeWees",REP,Clerk Circuit Court,,Y,,2613,,1896,,,,
+07,"Robin Bartlett Frazier",REP,Clerk Circuit Court,,,,1746,,1264,,,,
+07,"Missi Green",REP,Clerk Circuit Court,,,,1876,,1893,,,,
+08,"Charlene M. Notarcola",REP,Clerk Circuit Court,,Y,,,,3465,,,,
+10,"Amy J. Craig",REP,Clerk Circuit Court,,Y,,,,1632,,,,
+11,"Sandra K. Dalton",REP,Clerk Circuit Court,,Y,,7220,,,,,,3914
+12,"Timothy W. Miller",REP,Clerk Circuit Court,,Y,,,,,,,,2078
+13,"James Reilly",REP,Clerk Circuit Court,,Y,,,,8887,,,2414,
+14,"Marlena Jareaux",REP,Clerk Circuit Court,,Y,,,3926,,,1576,536,
+18,"Earl Beville",REP,Clerk Circuit Court,,,,,,832,,,,
+18,"Katherine Beane Hager",REP,Clerk Circuit Court,,Y,,,,1762,,,,
+18,"Roger Twigg",REP,Clerk Circuit Court,,,,,,284,,,,
+19,"Debbie Mills  Burch",REP,Clerk Circuit Court,,Y,,,,,2163,,,
+19,"Pete Cucinotta",REP,Clerk Circuit Court,,,,,,,2023,,,
+20,"Charles T. Horner",REP,Clerk Circuit Court,,Y,,,,779,,,,
+20,"Jordan Monk",REP,Clerk Circuit Court,,,,,,506,,,,
+21,"Kathi Dulin Duvall",REP,Clerk Circuit Court,,Y,,,,996,,,,
+21,"Sonja M. Larrimore",REP,Clerk Circuit Court,,,,,,497,,,,
+21,"Debbie Haddaway Ruzicka",REP,Clerk Circuit Court,,,,,,685,,,,
+22,"Kevin Tucker",REP,Clerk Circuit Court,,Y,,,,,,,,5028
+23,"Shawn  A. Bradley",REP,Clerk Circuit Court,,,,,,958,,,,
+23,"Christopher S. Welch",REP,Clerk Circuit Court,,Y,,,,1609,,,,
+24,"Susan Richardson Braniecki",REP,Clerk Circuit Court,,Y,,,,3220,,,,
+01,"Mary Beth Pirolozzi",REP,Register of Wills      ,,Y,,,,,,,,5029
+02,"Lauren M. Parker",REP,Register of Wills      ,,Y,7335,,,,2056,5669,990,
+04,"Jane Roger",REP,Register of Wills      ,,Y,,,3971,2569,,2784,8739,
+05,"Mark S. Lynch",REP,Register of Wills      ,,Y,,,,,5044,,,
+06,"Jim Phelps",REP,Register of Wills      ,,Y,,,,1796,,,,
+07,"Tina Mawhinney",REP,Register of Wills      ,,,,1199,,994,,,,
+07,"Paul G. Zimmermann",REP,Register of Wills      ,,Y,,4448,,3476,,,,
+08,"Michael W. Dawson",REP,Register of Wills      ,,,,,,1464,,,,
+08,"Lyn Allyn Price Nickle",REP,Register of Wills      ,,Y,,,,2651,,,,
+10,"Richard F. Colburn",REP,Register of Wills      ,,Y,,,,1120,,,,
+10,"Kevin B. Webster",REP,Register of Wills      ,,,,,,672,,,,
+11,"Sharon Keller",REP,Register of Wills      ,,Y,,7153,,,,,,3885
+12,"Rita L. Watson",REP,Register of Wills      ,,Y,,,,,,,,2145
+13,"Derek K. Hopkins",REP,Register of Wills      ,,Y,,,,9032,,,2424,
+14,"Shawn Conley",REP,Register of Wills      ,,Y,,,2385,,,914,325,
+14,"John G. Vandenberge",REP,Register of Wills      ,,,,,1367,,,570,215,
+16,"Dolores Reyes",REP,Register of Wills      ,,Y,,4482,,,,1094,,4271
+18,"Laura Nan Cook",REP,Register of Wills      ,,Y,,,,2557,,,,
+19,"Phyllis A. Superior",REP,Register of Wills      ,,Y,,,,,3494,,,
+20,"Keith B. Ward",REP,Register of Wills      ,,Y,,,,1050,,,,
+24,"Aaron William Redden",REP,Register of Wills      ,,,,,,854,,,,
+24,"Steven K. Sisk",REP,Register of Wills      ,,,,,,633,,,,
+24,"Terri Delaney Westcott",REP,Register of Wills      ,,Y,,,,1933,,,,
+01,"Edward C. Crossland",REP,Judge Orphans Court,,Y,,,,,,,,3821
+01,"Al Feldstein",REP,Judge Orphans Court,,Y,,,,,,,,3721
+01,"Donna F. May",REP,Judge Orphans Court,,Y,,,,,,,,3954
+02,"Maureen Carr-York",REP,Judge Orphans Court,,Y,4978,,,,1276,3460,580,
+02,"Carl George Holland",REP,Judge Orphans Court,,,2669,,,,773,2151,341,
+02,"Nancy Phelps",REP,Judge Orphans Court,,Y,6000,,,,1635,4566,835,
+02,"Alan Rzepkowski",REP,Judge Orphans Court,,Y,4704,,,,1230,3637,664,
+05,"Leslie M. Downs",REP,Judge Orphans Court,,Y,,,,,4495,,,
+05,"Ted LeBlanc",REP,Judge Orphans Court,,Y,,,,,4102,,,
+05,"Derek Sabedra",REP,Judge Orphans Court,,Y,,,,,3472,,,
+06,"Ellery Adams",REP,Judge Orphans Court,,Y,,,,864,,,,
+06,"Ron Fearins",REP,Judge Orphans Court,,Y,,,,1000,,,,
+06,"Conway Gregory",REP,Judge Orphans Court,,,,,,818,,,,
+06,"Jeff Porter",REP,Judge Orphans Court,,Y,,,,1345,,,,
+07,"Margaret Peggy Bair",REP,Judge Orphans Court,,Y,,4384,,3444,,,,
+07,"Charles M. Coles, Jr.",REP,Judge Orphans Court,,Y,,4056,,3123,,,,
+07,"Donald Sealing, II",REP,Judge Orphans Court,,Y,,4379,,3389,,,,
+08,"Bob Amato",REP,Judge Orphans Court,,Y,,,,1659,,,,
+08,"Carolyn L. Crouch",REP,Judge Orphans Court,,Y,,,,2306,,,,
+08,"Bill Harris",REP,Judge Orphans Court,,Y,,,,2218,,,,
+08,"Siebren Meulenberg",REP,Judge Orphans Court,,,,,,1029,,,,
+11,"Douglas D. Browning",REP,Judge Orphans Court,,Y,,3832,,,,,,2115
+11,"Gloria Lynn Lewis",REP,Judge Orphans Court,,,,3399,,,,,,1861
+11,"Mary Rolle",REP,Judge Orphans Court,,Y,,4729,,,,,,2569
+11,"Nate Wilson",REP,Judge Orphans Court,,Y,,3523,,,,,,2039
+12,"David C. Beard",REP,Judge Orphans Court,,,,,,,,,,1044
+12,"Dan Duggan",REP,Judge Orphans Court,,Y,,,,,,,,1402
+12,"Fred Sanders",REP,Judge Orphans Court,,Y,,,,,,,,1114
+12,"Jack Rush Turney",REP,Judge Orphans Court,,Y,,,,,,,,1147
+15,"Elizabeth Betty Carroll",REP,Judge Orphans Court,,Y,,,,821,,,,
+15,"Amy L. Nickerson",REP,Judge Orphans Court,,Y,,,,803,,,,
+18,"Kimberly Jean Cascia",REP,Judge Orphans Court,,Y,,,,2040,,,,
+18,"Thomas Walsh",REP,Judge Orphans Court,,Y,,,,1946,,,,
+18,"Eric Wargotz",REP,Judge Orphans Court,,Y,,,,1826,,,,
+19,"Albert Allie Babcock",REP,Judge Orphans Court,,Y,,,,,2737,,,
+19,"Bill Mattingly",REP,Judge Orphans Court,,Y,,,,,3343,,,
+19,"Michael R. White",REP,Judge Orphans Court,,Y,,,,,2692,,,
+20,"Kathleen Crossan",REP,Judge Orphans Court,,Y,,,,690,,,,
+20,"Libby Hall",REP,Judge Orphans Court,,Y,,,,816,,,,
+20,"Bob McCready",REP,Judge Orphans Court,,Y,,,,865,,,,
+21,"Paul S. Carroll",REP,Judge Orphans Court,,Y,,,,1772,,,,
+21,"Will Howard",REP,Judge Orphans Court,,Y,,,,1664,,,,
+21,"David J. Wheeler",REP,Judge Orphans Court,,Y,,,,1613,,,,
+22,"Paul D. Banister",REP,Judge Orphans Court,,Y,,,,,,,,4371
+22,"Andrew Dunn",REP,Judge Orphans Court,,Y,,,,,,,,4411
+22,"Frank E. Novinger",REP,Judge Orphans Court,,Y,,,,,,,,4129
+23,"Grover Green Cantwell, Jr.",REP,Judge Orphans Court,,Y,,,,2384,,,,
+24,"Mike Diffendal",REP,Judge Orphans Court,,Y,,,,1610,,,,
+24,"Linda M. Hess",REP,Judge Orphans Court,,Y,,,,2295,,,,
+24,"Cheryl Jacobs",REP,Judge Orphans Court,,Y,,,,1637,,,,
+24,"John P. Quinn",REP,Judge Orphans Court,,,,,,1223,,,,
+01,"Jason William Merritt",REP,Sheriff                ,,,,,,,,,,2225
+01,"Craig Robertson",REP,Sheriff                ,,Y,,,,,,,,4111
+02,"Ron Bateman",REP,Sheriff                ,,,3053,,,,758,2407,411,
+02,"Jim Fredericks",REP,Sheriff                ,,Y,3464,,,,1208,2575,439,
+02,"Damon Ostis",REP,Sheriff                ,,,276,,,,163,183,42,
+02,"Beth Smith",REP,Sheriff                ,,,1704,,,,300,1330,249,
+03,"David Anthony Wiggins",REP,Sheriff                ,,Y,,,454,,,1095,191,
+04,"Carl H. Magee, Jr.",REP,Sheriff                ,,Y,,,2300,1604,,1627,5768,
+04,"Brian J. Noon",REP,Sheriff                ,,,,,1661,955,,1246,3462,
+05,"Mike Evans",REP,Sheriff                ,,Y,,,,,3698,,,
+05,"Craig W. Kontra",REP,Sheriff                ,,,,,,,3125,,,
+05,"Kinsey Weems",REP,Sheriff                ,,,,,,,272,,,
+06,"Randy Bounds",REP,Sheriff                ,,Y,,,,1832,,,,
+07,"Jim DeWees",REP,Sheriff                ,,Y,,5592,,4422,,,,
+08,"Scott A. Adams",REP,Sheriff                ,,Y,,,,3783,,,,
+10,"Gregory S. Robbins, Sr.",REP,Sheriff                ,,Y,,,,1315,,,,
+11,"Chuck Jenkins",REP,Sheriff                ,,Y,,7761,,,,,,4170
+12,"Robert E. Corley",REP,Sheriff                ,,Y,,,,,,,,2131
+13,"Jeffrey R. Gahler",REP,Sheriff                ,,Y,,,,9350,,,2478,
+14,"Bill McMahon",REP,Sheriff                ,,Y,,,4235,,,1649,544,
+15,"John F. Price",REP,Sheriff                ,,Y,,,,981,,,,
+16,"Jae Hwang",REP,Sheriff                ,,Y,,4391,,,,1079,,4273
+18,"Gary Hofmann",REP,Sheriff                ,,Y,,,,2685,,,,
+19,"Tim Cameron",REP,Sheriff                ,,Y,,,,,3685,,,
+19,"Tom Phelan",REP,Sheriff                ,,,,,,,904,,,
+21,"Joseph Gamble",REP,Sheriff                ,,Y,,,,2215,,,,
+22,"Brian Albert",REP,Sheriff                ,,Y,,,,,,,,4935
+23,"Mike Lewis",REP,Sheriff                ,,Y,,,,2686,,,,
+24,"Scott T. Bernal",REP,Sheriff                ,,,,,,424,,,,
+24,"Matt Crisafulli",REP,Sheriff                ,,Y,,,,1839,,,,
+24,"Mike McDermott",REP,Sheriff                ,,,,,,1522,,,,
+24,"George Truitt",REP,Sheriff                ,,,,,,107,,,,
+01,"Andrea M. Beall",REP,REP Cent Committee,,Y,,,,,,,,2054
+01,"Erich Bean",REP,REP Cent Committee,,Y,,,,,,,,1977
+01,"Nicholas Adam Cathell",REP,REP Cent Committee,,,,,,,,,,1309
+01,"Susie Cunningham",REP,REP Cent Committee,,Y,,,,,,,,1865
+01,"John Robert Emerick",REP,REP Cent Committee,,Y,,,,,,,,1648
+01,"Bob Farrell",REP,REP Cent Committee,,Y,,,,,,,,3057
+01,"John Michael Fetchero",REP,REP Cent Committee,,,,,,,,,,1066
+01,"Todd Joseph Logsdon",REP,REP Cent Committee,,Y,,,,,,,,1742
+01,"Brett Lysinger",REP,REP Cent Committee,,,,,,,,,,1176
+01,"Morgan Mayer",REP,REP Cent Committee,,Y,,,,,,,,1357
+01,"Tiffany Sue Mock",REP,REP Cent Committee,,Y,,,,,,,,1659
+01,"Buck Taylor",REP,REP Cent Committee,,Y,,,,,,,,1901
+05,"Nick DePaulo",REP,REP Cent Committee,,Y,,,,,3703,,,
+05,"Catherine Grasso",REP,REP Cent Committee,,Y,,,,,3788,,,
+05,"Eric Hiltpold",REP,REP Cent Committee,,Y,,,,,3317,,,
+05,"Robert W. Rob Reed",REP,REP Cent Committee,,Y,,,,,3618,,,
+05,"Richard A. Romer",REP,REP Cent Committee,,Y,,,,,3312,,,
+05,"Sarah Elisabeth Rosier",REP,REP Cent Committee,,Y,,,,,3555,,,
+05,"J.P. Sherkus",REP,REP Cent Committee,,Y,,,,,3262,,,
+05,"Cal Steuart",REP,REP Cent Committee,,Y,,,,,3664,,,
+05,"David A. Wiley",REP,REP Cent Committee,,Y,,,,,3515,,,
+06,"George Bacorn",REP,REP Cent Committee,,Y,,,,1505,,,,
+06,"Garrett Shull",REP,REP Cent Committee,,Y,,,,1110,,,,
+06,"Steve Stouffer",REP,REP Cent Committee,,Y,,,,1363,,,,
+06,"John Trevor Wingrove, Sr.",REP,REP Cent Committee,,Y,,,,980,,,,
+07,"Katherine Adelaide",REP,REP Cent Committee,,Y,,1876,,1671,,,,
+07,"Cathey Allison",REP,REP Cent Committee,,Y,,1958,,1325,,,,
+07,"David L. Brauning, Jr.",REP,REP Cent Committee,,Y,,2331,,2232,,,,
+07,"Frank Elgersma",REP,REP Cent Committee,,,,978,,884,,,,
+07,"Ryan Finch",REP,REP Cent Committee,,,,1637,,1254,,,,
+07,"William Harrison",REP,REP Cent Committee,,,,1532,,1224,,,,
+07,"Lawrence W. Helminiak",REP,REP Cent Committee,,Y,,2124,,1298,,,,
+07,"Brandon Matthew Holland",REP,REP Cent Committee,,,,1487,,1309,,,,
+07,"E. Scott Hollenbeck",REP,REP Cent Committee,,,,1759,,1327,,,,
+07,"Douglas L. Johnston",REP,REP Cent Committee,,,,688,,504,,,,
+07,"Robert A. Kurland",REP,REP Cent Committee,,,,847,,663,,,,
+07,"Karen Leatherwood",REP,REP Cent Committee,,Y,,2718,,2078,,,,
+07,"Thom Meads",REP,REP Cent Committee,,,,1402,,1147,,,,
+07,"Justin Mudgett",REP,REP Cent Committee,,Y,,2145,,1668,,,,
+07,"Fallon E. Patton",REP,REP Cent Committee,,,,1593,,1243,,,,
+07,"Richard Rothschild",REP,REP Cent Committee,,Y,,2391,,1542,,,,
+07,"Seth Shipley",REP,REP Cent Committee,,Y,,2197,,2385,,,,
+07,"Christopher Tomlinson",REP,REP Cent Committee,,Y,,1868,,1612,,,,
+07,"Christopher R. Weaver",REP,REP Cent Committee,,,,1347,,1544,,,,
+08,"Bob Amato",REP,REP Cent Committee,,Y,,,,2299,,,,
+08,"Diane Carabetta",REP,REP Cent Committee,,Y,,,,2259,,,,
+08,"Michael W. Dawson",REP,REP Cent Committee,,Y,,,,2350,,,,
+08,"Cindy Emmerich",REP,REP Cent Committee,,Y,,,,1894,,,,
+08,"Kevin B. Emmerich",REP,REP Cent Committee,,Y,,,,1754,,,,
+08,"Ted Kolodzey",REP,REP Cent Committee,,Y,,,,1567,,,,
+08,"Bruce Leith",REP,REP Cent Committee,,Y,,,,1735,,,,
+08,"Jackson Leith",REP,REP Cent Committee,,,,,,1504,,,,
+08,"Vincent Sammons",REP,REP Cent Committee,,Y,,,,1689,,,,
+08,"David J. Woodruff",REP,REP Cent Committee,,Y,,,,1952,,,,
+09,"C. Karen Altieri",REP,REP Cent Committee,,,,,,,1261,,,
+09,"James Ashburn",REP,REP Cent Committee,,Y,,,,,1415,,,
+09,"Nicole Bennett",REP,REP Cent Committee,,Y,,,,,1480,,,
+09,"Jim Crawford",REP,REP Cent Committee,,Y,,,,,1871,,,
+09,"Joe Crawford",REP,REP Cent Committee,,Y,,,,,1720,,,
+09,"Bill Dotson",REP,REP Cent Committee,,Y,,,,,2289,,,
+09,"Robert  Rori Marston",REP,REP Cent Committee,,,,,,,1026,,,
+09,"Steve Mattingly",REP,REP Cent Committee,,Y,,,,,1840,,,
+09,"Katie Stickel",REP,REP Cent Committee,,Y,,,,,1737,,,
+09,"Henry Thompson",REP,REP Cent Committee,,Y,,,,,1457,,,
+09,"Maureen Janette Woodruff",REP,REP Cent Committee,,Y,,,,,1371,,,
+10,"Tom Bradley",REP,REP Cent Committee,,Y,,,,984,,,,
+10,"Ted Bryant",REP,REP Cent Committee,,Y,,,,834,,,,
+10,"Tammy Burns",REP,REP Cent Committee,,Y,,,,949,,,,
+10,"Jonny Johnston",REP,REP Cent Committee,,Y,,,,990,,,,
+10,"Francesca Rendell",REP,REP Cent Committee,,Y,,,,760,,,,
+10,"Thomas Coleman Robinson, 3rd",REP,REP Cent Committee,,Y,,,,799,,,,
+10,"Lynn Corbman Scott",REP,REP Cent Committee,,Y,,,,1002,,,,
+10,"Ray Shegogue",REP,REP Cent Committee,,Y,,,,717,,,,
+10,"Wendy Lewis Weber",REP,REP Cent Committee,,Y,,,,1095,,,,
+11,"Jeremy Darius Abbott",REP,REP Cent Committee,,,,1119,,,,,,733
+11,"Kathy Afzali",REP,REP Cent Committee,,Y,,5151,,,,,,2749
+11,"Clayton Robert Boone",REP,REP Cent Committee,,,,1118,,,,,,739
+11,"Barrie S. Ciliberti",REP,REP Cent Committee,,Y,,2204,,,,,,905
+11,"Pamela Ciliberti",REP,REP Cent Committee,,,,1863,,,,,,999
+11,"Dan Cox",REP,REP Cent Committee,,Y,,3681,,,,,,1430
+11,"Karen Dacey",REP,REP Cent Committee,,Y,,2768,,,,,,1693
+11,"Michael D. Hill",REP,REP Cent Committee,,,,1642,,,,,,1024
+11,"Joeylynn Hough",REP,REP Cent Committee,,Y,,2908,,,,,,1585
+11,"Cynthia Houser",REP,REP Cent Committee,,,,1550,,,,,,1061
+11,"Daniel J. Keller",REP,REP Cent Committee,,,,1841,,,,,,982
+11,"Angela Ariel McIntosh",REP,REP Cent Committee,,,,1202,,,,,,854
+11,"Connie Onspaugh",REP,REP Cent Committee,,,,1062,,,,,,712
+11,"Joe Parsley",REP,REP Cent Committee,,Y,,1938,,,,,,1312
+11,"David J. Perez",REP,REP Cent Committee,,,,1222,,,,,,766
+11,"Jesse T. Pippy",REP,REP Cent Committee,,,,2130,,,,,,905
+11,"Mary Rolle",REP,REP Cent Committee,,Y,,3433,,,,,,1841
+11,"Billy Shreve",REP,REP Cent Committee,,Y,,3253,,,,,,1878
+11,"Carl C. Thomas, Jr.",REP,REP Cent Committee,,,,924,,,,,,543
+11,"Cynthia G. Trout",REP,REP Cent Committee,,Y,,2858,,,,,,1475
+12,"Fred Fox",REP,REP Cent Committee,,Y,,,,,,,,1544
+12,"Luanne Ruddell",REP,REP Cent Committee,,Y,,,,,,,,1143
+12,"Brian Schlossnagle",REP,REP Cent Committee,,Y,,,,,,,,1360
+12,"Tom Sheahen",REP,REP Cent Committee,,Y,,,,,,,,1136
+12,"Ruth Hinebaugh Umbel",REP,REP Cent Committee,,Y,,,,,,,,1449
+13,"Abel Amdetsyon",REP,REP Cent Committee,,,,,,1302,,,428,
+13,"Sharon Beam",REP,REP Cent Committee,,Y,,,,4512,,,1176,
+13,"Jean Elaine Beulah",REP,REP Cent Committee,,Y,,,,3653,,,1358,
+13,"Jessica Blake",REP,REP Cent Committee,,Y,,,,3968,,,1056,
+13,"Joe Fleckenstein",REP,REP Cent Committee,,,,,,2931,,,878,
+13,"Linda Stine Flint",REP,REP Cent Committee,,,,,,3302,,,991,
+13,"Jason C. Gallion",REP,REP Cent Committee,,Y,,,,4305,,,1063,
+13,"Jordan Glassman",REP,REP Cent Committee,,Y,,,,4629,,,1330,
+13,"Mike Griffith",REP,REP Cent Committee,,Y,,,,3416,,,1007,
+13,"Patrick J. Haggerty, Jr.",REP,REP Cent Committee,,Y,,,,4328,,,1116,
+13,"Carol M. Kiple",REP,REP Cent Committee,,,,,,3316,,,907,
+13,"Trevor Leach",REP,REP Cent Committee,,,,,,1829,,,503,
+13,"Carol MacCubbin",REP,REP Cent Committee,,Y,,,,3864,,,1040,
+13,"Jeffery McBride",REP,REP Cent Committee,,Y,,,,3752,,,1001,
+13,"Patrick L. McGrady",REP,REP Cent Committee,,Y,,,,3500,,,1224,
+13,"Marc Morrison",REP,REP Cent Committee,,,,,,1788,,,514,
+13,"Matthew Resnik",REP,REP Cent Committee,,Y,,,,4238,,,1174,
+13,"Christopher Anthoney Sigley",REP,REP Cent Committee,,,,,,1599,,,447,
+13,"Christina M. Trotta",REP,REP Cent Committee,,Y,,,,4572,,,1285,
+14,"William H. Campbell",REP,REP Cent Committee,,Y,,,2033,,,833,305,
+14,"Gary Clark",REP,REP Cent Committee,,Y,,,1815,,,705,268,
+14,"Michael Eisenberg",REP,REP Cent Committee,,Y,,,1930,,,865,297,
+14,"Chris Kirby",REP,REP Cent Committee,,,,,1520,,,652,256,
+14,"Frank Mirabile",REP,REP Cent Committee,,Y,,,2029,,,616,228,
+14,"Dave Myers",REP,REP Cent Committee,,Y,,,2089,,,915,318,
+14,"Chris Oxenham",REP,REP Cent Committee,,,,,1737,,,712,255,
+14,"Jenny Park",REP,REP Cent Committee,,Y,,,1596,,,743,278,
+14,"Mark A. Regal",REP,REP Cent Committee,,,,,1591,,,700,249,
+14,"Lee Sachs",REP,REP Cent Committee,,Y,,,1970,,,849,286,
+14,"Steven Lee Sendelbach",REP,REP Cent Committee,,,,,1608,,,769,248,
+14,"Loretta H. Shields",REP,REP Cent Committee,,Y,,,2298,,,984,342,
+14,"Laura M. Walsh",REP,REP Cent Committee,,Y,,,2352,,,928,342,
+15,"Tatiana Croissette",REP,REP Cent Committee,,Y,,,,605,,,,
+15,"Kyle Durham",REP,REP Cent Committee,,Y,,,,705,,,,
+15,"James Gillman",REP,REP Cent Committee,,Y,,,,653,,,,
+15,"George C. Jones",REP,REP Cent Committee,,Y,,,,701,,,,
+18,"Mike Arntz",REP,REP Cent Committee,,Y,,,,1260,,,,
+18,"Rick Bowers",REP,REP Cent Committee,,Y,,,,952,,,,
+18,"Barry Donadio",REP,REP Cent Committee,,,,,,845,,,,
+18,"Dona Donadio",REP,REP Cent Committee,,,,,,610,,,,
+18,"Timothy Kingston",REP,REP Cent Committee,,,,,,473,,,,
+18,"Gene Legg",REP,REP Cent Committee,,Y,,,,1255,,,,
+18,"Robert B. Mansfield",REP,REP Cent Committee,,,,,,541,,,,
+18,"Patrick McLaughlin",REP,REP Cent Committee,,,,,,731,,,,
+18,"John T. McQueeney",REP,REP Cent Committee,,Y,,,,1072,,,,
+18,"Richard John Mulderick",REP,REP Cent Committee,,,,,,222,,,,
+18,"Camille Baca O'Donnell",REP,REP Cent Committee,,Y,,,,854,,,,
+18,"Barb Pivec",REP,REP Cent Committee,,,,,,756,,,,
+18,"Laurie Plemons",REP,REP Cent Committee,,,,,,499,,,,
+18,"Nikki S. Randolph",REP,REP Cent Committee,,,,,,501,,,,
+18,"Jody Schulz",REP,REP Cent Committee,,Y,,,,1534,,,,
+18,"Bill Sylvester",REP,REP Cent Committee,,,,,,803,,,,
+18,"Roger Twigg",REP,REP Cent Committee,,Y,,,,855,,,,
+19,"Bryan M. Barthelme, II",REP,REP Cent Committee,,Y,,,,,2783,,,
+19,"Jacinta Bottoms-Spencer",REP,REP Cent Committee,,Y,,,,,2373,,,
+19,"Jennifer Hayden Boyd",REP,REP Cent Committee,,Y,,,,,2790,,,
+19,"Kevin Cioppa",REP,REP Cent Committee,,Y,,,,,2596,,,
+19,"Joe DiMarco",REP,REP Cent Committee,,Y,,,,,2590,,,
+19,"Cody Hance",REP,REP Cent Committee,,Y,,,,,2441,,,
+19,"Jodi Stanalonis",REP,REP Cent Committee,,Y,,,,,2853,,,
+19,"Karen P. Wathen",REP,REP Cent Committee,,Y,,,,,2722,,,
+19,"David Willenborg",REP,REP Cent Committee,,Y,,,,,2664,,,
+20,"Matt Adams",REP,REP Cent Committee,,Y,,,,617,,,,
+20,"Stephen G. Frey",REP,REP Cent Committee,,Y,,,,615,,,,
+20,"Bella Hambrick",REP,REP Cent Committee,,Y,,,,519,,,,
+20,"David B. Lloyd",REP,REP Cent Committee,,Y,,,,582,,,,
+20,"Matthew C. Powell",REP,REP Cent Committee,,Y,,,,643,,,,
+20,"Suzanne Tawes Smith",REP,REP Cent Committee,,Y,,,,689,,,,
+20,"Tammy Chaffey Truitt",REP,REP Cent Committee,,Y,,,,737,,,,
+21,"Matt Albers",REP,REP Cent Committee,,Y,,,,1132,,,,
+21,"Michael W. Brady",REP,REP Cent Committee,,Y,,,,1163,,,,
+21,"Dona Goeller",REP,REP Cent Committee,,Y,,,,950,,,,
+21,"Frances Goeller",REP,REP Cent Committee,,Y,,,,890,,,,
+21,"Uncle Ray Grodecki",REP,REP Cent Committee,,,,,,834,,,,
+21,"Jim Jaramillo",REP,REP Cent Committee,,Y,,,,1019,,,,
+21,"Gladys Charlene Marcum",REP,REP Cent Committee,,Y,,,,848,,,,
+21,"Nicholas A. Panuzio",REP,REP Cent Committee,,Y,,,,1016,,,,
+21,"David Reel",REP,REP Cent Committee,,Y,,,,955,,,,
+21,"Connie Sheer",REP,REP Cent Committee,,Y,,,,1081,,,,
+22,"Paul D. Banister",REP,REP Cent Committee,,Y,,,,,,,,3774
+22,"Ginger L. Bigelow",REP,REP Cent Committee,,Y,,,,,,,,3715
+22,"Jerry DeWolf",REP,REP Cent Committee,,Y,,,,,,,,3514
+22,"Ray Edward Foltz, Sr.",REP,REP Cent Committee,,Y,,,,,,,,3495
+22,"Marilee Lum Kerns",REP,REP Cent Committee,,Y,,,,,,,,3705
+22,"Randy Leatherman",REP,REP Cent Committee,,Y,,,,,,,,3873
+22,"Brian Paul Tana",REP,REP Cent Committee,,Y,,,,,,,,3226
+22,"Seth Wilson",REP,REP Cent Committee,,Y,,,,,,,,3590
+23,"Wendy Anspacher",REP,REP Cent Committee,,Y,,,,1130,,,,
+23,"Muir Boda",REP,REP Cent Committee,,Y,,,,1176,,,,
+23,"Shawn  A. Bradley",REP,REP Cent Committee,,Y,,,,1269,,,,
+23,"Julie D. Brewington",REP,REP Cent Committee,,Y,,,,1363,,,,
+23,"Larry W. Dodd",REP,REP Cent Committee,,Y,,,,1640,,,,
+23,"Joan Frances Gentile",REP,REP Cent Committee,,,,,,742,,,,
+23,"David L. Goslee, Sr.",REP,REP Cent Committee,,Y,,,,1408,,,,
+23,"Jim Jester",REP,REP Cent Committee,,,,,,917,,,,
+23,"Linda Raye Luffman",REP,REP Cent Committee,,Y,,,,991,,,,
+23,"Mark G. McIver",REP,REP Cent Committee,,Y,,,,991,,,,
+23,"John Palmer",REP,REP Cent Committee,,Y,,,,1288,,,,
+23,"Nate Sansom",REP,REP Cent Committee,,,,,,836,,,,
+23,"David Louis Snyder",REP,REP Cent Committee,,,,,,974,,,,
+24,"Vanessa Alban",REP,REP Cent Committee,,Y,,,,1397,,,,
+24,"Beverly June Bigler",REP,REP Cent Committee,,Y,,,,1479,,,,
+24,"Mary Burgess",REP,REP Cent Committee,,Y,,,,1958,,,,
+24,"Greg Demarco",REP,REP Cent Committee,,Y,,,,1428,,,,
+24,"Joseph A. Groves",REP,REP Cent Committee,,Y,,,,1369,,,,
+24,"Grant Helvey",REP,REP Cent Committee,,,,,,1267,,,,
+24,"Eugene Ashley Magee",REP,REP Cent Committee,,,,,,1215,,,,
+24,"Steven K. Sisk",REP,REP Cent Committee,,Y,,,,1410,,,,
+24,"Loretta Spinuzza",REP,REP Cent Committee,,Y,,,,1637,,,,
+24,"Ed Tinus",REP,REP Cent Committee,,Y,,,,1514,,,,
+24,"James Wahl",REP,REP Cent Committee,,,,,,1064,,,,
+24,"Harry Wimbrow",REP,REP Cent Committee,,Y,,,,1714,,,,
+16,"Gus Alzona",REP,REP Cent Comm at Large,,,,2204,,,,544,,2189
+16,"Sharon L. Cohen",REP,REP Cent Comm at Large,,Y,,3098,,,,777,,2817
+16,"Patricia Fenati",REP,REP Cent Comm at Large,,Y,,3076,,,,819,,2771
+16,"Michael Higgs",REP,REP Cent Comm at Large,,Y,,2800,,,,715,,2632
+16,"Ann Guthrie Hingston",REP,REP Cent Comm at Large,,Y,,2570,,,,611,,2478
+16,"Lori Jaffe",REP,REP Cent Comm at Large,,Y,,2948,,,,730,,2659
+16,"Lorraine Kuchmy",REP,REP Cent Comm at Large,,Y,,2544,,,,617,,2305
+16,"Dennis Brent Melby",REP,REP Cent Comm at Large,,Y,,2172,,,,562,,2256
+16,"Adol T. Owen-Williams, II",REP,REP Cent Comm at Large,,,,1161,,,,273,,1145
+16,"Dwight Patel",REP,REP Cent Comm at Large,,Y,,2439,,,,634,,2101
+16,"Mark Uncapher",REP,REP Cent Comm at Large,,,,2238,,,,579,,1910
+16,"Kevin Dorrance",REP,REP Cent Committee,14,Y,,490,,,,823,,238
+16,"Samuel Fenati",REP,REP Cent Committee,14,Y,,512,,,,806,,237
+16,"Joseph P. Gillin",REP,REP Cent Committee,14,Y,,480,,,,796,,221
+16,"Rick Hansen",REP,REP Cent Committee,14,Y,,485,,,,832,,235
+16,"Anne Koutsoutis",REP,REP Cent Committee,14,Y,,490,,,,822,,227
+16,"Dan Cuda",REP,REP Cent Committee,15,Y,,56,,,,,,1400
+16,"Del Lamiman",REP,REP Cent Committee,15,Y,,57,,,,,,1350
+16,"William Sharon Richbourg",REP,REP Cent Committee,15,Y,,58,,,,,,1391
+16,"Bradley St. Rohrs",REP,REP Cent Committee,15,Y,,56,,,,,,1402
+16,"Reardon Sullivan",REP,REP Cent Committee,15,Y,,59,,,,,,1383
+16,"Marcus Alzona",REP,REP Cent Committee,16,Y,,749,,,,,,61
+16,"Paul S. Foldi",REP,REP Cent Committee,16,Y,,796,,,,,,63
+16,"Leslie Grizzard",REP,REP Cent Committee,16,Y,,798,,,,,,71
+16,"Christopher Dexter Haas",REP,REP Cent Committee,16,,,718,,,,,,65
+16,"Larry Lesser",REP,REP Cent Committee,16,Y,,804,,,,,,64
+16,"Gail Weiss",REP,REP Cent Committee,16,Y,,790,,,,,,78
+16,"Harry Burnett",REP,REP Cent Committee,17,Y,,421,,,,,,429
+16,"Deborah Lambert",REP,REP Cent Committee,17,Y,,423,,,,,,440
+16,"Aron K. Schwartz",REP,REP Cent Committee,17,Y,,425,,,,,,415
+16,"Chris Thoms",REP,REP Cent Committee,17,Y,,413,,,,,,438
+16,"Josephine J. Wang",REP,REP Cent Committee,17,Y,,418,,,,,,444
+16,"Alexander Alan Bush",REP,REP Cent Committee,18,Y,,604,,,,,,
+16,"Vincent Frederick DeCain",REP,REP Cent Committee,18,Y,,577,,,,,,
+16,"Dolores Reyes",REP,REP Cent Committee,18,Y,,620,,,,,,
+16,"Tom Rodriguez",REP,REP Cent Committee,18,,,542,,,,,,
+16,"Jean Alexandra Tuttle",REP,REP Cent Committee,18,Y,,652,,,,,,
+16,"Linda Willard",REP,REP Cent Committee,18,Y,,623,,,,,,
+16,"Jeffrey Brown",REP,REP Cent Committee,19,Y,,517,,,,30,,422
+16,"Donald Irvine",REP,REP Cent Committee,19,Y,,477,,,,31,,376
+16,"Alirio E. Martinez, Jr.",REP,REP Cent Committee,19,,,345,,,,26,,311
+16,"Sheldon Sacks",REP,REP Cent Committee,19,Y,,429,,,,30,,323
+16,"Martha Schaerr",REP,REP Cent Committee,19,Y,,455,,,,36,,419
+16,"Frederick G. Seelman",REP,REP Cent Committee,19,,,319,,,,23,,223
+16,"Patrick Spaulding",REP,REP Cent Committee,19,Y,,498,,,,29,,407
+16,"Jamie Greedan",REP,REP Cent Committee,20,Y,,363,,,,92,,
+02,"Scott W. DiBiasio",REP,REP Cent Committee,21,Y,149,,,,,176,,
+02,"James Rim",REP,REP Cent Committee,21,,78,,,,,113,,
+17,"Jim Wass",REP,REP Cent Committee,22,Y,77,,,,330,,,
+02,"Chelsea Gill",REP,REP Cent Committee,30,Y,681,,,,1240,1240,,
+02,"Judi L. Gordon",REP,REP Cent Committee,30,Y,644,,,,1227,1200,,
+02,"Colin Nickerson",REP,REP Cent Committee,30,Y,644,,,,1208,1180,,
+02,"Alex Fakeri",REP,REP Cent Committee,31,Y,1836,,,,,1587,256,
+02,"Corine Frank",REP,REP Cent Committee,31,Y,1850,,,,,1579,249,
+02,"Faith Loudon",REP,REP Cent Committee,31,Y,2035,,,,,1686,260,
+02,"Hubert Owens, Jr.",REP,REP Cent Committee,32,Y,145,,,,,1106,595,
+02,"Michele Speakman",REP,REP Cent Committee,32,Y,148,,,,,1127,601,
+02,"David P. Starr",REP,REP Cent Committee,32,Y,143,,,,,1140,607,
+02,"James P. Appel",REP,REP Cent Committee,33,Y,3587,,,,575,727,,
+02,"Susan McConkey",REP,REP Cent Committee,33,Y,3433,,,,560,731,,
+02,"Anne Elizabeth Rutherford",REP,REP Cent Committee,33,Y,3601,,,,578,730,,
+16,"John Philip Cabrera",REP,REP Cent Committee,39,Y,,,,,,,,868
+16,"Candice Clough",REP,REP Cent Committee,39,Y,,,,,,,,871
+16,"Gregory Decker",REP,REP Cent Committee,39,Y,,,,,,,,899
+16,"Al Phillips",REP,REP Cent Committee,39,Y,,,,,,,,889
+16,"Ramana Raju Sarikonda",REP,REP Cent Committee,39,Y,,,,,,,,802
+17,"Lucille Gaither",REP,REP Cent Committee,47,Y,199,,,,,,,
+17,"Alessandro Silverio Pacheco",REP,REP Cent Committee,47,Y,178,,,,,,,
+03,"Joe Collins, Jr.",REP,REP Cent Committee,001,Y,,,,,,238,41,
+03,"Nicholas Wentworth",REP,REP Cent Committee,001,Y,,,,,,231,37,
+04,"Melanie Harris",REP,REP Cent Committee,001,Y,,,1170,,,398,109,
+04,"John C. Lerch, Jr.",REP,REP Cent Committee,001,Y,,,1077,,,331,97,
+04,"Pete Melcavage, II",REP,REP Cent Committee,001,Y,,,1099,,,348,105,
+04,"Liliana Pulvirenti",REP,REP Cent Committee,001,Y,,,1047,,,314,93,
+03,"Derod G. Broady",REP,REP Cent Committee,002,,,,,,,19,32,
+03,"Brendon Tamont Joyner-El",REP,REP Cent Committee,002,,,,,,,7,18,
+03,"David Anthony Wiggins",REP,REP Cent Committee,002,Y,,,,,,28,40,
+03,"Andy Zipay",REP,REP Cent Committee,002,Y,,,,,,37,49,
+04,"Gregory Certeza",REP,REP Cent Committee,002,Y,,,87,,,732,527,
+04,"Ruth E. Goetz",REP,REP Cent Committee,002,Y,,,91,,,826,554,
+04,"John C. Gordon",REP,REP Cent Committee,002,Y,,,93,,,770,549,
+04,"Lisa Robin Lederman",REP,REP Cent Committee,002,Y,,,94,,,801,544,
+03,"Rhandi Lawrence",REP,REP Cent Committee,003,Y,,,59,,,123,8,
+03,"Shannon Wright",REP,REP Cent Committee,003,Y,,,67,,,133,10,
+04,"Raymond C. Boccelli",REP,REP Cent Committee,003,Y,,,1732,799,,,1551,
+04,"M.J. Madwolf",REP,REP Cent Committee,003,,,,919,401,,,828,
+04,"William T. Newton",REP,REP Cent Committee,003,Y,,,1432,565,,,1177,
+04,"B. Scott Patrick",REP,REP Cent Committee,003,Y,,,1423,637,,,1286,
+04,"Angela Sudano-Marcellino",REP,REP Cent Committee,003,Y,,,1104,472,,,935,
+03,"Glenn E. Bushel",REP,REP Cent Committee,004,Y,,,24,,,79,,
+03,"Armand F. Girard",REP,REP Cent Committee,004,Y,,,20,,,74,,
+04,"J. Michael Collins",REP,REP Cent Committee,004,Y,,,267,,,,236,
+04,"Alfred Mendelsohn",REP,REP Cent Committee,004,Y,,,238,,,,234,
+04,"Richard A. Brown",REP,REP Cent Committee,005,Y,,,,640,,393,491,
+04,"Eugene S. Craig, III",REP,REP Cent Committee,005,,,,,595,,301,432,
+04,"Bradley Lang",REP,REP Cent Committee,005,Y,,,,861,,484,642,
+04,"Jay Payne",REP,REP Cent Committee,005,Y,,,,833,,381,645,
+04,"Tony Ristaino",REP,REP Cent Committee,005,,,,,665,,335,558,
+04,"Chandra P. Sharma Belbase",REP,REP Cent Committee,005,,,,,450,,277,353,
+04,"Kathleen A. Smero",REP,REP Cent Committee,005,Y,,,,944,,509,707,
+03,"Joseph L. Aston",REP,REP Cent Committee,006,Y,,,34,,,35,,
+04,"Tony Campbell",REP,REP Cent Committee,006,Y,,,,88,,654,1973,
+04,"Jonah Jarosz",REP,REP Cent Committee,006,Y,,,,71,,538,1693,
+04,"Kimberly Klacik",REP,REP Cent Committee,006,Y,,,,79,,552,1778,
+04,"Norma Secoura",REP,REP Cent Committee,006,Y,,,,75,,607,1754,
+03,"Tamu Ifetayo Davenport",REP,REP Cent Committee,007,,,,17,,,15,,
+03,"Aaron Kates",REP,REP Cent Committee,007,Y,,,13,,,42,,
+03,"Megan Oliveras-Conners",REP,REP Cent Committee,007,Y,,,16,,,49,,
+04,"Paul M. Blitz",REP,REP Cent Committee,007,Y,,,,,,,2241,
+04,"Brian J. Noon",REP,REP Cent Committee,007,Y,,,,,,,2149,
+04,"Robert D. Schweitzer",REP,REP Cent Committee,007,Y,,,,,,,2125,
+04,"Joshua Wolf",REP,REP Cent Committee,007,Y,,,,,,,2067,
+03,"Dennis Betzel",REP,REP Cent Committee,008,Y,,,57,,,,,
+03,"Joseph C. Brown",REP,REP Cent Committee,008,Y,,,64,,,,,
+03,"Victor Clark, Jr.",REP,REP Cent Committee,009,Y,,,48,,,,,
+03,"Christine Digman",REP,REP Cent Committee,010,Y,,,5,,,57,68,
+03,"Gary M. Collins",REP,REP Cent Committee,011,Y,,,27,,,142,,
+03,"Makelle Collins",REP,REP Cent Committee,011,,,,22,,,96,,
+03,"Tom Kennedy",REP,REP Cent Committee,011,Y,,,39,,,112,,
+03,"Duane Shelton",REP,REP Cent Committee,011,,,,26,,,89,,
+03,"Michael Pearson",REP,REP Cent Committee,012,Y,,,37,,,,,
+03,"Kasezga Tembo",REP,REP Cent Committee,012,Y,,,24,,,,,
+03,"Jacquelyn Fisher",REP,REP Cent Committee,013,Y,,,18,,,12,3,
+03,"Blaire Freed",REP,REP Cent Committee,013,,,,11,,,14,2,
+03,"Larry O. Wardlow, Jr.",REP,REP Cent Committee,013,Y,,,15,,,17,2,
+03,"Christopher Hughes Carper",REP,REP Cent Committee,014,Y,,,37,,,41,,
+03,"Charles A. Long",REP,REP Cent Committee,014,Y,,,34,,,44,,
+03,"Lisa Oliveras-Carper",REP,REP Cent Committee,014,,,,30,,,39,,

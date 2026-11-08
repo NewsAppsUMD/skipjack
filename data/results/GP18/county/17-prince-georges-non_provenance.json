@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP18-county-17-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Prince_Georges_County_NonPartisan_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Prince George's results (non)",
+  "fetch_date": "2026-11-08T01:34:23+00:00",
+  "parse_date": "2026-11-08T01:50:50+00:00",
+  "sha256_original": "32fe3e46485a2115c4251d8a9e98ef7feb2335919ea32a4f11e8285c90d31154",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP18 Prince George's county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 18,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2018_Primary.csv carries no statewide rows"
+  }
+}

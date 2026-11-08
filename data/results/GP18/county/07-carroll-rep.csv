@@ -1,0 +1,79 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP18,Carroll,rep,Governor / Lt. Governor,"",Larry Hogan,REP,1,0,2850,11581,139,116,76,14762
+GP18,Carroll,rep,Comptroller,"",Anjali Reed Phukan,REP,1,0,2181,8997,101,96,67,11442
+GP18,Carroll,rep,Attorney General,"",Craig Wolf,REP,1,0,2381,9597,114,101,69,12262
+GP18,Carroll,rep,U.S. Senator,"",Tony Campbell,REP,1,0,636,2617,42,29,17,3341
+GP18,Carroll,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,391,1863,20,13,12,2299
+GP18,Carroll,rep,U.S. Senator,"",Evan M. Cronhardt,REP,0,0,59,304,1,3,2,369
+GP18,Carroll,rep,U.S. Senator,"",Nnabu Eze,REP,0,0,40,185,3,5,1,234
+GP18,Carroll,rep,U.S. Senator,"",John R. Graziani,REP,0,0,197,730,10,5,2,944
+GP18,Carroll,rep,U.S. Senator,"",Christina J. Grigorian,REP,0,0,392,1479,12,14,13,1910
+GP18,Carroll,rep,U.S. Senator,"",Albert Binyahmin Howard,REP,0,0,39,184,3,1,1,228
+GP18,Carroll,rep,U.S. Senator,"",Bill Krehnbrink,REP,0,0,55,223,1,4,1,284
+GP18,Carroll,rep,U.S. Senator,"","Gerald I. Smith, Jr.",REP,0,0,97,413,4,3,2,519
+GP18,Carroll,rep,U.S. Senator,"",Blaine Taylor,REP,0,0,132,504,10,6,1,653
+GP18,Carroll,rep,U.S. Senator,"",Brian Charles Vaeth,REP,0,0,90,298,4,4,2,398
+GP18,Carroll,rep,Representative in Congress,01,Martin Elborn,REP,0,0,90,369,6,4,2,471
+GP18,Carroll,rep,Representative in Congress,01,Andy Harris,REP,1,0,962,4168,55,33,14,5232
+GP18,Carroll,rep,Representative in Congress,01,Lamont Taylor,REP,0,0,42,218,4,6,3,273
+GP18,Carroll,rep,Representative in Congress,08,Bridgette L. Cooper,REP,0,0,338,1315,13,20,9,1695
+GP18,Carroll,rep,Representative in Congress,08,John Walsh,REP,1,0,662,2463,35,20,20,3200
+GP18,Carroll,rep,Representative in Congress,08,Victor Williams,REP,0,0,233,967,14,11,15,1240
+GP18,Carroll,rep,State Senator,04,Michael Hough,REP,1,0,94,622,6,8,6,736
+GP18,Carroll,rep,State Senator,05,Justin Ready,REP,1,0,2210,8304,93,83,55,10745
+GP18,Carroll,rep,State Senator,09,Gail H. Bates,REP,1,0,156,600,10,5,5,776
+GP18,Carroll,rep,State Senator,09,Reid J. Novotny,REP,0,0,148,956,13,9,7,1133
+GP18,Carroll,rep,House of Delegates,04,Barrie S. Ciliberti,REP,1,0,79,523,5,8,5,620
+GP18,Carroll,rep,House of Delegates,04,Dan Cox,REP,1,0,87,551,6,7,5,656
+GP18,Carroll,rep,House of Delegates,04,Jesse T. Pippy,REP,1,0,80,510,5,7,5,607
+GP18,Carroll,rep,House of Delegates,05,David Ellin,REP,0,0,829,3257,40,32,18,4176
+GP18,Carroll,rep,House of Delegates,05,Susan Krebs,REP,1,0,1989,7362,95,68,52,9566
+GP18,Carroll,rep,House of Delegates,05,April Rose,REP,1,0,1781,6396,76,57,40,8350
+GP18,Carroll,rep,House of Delegates,05,Haven Shoemaker,REP,1,0,1828,6805,78,55,45,8811
+GP18,Carroll,rep,House of Delegates,09A,Trent Kittleman,REP,1,0,273,1332,21,13,12,1651
+GP18,Carroll,rep,House of Delegates,09A,Warren E. Miller,REP,1,0,230,1215,18,9,12,1484
+GP18,Carroll,rep,County Commissioner,001,Katherine Adelaide,REP,0,0,151,788,10,8,5,962
+GP18,Carroll,rep,County Commissioner,001,Stephen Albert Wantz,REP,1,0,414,2009,23,12,9,2467
+GP18,Carroll,rep,County Commissioner,002,C. Richard Weaver,REP,1,0,527,2147,21,22,8,2725
+GP18,Carroll,rep,County Commissioner,003,Dennis E. Frazier,REP,1,0,385,878,18,7,7,1295
+GP18,Carroll,rep,County Commissioner,003,Tom Gordon,REP,0,0,364,840,21,7,6,1238
+GP18,Carroll,rep,County Commissioner,004,Christopher Eric Bouchat,REP,1,0,226,905,1,7,16,1155
+GP18,Carroll,rep,County Commissioner,004,W. Paul Burkett,REP,0,0,141,744,4,4,4,897
+GP18,Carroll,rep,County Commissioner,004,Bret D. Grossnickle,REP,0,0,87,325,0,4,6,422
+GP18,Carroll,rep,County Commissioner,004,Sean Shaffer,REP,0,0,23,115,1,2,2,143
+GP18,Carroll,rep,County Commissioner,005,Kathy Fuller,REP,0,0,128,613,8,8,2,759
+GP18,Carroll,rep,County Commissioner,005,Dave Greenwalt,REP,0,0,13,130,6,3,0,152
+GP18,Carroll,rep,County Commissioner,005,Frank Robert,REP,0,0,121,545,4,6,2,678
+GP18,Carroll,rep,County Commissioner,005,Ed Rothstein,REP,1,0,182,1120,16,8,5,1331
+GP18,Carroll,rep,Judge of the Circuit Court,05,Maria L. Oesterreicher,REP,0,0,478,1891,22,22,13,2426
+GP18,Carroll,rep,Judge of the Circuit Court,05,"George Psoras, Jr.",REP,0,0,762,3694,36,43,15,4550
+GP18,Carroll,rep,Judge of the Circuit Court,05,Richard R. Titus,REP,1,0,1568,5540,72,46,41,7267
+GP18,Carroll,rep,State's Attorney,"",Brian DeLeonardo,REP,1,0,2499,9785,114,104,71,12573
+GP18,Carroll,rep,Clerk Circuit Court,"",Heather DeWees,REP,1,0,1182,4509,52,47,36,5826
+GP18,Carroll,rep,Clerk Circuit Court,"",Robin Bartlett Frazier,REP,0,0,618,3010,35,22,16,3701
+GP18,Carroll,rep,Clerk Circuit Court,"",Missi Green,REP,0,0,1018,3769,52,41,19,4899
+GP18,Carroll,rep,Register of Wills,"",Tina Mawhinney,REP,0,0,587,2193,34,22,15,2851
+GP18,Carroll,rep,Register of Wills,"",Paul G. Zimmermann,REP,1,0,2046,7924,95,77,48,10190
+GP18,Carroll,rep,Judge Orphans Court,"",Margaret Peggy Bair,REP,1,0,2063,7828,98,84,62,10135
+GP18,Carroll,rep,Judge Orphans Court,"","Charles M. Coles, Jr.",REP,1,0,1866,7179,83,72,58,9258
+GP18,Carroll,rep,Judge Orphans Court,"","Donald Sealing, II",REP,1,0,2007,7768,98,76,59,10008
+GP18,Carroll,rep,Sheriff,"",Jim DeWees,REP,1,0,2524,10014,125,101,71,12835
+GP18,Carroll,rep,REP Cent Committee,"",Katherine Adelaide,REP,1,0,799,3547,44,39,21,4450
+GP18,Carroll,rep,REP Cent Committee,"",Cathey Allison,REP,1,0,759,3283,38,39,27,4146
+GP18,Carroll,rep,REP Cent Committee,"","David L. Brauning, Jr.",REP,1,0,1288,4563,54,37,28,5970
+GP18,Carroll,rep,REP Cent Committee,"",Frank Elgersma,REP,0,0,421,1862,29,20,10,2342
+GP18,Carroll,rep,REP Cent Committee,"",Ryan Finch,REP,0,0,708,2891,39,30,20,3688
+GP18,Carroll,rep,REP Cent Committee,"",William Harrison,REP,0,0,597,2756,20,33,18,3424
+GP18,Carroll,rep,REP Cent Committee,"",Lawrence W. Helminiak,REP,1,0,1027,3422,43,23,25,4540
+GP18,Carroll,rep,REP Cent Committee,"",Brandon Matthew Holland,REP,0,0,819,2796,28,25,23,3691
+GP18,Carroll,rep,REP Cent Committee,"",E. Scott Hollenbeck,REP,0,0,722,3086,44,34,21,3907
+GP18,Carroll,rep,REP Cent Committee,"",Douglas L. Johnston,REP,0,0,258,1192,14,26,4,1494
+GP18,Carroll,rep,REP Cent Committee,"",Robert A. Kurland,REP,0,0,302,1510,10,16,6,1844
+GP18,Carroll,rep,REP Cent Committee,"",Karen Leatherwood,REP,1,0,1371,4796,55,45,39,6306
+GP18,Carroll,rep,REP Cent Committee,"",Thom Meads,REP,0,0,743,2549,27,19,19,3357
+GP18,Carroll,rep,REP Cent Committee,"",Justin Mudgett,REP,1,0,1134,3813,38,39,27,5051
+GP18,Carroll,rep,REP Cent Committee,"",Fallon E. Patton,REP,0,0,869,2836,29,29,20,3783
+GP18,Carroll,rep,REP Cent Committee,"",Richard Rothschild,REP,1,0,911,3933,43,33,20,4940
+GP18,Carroll,rep,REP Cent Committee,"",Seth Shipley,REP,1,0,1297,4582,48,39,19,5985
+GP18,Carroll,rep,REP Cent Committee,"",Christopher Tomlinson,REP,1,0,1067,3480,42,26,27,4642
+GP18,Carroll,rep,REP Cent Committee,"",Christopher R. Weaver,REP,0,0,740,2891,37,32,15,3715

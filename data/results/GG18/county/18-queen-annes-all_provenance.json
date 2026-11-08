@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG18-county-18-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Queen_Annes_County_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Queen Anne's results (all)",
+  "fetch_date": "2026-11-08T01:34:17+00:00",
+  "parse_date": "2026-11-08T01:50:50+00:00",
+  "sha256_original": "3a6e346ce893dc5f4116b945a29baa8bc273e3b691a71d305fb9b620be165702",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG18 Queen Anne's county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 74,
+    "row_totals": "ok",
+    "statewide_check": "ok: 510 statewide rows (506 for, 4 against) match State_Congressional_Districts_2018_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

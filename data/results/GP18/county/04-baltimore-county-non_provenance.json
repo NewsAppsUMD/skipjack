@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP18-county-04-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Baltimore_County_NonPartisan_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Baltimore County results (non)",
+  "fetch_date": "2026-11-08T01:34:19+00:00",
+  "parse_date": "2026-11-08T01:50:50+00:00",
+  "sha256_original": "00add7b7493d4fd875dd49527a93f35f731ff2fa3943f13beb21245b65b36bb8",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP18 Baltimore County county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 22,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2018_Primary.csv carries no statewide rows"
+  }
+}

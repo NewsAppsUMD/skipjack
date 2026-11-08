@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP18-county-08-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Cecil_County_Democratic_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Cecil results (dem)",
+  "fetch_date": "2026-11-08T01:34:20+00:00",
+  "parse_date": "2026-11-08T01:50:50+00:00",
+  "sha256_original": "baa4e6cc1554ca1ae2b80d47b81dd9b726ea514ff71d10630058db8446870872",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP18 Cecil county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 46,
+    "row_totals": "ok",
+    "statewide_check": "ok: 391 statewide rows (391 for, 0 against) match State_Congressional_Districts_Democratic_2018_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

@@ -1,0 +1,107 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP18,Howard,dem,Governor / Lt. Governor,"","Rushern L. Baker, III",DEM,0,0,2341,4508,131,109,16,7105
+GP18,Howard,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,91,233,6,13,1,344
+GP18,Howard,dem,Governor / Lt. Governor,"",Ben Jealous,DEM,1,0,4529,10512,225,310,27,15603
+GP18,Howard,dem,Governor / Lt. Governor,"","James Hugh Jones, II",DEM,0,0,72,231,2,6,0,311
+GP18,Howard,dem,Governor / Lt. Governor,"",Valerie Ervin,DEM,0,0,217,622,34,13,4,890
+GP18,Howard,dem,Governor / Lt. Governor,"",Rich Madaleno,DEM,0,0,542,1030,35,23,1,1631
+GP18,Howard,dem,Governor / Lt. Governor,"",Alec Ross,DEM,0,0,245,613,23,19,1,901
+GP18,Howard,dem,Governor / Lt. Governor,"",Jim Shea,DEM,0,0,765,1426,39,25,8,2263
+GP18,Howard,dem,Governor / Lt. Governor,"",Krish O'Mara Vignarajah,DEM,0,0,1088,2866,70,79,9,4112
+GP18,Howard,dem,Comptroller,"",Peter Franchot,DEM,1,0,8641,18867,455,478,58,28499
+GP18,Howard,dem,Attorney General,"",Brian E. Frosh,DEM,1,0,8797,18881,470,491,57,28696
+GP18,Howard,dem,U.S. Senator,"",Ben Cardin,DEM,1,0,8744,17746,475,411,55,27431
+GP18,Howard,dem,U.S. Senator,"",Erik Jetmir,DEM,0,0,97,385,11,12,1,506
+GP18,Howard,dem,U.S. Senator,"",Chelsea Manning,DEM,0,0,417,1243,38,61,3,1762
+GP18,Howard,dem,U.S. Senator,"",Marcia H. Morgan,DEM,0,0,128,459,4,18,2,611
+GP18,Howard,dem,U.S. Senator,"",Jerome Jerry Segal,DEM,0,0,227,987,28,32,1,1275
+GP18,Howard,dem,U.S. Senator,"",Richard Rikki Vaughn,DEM,0,0,118,357,10,16,2,503
+GP18,Howard,dem,U.S. Senator,"",Debbie Rica Wilson,DEM,0,0,166,563,12,23,1,765
+GP18,Howard,dem,U.S. Senator,"",Lih Young,DEM,0,0,168,452,6,14,2,642
+GP18,Howard,dem,Representative in Congress,02,Jake Pretot,DEM,0,0,208,976,9,40,4,1237
+GP18,Howard,dem,Representative in Congress,02,C.A. Dutch Ruppersberger,DEM,1,0,642,1438,24,26,10,2140
+GP18,Howard,dem,Representative in Congress,03,Adam D. DeMarco,DEM,0,0,137,610,22,21,2,792
+GP18,Howard,dem,Representative in Congress,03,John Rea,DEM,0,0,45,224,4,7,0,280
+GP18,Howard,dem,Representative in Congress,03,Eduardo Rosas,DEM,0,0,112,633,5,20,3,773
+GP18,Howard,dem,Representative in Congress,03,John Sarbanes,DEM,1,0,2349,6010,160,103,19,8641
+GP18,Howard,dem,Representative in Congress,07,"Anthony Carter, Sr.",DEM,0,0,128,305,10,9,1,453
+GP18,Howard,dem,Representative in Congress,07,Elijah Cummings,DEM,1,0,5949,10710,316,279,26,17280
+GP18,Howard,dem,Representative in Congress,07,John Moser,DEM,0,0,203,467,23,16,3,712
+GP18,Howard,dem,Representative in Congress,07,Charles U. Smith,DEM,0,0,70,144,5,4,0,223
+GP18,Howard,dem,Representative in Congress,07,Charles Stokes,DEM,0,0,87,195,3,3,0,288
+GP18,Howard,dem,State Senator,09,Katie Fry Hester,DEM,1,0,2948,5444,142,118,15,8667
+GP18,Howard,dem,State Senator,12,Clarence K. Lam,DEM,1,0,2419,4051,118,113,13,6714
+GP18,Howard,dem,State Senator,12,Mary Kay Sigaty,DEM,0,0,665,1435,55,50,5,2210
+GP18,Howard,dem,State Senator,13,Guy Guzzone,DEM,1,0,3092,8806,188,174,25,12285
+GP18,Howard,dem,House of Delegates,09A,Steven M. Bolen,DEM,1,0,752,1440,51,21,6,2270
+GP18,Howard,dem,House of Delegates,09A,Michael David Gross,DEM,0,0,366,937,16,12,2,1333
+GP18,Howard,dem,House of Delegates,09A,Natalie Ziegler,DEM,1,0,1212,2565,66,33,6,3882
+GP18,Howard,dem,House of Delegates,09B,Daniel Medinger,DEM,0,0,634,995,34,26,0,1689
+GP18,Howard,dem,House of Delegates,09B,Courtney Watson,DEM,1,0,1216,1916,47,43,6,3228
+GP18,Howard,dem,House of Delegates,12,Jonathan Bratt,DEM,0,0,110,279,11,13,2,415
+GP18,Howard,dem,House of Delegates,12,Dario J. Broccolino,DEM,0,0,428,811,27,28,3,1297
+GP18,Howard,dem,House of Delegates,12,Eric Ebersole,DEM,1,0,2330,3689,126,90,14,6249
+GP18,Howard,dem,House of Delegates,12,Jessica Feldmark,DEM,1,0,1800,3073,97,91,11,5072
+GP18,Howard,dem,House of Delegates,12,Malcolm J. Heflin,DEM,0,0,145,401,17,16,3,582
+GP18,Howard,dem,House of Delegates,12,Terri Hill,DEM,1,0,2556,4125,140,112,12,6945
+GP18,Howard,dem,House of Delegates,12,James Howard,DEM,0,0,253,583,15,20,3,874
+GP18,Howard,dem,House of Delegates,12,Mark Weaver,DEM,0,0,247,533,15,12,2,809
+GP18,Howard,dem,House of Delegates,13,Vanessa Atterbeary,DEM,1,0,2844,7664,179,147,22,10856
+GP18,Howard,dem,House of Delegates,13,Shane Pendergrass,DEM,1,0,2688,7036,158,113,25,10020
+GP18,Howard,dem,House of Delegates,13,"Larry Pretlow, II",DEM,0,0,705,2301,57,42,5,3110
+GP18,Howard,dem,House of Delegates,13,Jen Terrasa,DEM,1,0,2401,6479,145,120,24,9169
+GP18,Howard,dem,County Executive,"",Calvin Ball,DEM,1,0,7967,17070,453,430,56,25976
+GP18,Howard,dem,County Executive,"",Harry Dunbar,DEM,0,0,1465,3465,90,94,7,5121
+GP18,Howard,dem,County Council,001,Elizabeth Liz Walsh,DEM,1,0,1037,2013,49,66,10,3175
+GP18,Howard,dem,County Council,001,Jon Weinstein,DEM,0,0,1161,1926,45,33,4,3169
+GP18,Howard,dem,County Council,002,Opel Jones,DEM,1,0,1512,3968,60,67,24,5631
+GP18,Howard,dem,County Council,003,Hiruy Hadgu,DEM,0,0,379,940,19,28,0,1366
+GP18,Howard,dem,County Council,003,Steven F. Hunt,DEM,0,0,128,260,7,7,0,402
+GP18,Howard,dem,County Council,003,Greg Jennings,DEM,0,0,279,812,23,15,1,1130
+GP18,Howard,dem,County Council,003,Christiana Rigby,DEM,1,0,815,2654,57,44,8,3578
+GP18,Howard,dem,County Council,004,Deb Jung,DEM,1,0,1846,3096,110,81,1,5134
+GP18,Howard,dem,County Council,004,Ian Bradley Moller-Knudsen,DEM,0,0,97,159,4,3,0,263
+GP18,Howard,dem,County Council,004,Janet Siddiqui,DEM,0,0,879,1694,79,74,7,2733
+GP18,Howard,dem,County Council,005,China Williams,DEM,1,0,1217,2749,70,49,7,4092
+GP18,Howard,dem,State's Attorney,"",Rich Gibson,DEM,1,0,8241,17808,440,449,58,26996
+GP18,Howard,dem,Clerk Circuit Court,"",Wayne A. Robey,DEM,1,0,8236,17841,439,448,54,27018
+GP18,Howard,dem,Register of Wills,"",Byron Macfarlane,DEM,1,0,5625,11011,343,277,44,17300
+GP18,Howard,dem,Register of Wills,"",Terrence C. McAndrews,DEM,0,0,2368,5757,118,154,15,8412
+GP18,Howard,dem,Judge Orphans Court,"",Ajile F. Brown,DEM,0,0,1906,4448,122,121,16,6613
+GP18,Howard,dem,Judge Orphans Court,"",Anne L. Dodd,DEM,1,0,4995,9807,293,209,34,15338
+GP18,Howard,dem,Judge Orphans Court,"",Elizabeth Ann Fitch,DEM,1,0,3634,7694,200,172,25,11725
+GP18,Howard,dem,Judge Orphans Court,"",Nicole Bormel Miller,DEM,0,0,3484,7540,203,183,21,11431
+GP18,Howard,dem,Judge Orphans Court,"",James Ward Morrow,DEM,0,0,1461,3543,98,72,11,5185
+GP18,Howard,dem,Judge Orphans Court,"",Leslie Smith Turner,DEM,1,0,4345,8475,195,192,29,13236
+GP18,Howard,dem,Sheriff,"",Marcus Harris,DEM,1,0,4557,10319,241,294,28,15439
+GP18,Howard,dem,Sheriff,"",John Francis McMahon,DEM,0,0,3539,6731,204,144,26,10644
+GP18,Howard,dem,DEM Cent Comm Female,"",Alicia Altamirano,DEM,1,0,3825,8413,209,203,27,12677
+GP18,Howard,dem,DEM Cent Comm Female,"",Maureen Evans Arthurs,DEM,1,0,4130,8304,218,215,24,12891
+GP18,Howard,dem,DEM Cent Comm Female,"",Mae A. Beale,DEM,1,0,4633,9342,225,236,24,14460
+GP18,Howard,dem,DEM Cent Comm Female,"",Ethel Brown-Hill,DEM,1,0,5402,10407,274,249,34,16366
+GP18,Howard,dem,DEM Cent Comm Female,"",Mary Catherine Cochran,DEM,1,0,4867,9652,277,222,33,15051
+GP18,Howard,dem,DEM Cent Comm Female,"",Candace Dodson-Reed,DEM,1,0,5350,10686,290,255,32,16613
+GP18,Howard,dem,DEM Cent Comm Female,"",Maura Cleary Dunnigan,DEM,1,0,4116,8344,244,187,25,12916
+GP18,Howard,dem,DEM Cent Comm Female,"",Suzanne R. Geckle,DEM,0,0,3599,7186,224,152,22,11183
+GP18,Howard,dem,DEM Cent Comm Female,"",Safa Hira,DEM,1,0,4283,9507,239,243,23,14295
+GP18,Howard,dem,DEM Cent Comm Female,"",Jennifer Jones,DEM,1,0,5216,10468,298,234,37,16253
+GP18,Howard,dem,DEM Cent Comm Female,"",Jan Oliver,DEM,0,0,3650,7298,205,148,26,11327
+GP18,Howard,dem,DEM Cent Comm Female,"",Margaret Weinstein,DEM,1,0,4148,8257,246,180,29,12860
+GP18,Howard,dem,DEM Cent Comm Male,"",Bill Adams,DEM,0,0,2465,4975,122,104,15,7681
+GP18,Howard,dem,DEM Cent Comm Male,"",Najee Bailey,DEM,1,0,3922,8471,205,221,24,12843
+GP18,Howard,dem,DEM Cent Comm Male,"",Scott A. Berkowitz,DEM,1,0,3696,7097,211,159,25,11188
+GP18,Howard,dem,DEM Cent Comm Male,"",Rich Corkran,DEM,0,0,2463,4629,150,94,16,7352
+GP18,Howard,dem,DEM Cent Comm Male,"",Jeremy Eldridge,DEM,1,0,3627,7048,192,163,29,11059
+GP18,Howard,dem,DEM Cent Comm Male,"",Bob Ford,DEM,0,0,2754,4923,170,96,14,7957
+GP18,Howard,dem,DEM Cent Comm Male,"",Sean Ford,DEM,0,0,2204,4442,102,99,17,6864
+GP18,Howard,dem,DEM Cent Comm Male,"",Josh Friedman,DEM,1,0,2858,5739,145,125,18,8885
+GP18,Howard,dem,DEM Cent Comm Male,"",Dave Grabowski,DEM,0,0,2115,4536,93,98,15,6857
+GP18,Howard,dem,DEM Cent Comm Male,"",Tim Lattimer,DEM,1,0,3645,7006,206,136,24,11017
+GP18,Howard,dem,DEM Cent Comm Male,"",Matthew Molyett,DEM,0,0,1235,2725,61,54,9,4084
+GP18,Howard,dem,DEM Cent Comm Male,"",Gabriel M. Moreno,DEM,1,0,2684,5962,171,148,18,8983
+GP18,Howard,dem,DEM Cent Comm Male,"",Pravin Ponnuri,DEM,0,0,2708,5692,172,156,18,8746
+GP18,Howard,dem,DEM Cent Comm Male,"",Shahan Rizvi,DEM,1,0,3578,7274,203,195,18,11268
+GP18,Howard,dem,DEM Cent Comm Male,"",Lewis O. Saunders,DEM,0,0,2058,4445,100,102,18,6723
+GP18,Howard,dem,DEM Cent Comm Male,"",Dhaval Shah,DEM,1,0,3185,6803,158,171,21,10338
+GP18,Howard,dem,DEM Cent Comm Male,"",Herbie Smith,DEM,1,0,3292,6294,172,136,18,9912
+GP18,Howard,dem,DEM Cent Comm Male,"",Peter Spann,DEM,1,0,3430,6318,185,116,24,10073

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG18-county-15-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Kent_County_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Kent results (all)",
+  "fetch_date": "2026-11-08T01:34:17+00:00",
+  "parse_date": "2026-11-08T01:50:50+00:00",
+  "sha256_original": "1beef4f0f643aa5d99f3b334748f4350971ee2b63e45350bf3313a01ad0b032c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG18 Kent county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 63,
+    "row_totals": "ok",
+    "statewide_check": "ok: 510 statewide rows (506 for, 4 against) match State_Congressional_Districts_2018_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

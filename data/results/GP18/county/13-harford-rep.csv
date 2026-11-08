@@ -1,0 +1,94 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP18,Harford,rep,Governor / Lt. Governor,"",Larry Hogan,REP,1,0,4867,13296,206,94,143,18606
+GP18,Harford,rep,Comptroller,"",Anjali Reed Phukan,REP,1,0,3801,10748,151,77,104,14881
+GP18,Harford,rep,Attorney General,"",Craig Wolf,REP,1,0,4065,11298,164,80,114,15721
+GP18,Harford,rep,U.S. Senator,"",Tony Campbell,REP,1,0,1001,3016,42,16,38,4113
+GP18,Harford,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,618,1890,22,13,15,2558
+GP18,Harford,rep,U.S. Senator,"",Evan M. Cronhardt,REP,0,0,70,217,6,3,3,299
+GP18,Harford,rep,U.S. Senator,"",Nnabu Eze,REP,0,0,69,178,3,1,3,254
+GP18,Harford,rep,U.S. Senator,"",John R. Graziani,REP,0,0,630,1634,19,15,17,2315
+GP18,Harford,rep,U.S. Senator,"",Christina J. Grigorian,REP,0,0,757,2160,32,18,13,2980
+GP18,Harford,rep,U.S. Senator,"",Albert Binyahmin Howard,REP,0,0,60,139,5,4,1,209
+GP18,Harford,rep,U.S. Senator,"",Bill Krehnbrink,REP,0,0,92,268,1,4,3,368
+GP18,Harford,rep,U.S. Senator,"","Gerald I. Smith, Jr.",REP,0,0,144,434,11,2,9,600
+GP18,Harford,rep,U.S. Senator,"",Blaine Taylor,REP,0,0,270,564,7,2,9,852
+GP18,Harford,rep,U.S. Senator,"",Brian Charles Vaeth,REP,0,0,192,460,6,1,4,663
+GP18,Harford,rep,Representative in Congress,01,Martin Elborn,REP,0,0,346,974,12,8,8,1348
+GP18,Harford,rep,Representative in Congress,01,Andy Harris,REP,1,0,3255,8915,142,54,88,12454
+GP18,Harford,rep,Representative in Congress,01,Lamont Taylor,REP,0,0,185,473,7,2,4,671
+GP18,Harford,rep,Representative in Congress,02,Liz Matory,REP,1,0,375,945,15,4,13,1352
+GP18,Harford,rep,Representative in Congress,02,"Hubert Owens, Jr.",REP,0,0,144,399,4,3,5,555
+GP18,Harford,rep,Representative in Congress,02,Mark Shell,REP,0,0,169,515,3,2,5,694
+GP18,Harford,rep,Representative in Congress,02,"Mitchell J. Toland, Jr.",REP,0,0,148,400,8,5,8,569
+GP18,Harford,rep,State Senator,07,J. B. Jennings,REP,1,0,1468,3677,37,16,33,5231
+GP18,Harford,rep,State Senator,34,Bob Cassilly,REP,1,0,1635,4160,94,28,52,5969
+GP18,Harford,rep,State Senator,35,Jason C. Gallion,REP,1,0,1150,3814,40,19,35,5058
+GP18,Harford,rep,House of Delegates,07,Lauren Arikan,REP,1,0,492,1683,16,3,9,2203
+GP18,Harford,rep,House of Delegates,07,Joshua Barlow,REP,0,0,251,599,8,1,5,864
+GP18,Harford,rep,House of Delegates,07,"Russ English, Jr.",REP,0,0,38,143,0,1,3,185
+GP18,Harford,rep,House of Delegates,07,Michael A. Geppi,REP,0,0,333,897,7,4,9,1250
+GP18,Harford,rep,House of Delegates,07,Norm Gifford,REP,0,0,22,73,2,0,1,98
+GP18,Harford,rep,House of Delegates,07,Rick Impallaria,REP,1,0,769,1623,15,8,17,2432
+GP18,Harford,rep,House of Delegates,07,Tammy Larkin,REP,0,0,216,701,4,0,3,924
+GP18,Harford,rep,House of Delegates,07,Trevor Leach,REP,0,0,14,63,0,0,3,80
+GP18,Harford,rep,House of Delegates,07,Bill Paulshock,REP,0,0,284,856,7,1,5,1153
+GP18,Harford,rep,House of Delegates,07,Aaron Penman,REP,0,0,674,1437,14,6,9,2140
+GP18,Harford,rep,House of Delegates,07,David Seman,REP,0,0,438,829,8,4,5,1284
+GP18,Harford,rep,House of Delegates,07,Angela Sudano-Marcellino,REP,0,0,68,168,2,0,0,238
+GP18,Harford,rep,House of Delegates,07,Kathy Szeliga,REP,1,0,1063,2609,24,11,22,3729
+GP18,Harford,rep,House of Delegates,34A,R. Douglas Anstine,REP,0,0,37,127,2,1,0,167
+GP18,Harford,rep,House of Delegates,34A,Glen Glass,REP,1,0,444,1266,20,11,17,1758
+GP18,Harford,rep,House of Delegates,34A,J.D. Russell,REP,1,0,479,1194,15,4,11,1703
+GP18,Harford,rep,House of Delegates,34A,Monica A. Worrell,REP,0,0,443,1179,14,7,15,1658
+GP18,Harford,rep,House of Delegates,34B,Jan Marie Christensen,REP,0,0,142,390,8,0,2,542
+GP18,Harford,rep,House of Delegates,34B,Susan K. McComas,REP,1,0,321,715,44,5,11,1096
+GP18,Harford,rep,House of Delegates,34B,James V.  Capt'n Jim McMahan,REP,0,0,235,482,11,3,5,736
+GP18,Harford,rep,House of Delegates,34B,Walter Butch Tilley,REP,0,0,256,746,16,6,13,1037
+GP18,Harford,rep,House of Delegates,35B,Andrew Cassilly,REP,1,0,1155,3745,47,19,34,5000
+GP18,Harford,rep,House of Delegates,35B,Teresa Reilly,REP,1,0,1057,3411,37,20,33,4558
+GP18,Harford,rep,County Executive,"",Barry Glassman,REP,1,0,3503,9630,156,63,99,13451
+GP18,Harford,rep,County Executive,"","Mike Perrone, Jr.",REP,0,0,1403,3813,48,29,46,5339
+GP18,Harford,rep,Pres County Council,"",Shawn A. Kingston,REP,0,0,822,2527,40,30,30,3449
+GP18,Harford,rep,Pres County Council,"",Patrick Vincenti,REP,1,0,3652,9577,145,60,89,13523
+GP18,Harford,rep,County Council,A,Donna Blasdell,REP,1,0,267,562,6,3,2,840
+GP18,Harford,rep,County Council,A,Paula R. Mullis,REP,0,0,158,421,4,2,3,588
+GP18,Harford,rep,County Council,B,Joe Woods,REP,1,0,811,2204,12,10,12,3049
+GP18,Harford,rep,County Council,C,Susan Burdette,REP,0,0,356,602,36,4,8,1006
+GP18,Harford,rep,County Council,C,Tony G Giangiordano,REP,1,0,446,1191,28,13,9,1687
+GP18,Harford,rep,County Council,C,Patti Parker,REP,0,0,250,540,21,3,8,822
+GP18,Harford,rep,County Council,D,Jerry Scarborough,REP,0,0,355,1088,10,8,14,1475
+GP18,Harford,rep,County Council,D,Chad R. Shrodes,REP,1,0,751,2345,30,4,17,3147
+GP18,Harford,rep,County Council,E,Diane L. Sengstacke,REP,0,0,329,878,6,3,10,1226
+GP18,Harford,rep,County Council,E,Robert S. Wagner,REP,1,0,300,935,9,6,14,1264
+GP18,Harford,rep,County Council,F,Curtis L. Beulah,REP,1,0,308,1041,20,7,11,1387
+GP18,Harford,rep,County Council,F,John Michael Finlayson,REP,0,0,34,139,1,3,6,183
+GP18,Harford,rep,County Council,F,Amy Altmann Jahnigen,REP,0,0,145,523,6,7,15,696
+GP18,Harford,rep,Judge of the Circuit Court,03,Diane Adkins-Tobin,REP,0,0,2150,5235,88,42,54,7569
+GP18,Harford,rep,Judge of the Circuit Court,03,Paul W. Ishak,REP,1,0,2967,8394,107,56,85,11609
+GP18,Harford,rep,Judge of the Circuit Court,03,"Lawrence F. Kreis, Jr.",REP,1,0,2599,7138,104,43,79,9963
+GP18,Harford,rep,State's Attorney,"",Lisa H. Marts,REP,0,0,934,2503,42,23,36,3538
+GP18,Harford,rep,State's Attorney,"",Albert Peisinger,REP,1,0,1694,5010,80,34,52,6870
+GP18,Harford,rep,State's Attorney,"",David Wesley Ryden,REP,0,0,1612,3954,57,22,33,5678
+GP18,Harford,rep,State's Attorney,"",Steven L. Trostle,REP,0,0,376,1200,8,7,9,1600
+GP18,Harford,rep,Clerk Circuit Court,"",James Reilly,REP,1,0,4119,11301,159,78,118,15775
+GP18,Harford,rep,Register of Wills,"",Derek K. Hopkins,REP,1,0,4148,11456,166,78,122,15970
+GP18,Harford,rep,Sheriff,"",Jeffrey R. Gahler,REP,1,0,4308,11828,170,82,124,16512
+GP18,Harford,rep,REP Cent Committee,"",Abel Amdetsyon,REP,0,0,611,1730,21,7,19,2388
+GP18,Harford,rep,REP Cent Committee,"",Sharon Beam,REP,1,0,2310,5688,76,32,60,8166
+GP18,Harford,rep,REP Cent Committee,"",Jean Elaine Beulah,REP,1,0,2140,5011,71,30,58,7310
+GP18,Harford,rep,REP Cent Committee,"",Jessica Blake,REP,1,0,2022,5024,60,30,53,7189
+GP18,Harford,rep,REP Cent Committee,"",Joe Fleckenstein,REP,0,0,1373,3809,70,20,40,5312
+GP18,Harford,rep,REP Cent Committee,"",Linda Stine Flint,REP,0,0,1589,4293,46,28,44,6000
+GP18,Harford,rep,REP Cent Committee,"",Jason C. Gallion,REP,1,0,2092,5368,67,27,51,7605
+GP18,Harford,rep,REP Cent Committee,"",Jordan Glassman,REP,1,0,2268,5959,83,34,62,8406
+GP18,Harford,rep,REP Cent Committee,"",Mike Griffith,REP,1,0,1750,4423,46,21,49,6289
+GP18,Harford,rep,REP Cent Committee,"","Patrick J. Haggerty, Jr.",REP,1,0,2113,5444,71,27,58,7713
+GP18,Harford,rep,REP Cent Committee,"",Carol M. Kiple,REP,0,0,1878,4223,66,28,54,6249
+GP18,Harford,rep,REP Cent Committee,"",Trevor Leach,REP,0,0,843,2332,29,18,23,3245
+GP18,Harford,rep,REP Cent Committee,"",Carol MacCubbin,REP,1,0,2120,4904,84,21,48,7177
+GP18,Harford,rep,REP Cent Committee,"",Jeffery McBride,REP,1,0,1930,4753,61,31,47,6822
+GP18,Harford,rep,REP Cent Committee,"",Patrick L. McGrady,REP,1,0,1715,4724,75,31,38,6583
+GP18,Harford,rep,REP Cent Committee,"",Marc Morrison,REP,0,0,828,2302,33,14,19,3196
+GP18,Harford,rep,REP Cent Committee,"",Matthew Resnik,REP,1,0,2062,5412,54,32,54,7614
+GP18,Harford,rep,REP Cent Committee,"",Christopher Anthoney Sigley,REP,0,0,727,2046,23,21,13,2830
+GP18,Harford,rep,REP Cent Committee,"",Christina M. Trotta,REP,1,0,2411,5857,80,34,42,8424
