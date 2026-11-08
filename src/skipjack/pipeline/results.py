@@ -3,7 +3,12 @@
 Everything is keyed by the SBE election code (GP26, PG24, ...). A parse is all-or-nothing per
 election: every county file must read, every row's total must equal the sum of its vote types,
 and the county sums must equal the SBE's statewide rows in a statewide check file (the
-congressional breakdown files, or the archive's districts files).
+congressional breakdown files, or the archive's districts files). The 2010-2018 districts files
+carry election-night votes only, so those elections are checked on that column.
+
+The figures are the board's, never computed: where the SBE's own files disagree with themselves
+(STATEWIDE_CHECK_EXCEPTIONS, ROW_TOTAL_EXCEPTIONS) the discrepancy is listed here, accepted
+only as listed, and recorded in the sidecar.
 """
 
 from __future__ import annotations
@@ -16,6 +21,7 @@ import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import NamedTuple
 
 import httpx
 import polars as pl
@@ -30,7 +36,7 @@ from skipjack.pipeline.provenance import (
 
 logger = logging.getLogger(__name__)
 
-PARSER_VERSION = "skipjack 0.3.0"
+PARSER_VERSION = "skipjack 0.4.0"
 RESULTS_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 
 ARCHIVE_BASE = "https://elections.maryland.gov/elections/archive/{year}/election_data"
@@ -125,6 +131,23 @@ OUTPUT_ID_COLUMNS = [
     "write_in",
 ]
 
+# Statewide rows whose figure the SBE's own files disagree on: (election code, office, district,
+# candidate, party) -> (what the county files sum to, what the state file's County 00 row says),
+# both on the column the election is checked on (election-night votes for 2010-2018). The SBE's
+# own figures disagree by two votes; recorded, not corrected. A mismatch is accepted only when
+# it equals the listed pair; any other mismatch, for any other row, still fails the election.
+STATEWIDE_CHECK_EXCEPTIONS: dict[tuple[str, str, str, str, str], tuple[int, int]] = {
+    ("PG12", "President - Vice Pres", "", "Other Write-Ins", "BOT"): (7245, 7247),
+    ("GG10", "U.S. Senator", "", "Other Write-Ins", "BOT"): (1359, 1361),
+}
+
+# County files in which the SBE's printed Total Votes is not the sum of the vote types on some
+# rows: (election code, county) -> exactly how many rows. The board's own arithmetic errors in
+# that file (Baltimore City's 2010 general: 15 write-in rows whose total is below the sum); the
+# printed total is kept as total_votes and the rows are listed in the sidecar. A different
+# count, or any mismatch in a file not listed, still fails the election.
+ROW_TOTAL_EXCEPTIONS: dict[tuple[str, str], int] = {("GG10", "Baltimore City"): 15}
+
 
 class ResultsParseError(RuntimeError):
     pass
@@ -144,6 +167,10 @@ class ResultsElection:
     # archive's State_Congressional_Districts files), "legislative" (2010's districts files),
     # "all_state" (the 2020 general's All_State file) or "none" (the 2020 primary)
     check: str = "congressional"
+    # which county column the statewide rows are compared with: "total" (the check file carries
+    # full totals) or a vote-type stem, "election_night" for 2010-2018, whose districts files
+    # carry election-day votes only
+    check_votes: str = "total"
     # False until the SBE posts the files (it answers an HTML page meanwhile); flip it later
     published: bool = True
 
@@ -155,18 +182,23 @@ class ResultsElection:
 def _election(code, year, kind, name, day, live=False, published=True) -> ResultsElection:
     base = (LIVE_BASE if live else ARCHIVE_BASE).format(year=year)
     e = ResultsElection(code, year, kind, name, day, base, published=published)
-    if year == 2020:
+    if year >= 2022:
+        pass  # the coded layout, the dataclass defaults
+    elif year == 2020:
         e.layout = "named"
         e.vote_types = list(
             VOTE_TYPES_2020_GENERAL if kind == "general" else VOTE_TYPES_2020_PRIMARY
         )
         e.check = "all_state" if kind == "general" else "none"
-    elif year <= 2018:
+    elif 2010 <= year <= 2018:
         e.layout = "named"
         e.vote_types = list(
             VOTE_TYPES_2010_GENERAL if (year, kind) == (2010, "general") else VOTE_TYPES_ARCHIVE
         )
         e.check = "legislative" if year == 2010 else "congressional"
+        e.check_votes = "election_night"
+    else:
+        raise ValueError(f"{code}: no results layout rule for {year}")
     return e
 
 
@@ -219,6 +251,8 @@ class ResultsFile:
         year = self.election.year
         if self.election.layout == "named":
             if self.role == "check":
+                # county_files makes no check file when check == "none"
+                assert self.election.check != "none"
                 if self.election.check == "all_state":
                     return "All_State_2020_General.csv"
                 districts = (
@@ -325,24 +359,30 @@ def _int(value: str, where: str, column: str) -> int | None:
         raise ResultsParseError(f"{where}: {column!r} is not a number: {value!r}") from None
 
 
-def _read_coded(
-    data: bytes, election: ResultsElection, county: str, party_file: str
-) -> pl.DataFrame:
+class ReadFile(NamedTuple):
+    frame: pl.DataFrame
+    # the rows whose printed total is not the sum of the vote types, accepted only for a file
+    # in ROW_TOTAL_EXCEPTIONS: {office, district, candidate, total_votes, sum_of_vote_types}
+    row_total_exceptions: list[dict]
+
+
+def _read_coded(data: bytes, election: ResultsElection, county: str, party_file: str) -> ReadFile:
     """One county file of the 2022-onward layout, as the wide output frame (checks row totals)."""
     return _read_wide(data, election, county, party_file, blank_is_zero=False)
 
 
-def _read_named(
-    data: bytes, election: ResultsElection, county: str, party_file: str
-) -> pl.DataFrame:
+def _read_named(data: bytes, election: ResultsElection, county: str, party_file: str) -> ReadFile:
     """One county file of the 2010-2020 layout: same column names as the coded layout, a
     different order, and each year's own vote types.
 
     Columns are read by name, so the reordering does not matter; the vote-type labels come from
     the election's own list, and unused columns (Dorchester's blank "N/A Votes") are ignored,
     which the row-total check keeps honest. Some files (Frederick's 2020) leave a zero vote cell
-    blank, and the 2010-2018 files sometimes print "#NULL#" for one; both read as 0 here, and the
-    total must still equal the sum.
+    blank, and the 2010-2018 files sometimes print "#NULL#" for one, or for a write-in's Total
+    Votes (two 2014 files); all read as 0 here, and the total must still equal the sum. A general
+    row with a blank Total Votes Against whose Against cells are blank or 0 (the 2012 general
+    prints a lone 0 in Election Night Votes Against on 835 rows) has no Against figures: None
+    throughout.
     """
     return _read_wide(data, election, county, party_file, blank_is_zero=True)
 
@@ -352,7 +392,7 @@ READERS = {"coded": _read_coded, "named": _read_named}
 
 def _read_wide(
     data: bytes, election: ResultsElection, county: str, party_file: str, blank_is_zero: bool
-) -> pl.DataFrame:
+) -> ReadFile:
     where = f"{election.code} {county} {party_file}"
     raw = _frame(data, where)
     against = election.kind == "general"
@@ -387,6 +427,8 @@ def _read_wide(
         raise ResultsParseError(f"{where}: no data rows (header only)")
 
     rows = []
+    allowed_total_mismatches = ROW_TOTAL_EXCEPTIONS.get((election.code, county), 0)
+    row_total_exceptions: list[dict] = []
     for r in raw.iter_rows(named=True):
         who = f"{where}: {r['Office Name']} / {r['Candidate Name']}"
         out = {
@@ -397,7 +439,7 @@ def _read_wide(
             "district": r["Office District"],
             "candidate": r["Candidate Name"],
             "party": r["Party"],
-            "winner": 1 if r["Winner"].strip().upper() in ("Y", "YES") else 0,
+            "winner": 1 if r["Winner"].upper() in ("Y", "YES") else 0,
             "write_in": 1 if against and r["Write-In?"].upper() == "Y" else 0,
         }
         votes_sum, against_sum, against_seen = 0, 0, False
@@ -416,11 +458,35 @@ def _read_wide(
                     against_sum += a
                     against_seen = True
         total = _int(r["Total Votes"], who, "Total Votes")
+        if total is None and blank_is_zero:
+            total = 0
         out["total_votes"] = total
         if total != votes_sum:
-            raise ResultsParseError(f"{who}: total votes {total} != sum of vote types {votes_sum}")
+            if len(row_total_exceptions) >= allowed_total_mismatches:
+                raise ResultsParseError(
+                    f"{who}: total votes {total} != sum of vote types {votes_sum}"
+                    + (
+                        f" ({allowed_total_mismatches} such rows are listed for this file)"
+                        if allowed_total_mismatches
+                        else ""
+                    )
+                )
+            row_total_exceptions.append(
+                {
+                    "office": out["office"],
+                    "district": out["district"],
+                    "candidate": out["candidate"],
+                    "total_votes": total,
+                    "sum_of_vote_types": votes_sum,
+                }
+            )
         if against:
             total_against = _int(r["Total Votes Against"], who, "Total Votes Against")
+            if blank_is_zero and total_against is None and against_seen and against_sum == 0:
+                # a lone 0 in one Against cell with no total: no Against figures on this row
+                for _, stem in election.vote_types:
+                    out[f"{stem}_against"] = None
+                against_seen = False
             out["total_against"] = total_against
             if (total_against or 0) != against_sum or (total_against is None) == against_seen:
                 raise ResultsParseError(
@@ -428,6 +494,11 @@ def _read_wide(
                     f"{against_sum if against_seen else None}"
                 )
         rows.append(out)
+    if len(row_total_exceptions) != allowed_total_mismatches:
+        raise ResultsParseError(
+            f"{where}: {len(row_total_exceptions)} rows whose total is not the sum of the vote "
+            f"types, but {allowed_total_mismatches} are listed for this file"
+        )
 
     schema = {c: pl.Utf8 for c in OUTPUT_ID_COLUMNS[:7]}
     schema |= {"winner": pl.Int64, "write_in": pl.Int64}
@@ -440,12 +511,20 @@ def _read_wide(
     if against:
         cols.append("total_against")
     schema |= {c: pl.Int64 for c in cols}
-    return pl.DataFrame(rows, schema=schema)
+    return ReadFile(pl.DataFrame(rows, schema=schema), row_total_exceptions)
+
+
+class StatewideCheck(NamedTuple):
+    for_rows: int  # FOR rows compared
+    against_rows: int  # AGAINST rows compared
+    # the STATEWIDE_CHECK_EXCEPTIONS applied, as "office district / candidate (party): counties
+    # N, statewide row M" (empty when every compared row matched)
+    exceptions: list[str]
 
 
 def _check_statewide(
     election: ResultsElection, party_file: str, frames: list[pl.DataFrame], breakdown: bytes
-) -> tuple[int, int]:
+) -> StatewideCheck:
     """Compare the county sums with the breakdown file's statewide (County 00) rows.
 
     The breakdown files (and the archive's State_Congressional_Districts and
@@ -456,8 +535,10 @@ def _check_statewide(
     directions; district contests are compared when present; other offices are not checked.
     Generals compare FOR rows (Vote Type 1) with the counties' total_votes, and, for contests the
     breakdown carries AGAINST rows (Vote Type 2) for (judges' retention questions), those with
-    the counties' total_against; the primaries' files have no Vote Type column. Returns (FOR
-    rows compared, AGAINST rows compared).
+    the counties' total_against; the primaries' files have no Vote Type column. The 2010-2018
+    districts files carry election-night votes only (their County 00 rows sum to the counties'
+    Election Night Votes, never the total), so those elections (check_votes == "election_night")
+    compare election_night_votes and election_night_against instead.
     """
     where = f"{election.code} {party_file} breakdown"
     raw = _frame(breakdown, where)
@@ -486,12 +567,12 @@ def _check_statewide(
         key = (r["Office Name"], r["Office District"], r["Candidate Name"], r["Party"])
         total = sum(_int(r[c], where, c) or 0 for c in district_cols)
         state_against[key] = state_against.get(key, 0) + total
-    return _compare_statewide(where, frames, state, state_against)
+    return _compare_statewide(election, where, frames, state, state_against)
 
 
 def _check_statewide_all_state(
     election: ResultsElection, frames: list[pl.DataFrame], all_state: bytes
-) -> tuple[int, int]:
+) -> StatewideCheck:
     """2020 general: compare the county sums with All_State_2020_General's County 00 rows.
 
     That file carries the statewide totals directly (FOR votes in Total Votes; the judges'
@@ -513,27 +594,35 @@ def _check_statewide_all_state(
             against = _int(r["Total Votes Against"], where, "Total Votes Against")
             if against is not None:
                 state_against[key] = state_against.get(key, 0) + against
-    return _compare_statewide(where, frames, state, state_against)
+    return _compare_statewide(election, where, frames, state, state_against)
 
 
 def _compare_statewide(
+    election: ResultsElection,
     where: str,
     frames: list[pl.DataFrame],
     state: dict[tuple[str, str, str, str], int],
     state_against: dict[tuple[str, str, str, str], int] | None = None,
-) -> tuple[int, int]:
-    """Compare county sums with the statewide rows; returns (FOR rows, AGAINST rows) compared."""
+) -> StatewideCheck:
+    """Compare county sums with the statewide rows.
+
+    The county column summed is the election's check_votes: total_votes / total_against, or a
+    vote type's <stem>_votes / <stem>_against (election_night for 2010-2018). A FOR row whose
+    sum and statewide figure are exactly the pair listed for it in STATEWIDE_CHECK_EXCEPTIONS is
+    accepted and reported; any other mismatch fails.
+    """
+    votes_col, against_col = f"{election.check_votes}_votes", f"{election.check_votes}_against"
     sums: dict[tuple[str, str, str, str], int] = {}
     sums_against: dict[tuple[str, str, str, str], int] = {}
     for frame in frames:
-        for r in frame.select(
-            "office", "district", "candidate", "party", "total_votes"
-        ).iter_rows():
+        if votes_col not in frame.columns:
+            raise ResultsParseError(f"{where}: no {votes_col} column to check the statewide rows")
+        for r in frame.select("office", "district", "candidate", "party", votes_col).iter_rows():
             key = r[:4]
             sums[key] = sums.get(key, 0) + r[4]
-        if "total_against" in frame.columns:
+        if against_col in frame.columns:
             for r in frame.select(
-                "office", "district", "candidate", "party", "total_against"
+                "office", "district", "candidate", "party", against_col
             ).iter_rows():
                 if r[4] is not None:
                     sums_against[r[:4]] = sums_against.get(r[:4], 0) + r[4]
@@ -543,7 +632,7 @@ def _compare_statewide(
     # would be a latent collision: it would be summed into the statewide office. No such case in
     # the 2020-2026 files; the statewide comparison would flag it if one appeared.
     statewide = {k[0] for k in state if k[1] == ""}
-    compared, compared_against = 0, 0
+    compared, compared_against, exceptions = 0, 0, []
     for key, total in sorted(sums.items()):
         if key not in state:
             if key[1] == "" and key[0] in statewide:
@@ -552,9 +641,14 @@ def _compare_statewide(
                 )
             continue
         if state[key] != total:
-            raise ResultsParseError(
-                f"{where}: {key[0]} {key[1]} / {key[2]}: counties sum to {total}, "
-                f"statewide row is {state[key]}"
+            if STATEWIDE_CHECK_EXCEPTIONS.get((election.code, *key)) != (total, state[key]):
+                raise ResultsParseError(
+                    f"{where}: {key[0]} {key[1]} / {key[2]}: counties sum to {total}, "
+                    f"statewide row is {state[key]}"
+                )
+            contest = f"{key[0]} {key[1]}".rstrip()
+            exceptions.append(
+                f"{contest} / {key[2]} ({key[3]}): counties {total}, statewide row {state[key]}"
             )
         compared += 1
     for key, total in sorted((state_against or {}).items()):
@@ -571,7 +665,7 @@ def _compare_statewide(
             raise ResultsParseError(
                 f"{where}: statewide row for {key[0]} / {key[2]} has no county rows"
             )
-    return compared, compared_against
+    return StatewideCheck(compared, compared_against, exceptions)
 
 
 # ---- fetch ----------------------------------------------------------------------------------
@@ -700,10 +794,34 @@ def _revision_updated(csv_path: Path, record: SourceRecord) -> bool:
     return ProvenanceSidecar.read(sidecar_path).sha256_original != record.sha256
 
 
+def _statewide_check_text(e: ResultsElection, check_file: str, result: StatewideCheck) -> str:
+    """The sidecar's statewide_check line for a check that compared rows: what matched, on
+    which column, and any listed exception applied."""
+    n = result.for_rows + result.against_rows
+    text = (
+        f"ok: {n} statewide rows ({result.for_rows} for, {result.against_rows} against) "
+        f"match {check_file}"
+    )
+    if e.check_votes == "election_night":
+        text += (
+            " on election-night votes (the SBE's district files for 2010-2018 carry "
+            "election-day votes only)"
+        )
+    elif e.check_votes != "total":
+        text += f" on {e.check_votes} votes"
+    if result.exceptions:
+        text += (
+            "; the board's own figures disagree on "
+            + "; ".join(result.exceptions)
+            + " (listed in STATEWIDE_CHECK_EXCEPTIONS, recorded, not corrected)"
+        )
+    return text
+
+
 def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
     out_dir = data_dir / "results" / e.code / "county"
     files = county_files(e)
-    county_frames: dict[str, list[tuple[ResultsFile, SourceRecord, pl.DataFrame]]] = {}
+    county_frames: dict[str, list[tuple[ResultsFile, SourceRecord, ReadFile]]] = {}
     breakdowns: dict[str, bytes] = {}
     for f in files:
         path = _archived(f)
@@ -725,17 +843,17 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
             breakdowns[f.party_file] = data
             continue
         try:
-            frame = READERS[e.layout](data, e, f.county, f.party_file)
+            read = READERS[e.layout](data, e, f.county, f.party_file)
         except ResultsParseError as err:
             raise ResultsParseError(f"{f.file_name}: {err}") from None
-        county_frames.setdefault(f.party_file, []).append((f, record, frame))
+        county_frames.setdefault(f.party_file, []).append((f, record, read))
 
-    compared: dict[str, tuple[int, int]] = {}
+    compared: dict[str, StatewideCheck] = {}
     has_check = any(f.role == "check" for f in files)
     for pf, items in county_frames.items():
         if not has_check:
             continue  # the 2020 primary has no statewide file; the row totals are all we have
-        frames = [fr for _, _, fr in items]
+        frames = [rd.frame for _, _, rd in items]
         if pf not in breakdowns:
             if pf == "non":
                 continue  # the SBE has not published that check file; recorded as n/a below
@@ -746,9 +864,9 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
             compared[pf] = _check_statewide(e, pf, frames, breakdowns[pf])
 
     targets = [
-        (out_dir / f"{f.county_code}-{county_slug(f.county)}-{f.party_file}.csv", f, rec, fr)
+        (out_dir / f"{f.county_code}-{county_slug(f.county)}-{f.party_file}.csv", f, rec, rd)
         for items in county_frames.values()
-        for f, rec, fr in items
+        for f, rec, rd in items
     ]
     # a CSV is current when its sidecar was written from the newest archived revision
     if not force:
@@ -756,32 +874,33 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
     if not targets:
         return 0
     out_dir.mkdir(parents=True, exist_ok=True)
-    for out_csv, f, record, frame in targets:
+    for out_csv, f, record, (frame, row_total_exceptions) in targets:
         if not has_check:
             statewide = "no statewide file published"
         else:
             check_file = next(
                 c.file_name for c in files if c.role == "check" and c.party_file == f.party_file
             )
-            counts = compared.get(f.party_file)
-            if counts is None:
+            result = compared.get(f.party_file)
+            if result is None:
                 statewide = f"n/a: {check_file} not published"
-            elif sum(counts):
-                statewide = (
-                    f"ok: {sum(counts)} statewide rows ({counts[0]} for, {counts[1]} against) "
-                    f"match {check_file}"
-                )
+            elif result.for_rows + result.against_rows:
+                statewide = _statewide_check_text(e, check_file, result)
             else:
                 statewide = f"n/a: {check_file} carries no statewide rows"
+        checks: dict = {"rows": frame.height, "row_totals": "ok", "statewide_check": statewide}
+        if row_total_exceptions:
+            checks["row_totals"] = (
+                f"{len(row_total_exceptions)} rows whose printed Total Votes is not the sum of "
+                "the vote types (the board's own arithmetic in this file; the printed total is "
+                "kept as total_votes, the rows are listed in row_total_exceptions)"
+            )
+            checks["row_total_exceptions"] = row_total_exceptions
         sidecar = ProvenanceSidecar.from_source(
             record,
             parser_version=PARSER_VERSION,
             extraction_method="csv",
-            checks={
-                "rows": frame.height,
-                "row_totals": "ok",
-                "statewide_check": statewide,
-            },
+            checks=checks,
             notes=f"{e.code} {f.county} county results ({f.party_file}), totals checked per row.",
         )
         sidecar.election, sidecar.family, sidecar.geography = e.code, "results", "county"

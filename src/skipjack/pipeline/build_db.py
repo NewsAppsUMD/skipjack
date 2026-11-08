@@ -12,7 +12,12 @@ import polars as pl
 from polars.exceptions import PolarsError
 
 from skipjack.models import SCHEMA_SQL
-from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS, county_slug
+from skipjack.pipeline.results import (
+    COUNTY_CODES,
+    RESULTS_ELECTIONS,
+    ROW_TOTAL_EXCEPTIONS,
+    county_slug,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -295,6 +300,22 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
             pl.col("district").map_elements(_normalize_district, return_dtype=pl.String)
         )
         _upsert_source(conn, prov)
+        # the rows whose printed total the parser accepted as the board's own arithmetic
+        # (results.ROW_TOTAL_EXCEPTIONS), listed in the sidecar: accepted here only as listed
+        county = df["county"][0]
+        exceptions = {
+            (x["office"], _normalize_district(x["district"]), x["candidate"]): (
+                x["total_votes"],
+                x["sum_of_vote_types"],
+            )
+            for x in prov.get("checks", {}).get("row_total_exceptions", [])
+        }
+        if exceptions and (code, county) not in ROW_TOTAL_EXCEPTIONS:
+            raise ResultsLoadError(
+                f"{csv_path}: the sidecar lists {len(exceptions)} row-total exceptions, but the "
+                f"registry has no row-total exceptions for {code} {county}"
+            )
+        unused = set(exceptions)
 
         county_rows, vote_rows = [], []
         for row in df.with_row_index("_line", offset=2).iter_rows(named=True):
@@ -320,10 +341,13 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
                         f"{total_against} != sum of vote types against {sum(seen)}"
                     )
             if vote_sum != row["total_votes"]:
-                raise ResultsLoadError(
-                    f"{csv_path}: {row['candidate']}: total votes {row['total_votes']} "
-                    f"!= sum of vote types {vote_sum}"
-                )
+                key = (row["office"], row["district"], row["candidate"])
+                if exceptions.get(key) != (row["total_votes"], vote_sum):
+                    raise ResultsLoadError(
+                        f"{csv_path}: {row['candidate']}: total votes {row['total_votes']} "
+                        f"!= sum of vote types {vote_sum}"
+                    )
+                unused.discard(key)
             county_rows.append(
                 (
                     next_id,
@@ -336,6 +360,12 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
                 )
             )
             next_id += 1
+        if unused:
+            office, district, candidate = sorted(unused)[0]
+            raise ResultsLoadError(
+                f"{csv_path}: the sidecar lists a row-total exception for {office} {district} / "
+                f"{candidate}, but the file has no such row with that total"
+            )
         conn.executemany(
             """INSERT INTO results_county
                (id, source_id, election, county, party_file, office, district, candidate, party,
