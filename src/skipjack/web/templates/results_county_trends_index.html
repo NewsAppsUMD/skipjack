@@ -25,6 +25,8 @@
 {% set gov_years = rows|selectattr("governor")|map(attribute="governor.year")|unique|list %}
 {% set pres_years = rows|selectattr("president")|map(attribute="president.year")|unique|list %}
 {% set shifts = rows|selectattr("cycle_shift")|map(attribute="cycle_shift")|list %}
+{% set first_years = rows|selectattr("first")|map(attribute="first.year")|unique|list %}
+{% set one_first = first_years|length == 1 %}
 {% set one_gov = gov_years|length == 1 %}{% set one_pres = pres_years|length == 1 %}
 {% set one_span = (shifts|map(attribute="from")|unique|list|length == 1) and (shifts|map(attribute="to")|unique|list|length == 1) %}
 {% set span = (rows|selectattr("cycle_shift")|first).cycle_shift if one_span else none %}
@@ -37,7 +39,7 @@
             <th scope="col" class="num">Latest governor{% if one_gov %}, {{ gov_years[0] }}{% endif %}</th>
             <th scope="col" class="num">Latest president{% if one_pres %}, {{ pres_years[0] }}{% endif %}</th>
             <th scope="col" class="num">Shift{% if span %}, {{ span.from }} to {{ span.to }}{% else %} between them{% endif %}</th>
-            <th scope="col" class="num">Shift since first general</th>
+            <th scope="col" class="num">Shift since {% if one_first %}{{ first_years[0] }}{% else %}first general{% endif %}</th>
         </tr>
     </thead>
     <tbody>
@@ -47,7 +49,7 @@
             {{ margin_cell(row.governor, not one_gov) }}
             {{ margin_cell(row.president, not one_pres) }}
             <td class="num"{% if row.cycle_shift %} data-sort="{{ row.cycle_shift.value }}"{% endif %}>{% if row.cycle_shift %}{{ t.party_shift(row.cycle_shift.value) }}{% if not span %} <span class="muted">({{ row.cycle_shift.from }} to {{ row.cycle_shift.to }})</span>{% endif %}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
-            <td class="num"{% if row.shift is not none %} data-sort="{{ row.shift }}"{% endif %}>{% if row.shift is none %}<span class="muted">&mdash;</span>{% else %}{{ t.party_shift(row.shift) }} <span class="muted">(since {{ row.first.year }})</span>{% endif %}</td>
+            <td class="num"{% if row.shift is not none %} data-sort="{{ row.shift }}"{% endif %}>{% if row.shift is none %}<span class="muted">&mdash;</span>{% else %}{{ t.party_shift(row.shift) }}{% if not one_first %} <span class="muted">(since {{ row.first.year }})</span>{% endif %}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -55,8 +57,8 @@
 </div>
 <p class="note">The margin is the Democratic minus Republican share of the county's votes for
     governor or president, in points. The shift between them is the later race's margin minus
-    the earlier one's; the shift since the first general is the latest margin minus the margin
-    in the county's first general on file. Each shift names the party the county moved toward.
+    the earlier one's; the other shift is the latest margin minus the margin in
+    the county's first general on file. Each shift names the party the county moved toward.
     {% if unofficial %}Source: the State Board of Elections'
     <a href="{{ data_page }}" target="_blank" rel="noopener">unofficial results pages</a>, as
     refreshed {{ unofficial.as_of }}, and its certified results files.{% else %}Source: the

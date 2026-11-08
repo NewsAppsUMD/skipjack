@@ -496,6 +496,8 @@ def test_trends_index_lists_every_county_with_the_shift_and_the_map(history_clie
     assert "Republicans +39.6" in row
     assert "+19.6 Rep" in row  # the shifts name the party moved toward
     assert "−19.6" not in row
+    # every county's first general is the same year, so it goes in the header
+    assert "Shift since 2022" in html and "(since 2022)" not in row
     assert "Republicans +20.0" in row  # the latest governor's race
     # every county shares the years, so they go in the headers, not the cells
     assert "Latest governor, 2022" in html and "Latest president, 2024" in html
