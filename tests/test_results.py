@@ -43,12 +43,14 @@ def primary_csv(rows: str = PRIMARY_ROWS) -> bytes:
 def test_registry():
     assert set(results.RESULTS_ELECTIONS) == {
         "GP22", "GG22", "PP24", "PG24", "GP26", "GG26", "PG20", "PP20",
+        "GP10", "GG10", "PP12", "PG12", "GP14", "GG14", "PP16", "PG16", "GP18", "GG18",
     }  # fmt: skip
     gg26 = results.RESULTS_ELECTIONS["GG26"]
     assert gg26.published is False
     assert all(e.published for c, e in results.RESULTS_ELECTIONS.items() if c != "GG26")
-    named = {c for c, e in results.RESULTS_ELECTIONS.items() if e.layout == "named2020"}
-    assert named == {"PG20", "PP20"}
+    named = {c for c, e in results.RESULTS_ELECTIONS.items() if e.layout == "named"}
+    assert named == {c for c, e in results.RESULTS_ELECTIONS.items() if e.year <= 2020}
+    assert results.RESULTS_ELECTIONS["GP22"].layout == "coded"
     assert results.RESULTS_ELECTIONS["GP26"].kind == "primary"
     assert results.RESULTS_ELECTIONS["PG24"].kind == "general"
     labels = [lab for lab, _ in results.RESULTS_ELECTIONS["PG24"].vote_types]
@@ -352,7 +354,7 @@ def test_fetch_unpublished_election_fetches_nothing(env, monkeypatch):
     assert results.results_fetch("GG26") == []
 
 
-# ---- the 2020 layout -----------------------------------------------------------------------
+# ---- the named layout: 2020 -----------------------------------------------------------------------
 
 G20_HEAD = (
     '"Candidate Name","Party","Office Name","Office District","Winner","Write-In?",'
@@ -456,7 +458,7 @@ def test_urls_2020():
 
 
 def test_read_2020_general():
-    frame = results._read_named2020(g20_csv(), PG20, "Allegany", "all")
+    frame = results._read_named(g20_csv(), PG20, "Allegany", "all")
     assert frame.columns[:9] == results.OUTPUT_ID_COLUMNS
     assert frame.columns[9:] == [
         "early_voting_votes", "early_voting_against", "election_day_votes",
@@ -475,7 +477,7 @@ def test_read_2020_general():
 def test_read_2020_general_bad_total():
     bad = G20_ROWS.replace('"6","","70"', '"6","","71"')
     with pytest.raises(results.ResultsParseError, match="Donald J. Trump"):
-        results._read_named2020(g20_csv(bad), PG20, "Allegany", "all")
+        results._read_named(g20_csv(bad), PG20, "Allegany", "all")
 
 
 def test_read_2020_primary_unquoted():
@@ -483,7 +485,7 @@ def test_read_2020_primary_unquoted():
         "Joe Biden,DEM,President - Vice Pres,,Y,3,2,1,6\n"
         "Delegates Person,DEM,Board of Education     ,001,,1,1,0,2\n"
     )
-    frame = results._read_named2020(p20_csv(rows), PP20, "Kent", "dem")
+    frame = results._read_named(p20_csv(rows), PP20, "Kent", "dem")
     assert frame.columns[9:] == [
         "vote_by_mail_votes", "in_person_voting_votes", "provisional_votes", "total_votes",
     ]  # fmt: skip
@@ -492,7 +494,7 @@ def test_read_2020_primary_unquoted():
     assert frame["write_in"].to_list() == [0, 0]
     assert frame["in_person_voting_votes"].to_list() == [2, 1]
     with pytest.raises(results.ResultsParseError, match="Joe Biden"):
-        results._read_named2020(p20_csv(rows.replace(",3,2,1,6", ",3,2,1,7")), PP20, "Kent", "dem")
+        results._read_named(p20_csv(rows.replace(",3,2,1,6", ",3,2,1,7")), PP20, "Kent", "dem")
 
 
 def test_read_2020_primary_duplicate_unused_columns_and_cp1252():
@@ -501,14 +503,14 @@ def test_read_2020_primary_duplicate_unused_columns_and_cp1252():
     head = P20_HEAD.replace("Total Votes", '"N/A Votes","N/A Votes",Total Votes')
     row = "Ni\xf1o Person,DEM,President - Vice Pres,,Y,3,2,1,,,6\n"
     data = (head + row).encode("latin-1")
-    frame = results._read_named2020(data, PP20, "Dorchester", "dem")
+    frame = results._read_named(data, PP20, "Dorchester", "dem")
     assert frame["candidate"].to_list() == ["Ni\xf1o Person"]
     assert frame["total_votes"].to_list() == [6]
     assert "N/A Votes" not in frame.columns
 
 
 def _g20_frames(rows_by_county):
-    return [results._read_named2020(g20_csv(r), PG20, c, "all") for c, r in rows_by_county.items()]
+    return [results._read_named(g20_csv(r), PG20, c, "all") for c, r in rows_by_county.items()]
 
 
 def test_statewide_check_all_state():
@@ -607,17 +609,17 @@ def test_fetch_pp20(env, monkeypatch):
 
 def test_read_2020_primary_blank_vote_cell_is_zero_but_total_still_checked():
     # Frederick's file leaves some zero cells blank; the total must still add up
-    frame = results._read_named2020(
+    frame = results._read_named(
         p20_csv("Deval Patrick,DEM,President - Vice Pres,8,,,1,,1\n"), PP20, "Frederick", "dem"
     )
     assert frame.row(0, named=True)["vote_by_mail_votes"] == 0
     assert frame.row(0, named=True)["total_votes"] == 1
     with pytest.raises(results.ResultsParseError, match="Deval Patrick"):
-        results._read_named2020(
+        results._read_named(
             p20_csv("Deval Patrick,DEM,President - Vice Pres,8,,,1,,2\n"), PP20, "Frederick", "dem"
         )
     with pytest.raises(results.ResultsParseError, match="total votes None"):
-        results._read_named2020(
+        results._read_named(
             p20_csv("Deval Patrick,DEM,President - Vice Pres,8,,,1,,\n"), PP20, "Frederick", "dem"
         )
 
@@ -1000,3 +1002,504 @@ def test_force_refetch_of_identical_bytes_rewrites_a_missing_archive_without_a_n
     assert results.results_fetch("PP24", force=True) == []
     assert gone.exists() and gone.read_bytes() == primary_csv()
     assert len(read_manifest(results.MANIFEST_PATH)) == n
+
+
+# ---- the named layout: 2010-2018 ------------------------------------------------------------
+# The archive's county files share 2020's column names and order; the vote types differ
+# (Early, Election Night, Absentees, Provisional, 2nd Absentees; the 2010 general adds a third
+# absentee canvass) and the statewide check comes from the congressional (legislative in 2010)
+# districts file, whose primary form has no Vote Type column.
+
+ARCHIVE_TYPES = ["Early", "Election Night", "Absentees", "Provisional", "2nd Absentees"]
+
+
+def named_general_head(types=ARCHIVE_TYPES) -> str:
+    cols = ["Candidate Name", "Party", "Office Name", "Office District", "Winner", "Write-In?"]
+    for t in types:
+        cols += [f"{t} Votes", f"{t} Votes Against"]
+    cols += ["Total Votes", "Total Votes Against"]
+    return ",".join(f'"{c}"' for c in cols) + "\n"
+
+
+def named_primary_head(types=ARCHIVE_TYPES) -> str:
+    cols = ["Candidate Name", "Party", "Office Name", "Office District", "Winner"]
+    cols += [f"{t} Votes" for t in types] + ["Total Votes"]
+    return ",".join(f'"{c}"' for c in cols) + "\n"
+
+
+G14_HEAD = named_general_head()
+G10_HEAD = named_general_head(ARCHIVE_TYPES + ["3rd Absentees"])
+P14_HEAD = named_primary_head()
+# generals: Vote Type, County, ..., Write-In?, then the districts in the SBE's scrambled order
+# (the first district name carries a leading space in the real files)
+CONG_GENERAL_HEAD = (
+    '"Vote Type (FOR=1,AGAINST=2)","County","Candidate Name","Party","Office Name",'
+    '"Office District","Winner","Write-In?"," CONG 04","CONG 08","CONG 01"\n'
+)
+LEGS_GENERAL_HEAD = CONG_GENERAL_HEAD.replace("CONG 04", "LEGS 37B").replace(
+    '"CONG 08","CONG 01"', '"LEGS 47","LEGS 01A"'
+)
+# primaries: no Vote Type, no Write-In?
+CONG_PRIMARY_HEAD = (
+    '"County","Candidate Name","Party","Office Name","Office District","Winner",'
+    '" CONG 04","CONG 08","CONG 01"\n'
+)
+LEGS_PRIMARY_HEAD = CONG_PRIMARY_HEAD.replace("CONG 04", "LEGS 37B").replace(
+    '"CONG 08","CONG 01"', '"LEGS 47","LEGS 01A"'
+)
+
+G14_ROWS = (
+    '"Larry Hogan","REP","Governor / Lt. Governor","","Y","","10","","20","","3","","4","","1","","38",""\n'
+    '"Anthony G. Brown","DEM","Governor / Lt. Governor","","","","5","","6","","1","","0","","0","","12",""\n'
+    '"Peter Franchot","DEM","Comptroller            ","","Y","","7","","8","","0","","0","","0","","15",""\n'
+)
+G10_ROWS = (
+    '"Martin O\'Malley","DEM","Governor / Lt. Governor","","Y","","10","","20","","3","","4","","1","","2","","40",""\n'
+    '"Robert L. Ehrlich, Jr.","REP","Governor / Lt. Governor","","","","5","","6","","1","","#NULL#","","0","","1","","13",""\n'
+    '"Judge Jane","","Judge Court of Appeals","01","Y","","3","1","3","1","0","0","0","0","0","0","0","0","6","2"\n'
+)
+P14_ROWS = (
+    '"Larry Hogan","REP","Governor / Lt. Governor","","Y","10","20","3","4","1","38"\n'
+    '"David R. Craig","REP","Governor / Lt. Governor","","","5","6","1","#NULL#","0","12"\n'
+)
+
+GG10 = results.RESULTS_ELECTIONS["GG10"]
+GG14 = results.RESULTS_ELECTIONS["GG14"]
+GP10 = results.RESULTS_ELECTIONS["GP10"]
+GP14 = results.RESULTS_ELECTIONS["GP14"]
+
+
+def g14_csv(rows: str = G14_ROWS) -> bytes:
+    return (G14_HEAD + rows).encode()
+
+
+def g10_csv(rows: str = G10_ROWS) -> bytes:
+    return (G10_HEAD + rows).encode()
+
+
+def p14_csv(rows: str = P14_ROWS) -> bytes:
+    return (P14_HEAD + rows).encode()
+
+
+def check_csv(head: str, rows: list[str]) -> bytes:
+    return (BOM + head + "".join(rows)).encode()
+
+
+def test_registry_named_archive_elections():
+    days = {
+        "GP10": "2010-09-14", "GG10": "2010-11-02", "PP12": "2012-04-03", "PG12": "2012-11-06",
+        "GP14": "2014-06-24", "GG14": "2014-11-04", "PP16": "2016-04-26", "PG16": "2016-11-08",
+        "GP18": "2018-06-26", "GG18": "2018-11-06",
+    }  # fmt: skip
+    for code, day in days.items():
+        e = results.RESULTS_ELECTIONS[code]
+        assert e.election_day == day and e.layout == "named" and e.published
+        assert e.year == 2000 + int(code[2:])
+        assert e.kind == ("general" if code[1] == "G" else "primary")
+        assert e.base_url == (
+            f"https://elections.maryland.gov/elections/archive/{e.year}/election_data"
+        )
+        assert e.name.startswith(str(e.year))
+    stems = ["early", "election_night", "absentees", "provisional", "absentees_2"]
+    assert [s for _, s in GG14.vote_types] == stems
+    assert [s for _, s in GP10.vote_types] == stems
+    assert [s for _, s in GG10.vote_types] == stems + ["absentees_3"]
+    assert [lab for lab, _ in GG10.vote_types][-1] == "3rd Absentees"
+    assert [lab for lab, _ in GG14.vote_types] == ARCHIVE_TYPES
+    assert GG10.check == "legislative" and GP10.check == "legislative"
+    assert GG14.check == "congressional" and GP14.check == "congressional"
+    assert results.RESULTS_ELECTIONS["GG18"].check == "congressional"
+    assert PG20.check == "all_state" and PP20.check == "none"
+    assert results.RESULTS_ELECTIONS["GP26"].check == "congressional"
+    assert results.RESULTS_ELECTIONS["PG24"].check == "congressional"
+    # the 2020 entries keep their own vote types
+    assert [s for _, s in PG20.vote_types][0] == "early_voting"
+    assert list(results.RESULTS_ELECTIONS)[:2] == ["GP26", "GG26"]
+    assert list(results.RESULTS_ELECTIONS)[-2:] == ["GG10", "GP10"]
+
+
+def test_registry_election_days_match_the_site_lists():
+    from skipjack.web import elections as web_elections
+
+    for e in results.RESULTS_ELECTIONS.values():
+        expected = web_elections.GENERALS if e.kind == "general" else web_elections.PRIMARIES
+        assert e.election_day in expected, e.code
+
+
+def test_urls_named_archive():
+    base = GG14.base_url
+    g = {f.source_id: f for f in results.county_files(GG14)}
+    assert len(g) == 25
+    assert g["sbe-results-GG14-county-01-all"].url == f"{base}/Allegany_County_2014_General.csv"
+    assert g["sbe-results-GG14-county-03-all"].url.endswith(
+        "/Baltimore_City_County_2014_General.csv"
+    )
+    assert g["sbe-results-GG14-county-04-all"].url.endswith("/Baltimore_County_2014_General.csv")
+    assert g["sbe-results-GG14-county-19-all"].url.endswith("/St._Marys_County_2014_General.csv")
+    assert g["sbe-results-GG14-check-all"].url == (
+        f"{base}/State_Congressional_Districts_2014_General.csv"
+    )
+    assert g["sbe-results-GG14-check-all"].role == "check"
+    assert g["sbe-results-GG14-check-all"].local_path.name == (
+        "State_Congressional_Districts_2014_General.csv"
+    )
+    g10 = {f.source_id: f for f in results.county_files(GG10)}
+    assert len(g10) == 25
+    assert g10["sbe-results-GG10-check-all"].url.endswith(
+        "/State_Legislative_Districts_2010_General.csv"
+    )
+    assert g10["sbe-results-GG10-county-17-all"].url.endswith(
+        "/Prince_Georges_County_2010_General.csv"
+    )
+    p10 = {f.source_id: f for f in results.county_files(GP10)}
+    assert len(p10) == 75  # 24 x 3 party files + 3 check files
+    assert p10["sbe-results-GP10-county-19-non"].url.endswith(
+        "/St._Marys_County_NonPartisan_2010_Primary.csv"
+    )
+    assert p10["sbe-results-GP10-county-18-dem"].url.endswith(
+        "/Queen_Annes_County_Democratic_2010_Primary.csv"
+    )
+    assert p10["sbe-results-GP10-check-dem"].url.endswith(
+        "/State_Legislative_Districts_Democratic_2010_Primary.csv"
+    )
+    p14 = {f.source_id: f for f in results.county_files(GP14)}
+    assert p14["sbe-results-GP14-check-dem"].url.endswith(
+        "/State_Congressional_Districts_Democratic_2014_Primary.csv"
+    )
+    assert p14["sbe-results-GP14-check-rep"].url.endswith(
+        "/State_Congressional_Districts_Republican_2014_Primary.csv"
+    )
+    assert p14["sbe-results-GP14-check-non"].url.endswith(
+        "/State_Congressional_Districts_NonPartisan_2014_Primary.csv"
+    )
+    assert p14["sbe-results-GP14-county-03-rep"].url.endswith(
+        "/Baltimore_City_County_Republican_2014_Primary.csv"
+    )
+    # 2020 is unchanged: the all-state file for the general, no check file for the primary
+    pg20 = {f.source_id: f for f in results.county_files(PG20)}
+    assert pg20["sbe-results-PG20-check-all"].file_name == "All_State_2020_General.csv"
+    assert not any(f.role == "check" for f in results.county_files(PP20))
+
+
+def test_read_named_2010_general_six_types_and_null_cells():
+    frame = results._read_named(g10_csv(), GG10, "Allegany", "all")
+    assert frame.columns[:9] == results.OUTPUT_ID_COLUMNS
+    assert frame.columns[9:] == [
+        "early_votes", "early_against", "election_night_votes", "election_night_against",
+        "absentees_votes", "absentees_against", "provisional_votes", "provisional_against",
+        "absentees_2_votes", "absentees_2_against", "absentees_3_votes", "absentees_3_against",
+        "total_votes", "total_against",
+    ]  # fmt: skip
+    assert frame["candidate"].to_list() == [
+        "Martin O'Malley",
+        "Robert L. Ehrlich, Jr.",
+        "Judge Jane",
+    ]
+    assert frame["winner"].to_list() == [1, 0, 1]
+    assert frame["absentees_3_votes"].to_list() == [2, 1, 0]
+    # #NULL# where a zero is meant; the row total still has to add up
+    assert frame["provisional_votes"].to_list() == [4, 0, 0]
+    assert frame["total_votes"].to_list() == [40, 13, 6]
+    assert frame["total_against"].to_list() == [None, None, 2]
+    assert frame["early_against"].to_list() == [None, None, 1]
+    bad = G10_ROWS.replace('"#NULL#","","0","","1","","13"', '"#NULL#","","0","","1","","14"')
+    with pytest.raises(results.ResultsParseError, match="Ehrlich"):
+        results._read_named(g10_csv(bad), GG10, "Allegany", "all")
+
+
+def test_read_named_2014_general_strips_office_names():
+    frame = results._read_named(g14_csv(), GG14, "Kent", "all")
+    assert frame["office"].to_list()[2] == "Comptroller"
+    assert frame.columns[-2:] == ["total_votes", "total_against"]
+    assert "absentees_3_votes" not in frame.columns
+    assert frame["total_votes"].to_list() == [38, 12, 15]
+
+
+def test_read_named_primary_null_cell_is_zero_but_total_still_checked():
+    frame = results._read_named(p14_csv(), GP14, "Kent", "rep")
+    assert frame.columns[9:] == [
+        "early_votes", "election_night_votes", "absentees_votes", "provisional_votes",
+        "absentees_2_votes", "total_votes",
+    ]  # fmt: skip
+    assert frame["provisional_votes"].to_list() == [4, 0]
+    assert frame["total_votes"].to_list() == [38, 12]
+    with pytest.raises(results.ResultsParseError, match="Craig"):
+        results._read_named(p14_csv(P14_ROWS.replace('"0","12"', '"0","13"')), GP14, "Kent", "rep")
+    # the token is matched case-insensitively
+    frame = results._read_named(p14_csv(P14_ROWS.replace("#NULL#", "#null#")), GP14, "Kent", "rep")
+    assert frame["provisional_votes"].to_list() == [4, 0]
+
+
+def test_null_token_in_against_cell_reads_as_none():
+    # a #NULL# in a Votes Against cell is no figure, like a blank: not an Against total of 0
+    rows = G14_ROWS.replace(
+        '"Larry Hogan","REP","Governor / Lt. Governor","","Y","","10",""',
+        '"Larry Hogan","REP","Governor / Lt. Governor","","Y","","10","#NULL#"',
+    )
+    frame = results._read_named(g14_csv(rows), GG14, "Kent", "all")
+    assert frame["early_against"].to_list()[0] is None
+    assert frame["total_against"].to_list()[0] is None
+
+
+def test_coded_still_rejects_null_token():
+    with pytest.raises(results.ResultsParseError, match="blank"):
+        results._read_coded(
+            primary_csv(
+                '"Governor / Lt. Governor","","X","DEM","","#NULL#","20","30","4","5","59" \n'
+            ),
+            results.RESULTS_ELECTIONS["GP26"],
+            "Kent",
+            "dem",
+        )
+
+
+@pytest.mark.parametrize(("cell", "winner"), [("Y", 1), ("YES", 1), ("yes", 1), ("", 0), ("N", 0)])
+def test_read_named_winner_spellings(cell, winner):
+    rows = P14_ROWS.replace(
+        '"Governor / Lt. Governor","","Y"', f'"Governor / Lt. Governor","","{cell}"'
+    )
+    frame = results._read_named(p14_csv(rows), GP14, "Kent", "rep")
+    assert frame["winner"].to_list() == [winner, 0]
+
+
+def test_unregistered_vote_column_is_rejected():
+    # a 2014 file carrying a third absentee canvass the registry does not list would otherwise
+    # be silently left out of the row sums; the row-total check would catch a nonzero one, but
+    # a column of zeros would pass
+    rows = (
+        '"Larry Hogan","REP","Governor / Lt. Governor","","Y","","10","","20","","3","","4","",'
+        '"1","","0","","38",""\n'
+    )
+    data = (G10_HEAD + rows).encode()
+    with pytest.raises(results.ResultsParseError, match="not in the registry.*3rd Absentees Votes"):
+        results._read_named(data, GG14, "Kent", "all")
+    # the same header is fine for the 2010 general, which lists the column
+    assert results._read_named(data, GG10, "Kent", "all")["total_votes"].to_list() == [38]
+    # an N/A column (Dorchester 2020) and the Votes Against twins are not vote columns
+    head = P14_HEAD.replace('"Total Votes"', '"N/A Votes","N/A Votes","Total Votes"')
+    row = '"Larry Hogan","REP","Governor / Lt. Governor","","Y","10","20","3","4","1","","","38"\n'
+    frame = results._read_named((head + row).encode(), GP14, "Dorchester", "rep")
+    assert frame["total_votes"].to_list() == [38]
+
+
+def _g14_frames(rows_by_county):
+    return [results._read_named(g14_csv(r), GG14, c, "all") for c, r in rows_by_county.items()]
+
+
+def test_statewide_check_cong_columns_general():
+    frames = _g14_frames({"Allegany": G14_ROWS, "Kent": G14_ROWS})
+    good = check_csv(
+        CONG_GENERAL_HEAD,
+        [
+            '"1","00","Larry Hogan","REP","Governor / Lt. Governor","","Y","","50","20","6"\n',
+            '"1","00","Anthony G. Brown","DEM","Governor / Lt. Governor","","","","20","4","0"\n',
+            '"1","00","Peter Franchot","DEM","Comptroller","","Y","","30","0","0"\n',
+            '"2","00","Some Judge","","Judge Elsewhere","","Y","","999","1","0"\n',
+            # a county's own rows are not statewide rows
+            '"1","01","Larry Hogan","REP","Governor / Lt. Governor","","Y","","1","1","1"\n',
+        ],
+    )
+    assert results._check_statewide(GG14, "all", frames, good) == (3, 0)
+    with pytest.raises(results.ResultsParseError, match="Hogan"):
+        results._check_statewide(
+            GG14, "all", frames, good.replace(b'"50","20","6"', b'"50","20","7"')
+        )
+    # a statewide office with a candidate the check file lacks
+    hogan_only = check_csv(CONG_GENERAL_HEAD, [good.decode().splitlines()[1] + "\n"])
+    with pytest.raises(results.ResultsParseError, match="no statewide row.*Brown"):
+        results._check_statewide(GG14, "all", frames, hogan_only)
+    # an empty check file compares nothing (recorded as n/a by the parse)
+    assert results._check_statewide(GG14, "all", frames, check_csv(CONG_GENERAL_HEAD, [])) == (
+        0,
+        0,
+    )
+
+
+def test_statewide_check_cong_columns_general_against():
+    frames = [results._read_named(g10_csv(), GG10, c, "all") for c in ("Allegany", "Kent")]
+    rows = [
+        '"1","00","Martin O\'Malley","DEM","Governor / Lt. Governor","","Y","","40","30","10"\n',
+        '"1","00","Robert L. Ehrlich, Jr.","REP","Governor / Lt. Governor","","","","20","6","0"\n',
+        '"1","00","Judge Jane","","Judge Court of Appeals","01","Y","","12","0","0"\n',
+        '"2","00","Judge Jane","","Judge Court of Appeals","01","Y","","2","2","0"\n',
+    ]
+    assert results._check_statewide(GG10, "all", frames, check_csv(LEGS_GENERAL_HEAD, rows)) == (
+        3,
+        1,
+    )
+    rows[-1] = rows[-1].replace('"2","2","0"', '"2","2","1"')
+    with pytest.raises(results.ResultsParseError, match="against"):
+        results._check_statewide(GG10, "all", frames, check_csv(LEGS_GENERAL_HEAD, rows))
+
+
+def test_statewide_check_primary_header_without_vote_type():
+    frames = [results._read_named(p14_csv(), GP14, c, "rep") for c in ("Allegany", "Kent")]
+    good = check_csv(
+        CONG_PRIMARY_HEAD,
+        [
+            '"00","Larry Hogan","REP","Governor / Lt. Governor","","Y","50","20","6"\n',
+            '"00","David R. Craig","REP","Governor / Lt. Governor","","","20","4","0"\n',
+        ],
+    )
+    assert results._check_statewide(GP14, "rep", frames, good) == (2, 0)
+    with pytest.raises(results.ResultsParseError, match="Craig"):
+        results._check_statewide(
+            GP14, "rep", frames, good.replace(b'"20","4","0"', b'"20","4","1"')
+        )
+    legs = check_csv(LEGS_PRIMARY_HEAD, [ln + "\n" for ln in good.decode().splitlines()[1:]])
+    frames10 = [results._read_named(p14_csv(), GP10, c, "rep") for c in ("Allegany", "Kent")]
+    assert results._check_statewide(GP10, "rep", frames10, legs) == (2, 0)
+    with pytest.raises(results.ResultsParseError, match="no district columns"):
+        results._check_statewide(
+            GP14,
+            "rep",
+            frames,
+            check_csv(BREAKDOWN_HEAD.replace("Congressional District", "Nope"), []),
+        )
+
+
+def fill_named(env, election, check_data_by_party_file, skip=()):
+    """Archive a named-era election: the county files are the module's fixtures for its year and
+    kind (one general file, a dem and a rep primary file; non files are left out), the check
+    files come from the mapping (party file -> bytes; a party file not in it has no check)."""
+    for f in results.county_files(election):
+        if f.source_id in skip or f.party_file == "non":
+            continue
+        if f.role == "check":
+            if f.party_file not in check_data_by_party_file:
+                continue
+            data = check_data_by_party_file[f.party_file]
+        elif election.kind == "general":
+            data = g10_csv() if election.code == "GG10" else g14_csv()
+        elif f.party_file == "dem":
+            data = p14_csv(
+                '"Anthony G. Brown","DEM","Governor / Lt. Governor","","Y","1","1","0","0","0","2"\n'
+            )
+        else:
+            data = p14_csv()
+        archive(env, election, f, data)
+
+
+def test_parse_gg10_checks_against_the_legislative_file(env):
+    totals = check_csv(
+        LEGS_GENERAL_HEAD,
+        [
+            f'"1","00","Martin O\'Malley","DEM","Governor / Lt. Governor","","Y","","{24 * 30}","{24 * 10}","0"\n',
+            f'"1","00","Robert L. Ehrlich, Jr.","REP","Governor / Lt. Governor","","","","{24 * 13}","0","0"\n',
+            f'"1","00","Judge Jane","","Judge Court of Appeals","01","Y","","{24 * 6}","0","0"\n',
+            f'"2","00","Judge Jane","","Judge Court of Appeals","01","Y","","{24 * 2}","0","0"\n',
+        ],
+    )
+    fill_named(env, GG10, {"all": totals})
+    written, failed = results.results_parse("GG10", data_dir=env / "data")
+    assert failed == [] and written == 24
+    out = env / "data" / "results" / "GG10" / "county" / "19-st-marys-all.csv"
+    assert out.exists()
+    assert "absentees_3_against" in out.read_text().splitlines()[0]
+    side = json.loads(out.with_name("19-st-marys-all_provenance.json").read_text())
+    assert side["parser_version"] == results.PARSER_VERSION == "skipjack 0.3.0"
+    assert side["checks"]["statewide_check"] == (
+        "ok: 4 statewide rows (3 for, 1 against) match State_Legislative_Districts_2010_General.csv"
+    )
+    assert results.results_parse("GG10", data_dir=env / "data")[0] == 0
+
+
+def test_parse_named_general_mismatch_writes_nothing(env):
+    two_counties = check_csv(
+        CONG_GENERAL_HEAD,
+        ['"1","00","Larry Hogan","REP","Governor / Lt. Governor","","Y","","50","20","6"\n'],
+    )
+    fill_named(env, GG14, {"all": two_counties})
+    written, failed = results.results_parse("GG14", data_dir=env / "data")
+    assert written == 0 and failed and "no statewide row" in failed[0] and "Brown" in failed[0]
+    assert not (env / "data" / "results" / "GG14").exists()
+    # and a wrong statewide figure (the other candidates add up over 24 counties)
+    wrong = check_csv(
+        CONG_GENERAL_HEAD,
+        [
+            '"1","00","Larry Hogan","REP","Governor / Lt. Governor","","Y","","50","20","6"\n',
+            f'"1","00","Anthony G. Brown","DEM","Governor / Lt. Governor","","","","{24 * 12}","0","0"\n',
+            f'"1","00","Peter Franchot","DEM","Comptroller","","Y","","{24 * 15}","0","0"\n',
+        ],
+    )
+    fill_named(env, GG14, {"all": wrong})
+    written, failed = results.results_parse("GG14", data_dir=env / "data")
+    assert written == 0 and failed and "Hogan" in failed[0]
+
+
+def test_parse_named_general_without_check_file_fails(env):
+    fill_named(env, GG14, {})
+    written, failed = results.results_parse("GG14", data_dir=env / "data")
+    assert written == 0 and len(failed) == 1
+    assert "State_Congressional_Districts_2014_General.csv" in failed[0]
+
+
+def test_parse_gp14_checks_each_party_file_and_missing_non_check_is_n_a(env):
+    dem = check_csv(
+        CONG_PRIMARY_HEAD,
+        ['"00","Anthony G. Brown","DEM","Governor / Lt. Governor","","Y","24","12","12"\n'],
+    )
+    rep = check_csv(
+        CONG_PRIMARY_HEAD,
+        [
+            f'"00","Larry Hogan","REP","Governor / Lt. Governor","","Y","{24 * 30}","{24 * 8}","0"\n',
+            f'"00","David R. Craig","REP","Governor / Lt. Governor","","","{24 * 12}","0","0"\n',
+        ],
+    )
+    fill_named(env, GP14, {"dem": dem, "rep": rep})
+    non = next(x for x in results.county_files(GP14) if x.source_id.endswith("county-05-non"))
+    archive(
+        env, GP14, non, p14_csv('"N N","NON","Board of Education","","Y","1","0","0","0","0","1"\n')
+    )
+    written, failed = results.results_parse("GP14", data_dir=env / "data")
+    assert failed == [] and written == 49
+    county = env / "data" / "results" / "GP14" / "county"
+
+    def side(name):
+        return json.loads((county / f"{name}_provenance.json").read_text())["checks"]
+
+    assert side("01-allegany-dem")["statewide_check"] == (
+        "ok: 1 statewide rows (1 for, 0 against) match "
+        "State_Congressional_Districts_Democratic_2014_Primary.csv"
+    )
+    assert side("01-allegany-rep")["statewide_check"] == (
+        "ok: 2 statewide rows (2 for, 0 against) match "
+        "State_Congressional_Districts_Republican_2014_Primary.csv"
+    )
+    assert side("05-calvert-non")["statewide_check"] == (
+        "n/a: State_Congressional_Districts_NonPartisan_2014_Primary.csv not published"
+    )
+
+
+def test_parse_named_primary_missing_dem_check_fails(env):
+    rep = check_csv(
+        CONG_PRIMARY_HEAD,
+        [
+            f'"00","Larry Hogan","REP","Governor / Lt. Governor","","Y","{24 * 30}","{24 * 8}","0"\n',
+            f'"00","David R. Craig","REP","Governor / Lt. Governor","","","{24 * 12}","0","0"\n',
+        ],
+    )
+    fill_named(env, GP14, {"rep": rep})
+    written, failed = results.results_parse("GP14", data_dir=env / "data")
+    assert written == 0 and failed and "Democratic_2014_Primary" in failed[0]
+    assert not (env / "data" / "results" / "GP14").exists()
+
+
+def test_fetch_named_primary_skips_absent_non_files(env, monkeypatch):
+    def body(url):
+        if "NonPartisan" in url:
+            return b"<html>nope</html>"
+        if "State_Congressional" in url:
+            return check_csv(CONG_PRIMARY_HEAD, [])
+        return p14_csv()
+
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(body))
+    records = results.results_fetch("GP14")
+    assert len(records) == 50  # 24 x (dem, rep) + the dem and rep check files
+    assert (
+        env / "archives/sbe/results/GP14/Baltimore_City_County_Democratic_2014_Primary.csv"
+    ).exists()
+    assert (
+        env / "archives/sbe/results/GP14/State_Congressional_Districts_Republican_2014_Primary.csv"
+    ).exists()
+    assert not any("NonPartisan" in r.source_url for r in records)

@@ -2,7 +2,8 @@
 
 Everything is keyed by the SBE election code (GP26, PG24, ...). A parse is all-or-nothing per
 election: every county file must read, every row's total must equal the sum of its vote types,
-and the county sums must equal the SBE's statewide rows in the congressional breakdown files.
+and the county sums must equal the SBE's statewide rows in a statewide check file (the
+congressional breakdown files, or the archive's districts files).
 """
 
 from __future__ import annotations
@@ -29,7 +30,7 @@ from skipjack.pipeline.provenance import (
 
 logger = logging.getLogger(__name__)
 
-PARSER_VERSION = "skipjack 0.2.0"
+PARSER_VERSION = "skipjack 0.3.0"
 RESULTS_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 
 ARCHIVE_BASE = "https://elections.maryland.gov/elections/archive/{year}/election_data"
@@ -75,7 +76,8 @@ VOTE_TYPES = [
 ]
 
 # 2020's vote types: the general and the primary use different labels, so each election carries
-# its own list (the 2020 primary has no early or Mail-In Ballot 2 columns)
+# its own list (the 2020 primary has no early or Mail-In Ballot 2 columns). Elections before 2020
+# use the archive's labels; the 2010 general alone adds a third absentee canvass.
 VOTE_TYPES_2020_GENERAL = [
     ("Early Voting", "early_voting"),
     ("Election Day", "election_day"),
@@ -88,17 +90,25 @@ VOTE_TYPES_2020_PRIMARY = [
     ("In Person Voting", "in_person_voting"),
     ("Provisional", "provisional"),
 ]
+VOTE_TYPES_ARCHIVE = [
+    ("Early", "early"),
+    ("Election Night", "election_night"),
+    ("Absentees", "absentees"),
+    ("Provisional", "provisional"),
+    ("2nd Absentees", "absentees_2"),
+]
+VOTE_TYPES_2010_GENERAL = VOTE_TYPES_ARCHIVE + [("3rd Absentees", "absentees_3")]
 
-# 2020 files are named by county, not number. Most are the county name with underscores; the
-# irregular ones follow the SBE's own links (Baltimore City's files read "Baltimore_City_County_",
-# the county's "Baltimore_County_").
+# 2010-2020 files are named by county, not number. Most are the county name with underscores;
+# the irregular ones follow the SBE's own links (Baltimore City's files read
+# "Baltimore_City_County_", the county's "Baltimore_County_").
 COUNTY_FILE_STEMS = {code: name.replace(" ", "_") for code, name in COUNTY_CODES.items()} | {
     "04": "Baltimore",
     "17": "Prince_Georges",
     "18": "Queen_Annes",
     "19": "St._Marys",
 }
-PARTY_FILES_2020 = {"dem": "Democratic", "rep": "Republican", "non": "NonPartisan"}
+PARTY_FILES_NAMED = {"dem": "Democratic", "rep": "Republican", "non": "NonPartisan"}
 
 PARTY_FILES = {"dem": "Democratic", "rep": "Republican", "non": "Non-Partisan"}
 # the SBE's own spelling of the non-partisan breakdown file
@@ -128,8 +138,12 @@ class ResultsElection:
     name: str
     election_day: str
     base_url: str
-    layout: str = "coded"  # "coded" or "named2020"
+    layout: str = "coded"  # "coded" (2022 on) or "named" (2010-2020)
     vote_types: list[tuple[str, str]] = field(default_factory=lambda: list(VOTE_TYPES))
+    # where the statewide rows come from: "congressional" (the coded breakdown files, or the
+    # archive's State_Congressional_Districts files), "legislative" (2010's districts files),
+    # "all_state" (the 2020 general's All_State file) or "none" (the 2020 primary)
+    check: str = "congressional"
     # False until the SBE posts the files (it answers an HTML page meanwhile); flip it later
     published: bool = True
 
@@ -142,10 +156,17 @@ def _election(code, year, kind, name, day, live=False, published=True) -> Result
     base = (LIVE_BASE if live else ARCHIVE_BASE).format(year=year)
     e = ResultsElection(code, year, kind, name, day, base, published=published)
     if year == 2020:
-        e.layout = "named2020"
+        e.layout = "named"
         e.vote_types = list(
             VOTE_TYPES_2020_GENERAL if kind == "general" else VOTE_TYPES_2020_PRIMARY
         )
+        e.check = "all_state" if kind == "general" else "none"
+    elif year <= 2018:
+        e.layout = "named"
+        e.vote_types = list(
+            VOTE_TYPES_2010_GENERAL if (year, kind) == (2010, "general") else VOTE_TYPES_ARCHIVE
+        )
+        e.check = "legislative" if year == 2010 else "congressional"
     return e
 
 
@@ -169,6 +190,17 @@ RESULTS_ELECTIONS: dict[str, ResultsElection] = {
         _election("GP22", 2022, "primary", "2022 gubernatorial primary", "2022-07-19"),
         _election("PG20", 2020, "general", "2020 presidential general election", "2020-11-03"),
         _election("PP20", 2020, "primary", "2020 presidential primary", "2020-06-02"),
+        # GG18 is also a turnout code (pipeline/turnout.py); the ids and directories differ
+        _election("GG18", 2018, "general", "2018 gubernatorial general election", "2018-11-06"),
+        _election("GP18", 2018, "primary", "2018 gubernatorial primary", "2018-06-26"),
+        _election("PG16", 2016, "general", "2016 presidential general election", "2016-11-08"),
+        _election("PP16", 2016, "primary", "2016 presidential primary", "2016-04-26"),
+        _election("GG14", 2014, "general", "2014 gubernatorial general election", "2014-11-04"),
+        _election("GP14", 2014, "primary", "2014 gubernatorial primary", "2014-06-24"),
+        _election("PG12", 2012, "general", "2012 presidential general election", "2012-11-06"),
+        _election("PP12", 2012, "primary", "2012 presidential primary", "2012-04-03"),
+        _election("GG10", 2010, "general", "2010 gubernatorial general election", "2010-11-02"),
+        _election("GP10", 2010, "primary", "2010 gubernatorial primary", "2010-09-14"),
     ]
 }
 
@@ -184,13 +216,22 @@ class ResultsFile:
     @property
     def file_name(self) -> str:
         code = self.election.code
-        if self.election.layout == "named2020":
+        year = self.election.year
+        if self.election.layout == "named":
             if self.role == "check":
-                return "All_State_2020_General.csv"
+                if self.election.check == "all_state":
+                    return "All_State_2020_General.csv"
+                districts = (
+                    "Legislative" if self.election.check == "legislative" else "Congressional"
+                )
+                if self.election.kind == "general":
+                    return f"State_{districts}_Districts_{year}_General.csv"
+                party = PARTY_FILES_NAMED[self.party_file]
+                return f"State_{districts}_Districts_{party}_{year}_Primary.csv"
             stem = COUNTY_FILE_STEMS[self.county_code]
             if self.election.kind == "general":
-                return f"{stem}_County_2020_General.csv"
-            return f"{stem}_County_{PARTY_FILES_2020[self.party_file]}_2020_Primary.csv"
+                return f"{stem}_County_{year}_General.csv"
+            return f"{stem}_County_{PARTY_FILES_NAMED[self.party_file]}_{year}_Primary.csv"
         if self.role == "check":
             if self.election.kind == "general":
                 return f"{code}_CongressionalBreakDown.csv"
@@ -219,11 +260,8 @@ def county_files(election: ResultsElection) -> list[ResultsFile]:
         for code, name in COUNTY_CODES.items()
         for pf in election.party_files
     ]
-    if election.layout == "named2020":
-        # one all-parties statewide file for the general; the primary has none
-        if election.kind == "general":
-            files.append(ResultsFile(election, "00", "State of Maryland", "all", "check"))
-        return files
+    if election.check == "none":
+        return files  # the 2020 primary has no statewide file
     files += [
         ResultsFile(election, "00", "State of Maryland", pf, "check") for pf in election.party_files
     ]
@@ -277,8 +315,9 @@ def _frame(data: bytes, where: str) -> pl.DataFrame:
 
 
 def _int(value: str, where: str, column: str) -> int | None:
+    """An integer cell; blank, and the archive's "#NULL#" token, read as None."""
     value = value.replace(",", "").strip()
-    if value == "":
+    if value == "" or value.upper() == "#NULL#":
         return None
     try:
         return int(value)
@@ -293,20 +332,22 @@ def _read_coded(
     return _read_wide(data, election, county, party_file, blank_is_zero=False)
 
 
-def _read_named2020(
+def _read_named(
     data: bytes, election: ResultsElection, county: str, party_file: str
 ) -> pl.DataFrame:
-    """One county file of the 2020 layout: same column names, different order and vote types.
+    """One county file of the 2010-2020 layout: same column names as the coded layout, a
+    different order, and each year's own vote types.
 
     Columns are read by name, so the reordering does not matter; the vote-type labels come from
     the election's own list, and unused columns (Dorchester's blank "N/A Votes") are ignored,
-    which the row-total check keeps honest. Some files (Frederick's) leave a zero vote cell blank;
-    that reads as 0 here, and the total must still equal the sum.
+    which the row-total check keeps honest. Some files (Frederick's 2020) leave a zero vote cell
+    blank, and the 2010-2018 files sometimes print "#NULL#" for one; both read as 0 here, and the
+    total must still equal the sum.
     """
     return _read_wide(data, election, county, party_file, blank_is_zero=True)
 
 
-READERS = {"coded": _read_coded, "named2020": _read_named2020}
+READERS = {"coded": _read_coded, "named": _read_named}
 
 
 def _read_wide(
@@ -330,6 +371,18 @@ def _read_wide(
             f"{where}: expected {election.code} {election.layout} layout columns in {expected}; "
             f"missing {missing}"
         )
+    unknown = sorted(
+        {
+            name
+            for c in raw.columns
+            if (name := re.sub(r"\.\d+$", "", c)).endswith(" Votes")
+            and name != "Total Votes"
+            and not name.startswith("N/A")
+            and name not in need
+        }
+    )
+    if unknown:
+        raise ResultsParseError(f"{where}: vote columns not in the registry: {unknown}")
     if raw.height == 0:
         raise ResultsParseError(f"{where}: no data rows (header only)")
 
@@ -344,7 +397,7 @@ def _read_wide(
             "district": r["Office District"],
             "candidate": r["Candidate Name"],
             "party": r["Party"],
-            "winner": 1 if r["Winner"].upper() == "Y" else 0,
+            "winner": 1 if r["Winner"].strip().upper() in ("Y", "YES") else 0,
             "write_in": 1 if against and r["Write-In?"].upper() == "Y" else 0,
         }
         votes_sum, against_sum, against_seen = 0, 0, False
@@ -395,13 +448,16 @@ def _check_statewide(
 ) -> tuple[int, int]:
     """Compare the county sums with the breakdown file's statewide (County 00) rows.
 
-    The breakdown files carry the statewide, congressional and legislative contests, not county
-    offices (sheriff, school board), and not every office on the ballot in all 24 counties. So an
-    office the breakdown carries with a blank district must match candidate by candidate in both
+    The breakdown files (and the archive's State_Congressional_Districts and
+    State_Legislative_Districts files, whose per-district columns read "CONG 04" / "LEGS 37B")
+    carry the statewide, congressional and legislative contests, not county offices (sheriff,
+    school board), and not every office on the ballot in all 24 counties. So an office the
+    breakdown carries with a blank district must match candidate by candidate in both
     directions; district contests are compared when present; other offices are not checked.
     Generals compare FOR rows (Vote Type 1) with the counties' total_votes, and, for contests the
     breakdown carries AGAINST rows (Vote Type 2) for (judges' retention questions), those with
-    the counties' total_against. Returns (FOR rows compared, AGAINST rows compared).
+    the counties' total_against; the primaries' files have no Vote Type column. Returns (FOR
+    rows compared, AGAINST rows compared).
     """
     where = f"{election.code} {party_file} breakdown"
     raw = _frame(breakdown, where)
@@ -415,7 +471,11 @@ def _check_statewide(
         against_raw = raw.clear()
     state: dict[tuple[str, str, str, str], int] = {}
     state_against: dict[tuple[str, str, str, str], int] = {}
-    district_cols = [c for c in raw.columns if c.startswith("Congressional District")]
+    district_cols = [
+        c
+        for c in raw.columns
+        if c.startswith("Congressional District") or re.fullmatch(r"(CONG|LEGS) \S+", c)
+    ]
     if not district_cols:
         raise ResultsParseError(f"{where}: no district columns")
     for r in raw.filter(pl.col("County") == "00").iter_rows(named=True):
@@ -676,16 +736,14 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
         if not has_check:
             continue  # the 2020 primary has no statewide file; the row totals are all we have
         frames = [fr for _, _, fr in items]
-        if e.layout == "named2020":
-            if "all" not in breakdowns:
-                raise ResultsParseError("no statewide file for the county files")
-            compared[pf] = _check_statewide_all_state(e, frames, breakdowns["all"])
-            continue
         if pf not in breakdowns:
             if pf == "non":
-                continue  # the SBE has not published that breakdown; recorded as n/a below
-            raise ResultsParseError(f"no breakdown file for the {pf} county files")
-        compared[pf] = _check_statewide(e, pf, frames, breakdowns[pf])
+                continue  # the SBE has not published that check file; recorded as n/a below
+            raise ResultsParseError(f"no statewide check file for the {pf} county files")
+        if e.check == "all_state":
+            compared[pf] = _check_statewide_all_state(e, frames, breakdowns[pf])
+        else:
+            compared[pf] = _check_statewide(e, pf, frames, breakdowns[pf])
 
     targets = [
         (out_dir / f"{f.county_code}-{county_slug(f.county)}-{f.party_file}.csv", f, rec, fr)
@@ -703,10 +761,7 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
             statewide = "no statewide file published"
         else:
             check_file = next(
-                c.file_name
-                for c in files
-                if c.role == "check"
-                and c.party_file == ("all" if e.layout == "named2020" else f.party_file)
+                c.file_name for c in files if c.role == "check" and c.party_file == f.party_file
             )
             counts = compared.get(f.party_file)
             if counts is None:

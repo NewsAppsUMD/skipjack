@@ -315,3 +315,38 @@ def test_non_ascii_digit_district_is_left_alone(conn, tmp_path):
     rows = [["U.S. Congress", "\u00b2", "A B", "DEM", 1, 0, 1, 0, 0, 0, 0, 1]]
     write_county(tmp_path, "GP26", "01", "Allegany", "dem", rows)
     assert load_results(conn, tmp_path) == 1
+
+
+# GG10 vote types: early, election_night, absentees, provisional, absentees_2, absentees_3, each
+# with an against column
+GG10_GENERAL = [
+    ["Governor / Lt. Governor", "", "Martin O'Malley", "DEM", 1, 0,
+     10, "", 20, "", 3, "", 4, "", 1, "", 2, "", 40, ""],
+    ["Judge Court of Appeals", "01", "Judge Jane", "", 1, 0,
+     3, 1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2],
+]  # fmt: skip
+
+
+def test_loads_2010_general_with_six_vote_types(conn, tmp_path):
+    assert len(columns_for("GG10")) == 9 + 12 + 2
+    write_county(tmp_path, "GG10", "01", "Allegany", "all", GG10_GENERAL)
+    assert load_results(conn, tmp_path) == 2
+    judge = conn.execute("SELECT * FROM results_county WHERE office LIKE 'Judge%'").fetchone()
+    assert judge["total_votes"] == 6 and judge["total_against"] == 2
+    votes = conn.execute(
+        "SELECT vote_type, votes, votes_against FROM results_votes WHERE result_id = ? "
+        "ORDER BY rowid",
+        (judge["id"],),
+    ).fetchall()
+    assert [tuple(v) for v in votes] == [
+        ("early", 3, 1), ("election_night", 3, 1), ("absentees", 0, 0), ("provisional", 0, 0),
+        ("absentees_2", 0, 0), ("absentees_3", 0, 0),
+    ]  # fmt: skip
+    gov = conn.execute("SELECT * FROM results_county WHERE candidate LIKE 'Martin%'").fetchone()
+    assert gov["total_against"] is None
+    third = conn.execute(
+        "SELECT votes, votes_against FROM results_votes WHERE result_id = ? "
+        "AND vote_type = 'absentees_3'",
+        (gov["id"],),
+    ).fetchone()
+    assert tuple(third) == (2, None)
