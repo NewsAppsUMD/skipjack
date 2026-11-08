@@ -28,6 +28,11 @@ from skipjack.web.summary import signed
 from skipjack.web.urls import slugify
 
 
+def possessive(name: str) -> str:
+    """A proper name's possessive, AP style: Allegany's, but Prince George's stays."""
+    return name if name.endswith("'s") else name + "'s"
+
+
 def configure_templates(
     templates: Jinja2Templates,
     base: str = "",
@@ -42,6 +47,7 @@ def configure_templates(
     """
     templates.env.filters["slug"] = slugify
     templates.env.filters["signed"] = signed
+    templates.env.filters["possessive"] = possessive
     templates.env.filters["month_label"] = month_label
     templates.env.filters["day_label"] = day_label
     templates.env.globals.update(

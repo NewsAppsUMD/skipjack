@@ -182,13 +182,38 @@ def test_runs_split_at_none_and_at_a_break():
 # --- the lean ----------------------------------------------------------------------------
 
 
-def test_lean_plot_axis_is_symmetric_on_a_nice_range(trends):
+def test_lean_plot_axis_is_asymmetric_on_nice_bounds(trends):
     p = plot.lean_plot(trends)
     assert p["width"] == plot.WIDTH
-    # margins reach -40 (county) and 26.4 (state): the axis runs R+40 to D+40 in tens
-    assert [t["label"] for t in p["y_ticks"]] == ["D+40", "D+30", "D+20", "D+10", "0", "R+10", "R+20", "R+30", "R+40"]  # fmt: skip
+    # margins reach -40 (county) and 26.4 (state), a span past 60: the axis runs R+40 to
+    # D+40 in twenties, each end on the tick past the extreme
+    assert [t["label"] for t in p["y_ticks"]] == ["D+40", "D+20", "0", "R+20", "R+40"]
     ys = [t["y"] for t in p["y_ticks"]]
-    assert ys == sorted(ys) and p["y0"] == ys[4]
+    assert ys == sorted(ys) and p["y0"] == ys[2]
+    assert ys[0] == plot.LEAN_TOP and ys[-1] == plot.LEAN_HEIGHT - plot.LEAN_BOTTOM
+
+
+def test_lean_plot_range_always_includes_zero_and_widens_its_step(trends):
+    # every margin Democratic: the axis starts at 0 and runs up, using the whole height
+    for t in trends["summary"]["top"]:
+        t["margin"] = abs(t["margin"]) + 20
+        if t["statewide_margin"] is not None:
+            t["statewide_margin"] = abs(t["statewide_margin"])
+    p = plot.lean_plot(trends)
+    assert [t["label"] for t in p["y_ticks"]] == ["D+60", "D+50", "D+40", "D+30", "D+20", "D+10", "0"]  # fmt: skip
+    assert p["y0"] == plot.LEAN_HEIGHT - plot.LEAN_BOTTOM
+    # every margin Republican: 0 is the top
+    for t in trends["summary"]["top"]:
+        t["margin"] = -t["margin"]
+        if t["statewide_margin"] is not None:
+            t["statewide_margin"] = -t["statewide_margin"]
+    p = plot.lean_plot(trends)
+    assert p["y_ticks"][0]["label"] == "0" and p["y_ticks"][-1]["label"] == "R+60"
+    assert p["y0"] == plot.LEAN_TOP
+    # a span past 60 points takes ticks every 20
+    trends["summary"]["top"][0]["margin"] = 45.0
+    p = plot.lean_plot(trends)
+    assert [t["label"] for t in p["y_ticks"]] == ["D+60", "D+40", "D+20", "0", "R+20", "R+40", "R+60"]  # fmt: skip
     assert [t["label"] for t in p["x_ticks"]] == ["2014", "2016", "2018", "2026"]
     assert [t["cycle"] for t in p["x_ticks"]][:2] == ["gubernatorial", "presidential"]
     assert p["x_ticks"][-1]["unofficial"] is True
@@ -230,7 +255,8 @@ def test_lean_summary_counts_wins_and_names_the_move(trends):
     assert s["party_label"] == "Republican" and (s["won"], s["of"]) == (4, 4)
     assert s["first"] == "R+20.0" and s["latest"] == "R+30.0"
     assert s["first_year"] == 2014 and s["latest_year"] == 2026
-    assert s["shift"] == -10.0 and s["shift_text"] == "−10.0"
+    assert s["shift"] == -10.0 and s["shift_text"] == "10.0 points"
+    assert s["shift_direction"] == "toward Republicans"
     assert s["verb"] == "widened"
     trends["summary"]["top"][3]["margin"] = 5.0
     s = plot.lean_summary(trends)
@@ -238,6 +264,12 @@ def test_lean_summary_counts_wins_and_names_the_move(trends):
     assert s["party_label"] == "Republican"
     trends["summary"]["top"][3]["margin"] = -10.0
     assert plot.lean_summary(trends)["verb"] == "narrowed"
+    assert plot.lean_summary(trends)["shift_direction"] == "toward Democrats"
+    trends["summary"]["top"][3]["margin"] = -20.0
+    s = plot.lean_summary(trends)
+    assert s["shift_text"] == "no change" and s["shift_direction"] is None
+    trends["summary"]["top"][3]["margin"] = -21.0
+    assert plot.lean_summary(trends)["shift_text"] == "1.0 point"
     trends["summary"]["top"] = [None] * 4
     assert plot.lean_summary(trends) is None
 
@@ -297,6 +329,11 @@ def test_ballot_grid_truncates_a_long_row_label_and_keeps_the_full_title(trends)
     assert row["label"].endswith("…") and len(row["label"]) <= plot.LABEL_CHARS
 
 
+def test_cell_text_rounds_half_up():
+    assert plot._cell_text(2.5) == "D+3" and plot._cell_text(-2.5) == "R+3"
+    assert plot._cell_text(0.4) == "even" and plot._cell_text(-0.5) == "R+1"
+
+
 def test_ballot_grid_is_none_without_series(trends):
     for lv in trends["levels"]:
         lv["offices"] = []
@@ -310,7 +347,9 @@ def test_share_lines_segments_end_labels_and_breaks(trends):
     house = trends["levels"][0]["offices"][1]
     house["breaks"] = [2018]
     p = plot.share_lines(house, GENERALS)
-    assert (p["width"], p["height"]) == (300, 150)
+    assert (p["width"], p["height"]) == (300, 156)
+    # the year labels (at height - 6) and the 9px unofficial tag above them clear the floor
+    assert p["height"] - 6 - 11 - 7 >= p["y_bottom"] == 130
     assert [t["label"] for t in p["y_ticks"]] == ["0", None, "50", None, "100"]
     # a run ends before the 2018 break: 2014-16, then 2018-26
     assert [len(r) for r in p["dem"]["segments"]] == [2, 2]
@@ -357,6 +396,7 @@ def test_ticket_dots_rows_only_where_offices_were_compared(trends):
     p = plot.ticket_dots(trends)
     assert [r["label"] for r in p["rows"]] == ["2014, Governor", "2026, Governor"]
     assert p["rows"][1]["unofficial"] is True and p["rows"][0]["unofficial"] is False
+    assert [r["cycle"] for r in p["rows"]] == ["gubernatorial", "gubernatorial"]
     dot = p["rows"][0]["dots"][0]
     assert dot["x"] > p["x0"] and dot["color"] == plot.SERIES_COLORS[0]
     assert dot["title"] == "Sheriff: Dem share 48.0%, 8.0 points above the Democratic ticket"
@@ -457,3 +497,11 @@ def test_county_plots_groups_each_level(trends):
     state = plot.county_plots(trends)["levels"]["state"]
     assert [s["id"] for s, _ in state["cards"]] == ["governor"]
     assert [s["id"] for s, _ in state["more"]] == ["state_senate-1"]
+    # a one-point districted series goes behind the same disclosure, as a table alone
+    house = series("house_of_delegates", "House of Delegates, District 1B",
+                   [None, None, None, gpoint(2026, ("Ann", 40), ("Bob", 60), unofficial=True)],
+                   level="state", district="1B")  # fmt: skip
+    trends["levels"][1]["offices"].append(house)
+    state = plot.county_plots(trends)["levels"]["state"]
+    assert [(s["id"], p is None) for s, p in state["more"]] == [("state_senate-1", False), ("house_of_delegates-1B", True)]  # fmt: skip
+    assert state["sparse"] == []

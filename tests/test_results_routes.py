@@ -23,7 +23,9 @@ from skipjack.web.routes import results as results_route
 def add(conn, election, county, party_file, office, district, candidates):
     """Rows for one contest in one county; a candidate is (name, party, winner, votes, ...)
     with votes a {vote type stem: n} dict, then optionally an `against` count and write_in."""
-    code = {"Allegany": "01", "Garrett": "11", "Baltimore City": "03"}[county]
+    code = {"Allegany": "01", "Garrett": "11", "Baltimore City": "03", "Prince George's": "17"}[
+        county
+    ]
     sid = f"sbe-results-{election}-county-{code}-{party_file}"
     conn.execute(
         "INSERT OR IGNORE INTO sources (source_id, source_url, source_name, fetch_date)"
@@ -574,7 +576,8 @@ def test_trends_county_page_draws_each_section_with_a_table_twin(history_client)
     flat = " ".join(lean.split())
     assert "Allegany has voted Republican for president or governor in 2 of 2 generals since 2022" in flat  # fmt: skip
     assert "its margin widened from R+20.0 in 2022 to R+39.6 in 2024" in flat
-    assert '<p class="trend-hero"><strong>R+39.6</strong>' in lean and "<strong>\u221219.6</strong> since 2022" in lean  # fmt: skip
+    assert '<p class="trend-hero"><strong>R+39.6</strong>' in lean
+    assert "<strong>19.6 points</strong> toward Republicans since 2022" in lean
     assert 'class="trend-dot-rep"' in lean and "lean vs. the state" in lean
     assert "<title>2022 Governor: Allegany R+20.0, Maryland R+30.0, lean +10.0</title>" in lean
     grid = html[html.index('id="ballot"') : html.index('id="federal"')]
@@ -594,6 +597,9 @@ def test_trends_county_page_draws_each_section_with_a_table_twin(history_client)
     )  # the latest shares
     ticket = html[html.index('id="ticket"') : html.index('id="ballots"')]
     assert "2022, Governor" in ticket and "Sheriff: Dem share 37.5%, 2.5 points below the Democratic ticket" in ticket  # fmt: skip
+    assert 'role="group" aria-label="2022, Governor:' in ticket and 'role="img"' not in ticket
+    assert "Presidential years have no county offices on the ballot." in ticket
+    assert html.count('<div class="trend-scroll"><svg') == 5  # every full-width figure scrolls
     ballots = html[html.index('id="ballots"') : html.index('id="primaries"')]
     assert (
         'class="trend-col trend-col-pres"' in ballots and ">101<" in ballots
@@ -620,9 +626,25 @@ def test_trends_baltimore_city_level_is_the_city(history_client, data):
         office = "Governor / Lt. Governor" if code == "GG22" else "President - Vice Pres"
         add(data, code, "Baltimore City", "all", office, "",
             [("Rep R", "REP", False, {"early": 30}), ("Dem D", "DEM", True, {"early": 70})])  # fmt: skip
+    add(data, "PG24", "Baltimore City", "all", "Mayor", "",
+        [("Rep M", "REP", False, {"early": 20}), ("Dem M", "DEM", True, {"early": 80})])  # fmt: skip
     html = history_client.get("/results/county/baltimore-city/").text
     assert '<h2 id="county">City</h2>' in html and '<a href="#county">City</a>' in html
+    # the city elects its offices in presidential years, so the ticket caption does not deny it
+    ticket = html[html.index('id="ticket"') : html.index('id="ballots"')]
+    assert "2024, President" in ticket and "Presidential years have no county offices" not in ticket
     assert '<h2 id="county">County</h2>' in history_client.get("/results/county/allegany/").text
+
+
+def test_possessive_filter_follows_ap_style(history_client, data):
+    from skipjack.web.app import possessive
+
+    assert possessive("Prince George's") == "Prince George's"
+    assert possessive("Allegany") == "Allegany's"
+    add(data, "GG22", "Prince George's", "all", "Governor / Lt. Governor", "",
+        [("Dan Cox", "REP", False, {"early": 30}), ("Wes Moore", "DEM", True, {"early": 70})])  # fmt: skip
+    html = history_client.get("/results/county/prince-georges/").text.replace("&#39;", "'")
+    assert "George's's" not in html and "Prince George's margin for president" in html
 
 
 def test_every_trend_class_the_templates_emit_is_styled():

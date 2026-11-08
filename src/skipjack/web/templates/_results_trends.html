@@ -57,13 +57,13 @@
     {{ s.latest_year }}.</p>
 <p class="trend-hero"><strong>{{ s.latest }}</strong> latest top-of-ticket margin
     ({{ s.latest_year }}, {{ s.latest_title|lower }}{% if s.latest_unofficial %}, unofficial{% endif %})
-    &middot; <strong>{{ s.shift_text }}</strong> since {{ s.first_year }}</p>
+    &middot; <strong>{{ s.shift_text }}</strong>{% if s.shift_direction %} {{ s.shift_direction }}{% endif %} since {{ s.first_year }}</p>
 {% endif %}
 {% if p %}
 <figure class="trend">
     {{ legend([{"css": "trend-key-ink", "text": trends.county}, {"css": "trend-key-gray", "text": "Maryland"}]) }}
-    <svg viewBox="0 0 {{ p.width }} {{ p.height }}" role="group"
-         aria-label="{{ trends.county }}'s margin for president or governor against Maryland's, by general election">
+    <div class="trend-scroll"><svg viewBox="0 0 {{ p.width }} {{ p.height }}" role="group"
+         aria-label="{{ trends.county|possessive }} margin for president or governor against Maryland's, by general election">
         {% for tk in p.y_ticks %}
         <line x1="{{ p.x_ticks[0].x - 10 }}" y1="{{ tk.y }}" x2="{{ p.x_ticks[-1].x + 10 }}" y2="{{ tk.y }}" class="{{ 'trend-zero' if tk.label == '0' else 'trend-grid-line' }}"></line>
         <text x="{{ p.x_ticks[0].x - 14 }}" y="{{ tk.y + 4 }}" class="trend-tick trend-tick-end">{{ tk.label }}</text>
@@ -80,8 +80,8 @@
         <circle cx="{{ tk.x }}" cy="{{ p.y_bottom + 8 }}" r="2.5" class="trend-cycle{% if tk.cycle == 'presidential' %} trend-cycle-pres{% endif %}"></circle>
         {{ year_tick(tk, p.y_bottom + 31) }}
         {% endfor %}
-    </svg>
-    <figcaption class="note">{{ trends.county }}'s Democratic-minus-Republican margin for president
+    </svg></div>
+    <figcaption class="note">{{ trends.county|possessive }} Democratic-minus-Republican margin for president
         or governor, in points, against Maryland's; the band between them is the county's lean. A
         filled marker under a year is a presidential election, an open one a governor's race; a
         hollow point is the unofficial count.</figcaption>
@@ -97,7 +97,7 @@
 {% macro lean_table(trends) -%}
 <div class="overflow-auto">
 <table class="results-table compact">
-    <caption class="sr-only">{{ trends.county }}'s margin for president or governor against the statewide margin, by general election</caption>
+    <caption class="sr-only">{{ trends.county|possessive }} margin for president or governor against the statewide margin, by general election</caption>
     <thead>
         <tr>
             <th scope="col">Year</th>
@@ -124,7 +124,7 @@
     </tbody>
 </table>
 </div>
-<p class="note">The lean is {{ trends.county }}'s Democratic-minus-Republican margin minus
+<p class="note">The lean is {{ trends.county|possessive }} Democratic-minus-Republican margin minus
     Maryland's, in points: positive means the county ran more Democratic than the state.</p>
 {%- endmacro %}
 
@@ -134,7 +134,7 @@
 {% if g %}
 <figure class="trend trend-grid-figure">
     {{ legend(g.legend) }}
-    <svg viewBox="0 0 {{ g.width }} {{ g.height }}" role="group" class="trend-grid"
+    <div class="trend-scroll"><svg viewBox="0 0 {{ g.width }} {{ g.height }}" role="group" class="trend-grid"
          aria-label="Democratic minus Republican margin in {{ trends.county }} for every office, by general election">
         <defs>
             <pattern id="trend-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
@@ -156,7 +156,7 @@
         {% for c in g.cells %}
         {% if c.href %}<a href="{{ base }}{{ c.href }}">{% endif %}<rect x="{{ c.x }}" y="{{ c.y }}" width="{{ c.w }}" height="{{ c.h }}" class="trend-cell {{ c.css }}{% if c.unofficial %} trend-cell-unofficial{% endif %}"><title>{{ c.title }}</title></rect>{% if c.text %}<text x="{{ c.x + c.w / 2 }}" y="{{ c.y + 15 }}" class="trend-cell-text{% if c.dark %} trend-cell-light{% endif %}">{{ c.text }}</text>{% endif %}{% if c.break %}<line x1="{{ c.x + 1 }}" y1="{{ c.y }}" x2="{{ c.x + 1 }}" y2="{{ c.y + c.h }}" class="trend-break"></line>{% endif %}{% if c.href %}</a>{% endif %}
         {% endfor %}
-    </svg>
+    </svg></div>
     <figcaption class="note">A tile's colour is the Democratic-minus-Republican margin where both
         parties ran; "D" or "R" alone, only that party's candidate was on the ballot; "NP", a
         nonpartisan contest; hatched, the office was not on that year's ballot in
@@ -271,7 +271,7 @@
 {% macro level(lv, trends, plots) -%}
 {% set lay = plots.levels[lv.level] %}
 {% if not lv.offices %}
-<p class="muted">No {{ level_label(lv.level, lv.label, trends)|lower }} offices on {{ trends.county }}'s ballots since 2010.</p>
+<p class="muted">No {{ level_label(lv.level, lv.label, trends)|lower }} offices on {{ trends.county|possessive }} ballots since 2010.</p>
 {% endif %}
 {% if lay.cards or lay.more %}
 {{ legend([{"css": "trend-key-dem", "text": "Democrat"}, {"css": "trend-key-rep", "text": "Republican"}]) }}
@@ -287,9 +287,18 @@
 {% if lay.more %}
 <details class="trend-more">
     <summary>State Senate and House of Delegates districts ({{ lay.more|length }})</summary>
+    {% set more_cards = lay.more|rejectattr("1", "none")|list %}
+    {% if more_cards %}
     <div class="multiples trend-multiples">
-        {% for s, p in lay.more %}{{ share_card(s, p, trends) }}{% endfor %}
+        {% for s, p in more_cards %}{{ share_card(s, p, trends) }}{% endfor %}
     </div>
+    {% endif %}
+    {% for s, p in lay.more if not p %}
+    <article class="contest-card trend-card" id="{{ s.id }}">
+        <h3>{{ s.title }}</h3>
+        {{ series_table(s, trends) }}
+    </article>
+    {% endfor %}
 </details>
 {% endif %}
 {% for s in lay.sparse %}
@@ -304,7 +313,7 @@
     {% for s in lay.nonpartisan %}<span id="{{ s.id }}"></span>{% endfor %}
     <div class="overflow-auto">
     <table class="results-table compact">
-        <caption class="sr-only">Winners of {{ trends.county }}'s nonpartisan contests, by general election</caption>
+        <caption class="sr-only">Winners of {{ trends.county|possessive }} nonpartisan contests, by general election</caption>
         <thead>
             <tr>
                 <th scope="col">Contest</th>
@@ -337,24 +346,24 @@
 {% else %}
 <figure class="trend">
     {{ legend(p.legend) }}
-    <svg viewBox="0 0 {{ p.width }} {{ p.height }}" role="group"
+    <div class="trend-scroll"><svg viewBox="0 0 {{ p.width }} {{ p.height }}" role="group"
          aria-label="Democratic share of the vote for county offices against the top of the ticket in {{ trends.county }}, by general election">
         {% for tk in p.ticks %}
         <line x1="{{ tk.x }}" y1="{{ p.top - 6 }}" x2="{{ tk.x }}" y2="{{ p.height - 4 }}" class="{{ 'trend-zero' if tk.x == p.x0 else 'trend-grid-line' }}"></line>
         <text x="{{ tk.x }}" y="{{ p.top - 12 }}" class="trend-tick">{{ tk.label }}</text>
         {% endfor %}
         {% for row in p.rows %}
-        <g role="img" aria-label="{{ row.label }}: {% for d in row.dots %}{{ d.title }}{% if not loop.last %}; {% endif %}{% endfor %}">
+        <g role="group" aria-label="{{ row.label }}: {% for d in row.dots %}{{ d.title }}{% if not loop.last %}; {% endif %}{% endfor %}">
             {% if row.href %}<a href="{{ base }}{{ row.href }}">{% endif %}<text x="{{ p.label_x }}" y="{{ row.y + 4 }}" class="trend-label">{{ row.label }}{% if row.unofficial %} <tspan class="trend-unofficial">unofficial</tspan>{% endif %}</text>{% if row.href %}</a>{% endif %}
             <line x1="{{ row.x_min }}" y1="{{ row.y }}" x2="{{ row.x_max }}" y2="{{ row.y }}" class="trend-rule"></line>
             {% for d in row.dots %}<a href="{{ d.href }}"><circle cx="{{ d.x }}" cy="{{ row.y }}" r="4" fill="{{ d.color }}" class="trend-dot{% if row.unofficial %} trend-dot-hollow{% endif %}"{% if row.unofficial %} style="stroke: {{ d.color }}"{% endif %}><title>{{ d.title }}</title></circle></a>{% endfor %}
         </g>
         {% endfor %}
-    </svg>
+    </svg></div>
     <figcaption class="note">Each dot is a county office's Democratic share of the vote minus the
         top of the ticket's, in points, for offices every {{ trends.county }} voter had on the
         ballot with both a Democrat and a Republican running; the zero line is the ticket.
-        Presidential years have no county offices on the ballot.</figcaption>
+        {% if not p.rows|selectattr("cycle", "equalto", "presidential")|list %}Presidential years have no county offices on the ballot.{% endif %}</figcaption>
     <details class="trend-table"><summary>Table</summary>
     <div class="overflow-auto">
     <table class="results-table compact">
@@ -390,7 +399,7 @@
 
 {# Columns on an election axis: ballots cast, or the primary electorate. #}
 {% macro columns_svg(p, label) -%}
-<svg viewBox="0 0 {{ p.width }} {{ p.height }}" role="group" aria-label="{{ label }}">
+<div class="trend-scroll"><svg viewBox="0 0 {{ p.width }} {{ p.height }}" role="group" aria-label="{{ label }}">
     {% for tk in p.y_ticks %}
     <line x1="{{ p.x_ticks[0].x - 30 }}" y1="{{ tk.y }}" x2="{{ p.x_ticks[-1].x + 30 }}" y2="{{ tk.y }}" class="{{ 'trend-zero' if loop.first else 'trend-grid-line' }}"></line>
     <text x="{{ p.x_ticks[0].x - 34 }}" y="{{ tk.y + 4 }}" class="trend-tick trend-tick-end">{{ tk.label }}</text>
@@ -400,7 +409,7 @@
     {% endfor %}
     {% for lb in p.labels|default([]) %}<text x="{{ lb.x }}" y="{{ lb.y }}" class="trend-col-label">{{ lb.text }}</text>{% endfor %}
     {% for tk in p.x_ticks %}{{ year_tick(tk, p.height - 8) }}{% endfor %}
-</svg>
+</svg></div>
 {%- endmacro %}
 
 {# Votes in the top contest, per general: the county's turnout in results terms. #}
@@ -502,7 +511,7 @@
 {% endif %}
 {% endfor %}
 <p class="note">The winner is the State Board's flag: the nominee, or for a county office the
-    county's own result. "&ne; statewide" marks a statewide contest where {{ trends.county }}'s
+    county's own result. "&ne; statewide" marks a statewide contest where {{ trends.county|possessive }}
     voters preferred someone else.</p>
 {% endif %}
 {%- endmacro %}
@@ -542,7 +551,7 @@
 <p>Never since 2010: in every statewide contest on file, the candidate who led in
     {{ trends.county }} won statewide.</p>
 {% else %}
-<p>{{ found|length }} time{{ "s" if found|length != 1 }} since 2010, {{ trends.county }}'s
+<p>{{ found|length }} time{{ "s" if found|length != 1 }} since 2010, {{ trends.county|possessive }}
     voters preferred a candidate who lost statewide.</p>
 <ul>
     {% for d in found %}
@@ -559,7 +568,7 @@
 {% if not wall %}
 <p class="muted">No general-election winners on file for {{ trends.county }}.</p>
 {% else %}
-<dl class="winners-wall">
+<dl class="trend-winners">
     {% for w in wall %}
     <dt><a href="#{{ w.id }}">{{ w.title }}</a></dt>
     <dd>{% for run in w.runs %}{{ run.name }}{% if run.party %} ({{ run.party }}){% endif %} {{ run.years|join(", ") }}{% if not loop.last %}; {% endif %}{% endfor %}</dd>

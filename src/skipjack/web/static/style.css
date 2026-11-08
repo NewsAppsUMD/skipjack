@@ -358,6 +358,9 @@ nav.breadcrumb { display: block; }
    Blue and red only for the parties; the margin tiles reuse the maps' ramp (maps.css). */
 .trend { margin: 0 0 1.5rem; max-width: 760px; }
 .trend svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* On a phone the full-width figures scroll sideways rather than shrink past reading. */
+.trend-scroll { overflow-x: auto; }
+.trend-scroll > svg { min-width: 560px; }
 .trend-lead { font-size: 1.05rem; }
 .trend-hero { font-size: 0.95rem; color: #52514e; }
 .trend-hero strong { font-size: 1.6rem; font-variant-numeric: proportional-nums; color: #0b0b0b; margin-right: 0.15rem; }
@@ -437,3 +440,5 @@ nav.breadcrumb { display: block; }
 .trend-card svg { max-width: 340px; }
 .trend-multiples { margin-bottom: 1.25rem; }
 .trend figcaption { margin-top: 0.4rem; }
+.trend-winners dt { font-weight: 600; margin-top: 0.5rem; }
+.trend-winners dd { margin-left: 0; }

@@ -405,7 +405,14 @@ def _same_person(a: str, b: str) -> bool:
     return ka is not None and ka == kb
 
 
+def _winners_order(w: dict) -> tuple:
+    return (w["party"], _name_key(w["name"]) or ("", w["name"].lower()))
+
+
 def _same_winners(a: list[dict], b: list[dict]) -> bool:
+    """Whether two generals' winner sets match, whatever the ballot order (a multi-seat
+    contest's winners come in the order the file lists them, which rotates)."""
+    a, b = sorted(a, key=_winners_order), sorted(b, key=_winners_order)
     return len(a) == len(b) and all(
         x["party"] == y["party"] and _same_person(x["name"], y["name"])
         for x, y in zip(a, b, strict=True)

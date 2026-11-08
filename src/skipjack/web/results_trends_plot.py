@@ -11,6 +11,8 @@ which reuse ``ticket.SERIES_COLORS``. Every figure shares the ordinal election a
 
 from __future__ import annotations
 
+import math
+
 from skipjack.web import maps
 from skipjack.web.summary import signed
 from skipjack.web.ticket import SERIES_COLORS, _nice_ceiling
@@ -25,8 +27,8 @@ LABEL_W, CELL_W, CELL_H, CELL_GAP, HEADER_H = 190, 54, 22, 2, 34
 LABEL_CHARS = 32  # what fits in LABEL_W at the grid's 11px font
 DARK_CELLS = ("map-party-0", "map-party-4")  # tiles that take light text
 # a series' share lines
-SHARE_W, SHARE_H = 300, 150
-SHARE_LEFT, SHARE_RIGHT, SHARE_TOP, SHARE_BOTTOM = 30, 42, 16, 20
+SHARE_W, SHARE_H = 300, 156
+SHARE_LEFT, SHARE_RIGHT, SHARE_TOP, SHARE_BOTTOM = 30, 42, 16, 26
 END_GAP = 12  # the least distance between two end labels
 # the dot rows against the ticket
 DOT_LABEL_W, DOT_ROW, DOT_TOP = 150, 24, 34
@@ -117,6 +119,15 @@ def is_nonpartisan(series: dict) -> bool:
 # --- the lean ----------------------------------------------------------------------------
 
 
+def _lean_range(values: list[float]) -> tuple[float, float, int]:
+    """Nice bounds for the lean axis: from the margins' minimum to their maximum, always
+    including zero, each end rounded out to a tick (every 10 points, or 20 when the margins
+    span more than 60), so a county on one side of zero uses the whole height."""
+    lo_v, hi_v = min(values + [0.0]), max(values + [0.0])
+    step = 10 if hi_v - lo_v <= 60 else 20
+    return float(step * math.floor(lo_v / step)), float(step * math.ceil(hi_v / step)), step
+
+
 def lean_plot(trends: dict) -> dict | None:
     """The county's top-of-ticket margin (ink, dots by the leading party) against the
     statewide margin (gray) on one axis, the band between them shaded, or None when no
@@ -125,14 +136,10 @@ def lean_plot(trends: dict) -> dict | None:
     if not any(t and t["margin"] is not None for t in tops):
         return None
     generals = trends["generals"]
-    values = [
-        abs(v) for t in tops if t for v in (t["margin"], t["statewide_margin"]) if v is not None
-    ]
-    hi = max(10.0, 10.0 * -(-max(values) // 10))
-    step = 10 if hi <= 40 else 20
-    hi = step * -(-hi // step)
+    values = [v for t in tops if t for v in (t["margin"], t["statewide_margin"]) if v is not None]
+    lo, hi, step = _lean_range(values)
     y_top, y_bottom = LEAN_TOP, LEAN_HEIGHT - LEAN_BOTTOM
-    px = (y_bottom - y_top) / (2 * hi)
+    px = (y_bottom - y_top) / (hi - lo)
 
     def y(v: float) -> float:
         return round(y_top + (hi - v) * px, 1)
@@ -140,7 +147,7 @@ def lean_plot(trends: dict) -> dict | None:
     xs = _x_axis(generals, LEAN_LEFT, WIDTH - LEAN_RIGHT)
     y_ticks = []
     v = hi
-    while v >= -hi - 1e-9:
+    while v >= lo - 1e-9:
         label = "0" if v == 0 else f"{'D' if v > 0 else 'R'}+{abs(v):g}"
         y_ticks.append({"y": y(v), "label": label})
         v -= step
@@ -220,6 +227,11 @@ def lean_summary(trends: dict) -> dict | None:
     else:
         verb = "narrowed"
     shift = round(latest - first, 1)
+    if shift == 0:
+        shift_text, direction = "no change", None
+    else:
+        shift_text = f"{abs(shift):.1f} point{'s' if abs(shift) != 1 else ''}"
+        direction = f"toward {'Democrats' if shift > 0 else 'Republicans'}"
     return {
         "party_label": party,
         "won": dem if party == "Democratic" else rep,
@@ -231,7 +243,8 @@ def lean_summary(trends: dict) -> dict | None:
         "latest_title": tops[-1]["title"],
         "latest_unofficial": tops[-1]["unofficial"],
         "shift": shift,
-        "shift_text": signed(shift, 1),
+        "shift_text": shift_text,
+        "shift_direction": direction,
         "verb": verb,
     }
 
@@ -248,7 +261,7 @@ def _cell_kind(p: dict) -> str:
 
 
 def _cell_text(margin: float) -> str:
-    whole = round(margin)
+    whole = math.floor(abs(margin) + 0.5)  # half up, as the tooltip's one decimal reads
     return "even" if whole == 0 else f"{'D' if margin > 0 else 'R'}+{abs(whole)}"
 
 
@@ -488,6 +501,7 @@ def ticket_dots(trends: dict) -> dict | None:
             {
                 "y": y,
                 "label": f"{e['year']}, {g['top_title']}",
+                "cycle": e["cycle"],
                 "unofficial": e["unofficial"],
                 "href": t["href"] if t else None,
                 "x_min": min(xs),
@@ -632,18 +646,19 @@ def electorate_columns(trends: dict) -> dict | None:
 
 def _level_layout(lv: dict, generals: list[dict]) -> dict:
     """How a level's series are shown: ``cards`` (series, share lines) in the open grid,
-    ``more`` (the state's districted seats) behind a disclosure, ``nonpartisan`` series in one
-    winners table and ``sparse`` series (one point) as a table alone."""
+    ``more`` (the state's districted seats, share lines or None for a one-point series)
+    behind a disclosure, ``nonpartisan`` series in one winners table and ``sparse`` series
+    (one point) as a table alone."""
     out: dict[str, list] = {"cards": [], "more": [], "nonpartisan": [], "sparse": []}
     for s in lv["offices"]:
         if is_nonpartisan(s):
             out["nonpartisan"].append(s)
             continue
         p = share_lines(s, generals)
-        if p is None:
-            out["sparse"].append(s)
-        elif lv["level"] == "state" and s["key"] in DISTRICTED_STATE:
+        if lv["level"] == "state" and s["key"] in DISTRICTED_STATE:
             out["more"].append((s, p))
+        elif p is None:
+            out["sparse"].append(s)
         else:
             out["cards"].append((s, p))
     return out

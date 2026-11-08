@@ -433,6 +433,14 @@ def test_winners_wall_collapses_runs(allegany):
     assert [w["id"] for w in allegany["summary"]["winners_wall"]][:2] == ["president", "us_house-6"]
 
 
+def test_same_winners_ignores_ballot_order():
+    a = [{"name": "Ann A", "party": "REP"}, {"name": "Bob B", "party": "REP"}, {"name": "Cat C", "party": "DEM"}]  # fmt: skip
+    b = [{"name": "Cat C", "party": "DEM"}, {"name": "Ann A", "party": "REP"}, {"name": "Bob B", "party": "REP"}]  # fmt: skip
+    assert results_trends._same_winners(a, b)
+    assert not results_trends._same_winners(a, b[:2])
+    assert not results_trends._same_winners(a, [*b[:2], {"name": "Dan D", "party": "REP"}])
+
+
 def test_winners_wall_merges_a_winner_whose_middle_name_or_suffix_drifts(conn):
     for code, name in (
         ("GG14", "John Delaney"),
