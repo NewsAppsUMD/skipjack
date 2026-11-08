@@ -1,0 +1,158 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Baltimore City,dem,Governor / Lt. Governor,"",J. P. Cusick,DEM,0,0,368,3984,112,71,10,4545
+GP10,Baltimore City,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,211,2174,75,61,7,2528
+GP10,Baltimore City,dem,Governor / Lt. Governor,"",Martin O'Malley,DEM,1,0,5979,48201,1462,1121,140,56903
+GP10,Baltimore City,dem,Comptroller,"",Peter Franchot,DEM,1,0,5448,43055,1400,1008,123,51034
+GP10,Baltimore City,dem,Attorney General,"",Douglas F. Gansler,DEM,1,0,5286,41227,1382,1000,125,49020
+GP10,Baltimore City,dem,U.S. Senator,"",Christopher J. Garner,DEM,0,0,205,2390,66,54,3,2718
+GP10,Baltimore City,dem,U.S. Senator,"",A. Billy Bob Jaworski,DEM,0,0,125,1407,29,28,3,1592
+GP10,Baltimore City,dem,U.S. Senator,"",Barbara A. Mikulski,DEM,1,0,6029,48116,1529,1051,140,56865
+GP10,Baltimore City,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,55,688,22,17,4,786
+GP10,Baltimore City,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,82,728,22,23,4,859
+GP10,Baltimore City,dem,U.S. Senator,"",Sanquetta Taylor,DEM,0,0,83,701,17,30,5,836
+GP10,Baltimore City,dem,U.S. Senator,"",Lih Young,DEM,0,0,74,675,23,21,2,795
+GP10,Baltimore City,dem,U.S. Congress,02,Raymond Atkins,DEM,0,0,63,783,14,12,1,873
+GP10,Baltimore City,dem,U.S. Congress,02,Christopher C. Boardman,DEM,0,0,33,397,13,8,4,455
+GP10,Baltimore City,dem,U.S. Congress,02,Jeff Morris,DEM,0,0,42,434,12,5,2,495
+GP10,Baltimore City,dem,U.S. Congress,02,C. A. Dutch Ruppersberger,DEM,1,0,815,6338,169,60,11,7393
+GP10,Baltimore City,dem,U.S. Congress,03,John Kibler,DEM,0,0,59,605,29,9,2,704
+GP10,Baltimore City,dem,U.S. Congress,03,Ryan Ludick,DEM,0,0,32,307,8,10,1,358
+GP10,Baltimore City,dem,U.S. Congress,03,Michael Miller,DEM,0,0,112,1129,46,24,4,1315
+GP10,Baltimore City,dem,U.S. Congress,03,John Rea,DEM,0,0,25,276,9,3,0,313
+GP10,Baltimore City,dem,U.S. Congress,03,John Sarbanes,DEM,1,0,1714,14319,494,195,39,16761
+GP10,Baltimore City,dem,U.S. Congress,07,Elijah Cummings,DEM,1,0,3513,27510,826,700,84,32633
+GP10,Baltimore City,dem,U.S. Congress,07,Charles U. Smith,DEM,0,0,160,1524,60,37,8,1789
+GP10,Baltimore City,dem,State Senator,40,Catherine Pugh,DEM,1,0,527,6883,252,144,20,7826
+GP10,Baltimore City,dem,State Senator,41,Lisa Gladden,DEM,1,0,1594,9414,353,167,42,11570
+GP10,Baltimore City,dem,State Senator,43,Joan Carter Conway,DEM,1,0,1588,7281,238,137,15,9259
+GP10,Baltimore City,dem,State Senator,43,Hector L. Torres,DEM,0,0,478,3445,89,50,8,4070
+GP10,Baltimore City,dem,State Senator,44,Verna Jones,DEM,1,0,463,4853,244,152,15,5727
+GP10,Baltimore City,dem,State Senator,45,Nathaniel J. McFadden,DEM,1,0,440,6661,149,129,18,7397
+GP10,Baltimore City,dem,State Senator,46,George W. Della,DEM,0,0,311,3182,94,43,11,3641
+GP10,Baltimore City,dem,State Senator,46,Bill Ferguson,DEM,1,0,495,4575,80,91,7,5248
+GP10,Baltimore City,dem,House of Delegates,40,"Frank M. Conaway, Jr.",DEM,1,0,415,5573,205,101,12,6306
+GP10,Baltimore City,dem,House of Delegates,40,"Will J. Hanna, Jr.",DEM,0,0,189,2420,76,47,8,2740
+GP10,Baltimore City,dem,House of Delegates,40,Barbara A. Robinson,DEM,1,0,434,5239,176,95,14,5958
+GP10,Baltimore City,dem,House of Delegates,40,Shawn Z. Tarrant,DEM,1,0,447,5341,156,87,15,6046
+GP10,Baltimore City,dem,House of Delegates,41,Jill P. Carter,DEM,1,0,1519,8610,272,131,36,10568
+GP10,Baltimore City,dem,House of Delegates,41,Nathaniel T. Oaks,DEM,1,0,1415,8265,262,112,33,10087
+GP10,Baltimore City,dem,House of Delegates,41,Samuel I. Sandy Rosenberg,DEM,1,0,1422,8271,307,120,29,10149
+GP10,Baltimore City,dem,House of Delegates,43,Curt Anderson,DEM,1,0,1695,7674,248,106,16,9739
+GP10,Baltimore City,dem,House of Delegates,43,Rodney C. Burris,DEM,0,0,260,1533,45,38,4,1880
+GP10,Baltimore City,dem,House of Delegates,43,Kelly Fox,DEM,0,0,573,3020,74,70,3,3740
+GP10,Baltimore City,dem,House of Delegates,43,"Leon Winthly Hector, Sr.",DEM,0,0,119,653,21,12,4,809
+GP10,Baltimore City,dem,House of Delegates,43,Maggie McIntosh,DEM,1,0,1622,7800,240,102,16,9780
+GP10,Baltimore City,dem,House of Delegates,43,Mary Washington,DEM,1,0,1498,6903,199,87,18,8705
+GP10,Baltimore City,dem,House of Delegates,44,Chris Blake,DEM,0,0,64,850,35,21,3,973
+GP10,Baltimore City,dem,House of Delegates,44,Gary T. English,DEM,0,0,113,749,27,16,2,907
+GP10,Baltimore City,dem,House of Delegates,44,Arlene B. Fisher,DEM,0,0,84,699,62,28,3,876
+GP10,Baltimore City,dem,House of Delegates,44,Keith E. Haynes,DEM,1,0,390,4250,136,76,7,4859
+GP10,Baltimore City,dem,House of Delegates,44,Ruth M. Kirk,DEM,0,0,237,2491,82,42,8,2860
+GP10,Baltimore City,dem,House of Delegates,44,"Keiffer J. Mitchell, Jr.",DEM,1,0,321,3896,165,92,7,4481
+GP10,Baltimore City,dem,House of Delegates,44,Melvin L. Stukes,DEM,1,0,288,2833,131,65,4,3321
+GP10,Baltimore City,dem,House of Delegates,44,Billy Taylor,DEM,0,0,36,397,19,8,2,462
+GP10,Baltimore City,dem,House of Delegates,45,Talmadge Branch,DEM,1,0,384,5627,114,82,12,6219
+GP10,Baltimore City,dem,House of Delegates,45,Cheryl D. Glenn,DEM,1,0,346,5514,91,64,7,6022
+GP10,Baltimore City,dem,House of Delegates,45,Hattie N. Harrison,DEM,1,0,339,5009,96,80,13,5537
+GP10,Baltimore City,dem,House of Delegates,45,Kevin W. Parson,DEM,0,0,216,2679,44,55,8,3002
+GP10,Baltimore City,dem,House of Delegates,45,Jamaal D Simpson,DEM,0,0,115,1721,32,32,5,1905
+GP10,Baltimore City,dem,House of Delegates,46,Luke Clippinger,DEM,1,0,395,3525,85,43,4,4052
+GP10,Baltimore City,dem,House of Delegates,46,Jason Filippou,DEM,0,0,210,2215,36,36,6,2503
+GP10,Baltimore City,dem,House of Delegates,46,Peter A. Hammen,DEM,1,0,543,4890,123,63,13,5632
+GP10,Baltimore City,dem,House of Delegates,46,Brian K. McHale,DEM,1,0,365,3612,90,55,6,4128
+GP10,Baltimore City,dem,House of Delegates,46,Bill Romani,DEM,0,0,373,2952,40,43,2,3410
+GP10,Baltimore City,dem,House of Delegates,46,Melissa A. Techentin,DEM,0,0,186,1693,42,33,8,1962
+GP10,Baltimore City,dem,Judge Circuit Court,08,Videtta A. Brown,DEM,1,0,4482,34257,972,698,98,40507
+GP10,Baltimore City,dem,Judge Circuit Court,08,Lawrence P. Fletcher-Hill,DEM,1,0,4156,31175,887,589,83,36890
+GP10,Baltimore City,dem,Judge Circuit Court,08,Stephen J. Sfekas,DEM,1,0,4119,30768,897,532,81,36397
+GP10,Baltimore City,dem,Judge Circuit Court,08,Marcus Z. Shar,DEM,1,0,3988,29479,825,525,77,34894
+GP10,Baltimore City,dem,Judge Circuit Court,08,Martin P. Welch,DEM,1,0,4363,32612,972,615,96,38658
+GP10,Baltimore City,dem,State's Attorney,"",Gregg L. Bernstein,DEM,1,0,3083,27314,795,445,66,31703
+GP10,Baltimore City,dem,State's Attorney,"",Patricia Coats Jessamy,DEM,0,0,3355,25759,727,621,74,30536
+GP10,Baltimore City,dem,State's Attorney,"",Sheryl A. Lansey,DEM,0,0,226,2026,109,102,14,2477
+GP10,Baltimore City,dem,Clerk Circuit Court,"",William Allen,DEM,0,0,720,5442,177,108,20,6467
+GP10,Baltimore City,dem,Clerk Circuit Court,"",Frank M. Conaway,DEM,1,0,4385,35022,1022,763,79,41271
+GP10,Baltimore City,dem,Clerk Circuit Court,"",Sarah L. Matthews,DEM,0,0,1078,9031,286,218,39,10652
+GP10,Baltimore City,dem,Register of Wills,"",Neil R. Bernstein,DEM,0,0,1558,12264,410,215,44,14491
+GP10,Baltimore City,dem,Register of Wills,"",Mary W. Conaway,DEM,1,0,4608,36999,1130,851,97,43685
+GP10,Baltimore City,dem,Judge Orphans Court,"",Ramona Moore Baker,DEM,1,0,2847,19936,651,409,66,23909
+GP10,Baltimore City,dem,Judge Orphans Court,"",Joyce M. Baylor-Thompson,DEM,1,0,3851,28822,824,602,88,34187
+GP10,Baltimore City,dem,Judge Orphans Court,"",Karen Chaya Friedman,DEM,1,0,3335,26993,746,534,61,31669
+GP10,Baltimore City,dem,Judge Orphans Court,"",Lewyn Scott Garrett,DEM,0,0,2395,17347,492,352,50,20636
+GP10,Baltimore City,dem,Judge Orphans Court,"",Deanna Lee Hiltz,DEM,0,0,1402,11780,377,221,34,13814
+GP10,Baltimore City,dem,Sheriff,"",John W. Anderson,DEM,1,0,3154,18329,575,322,35,22415
+GP10,Baltimore City,dem,Sheriff,"",Deborah R. Claridy,DEM,0,0,1119,11895,259,252,44,13569
+GP10,Baltimore City,dem,Sheriff,"",Frances Jean Hamilton,DEM,0,0,978,9424,176,266,20,10864
+GP10,Baltimore City,dem,Sheriff,"",Mike Schaefer,DEM,0,0,331,3744,211,98,14,4398
+GP10,Baltimore City,dem,Sheriff,"",Carlos M. Torres,DEM,0,0,321,3083,94,76,8,3582
+GP10,Baltimore City,dem,Sheriff,"",Alfred C. Wainwright,DEM,0,0,196,1728,90,40,11,2065
+GP10,Baltimore City,dem,DEM Cent Comm,40,Thomas Ruben Akras,DEM,1,0,143,2631,72,40,5,2891
+GP10,Baltimore City,dem,DEM Cent Comm,40,Sandra Almond-Cooper,DEM,1,0,248,3289,95,58,14,3704
+GP10,Baltimore City,dem,DEM Cent Comm,40,Marc Broady,DEM,1,0,179,2711,72,47,2,3011
+GP10,Baltimore City,dem,DEM Cent Comm,40,Jessica Brockington,DEM,0,0,217,2200,85,39,6,2547
+GP10,Baltimore City,dem,DEM Cent Comm,40,Brian BMORE Brown,DEM,0,0,166,2262,65,46,3,2542
+GP10,Baltimore City,dem,DEM Cent Comm,40,"Gary Brown, Jr.",DEM,0,0,208,2216,64,40,6,2534
+GP10,Baltimore City,dem,DEM Cent Comm,40,John T. Bullock,DEM,0,0,157,1765,54,28,2,2006
+GP10,Baltimore City,dem,DEM Cent Comm,40,Betty Clark,DEM,1,0,242,3376,93,53,10,3774
+GP10,Baltimore City,dem,DEM Cent Comm,40,Quianna M. Cooke,DEM,0,0,137,2218,57,33,7,2452
+GP10,Baltimore City,dem,DEM Cent Comm,40,Lisa Dungee,DEM,0,0,219,2102,71,41,7,2440
+GP10,Baltimore City,dem,DEM Cent Comm,40,Daniel Ewald,DEM,0,0,79,898,33,15,1,1026
+GP10,Baltimore City,dem,DEM Cent Comm,40,"John A. Green, Jr.",DEM,0,0,148,1545,46,21,2,1762
+GP10,Baltimore City,dem,DEM Cent Comm,40,Barbara A. Robinson,DEM,1,0,392,4753,141,73,8,5367
+GP10,Baltimore City,dem,DEM Cent Comm,40,Agnes Welch,DEM,1,0,347,4351,153,75,15,4941
+GP10,Baltimore City,dem,DEM Cent Comm,40,Charon Latrice Wilson,DEM,0,0,73,737,32,23,5,870
+GP10,Baltimore City,dem,DEM Cent Comm,40,Deborah E. Woolford,DEM,1,0,177,2314,74,45,11,2621
+GP10,Baltimore City,dem,DEM Cent Comm,41,Ramona Moore Baker,DEM,1,0,781,4356,133,81,16,5367
+GP10,Baltimore City,dem,DEM Cent Comm,41,Angela C. Gibson,DEM,1,0,1039,5380,174,87,20,6700
+GP10,Baltimore City,dem,DEM Cent Comm,41,Lisa Gladden,DEM,1,0,1553,8871,283,116,34,10857
+GP10,Baltimore City,dem,DEM Cent Comm,41,Nathaniel T. Oaks,DEM,1,0,1354,7677,209,111,25,9376
+GP10,Baltimore City,dem,DEM Cent Comm,41,Michael Pearson,DEM,0,0,664,3949,122,59,20,4814
+GP10,Baltimore City,dem,DEM Cent Comm,41,"Thomas Phillips, III",DEM,1,0,856,4515,125,65,17,5578
+GP10,Baltimore City,dem,DEM Cent Comm,41,Ron Rosenbluth,DEM,1,0,839,4911,179,61,12,6002
+GP10,Baltimore City,dem,DEM Cent Comm,41,Joyce J. Smith,DEM,1,0,1013,5430,169,82,20,6714
+GP10,Baltimore City,dem,DEM Cent Comm,41,Neil J. Vicks,DEM,0,0,695,3598,104,52,13,4462
+GP10,Baltimore City,dem,DEM Cent Comm,43,Karenthia A. Barber,DEM,1,0,1111,4999,121,92,8,6331
+GP10,Baltimore City,dem,DEM Cent Comm,43,Ashira Barbosa,DEM,0,0,450,2397,57,50,5,2959
+GP10,Baltimore City,dem,DEM Cent Comm,43,Scherod Barnes,DEM,1,0,1042,3976,89,71,7,5185
+GP10,Baltimore City,dem,DEM Cent Comm,43,Kevin Andre Brooks,DEM,0,0,624,3251,103,65,6,4049
+GP10,Baltimore City,dem,DEM Cent Comm,43,Beatrice Brown,DEM,1,0,1153,4937,136,85,8,6319
+GP10,Baltimore City,dem,DEM Cent Comm,43,Rodney C. Burris,DEM,1,0,697,3642,85,60,6,4490
+GP10,Baltimore City,dem,DEM Cent Comm,43,Robert W. Curran,DEM,1,0,1423,6589,197,99,14,8322
+GP10,Baltimore City,dem,DEM Cent Comm,43,Jeremy Joseph Givens,DEM,0,0,763,3270,76,51,6,4166
+GP10,Baltimore City,dem,DEM Cent Comm,43,Nia Govan,DEM,0,0,471,2661,62,51,5,3250
+GP10,Baltimore City,dem,DEM Cent Comm,43,Bill Henry,DEM,1,0,869,4096,131,53,9,5158
+GP10,Baltimore City,dem,DEM Cent Comm,43,"Unsolo Holley, II",DEM,0,0,565,2453,35,42,5,3100
+GP10,Baltimore City,dem,DEM Cent Comm,43,Sylvia Williams,DEM,1,0,1266,5424,143,79,13,6925
+GP10,Baltimore City,dem,DEM Cent Comm,44,Kara Aanenson,DEM,0,0,193,2051,91,48,8,2391
+GP10,Baltimore City,dem,DEM Cent Comm,44,Timothy J. Bridges,DEM,1,0,251,2580,89,58,7,2985
+GP10,Baltimore City,dem,DEM Cent Comm,44,Marvin 'Doc' Cheatham,DEM,1,0,362,3517,152,81,9,4121
+GP10,Baltimore City,dem,DEM Cent Comm,44,Gary T. English,DEM,1,0,286,2688,92,50,6,3122
+GP10,Baltimore City,dem,DEM Cent Comm,44,Arlene B. Fisher,DEM,1,0,345,3166,138,63,11,3723
+GP10,Baltimore City,dem,DEM Cent Comm,44,Gertrude D. Hack,DEM,0,0,206,2237,92,48,6,2589
+GP10,Baltimore City,dem,DEM Cent Comm,44,George Ingram,DEM,0,0,224,2302,88,51,5,2670
+GP10,Baltimore City,dem,DEM Cent Comm,44,Charles A. Jackson,DEM,1,0,279,2481,92,46,7,2905
+GP10,Baltimore City,dem,DEM Cent Comm,44,Aline V. Kirk-Watson,DEM,1,0,220,2398,96,48,10,2772
+GP10,Baltimore City,dem,DEM Cent Comm,44,Richard Tabuteau,DEM,0,0,115,1257,46,13,1,1432
+GP10,Baltimore City,dem,DEM Cent Comm,44,Wesley Wood,DEM,1,0,250,2375,97,55,6,2783
+GP10,Baltimore City,dem,DEM Cent Comm,45,Ronald Bailey,DEM,1,0,259,4456,65,67,11,4858
+GP10,Baltimore City,dem,DEM Cent Comm,45,Warren Maurice Branch,DEM,1,0,305,4779,93,71,12,5260
+GP10,Baltimore City,dem,DEM Cent Comm,45,Tashea Brodgins,DEM,1,0,230,3769,55,58,11,4123
+GP10,Baltimore City,dem,DEM Cent Comm,45,Donoven R. Brooks,DEM,1,0,193,3537,48,48,8,3834
+GP10,Baltimore City,dem,DEM Cent Comm,45,Lorrie Davis,DEM,0,0,193,2303,53,38,6,2593
+GP10,Baltimore City,dem,DEM Cent Comm,45,Emmett Guyton,DEM,0,0,144,1671,33,21,7,1876
+GP10,Baltimore City,dem,DEM Cent Comm,45,Nina Harper,DEM,1,0,305,4483,83,57,9,4937
+GP10,Baltimore City,dem,DEM Cent Comm,45,Sharon S. McCollough,DEM,0,0,216,2727,54,41,7,3045
+GP10,Baltimore City,dem,DEM Cent Comm,45,Cory V. McCray,DEM,0,0,199,3382,46,46,7,3680
+GP10,Baltimore City,dem,DEM Cent Comm,45,Kevin W. Parson,DEM,1,0,271,3533,62,53,6,3925
+GP10,Baltimore City,dem,DEM Cent Comm,45,Charles U. Smith,DEM,0,0,118,1343,28,19,5,1513
+GP10,Baltimore City,dem,DEM Cent Comm,45,Robert R. Stokes,DEM,1,0,349,5446,96,76,14,5981
+GP10,Baltimore City,dem,DEM Cent Comm,46,Betty Bland-Thomas,DEM,1,0,319,3349,84,47,9,3808
+GP10,Baltimore City,dem,DEM Cent Comm,46,Jennifer Etheridge,DEM,1,0,402,3663,84,60,11,4220
+GP10,Baltimore City,dem,DEM Cent Comm,46,Ricky Johnson,DEM,0,0,202,2049,67,29,6,2353
+GP10,Baltimore City,dem,DEM Cent Comm,46,Amie Kershner,DEM,1,0,347,3152,78,51,9,3637
+GP10,Baltimore City,dem,DEM Cent Comm,46,Bill Marker,DEM,0,0,268,2523,62,36,5,2894
+GP10,Baltimore City,dem,DEM Cent Comm,46,Mike Mitchell,DEM,1,0,372,3392,76,50,9,3899
+GP10,Baltimore City,dem,DEM Cent Comm,46,Baltimore Bob Murray,DEM,1,0,310,3217,61,52,7,3647
+GP10,Baltimore City,dem,DEM Cent Comm,46,Shannon Sullivan,DEM,1,0,348,3304,71,52,9,3784
+GP10,Baltimore City,dem,DEM Cent Comm,46,Gary L. Thomas,DEM,1,0,299,3045,65,36,4,3449
+GP10,Baltimore City,dem,DEM Cent Comm,46,Robert Yochem,DEM,0,0,235,2021,32,29,4,2321

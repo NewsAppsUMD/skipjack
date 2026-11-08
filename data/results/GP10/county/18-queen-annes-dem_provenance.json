@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-18-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Queen_Annes_County_Democratic_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Queen Anne's results (dem)",
+  "fetch_date": "2026-11-08T01:35:03+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "e72b26b46a6ec8894f1f879bd3b78ebfbb78970a26e7e22ec0e3d2c92ab40ebe",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Queen Anne's county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 33,
+    "row_totals": "ok",
+    "statewide_check": "ok: 341 statewide rows (341 for, 0 against) match State_Legislative_Districts_Democratic_2010_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

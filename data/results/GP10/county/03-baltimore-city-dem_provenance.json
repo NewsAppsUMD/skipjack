@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-03-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Baltimore_City_County_Democratic_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Baltimore City results (dem)",
+  "fetch_date": "2026-11-08T01:34:58+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "54eaf69fad30766cd2c9a6fdfd0381e49c2d6e36f42fa2f98fc87d702bbfa441",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Baltimore City county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 157,
+    "row_totals": "ok",
+    "statewide_check": "ok: 341 statewide rows (341 for, 0 against) match State_Legislative_Districts_Democratic_2010_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

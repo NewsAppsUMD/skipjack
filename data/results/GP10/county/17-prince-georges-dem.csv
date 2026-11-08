@@ -1,0 +1,224 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Prince George's,dem,Governor / Lt. Governor,"",J. P. Cusick,DEM,0,0,359,2551,42,49,43,3044
+GP10,Prince George's,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,182,1244,36,47,15,1524
+GP10,Prince George's,dem,Governor / Lt. Governor,"",Martin O'Malley,DEM,1,0,12671,73591,997,1532,963,89754
+GP10,Prince George's,dem,Comptroller,"",Peter Franchot,DEM,1,0,11135,63637,946,1374,890,77982
+GP10,Prince George's,dem,Attorney General,"",Douglas F. Gansler,DEM,1,0,10365,60304,950,1373,865,73857
+GP10,Prince George's,dem,U.S. Senator,"",Christopher J. Garner,DEM,0,0,557,4597,57,145,44,5400
+GP10,Prince George's,dem,U.S. Senator,"",A. Billy Bob Jaworski,DEM,0,0,157,1078,15,9,13,1272
+GP10,Prince George's,dem,U.S. Senator,"",Barbara A. Mikulski,DEM,1,0,11514,64413,959,1141,894,78921
+GP10,Prince George's,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,110,1009,10,42,10,1181
+GP10,Prince George's,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,245,1782,20,92,12,2151
+GP10,Prince George's,dem,U.S. Senator,"",Sanquetta Taylor,DEM,0,0,250,1993,17,108,18,2386
+GP10,Prince George's,dem,U.S. Senator,"",Lih Young,DEM,0,0,81,640,6,21,18,766
+GP10,Prince George's,dem,U.S. Congress,04,Donna Edwards,DEM,1,0,6219,33361,445,615,406,41046
+GP10,Prince George's,dem,U.S. Congress,04,Kwame Gyamfi,DEM,0,0,144,1571,17,49,14,1795
+GP10,Prince George's,dem,U.S. Congress,04,George McDermott,DEM,0,0,158,1368,13,35,16,1590
+GP10,Prince George's,dem,U.S. Congress,04,Herman Taylor,DEM,0,0,399,2523,36,56,35,3049
+GP10,Prince George's,dem,U.S. Congress,05,Sylvanus G. Bent,DEM,0,0,169,1247,22,45,18,1501
+GP10,Prince George's,dem,U.S. Congress,05,Andrew Charles Gall,DEM,0,0,340,2510,41,93,34,3018
+GP10,Prince George's,dem,U.S. Congress,05,Steny H. Hoyer,DEM,1,0,5254,29807,460,501,454,36476
+GP10,Prince George's,dem,U.S. Congress,08,Robert Long,DEM,0,0,13,255,7,9,0,284
+GP10,Prince George's,dem,U.S. Congress,08,Chris Van Hollen,DEM,1,0,194,2570,39,31,15,2849
+GP10,Prince George's,dem,State Senator,21,Jim Rosapepe,DEM,1,0,486,4689,99,125,237,5636
+GP10,Prince George's,dem,State Senator,22,Paul G. Pinsky,DEM,1,0,667,6679,99,122,69,7636
+GP10,Prince George's,dem,State Senator,23,Mike Anderson,DEM,0,0,118,557,11,27,12,725
+GP10,Prince George's,dem,State Senator,23,Darrell Carrington,DEM,0,0,174,738,14,35,7,968
+GP10,Prince George's,dem,State Senator,23,"Bobby G. Henry, Jr.",DEM,0,0,859,4121,24,95,22,5121
+GP10,Prince George's,dem,State Senator,23,Douglas J. J. Peters,DEM,1,0,2689,7212,157,97,129,10284
+GP10,Prince George's,dem,State Senator,24,Joanne C. Benson,DEM,1,0,972,4966,82,85,73,6178
+GP10,Prince George's,dem,State Senator,24,Nathaniel Exum,DEM,0,0,676,4425,71,83,56,5311
+GP10,Prince George's,dem,State Senator,25,Ulysses Currie,DEM,1,0,1292,8584,114,154,130,10274
+GP10,Prince George's,dem,State Senator,26,Albert Chatmon,DEM,0,0,460,2082,18,46,36,2642
+GP10,Prince George's,dem,State Senator,26,C. Anthony Muse,DEM,1,0,1697,9573,59,137,63,11529
+GP10,Prince George's,dem,State Senator,27,"Thomas V. Mike Miller, Jr.",DEM,1,0,1084,7717,129,130,73,9133
+GP10,Prince George's,dem,State Senator,47,David C. Harrington,DEM,0,0,252,2204,71,44,25,2596
+GP10,Prince George's,dem,State Senator,47,Victor Ramirez,DEM,1,0,352,4046,58,56,20,4532
+GP10,Prince George's,dem,House of Delegates,21,Ben Barnes,DEM,1,0,460,4400,75,74,220,5229
+GP10,Prince George's,dem,House of Delegates,21,Barbara A. Frush,DEM,1,0,423,4090,79,67,199,4858
+GP10,Prince George's,dem,House of Delegates,21,Brian K. McDaniel,DEM,0,0,149,1938,21,57,45,2210
+GP10,Prince George's,dem,House of Delegates,21,Joseline Peña-Melnyk,DEM,1,0,520,4648,75,83,215,5541
+GP10,Prince George's,dem,House of Delegates,21,Devin F. Tucker,DEM,0,0,63,675,15,17,12,782
+GP10,Prince George's,dem,House of Delegates,22,Tawanna Gaines,DEM,1,0,645,6398,82,108,62,7295
+GP10,Prince George's,dem,House of Delegates,22,Anne Healey,DEM,1,0,630,6088,91,82,59,6950
+GP10,Prince George's,dem,House of Delegates,22,Justin Ross,DEM,1,0,656,6338,81,89,60,7224
+GP10,Prince George's,dem,House of Delegates,23A,Shukoor Ahmed,DEM,0,0,598,2395,18,61,17,3089
+GP10,Prince George's,dem,House of Delegates,23A,Terence D. Collins,DEM,0,0,76,325,2,6,1,410
+GP10,Prince George's,dem,House of Delegates,23A,Paulette Faulkner,DEM,0,0,78,338,9,6,6,437
+GP10,Prince George's,dem,House of Delegates,23A,James W. Hubbard,DEM,1,0,1153,3322,64,35,47,4621
+GP10,Prince George's,dem,House of Delegates,23A,Lisa Ransom,DEM,0,0,273,1338,10,26,11,1658
+GP10,Prince George's,dem,House of Delegates,23A,Geraldine Valentino-Smith,DEM,1,0,1514,3933,71,52,52,5622
+GP10,Prince George's,dem,House of Delegates,23A,Nicole A. Williams,DEM,0,0,295,1044,8,28,14,1389
+GP10,Prince George's,dem,House of Delegates,23B,Robin Breedon,DEM,0,0,265,1242,18,43,15,1583
+GP10,Prince George's,dem,House of Delegates,23B,"Marvin E. Holmes, Jr.",DEM,1,0,1233,3743,82,57,73,5188
+GP10,Prince George's,dem,House of Delegates,24,Clayton Anthony Aarons,DEM,0,0,217,1306,32,18,21,1594
+GP10,Prince George's,dem,House of Delegates,24,Tiffany Alston,DEM,1,0,480,2860,24,49,21,3434
+GP10,Prince George's,dem,House of Delegates,24,Nancy L. Dixon-Saxon,DEM,0,0,198,1145,22,17,11,1393
+GP10,Prince George's,dem,House of Delegates,24,Greg Hall,DEM,0,0,391,2621,30,43,39,3124
+GP10,Prince George's,dem,House of Delegates,24,Carolyn J. B. Howard,DEM,1,0,1166,5543,95,76,82,6962
+GP10,Prince George's,dem,House of Delegates,24,Sherry James-Strother,DEM,0,0,139,668,18,10,4,839
+GP10,Prince George's,dem,House of Delegates,24,Michael Oputa,DEM,0,0,208,1280,17,8,17,1530
+GP10,Prince George's,dem,House of Delegates,24,Byron Richardson,DEM,0,0,199,1415,14,24,21,1673
+GP10,Prince George's,dem,House of Delegates,24,Michael L. Vaughn,DEM,1,0,969,4584,84,63,50,5750
+GP10,Prince George's,dem,House of Delegates,24,Kenneth Williams,DEM,0,0,226,1423,13,27,18,1707
+GP10,Prince George's,dem,House of Delegates,25,Erek Barron,DEM,0,0,303,2128,32,30,29,2522
+GP10,Prince George's,dem,House of Delegates,25,Aisha Braveboy,DEM,1,0,1295,7856,84,96,101,9432
+GP10,Prince George's,dem,House of Delegates,25,Dereck E. Davis,DEM,1,0,1203,7179,76,97,104,8659
+GP10,Prince George's,dem,House of Delegates,25,Antonio Faunteroy,DEM,0,0,177,1258,7,14,16,1472
+GP10,Prince George's,dem,House of Delegates,25,Melony Ghee Griffith,DEM,1,0,1148,6632,57,94,89,8020
+GP10,Prince George's,dem,House of Delegates,25,Davion E. Percy,DEM,0,0,69,395,24,7,11,506
+GP10,Prince George's,dem,House of Delegates,25,Michelle R. Wright,DEM,0,0,489,3255,28,40,36,3848
+GP10,Prince George's,dem,House of Delegates,26,Ollie Anderson,DEM,0,0,730,4465,20,58,29,5302
+GP10,Prince George's,dem,House of Delegates,26,Hopal Hope Felton,DEM,0,0,226,1265,12,29,8,1540
+GP10,Prince George's,dem,House of Delegates,26,Sidney L. Gibson,DEM,0,0,737,2893,24,33,16,3703
+GP10,Prince George's,dem,House of Delegates,26,Branndon D. Jackson,DEM,0,0,167,1122,7,15,7,1318
+GP10,Prince George's,dem,House of Delegates,26,Veronica Turner,DEM,1,0,1485,7456,48,91,53,9133
+GP10,Prince George's,dem,House of Delegates,26,Kriselda Kris Valderrama,DEM,1,0,1039,5678,39,75,58,6889
+GP10,Prince George's,dem,House of Delegates,26,Jay Walker,DEM,1,0,1373,6643,41,73,51,8181
+GP10,Prince George's,dem,House of Delegates,27A,Barry A. Adams,DEM,0,0,42,387,9,3,3,444
+GP10,Prince George's,dem,House of Delegates,27A,Percel Alston,DEM,0,0,292,1234,13,24,11,1574
+GP10,Prince George's,dem,House of Delegates,27A,Sheri L. Beach,DEM,0,0,117,976,15,27,7,1142
+GP10,Prince George's,dem,House of Delegates,27A,Jeffrey L. Brockington,DEM,0,0,32,183,1,1,1,218
+GP10,Prince George's,dem,House of Delegates,27A,Russell P. Butler,DEM,0,0,44,358,10,9,4,425
+GP10,Prince George's,dem,House of Delegates,27A,Theron Green,DEM,0,0,51,470,5,12,3,541
+GP10,Prince George's,dem,House of Delegates,27A,Joe Harris,DEM,0,0,56,458,5,11,2,532
+GP10,Prince George's,dem,House of Delegates,27A,"James E. Proctor, Jr.",DEM,1,0,1021,6668,96,73,57,7915
+GP10,Prince George's,dem,House of Delegates,27A,"Joseph F. Vallario, Jr.",DEM,1,0,837,5909,82,61,44,6933
+GP10,Prince George's,dem,House of Delegates,27A,James Woods,DEM,0,0,141,930,12,11,8,1102
+GP10,Prince George's,dem,House of Delegates,47,Anthony Cicoria,DEM,0,0,90,889,38,12,7,1036
+GP10,Prince George's,dem,House of Delegates,47,Diana M. Fennell,DEM,0,0,183,1843,29,36,10,2101
+GP10,Prince George's,dem,House of Delegates,47,Jolene Ivey,DEM,1,0,409,4519,68,49,26,5071
+GP10,Prince George's,dem,House of Delegates,47,Wanda Shelton Martin,DEM,0,0,160,1428,38,23,11,1660
+GP10,Prince George's,dem,House of Delegates,47,Doyle Niemann,DEM,1,0,324,2912,47,22,30,3335
+GP10,Prince George's,dem,House of Delegates,47,"Fred Price, Jr.",DEM,0,0,58,567,13,11,1,650
+GP10,Prince George's,dem,House of Delegates,47,Michael Summers,DEM,1,0,231,2579,32,25,15,2882
+GP10,Prince George's,dem,House of Delegates,47,Lamar A. Thorpe,DEM,0,0,124,1146,20,12,8,1310
+GP10,Prince George's,dem,County Executive,"","Rushern L. Baker, III",DEM,1,0,6287,33464,462,584,555,41352
+GP10,Prince George's,dem,County Executive,"",Samuel H. Dean,DEM,0,0,1940,9344,156,175,113,11728
+GP10,Prince George's,dem,County Executive,"",Michael A. Jackson,DEM,0,0,3470,26137,296,649,236,30788
+GP10,Prince George's,dem,County Executive,"",Gerron Levi,DEM,0,0,1079,5643,65,130,66,6983
+GP10,Prince George's,dem,County Executive,"","Henry C. Turner, Jr.",DEM,0,0,488,2595,71,77,41,3272
+GP10,Prince George's,dem,County Council,001,Valerie L. Cunningham,DEM,0,0,74,852,19,37,19,1001
+GP10,Prince George's,dem,County Council,001,Sam Epps,DEM,0,0,51,768,7,21,18,865
+GP10,Prince George's,dem,County Council,001,Mary A. Lehman,DEM,1,0,209,2652,54,54,96,3065
+GP10,Prince George's,dem,County Council,001,Frederick Smalls,DEM,0,0,124,1758,24,24,64,1994
+GP10,Prince George's,dem,County Council,001,Crystal R. Thompson,DEM,0,0,29,378,15,9,11,442
+GP10,Prince George's,dem,County Council,002,Will Campos,DEM,1,0,302,3624,43,49,23,4041
+GP10,Prince George's,dem,County Council,002,Dottie McNeill,DEM,0,0,41,712,13,12,6,784
+GP10,Prince George's,dem,County Council,002,Sabrena Turner,DEM,0,0,20,257,19,8,1,305
+GP10,Prince George's,dem,County Council,003,Eric C. Olson,DEM,1,0,698,5207,52,67,59,6083
+GP10,Prince George's,dem,County Council,003,Al Whiting,DEM,0,0,48,511,7,12,2,580
+GP10,Prince George's,dem,County Council,004,Ingrid M. Turner,DEM,1,0,2061,6921,118,163,71,9334
+GP10,Prince George's,dem,County Council,005,Andrea Fletcher Harrison,DEM,1,0,999,5285,98,90,67,6539
+GP10,Prince George's,dem,County Council,005,Nakia T. Ngwala,DEM,0,0,206,1261,7,20,16,1510
+GP10,Prince George's,dem,County Council,005,Pat Thornton,DEM,0,0,190,1152,23,23,10,1398
+GP10,Prince George's,dem,County Council,006,Abdul-Raheem Abdullah,DEM,0,0,64,436,5,7,8,520
+GP10,Prince George's,dem,County Council,006,Venus C. Bethea,DEM,0,0,175,822,6,19,16,1038
+GP10,Prince George's,dem,County Council,006,Derrick Leon Davis,DEM,0,0,880,4049,43,61,63,5096
+GP10,Prince George's,dem,County Council,006,Leslie E. Johnson,DEM,1,0,1087,5176,65,99,66,6493
+GP10,Prince George's,dem,County Council,006,Mark Polk,DEM,0,0,191,662,9,12,26,900
+GP10,Prince George's,dem,County Council,006,Arthur Turner,DEM,0,0,454,1404,26,25,24,1933
+GP10,Prince George's,dem,County Council,007,Angela Childs,DEM,0,0,164,1510,10,27,9,1720
+GP10,Prince George's,dem,County Council,007,Eugene W. Grant,DEM,0,0,118,962,18,23,9,1130
+GP10,Prince George's,dem,County Council,007,Darrell A. Miller,DEM,0,0,82,807,12,11,9,921
+GP10,Prince George's,dem,County Council,007,Natasha Shamone-Gilmore,DEM,0,0,54,476,6,7,6,549
+GP10,Prince George's,dem,County Council,007,"Charles H. Thomas, III",DEM,0,0,39,285,6,0,3,333
+GP10,Prince George's,dem,County Council,007,Karen Toles,DEM,1,0,353,2778,44,35,28,3238
+GP10,Prince George's,dem,County Council,008,Antwan Brown,DEM,0,0,49,390,3,7,0,449
+GP10,Prince George's,dem,County Council,008,Betty Horton-Hodge,DEM,0,0,538,3031,30,41,21,3661
+GP10,Prince George's,dem,County Council,008,Jerry J. Mathis,DEM,0,0,217,1260,29,29,41,1576
+GP10,Prince George's,dem,County Council,008,André D. Nottingham,DEM,0,0,31,209,0,2,2,244
+GP10,Prince George's,dem,County Council,008,Archie L. O'Neil,DEM,0,0,86,348,5,6,1,446
+GP10,Prince George's,dem,County Council,008,Trevor Otts,DEM,0,0,141,835,1,34,1,1012
+GP10,Prince George's,dem,County Council,008,Obie Patterson,DEM,1,0,931,4178,25,44,31,5209
+GP10,Prince George's,dem,County Council,009,Carol Acree,DEM,0,0,25,125,4,4,3,161
+GP10,Prince George's,dem,County Council,009,Lee Black,DEM,0,0,42,380,3,9,2,436
+GP10,Prince George's,dem,County Council,009,Tamara Davis Brown,DEM,0,0,317,3118,29,61,11,3536
+GP10,Prince George's,dem,County Council,009,Ron Fisher,DEM,0,0,80,541,5,11,3,640
+GP10,Prince George's,dem,County Council,009,Mel Franklin,DEM,1,0,685,3539,45,32,36,4337
+GP10,Prince George's,dem,County Council,009,Sydney Harrison,DEM,0,0,302,2354,20,46,20,2742
+GP10,Prince George's,dem,County Council,009,Juanita D. Miller,DEM,0,0,171,1456,21,15,7,1670
+GP10,Prince George's,dem,County Council,009,Kevin Alonzo Neale,DEM,0,0,12,147,2,3,1,165
+GP10,Prince George's,dem,County Council,009,Catherine Tiger Taggart-Ross,DEM,0,0,33,196,9,4,2,244
+GP10,Prince George's,dem,County Council,009,Henry White,DEM,0,0,26,178,3,3,0,210
+GP10,Prince George's,dem,Judge Circuit Court,07,"Leo E. Green, Jr.",DEM,1,0,10283,56393,772,919,762,69129
+GP10,Prince George's,dem,Judge Circuit Court,07,"C. Philip Nichols, Jr.",DEM,1,0,9659,54018,739,850,715,65981
+GP10,Prince George's,dem,Judge Circuit Court,07,Michael R. Pearson,DEM,1,0,9809,55590,762,959,735,67855
+GP10,Prince George's,dem,Judge Circuit Court,07,Beverly J. Woodard,DEM,1,0,10189,57874,816,1033,722,70634
+GP10,Prince George's,dem,State's Attorney,"",Angela Alsobrooks,DEM,1,0,5579,31369,346,607,316,38217
+GP10,Prince George's,dem,State's Attorney,"",Thomas E. Dernoga,DEM,0,0,2758,15535,282,250,361,19186
+GP10,Prince George's,dem,State's Attorney,"",Peggy Magee,DEM,0,0,1883,13839,152,326,157,16357
+GP10,Prince George's,dem,State's Attorney,"",Mark Spencer,DEM,0,0,1403,6613,121,206,76,8419
+GP10,Prince George's,dem,State's Attorney,"",Joseph L. Wright,DEM,0,0,1131,6979,100,152,60,8422
+GP10,Prince George's,dem,Clerk Circuit Court,"",Marilynn Bland,DEM,1,0,3676,25201,253,489,251,29870
+GP10,Prince George's,dem,Clerk Circuit Court,"",Gary C. Clark,DEM,0,0,3733,18419,343,305,355,23155
+GP10,Prince George's,dem,Clerk Circuit Court,"",Flora Ann Fortune,DEM,0,0,438,2857,51,88,42,3476
+GP10,Prince George's,dem,Clerk Circuit Court,"",Adrion J. Howell,DEM,0,0,1684,7330,124,135,108,9381
+GP10,Prince George's,dem,Clerk Circuit Court,"",Joyce Starks,DEM,0,0,983,6321,63,176,53,7596
+GP10,Prince George's,dem,Clerk Circuit Court,"",Linda Thornton Thomas,DEM,0,0,1659,10351,132,233,106,12481
+GP10,Prince George's,dem,Register of Wills,"",Ronald Sterling Blackwell,DEM,0,0,1183,9435,94,213,85,11010
+GP10,Prince George's,dem,Register of Wills,"",Cereta A. Lee,DEM,1,0,7373,36489,592,642,609,45705
+GP10,Prince George's,dem,Register of Wills,"",Carla McClinton,DEM,0,0,1355,8709,97,242,94,10497
+GP10,Prince George's,dem,Register of Wills,"",Kyle Okonah,DEM,0,0,267,2347,22,84,9,2729
+GP10,Prince George's,dem,Register of Wills,"",Julia Williams,DEM,0,0,1684,11425,141,226,102,13578
+GP10,Prince George's,dem,Judge Orphans Court,"",Gary Byrd,DEM,0,0,2748,16927,228,291,150,20344
+GP10,Prince George's,dem,Judge Orphans Court,"",Wendy A. Cartwright,DEM,1,0,8642,48889,683,802,654,59670
+GP10,Prince George's,dem,Judge Orphans Court,"",Pamela Cherry,DEM,0,0,3805,23917,246,422,194,28584
+GP10,Prince George's,dem,Judge Orphans Court,"",Athena Malloy Groves,DEM,1,0,6677,36488,521,527,545,44758
+GP10,Prince George's,dem,Judge Orphans Court,"",Vicky L. Ivory-Orem,DEM,1,0,7365,40038,563,539,570,49075
+GP10,Prince George's,dem,Sheriff,"",Edward R. Cheeks,DEM,0,0,494,4423,61,116,32,5126
+GP10,Prince George's,dem,Sheriff,"",Michael T. Gonnella,DEM,0,0,211,1774,37,31,24,2077
+GP10,Prince George's,dem,Sheriff,"",Daniel Danny Hall,DEM,0,0,1624,11961,175,266,166,14192
+GP10,Prince George's,dem,Sheriff,"",Melvin C. High,DEM,1,0,4174,25158,245,457,231,30265
+GP10,Prince George's,dem,Sheriff,"",Rafael Hylton,DEM,0,0,4966,21491,332,395,403,27587
+GP10,Prince George's,dem,Sheriff,"",Darryl L. Morgan,DEM,0,0,800,5228,77,141,45,6291
+GP10,Prince George's,dem,Sheriff,"","Louis M. Wood, Jr.",DEM,0,0,284,2430,53,50,28,2845
+GP10,Prince George's,dem,DEM Cent Comm at Lg,21,Jerry Anzulovic,DEM,0,0,4261,21960,379,372,387,27359
+GP10,Prince George's,dem,DEM Cent Comm at Lg,21,Sylvia Bolivar,DEM,1,0,6103,41649,443,908,388,49491
+GP10,Prince George's,dem,DEM Cent Comm at Lg,22,Alonzo T. Washington,DEM,1,0,9812,58352,795,1216,733,70908
+GP10,Prince George's,dem,DEM Cent Comm at Lg,23,Cheryl Landis,DEM,1,0,9808,59425,811,1230,749,72023
+GP10,Prince George's,dem,DEM Cent Comm at Lg,24,Terry Speigner,DEM,1,0,9635,56495,796,1188,717,68831
+GP10,Prince George's,dem,DEM Cent Comm at Lg,25,Norma L. Lindsay,DEM,1,0,9702,58915,793,1223,734,71367
+GP10,Prince George's,dem,DEM Cent Comm at Lg,26,Nathaniel Bryant,DEM,0,0,3683,23411,318,549,233,28194
+GP10,Prince George's,dem,DEM Cent Comm at Lg,26,Veronica L. Davila-Steele,DEM,1,0,6683,40209,506,774,534,48706
+GP10,Prince George's,dem,DEM Cent Comm at Lg,27A,Shaihi Mwalimu,DEM,1,0,9107,56102,758,1166,679,67812
+GP10,Prince George's,dem,DEM Cent Comm at Lg,47,Janelle J. Jordan,DEM,1,0,8079,47176,626,1003,625,57509
+GP10,Prince George's,dem,DEM Cent Comm at Lg,47,Oliver Ortiz,DEM,0,0,2031,13918,176,292,115,16532
+GP10,Prince George's,dem,DEM Cent Comm,21,Salome Peters,DEM,1,0,392,4002,69,86,179,4728
+GP10,Prince George's,dem,DEM Cent Comm,21,"Dennis Whitley, III",DEM,1,0,393,4121,76,86,180,4856
+GP10,Prince George's,dem,DEM Cent Comm,22,Robin Barnes-Shell,DEM,0,0,237,2577,37,41,21,2913
+GP10,Prince George's,dem,DEM Cent Comm,22,Denise Riley,DEM,1,0,488,4931,59,76,43,5597
+GP10,Prince George's,dem,DEM Cent Comm,22,James Thomas Wilkinson,DEM,1,0,351,3591,51,47,38,4078
+GP10,Prince George's,dem,DEM Cent Comm,23A,Srinath Sri Dharmapadam,DEM,0,0,197,853,7,17,6,1080
+GP10,Prince George's,dem,DEM Cent Comm,23A,Paulette Faulkner,DEM,0,0,567,2109,18,50,23,2767
+GP10,Prince George's,dem,DEM Cent Comm,23A,Denise A. Tyler,DEM,1,0,980,3027,51,53,41,4152
+GP10,Prince George's,dem,DEM Cent Comm,23B,Henry Hank Arrington,DEM,0,0,372,1467,16,22,17,1894
+GP10,Prince George's,dem,DEM Cent Comm,23B,William Lance Blake,DEM,0,0,111,366,8,14,3,502
+GP10,Prince George's,dem,DEM Cent Comm,23B,David Jacobs,DEM,0,0,139,747,10,16,8,920
+GP10,Prince George's,dem,DEM Cent Comm,23B,Cassandra Casey Lewis,DEM,1,0,727,1987,56,39,47,2856
+GP10,Prince George's,dem,DEM Cent Comm,24,Brandi Calhoun,DEM,0,0,313,1953,17,39,10,2332
+GP10,Prince George's,dem,DEM Cent Comm,24,Mary R. Davis,DEM,1,0,788,4429,71,66,62,5416
+GP10,Prince George's,dem,DEM Cent Comm,24,Sherette Gordon,DEM,0,0,249,1378,17,28,18,1690
+GP10,Prince George's,dem,DEM Cent Comm,24,Bradley E. Heard,DEM,0,0,254,1374,21,19,18,1686
+GP10,Prince George's,dem,DEM Cent Comm,24,Pamela Oatis,DEM,1,0,571,3400,63,46,45,4125
+GP10,Prince George's,dem,DEM Cent Comm,24,Madeline E. Richardson,DEM,0,0,424,2420,30,31,28,2933
+GP10,Prince George's,dem,DEM Cent Comm,25,Sonatta Camara,DEM,0,0,374,2806,31,44,42,3297
+GP10,Prince George's,dem,DEM Cent Comm,25,Teena Green,DEM,1,0,795,5146,51,66,68,6126
+GP10,Prince George's,dem,DEM Cent Comm,25,Shirley Pearl Thompson,DEM,1,0,974,6579,51,103,75,7782
+GP10,Prince George's,dem,DEM Cent Comm,25,"James Walls, Jr.",DEM,0,0,601,3659,51,40,42,4393
+GP10,Prince George's,dem,DEM Cent Comm,26,Nora E. Carmichael,DEM,1,0,966,4648,40,54,37,5745
+GP10,Prince George's,dem,DEM Cent Comm,26,Xavier O. Hixon,DEM,0,0,386,2134,12,39,22,2593
+GP10,Prince George's,dem,DEM Cent Comm,26,Loretta Lancaster,DEM,0,0,632,3150,28,43,27,3880
+GP10,Prince George's,dem,DEM Cent Comm,26,Dennis H. Rowe,DEM,1,0,701,3116,25,40,27,3909
+GP10,Prince George's,dem,DEM Cent Comm,26,Cory L. Scoggins,DEM,0,0,251,1753,8,27,17,2056
+GP10,Prince George's,dem,DEM Cent Comm,26,Reginald Thomas,DEM,0,0,490,3118,9,44,14,3675
+GP10,Prince George's,dem,DEM Cent Comm,26,"Johnny R. Toles, Jr.",DEM,0,0,175,1004,3,9,5,1196
+GP10,Prince George's,dem,DEM Cent Comm,27A,Johnny Baker,DEM,0,0,293,2023,31,29,21,2397
+GP10,Prince George's,dem,DEM Cent Comm,27A,Kelly Canavan,DEM,0,0,594,3340,59,36,35,4064
+GP10,Prince George's,dem,DEM Cent Comm,27A,LaRhonda R. Owens,DEM,1,0,426,3969,42,62,21,4520
+GP10,Prince George's,dem,DEM Cent Comm,27A,Ronald Ruff,DEM,0,0,227,2165,12,36,10,2450
+GP10,Prince George's,dem,DEM Cent Comm,27A,Matthew Thomas,DEM,1,0,654,3546,65,33,28,4326
+GP10,Prince George's,dem,DEM Cent Comm,47,Beverly Ball,DEM,1,0,227,2570,52,39,11,2899
+GP10,Prince George's,dem,DEM Cent Comm,47,Dottie McNeill,DEM,1,0,324,2641,57,30,18,3070
+GP10,Prince George's,dem,DEM Cent Comm,47,"Fred Price, Jr.",DEM,0,0,219,2288,39,29,12,2587
+GP10,Prince George's,dem,DEM Cent Comm,47,"Clarence E. Shaw, III",DEM,0,0,127,1721,23,23,7,1901

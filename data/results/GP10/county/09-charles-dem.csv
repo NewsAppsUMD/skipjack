@@ -1,0 +1,66 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Charles,dem,Governor / Lt. Governor,"",J. P. Cusick,DEM,0,0,120,1017,15,10,6,1168
+GP10,Charles,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,35,341,9,6,2,393
+GP10,Charles,dem,Governor / Lt. Governor,"",Martin O'Malley,DEM,1,0,1133,9526,150,132,73,11014
+GP10,Charles,dem,Comptroller,"",Peter Franchot,DEM,1,0,1019,8574,151,121,70,9935
+GP10,Charles,dem,Attorney General,"",Douglas F. Gansler,DEM,1,0,1028,8653,151,122,67,10021
+GP10,Charles,dem,U.S. Senator,"",Christopher J. Garner,DEM,0,0,121,1102,21,15,11,1270
+GP10,Charles,dem,U.S. Senator,"",A. Billy Bob Jaworski,DEM,0,0,25,292,4,2,3,326
+GP10,Charles,dem,U.S. Senator,"",Barbara A. Mikulski,DEM,1,0,1039,8180,143,96,62,9520
+GP10,Charles,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,28,196,3,6,2,235
+GP10,Charles,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,28,311,2,8,1,350
+GP10,Charles,dem,U.S. Senator,"",Sanquetta Taylor,DEM,0,0,22,447,2,14,1,486
+GP10,Charles,dem,U.S. Senator,"",Lih Young,DEM,0,0,14,158,1,3,1,177
+GP10,Charles,dem,U.S. Congress,05,Sylvanus G. Bent,DEM,0,0,78,619,10,12,3,722
+GP10,Charles,dem,U.S. Congress,05,Andrew Charles Gall,DEM,0,0,137,1380,23,17,8,1565
+GP10,Charles,dem,U.S. Congress,05,Steny H. Hoyer,DEM,1,0,1083,8787,152,119,73,10214
+GP10,Charles,dem,State Senator,28,Thomas McLain Middleton,DEM,1,0,962,8170,154,122,73,9481
+GP10,Charles,dem,State Senator,29,Roy Dyson,DEM,1,0,13,176,3,1,2,195
+GP10,Charles,dem,House of Delegates,28,Jim Easter,DEM,0,0,225,2826,33,45,26,3155
+GP10,Charles,dem,House of Delegates,28,Craig James Hickerson,DEM,0,0,88,888,16,19,5,1016
+GP10,Charles,dem,House of Delegates,28,Gary V. Hodge,DEM,0,0,326,2903,47,34,25,3335
+GP10,Charles,dem,House of Delegates,28,Bud Humbert,DEM,0,0,290,2096,42,31,16,2475
+GP10,Charles,dem,House of Delegates,28,Sally Y. Jameson,DEM,1,0,871,6393,120,68,55,7507
+GP10,Charles,dem,House of Delegates,28,Peter Murphy,DEM,1,0,812,5416,123,42,51,6444
+GP10,Charles,dem,House of Delegates,28,C. T. Wilson,DEM,1,0,586,4943,45,71,21,5666
+GP10,Charles,dem,House of Delegates,29A,"John F. Wood, Jr.",DEM,1,0,12,164,3,1,2,182
+GP10,Charles,dem,Pres County Commission,"",Candice Quinn Kelly,DEM,1,0,771,5400,104,63,40,6378
+GP10,Charles,dem,Pres County Commission,"",Edith J. Patterson,DEM,0,0,540,5528,70,84,42,6264
+GP10,Charles,dem,County Commissioner,001,Sam Graves,DEM,0,0,593,4987,83,72,54,5789
+GP10,Charles,dem,County Commissioner,001,Ken Robinson,DEM,1,0,661,5116,89,62,23,5951
+GP10,Charles,dem,County Commissioner,002,Bob Buehler,DEM,0,0,122,750,19,5,6,902
+GP10,Charles,dem,County Commissioner,002,Charles Carrington,DEM,0,0,259,2363,32,41,19,2714
+GP10,Charles,dem,County Commissioner,002,Debra Davis,DEM,1,0,407,4267,53,70,26,4823
+GP10,Charles,dem,County Commissioner,002,Johnnie DeGiorgi,DEM,0,0,267,1753,40,14,19,2093
+GP10,Charles,dem,County Commissioner,002,Leo Bachi Eyombo,DEM,0,0,82,512,8,6,2,610
+GP10,Charles,dem,County Commissioner,003,Latrina Lenise Carr,DEM,0,0,116,1652,20,39,4,1831
+GP10,Charles,dem,County Commissioner,003,"Reuben B. Collins, II",DEM,1,0,687,5577,66,77,36,6443
+GP10,Charles,dem,County Commissioner,003,Al Smith,DEM,0,0,457,3141,79,31,38,3746
+GP10,Charles,dem,County Commissioner,004,Vincent Vinny Ippolito,DEM,0,0,286,1993,40,34,21,2374
+GP10,Charles,dem,County Commissioner,004,Joe Lehan,DEM,0,0,400,2532,45,24,19,3020
+GP10,Charles,dem,County Commissioner,004,Bobby Rucci,DEM,1,0,397,4179,46,58,19,4699
+GP10,Charles,dem,County Commissioner,004,Ken Santill,DEM,0,0,70,737,14,16,5,842
+GP10,Charles,dem,Judge Circuit Court,07,Helen Ina Harrington,DEM,1,0,953,8059,140,122,64,9338
+GP10,Charles,dem,State's Attorney,"",Anthony Tony Covington,DEM,1,0,768,7012,100,104,45,8029
+GP10,Charles,dem,State's Attorney,"",Hammad Matin,DEM,0,0,532,3582,67,43,30,4254
+GP10,Charles,dem,Clerk Circuit Court,"",Sharon Sherri Hancock,DEM,1,0,1073,8916,156,125,69,10339
+GP10,Charles,dem,Register of Wills,"",Loraine Davies Hennessy,DEM,1,0,967,8429,137,125,69,9727
+GP10,Charles,dem,Judge Orphans Court,"",J. Lorraine Berry,DEM,1,0,691,5608,105,87,42,6533
+GP10,Charles,dem,Judge Orphans Court,"",Warren A. Bowie,DEM,1,0,716,5181,94,60,40,6091
+GP10,Charles,dem,Judge Orphans Court,"",William D. Johnson,DEM,0,0,412,4028,44,51,27,4562
+GP10,Charles,dem,Judge Orphans Court,"",Frank H. Lancaster,DEM,1,0,601,4734,96,65,34,5530
+GP10,Charles,dem,Sheriff,"",Rex Coffey,DEM,1,0,823,6063,118,54,62,7120
+GP10,Charles,dem,Sheriff,"","Robert L. Foster, Jr.",DEM,0,0,25,725,12,21,5,788
+GP10,Charles,dem,Sheriff,"",Dave Williams,DEM,0,0,383,2689,38,31,15,3156
+GP10,Charles,dem,Sheriff,"","Jesse Williams, III",DEM,0,0,118,1646,13,42,3,1822
+GP10,Charles,dem,DEM Cent Committee,"",Elvira Marie Barnes,DEM,1,0,598,5353,63,72,41,6127
+GP10,Charles,dem,DEM Cent Committee,"",Virginia Benedict,DEM,1,0,717,5717,99,67,45,6645
+GP10,Charles,dem,DEM Cent Committee,"",Albert B. Coleman,DEM,1,0,515,4815,47,61,28,5466
+GP10,Charles,dem,DEM Cent Committee,"",Gene Davies,DEM,1,0,658,5272,75,69,42,6116
+GP10,Charles,dem,DEM Cent Committee,"",Debra Dempsey Hobbs,DEM,1,0,539,5452,105,73,45,6214
+GP10,Charles,dem,DEM Cent Committee,"",Reginald Kearney,DEM,1,0,524,4784,60,70,29,5467
+GP10,Charles,dem,DEM Cent Committee,"",Evalyn Phelps,DEM,1,0,533,4891,74,63,35,5596
+GP10,Charles,dem,DEM Cent Committee,"",Lee  Ann Platt,DEM,0,0,507,4538,62,59,31,5197
+GP10,Charles,dem,DEM Cent Committee,"",Christopher Ripley,DEM,0,0,502,4297,57,54,33,4943
+GP10,Charles,dem,DEM Cent Committee,"",Janice Marie Talley,DEM,1,0,593,5848,74,77,37,6629
+GP10,Charles,dem,DEM Cent Committee,"",Greg Waller,DEM,1,0,527,4600,54,63,29,5273

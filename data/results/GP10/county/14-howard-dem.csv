@@ -1,0 +1,67 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Howard,dem,Governor / Lt. Governor,"",J. P. Cusick,DEM,0,0,161,1468,30,17,4,1680
+GP10,Howard,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,62,593,18,12,4,689
+GP10,Howard,dem,Governor / Lt. Governor,"",Martin O'Malley,DEM,1,0,2853,16077,394,241,89,19654
+GP10,Howard,dem,Comptroller,"",Peter Franchot,DEM,1,0,2660,15406,365,220,82,18733
+GP10,Howard,dem,Attorney General,"",Douglas F. Gansler,DEM,1,0,2660,15336,366,223,83,18668
+GP10,Howard,dem,U.S. Senator,"",Christopher J. Garner,DEM,0,0,128,1252,28,19,7,1434
+GP10,Howard,dem,U.S. Senator,"",A. Billy Bob Jaworski,DEM,0,0,43,392,8,3,2,448
+GP10,Howard,dem,U.S. Senator,"",Barbara A. Mikulski,DEM,1,0,2786,15286,391,218,86,18767
+GP10,Howard,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,35,301,8,6,2,352
+GP10,Howard,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,34,301,4,6,1,346
+GP10,Howard,dem,U.S. Senator,"",Sanquetta Taylor,DEM,0,0,34,303,7,8,1,353
+GP10,Howard,dem,U.S. Senator,"",Lih Young,DEM,0,0,27,285,7,7,0,326
+GP10,Howard,dem,U.S. Congress,03,John Kibler,DEM,0,0,22,193,4,2,3,224
+GP10,Howard,dem,U.S. Congress,03,Ryan Ludick,DEM,0,0,10,132,1,3,0,146
+GP10,Howard,dem,U.S. Congress,03,Michael Miller,DEM,0,0,19,388,5,9,2,423
+GP10,Howard,dem,U.S. Congress,03,John Rea,DEM,0,0,5,94,1,2,0,102
+GP10,Howard,dem,U.S. Congress,03,John Sarbanes,DEM,1,0,599,4595,96,57,22,5369
+GP10,Howard,dem,U.S. Congress,07,Elijah Cummings,DEM,1,0,2117,10497,293,146,63,13116
+GP10,Howard,dem,U.S. Congress,07,Charles U. Smith,DEM,0,0,264,1980,42,27,7,2320
+GP10,Howard,dem,State Senator,09,Jim Adams,DEM,1,0,767,4023,108,41,21,4960
+GP10,Howard,dem,State Senator,12,Edward J. Kasemeyer,DEM,1,0,898,3689,129,63,15,4794
+GP10,Howard,dem,State Senator,13,James N. Robey,DEM,1,0,891,7019,133,91,40,8174
+GP10,Howard,dem,House of Delegates,09A,Maryann Maher,DEM,1,0,751,3986,94,33,22,4886
+GP10,Howard,dem,House of Delegates,09A,Jonathan Weinstein,DEM,1,0,698,3685,91,27,21,4522
+GP10,Howard,dem,House of Delegates,12A,"Steven J. DeBoy, Sr.",DEM,1,0,62,640,10,8,4,724
+GP10,Howard,dem,House of Delegates,12A,"James E. Malone, Jr.",DEM,1,0,62,693,10,8,4,777
+GP10,Howard,dem,House of Delegates,12B,John Bailey,DEM,0,0,151,673,24,12,2,862
+GP10,Howard,dem,House of Delegates,12B,Elizabeth Bobo,DEM,1,0,849,2880,117,50,13,3909
+GP10,Howard,dem,House of Delegates,13,Guy Guzzone,DEM,1,0,857,6602,118,73,42,7692
+GP10,Howard,dem,House of Delegates,13,Shane Pendergrass,DEM,1,0,846,6575,122,72,42,7657
+GP10,Howard,dem,House of Delegates,13,Frank S. Turner,DEM,1,0,864,6596,118,84,43,7705
+GP10,Howard,dem,County Executive,"",Ken Ulman,DEM,1,0,2778,16070,376,234,83,19541
+GP10,Howard,dem,County Council,001,Courtney Watson,DEM,1,0,498,2871,73,29,10,3481
+GP10,Howard,dem,County Council,002,Calvin Ball,DEM,1,0,402,3040,48,46,15,3551
+GP10,Howard,dem,County Council,003,Jen Terrasa,DEM,1,0,321,2597,46,44,14,3022
+GP10,Howard,dem,County Council,004,Alan Klein,DEM,0,0,433,1815,69,22,11,2350
+GP10,Howard,dem,County Council,004,Mary Kay Sigaty,DEM,1,0,738,3003,87,47,13,3888
+GP10,Howard,dem,County Council,005,Zaneb Beams,DEM,1,0,353,2350,58,13,15,2789
+GP10,Howard,dem,State's Attorney,"",Dario J. Broccolino,DEM,1,0,2567,14685,354,219,77,17902
+GP10,Howard,dem,Clerk Circuit Court,"",Jason Reddish,DEM,1,0,2439,13986,330,207,75,17037
+GP10,Howard,dem,Register of Wills,"",Larry M. Blickman,DEM,0,0,672,4344,99,57,29,5201
+GP10,Howard,dem,Register of Wills,"",Byron MacFarlane,DEM,1,0,1612,8884,222,137,45,10900
+GP10,Howard,dem,Judge Orphans Court,"",Ajile F. Brown,DEM,0,0,833,4567,110,63,27,5600
+GP10,Howard,dem,Judge Orphans Court,"",Anne Dodd,DEM,1,0,1501,7941,186,99,43,9770
+GP10,Howard,dem,Judge Orphans Court,"",Sherae M. McNeal,DEM,1,0,1234,6706,170,90,39,8239
+GP10,Howard,dem,Judge Orphans Court,"",Nicole Bormel Miller,DEM,0,0,1021,6388,151,98,29,7687
+GP10,Howard,dem,Judge Orphans Court,"",Leslie Smith Turner,DEM,1,0,1726,9509,206,132,54,11627
+GP10,Howard,dem,Sheriff,"",James F. Fitzgerald,DEM,1,0,2483,14224,343,194,78,17322
+GP10,Howard,dem,DEM Cent Committee,"",Bill Adams,DEM,0,0,794,5130,106,73,23,6126
+GP10,Howard,dem,DEM Cent Committee,"",Diane Banner,DEM,1,0,1133,7157,150,98,34,8572
+GP10,Howard,dem,DEM Cent Committee,"",Daniel Besseck,DEM,0,0,928,5109,136,74,38,6285
+GP10,Howard,dem,DEM Cent Committee,"",Jonathan K. Branch,DEM,1,0,1017,5596,127,64,33,6837
+GP10,Howard,dem,DEM Cent Committee,"",Carole J. Chase,DEM,1,0,1370,7774,167,105,45,9461
+GP10,Howard,dem,DEM Cent Committee,"",Rich Corkran,DEM,0,0,772,4591,99,54,22,5538
+GP10,Howard,dem,DEM Cent Committee,"",Willis E. Gay,DEM,0,0,889,5256,103,70,26,6344
+GP10,Howard,dem,DEM Cent Committee,"",Abby R. Hendrix,DEM,1,0,1106,6645,145,96,41,8033
+GP10,Howard,dem,DEM Cent Committee,"",Ethel B. Hill,DEM,1,0,1426,7701,171,96,38,9432
+GP10,Howard,dem,DEM Cent Committee,"",Clarence Lam,DEM,1,0,1317,5737,127,84,38,7303
+GP10,Howard,dem,DEM Cent Committee,"",Jerry Lozupone,DEM,0,0,552,3588,83,46,21,4290
+GP10,Howard,dem,DEM Cent Committee,"",Kathy MacFarlane,DEM,1,0,1385,8761,166,124,40,10476
+GP10,Howard,dem,DEM Cent Committee,"",Michael C. A. McPherson,DEM,1,0,1126,6576,136,86,43,7967
+GP10,Howard,dem,DEM Cent Committee,"",Ethan Moore,DEM,1,0,1045,5949,122,72,34,7222
+GP10,Howard,dem,DEM Cent Committee,"",Kristen M. Neville,DEM,1,0,1330,7331,163,106,49,8979
+GP10,Howard,dem,DEM Cent Committee,"",Deanna Peel,DEM,1,0,1237,6922,152,97,40,8448
+GP10,Howard,dem,DEM Cent Committee,"",Kevin Treine,DEM,0,0,516,3661,73,59,10,4319
+GP10,Howard,dem,DEM Cent Committee,"",Catherine M. Zomlefer,DEM,1,0,1208,6749,125,90,48,8220

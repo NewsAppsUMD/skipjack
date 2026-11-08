@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-06-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Caroline_County_Republican_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Caroline results (rep)",
+  "fetch_date": "2026-11-08T01:34:59+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "4fad27428b1d1d93d778c8e7ff3b442570b619190a91519a75b26d7d7a5f5f2a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Caroline county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 50,
+    "row_totals": "ok",
+    "statewide_check": "ok: 246 statewide rows (246 for, 0 against) match State_Legislative_Districts_Republican_2010_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

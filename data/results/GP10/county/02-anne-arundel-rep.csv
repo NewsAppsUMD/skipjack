@@ -1,0 +1,128 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Anne Arundel,rep,Governor / Lt. Governor,"","Robert L. Ehrlich, Jr.",REP,1,0,3090,27070,560,244,222,31186
+GP10,Anne Arundel,rep,Governor / Lt. Governor,"",Brian Murphy,REP,0,0,675,7659,127,78,40,8579
+GP10,Anne Arundel,rep,Comptroller,"",William Henry Campbell,REP,1,0,1852,16442,387,138,134,18953
+GP10,Anne Arundel,rep,Comptroller,"",Armand F. Girard,REP,0,0,338,3188,44,30,24,3624
+GP10,Anne Arundel,rep,Comptroller,"",Brendan Madigan,REP,0,0,776,6919,112,58,42,7907
+GP10,Anne Arundel,rep,U.S. Senator,"",Joseph Alexander,REP,0,0,131,1347,24,10,12,1524
+GP10,Anne Arundel,rep,U.S. Senator,"",Barry Steve Asbury,REP,0,0,70,738,10,5,4,827
+GP10,Anne Arundel,rep,U.S. Senator,"",Neil H. Cohen,REP,0,0,254,2199,56,36,15,2560
+GP10,Anne Arundel,rep,U.S. Senator,"",Stephens Dempsey,REP,0,0,106,975,29,7,5,1122
+GP10,Anne Arundel,rep,U.S. Senator,"","Samuel R. Graham, Sr.",REP,0,0,81,655,16,7,7,766
+GP10,Anne Arundel,rep,U.S. Senator,"",John B. Kimble,REP,0,0,134,953,24,18,12,1141
+GP10,Anne Arundel,rep,U.S. Senator,"",Gregory L. Kump,REP,0,0,30,330,8,3,2,373
+GP10,Anne Arundel,rep,U.S. Senator,"",Daniel W. McAndrew,REP,0,0,134,943,24,14,9,1124
+GP10,Anne Arundel,rep,U.S. Senator,"",Jim Rutledge,REP,0,0,1095,7430,225,77,73,8900
+GP10,Anne Arundel,rep,U.S. Senator,"",Eddie Vendetti,REP,0,0,72,516,8,6,7,609
+GP10,Anne Arundel,rep,U.S. Senator,"",Eric Wargotz,REP,1,0,1159,14375,159,84,88,15865
+GP10,Anne Arundel,rep,U.S. Congress,01,Rob Fisher,REP,0,0,392,3181,55,16,27,3671
+GP10,Anne Arundel,rep,U.S. Congress,01,Andy Harris,REP,1,0,984,7220,137,61,58,8460
+GP10,Anne Arundel,rep,U.S. Congress,02,Marcelo Cardarelli,REP,1,0,114,1565,14,5,15,1713
+GP10,Anne Arundel,rep,U.S. Congress,02,Josh Dowlut,REP,0,0,20,223,0,5,5,253
+GP10,Anne Arundel,rep,U.S. Congress,02,Jimmy Mathis,REP,0,0,86,1052,4,18,6,1166
+GP10,Anne Arundel,rep,U.S. Congress,02,Troy Stouffer,REP,0,0,37,449,10,7,6,509
+GP10,Anne Arundel,rep,U.S. Congress,02,Francis Treadwell,REP,0,0,43,567,9,4,3,626
+GP10,Anne Arundel,rep,U.S. Congress,03,Greg Bartosz,REP,0,0,212,2540,65,31,19,2867
+GP10,Anne Arundel,rep,U.S. Congress,03,"Thomas Defibaugh, Sr.",REP,0,0,101,993,25,10,11,1140
+GP10,Anne Arundel,rep,U.S. Congress,03,Thomas E. Pinkston Harris,REP,0,0,331,3383,61,24,26,3825
+GP10,Anne Arundel,rep,U.S. Congress,03,Jim Wilhelm,REP,1,0,493,4500,133,49,29,5204
+GP10,Anne Arundel,rep,U.S. Congress,05,Collins A. Bailey,REP,0,0,148,1171,26,10,3,1358
+GP10,Anne Arundel,rep,U.S. Congress,05,Chris Chaffee,REP,0,0,45,311,11,2,2,371
+GP10,Anne Arundel,rep,U.S. Congress,05,Charles Lollar,REP,1,0,218,1878,39,14,10,2159
+GP10,Anne Arundel,rep,U.S. Congress,05,Chris Robins,REP,0,0,45,324,3,1,2,375
+GP10,Anne Arundel,rep,State Senator,30,Ron Elfenbein,REP,1,0,707,6424,157,61,41,7390
+GP10,Anne Arundel,rep,State Senator,31,"William Thomas Capps, Jr.",REP,0,0,84,1204,12,14,9,1323
+GP10,Anne Arundel,rep,State Senator,31,Bryan W. Simonaire,REP,1,0,483,6043,78,47,42,6693
+GP10,Anne Arundel,rep,State Senator,32,Larry Barber,REP,1,0,487,4244,65,32,37,4865
+GP10,Anne Arundel,rep,State Senator,33,Brian Benjers,REP,0,0,88,771,16,4,7,886
+GP10,Anne Arundel,rep,State Senator,33,James J. King,REP,0,0,617,4642,115,45,39,5458
+GP10,Anne Arundel,rep,State Senator,33,Edward R. Reilly,REP,1,0,758,5849,159,29,43,6838
+GP10,Anne Arundel,rep,House of Delegates,21,Scott W. Dibiasio,REP,1,0,64,453,7,4,5,533
+GP10,Anne Arundel,rep,House of Delegates,21,Kat Nelson,REP,1,0,62,434,7,4,5,512
+GP10,Anne Arundel,rep,House of Delegates,21,Jason W. Papanikolas,REP,1,0,58,441,7,4,6,516
+GP10,Anne Arundel,rep,House of Delegates,30,Ron George,REP,1,0,715,6513,158,53,42,7481
+GP10,Anne Arundel,rep,House of Delegates,30,Seth Howard,REP,1,0,568,5120,128,46,29,5891
+GP10,Anne Arundel,rep,House of Delegates,30,Herb McMillan,REP,1,0,643,5647,144,48,37,6519
+GP10,Anne Arundel,rep,House of Delegates,31,James C. Braswell,REP,0,0,181,2283,30,18,16,2528
+GP10,Anne Arundel,rep,House of Delegates,31,"Don Dwyer, Jr.",REP,1,0,388,4946,60,39,37,5470
+GP10,Anne Arundel,rep,House of Delegates,31,Nicholaus R. Kipke,REP,1,0,442,5448,74,41,38,6043
+GP10,Anne Arundel,rep,House of Delegates,31,Steve Schuh,REP,1,0,468,5207,73,33,36,5817
+GP10,Anne Arundel,rep,House of Delegates,32,Stephanie A. Hodges,REP,1,0,337,3362,45,24,25,3793
+GP10,Anne Arundel,rep,House of Delegates,32,George Law,REP,0,0,197,1805,24,16,14,2056
+GP10,Anne Arundel,rep,House of Delegates,32,Wayne Smith,REP,1,0,422,3491,60,15,33,4021
+GP10,Anne Arundel,rep,House of Delegates,32,David P. Starr,REP,1,0,205,2096,34,10,24,2369
+GP10,Anne Arundel,rep,House of Delegates,32,Derick D. Young,REP,0,0,208,1717,19,15,10,1969
+GP10,Anne Arundel,rep,House of Delegates,33A,Vic Bernson,REP,0,0,404,2572,65,20,25,3086
+GP10,Anne Arundel,rep,House of Delegates,33A,David Boschert,REP,0,0,256,1768,41,16,18,2099
+GP10,Anne Arundel,rep,House of Delegates,33A,Tony McConkey,REP,1,0,313,2759,57,26,21,3176
+GP10,Anne Arundel,rep,House of Delegates,33A,Sid Saab,REP,0,0,336,2596,44,13,22,3011
+GP10,Anne Arundel,rep,House of Delegates,33A,Cathy Vitale,REP,1,0,741,4276,105,38,35,5195
+GP10,Anne Arundel,rep,House of Delegates,33B,Tom Angelis,REP,0,0,139,1141,37,4,8,1329
+GP10,Anne Arundel,rep,House of Delegates,33B,Bob Costa,REP,1,0,232,2385,77,13,19,2726
+GP10,Anne Arundel,rep,County Executive,"",John R. Leopold,REP,1,0,2879,24675,569,237,206,28566
+GP10,Anne Arundel,rep,County Council,001,"John E. Moran, IV",REP,1,0,216,2234,30,13,21,2514
+GP10,Anne Arundel,rep,County Council,002,John Grasso,REP,1,0,139,1813,26,11,9,1998
+GP10,Anne Arundel,rep,County Council,002,Gary Middlebrooks,REP,0,0,227,1638,26,15,18,1924
+GP10,Anne Arundel,rep,County Council,003,Perry Ealim,REP,0,0,19,152,2,0,0,173
+GP10,Anne Arundel,rep,County Council,003,Derek Fink,REP,1,0,182,3513,40,25,16,3776
+GP10,Anne Arundel,rep,County Council,003,Carl G.Dutch Holland,REP,0,0,53,501,10,6,4,574
+GP10,Anne Arundel,rep,County Council,003,Tom Redmond,REP,0,0,120,1474,18,21,11,1644
+GP10,Anne Arundel,rep,County Council,004,Tim Hallihan,REP,0,0,139,1187,29,12,10,1377
+GP10,Anne Arundel,rep,County Council,004,Charlotte K. Weinstein,REP,1,0,207,1500,26,13,18,1764
+GP10,Anne Arundel,rep,County Council,005,Maureen Carr-York,REP,0,0,601,3121,56,30,35,3843
+GP10,Anne Arundel,rep,County Council,005,Dick Ladd,REP,1,0,461,3695,70,28,29,4283
+GP10,Anne Arundel,rep,County Council,006,Doug Burkhardt,REP,1,0,316,3196,119,30,22,3683
+GP10,Anne Arundel,rep,County Council,007,Phillip D. Bissett,REP,0,0,211,1459,29,14,9,1722
+GP10,Anne Arundel,rep,County Council,007,Michelle Corkadel,REP,0,0,138,1690,30,13,3,1874
+GP10,Anne Arundel,rep,County Council,007,Tricia Johnson,REP,0,0,43,431,12,6,3,495
+GP10,Anne Arundel,rep,County Council,007,David Lee Norkus,REP,0,0,21,257,2,0,0,280
+GP10,Anne Arundel,rep,County Council,007,Jerry Walker,REP,1,0,219,2183,60,13,15,2490
+GP10,Anne Arundel,rep,Judge Circuit Court,05,Alison Asti,REP,1,0,1908,17945,301,126,125,20405
+GP10,Anne Arundel,rep,Judge Circuit Court,05,Ronald H. Jarashow,REP,0,0,1485,12888,261,113,107,14854
+GP10,Anne Arundel,rep,Judge Circuit Court,05,Laura S. Kiessling,REP,1,0,2070,17967,370,166,139,20712
+GP10,Anne Arundel,rep,State's Attorney,"",Eric Grannon,REP,1,0,2883,25038,521,224,185,28851
+GP10,Anne Arundel,rep,Clerk Circuit Court,"",Robert P. Duckworth,REP,1,0,3086,26688,552,238,200,30764
+GP10,Anne Arundel,rep,Register of Wills,"",Roger Berwanger,REP,0,0,694,6509,134,64,44,7445
+GP10,Anne Arundel,rep,Register of Wills,"",Lauren M. Parker,REP,1,0,2418,21105,412,190,160,24285
+GP10,Anne Arundel,rep,Judge Orphans Court,"",Judith L. Duckett,REP,1,0,2241,19200,404,154,158,22157
+GP10,Anne Arundel,rep,Judge Orphans Court,"",Nancy C. Phelps,REP,1,0,2388,20015,425,170,149,23147
+GP10,Anne Arundel,rep,Judge Orphans Court,"",Thomas P. Rice,REP,0,0,1126,10348,186,87,86,11833
+GP10,Anne Arundel,rep,Judge Orphans Court,"",Gordon H. Witherspoon,REP,1,0,1839,15334,339,115,118,17745
+GP10,Anne Arundel,rep,Sheriff,"",Patrick Jameson,REP,1,0,2863,25002,531,225,192,28813
+GP10,Anne Arundel,rep,REP Cent Committee,21,Eric J. Flamino,REP,1,0,77,525,6,3,5,616
+GP10,Anne Arundel,rep,REP Cent Committee,30,Debbie Belcher,REP,1,0,264,2361,63,17,19,2724
+GP10,Anne Arundel,rep,REP Cent Committee,30,Robin M. Bissett,REP,1,0,352,2973,67,22,19,3433
+GP10,Anne Arundel,rep,REP Cent Committee,30,Scott Bowling,REP,0,0,253,2366,61,19,17,2716
+GP10,Anne Arundel,rep,REP Cent Committee,30,Karyn Keating-Volke,REP,0,0,143,1257,23,14,7,1444
+GP10,Anne Arundel,rep,REP Cent Committee,30,Nora Keenan,REP,0,0,196,1695,26,14,11,1942
+GP10,Anne Arundel,rep,REP Cent Committee,30,Ginny Meerman,REP,0,0,175,1216,48,11,13,1463
+GP10,Anne Arundel,rep,REP Cent Committee,30,Scott Shaffer,REP,1,0,272,2484,48,28,18,2850
+GP10,Anne Arundel,rep,REP Cent Committee,30,Joyce E. Thomann,REP,0,0,213,1785,49,16,15,2078
+GP10,Anne Arundel,rep,REP Cent Committee,31,Dan Bienemann,REP,0,0,101,1063,16,10,10,1200
+GP10,Anne Arundel,rep,REP Cent Committee,31,James C. Braswell,REP,1,0,218,2541,37,13,19,2828
+GP10,Anne Arundel,rep,REP Cent Committee,31,Victor John Henderson,REP,0,0,47,387,9,3,3,449
+GP10,Anne Arundel,rep,REP Cent Committee,31,Jennifer L. Holland,REP,0,0,138,1709,26,16,13,1902
+GP10,Anne Arundel,rep,REP Cent Committee,31,Mike Jacobs,REP,0,0,122,1809,18,18,11,1978
+GP10,Anne Arundel,rep,REP Cent Committee,31,Derek Anthony Kreiner,REP,0,0,28,374,2,4,1,409
+GP10,Anne Arundel,rep,REP Cent Committee,31,"John E. Moran, IV",REP,0,0,102,1063,18,8,10,1201
+GP10,Anne Arundel,rep,REP Cent Committee,31,Jonathan Pappas,REP,0,0,96,1317,10,12,12,1447
+GP10,Anne Arundel,rep,REP Cent Committee,31,Sarah Phelps,REP,1,0,167,2251,25,31,14,2488
+GP10,Anne Arundel,rep,REP Cent Committee,31,David Rosage,REP,0,0,44,571,3,8,6,632
+GP10,Anne Arundel,rep,REP Cent Committee,31,Bill Voelp,REP,0,0,43,464,10,3,4,524
+GP10,Anne Arundel,rep,REP Cent Committee,31,Nathan Volke,REP,1,0,138,1927,20,10,11,2106
+GP10,Anne Arundel,rep,REP Cent Committee,31,Brenda Yarema,REP,0,0,114,1518,17,8,6,1663
+GP10,Anne Arundel,rep,REP Cent Committee,32,Bryan Baucom,REP,0,0,111,1014,13,7,8,1153
+GP10,Anne Arundel,rep,REP Cent Committee,32,Sherry E. Kennell,REP,0,0,200,1672,17,17,16,1922
+GP10,Anne Arundel,rep,REP Cent Committee,32,Nita Maggio,REP,0,0,155,1220,10,7,5,1397
+GP10,Anne Arundel,rep,REP Cent Committee,32,Alan M. Rzepkowski,REP,1,0,286,2512,40,12,26,2876
+GP10,Anne Arundel,rep,REP Cent Committee,32,Wayne Smith,REP,1,0,426,3572,56,22,30,4106
+GP10,Anne Arundel,rep,REP Cent Committee,32,David P. Starr,REP,1,0,283,2665,42,17,23,3030
+GP10,Anne Arundel,rep,REP Cent Committee,33,James Appel,REP,1,0,384,2756,65,22,16,3243
+GP10,Anne Arundel,rep,REP Cent Committee,33,Ingrid Marie Dean,REP,0,0,287,2022,67,13,18,2407
+GP10,Anne Arundel,rep,REP Cent Committee,33,Chuck Gast,REP,0,0,319,2106,62,17,25,2529
+GP10,Anne Arundel,rep,REP Cent Committee,33,Rick Hughes,REP,0,0,305,2710,75,14,14,3118
+GP10,Anne Arundel,rep,REP Cent Committee,33,Michael G. Leahy,REP,0,0,419,2479,66,22,20,3006
+GP10,Anne Arundel,rep,REP Cent Committee,33,Michael Edward Malone,REP,0,0,269,2076,50,16,22,2433
+GP10,Anne Arundel,rep,REP Cent Committee,33,Susan McConkey,REP,1,0,589,4893,111,37,42,5672
+GP10,Anne Arundel,rep,REP Cent Committee,33,Jason E. Rheinstein,REP,0,0,151,941,30,12,8,1142
+GP10,Anne Arundel,rep,REP Cent Committee,33,Charlotte K. Weinstein,REP,1,0,455,2872,53,20,22,3422

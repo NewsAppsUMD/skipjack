@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-15-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Kent_County_Democratic_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Kent results (dem)",
+  "fetch_date": "2026-11-08T01:35:02+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "d2f8340e306a163fd5e162e07988f04450596c692bc17c05a0915cd5adad4ae7",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Kent county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 32,
+    "row_totals": "ok",
+    "statewide_check": "ok: 341 statewide rows (341 for, 0 against) match State_Legislative_Districts_Democratic_2010_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

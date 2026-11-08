@@ -1,0 +1,127 @@
+{
+  "source_id": "sbe-results-GG10-county-03-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Baltimore_City_County_2010_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG10 Baltimore City results (all)",
+  "fetch_date": "2026-11-08T01:34:55+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "dacafd879c6dfa77c0cb8c6b6d67ba3fe90f3b55c5ba6bd51377c363637cf8d1",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG10 Baltimore City county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 108,
+    "row_totals": "15 rows whose printed Total Votes is not the sum of the vote types (the board's own arithmetic in this file; the printed total is kept as total_votes, the rows are listed in row_total_exceptions)",
+    "statewide_check": "ok: 532 statewide rows (525 for, 7 against) match State_Legislative_Districts_2010_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only); the board's own figures disagree on U.S. Senator / Other Write-Ins (BOT): counties 1359, statewide row 1361 (listed in STATEWIDE_CHECK_EXCEPTIONS, recorded, not corrected)",
+    "row_total_exceptions": [
+      {
+        "office": "Governor / Lt. Governor",
+        "district": "",
+        "candidate": "Ralph Jaffe",
+        "total_votes": 62,
+        "sum_of_vote_types": 71
+      },
+      {
+        "office": "Governor / Lt. Governor",
+        "district": "",
+        "candidate": "Corrogan R. Vaughn",
+        "total_votes": 41,
+        "sum_of_vote_types": 56
+      },
+      {
+        "office": "Governor / Lt. Governor",
+        "district": "",
+        "candidate": "Other Write-Ins",
+        "total_votes": 166,
+        "sum_of_vote_types": 187
+      },
+      {
+        "office": "U.S. Senator",
+        "district": "",
+        "candidate": "James T. Lynch, Jr.",
+        "total_votes": 6,
+        "sum_of_vote_types": 7
+      },
+      {
+        "office": "U.S. Senator",
+        "district": "",
+        "candidate": "Denise L. Whittington",
+        "total_votes": 7,
+        "sum_of_vote_types": 10
+      },
+      {
+        "office": "U.S. Senator",
+        "district": "",
+        "candidate": "Lih Young",
+        "total_votes": 11,
+        "sum_of_vote_types": 12
+      },
+      {
+        "office": "U.S. Senator",
+        "district": "",
+        "candidate": "Claud L. Asbury",
+        "total_votes": 15,
+        "sum_of_vote_types": 16
+      },
+      {
+        "office": "U.S. Senator",
+        "district": "",
+        "candidate": "Donald Kaplan",
+        "total_votes": 16,
+        "sum_of_vote_types": 17
+      },
+      {
+        "office": "U.S. Senator",
+        "district": "",
+        "candidate": "Other Write-Ins",
+        "total_votes": 84,
+        "sum_of_vote_types": 105
+      },
+      {
+        "office": "U.S. Congress",
+        "district": "07",
+        "candidate": "Ray Bly",
+        "total_votes": 4,
+        "sum_of_vote_types": 6
+      },
+      {
+        "office": "U.S. Congress",
+        "district": "07",
+        "candidate": "Other Write-Ins",
+        "total_votes": 45,
+        "sum_of_vote_types": 54
+      },
+      {
+        "office": "Clerk Circuit Court",
+        "district": "",
+        "candidate": "Sarah Matthews",
+        "total_votes": 215,
+        "sum_of_vote_types": 273
+      },
+      {
+        "office": "Clerk Circuit Court",
+        "district": "",
+        "candidate": "Other Write-Ins",
+        "total_votes": 832,
+        "sum_of_vote_types": 945
+      },
+      {
+        "office": "Sheriff",
+        "district": "",
+        "candidate": "Frances Jean Hamilton",
+        "total_votes": 2910,
+        "sum_of_vote_types": 4679
+      },
+      {
+        "office": "Sheriff",
+        "district": "",
+        "candidate": "Other Write-Ins",
+        "total_votes": 696,
+        "sum_of_vote_types": 944
+      }
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Montgomery,rep,Governor / Lt. Governor,"","Robert L. Ehrlich, Jr.",REP,1,0,963,15820,864,174,59,17880
+GP10,Montgomery,rep,Governor / Lt. Governor,"",Brian Murphy,REP,0,0,277,6714,188,85,21,7285
+GP10,Montgomery,rep,Comptroller,"",William Henry Campbell,REP,1,0,670,11429,628,119,40,12886
+GP10,Montgomery,rep,Comptroller,"",Armand F. Girard,REP,0,0,107,1595,72,25,6,1805
+GP10,Montgomery,rep,Comptroller,"",Brendan Madigan,REP,0,0,256,4690,188,51,13,5198
+GP10,Montgomery,rep,U.S. Senator,"",Joseph Alexander,REP,0,0,62,1129,50,17,4,1262
+GP10,Montgomery,rep,U.S. Senator,"",Barry Steve Asbury,REP,0,0,49,462,32,8,0,551
+GP10,Montgomery,rep,U.S. Senator,"",Neil H. Cohen,REP,0,0,109,1911,122,20,10,2172
+GP10,Montgomery,rep,U.S. Senator,"",Stephens Dempsey,REP,0,0,37,1014,47,14,9,1121
+GP10,Montgomery,rep,U.S. Senator,"","Samuel R. Graham, Sr.",REP,0,0,31,524,27,9,2,593
+GP10,Montgomery,rep,U.S. Senator,"",John B. Kimble,REP,0,0,64,771,56,11,4,906
+GP10,Montgomery,rep,U.S. Senator,"",Gregory L. Kump,REP,0,0,25,238,18,2,2,285
+GP10,Montgomery,rep,U.S. Senator,"",Daniel W. McAndrew,REP,0,0,58,982,47,13,4,1104
+GP10,Montgomery,rep,U.S. Senator,"",Jim Rutledge,REP,0,0,370,6211,289,69,21,6960
+GP10,Montgomery,rep,U.S. Senator,"",Eddie Vendetti,REP,0,0,33,684,31,8,1,757
+GP10,Montgomery,rep,U.S. Senator,"",Eric Wargotz,REP,1,0,298,6323,256,56,16,6949
+GP10,Montgomery,rep,U.S. Congress,04,Robert Broadus,REP,1,0,384,4874,146,39,53,5496
+GP10,Montgomery,rep,U.S. Congress,06,Roscoe G. Bartlett,REP,1,0,26,722,15,6,4,773
+GP10,Montgomery,rep,U.S. Congress,06,Dennis B. Janda,REP,0,0,0,29,0,1,0,30
+GP10,Montgomery,rep,U.S. Congress,06,Joseph T. Krysztoforski,REP,0,0,5,112,6,0,0,123
+GP10,Montgomery,rep,U.S. Congress,06,Steve Taylor,REP,0,0,2,106,2,0,0,110
+GP10,Montgomery,rep,U.S. Congress,06,Seth Edward Wilson,REP,0,0,0,50,3,0,1,54
+GP10,Montgomery,rep,U.S. Congress,08,Michael Lee Philips,REP,1,0,227,4194,204,38,1,4664
+GP10,Montgomery,rep,U.S. Congress,08,Bruce Stern,REP,0,0,163,4117,310,36,7,4633
+GP10,Montgomery,rep,U.S. Congress,08,Bill Thomas,REP,0,0,111,1955,120,33,3,2222
+GP10,Montgomery,rep,U.S. Congress,08,Christine Thron,REP,0,0,142,2722,142,37,4,3047
+GP10,Montgomery,rep,State Senator,14,Eric J. Cary,REP,1,0,203,2897,91,16,16,3223
+GP10,Montgomery,rep,State Senator,15,Dwight Patel,REP,1,0,143,2668,136,30,7,2984
+GP10,Montgomery,rep,State Senator,16,Jerry Cave,REP,1,0,69,2254,159,34,3,2519
+GP10,Montgomery,rep,State Senator,17,"Adol Theo Owen-Williams, II",REP,1,0,106,1563,107,19,1,1796
+GP10,Montgomery,rep,State Senator,18,Kurt Osuch,REP,1,0,78,1658,76,12,2,1826
+GP10,Montgomery,rep,State Senator,19,Don Irvine,REP,1,0,183,2232,105,10,13,2543
+GP10,Montgomery,rep,State Senator,39,Robert J. Smith,REP,1,0,92,1980,93,19,13,2197
+GP10,Montgomery,rep,House of Delegates,14,Patricia A. Fenati,REP,1,0,197,2824,83,14,15,3133
+GP10,Montgomery,rep,House of Delegates,14,Henry Kahwaty,REP,1,0,196,2610,81,10,14,2911
+GP10,Montgomery,rep,House of Delegates,14,Maria Peña-Faustino,REP,1,0,186,2453,81,11,15,2746
+GP10,Montgomery,rep,House of Delegates,15,Sylvia J. Darrow,REP,1,0,144,2587,128,21,4,2884
+GP10,Montgomery,rep,House of Delegates,15,Scott Graham,REP,1,0,137,2584,121,20,7,2869
+GP10,Montgomery,rep,House of Delegates,15,Matthew Mockerman,REP,1,0,126,2344,113,18,4,2605
+GP10,Montgomery,rep,House of Delegates,16,Jeanne Allen,REP,1,0,64,2119,142,31,3,2359
+GP10,Montgomery,rep,House of Delegates,16,Carol G. Bowis,REP,1,0,70,1972,137,28,3,2210
+GP10,Montgomery,rep,House of Delegates,16,Meyer F. Marks,REP,1,0,63,1846,132,28,3,2072
+GP10,Montgomery,rep,House of Delegates,17,Daniel R. Campos,REP,1,0,108,1538,104,21,1,1772
+GP10,Montgomery,rep,House of Delegates,17,Craig Frick,REP,1,0,99,1457,95,17,1,1669
+GP10,Montgomery,rep,House of Delegates,17,Josephine J. Wang,REP,1,0,101,1408,97,15,1,1622
+GP10,Montgomery,rep,House of Delegates,19,Tom Masser,REP,1,0,172,2054,95,10,10,2341
+GP10,Montgomery,rep,House of Delegates,19,Linn Rivera,REP,1,0,185,2151,92,8,12,2448
+GP10,Montgomery,rep,House of Delegates,39,Jim Pettit,REP,1,0,79,1792,86,14,10,1981
+GP10,Montgomery,rep,House of Delegates,39,Al Phillips,REP,1,0,72,1697,78,17,11,1875
+GP10,Montgomery,rep,House of Delegates,39,Bill Witham,REP,1,0,76,1694,86,13,9,1878
+GP10,Montgomery,rep,County Executive,"",Douglas E. Rosenfeld,REP,1,0,708,12028,583,118,46,13483
+GP10,Montgomery,rep,County Executive,"",Daniel Vovak,REP,0,0,344,6185,287,81,17,6914
+GP10,Montgomery,rep,County Council At Large,"",Robert Dyer,REP,1,0,879,14323,708,143,54,16107
+GP10,Montgomery,rep,County Council At Large,"",Mark D. Fennel,REP,1,0,874,14160,692,145,56,15927
+GP10,Montgomery,rep,County Council At Large,"",Brandon Rippeon,REP,1,0,866,14199,691,137,56,15949
+GP10,Montgomery,rep,County Council At Large,"",Robin Nixon Uncapher,REP,1,0,831,13453,673,137,55,15149
+GP10,Montgomery,rep,County Council,001,Rob Vricella,REP,1,0,123,3551,234,44,3,3955
+GP10,Montgomery,rep,County Council,002,Robin Ficker,REP,1,0,224,4169,127,35,25,4580
+GP10,Montgomery,rep,County Council,004,David W. Horner,REP,1,0,305,3046,162,14,14,3541
+GP10,Montgomery,rep,County Council,005,Joseph M. Russek,REP,1,0,88,1513,64,18,5,1688
+GP10,Montgomery,rep,Judge Circuit Court,06,Sharon V. Burrell,REP,1,0,816,13385,630,128,48,15007
+GP10,Montgomery,rep,Judge Circuit Court,06,Cynthia Callahan,REP,1,0,842,13670,643,133,46,15334
+GP10,Montgomery,rep,Judge Circuit Court,06,Richard E. Jordan,REP,1,0,828,13325,623,132,49,14957
+GP10,Montgomery,rep,Judge Circuit Court,06,Cheryl A. McCally,REP,1,0,815,13320,628,128,50,14941
+GP10,Montgomery,rep,Judge Circuit Court,06,Joseph M. Quirk,REP,1,0,809,13077,611,132,48,14677
+GP10,Montgomery,rep,Judge Circuit Court,06,Steven G. Salant,REP,1,0,799,12997,613,125,48,14582
+GP10,Montgomery,rep,Register of Wills,"",Socrates Koutsoutis,REP,1,0,870,14556,721,169,55,16371
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Augustus Alzona,REP,0,0,598,9534,443,98,29,10702
+GP10,Montgomery,rep,REP Cent Comm at Large,"",A.J. Cooke,REP,1,0,706,11642,511,98,41,12998
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Rachael R. Gingrich,REP,1,0,795,13144,567,120,45,14671
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Stella Green,REP,1,0,744,12005,553,105,40,13447
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Meyer F. Marks,REP,1,0,718,11488,531,101,43,12881
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Ryan McCullough,REP,1,0,727,12508,569,108,43,13955
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Moshe Starkman,REP,1,0,648,9660,446,87,36,10877
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Bruce Stern,REP,1,0,744,12990,629,114,45,14522
+GP10,Montgomery,rep,REP Cent Comm at Large,"",Daniel Vovak,REP,1,0,554,9868,413,88,28,10951
+GP10,Montgomery,rep,REP Cent Committee,14,Ben Arthungal,REP,0,0,74,992,26,0,5,1097
+GP10,Montgomery,rep,REP Cent Committee,14,Terry Bork,REP,1,0,123,1607,51,3,8,1792
+GP10,Montgomery,rep,REP Cent Committee,14,Patricia A. Fenati,REP,1,0,144,2113,57,11,13,2338
+GP10,Montgomery,rep,REP Cent Committee,14,Rick Hansen,REP,1,0,141,1889,50,7,9,2096
+GP10,Montgomery,rep,REP Cent Committee,14,Henry Kahwaty,REP,0,0,110,1467,46,6,7,1636
+GP10,Montgomery,rep,REP Cent Committee,14,Anne Koutsoutis,REP,1,0,117,1601,43,9,6,1776
+GP10,Montgomery,rep,REP Cent Committee,14,Larry Lauer,REP,1,0,130,1757,46,7,10,1950
+GP10,Montgomery,rep,REP Cent Committee,15,Sylvia J. Darrow,REP,1,0,136,2412,112,23,4,2687
+GP10,Montgomery,rep,REP Cent Committee,15,Mike Gibble,REP,1,0,130,2325,106,22,4,2587
+GP10,Montgomery,rep,REP Cent Committee,15,Benjamin Green,REP,1,0,129,2319,102,22,6,2578
+GP10,Montgomery,rep,REP Cent Committee,15,Lorraine Marie Kuchmy,REP,1,0,128,2272,98,20,4,2522
+GP10,Montgomery,rep,REP Cent Committee,15,George Edward Sauer,REP,1,0,126,2306,104,19,4,2559
+GP10,Montgomery,rep,REP Cent Committee,16,Marcus Alzona,REP,1,0,35,1098,66,21,2,1222
+GP10,Montgomery,rep,REP Cent Committee,16,Carol G. Bowis,REP,1,0,51,1725,115,28,3,1922
+GP10,Montgomery,rep,REP Cent Committee,16,Issa Khozeimeh,REP,0,0,34,945,65,15,1,1060
+GP10,Montgomery,rep,REP Cent Committee,16,Larry Lesser,REP,1,0,46,1491,92,23,2,1654
+GP10,Montgomery,rep,REP Cent Committee,16,Lisa R. Neuder,REP,1,0,49,1491,94,26,2,1662
+GP10,Montgomery,rep,REP Cent Committee,16,Mark Uncapher,REP,1,0,48,1408,97,21,1,1575
+GP10,Montgomery,rep,REP Cent Committee,17,Glenn E. Abrams,REP,1,0,82,1280,79,14,0,1455
+GP10,Montgomery,rep,REP Cent Committee,17,Jim Herz,REP,1,0,82,1182,79,15,0,1358
+GP10,Montgomery,rep,REP Cent Committee,17,"Adol Theo Owen-Williams, II",REP,0,0,57,894,42,15,0,1008
+GP10,Montgomery,rep,REP Cent Committee,17,Nelson R. Ring,REP,1,0,76,1122,81,14,0,1293
+GP10,Montgomery,rep,REP Cent Committee,17,David Roseman,REP,1,0,83,1146,71,17,0,1317
+GP10,Montgomery,rep,REP Cent Committee,17,Josephine J. Wang,REP,1,0,79,1061,82,15,0,1237
+GP10,Montgomery,rep,REP Cent Committee,18,Katja Bullock,REP,1,0,67,1335,62,10,1,1475
+GP10,Montgomery,rep,REP Cent Committee,18,Vincent F. DeCain,REP,1,0,67,1343,61,10,1,1482
+GP10,Montgomery,rep,REP Cent Committee,18,John Midlen,REP,1,0,62,1302,62,11,1,1438
+GP10,Montgomery,rep,REP Cent Committee,18,Kurt Osuch,REP,1,0,67,1384,65,9,1,1526
+GP10,Montgomery,rep,REP Cent Committee,18,Jennifer Pasenelli,REP,1,0,67,1334,60,9,1,1471
+GP10,Montgomery,rep,REP Cent Committee,19,Thomas Beck,REP,1,0,161,1939,91,9,11,2211
+GP10,Montgomery,rep,REP Cent Committee,19,Sheldon E. Sacks,REP,1,0,160,1813,86,8,12,2079
+GP10,Montgomery,rep,REP Cent Committee,19,Martha Schaerr,REP,1,0,171,2075,89,11,13,2359
+GP10,Montgomery,rep,REP Cent Committee,20,J. David Cotter,REP,1,0,47,594,23,6,6,676
+GP10,Montgomery,rep,REP Cent Committee,20,Jeanette Radford Cotter,REP,1,0,51,609,23,5,6,694
+GP10,Montgomery,rep,REP Cent Committee,20,Joseph Patrick Gillin,REP,1,0,50,616,23,5,6,700
+GP10,Montgomery,rep,REP Cent Committee,20,Deanna Stewart,REP,1,0,52,612,23,7,6,700
+GP10,Montgomery,rep,REP Cent Committee,39,Jeff Brown,REP,1,0,67,1538,72,11,10,1698
+GP10,Montgomery,rep,REP Cent Committee,39,David J. Caldwell,REP,1,0,68,1546,74,10,10,1708
+GP10,Montgomery,rep,REP Cent Committee,39,Matthew J. Focht,REP,1,0,69,1491,70,10,10,1650
+GP10,Montgomery,rep,REP Cent Committee,39,Colleen S. Ott,REP,1,0,65,1522,71,12,11,1681
+GP10,Montgomery,rep,REP Cent Committee,39,Al Phillips,REP,1,0,69,1584,72,12,10,1747

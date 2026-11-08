@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-16-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Montgomery_County_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Montgomery results (non)",
+  "fetch_date": "2026-11-08T01:35:03+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "8c4eaa94ab6355bf5c322d99fd42720a01c295d833a9ee101df5649bdd0b2ae6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Montgomery county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 10,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Legislative_Districts_NonPartisan_2010_Primary.csv carries no statewide rows"
+  }
+}

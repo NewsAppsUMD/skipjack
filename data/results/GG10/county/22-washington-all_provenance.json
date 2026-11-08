@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG10-county-22-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Washington_County_2010_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG10 Washington results (all)",
+  "fetch_date": "2026-11-08T01:34:57+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "c96d34918456191b8f8f8eff6429c0e6804c51f48dd76442d3f8aba4f3f69e88",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG10 Washington county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 93,
+    "row_totals": "ok",
+    "statewide_check": "ok: 532 statewide rows (525 for, 7 against) match State_Legislative_Districts_2010_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only); the board's own figures disagree on U.S. Senator / Other Write-Ins (BOT): counties 1359, statewide row 1361 (listed in STATEWIDE_CHECK_EXCEPTIONS, recorded, not corrected)"
+  }
+}

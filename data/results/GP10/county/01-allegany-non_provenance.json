@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-01-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Allegany_County_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Allegany results (non)",
+  "fetch_date": "2026-11-08T01:34:58+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "d854b7eb989c662b6924452037badbdad95f302891cb6bc932140339233707d4",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Allegany county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 9,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Legislative_Districts_NonPartisan_2010_Primary.csv carries no statewide rows"
+  }
+}

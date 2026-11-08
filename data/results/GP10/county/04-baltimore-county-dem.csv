@@ -1,0 +1,185 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Baltimore County,dem,Governor / Lt. Governor,"",J. P. Cusick,DEM,0,0,1321,11947,244,56,35,13603
+GP10,Baltimore County,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,525,4925,137,34,31,5652
+GP10,Baltimore County,dem,Governor / Lt. Governor,"",Martin O'Malley,DEM,1,0,7716,53777,1349,577,213,63632
+GP10,Baltimore County,dem,Comptroller,"",Peter Franchot,DEM,1,0,7759,56029,1428,553,215,65984
+GP10,Baltimore County,dem,Attorney General,"",Douglas F. Gansler,DEM,1,0,6867,50365,1418,545,214,59409
+GP10,Baltimore County,dem,U.S. Senator,"",Christopher J. Garner,DEM,0,0,734,7287,160,41,16,8238
+GP10,Baltimore County,dem,U.S. Senator,"",A. Billy Bob Jaworski,DEM,0,0,371,3918,68,23,21,4401
+GP10,Baltimore County,dem,U.S. Senator,"",Barbara A. Mikulski,DEM,1,0,7861,54828,1401,549,215,64854
+GP10,Baltimore County,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,196,1684,43,12,7,1942
+GP10,Baltimore County,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,285,2286,62,13,11,2657
+GP10,Baltimore County,dem,U.S. Senator,"",Sanquetta Taylor,DEM,0,0,135,961,15,22,11,1144
+GP10,Baltimore County,dem,U.S. Senator,"",Lih Young,DEM,0,0,126,1159,27,7,7,1326
+GP10,Baltimore County,dem,U.S. Congress,01,"Frank M. Kratovil, Jr.",DEM,1,0,715,4436,108,19,30,5308
+GP10,Baltimore County,dem,U.S. Congress,02,Raymond Atkins,DEM,0,0,395,4401,62,37,18,4913
+GP10,Baltimore County,dem,U.S. Congress,02,Christopher C. Boardman,DEM,0,0,222,1858,43,13,8,2144
+GP10,Baltimore County,dem,U.S. Congress,02,Jeff Morris,DEM,0,0,272,1951,39,19,9,2290
+GP10,Baltimore County,dem,U.S. Congress,02,C. A. Dutch Ruppersberger,DEM,1,0,3339,22083,510,200,80,26212
+GP10,Baltimore County,dem,U.S. Congress,03,John Kibler,DEM,0,0,75,1020,31,5,5,1136
+GP10,Baltimore County,dem,U.S. Congress,03,Ryan Ludick,DEM,0,0,41,445,9,5,5,505
+GP10,Baltimore County,dem,U.S. Congress,03,Michael Miller,DEM,0,0,131,1601,49,18,6,1805
+GP10,Baltimore County,dem,U.S. Congress,03,John Rea,DEM,0,0,31,385,7,2,0,425
+GP10,Baltimore County,dem,U.S. Congress,03,John Sarbanes,DEM,1,0,1456,16137,540,112,59,18304
+GP10,Baltimore County,dem,U.S. Congress,06,J. Casey Clark,DEM,0,0,23,987,30,3,6,1049
+GP10,Baltimore County,dem,U.S. Congress,06,Andrew Duck,DEM,1,0,47,999,49,4,1,1100
+GP10,Baltimore County,dem,U.S. Congress,07,Elijah Cummings,DEM,1,0,2267,11280,205,111,37,13900
+GP10,Baltimore County,dem,U.S. Congress,07,Charles U. Smith,DEM,0,0,294,1429,38,9,5,1775
+GP10,Baltimore County,dem,State Senator,05,C. Scott Stone,DEM,1,0,114,2129,97,8,13,2361
+GP10,Baltimore County,dem,State Senator,06,Jordan Hadfield,DEM,0,0,768,3700,62,37,8,4575
+GP10,Baltimore County,dem,State Senator,06,"Norman R. Stone, Jr.",DEM,1,0,555,4670,73,30,8,5336
+GP10,Baltimore County,dem,State Senator,07,Rebecca Weir Nelson,DEM,1,0,324,2981,41,23,23,3392
+GP10,Baltimore County,dem,State Senator,07,"Jim Stavropoulos, Jr.",DEM,0,0,255,2528,30,18,5,2836
+GP10,Baltimore County,dem,State Senator,08,Katherine Klausmeier,DEM,1,0,992,8021,162,62,36,9273
+GP10,Baltimore County,dem,State Senator,10,Stephanie Boston,DEM,0,0,324,1731,25,25,5,2110
+GP10,Baltimore County,dem,State Senator,10,Delores G. Kelley,DEM,1,0,2111,8155,104,76,26,10472
+GP10,Baltimore County,dem,State Senator,10,Pat Kelly,DEM,0,0,476,2383,39,34,13,2945
+GP10,Baltimore County,dem,State Senator,11,Bobby A. Zirkin,DEM,1,0,1296,11731,305,92,50,13474
+GP10,Baltimore County,dem,State Senator,12,Edward J. Kasemeyer,DEM,1,0,580,3899,113,30,5,4627
+GP10,Baltimore County,dem,State Senator,42,Jim Brochin,DEM,1,0,700,8448,389,66,31,9634
+GP10,Baltimore County,dem,House of Delegates,05B,Pete Definbaugh,DEM,1,0,106,2031,95,8,12,2252
+GP10,Baltimore County,dem,House of Delegates,06,Todd Crandell,DEM,0,0,708,2810,44,17,5,3584
+GP10,Baltimore County,dem,House of Delegates,06,Don Mason,DEM,0,0,205,1568,20,9,0,1802
+GP10,Baltimore County,dem,House of Delegates,06,Joseph Sonny Minnick,DEM,1,0,583,4184,61,22,6,4856
+GP10,Baltimore County,dem,House of Delegates,06,Jake Mohorovic,DEM,0,0,349,2226,33,7,1,2616
+GP10,Baltimore County,dem,House of Delegates,06,"John Olszewski, Jr.",DEM,1,0,798,5363,85,43,12,6301
+GP10,Baltimore County,dem,House of Delegates,06,Raymond J. Smith,DEM,0,0,88,999,13,8,3,1111
+GP10,Baltimore County,dem,House of Delegates,06,Cassandra Brown Umoh,DEM,0,0,172,1494,28,13,8,1715
+GP10,Baltimore County,dem,House of Delegates,06,"Mike Weir, Jr.",DEM,1,0,578,4345,63,20,10,5016
+GP10,Baltimore County,dem,House of Delegates,07,Jeff Beard,DEM,1,0,353,3604,47,27,17,4048
+GP10,Baltimore County,dem,House of Delegates,07,David SKI Mioduszewski,DEM,0,0,264,2494,29,14,10,2811
+GP10,Baltimore County,dem,House of Delegates,07,James Ward Morrow,DEM,1,0,363,2926,33,21,18,3361
+GP10,Baltimore County,dem,House of Delegates,07,Kristina A. Sargent,DEM,1,0,391,3523,58,20,20,4012
+GP10,Baltimore County,dem,House of Delegates,08,Ruth Baisden,DEM,1,0,847,6712,123,59,31,7772
+GP10,Baltimore County,dem,House of Delegates,08,Cal Bowman,DEM,1,0,792,6141,116,49,26,7124
+GP10,Baltimore County,dem,House of Delegates,08,Eric Bromwell,DEM,1,0,886,6935,131,50,29,8031
+GP10,Baltimore County,dem,House of Delegates,10,Emmett C. Burns,DEM,1,0,2154,9492,135,104,29,11914
+GP10,Baltimore County,dem,House of Delegates,10,Barry Chapman,DEM,0,0,514,2071,34,15,9,2643
+GP10,Baltimore County,dem,House of Delegates,10,Adrienne A. Jones,DEM,1,0,2205,8421,125,91,24,10866
+GP10,Baltimore County,dem,House of Delegates,10,Shirley Nathan-Pulliam,DEM,1,0,2336,9473,132,91,29,12061
+GP10,Baltimore County,dem,House of Delegates,10,Frederick Ware-Newsome,DEM,0,0,284,1167,21,10,6,1488
+GP10,Baltimore County,dem,House of Delegates,11,Jon S. Cardin,DEM,1,0,1342,11770,291,92,44,13539
+GP10,Baltimore County,dem,House of Delegates,11,Regg Hatcher,DEM,0,0,308,2626,71,24,8,3037
+GP10,Baltimore County,dem,House of Delegates,11,Dan K. Morhaim,DEM,1,0,1135,9938,258,53,38,11422
+GP10,Baltimore County,dem,House of Delegates,11,Dana Stein,DEM,1,0,1151,10314,280,73,37,11855
+GP10,Baltimore County,dem,House of Delegates,12A,"Steven J. DeBoy, Sr.",DEM,1,0,564,3750,102,28,8,4452
+GP10,Baltimore County,dem,House of Delegates,12A,"James E. Malone, Jr.",DEM,1,0,591,3975,110,28,8,4712
+GP10,Baltimore County,dem,House of Delegates,42,Lori Albin,DEM,1,0,510,5662,233,32,21,6458
+GP10,Baltimore County,dem,House of Delegates,42,Oz Bengur,DEM,1,0,360,4869,142,39,14,5424
+GP10,Baltimore County,dem,House of Delegates,42,Art Buist,DEM,0,0,239,3018,117,22,9,3405
+GP10,Baltimore County,dem,House of Delegates,42,David Kosak,DEM,0,0,316,3582,171,19,16,4104
+GP10,Baltimore County,dem,House of Delegates,42,Stephen W. Lafferty,DEM,1,0,644,7052,327,37,21,8081
+GP10,Baltimore County,dem,County Executive,"",Joseph Bartenfelder,DEM,0,0,3574,32753,696,255,122,37400
+GP10,Baltimore County,dem,County Executive,"",Ron Harvey,DEM,0,0,359,2655,98,31,26,3169
+GP10,Baltimore County,dem,County Executive,"",Kevin Kamenetz,DEM,1,0,5779,37529,920,352,124,44704
+GP10,Baltimore County,dem,County Council,001,Brian S. Bailey,DEM,0,0,205,1540,27,10,3,1785
+GP10,Baltimore County,dem,County Council,001,Rebecca P. Dongarra,DEM,0,0,337,2158,43,18,10,2566
+GP10,Baltimore County,dem,County Council,001,Gregory J. Morgan,DEM,0,0,241,1698,50,15,3,2007
+GP10,Baltimore County,dem,County Council,001,Tom Quirk,DEM,1,0,623,3232,78,32,5,3970
+GP10,Baltimore County,dem,County Council,002,Vicki Almond,DEM,1,0,497,4835,120,28,21,5501
+GP10,Baltimore County,dem,County Council,002,Sherrie Becker,DEM,0,0,284,3846,85,22,6,4243
+GP10,Baltimore County,dem,County Council,002,Albert M. Harris,DEM,0,0,43,430,10,2,6,491
+GP10,Baltimore County,dem,County Council,002,Theodore Levin,DEM,0,0,95,1261,57,6,5,1424
+GP10,Baltimore County,dem,County Council,002,Timmy Ruppersberger,DEM,0,0,223,2230,73,13,15,2554
+GP10,Baltimore County,dem,County Council,002,Alan P. Zukerberg,DEM,0,0,80,1278,42,5,4,1409
+GP10,Baltimore County,dem,County Council,003,Ben Sutley,DEM,1,0,390,6289,231,39,34,6983
+GP10,Baltimore County,dem,County Council,004,Jack Becker,DEM,0,0,86,514,21,6,5,632
+GP10,Baltimore County,dem,County Council,004,Antonia Fowler,DEM,0,0,40,286,7,6,0,339
+GP10,Baltimore County,dem,County Council,004,Kristy Herring,DEM,0,0,87,486,9,8,2,592
+GP10,Baltimore County,dem,County Council,004,"Julian Earl Jones, Jr.",DEM,0,0,650,3432,29,41,7,4159
+GP10,Baltimore County,dem,County Council,004,Leronia A. Josey,DEM,0,0,838,2865,31,31,3,3768
+GP10,Baltimore County,dem,County Council,004,Penny McCrimmon,DEM,0,0,281,656,10,2,4,953
+GP10,Baltimore County,dem,County Council,004,Kenneth N. Oliver,DEM,1,0,820,3349,39,38,11,4257
+GP10,Baltimore County,dem,County Council,005,Mike Ertel,DEM,1,0,527,4188,139,33,16,4903
+GP10,Baltimore County,dem,County Council,005,Gordon Harden,DEM,0,0,204,1430,84,18,7,1743
+GP10,Baltimore County,dem,County Council,005,Bill Paulshock,DEM,0,0,713,3725,95,24,13,4570
+GP10,Baltimore County,dem,County Council,006,Cathy Bevins,DEM,1,0,318,3534,58,33,15,3958
+GP10,Baltimore County,dem,County Council,006,Todd Schuler,DEM,0,0,258,3006,41,12,6,3323
+GP10,Baltimore County,dem,County Council,006,Stephen L. Verch,DEM,0,0,179,2099,34,14,9,2335
+GP10,Baltimore County,dem,County Council,007,Charles Buzz Beeler,DEM,0,0,466,3099,41,11,5,3622
+GP10,Baltimore County,dem,County Council,007,"John Johnny O Olszewski, Sr.",DEM,1,0,861,5542,92,47,14,6556
+GP10,Baltimore County,dem,Judge Circuit Court,03,Jan M. Alexander,DEM,1,0,6670,44172,974,367,149,52332
+GP10,Baltimore County,dem,Judge Circuit Court,03,Sherrie Bailey,DEM,1,0,7038,46927,1022,445,168,55600
+GP10,Baltimore County,dem,Judge Circuit Court,03,T. Scott Beckman,DEM,0,0,2487,21781,537,150,81,25036
+GP10,Baltimore County,dem,Judge Circuit Court,03,Ann Brobst,DEM,1,0,6395,41991,989,335,142,49852
+GP10,Baltimore County,dem,Judge Circuit Court,03,"John J. Nagle, III",DEM,1,0,6261,41264,874,324,139,48862
+GP10,Baltimore County,dem,State's Attorney,"",Scott Shellenberger,DEM,1,0,6955,51454,1367,489,208,60473
+GP10,Baltimore County,dem,Clerk Circuit Court,"",Rick Arnold,DEM,0,0,1113,8555,232,55,32,9987
+GP10,Baltimore County,dem,Clerk Circuit Court,"",Tony L. Chambers,DEM,0,0,877,6270,99,91,30,7367
+GP10,Baltimore County,dem,Clerk Circuit Court,"",Julie Ensor,DEM,1,0,3862,23702,519,208,82,28373
+GP10,Baltimore County,dem,Clerk Circuit Court,"",Suzanne Mensh,DEM,0,0,2319,19899,546,152,77,22993
+GP10,Baltimore County,dem,Clerk Circuit Court,"",Kevin Rex Mooring,DEM,0,0,682,4833,94,42,8,5659
+GP10,Baltimore County,dem,Register of Wills,"",Grace G. Connolly,DEM,1,0,7280,51956,1359,488,207,61290
+GP10,Baltimore County,dem,Judge Orphans Court,"",Colleen A. Cavanaugh,DEM,1,0,6476,45332,1066,379,170,53423
+GP10,Baltimore County,dem,Judge Orphans Court,"",William R. Bill Evans,DEM,1,0,4805,33039,762,234,99,38939
+GP10,Baltimore County,dem,Judge Orphans Court,"",Tony Fusco,DEM,0,0,3298,25524,572,198,95,29687
+GP10,Baltimore County,dem,Judge Orphans Court,"",Theresa A. Lawler,DEM,1,0,6067,40640,997,307,145,48156
+GP10,Baltimore County,dem,Sheriff,"",R. Jay Fisher,DEM,1,0,7006,50934,1315,473,203,59931
+GP10,Baltimore County,dem,DEM Cent Comm,05B,Savas J. Karas,DEM,1,0,114,2197,92,8,11,2422
+GP10,Baltimore County,dem,DEM Cent Comm,06,Marilyn M. Baldwin,DEM,1,0,378,3008,29,15,8,3438
+GP10,Baltimore County,dem,DEM Cent Comm,06,Jordan Bethea,DEM,0,0,360,1196,22,13,4,1595
+GP10,Baltimore County,dem,DEM Cent Comm,06,Annette M. Brewer,DEM,0,0,514,2272,46,8,5,2845
+GP10,Baltimore County,dem,DEM Cent Comm,06,Stephanie Chambers,DEM,1,0,539,2488,45,23,4,3099
+GP10,Baltimore County,dem,DEM Cent Comm,06,Ed Crizer,DEM,0,0,196,1646,25,8,4,1879
+GP10,Baltimore County,dem,DEM Cent Comm,06,Ricardo J. Cruz,DEM,0,0,375,1357,28,12,2,1774
+GP10,Baltimore County,dem,DEM Cent Comm,06,Janice B. Evans,DEM,1,0,656,3106,55,13,7,3837
+GP10,Baltimore County,dem,DEM Cent Comm,06,Scott Holupka,DEM,0,0,293,1837,27,5,2,2164
+GP10,Baltimore County,dem,DEM Cent Comm,06,Phillip Mills,DEM,0,0,171,1162,19,6,3,1361
+GP10,Baltimore County,dem,DEM Cent Comm,06,"Michael S. Mioduszewski, Jr.",DEM,0,0,310,2493,32,12,3,2850
+GP10,Baltimore County,dem,DEM Cent Comm,06,Michael S. Mioduszewski,DEM,0,0,314,2468,32,11,6,2831
+GP10,Baltimore County,dem,DEM Cent Comm,06,Jake Mohorovic,DEM,1,0,480,3211,47,15,4,3757
+GP10,Baltimore County,dem,DEM Cent Comm,06,Ed Pedrick,DEM,0,0,105,844,18,5,2,974
+GP10,Baltimore County,dem,DEM Cent Comm,06,Spike Schnitzker,DEM,0,0,125,945,11,8,1,1090
+GP10,Baltimore County,dem,DEM Cent Comm,06,Sandra Skordalos,DEM,0,0,247,1486,19,12,6,1770
+GP10,Baltimore County,dem,DEM Cent Comm,06,Sammi Michelle Turner,DEM,0,0,99,686,13,3,4,805
+GP10,Baltimore County,dem,DEM Cent Comm,06,Eric Washington,DEM,0,0,130,878,13,9,1,1031
+GP10,Baltimore County,dem,DEM Cent Comm,06,Janet B. Wood,DEM,1,0,363,2541,45,19,8,2976
+GP10,Baltimore County,dem,DEM Cent Comm,07,Wayne Brooks,DEM,0,0,263,2135,29,11,13,2451
+GP10,Baltimore County,dem,DEM Cent Comm,07,Dorothy E. Foos,DEM,1,0,317,2707,41,16,20,3101
+GP10,Baltimore County,dem,DEM Cent Comm,07,Vince Gardina,DEM,1,0,363,3192,40,19,11,3625
+GP10,Baltimore County,dem,DEM Cent Comm,07,David SKI Mioduszewski,DEM,1,0,217,2303,25,19,11,2575
+GP10,Baltimore County,dem,DEM Cent Comm,07,James Ward Morrow,DEM,0,0,250,2220,32,14,14,2530
+GP10,Baltimore County,dem,DEM Cent Comm,07,Ahson Jameel Rehman,DEM,0,0,109,1059,9,6,4,1187
+GP10,Baltimore County,dem,DEM Cent Comm,07,Greg A. Schnitzker,DEM,0,0,133,1371,13,4,4,1525
+GP10,Baltimore County,dem,DEM Cent Comm,07,"Jack R. Sturgill, Jr.",DEM,1,0,330,3036,40,14,20,3440
+GP10,Baltimore County,dem,DEM Cent Comm,08,Sandy Caslin,DEM,1,0,775,5761,104,40,22,6702
+GP10,Baltimore County,dem,DEM Cent Comm,08,Margaret A. Forte,DEM,1,0,673,5172,87,41,20,5993
+GP10,Baltimore County,dem,DEM Cent Comm,08,Krista Klausmeier,DEM,1,0,865,7081,115,54,23,8138
+GP10,Baltimore County,dem,DEM Cent Comm,08,"Joseph Michael Ruscito, Jr.",DEM,0,0,499,4075,70,30,16,4690
+GP10,Baltimore County,dem,DEM Cent Comm,08,Jeffrey William Smith,DEM,1,0,622,4764,86,30,16,5518
+GP10,Baltimore County,dem,DEM Cent Comm,08,Theresa White,DEM,1,0,699,5532,99,40,23,6393
+GP10,Baltimore County,dem,DEM Cent Comm,10,Benjamin Brooks,DEM,1,0,1154,5151,55,54,11,6425
+GP10,Baltimore County,dem,DEM Cent Comm,10,Barry Chapman,DEM,0,0,874,3756,53,33,15,4731
+GP10,Baltimore County,dem,DEM Cent Comm,10,Harold G. Gordon,DEM,0,0,566,2190,44,24,6,2830
+GP10,Baltimore County,dem,DEM Cent Comm,10,Rainier Harvey,DEM,0,0,577,2740,23,42,6,3388
+GP10,Baltimore County,dem,DEM Cent Comm,10,Adrienne A. Jones,DEM,1,0,2231,8972,125,93,24,11445
+GP10,Baltimore County,dem,DEM Cent Comm,10,Mary Jones,DEM,0,0,936,3588,56,25,8,4613
+GP10,Baltimore County,dem,DEM Cent Comm,10,Delores G. Kelley,DEM,1,0,2324,9247,118,86,26,11801
+GP10,Baltimore County,dem,DEM Cent Comm,10,Pat Kelly,DEM,1,0,1595,6989,92,67,20,8763
+GP10,Baltimore County,dem,DEM Cent Comm,10,Nichelle R. McGirt,DEM,0,0,287,1173,30,16,3,1509
+GP10,Baltimore County,dem,DEM Cent Comm,10,Angela J. Scott,DEM,1,0,1436,6130,86,53,21,7726
+GP10,Baltimore County,dem,DEM Cent Comm,11,Jack Becker,DEM,0,0,369,3627,99,18,10,4123
+GP10,Baltimore County,dem,DEM Cent Comm,11,Sheldon D. Caplan,DEM,1,0,512,4844,144,21,8,5529
+GP10,Baltimore County,dem,DEM Cent Comm,11,Linda Dorsey-Walker,DEM,1,0,646,3947,82,41,19,4735
+GP10,Baltimore County,dem,DEM Cent Comm,11,Antonia Fowler,DEM,0,0,333,2428,49,24,13,2847
+GP10,Baltimore County,dem,DEM Cent Comm,11,"Edwin F. Hale, Jr.",DEM,0,0,315,2918,75,23,9,3340
+GP10,Baltimore County,dem,DEM Cent Comm,11,Hasan Jay Jalisi,DEM,0,0,340,3383,42,33,10,3808
+GP10,Baltimore County,dem,DEM Cent Comm,11,"Julian Earl Jones, Jr.",DEM,1,0,725,4074,52,42,15,4908
+GP10,Baltimore County,dem,DEM Cent Comm,11,Noel Levy,DEM,0,0,283,2636,76,9,15,3019
+GP10,Baltimore County,dem,DEM Cent Comm,11,Ted Levy,DEM,0,0,384,4092,131,19,12,4638
+GP10,Baltimore County,dem,DEM Cent Comm,11,Penny McCrimmon,DEM,0,0,602,3163,74,27,17,3883
+GP10,Baltimore County,dem,DEM Cent Comm,11,Shelley Morhaim,DEM,1,0,718,6333,151,42,22,7266
+GP10,Baltimore County,dem,DEM Cent Comm,11,Adam James Roa,DEM,0,0,75,765,18,5,4,867
+GP10,Baltimore County,dem,DEM Cent Comm,11,Brenda Savoy,DEM,0,0,453,3086,65,36,14,3654
+GP10,Baltimore County,dem,DEM Cent Comm,11,Alan P. Zukerberg,DEM,1,0,539,6510,171,27,18,7265
+GP10,Baltimore County,dem,DEM Cent Comm,12A,Douglas A. Brinkley,DEM,1,0,509,3255,93,28,5,3890
+GP10,Baltimore County,dem,DEM Cent Comm,12A,Margaret M. Henn,DEM,1,0,524,3246,88,23,5,3886
+GP10,Baltimore County,dem,DEM Cent Comm,12A,Mike Mastracci,DEM,1,0,514,3140,85,24,5,3768
+GP10,Baltimore County,dem,DEM Cent Comm,12A,Paula W. Wolf,DEM,1,0,517,3299,93,26,7,3942
+GP10,Baltimore County,dem,DEM Cent Comm,42,Margie Brassil,DEM,1,0,443,5083,232,37,19,5814
+GP10,Baltimore County,dem,DEM Cent Comm,42,Ed Crawford,DEM,1,0,338,3899,176,26,16,4455
+GP10,Baltimore County,dem,DEM Cent Comm,42,Margaret Z. Meg Ferguson,DEM,1,0,494,5522,258,39,20,6333
+GP10,Baltimore County,dem,DEM Cent Comm,42,Bill Hill,DEM,0,0,223,3175,140,18,11,3567
+GP10,Baltimore County,dem,DEM Cent Comm,42,Waseem Pharoan,DEM,0,0,188,2088,72,15,6,2369
+GP10,Baltimore County,dem,DEM Cent Comm,42,Scott Sokol,DEM,1,0,381,4599,196,24,17,5217
+GP10,Baltimore County,dem,DEM Cent Comm,42,John Ward,DEM,1,0,370,4695,208,29,19,5321

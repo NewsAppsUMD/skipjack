@@ -1,0 +1,27 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Garrett,dem,Governor / Lt. Governor,"",J. P. Cusick,DEM,0,0,23,169,3,1,0,196
+GP10,Garrett,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,8,78,3,0,0,89
+GP10,Garrett,dem,Governor / Lt. Governor,"",Martin O'Malley,DEM,1,0,136,780,28,7,9,960
+GP10,Garrett,dem,Comptroller,"",Peter Franchot,DEM,1,0,141,813,30,6,10,1000
+GP10,Garrett,dem,Attorney General,"",Douglas F. Gansler,DEM,1,0,141,796,29,6,10,982
+GP10,Garrett,dem,U.S. Senator,"",Christopher J. Garner,DEM,0,0,27,122,5,1,0,155
+GP10,Garrett,dem,U.S. Senator,"",A. Billy Bob Jaworski,DEM,0,0,11,56,2,0,0,69
+GP10,Garrett,dem,U.S. Senator,"",Barbara A. Mikulski,DEM,1,0,119,755,23,6,10,913
+GP10,Garrett,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,3,24,0,0,0,27
+GP10,Garrett,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,3,53,2,0,0,58
+GP10,Garrett,dem,U.S. Senator,"",Sanquetta Taylor,DEM,0,0,2,5,0,0,0,7
+GP10,Garrett,dem,U.S. Senator,"",Lih Young,DEM,0,0,3,22,0,1,0,26
+GP10,Garrett,dem,U.S. Congress,06,J. Casey Clark,DEM,0,0,51,352,11,2,2,418
+GP10,Garrett,dem,U.S. Congress,06,Andrew Duck,DEM,1,0,112,606,19,4,5,746
+GP10,Garrett,dem,House of Delegates,01A,James R. Smokey Stanton,DEM,1,0,147,842,32,7,9,1037
+GP10,Garrett,dem,County Commissioner,001,Eric V. Robison,DEM,1,0,126,717,32,7,6,888
+GP10,Garrett,dem,County Commissioner,003,George Falter,DEM,0,0,31,223,11,1,1,267
+GP10,Garrett,dem,County Commissioner,003,Bill Welch,DEM,1,0,118,674,23,6,6,827
+GP10,Garrett,dem,Judge Orphans Court,"",Everett B. Deberry,DEM,1,0,136,775,30,5,8,954
+GP10,Garrett,dem,Sheriff,"",Skyler Hebden,DEM,1,0,98,589,28,6,7,728
+GP10,Garrett,dem,DEM Cent Committee,"","Andrew Andy Diliddo, Jr.",DEM,1,0,95,534,17,2,5,653
+GP10,Garrett,dem,DEM Cent Committee,"",Patricia Duck,DEM,1,0,101,567,19,3,3,693
+GP10,Garrett,dem,DEM Cent Committee,"",Timothy Duck,DEM,1,0,99,555,18,3,3,678
+GP10,Garrett,dem,DEM Cent Committee,"",William Goldsborough,DEM,1,0,109,654,22,5,3,793
+GP10,Garrett,dem,DEM Cent Committee,"",Jeff Hovis,DEM,1,0,96,521,16,3,3,639
+GP10,Garrett,dem,DEM Cent Committee,"",Zelma Neary,DEM,1,0,102,549,23,2,4,680

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-08-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Cecil_County_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Cecil results (non)",
+  "fetch_date": "2026-11-08T01:35:00+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "cc9a49e85337304be58c16627472e8d6ca3b012ef46fbbf62df92858ff3a5124",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Cecil county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 8,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Legislative_Districts_NonPartisan_2010_Primary.csv carries no statewide rows"
+  }
+}

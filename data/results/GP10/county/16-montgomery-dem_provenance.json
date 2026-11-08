@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-16-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Montgomery_County_Democratic_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Montgomery results (dem)",
+  "fetch_date": "2026-11-08T01:35:02+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "0dd723809a39aa7799706f7f8f829fdbdf88b2282d717e95eb8d9b52439c4c2d",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Montgomery county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 146,
+    "row_totals": "ok",
+    "statewide_check": "ok: 341 statewide rows (341 for, 0 against) match State_Legislative_Districts_Democratic_2010_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

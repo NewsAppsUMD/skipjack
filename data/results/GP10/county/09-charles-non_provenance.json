@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-09-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Charles_County_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Charles results (non)",
+  "fetch_date": "2026-11-08T01:35:00+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "b6cba54dab95896543f739f569a4c79973ba401639e66870327261b3353cd43d",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Charles county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 19,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Legislative_Districts_NonPartisan_2010_Primary.csv carries no statewide rows"
+  }
+}

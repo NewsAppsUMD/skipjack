@@ -1,0 +1,114 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Harford,rep,Governor / Lt. Governor,"","Robert L. Ehrlich, Jr.",REP,1,0,1820,16944,265,118,115,19262
+GP10,Harford,rep,Governor / Lt. Governor,"",Brian Murphy,REP,0,0,314,3695,49,26,21,4105
+GP10,Harford,rep,Comptroller,"",William Henry Campbell,REP,1,0,1060,10024,154,69,61,11368
+GP10,Harford,rep,Comptroller,"",Armand F. Girard,REP,0,0,197,2040,28,20,12,2297
+GP10,Harford,rep,Comptroller,"",Brendan Madigan,REP,0,0,462,4103,54,20,27,4666
+GP10,Harford,rep,U.S. Senator,"",Joseph Alexander,REP,0,0,80,727,25,11,3,846
+GP10,Harford,rep,U.S. Senator,"",Barry Steve Asbury,REP,0,0,36,347,9,2,2,396
+GP10,Harford,rep,U.S. Senator,"",Neil H. Cohen,REP,0,0,51,672,9,5,3,740
+GP10,Harford,rep,U.S. Senator,"",Stephens Dempsey,REP,0,0,73,484,11,8,5,581
+GP10,Harford,rep,U.S. Senator,"","Samuel R. Graham, Sr.",REP,0,0,45,337,9,2,3,396
+GP10,Harford,rep,U.S. Senator,"",John B. Kimble,REP,0,0,55,436,12,3,4,510
+GP10,Harford,rep,U.S. Senator,"",Gregory L. Kump,REP,0,0,22,158,0,0,3,183
+GP10,Harford,rep,U.S. Senator,"",Daniel W. McAndrew,REP,0,0,80,526,6,5,8,625
+GP10,Harford,rep,U.S. Senator,"",Jim Rutledge,REP,0,0,1047,8568,155,49,63,9882
+GP10,Harford,rep,U.S. Senator,"",Eddie Vendetti,REP,0,0,47,385,2,5,4,443
+GP10,Harford,rep,U.S. Senator,"",Eric Wargotz,REP,1,0,393,5955,43,31,24,6446
+GP10,Harford,rep,U.S. Congress,01,Rob Fisher,REP,0,0,462,3598,62,21,21,4164
+GP10,Harford,rep,U.S. Congress,01,Andy Harris,REP,1,0,1077,7923,122,44,63,9229
+GP10,Harford,rep,U.S. Congress,02,Marcelo Cardarelli,REP,1,0,77,1549,18,7,7,1658
+GP10,Harford,rep,U.S. Congress,02,Josh Dowlut,REP,0,0,2,170,0,2,2,176
+GP10,Harford,rep,U.S. Congress,02,Jimmy Mathis,REP,0,0,51,1025,10,10,6,1102
+GP10,Harford,rep,U.S. Congress,02,Troy Stouffer,REP,0,0,36,530,7,5,6,584
+GP10,Harford,rep,U.S. Congress,02,Francis Treadwell,REP,0,0,21,432,8,5,3,469
+GP10,Harford,rep,U.S. Congress,06,Roscoe G. Bartlett,REP,1,0,181,2413,47,7,13,2661
+GP10,Harford,rep,U.S. Congress,06,Dennis B. Janda,REP,0,0,7,96,1,2,0,106
+GP10,Harford,rep,U.S. Congress,06,Joseph T. Krysztoforski,REP,0,0,27,501,6,2,3,539
+GP10,Harford,rep,U.S. Congress,06,Steve Taylor,REP,0,0,20,325,4,3,0,352
+GP10,Harford,rep,U.S. Congress,06,Seth Edward Wilson,REP,0,0,22,215,4,0,2,243
+GP10,Harford,rep,State Senator,07,J. B. Jennings,REP,1,0,154,1472,4,6,10,1646
+GP10,Harford,rep,State Senator,07,"Alfred W. Redmer, Jr.",REP,0,0,75,1090,9,8,16,1198
+GP10,Harford,rep,State Senator,34,Nancy Jacobs,REP,1,0,160,3305,45,30,22,3562
+GP10,Harford,rep,State Senator,35,Barry Glassman,REP,1,0,1356,10824,209,65,70,12524
+GP10,Harford,rep,House of Delegates,07,Brian Bennett,REP,0,0,42,464,2,6,2,516
+GP10,Harford,rep,House of Delegates,07,Jim Berndt,REP,0,0,13,248,0,1,2,264
+GP10,Harford,rep,House of Delegates,07,Marilyn Booker,REP,0,0,40,491,4,1,8,544
+GP10,Harford,rep,House of Delegates,07,Laine O. C. Clark,REP,0,0,12,89,3,0,1,105
+GP10,Harford,rep,House of Delegates,07,John Cromwell,REP,0,0,36,284,1,3,4,328
+GP10,Harford,rep,House of Delegates,07,Rick Impallaria,REP,1,0,169,1684,8,10,17,1888
+GP10,Harford,rep,House of Delegates,07,Pat McDonough,REP,1,0,174,1790,10,11,16,2001
+GP10,Harford,rep,House of Delegates,07,Kathy Szeliga,REP,1,0,103,1233,8,5,20,1369
+GP10,Harford,rep,House of Delegates,07,Roger Zajdel,REP,0,0,32,412,1,4,2,451
+GP10,Harford,rep,House of Delegates,34A,Randolph Craig,REP,0,0,71,1438,30,16,11,1566
+GP10,Harford,rep,House of Delegates,34A,Glen Glass,REP,1,0,90,1880,21,14,11,2016
+GP10,Harford,rep,House of Delegates,34A,Patrick McGrady,REP,1,0,90,1978,24,9,9,2110
+GP10,Harford,rep,House of Delegates,34A,"John M. Paff, Jr.",REP,0,0,26,487,6,4,4,527
+GP10,Harford,rep,House of Delegates,35A,Jason C. Gallion,REP,0,0,353,3508,47,23,27,3958
+GP10,Harford,rep,House of Delegates,35A,Wayne Norman,REP,1,0,506,4202,94,19,28,4849
+GP10,Harford,rep,House of Delegates,35A,Dave Seman,REP,0,0,170,1644,16,10,3,1843
+GP10,Harford,rep,House of Delegates,35A,Donna Stifler,REP,1,0,508,4770,82,22,24,5406
+GP10,Harford,rep,House of Delegates,35A,Dave Tritt,REP,0,0,220,2425,36,16,19,2716
+GP10,Harford,rep,House of Delegates,35B,Susan K. McComas,REP,1,0,544,3063,68,16,22,3713
+GP10,Harford,rep,County Executive,"",David R. Craig,REP,1,0,1365,12654,212,82,87,14400
+GP10,Harford,rep,County Executive,"",Fred Silva,REP,0,0,145,1210,12,12,9,1388
+GP10,Harford,rep,County Executive,"",Robert S. Wagner,REP,0,0,573,5956,76,35,33,6673
+GP10,Harford,rep,Pres County Council,"",Billy Boniface,REP,1,0,1703,16238,254,110,114,18419
+GP10,Harford,rep,County Council,A,Yvonne Baldwin,REP,1,0,45,1015,11,9,10,1090
+GP10,Harford,rep,County Council,A,James M. Thompson,REP,0,0,28,553,7,7,5,600
+GP10,Harford,rep,County Council,B,Derek J. Howell,REP,0,0,120,1489,17,10,12,1648
+GP10,Harford,rep,County Council,B,Joe Woods,REP,1,0,197,1878,25,8,10,2118
+GP10,Harford,rep,County Council,C,Terence O. Hanley,REP,0,0,280,1688,27,14,9,2018
+GP10,Harford,rep,County Council,C,James V. Jim McMahan,REP,1,0,472,2224,71,12,21,2800
+GP10,Harford,rep,County Council,D,Todd Paterniti,REP,0,0,85,1130,16,6,6,1243
+GP10,Harford,rep,County Council,D,Chad R. Shrodes,REP,1,0,222,3341,48,14,16,3641
+GP10,Harford,rep,County Council,E,Richard C. Slutzky,REP,1,0,296,2489,28,9,15,2837
+GP10,Harford,rep,County Council,F,Sheryl Davis Kohl,REP,1,0,125,1933,18,14,12,2102
+GP10,Harford,rep,State's Attorney,"",Joseph I. Cassilly,REP,1,0,1694,16034,254,111,112,18205
+GP10,Harford,rep,Clerk Circuit Court,"",James Reilly,REP,1,0,1665,15740,251,111,111,17878
+GP10,Harford,rep,Register of Wills,"",Michael S. Birch,REP,0,0,348,3462,61,17,18,3906
+GP10,Harford,rep,Register of Wills,"",Derek K. Hopkins,REP,1,0,611,6193,74,44,33,6955
+GP10,Harford,rep,Register of Wills,"",Robert M. Preston,REP,0,0,450,3348,75,25,30,3928
+GP10,Harford,rep,Register of Wills,"",Bill Schilling,REP,0,0,114,1516,22,12,10,1674
+GP10,Harford,rep,Register of Wills,"",Merrie Street,REP,0,0,458,3528,62,21,32,4101
+GP10,Harford,rep,Sheriff,"",Steven E. Bodway,REP,0,0,596,6445,76,39,45,7201
+GP10,Harford,rep,Sheriff,"",Jeffrey R. Gahler,REP,1,0,665,6429,101,41,29,7265
+GP10,Harford,rep,Sheriff,"",Jack Meckley,REP,0,0,334,2759,47,14,20,3174
+GP10,Harford,rep,Sheriff,"",Roger Sheets,REP,0,0,374,2861,46,30,26,3337
+GP10,Harford,rep,REP Cent Committee,"",James A. Barron,REP,0,0,299,2981,50,13,20,3363
+GP10,Harford,rep,REP Cent Committee,"",Christopher J. Biggs,REP,0,0,342,4001,44,30,21,4438
+GP10,Harford,rep,REP Cent Committee,"",David Bopst,REP,0,0,234,1983,20,8,6,2251
+GP10,Harford,rep,REP Cent Committee,"",Lori Brown,REP,1,0,543,5043,79,27,32,5724
+GP10,Harford,rep,REP Cent Committee,"",Amy Hopkins Daney,REP,1,0,613,5733,88,31,38,6503
+GP10,Harford,rep,REP Cent Committee,"",Scott DeLong,REP,1,0,465,4735,38,21,22,5281
+GP10,Harford,rep,REP Cent Committee,"",Frank A. Dupree,REP,1,0,435,4931,44,29,21,5460
+GP10,Harford,rep,REP Cent Committee,"","Vernon L. Gauss, Jr.",REP,0,0,438,3790,44,11,18,4301
+GP10,Harford,rep,REP Cent Committee,"",Scott T. Gibson,REP,0,0,380,3926,75,21,22,4424
+GP10,Harford,rep,REP Cent Committee,"",Derek J. Howell,REP,1,0,450,4562,60,25,20,5117
+GP10,Harford,rep,REP Cent Committee,"",Timothy P. Impallaria,REP,1,0,670,5677,81,32,35,6495
+GP10,Harford,rep,REP Cent Committee,"",Gregory C. Johnson,REP,0,0,270,3366,42,18,21,3717
+GP10,Harford,rep,REP Cent Committee,"",Miles M. Kress,REP,0,0,227,1919,39,14,6,2205
+GP10,Harford,rep,REP Cent Committee,"",Trevor Leach,REP,0,0,189,2701,27,16,10,2943
+GP10,Harford,rep,REP Cent Committee,"",Carol MacCubbin,REP,1,0,579,5428,103,34,52,6196
+GP10,Harford,rep,REP Cent Committee,"",Mary McCann,REP,0,0,500,4402,65,23,27,5017
+GP10,Harford,rep,REP Cent Committee,"",Patrick McGrady,REP,1,0,568,6130,75,37,38,6848
+GP10,Harford,rep,REP Cent Committee,"",Paula R. Mullis,REP,0,0,379,2855,51,24,28,3337
+GP10,Harford,rep,REP Cent Committee,"","John M. Paff, Jr.",REP,0,0,219,1977,35,14,10,2255
+GP10,Harford,rep,REP Cent Committee,"",Dave Price,REP,0,0,402,3451,50,19,25,3947
+GP10,Harford,rep,REP Cent Committee,"",Teresa Reilly,REP,1,0,614,4735,128,28,52,5557
+GP10,Harford,rep,REP Cent Committee,"",Joan Ryder,REP,1,0,855,7338,103,47,64,8407
+GP10,Harford,rep,REP Cent Committee,"",Richard D. Schafer,REP,0,0,328,3659,48,25,21,4081
+GP10,Harford,rep,REP Cent Committee,"",Dave Seman,REP,0,0,444,3736,51,23,18,4272
+GP10,Harford,rep,REP Cent Committee,"",Lowell D. Sheets,REP,0,0,398,4026,46,19,25,4514
+GP10,Harford,rep,REP Cent Committee,"",Donna M. Smith,REP,0,0,420,3448,50,19,34,3971
+GP10,Harford,rep,REP Cent Committee,"",Larry Stancill,REP,0,0,355,3132,62,13,25,3587
+GP10,Harford,rep,REP Cent Committee,"",Mike Stephens,REP,0,0,206,2201,55,15,21,2498
+GP10,Harford,rep,REP Cent Committee,"",Bob Thomas,REP,0,0,366,2834,69,18,26,3313
+GP10,Harford,rep,REP Cent Committee,"",James M. Thompson,REP,0,0,153,1365,26,5,8,1557
+GP10,Harford,rep,REP Cent Committee,"",Dave Tritt,REP,1,0,512,5194,65,32,39,5842
+GP10,Harford,rep,REP Cent Committee,"",Kim Wagner,REP,1,0,620,5040,105,40,44,5849
+GP10,Harford,rep,REP Cent Committee,"",J. W. Walker,REP,0,0,167,1813,35,12,8,2035
+GP10,Harford,rep,REP Cent Committee,"",Jason Walter,REP,0,0,124,2047,28,16,12,2227
+GP10,Harford,rep,REP Cent Committee,"",Jim Welch,REP,0,0,331,2393,49,18,16,2807
+GP10,Harford,rep,REP Cent Committee,"",Rosaria Rosie Wolff,REP,0,0,374,2858,41,18,33,3324
+GP10,Harford,rep,REP Cent Committee,"",Brian Young,REP,0,0,530,4205,80,36,33,4884

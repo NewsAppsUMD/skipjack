@@ -1,0 +1,36 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP10,Carroll,dem,Governor / Lt. Governor,"",J. P. Cusick,DEM,0,0,96,1293,23,3,2,1417
+GP10,Carroll,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,28,505,16,3,1,553
+GP10,Carroll,dem,Governor / Lt. Governor,"",Martin O'Malley,DEM,1,0,441,4401,175,27,33,5077
+GP10,Carroll,dem,Comptroller,"",Peter Franchot,DEM,1,0,483,5138,179,29,32,5861
+GP10,Carroll,dem,Attorney General,"",Douglas F. Gansler,DEM,1,0,481,5118,170,27,32,5828
+GP10,Carroll,dem,U.S. Senator,"",Christopher J. Garner,DEM,0,0,55,839,16,3,2,915
+GP10,Carroll,dem,U.S. Senator,"",A. Billy Bob Jaworski,DEM,0,0,26,396,6,2,0,430
+GP10,Carroll,dem,U.S. Senator,"",Barbara A. Mikulski,DEM,1,0,447,4374,173,24,32,5050
+GP10,Carroll,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,16,190,6,0,1,213
+GP10,Carroll,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,19,260,10,1,2,292
+GP10,Carroll,dem,U.S. Senator,"",Sanquetta Taylor,DEM,0,0,8,73,4,1,1,87
+GP10,Carroll,dem,U.S. Senator,"",Lih Young,DEM,0,0,3,169,1,2,1,176
+GP10,Carroll,dem,U.S. Congress,06,J. Casey Clark,DEM,0,0,207,2341,89,22,22,2681
+GP10,Carroll,dem,U.S. Congress,06,Andrew Duck,DEM,1,0,316,3277,103,7,16,3719
+GP10,Carroll,dem,State Senator,04,Sara Lou Trescott,DEM,1,0,68,996,36,2,5,1107
+GP10,Carroll,dem,State Senator,05,C. Scott Stone,DEM,1,0,295,2490,82,16,10,2893
+GP10,Carroll,dem,State Senator,09,Jim Adams,DEM,1,0,88,1394,48,9,13,1552
+GP10,Carroll,dem,House of Delegates,04B,Timothy Schlauch,DEM,1,0,69,984,36,2,4,1095
+GP10,Carroll,dem,House of Delegates,05A,Sharon L. Baker,DEM,1,0,270,2203,73,15,8,2569
+GP10,Carroll,dem,House of Delegates,05A,Francis X. Walsh,DEM,1,0,277,2212,69,14,9,2581
+GP10,Carroll,dem,House of Delegates,09B,Anita Lombardi Riley,DEM,1,0,84,1426,49,9,14,1582
+GP10,Carroll,dem,County Commissioner,001,Tina Mawhinney,DEM,1,0,72,865,22,1,4,964
+GP10,Carroll,dem,County Commissioner,002,Crystal Lee Dembrow,DEM,1,0,0,0,0,0,0,0
+GP10,Carroll,dem,County Commissioner,003,Doug Mathias,DEM,1,0,170,1074,38,9,6,1297
+GP10,Carroll,dem,County Commissioner,004,Michele W. Johnson,DEM,1,0,69,848,28,1,2,948
+GP10,Carroll,dem,County Commissioner,004,George E. Maloney,DEM,0,0,19,336,24,2,1,382
+GP10,Carroll,dem,County Commissioner,005,Hugh M. McLaurin,DEM,1,0,53,1120,40,7,13,1233
+GP10,Carroll,dem,Judge Orphans Court,"",Phillip R. Miller,DEM,1,0,470,4913,160,25,29,5597
+GP10,Carroll,dem,DEM Cent Comm Female,001,Jacqueline S. Jones,DEM,1,0,75,883,23,1,4,986
+GP10,Carroll,dem,DEM Cent Comm Female,005,Anita Lombardi Riley,DEM,1,0,57,1095,37,6,9,1204
+GP10,Carroll,dem,DEM Cent Comm Female,005,Maxine Carole Wooleyhand,DEM,1,0,43,920,36,5,10,1014
+GP10,Carroll,dem,DEM Cent Comm Male,002,Neil M. Ridgely,DEM,1,0,100,889,20,5,3,1017
+GP10,Carroll,dem,DEM Cent Comm Male,002,Don H. West,DEM,1,0,87,799,20,3,3,912
+GP10,Carroll,dem,DEM Cent Comm Male,003,Doug Mathias,DEM,1,0,173,1061,36,9,7,1286
+GP10,Carroll,dem,DEM Cent Comm Male,004,George E. Maloney,DEM,1,0,68,950,36,2,4,1060

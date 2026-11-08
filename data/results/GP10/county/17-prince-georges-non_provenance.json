@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP10-county-17-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Prince_Georges_County_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Prince George's results (non)",
+  "fetch_date": "2026-11-08T01:35:03+00:00",
+  "parse_date": "2026-11-08T01:50:45+00:00",
+  "sha256_original": "550e5630995cc417e70854a78558ee420349559acb5aca7adfad764cb5414872",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP10 Prince George's county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 31,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Legislative_Districts_NonPartisan_2010_Primary.csv carries no statewide rows"
+  }
+}
