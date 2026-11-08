@@ -26,24 +26,16 @@ from skipjack.web import results_unofficial as qu
 from skipjack.web.results import _natural, _top
 from skipjack.web.urls import slugify
 
-# The board's spellings on its unofficial results pages that differ from the certified files'
-# (offices.OFFICE_NAMES covers those). Spellings the two share are looked up there first.
-UNOFFICIAL_OFFICE_NAMES: dict[str, str] = {
-    "Clerk of the Circuit Court": "clerk",
-    "County Commissioner President": "commission_president",
-    "President of the County Council": "council_president",
-    "Judge of the Orphans' Court": "orphans_court",
-    "Judge, Appellate Court of Maryland At Large": "judge",
-    "Justice, Supreme Court of Maryland": "judge",
-    "Mayor - City of Cumberland": "municipal",
-}
-# The board's unofficial pages spell a district "District 6" / "District 1A" where the certified
-# files have "6" / "01A" (lettered districts zero-padded to two digits).
-_UNOFFICIAL_DISTRICT = re.compile(r"District (\d+)([A-Z]?)")
+# The board's unofficial pages spell a district "District 6" / "District 1A" / "District A"
+# where the certified files have "6" / "01A" / "A" (a numbered-and-lettered district zero-padded
+# to two digits; Harford's council and board seats are letters alone).
+_UNOFFICIAL_DISTRICT = re.compile(r"District (?:(\d+)([A-Z]?)|([A-Z]))")
 # County offices with numbered districts and no map table: a break is marked where the set of
 # districts the county's file lists changes between generals.
 DATA_DRIVEN_BREAKS = ("county_council", "county_commissioner", "board_of_education", "city_council")
 _SHOWN = set(offices.LEVELS)
+# Display order within a level is the crosswalk's declaration order.
+_OFFICE_ORDER = {key: i for i, key in enumerate(offices.OFFICES)}
 
 
 def _queries(code: str):
@@ -51,16 +43,12 @@ def _queries(code: str):
 
 
 def _office_key(office: str, scope: str) -> str | None:
-    """The canonical office key for a board spelling and the contest's scope, or None for a
-    spelling neither the crosswalk nor the unofficial list knows."""
+    """The canonical office key for a board spelling (certified or unofficial) and the
+    contest's scope, or None for a spelling the crosswalk does not know."""
     try:
         return offices.canonical(office, scope).key
     except KeyError:
-        pass
-    key = UNOFFICIAL_OFFICE_NAMES.get(office)
-    if key == "comptroller" and scope != "statewide":
-        return "city_comptroller"
-    return key
+        return None
 
 
 def _district(district: str) -> str:
@@ -68,7 +56,9 @@ def _district(district: str) -> str:
     m = _UNOFFICIAL_DISTRICT.fullmatch(district)
     if m is None:
         return district
-    n, letter = m.groups()
+    n, letter, lettered = m.groups()
+    if lettered:
+        return lettered
     return f"{int(n):02d}{letter}" if letter else n
 
 
@@ -87,7 +77,8 @@ def elections(conn: sqlite3.Connection) -> list[dict]:
 
 
 def county_slugs(conn: sqlite3.Connection) -> list[str]:
-    """Counties with any certified results row, in the board's order."""
+    """Counties with any certified results row (all 24 have one; the unofficial count is not
+    consulted), in the board's order."""
     have = {r[0] for r in conn.execute("SELECT DISTINCT county FROM results_county")}
     return [slugify(name) for name in COUNTY_CODES.values() if name in have]
 
@@ -96,6 +87,8 @@ def county_slugs(conn: sqlite3.Connection) -> list[str]:
 
 
 def _pct(n: int, total: int) -> float | None:
+    # Every figure is rounded once here; margins, gaps and leans are differences of the rounded
+    # shares, so the page's arithmetic adds up as printed.
     return round(100 * n / total, 1) if total else None
 
 
@@ -204,9 +197,10 @@ def _series_title(office: offices.Office, district: str) -> str:
     return title
 
 
-def _new_series(office: offices.Office, district: str, generals: list, primaries: list) -> dict:
+def _new_series(office: offices.Office, district: str, generals: list) -> dict:
     return {
         "key": office.key,
+        "level": office.level,
         "title": _series_title(office, district),
         "district": district,
         "id": f"{office.key}-{slugify(district)}" if district else office.key,
@@ -214,9 +208,11 @@ def _new_series(office: offices.Office, district: str, generals: list, primaries
         "breaks": [],
         "general": [None] * len(generals),
         "primary": {},
-        "_level": office.level,
-        "_order": (list(offices.OFFICES).index(office.key), _natural(district)),
     }
+
+
+def _series_order(series: dict) -> tuple:
+    return _OFFICE_ORDER[series["key"]], _natural(series["district"])
 
 
 def _contests(page: dict, party_file: str | None = None) -> list[dict]:
@@ -270,12 +266,16 @@ def _statewide_margin(conn: sqlite3.Connection, code: str, slug: str, cache: dic
     return cache[(code, slug)]
 
 
-def _top_of_ticket(conn, election, county_slug, contests, cache) -> dict | None:
+def _top_of_ticket(
+    conn: sqlite3.Connection, election: dict, contests: list[dict], points: dict, cache: dict
+) -> dict | None:
+    """The first contest's GPOINT (from ``points``, which maps a contest's anchor to its
+    (series, GPOINT)) with the statewide margin and the county's lean from it, or None when
+    the ballot does not open with the president or the governor."""
     if not contests or contests[0]["office"] not in ticket.TOP_OF_TICKET:
         return None
     top = contests[0]
-    key = _office_key(top["office"], top["scope"])
-    point = _gpoint(election, county_slug, top, key)
+    series, point = points[top["anchor"]]  # the ticket's offices are always shown series
     statewide = None
     if top["page_slug"]:
         statewide = _statewide_margin(conn, election["code"], top["page_slug"], cache)
@@ -284,7 +284,7 @@ def _top_of_ticket(conn, election, county_slug, contests, cache) -> dict | None:
         lean = round(point["margin"] - statewide, 1)
     return {
         **point,
-        "office": key,
+        "office": series["key"],
         "title": ticket.TOP_LABELS[top["office"]],
         "statewide_margin": statewide,
         "lean": lean,
@@ -297,15 +297,14 @@ def _ticket_gap(top: dict | None, contests: list[dict], points: dict) -> dict | 
     if top is None or top["dem"] is None or top["dem"]["share"] is None:
         return None
     top_share = top["dem"]["share"]
-    top_total = sum(c["total"] or 0 for c in contests[0]["candidates"])
-    flags = ticket.countywide(contests, top_total)
+    flags = ticket.countywide(contests, top["total"])
     rows = []
     for contest, whole in zip(contests[1:], flags[1:], strict=True):
         found = points.get(contest["anchor"])
         if not whole or found is None:
             continue
         series, point = found
-        if series["_level"] != "county" or not point["contested"]:
+        if series["level"] != "county" or not point["contested"]:
             continue
         share = point["dem"]["share"]
         if share is None:
@@ -344,6 +343,7 @@ def _primary_disagreements(election: dict, county_slug: str, contests: list[dict
             {
                 "election": election["code"],
                 "year": election["year"],
+                "kind": "primary",
                 "title": contest["title"],
                 "county_leader": {"name": led["name"], "party": led["party"]},
                 "statewide_winner": {"name": winners[0]["name"], "party": winners[0]["party"]},
@@ -353,7 +353,9 @@ def _primary_disagreements(election: dict, county_slug: str, contests: list[dict
     return out
 
 
-def _general_disagreements(election, county_slug, contests, points) -> list[dict]:
+def _general_disagreements(election: dict, contests: list[dict], points: dict) -> list[dict]:
+    """Statewide general contests where the county's leader is not the flagged winner's
+    party. ``points`` maps a contest's anchor to (series, GPOINT)."""
     out = []
     for contest in contests:
         found = points.get(contest["anchor"])
@@ -366,6 +368,7 @@ def _general_disagreements(election, county_slug, contests, points) -> list[dict
             {
                 "election": election["code"],
                 "year": election["year"],
+                "kind": "general",
                 "title": series["title"],
                 "county_leader": {"name": led["name"], "party": led["party"]},
                 "statewide_winner": point["winners"][0],
@@ -391,7 +394,7 @@ def _winners_wall(all_series: list[dict], generals: list[dict]) -> list[dict]:
             else:
                 runs.append({"name": name, "party": party, "years": [e["year"]]})
         if runs:
-            wall.append({"id": s["id"], "title": s["title"], "level": s["_level"], "runs": runs})
+            wall.append({"id": s["id"], "title": s["title"], "level": s["level"], "runs": runs})
     return wall
 
 
@@ -412,6 +415,63 @@ def _primary_electorate(page: dict) -> dict:
 
 
 # --- the county --------------------------------------------------------------------------
+
+
+def _general_points(
+    conn: sqlite3.Connection,
+    generals: list[dict],
+    pages: dict[str, dict | None],
+    county_slug: str,
+    find,
+    cache: dict,
+) -> tuple[list, list, list]:
+    """Fill each series' general points through ``find`` (a contest -> its series, or None)
+    and return, per general, the top of the ticket and the ticket gap, plus the county's
+    disagreements with the state in generals."""
+    top, ticket_gap, disagreements = [], [], []
+    for i, e in enumerate(generals):
+        page = pages[e["code"]]
+        if page is None:
+            top.append(None)
+            ticket_gap.append(None)
+            continue
+        contests = _contests(page, "all")
+        points: dict[str, tuple] = {}
+        for contest in contests:
+            s = find(contest)
+            if s is None:
+                continue
+            point = _gpoint(e, county_slug, contest, s["key"])
+            s["general"][i] = point
+            points[contest["anchor"]] = (s, point)
+        t = _top_of_ticket(conn, e, contests, points, cache)
+        top.append(t)
+        ticket_gap.append(_ticket_gap(t, contests, points))
+        disagreements += _general_disagreements(e, contests, points)
+    return top, ticket_gap, disagreements
+
+
+def _primary_points(
+    primaries: list[dict], pages: dict[str, dict | None], county_slug: str, find
+) -> tuple[list, list]:
+    """Fill each series' primary points per party file through ``find`` and return, per
+    primary, the electorate, plus the county's disagreements with the state in primaries."""
+    electorate, disagreements = [], []
+    for i, e in enumerate(primaries):
+        page = pages[e["code"]]
+        if page is None:
+            electorate.append(None)
+            continue
+        contests = _contests(page)
+        for contest in contests:
+            s = find(contest)
+            if s is None:
+                continue
+            pts = s["primary"].setdefault(contest["party_file"], [None] * len(primaries))
+            pts[i] = _ppoint(e, county_slug, contest)
+        electorate.append(_primary_electorate(page))
+        disagreements += _primary_disagreements(e, county_slug, contests)
+    return electorate, disagreements
 
 
 def county_trends(
@@ -441,46 +501,17 @@ def county_trends(
             return None
         k = (office.key, _district(contest["district"]))
         if k not in series:
-            series[k] = _new_series(office, k[1], generals, primaries)
+            series[k] = _new_series(office, k[1], generals)
         return series[k]
 
     source_ids = [sid for p in pages.values() if p for sid in p["source_ids"]]
-    top, ticket_gap, disagreements = [], [], []
-    primary_electorate = []
-    for i, e in enumerate(generals):
-        page = pages[e["code"]]
-        if page is None:
-            top.append(None)
-            ticket_gap.append(None)
-            continue
-        contests = _contests(page, "all")
-        points: dict[str, tuple] = {}
-        for contest in contests:
-            s = find(contest)
-            if s is None:
-                continue
-            point = _gpoint(e, county_slug, contest, s["key"])
-            s["general"][i] = point
-            points[contest["anchor"]] = (s, point)
-        t = _top_of_ticket(conn, e, county_slug, contests, cache)
-        top.append(t)
-        ticket_gap.append(_ticket_gap(t, contests, points))
-        disagreements += _general_disagreements(e, county_slug, contests, points)
-    for i, e in enumerate(primaries):
-        page = pages[e["code"]]
-        if page is None:
-            primary_electorate.append(None)
-            continue
-        for contest in _contests(page):
-            s = find(contest)
-            if s is None:
-                continue
-            pts = s["primary"].setdefault(contest["party_file"], [None] * len(primaries))
-            pts[i] = _ppoint(e, county_slug, contest)
-        primary_electorate.append(_primary_electorate(page))
-        disagreements += _primary_disagreements(e, county_slug, _contests(page))
+    top, ticket_gap, disagreements = _general_points(
+        conn, generals, pages, county_slug, find, cache
+    )
+    primary_electorate, primary_disagreements = _primary_points(primaries, pages, county_slug, find)
+    disagreements += primary_disagreements
 
-    ordered = sorted(series.values(), key=lambda s: s["_order"])
+    ordered = sorted(series.values(), key=_series_order)
     by_key: dict[str, list[dict]] = {}
     for s in ordered:
         by_key.setdefault(s["key"], []).append(s)
@@ -490,12 +521,12 @@ def county_trends(
         {
             "level": level,
             "label": offices.LEVEL_LABELS[level],
-            "offices": [s for s in ordered if s["_level"] == level],
+            "offices": [s for s in ordered if s["level"] == level],
         }
         for level in offices.LEVELS
     ]
     # the disagreements are collected oldest election first, generals after their primaries
-    disagreements.sort(key=lambda d: (-d["year"], d["election"][1] != "G"))
+    disagreements.sort(key=lambda d: (-d["year"], d["kind"] == "primary"))
     summary = {
         "top": top,
         "primary_electorate": primary_electorate,
@@ -503,8 +534,6 @@ def county_trends(
         "disagreements": disagreements,
         "winners_wall": _winners_wall(ordered, generals),
     }
-    for s in ordered:
-        del s["_level"], s["_order"]
     return {
         "county": county,
         "slug": county_slug,

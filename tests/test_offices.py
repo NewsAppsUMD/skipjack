@@ -10,6 +10,7 @@ import sqlite3
 
 import pytest
 
+from skipjack.pipeline import results_unofficial
 from skipjack.web import offices, results
 from skipjack.web.db import DB_PATH
 
@@ -45,6 +46,13 @@ COUNTY = [
 def test_every_sbe_spelling_has_a_key_and_vice_versa():
     assert set(offices.OFFICE_NAMES) == set(results._OFFICE_SCOPE)
     assert set(offices.OFFICE_NAMES.values()) <= set(offices.OFFICES)
+    # the unofficial pages' spellings: only the ones the certified files never use, and every
+    # heading the 2026 parser accepts is in one list or the other
+    assert set(offices.UNOFFICIAL_OFFICE_NAMES.values()) <= set(offices.OFFICES)
+    assert set(offices.UNOFFICIAL_OFFICE_NAMES) & set(offices.OFFICE_NAMES) == set()
+    assert set(results_unofficial.KNOWN_OFFICES) <= (
+        set(offices.OFFICE_NAMES) | set(offices.UNOFFICIAL_OFFICE_NAMES)
+    )
     for office in offices.OFFICES.values():
         assert office.level in offices.ALL_LEVELS
     assert set(offices.LEVELS) < set(offices.ALL_LEVELS)
@@ -91,6 +99,14 @@ def test_canonical_demotes_the_presidential_year_comptroller():
     assert not offices.canonical("Sheriff", "local").districted
     with pytest.raises(KeyError):
         offices.canonical("Dog Catcher", "local")
+
+
+def test_canonical_knows_the_unofficial_pages_spellings():
+    assert offices.canonical("Clerk of the Circuit Court", "local").key == "clerk"
+    assert offices.canonical("President of the County Council", "local").key == "council_president"
+    assert offices.canonical("Judge of the Orphans' Court", "local").key == "orphans_court"
+    assert offices.canonical("Justice, Supreme Court of Maryland", "statewide").key == "judge"
+    assert offices.canonical("Mayor - City of Cumberland", "local").level == "municipal"
 
 
 def test_era():

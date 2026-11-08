@@ -149,6 +149,18 @@ OFFICE_NAMES: dict[str, str] = {
     "Republican Delegates": "convention",
 }
 
+# The board's spellings on its unofficial results pages that the certified files never use
+# (the spellings the two share are in OFFICE_NAMES). `canonical` consults this list second.
+UNOFFICIAL_OFFICE_NAMES: dict[str, str] = {
+    "Clerk of the Circuit Court": "clerk",
+    "County Commissioner President": "commission_president",
+    "President of the County Council": "council_president",
+    "Judge of the Orphans' Court": "orphans_court",
+    "Judge, Appellate Court of Maryland At Large": "judge",
+    "Justice, Supreme Court of Maryland": "judge",
+    "Mayor - City of Cumberland": "municipal",
+}
+
 # The levels the trends page shows (a subset of ALL_LEVELS), in order, and their headings.
 LEVELS = ("federal", "state", "county")
 LEVEL_LABELS = {"federal": "Federal", "state": "State", "county": "County"}
@@ -169,9 +181,10 @@ def canonical(office: str, scope: str) -> Office:
 
     `scope` is the contest's scope from results.county_page, which already applies the
     all-24-counties rule: a Comptroller contest that is not statewide is Baltimore City's.
-    Raises KeyError for a spelling not in OFFICE_NAMES.
+    The certified files' spellings (OFFICE_NAMES) are looked up first, then the unofficial
+    pages' (UNOFFICIAL_OFFICE_NAMES). Raises KeyError for a spelling in neither.
     """
-    key = OFFICE_NAMES[office]
+    key = OFFICE_NAMES[office] if office in OFFICE_NAMES else UNOFFICIAL_OFFICE_NAMES[office]
     if key == "comptroller" and scope != "statewide":
         return OFFICES["city_comptroller"]
     return OFFICES[key]

@@ -162,6 +162,14 @@ def test_elections_oldest_first_and_split_by_kind(allegany):
     assert [lv["label"] for lv in allegany["levels"]] == ["Federal", "State", "County"]
 
 
+def test_every_series_carries_its_level_and_no_scratch_keys(allegany):
+    for lv in allegany["levels"]:
+        for s in lv["offices"]:
+            assert s["level"] == lv["level"], s["id"]
+            assert not [k for k in s if k.startswith("_")], s["id"]
+    assert _series(allegany, "county", "sheriff")["level"] == "county"
+
+
 def test_unknown_county_is_none(history):
     assert results_trends.county_trends(history, "narnia") is None
     assert results_trends.county_trends(history, "worcester") is None  # no rows
@@ -244,6 +252,14 @@ def test_matched_follows_the_flag_and_is_none_without_one(history):
 
 
 # --- series ------------------------------------------------------------------------------
+
+
+def test_office_key_consults_both_spellings_and_is_none_for_strangers():
+    assert results_trends._office_key("Sheriff", "local") == "sheriff"
+    assert results_trends._office_key("Clerk of the Circuit Court", "local") == "clerk"
+    assert results_trends._office_key("Comptroller", "statewide") == "comptroller"
+    assert results_trends._office_key("Comptroller", "local") == "city_comptroller"
+    assert results_trends._office_key("Dog Catcher", "local") is None
 
 
 def test_us_house_series_breaks_at_2022_with_an_era_per_point(allegany):
@@ -393,6 +409,7 @@ def test_disagreements_newest_first(history):
     assert got[1]["county_leader"] == {"name": "Dem Runner-up", "party": "DEM"}
     assert got[1]["statewide_winner"] == {"name": "Dem Nominee", "party": "DEM"}
     assert got[1]["year"] == 2022
+    assert [d["kind"] for d in got] == ["general", "primary", "general", "primary"]
     # Allegany picked the nominee in both primaries
     allegany = results_trends.county_trends(history, "allegany")
     assert [d["election"] for d in allegany["summary"]["disagreements"]] == ["GG22", "PG16"]
@@ -446,8 +463,8 @@ def with_gg26(history):
 
 @pytest.mark.parametrize(
     ("spelled", "district"),
-    [("District 6", "6"), ("District 1A", "01A"), ("District 43A", "43A"), ("6", "6"),
-     ("01A", "01A"), ("Circuit 8", "Circuit 8"), ("", "")],
+    [("District 6", "6"), ("District 1A", "01A"), ("District 43A", "43A"), ("District A", "A"),
+     ("6", "6"), ("01A", "01A"), ("A", "A"), ("Circuit 8", "Circuit 8"), ("", "")],
 )  # fmt: skip
 def test_unofficial_districts_take_the_certified_spelling(spelled, district):
     assert results_trends._district(spelled) == district
@@ -535,8 +552,12 @@ def test_real_every_county_builds(real):
         assert len(t["summary"]["top"]) == len(t["generals"])
         assert len(t["summary"]["ticket_gap"]) == len(t["generals"])
         assert len(t["summary"]["primary_electorate"]) == len(t["primaries"])
+        ids = [s["id"] for lv in t["levels"] for s in lv["offices"]]
+        # a "District A" / "District 6" from the unofficial pages joins its certified series
+        assert len(ids) == len(set(ids)) and not any("district" in i for i in ids), slug
         for lv in t["levels"]:
             for s in lv["offices"]:
+                assert s["level"] == lv["level"]
                 assert len(s["general"]) == len(t["generals"]), (slug, s["id"])
                 for pts in s["primary"].values():
                     assert len(pts) == len(t["primaries"])
@@ -551,10 +572,26 @@ def test_real_allegany_governor_spans_2010_to_2022(real):
     assert all(p["winners"] for p in certified)
     house = _series(t, "federal", "us_house-6")
     assert house["breaks"] == [2012, 2022]
-    ids = [s["id"] for lv in t["levels"] for s in lv["offices"]]
-    assert len(ids) == len(set(ids)) and not any("district" in i for i in ids)
     years = [e["year"] for e in t["generals"]]
     assert years[0] == 2010 and years == sorted(years)
+
+
+def test_real_lettered_districts_join_their_series_and_keep_no_false_break(real):
+    """Harford's council and board seats are "District A" .. "District F" on the unofficial
+    pages and "A" .. "F" in the certified files: one series each, and no break in 2026. Where a
+    county really gained a seat for 2026 (Baltimore County's eighth and ninth council districts,
+    Wicomico's sixth and seventh) the break stays."""
+    harford = results_trends.county_trends(real, "harford")
+    for key in ("county_council", "board_of_education"):
+        for letter in "ABCDEF":
+            s = _series(harford, "county", f"{key}-{letter.lower()}")
+            assert 2026 not in s["breaks"], s["id"]
+            assert s["general"][-1] is not None and s["general"][-1]["unofficial"], s["id"]
+    baltimore = results_trends.county_trends(real, "baltimore-county")
+    assert _series(baltimore, "county", "county_council-9")["breaks"] == [2026]
+    assert _series(baltimore, "county", "county_council-8")["general"][-2] is None
+    wicomico = results_trends.county_trends(real, "wicomico")
+    assert _series(wicomico, "county", "county_council-7")["breaks"] == [2026]
 
 
 def test_real_every_unofficial_office_is_known(real):
@@ -575,4 +612,4 @@ def test_real_counties_index_has_24_rows(real):
     assert len(rows) == 24
     assert all(r["latest"] and r["first"] for r in rows)
     assert all(r["generals"] >= 8 for r in rows)
-    assert elapsed < 60
+    assert elapsed < 10  # measured at ~1.5 s; a loose bound so a slow runner does not flake
