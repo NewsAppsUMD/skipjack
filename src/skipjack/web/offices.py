@@ -12,61 +12,61 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
+ALL_LEVELS = ("federal", "state", "county", "judicial", "municipal", "party", "convention")
+
+
 @dataclass(frozen=True)
 class Office:
     key: str
-    level: str  # "federal" | "state" | "county" | "judicial" | "municipal" | "party" | "convention"
+    level: str  # one of ALL_LEVELS
     title: str  # display title, AP style
-    districted: bool
-
-
-def _office(key: str, level: str, title: str, districted: bool = False) -> tuple[str, Office]:
-    return key, Office(key, level, title, districted)
+    districted: bool = False
 
 
 # Declaration order is display order within a level.
-OFFICES: dict[str, Office] = dict(
-    [
+OFFICES: dict[str, Office] = {
+    o.key: o
+    for o in (
         # federal
-        _office("president", "federal", "President"),
-        _office("us_senate", "federal", "U.S. Senate"),
-        _office("us_house", "federal", "U.S. House", districted=True),
+        Office("president", "federal", "President"),
+        Office("us_senate", "federal", "U.S. Senate"),
+        Office("us_house", "federal", "U.S. House", districted=True),
         # state
-        _office("governor", "state", "Governor"),
-        _office("comptroller", "state", "Comptroller"),
-        _office("attorney_general", "state", "Attorney General"),
-        _office("state_senate", "state", "State Senate", districted=True),
-        _office("house_of_delegates", "state", "House of Delegates", districted=True),
+        Office("governor", "state", "Governor"),
+        Office("comptroller", "state", "Comptroller"),
+        Office("attorney_general", "state", "Attorney General"),
+        Office("state_senate", "state", "State Senate", districted=True),
+        Office("house_of_delegates", "state", "House of Delegates", districted=True),
         # county
-        _office("county_executive", "county", "County Executive"),
-        _office("council_president", "county", "County Council President"),
-        _office("county_council", "county", "County Council", districted=True),
-        _office("county_council_at_large", "county", "County Council At Large"),
-        _office("commission_president", "county", "County Commission President"),
-        _office("county_commissioner", "county", "County Commissioner", districted=True),
-        _office("commissioner_at_large", "county", "County Commissioner At Large"),
-        _office("sheriff", "county", "Sheriff"),
-        _office("states_attorney", "county", "State's Attorney"),
-        _office("clerk", "county", "Clerk of the Circuit Court"),
-        _office("register_of_wills", "county", "Register of Wills"),
-        _office("treasurer", "county", "Treasurer"),
-        _office("board_of_education", "county", "Board of Education", districted=True),
-        _office("board_of_education_at_large", "county", "Board of Education At Large"),
-        _office("orphans_court", "county", "Orphans' Court judge"),
+        Office("county_executive", "county", "County Executive"),
+        Office("council_president", "county", "County Council President"),
+        Office("county_council", "county", "County Council", districted=True),
+        Office("county_council_at_large", "county", "County Council, at large"),
+        Office("commission_president", "county", "County Commission President"),
+        Office("county_commissioner", "county", "County Commissioner", districted=True),
+        Office("commissioner_at_large", "county", "County Commissioner, at large"),
+        Office("sheriff", "county", "Sheriff"),
+        Office("states_attorney", "county", "State's Attorney"),
+        Office("clerk", "county", "Clerk of the Circuit Court"),
+        Office("register_of_wills", "county", "Register of Wills"),
+        Office("treasurer", "county", "Treasurer"),
+        Office("board_of_education", "county", "Board of Education", districted=True),
+        Office("board_of_education_at_large", "county", "Board of Education, at large"),
+        Office("orphans_court", "county", "Orphans' Court judge"),
         # Baltimore City: the bare Mayor / City Council names occur only in the city's files
         # (the presidential-year elections), and so does its Comptroller, which `canonical`
         # tells apart from the statewide office by the contest's scope.
-        _office("mayor", "county", "Mayor"),
-        _office("city_council_president", "county", "City Council President"),
-        _office("city_council", "county", "City Council", districted=True),
-        _office("city_comptroller", "county", "City Comptroller"),
+        Office("mayor", "county", "Mayor"),
+        Office("city_council_president", "county", "City Council President"),
+        Office("city_council", "county", "City Council", districted=True),
+        Office("city_comptroller", "county", "City Comptroller"),
         # everything else is grouped, not tracked office by office
-        _office("judge", "judicial", "Judge"),
-        _office("municipal", "municipal", "Municipal office"),
-        _office("party", "party", "Party central committee"),
-        _office("convention", "convention", "National convention delegate"),
-    ]
-)
+        Office("judge", "judicial", "Judge"),
+        Office("municipal", "municipal", "Municipal office"),
+        Office("party", "party", "Party central committee"),
+        Office("convention", "convention", "National convention delegate"),
+    )
+}
 
 # Every spelling the SBE's files have carried -> office key.
 OFFICE_NAMES: dict[str, str] = {
@@ -149,17 +149,18 @@ OFFICE_NAMES: dict[str, str] = {
     "Republican Delegates": "convention",
 }
 
-# The levels the trends page shows, in order, and their headings.
+# The levels the trends page shows (a subset of ALL_LEVELS), in order, and their headings.
 LEVELS = ("federal", "state", "county")
 LEVEL_LABELS = {"federal": "Federal", "state": "State", "county": "County"}
 
-# District maps: the election years each districted office's map took effect. Maryland
+# District maps: the election years each districted office's map took effect. The 2002 maps
+# (drawn after the 2000 census) cover the earliest elections in the archive, 2010. Maryland
 # redrew the congressional map in 2011 (first used 2012) and again in 2022 (court-ordered),
 # and the legislative map in 2012 (first used 2014) and 2022.
 ERAS: dict[str, tuple[int, ...]] = {
-    "us_house": (2012, 2022),
-    "state_senate": (2014, 2022),
-    "house_of_delegates": (2014, 2022),
+    "us_house": (2002, 2012, 2022),
+    "state_senate": (2002, 2014, 2022),
+    "house_of_delegates": (2002, 2014, 2022),
 }
 
 
@@ -180,8 +181,8 @@ def era(key: str, year: int) -> int | None:
     """The first election year of the district map in force for `year`.
 
     None when the office has no map table in ERAS (a county office, or one elected at
-    large) or when `year` precedes every map listed, so results from before the first map
-    are not compared district by district with results under it.
+    large). Every election in the archive (2010 on) falls under a listed map, so for a
+    districted office None would only mean a `year` before 2002.
     """
     starts = [s for s in ERAS.get(key, ()) if s <= year]
     return max(starts) if starts else None
