@@ -495,6 +495,11 @@ def test_trends_index_lists_every_county_with_the_shift_and_the_map(history_clie
     row = row[: row.index("</tr>")]
     assert "Republicans +39.6" in row
     assert "−19.6" in row  # the shift, a real minus sign
+    assert "Republicans +20.0" in row  # the latest governor's race
+    # every county shares the years, so they go in the headers, not the cells
+    assert "Latest governor, 2022" in html and "Latest president, 2024" in html
+    assert "Shift, 2022 to 2024" in html and "(2022 to 2024)" not in row
+    assert ">Generals<" not in html and ">Primaries<" not in html
     assert 'id="map-trends-shift"' in html and "map-defs" in html
     assert 'href="/results/county/montgomery/"' in html  # the map links every county
 

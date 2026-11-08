@@ -595,7 +595,8 @@ def county_trends(
 
 def counties_index(conn: sqlite3.Connection) -> list[dict]:
     """A row per county for /results/county/: its latest and first top-of-ticket points, the
-    shift between their margins and a margin per general."""
+    shift between their margins, a margin per general, its latest governor and president
+    points and the shift from the earlier of those two to the later."""
     cache: dict = {}
     rows = []
     for slug in county_slugs(conn):
@@ -608,6 +609,21 @@ def counties_index(conn: sqlite3.Connection) -> list[dict]:
         shift = None
         if latest and first and latest["margin"] is not None and first["margin"] is not None:
             shift = round(latest["margin"] - first["margin"], 1)
+        governor = next((p for p in reversed(tops) if p["title"] == "Governor"), None)
+        president = next((p for p in reversed(tops) if p["title"] == "President"), None)
+        cycle_shift = None
+        if (
+            governor
+            and president
+            and governor["margin"] is not None
+            and president["margin"] is not None
+        ):
+            older, newer = sorted((governor, president), key=lambda p: p["year"])
+            cycle_shift = {
+                "value": round(newer["margin"] - older["margin"], 1),
+                "from": older["year"],
+                "to": newer["year"],
+            }
         rows.append(
             {
                 "county": t["county"],
@@ -615,6 +631,9 @@ def counties_index(conn: sqlite3.Connection) -> list[dict]:
                 "latest": latest,
                 "first": first,
                 "shift": shift,
+                "governor": governor,
+                "president": president,
+                "cycle_shift": cycle_shift,
                 "spark": [p["margin"] if p else None for p in t["summary"]["top"]],
                 "generals": len(t["generals"]),
                 "primaries": len(t["primaries"]),

@@ -570,6 +570,11 @@ def test_counties_index_rows(history):
     assert allegany["shift"] == 0.0
     assert allegany["spark"] == [-20.0, pytest.approx(-29.4), -20.0]
     assert allegany["generals"] == 3 and allegany["primaries"] == 2
+    # latest governor (GG22) and president (PG16), and the shift from the earlier to the later
+    assert allegany["governor"]["election"] == "GG22"
+    assert allegany["president"]["election"] == "PG16"
+    assert allegany["cycle_shift"]["value"] == pytest.approx(9.4)
+    assert (allegany["cycle_shift"]["from"], allegany["cycle_shift"]["to"]) == (2016, 2022)
     garrett = rows[1]
     assert garrett["first"]["margin"] == -40.0 and garrett["shift"] == 20.0
 
