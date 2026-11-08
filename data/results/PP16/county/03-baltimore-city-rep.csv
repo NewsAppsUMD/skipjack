@@ -1,0 +1,260 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP16,Baltimore City,rep,President - Vice Pres,"",Jeb Bush,REP,0,0,22,65,4,5,1,97
+PP16,Baltimore City,rep,President - Vice Pres,"",Ben Carson,REP,0,0,48,149,3,12,3,215
+PP16,Baltimore City,rep,President - Vice Pres,"",Chris Christie,REP,0,0,11,46,0,2,0,59
+PP16,Baltimore City,rep,President - Vice Pres,"",Ted Cruz,REP,0,0,387,1435,56,55,44,1977
+PP16,Baltimore City,rep,President - Vice Pres,"",Carly Fiorina,REP,0,0,5,49,0,4,1,59
+PP16,Baltimore City,rep,President - Vice Pres,"",Mike Huckabee,REP,0,0,8,19,0,1,0,28
+PP16,Baltimore City,rep,President - Vice Pres,"",John R. Kasich,REP,0,0,278,2366,75,71,72,2862
+PP16,Baltimore City,rep,President - Vice Pres,"",Rand Paul,REP,0,0,12,55,2,3,0,72
+PP16,Baltimore City,rep,President - Vice Pres,"",Marco Rubio,REP,0,0,15,77,4,3,3,102
+PP16,Baltimore City,rep,President - Vice Pres,"",Rick Santorum,REP,0,0,4,16,0,1,0,21
+PP16,Baltimore City,rep,President - Vice Pres,"",Donald J. Trump,REP,1,0,378,3597,79,89,43,4186
+PP16,Baltimore City,rep,President - Vice Pres,02,Jeb Bush,REP,0,0,2,5,1,1,1,10
+PP16,Baltimore City,rep,President - Vice Pres,02,Ben Carson,REP,0,0,1,30,1,2,0,34
+PP16,Baltimore City,rep,President - Vice Pres,02,Chris Christie,REP,0,0,1,5,0,0,0,6
+PP16,Baltimore City,rep,President - Vice Pres,02,Ted Cruz,REP,0,0,20,169,1,5,4,199
+PP16,Baltimore City,rep,President - Vice Pres,02,Carly Fiorina,REP,0,0,0,8,0,1,0,9
+PP16,Baltimore City,rep,President - Vice Pres,02,Mike Huckabee,REP,0,0,0,1,0,0,0,1
+PP16,Baltimore City,rep,President - Vice Pres,02,John R. Kasich,REP,0,0,15,90,2,4,5,116
+PP16,Baltimore City,rep,President - Vice Pres,02,Rand Paul,REP,0,0,2,1,0,0,0,3
+PP16,Baltimore City,rep,President - Vice Pres,02,Marco Rubio,REP,0,0,1,5,0,1,0,7
+PP16,Baltimore City,rep,President - Vice Pres,02,Rick Santorum,REP,0,0,0,0,0,0,0,0
+PP16,Baltimore City,rep,President - Vice Pres,02,Donald J. Trump,REP,1,0,58,517,3,16,7,601
+PP16,Baltimore City,rep,President - Vice Pres,03,Jeb Bush,REP,0,0,6,40,0,2,0,48
+PP16,Baltimore City,rep,President - Vice Pres,03,Ben Carson,REP,0,0,7,56,2,2,1,68
+PP16,Baltimore City,rep,President - Vice Pres,03,Chris Christie,REP,0,0,1,25,0,1,0,27
+PP16,Baltimore City,rep,President - Vice Pres,03,Ted Cruz,REP,0,0,273,913,47,31,17,1281
+PP16,Baltimore City,rep,President - Vice Pres,03,Carly Fiorina,REP,0,0,1,23,0,1,0,25
+PP16,Baltimore City,rep,President - Vice Pres,03,Mike Huckabee,REP,0,0,2,9,0,0,0,11
+PP16,Baltimore City,rep,President - Vice Pres,03,John R. Kasich,REP,0,0,174,1880,52,50,47,2203
+PP16,Baltimore City,rep,President - Vice Pres,03,Rand Paul,REP,0,0,6,38,1,2,0,47
+PP16,Baltimore City,rep,President - Vice Pres,03,Marco Rubio,REP,0,0,5,48,2,1,1,57
+PP16,Baltimore City,rep,President - Vice Pres,03,Rick Santorum,REP,0,0,0,8,0,0,0,8
+PP16,Baltimore City,rep,President - Vice Pres,03,Donald J. Trump,REP,1,0,215,2375,51,45,20,2706
+PP16,Baltimore City,rep,President - Vice Pres,07,Jeb Bush,REP,0,0,14,20,3,2,0,39
+PP16,Baltimore City,rep,President - Vice Pres,07,Ben Carson,REP,0,0,40,63,0,8,2,113
+PP16,Baltimore City,rep,President - Vice Pres,07,Chris Christie,REP,0,0,9,16,0,1,0,26
+PP16,Baltimore City,rep,President - Vice Pres,07,Ted Cruz,REP,0,0,94,353,8,19,23,497
+PP16,Baltimore City,rep,President - Vice Pres,07,Carly Fiorina,REP,0,0,4,18,0,2,1,25
+PP16,Baltimore City,rep,President - Vice Pres,07,Mike Huckabee,REP,0,0,6,9,0,1,0,16
+PP16,Baltimore City,rep,President - Vice Pres,07,John R. Kasich,REP,0,0,89,396,21,17,20,543
+PP16,Baltimore City,rep,President - Vice Pres,07,Rand Paul,REP,0,0,4,16,1,1,0,22
+PP16,Baltimore City,rep,President - Vice Pres,07,Marco Rubio,REP,0,0,9,24,2,1,2,38
+PP16,Baltimore City,rep,President - Vice Pres,07,Rick Santorum,REP,0,0,4,8,0,1,0,13
+PP16,Baltimore City,rep,President - Vice Pres,07,Donald J. Trump,REP,1,0,105,705,25,28,16,879
+PP16,Baltimore City,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,96,663,19,16,9,803
+PP16,Baltimore City,rep,U.S. Senator,"",Sean P. Connor,REP,0,0,60,450,8,17,9,544
+PP16,Baltimore City,rep,U.S. Senator,"",Richard J. Douglas,REP,0,0,102,403,26,17,10,558
+PP16,Baltimore City,rep,U.S. Senator,"",John R. Graziani,REP,0,0,59,418,1,16,8,502
+PP16,Baltimore City,rep,U.S. Senator,"",Greg Holmes,REP,0,0,46,247,7,13,10,323
+PP16,Baltimore City,rep,U.S. Senator,"",Joseph David Hooe,REP,0,0,30,205,5,10,3,253
+PP16,Baltimore City,rep,U.S. Senator,"",Chrys Kefalas,REP,0,0,79,783,24,14,15,915
+PP16,Baltimore City,rep,U.S. Senator,"",Mark McNicholas,REP,0,0,24,251,4,7,3,289
+PP16,Baltimore City,rep,U.S. Senator,"",Lynn Richardson,REP,0,0,68,305,10,16,3,402
+PP16,Baltimore City,rep,U.S. Senator,"",Anthony Seda,REP,0,0,8,81,1,3,2,95
+PP16,Baltimore City,rep,U.S. Senator,"",Richard Shawver,REP,0,0,8,50,0,2,2,62
+PP16,Baltimore City,rep,U.S. Senator,"",Kathy Szeliga,REP,1,0,294,2348,44,55,40,2781
+PP16,Baltimore City,rep,U.S. Senator,"",Dave Wallace,REP,0,0,73,367,14,14,7,475
+PP16,Baltimore City,rep,U.S. Senator,"",Garry Thomas Yarrington,REP,0,0,13,53,1,1,0,68
+PP16,Baltimore City,rep,Rep in Congress,02,Bill Heine,REP,0,0,12,77,1,0,0,90
+PP16,Baltimore City,rep,Rep in Congress,02,"Carl H. Magee, Jr.",REP,0,0,11,91,0,2,0,104
+PP16,Baltimore City,rep,Rep in Congress,02,Pat McDonough,REP,1,0,60,497,1,8,11,577
+PP16,Baltimore City,rep,Rep in Congress,02,Yuripzy Morgan,REP,0,0,7,28,0,0,1,36
+PP16,Baltimore City,rep,Rep in Congress,02,Mark Gerard Shell,REP,0,0,4,41,3,1,1,50
+PP16,Baltimore City,rep,Rep in Congress,03,Thomas E. Pinkston Harris,REP,0,0,148,1518,27,38,17,1748
+PP16,Baltimore City,rep,Rep in Congress,03,Mark Plaster,REP,1,0,350,2533,75,58,37,3053
+PP16,Baltimore City,rep,Rep in Congress,07,Ray Bly,REP,0,0,44,222,6,7,7,286
+PP16,Baltimore City,rep,Rep in Congress,07,William T. Newton,REP,0,0,128,503,17,18,11,677
+PP16,Baltimore City,rep,Rep in Congress,07,Corrogan R. Vaughn,REP,1,0,114,507,8,31,21,681
+PP16,Baltimore City,rep,Mayor,"",Armand F. Girard,REP,0,0,101,797,15,15,11,939
+PP16,Baltimore City,rep,Mayor,"",Chancellor Torbit,REP,0,0,104,706,11,20,18,859
+PP16,Baltimore City,rep,Mayor,"",Brian Charles Vaeth,REP,0,0,125,1036,21,22,17,1221
+PP16,Baltimore City,rep,Mayor,"",Alan Walden,REP,1,0,386,2506,68,69,40,3069
+PP16,Baltimore City,rep,Mayor,"","Larry O. Wardlow, Jr.",REP,0,0,172,1115,27,36,18,1368
+PP16,Baltimore City,rep,President City Council,"",David Anthony Wiggins,REP,0,0,376,2801,51,70,43,3341
+PP16,Baltimore City,rep,President City Council,"",Shannon Wright,REP,1,0,475,3130,76,89,64,3834
+PP16,Baltimore City,rep,Member City Council,001,Liz Copeland,REP,0,0,69,574,7,11,8,669
+PP16,Baltimore City,rep,Member City Council,001,Jennifer Susan Dudley,REP,0,0,23,130,1,5,0,159
+PP16,Baltimore City,rep,Member City Council,001,Matthew McDaniel,REP,1,0,79,760,23,11,6,879
+PP16,Baltimore City,rep,Member City Council,002,Gregory Yarberough,REP,1,0,50,292,2,4,4,352
+PP16,Baltimore City,rep,Member City Council,004,"William Sam Broaddus, III",REP,1,0,48,306,2,11,8,375
+PP16,Baltimore City,rep,Member City Council,007,Tamara Purnell,REP,1,0,25,204,0,1,10,240
+PP16,Baltimore City,rep,Member City Council,008,"Joseph Brown, Jr.",REP,1,0,44,101,1,6,1,153
+PP16,Baltimore City,rep,Member City Council,008,Nakia Washington,REP,0,0,15,51,1,4,1,72
+PP16,Baltimore City,rep,Member City Council,009,"Kenneth Earl Ebron, Jr.",REP,1,0,23,70,1,4,1,99
+PP16,Baltimore City,rep,Member City Council,009,Octavia D. Njuhigu,REP,0,0,14,30,0,1,1,46
+PP16,Baltimore City,rep,Member City Council,010,Christine Digman,REP,1,0,13,300,0,2,1,316
+PP16,Baltimore City,rep,Member City Council,010,Michael W. Nolet,REP,0,0,8,208,0,9,7,232
+PP16,Baltimore City,rep,Member City Council,013,George Johnson,REP,1,0,29,126,0,5,6,166
+PP16,Baltimore City,rep,Member City Council,014,Thomas T. Boyce,REP,1,0,37,297,6,7,8,355
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,Shannon E. Avery,REP,1,0,610,3522,73,96,58,4359
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,Audrey J. Sylvia  Carrion,REP,1,0,551,2851,54,68,39,3563
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,Michael A. DiPietro,REP,1,0,644,4024,83,90,61,4902
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,Karen Chaya Friedman,REP,1,0,663,2787,87,71,48,3656
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,Wanda Keyes Heard,REP,0,0,512,2386,40,58,37,3033
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,Cynthia H. Jones,REP,1,0,545,2902,49,69,43,3608
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,James B. Kraft,REP,1,0,366,2815,60,57,43,3341
+PP16,Baltimore City,rep,Judge of the Circuit Court,08,Todd H. Oppenheim,REP,0,0,325,2531,53,59,38,3006
+PP16,Baltimore City,rep,Republican Delegates,02,Ana T. Blair,REP,0,0,10,65,0,2,0,77
+PP16,Baltimore City,rep,Republican Delegates,02,"Joseph C. Boteler, III",REP,0,0,3,24,0,0,1,28
+PP16,Baltimore City,rep,Republican Delegates,02,Antonio Campbell,REP,0,0,11,54,0,0,0,65
+PP16,Baltimore City,rep,Republican Delegates,02,J. Michael Collins,REP,1,0,48,434,1,7,6,496
+PP16,Baltimore City,rep,Republican Delegates,02,Steve Dishon,REP,0,0,20,146,1,3,3,173
+PP16,Baltimore City,rep,Republican Delegates,02,"John C. Fiastro, Jr.",REP,0,0,19,141,1,2,4,167
+PP16,Baltimore City,rep,Republican Delegates,02,Fred Fleischmann,REP,0,0,4,48,0,1,0,53
+PP16,Baltimore City,rep,Republican Delegates,02,Glen Glass,REP,0,0,19,136,1,4,4,164
+PP16,Baltimore City,rep,Republican Delegates,02,Robin Grammer,REP,0,0,4,31,2,0,0,37
+PP16,Baltimore City,rep,Republican Delegates,02,Julianne Grim,REP,0,0,5,19,0,1,0,25
+PP16,Baltimore City,rep,Republican Delegates,02,Christina Louise Harris,REP,0,0,3,16,0,1,0,20
+PP16,Baltimore City,rep,Republican Delegates,02,"Thomas A. Harris, Jr.",REP,0,0,2,12,1,0,0,15
+PP16,Baltimore City,rep,Republican Delegates,02,William Hicklen,REP,0,0,1,11,0,0,0,12
+PP16,Baltimore City,rep,Republican Delegates,02,Dee Hodges,REP,0,0,2,22,0,0,0,24
+PP16,Baltimore City,rep,Republican Delegates,02,Charlene Kurland,REP,0,0,0,7,0,0,0,7
+PP16,Baltimore City,rep,Republican Delegates,02,William F. Martin,REP,0,0,3,10,0,1,0,14
+PP16,Baltimore City,rep,Republican Delegates,02,Brian J. Noon,REP,1,0,43,386,1,6,6,442
+PP16,Baltimore City,rep,Republican Delegates,02,Patrick O'Keefe,REP,0,0,7,37,0,0,0,44
+PP16,Baltimore City,rep,Republican Delegates,02,Greg Ottensmeyer,REP,1,0,41,377,2,5,6,431
+PP16,Baltimore City,rep,Republican Delegates,02,Christopher W. Pate,REP,0,0,0,7,0,0,0,7
+PP16,Baltimore City,rep,Republican Delegates,02,"Jerome C. Payne, Jr.",REP,0,0,4,11,1,0,0,16
+PP16,Baltimore City,rep,Republican Delegates,02,Tim Robinson,REP,0,0,4,10,0,1,0,15
+PP16,Baltimore City,rep,Republican Delegates,02,J.D. Russell,REP,0,0,11,75,2,1,4,93
+PP16,Baltimore City,rep,Republican Delegates,02,"Louis A. Sarkes, Jr.",REP,0,0,1,6,0,0,0,7
+PP16,Baltimore City,rep,Republican Delegates,02,Mitch Shank,REP,0,0,1,9,0,0,0,10
+PP16,Baltimore City,rep,Republican Delegates,02,Kathleen A. Smero,REP,0,0,1,12,0,0,0,13
+PP16,Baltimore City,rep,Republican Delegates,02,"Byron G. Tosi, III",REP,0,0,0,8,1,0,0,9
+PP16,Baltimore City,rep,Republican Delegates,02,Jeanne L. Turnock,REP,0,0,5,16,2,1,0,24
+PP16,Baltimore City,rep,Republican Delegates,02,Joshua Wolf,REP,0,0,3,21,0,1,0,25
+PP16,Baltimore City,rep,Republican Delegates,03,"J. Lee Annis, Jr.",REP,0,0,101,1192,35,27,26,1381
+PP16,Baltimore City,rep,Republican Delegates,03,E. Chiké Anyanwu,REP,0,0,6,22,0,1,2,31
+PP16,Baltimore City,rep,Republican Delegates,03,Diane M. Baker,REP,0,0,16,111,2,1,2,132
+PP16,Baltimore City,rep,Republican Delegates,03,William H. Campbell,REP,0,0,232,793,40,19,14,1098
+PP16,Baltimore City,rep,Republican Delegates,03,"Joe Collins, Jr.",REP,1,0,170,1829,40,31,14,2084
+PP16,Baltimore City,rep,Republican Delegates,03,Mike Collins,REP,0,0,119,1319,37,32,32,1539
+PP16,Baltimore City,rep,Republican Delegates,03,Janet Moye Cornick,REP,0,0,8,33,0,1,0,42
+PP16,Baltimore City,rep,Republican Delegates,03,Julie E. Cram,REP,0,0,6,61,0,4,2,73
+PP16,Baltimore City,rep,Republican Delegates,03,Leonard Cutler,REP,0,0,16,133,2,5,1,157
+PP16,Baltimore City,rep,Republican Delegates,03,Jean C. Edwards,REP,0,0,7,26,1,1,1,36
+PP16,Baltimore City,rep,Republican Delegates,03,Jamie Falcon,REP,0,0,6,50,1,0,1,58
+PP16,Baltimore City,rep,Republican Delegates,03,Gail Elizabeth Filerino,REP,0,0,4,30,4,0,1,39
+PP16,Baltimore City,rep,Republican Delegates,03,Greg Fox,REP,0,0,3,32,0,0,1,36
+PP16,Baltimore City,rep,Republican Delegates,03,David J. Frankel,REP,0,0,14,71,1,1,2,89
+PP16,Baltimore City,rep,Republican Delegates,03,Tom Gardner,REP,0,0,127,1350,35,35,34,1581
+PP16,Baltimore City,rep,Republican Delegates,03,John C. Gordon,REP,0,0,3,12,0,0,0,15
+PP16,Baltimore City,rep,Republican Delegates,03,Nathan Hall,REP,0,0,2,20,0,0,0,22
+PP16,Baltimore City,rep,Republican Delegates,03,Melanie Harris,REP,0,0,234,783,40,18,13,1088
+PP16,Baltimore City,rep,Republican Delegates,03,Joseph David Hooe,REP,0,0,4,42,0,1,1,48
+PP16,Baltimore City,rep,Republican Delegates,03,Jonah Jarosz,REP,0,0,2,12,1,0,0,15
+PP16,Baltimore City,rep,Republican Delegates,03,Henry S. Kim,REP,0,0,5,12,0,1,1,19
+PP16,Baltimore City,rep,Republican Delegates,03,Dick Ladd,REP,0,0,17,112,1,6,1,137
+PP16,Baltimore City,rep,Republican Delegates,03,James David Lashar,REP,0,0,1,10,1,0,1,13
+PP16,Baltimore City,rep,Republican Delegates,03,Herb McMillan,REP,0,0,13,96,5,4,2,120
+PP16,Baltimore City,rep,Republican Delegates,03,Townsend Lange McNitt,REP,0,0,1,8,1,1,0,11
+PP16,Baltimore City,rep,Republican Delegates,03,Christian Miele,REP,0,0,12,87,3,4,0,106
+PP16,Baltimore City,rep,Republican Delegates,03,Candice A. Morrison,REP,0,0,2,17,0,1,2,22
+PP16,Baltimore City,rep,Republican Delegates,03,Laura Neuman,REP,0,0,14,116,3,3,1,137
+PP16,Baltimore City,rep,Republican Delegates,03,Eugenia Korsak Ordynsky,REP,0,0,4,10,1,1,1,17
+PP16,Baltimore City,rep,Republican Delegates,03,Tracey Paliath,REP,0,0,8,62,2,0,0,72
+PP16,Baltimore City,rep,Republican Delegates,03,Christopher Panasuk,REP,0,0,2,6,2,0,0,10
+PP16,Baltimore City,rep,Republican Delegates,03,Peter Pollak,REP,0,0,2,45,1,0,0,48
+PP16,Baltimore City,rep,Republican Delegates,03,Lewis Porter,REP,0,0,6,8,0,1,0,15
+PP16,Baltimore City,rep,Republican Delegates,03,Mattie Procaccini,REP,0,0,217,715,38,17,13,1000
+PP16,Baltimore City,rep,Republican Delegates,03,Rick Saffery,REP,0,0,3,20,0,0,0,23
+PP16,Baltimore City,rep,Republican Delegates,03,Brian A. Sailer,REP,0,0,4,37,1,1,0,43
+PP16,Baltimore City,rep,Republican Delegates,03,Susan Carroll Schwab,REP,0,0,7,61,0,0,2,70
+PP16,Baltimore City,rep,Republican Delegates,03,Scott Shaffer,REP,0,0,8,54,0,0,0,62
+PP16,Baltimore City,rep,Republican Delegates,03,Duane E. Shelton,REP,0,0,74,754,21,22,19,890
+PP16,Baltimore City,rep,Republican Delegates,03,Justin Shuy,REP,0,0,2,5,0,0,1,8
+PP16,Baltimore City,rep,Republican Delegates,03,Jonathan Erich Stitzinger,REP,0,0,1,8,0,2,0,11
+PP16,Baltimore City,rep,Republican Delegates,03,Nigel James Sutton,REP,0,0,1,8,0,1,0,10
+PP16,Baltimore City,rep,Republican Delegates,03,Mary Beth Tung,REP,0,0,3,81,3,1,1,89
+PP16,Baltimore City,rep,Republican Delegates,03,Shannon Wright,REP,1,0,171,1911,44,33,15,2174
+PP16,Baltimore City,rep,Republican Delegates,03,Chris Yates,REP,1,0,176,1866,44,30,15,2131
+PP16,Baltimore City,rep,Republican Delegates,03,Sally Marie Yates,REP,0,0,4,31,2,0,1,38
+PP16,Baltimore City,rep,Republican Delegates,03,Mark Young,REP,0,0,22,168,1,6,0,197
+PP16,Baltimore City,rep,Republican Delegates,07,David Glenn Albert,REP,0,0,15,49,0,0,0,64
+PP16,Baltimore City,rep,Republican Delegates,07,Katie Albert,REP,0,0,27,62,4,1,2,96
+PP16,Baltimore City,rep,Republican Delegates,07,"William Sam Broaddus, III",REP,0,0,20,31,1,1,1,54
+PP16,Baltimore City,rep,Republican Delegates,07,Chris Cavey,REP,0,0,12,66,0,1,1,80
+PP16,Baltimore City,rep,Republican Delegates,07,"Victor Clark, Jr.",REP,0,0,21,46,2,1,1,71
+PP16,Baltimore City,rep,Republican Delegates,07,Tamu Ifetayo Davenport,REP,0,0,32,86,1,7,2,128
+PP16,Baltimore City,rep,Republican Delegates,07,Judith A. De Libera,REP,0,0,10,19,3,1,1,34
+PP16,Baltimore City,rep,Republican Delegates,07,Dave Dobbs,REP,0,0,90,323,3,14,18,448
+PP16,Baltimore City,rep,Republican Delegates,07,Jonathan Edwin Dryja,REP,0,0,5,13,0,1,0,19
+PP16,Baltimore City,rep,Republican Delegates,07,Elizabeth Marsh Eaton,REP,0,0,12,41,2,4,1,60
+PP16,Baltimore City,rep,Republican Delegates,07,"George C. Eaton , III",REP,0,0,7,15,0,1,0,23
+PP16,Baltimore City,rep,Republican Delegates,07,Bob Flanagan,REP,0,0,21,88,6,6,5,126
+PP16,Baltimore City,rep,Republican Delegates,07,Susan Forrester,REP,0,0,9,52,3,2,0,66
+PP16,Baltimore City,rep,Republican Delegates,07,Thomas E. Pinkston Harris,REP,0,0,13,26,1,0,3,43
+PP16,Baltimore City,rep,Republican Delegates,07,Kathleen Imhoff,REP,0,0,11,52,3,3,0,69
+PP16,Baltimore City,rep,Republican Delegates,07,Robert Imhoff,REP,0,0,8,42,1,2,0,53
+PP16,Baltimore City,rep,Republican Delegates,07,Brian E. Jackson,REP,0,0,11,33,0,0,1,45
+PP16,Baltimore City,rep,Republican Delegates,07,"Matthew G. Mann, Sr.",REP,0,0,26,80,0,6,1,113
+PP16,Baltimore City,rep,Republican Delegates,07,Larry Manross,REP,0,0,12,19,0,0,0,31
+PP16,Baltimore City,rep,Republican Delegates,07,Warren E. Miller,REP,0,0,81,309,3,15,17,425
+PP16,Baltimore City,rep,Republican Delegates,07,Richard A. Mosley,REP,0,0,18,46,1,4,1,70
+PP16,Baltimore City,rep,Republican Delegates,07,Don Murphy,REP,0,0,15,39,0,4,2,60
+PP16,Baltimore City,rep,Republican Delegates,07,Dave Myers,REP,0,0,13,68,6,5,3,95
+PP16,Baltimore City,rep,Republican Delegates,07,Maria B. Pycha,REP,0,0,73,276,3,12,19,383
+PP16,Baltimore City,rep,Republican Delegates,07,Loretta H. Shields,REP,0,0,66,300,13,15,13,407
+PP16,Baltimore City,rep,Republican Delegates,07,Matthew Jacob Smithson,REP,0,0,7,22,1,1,0,31
+PP16,Baltimore City,rep,Republican Delegates,07,Michael John Spade,REP,0,0,3,12,1,2,0,18
+PP16,Baltimore City,rep,Republican Delegates,07,Charlotte Rebecca Symms,REP,0,0,7,27,0,2,0,36
+PP16,Baltimore City,rep,Republican Delegates,07,Nicole Ann Marie Talley,REP,0,0,9,29,0,1,0,39
+PP16,Baltimore City,rep,Republican Delegates,07,Ruth F. Taylor,REP,0,0,27,72,3,5,1,108
+PP16,Baltimore City,rep,Republican Delegates,07,Kasezga Tembo,REP,0,0,6,8,3,0,0,17
+PP16,Baltimore City,rep,Republican Delegates,07,Chancellor Torbit,REP,1,0,85,550,18,16,17,686
+PP16,Baltimore City,rep,Republican Delegates,07,Corrogan R. Vaughn,REP,1,0,89,563,18,18,17,705
+PP16,Baltimore City,rep,Republican Delegates,07,Laura M. Walsh,REP,1,0,82,551,18,16,15,682
+PP16,Baltimore City,rep,Republican Delegates,07,Grace Mundie Wickwire,REP,0,0,7,20,0,1,0,28
+PP16,Baltimore City,rep,Republican Delegates,07,Jennifer Mundie Wickwire,REP,0,0,9,18,0,1,0,28
+PP16,Baltimore City,rep,Republican Delegates,07,Craig Wolf,REP,0,0,13,80,5,6,3,107
+PP16,Baltimore City,rep,Republican Alternates,02,Joseph Arcieri,REP,0,0,7,54,0,0,0,61
+PP16,Baltimore City,rep,Republican Alternates,02,D.  Shannon Crider,REP,0,0,18,183,2,3,4,210
+PP16,Baltimore City,rep,Republican Alternates,02,Joe Fleckenstein,REP,0,0,26,185,2,3,4,220
+PP16,Baltimore City,rep,Republican Alternates,02,James Kane,REP,0,0,7,43,1,0,0,51
+PP16,Baltimore City,rep,Republican Alternates,02,Janice MacGregor,REP,0,0,12,62,1,1,0,76
+PP16,Baltimore City,rep,Republican Alternates,02,Patrick L. McGrady,REP,1,0,27,185,3,4,3,222
+PP16,Baltimore City,rep,Republican Alternates,02,Michael Steven Mckelvey,REP,1,0,25,181,1,4,5,216
+PP16,Baltimore City,rep,Republican Alternates,02,Shalina Murrell-Ford,REP,0,0,18,104,1,4,0,127
+PP16,Baltimore City,rep,Republican Alternates,02,David Serenda,REP,0,0,22,175,1,4,4,206
+PP16,Baltimore City,rep,Republican Alternates,02,Lori Serenda,REP,0,0,14,90,2,1,1,108
+PP16,Baltimore City,rep,Republican Alternates,02,Danny Stephenson,REP,1,0,53,448,2,5,6,514
+PP16,Baltimore City,rep,Republican Alternates,03,Timothy Boston,REP,1,0,184,2006,45,34,17,2286
+PP16,Baltimore City,rep,Republican Alternates,03,E. J. Cavanagh,REP,1,0,153,1660,51,44,36,1944
+PP16,Baltimore City,rep,Republican Alternates,03,Dorothy Cawthorne,REP,0,0,29,282,3,9,2,325
+PP16,Baltimore City,rep,Republican Alternates,03,Michael Eisenberg,REP,0,0,42,374,9,7,1,433
+PP16,Baltimore City,rep,Republican Alternates,03,Elaine M. Furth,REP,0,0,241,909,41,22,17,1230
+PP16,Baltimore City,rep,Republican Alternates,03,Mary P. Gassmann,REP,0,0,26,163,3,2,3,197
+PP16,Baltimore City,rep,Republican Alternates,03,Ruth E. Goetz,REP,0,0,54,122,2,2,1,181
+PP16,Baltimore City,rep,Republican Alternates,03,Rick Hansen,REP,0,0,31,329,5,6,3,374
+PP16,Baltimore City,rep,Republican Alternates,03,Thomas Kelso,REP,0,0,40,403,9,4,5,461
+PP16,Baltimore City,rep,Republican Alternates,03,Marcos A. Lora,REP,0,0,3,45,0,2,2,52
+PP16,Baltimore City,rep,Republican Alternates,03,Mary O'Keeffe,REP,0,0,25,261,7,7,3,303
+PP16,Baltimore City,rep,Republican Alternates,03,Richard D. Paugh,REP,0,0,9,65,0,1,0,75
+PP16,Baltimore City,rep,Republican Alternates,03,Joyce Pope,REP,0,0,30,273,8,6,7,324
+PP16,Baltimore City,rep,Republican Alternates,03,Tony Ristaino,REP,0,0,220,810,37,15,12,1094
+PP16,Baltimore City,rep,Republican Alternates,03,Lisa Abbe Robin Lederman,REP,0,0,229,784,35,20,15,1083
+PP16,Baltimore City,rep,Republican Alternates,03,Jeff Robinson,REP,0,0,18,183,6,4,2,213
+PP16,Baltimore City,rep,Republican Alternates,03,Timothy Sutton,REP,0,0,13,129,2,6,1,151
+PP16,Baltimore City,rep,Republican Alternates,03,Meredith Leigh Thompson,REP,0,0,12,211,2,3,2,230
+PP16,Baltimore City,rep,Republican Alternates,03,Tim Walters,REP,1,0,185,1967,41,36,17,2246
+PP16,Baltimore City,rep,Republican Alternates,03,Chevy Fleischman Weiss,REP,0,0,174,1551,47,42,34,1848
+PP16,Baltimore City,rep,Republican Alternates,07,Michael P. Brady,REP,0,0,47,137,2,5,2,193
+PP16,Baltimore City,rep,Republican Alternates,07,Gary Clark,REP,0,0,35,117,5,5,2,164
+PP16,Baltimore City,rep,Republican Alternates,07,Gary M. Collins,REP,1,0,95,621,21,18,14,769
+PP16,Baltimore City,rep,Republican Alternates,07,Thomas Paul Fuller,REP,0,0,32,74,4,5,1,116
+PP16,Baltimore City,rep,Republican Alternates,07,Bob Gillette,REP,0,0,31,87,7,1,3,129
+PP16,Baltimore City,rep,Republican Alternates,07,R. Bruce Heinz,REP,0,0,60,257,5,12,8,342
+PP16,Baltimore City,rep,Republican Alternates,07,Suzanne Paige Horn,REP,0,0,62,246,6,14,7,335
+PP16,Baltimore City,rep,Republican Alternates,07,Tom Kennedy,REP,1,0,91,388,5,18,18,520
+PP16,Baltimore City,rep,Republican Alternates,07,Marc M. McFaul,REP,1,0,78,339,4,17,17,455
+PP16,Baltimore City,rep,Republican Alternates,07,Gloria B. Murphy,REP,0,0,35,156,7,9,8,215
+PP16,Baltimore City,rep,Republican Alternates,07,William T. Newton,REP,0,0,25,123,3,4,3,158
+PP16,Baltimore City,rep,Republican Alternates,07,Liliana Pulvirenti,REP,0,0,28,70,4,4,3,109
+PP16,Baltimore City,rep,Republican Alternates,07,Scott Allen Selnick,REP,0,0,83,333,6,14,16,452
+PP16,Baltimore City,rep,Republican Alternates,07,Brighid L. Skamarakas,REP,0,0,19,112,6,7,6,150
+PP16,Baltimore City,rep,Republican Alternates,07,Kelly L. Smith,REP,0,0,37,98,3,4,1,143
+PP16,Baltimore City,rep,Republican Alternates,07,Pamela Jill Stocksdale,REP,0,0,52,170,0,8,3,233
+PP16,Baltimore City,rep,Republican Alternates,07,Brent M. Tracy,REP,0,0,23,122,5,7,6,163
+PP16,Baltimore City,rep,Republican Alternates,07,Mary-Jo Wolf,REP,0,0,28,100,6,5,1,140

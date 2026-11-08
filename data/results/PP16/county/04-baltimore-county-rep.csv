@@ -1,0 +1,324 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP16,Baltimore County,rep,President - Vice Pres,"",Jeb Bush,REP,0,0,40,243,18,5,4,310
+PP16,Baltimore County,rep,President - Vice Pres,"",Ben Carson,REP,0,0,94,700,17,17,10,838
+PP16,Baltimore County,rep,President - Vice Pres,"",Chris Christie,REP,0,0,18,163,8,2,0,191
+PP16,Baltimore County,rep,President - Vice Pres,"",Ted Cruz,REP,0,0,1799,8235,361,120,78,10593
+PP16,Baltimore County,rep,President - Vice Pres,"",Carly Fiorina,REP,0,0,18,112,2,1,0,133
+PP16,Baltimore County,rep,President - Vice Pres,"",Mike Huckabee,REP,0,0,17,67,7,1,0,92
+PP16,Baltimore County,rep,President - Vice Pres,"",John R. Kasich,REP,0,0,2325,12150,400,153,160,15188
+PP16,Baltimore County,rep,President - Vice Pres,"",Rand Paul,REP,0,0,23,187,8,4,3,225
+PP16,Baltimore County,rep,President - Vice Pres,"",Marco Rubio,REP,0,0,44,292,12,8,3,359
+PP16,Baltimore County,rep,President - Vice Pres,"",Rick Santorum,REP,0,0,12,53,2,2,1,70
+PP16,Baltimore County,rep,President - Vice Pres,"",Donald J. Trump,REP,1,0,5587,31243,762,469,186,38247
+PP16,Baltimore County,rep,President - Vice Pres,01,Jeb Bush,REP,0,0,7,20,0,0,0,27
+PP16,Baltimore County,rep,President - Vice Pres,01,Ben Carson,REP,0,0,15,80,2,0,1,98
+PP16,Baltimore County,rep,President - Vice Pres,01,Chris Christie,REP,0,0,4,18,1,0,0,23
+PP16,Baltimore County,rep,President - Vice Pres,01,Ted Cruz,REP,0,0,312,1082,30,16,7,1447
+PP16,Baltimore County,rep,President - Vice Pres,01,Carly Fiorina,REP,0,0,1,11,0,0,0,12
+PP16,Baltimore County,rep,President - Vice Pres,01,Mike Huckabee,REP,0,0,2,11,0,1,0,14
+PP16,Baltimore County,rep,President - Vice Pres,01,John R. Kasich,REP,0,0,390,1523,28,24,15,1980
+PP16,Baltimore County,rep,President - Vice Pres,01,Rand Paul,REP,0,0,4,17,0,1,0,22
+PP16,Baltimore County,rep,President - Vice Pres,01,Marco Rubio,REP,0,0,7,40,1,0,0,48
+PP16,Baltimore County,rep,President - Vice Pres,01,Rick Santorum,REP,0,0,3,5,0,1,0,9
+PP16,Baltimore County,rep,President - Vice Pres,01,Donald J. Trump,REP,1,0,1113,4295,68,64,17,5557
+PP16,Baltimore County,rep,President - Vice Pres,02,Jeb Bush,REP,0,0,23,128,8,4,1,164
+PP16,Baltimore County,rep,President - Vice Pres,02,Ben Carson,REP,0,0,43,357,6,8,7,421
+PP16,Baltimore County,rep,President - Vice Pres,02,Chris Christie,REP,0,0,9,92,3,0,0,104
+PP16,Baltimore County,rep,President - Vice Pres,02,Ted Cruz,REP,0,0,719,3682,140,48,31,4620
+PP16,Baltimore County,rep,President - Vice Pres,02,Carly Fiorina,REP,0,0,5,61,2,0,0,68
+PP16,Baltimore County,rep,President - Vice Pres,02,Mike Huckabee,REP,0,0,8,36,3,0,0,47
+PP16,Baltimore County,rep,President - Vice Pres,02,John R. Kasich,REP,0,0,933,4723,170,52,59,5937
+PP16,Baltimore County,rep,President - Vice Pres,02,Rand Paul,REP,0,0,8,91,4,0,1,104
+PP16,Baltimore County,rep,President - Vice Pres,02,Marco Rubio,REP,0,0,17,129,5,4,2,157
+PP16,Baltimore County,rep,President - Vice Pres,02,Rick Santorum,REP,0,0,5,19,2,1,0,27
+PP16,Baltimore County,rep,President - Vice Pres,02,Donald J. Trump,REP,1,0,2640,15464,389,231,65,18789
+PP16,Baltimore County,rep,President - Vice Pres,03,Jeb Bush,REP,0,0,4,41,8,1,0,54
+PP16,Baltimore County,rep,President - Vice Pres,03,Ben Carson,REP,0,0,9,104,6,2,1,122
+PP16,Baltimore County,rep,President - Vice Pres,03,Chris Christie,REP,0,0,3,20,0,2,0,25
+PP16,Baltimore County,rep,President - Vice Pres,03,Ted Cruz,REP,0,0,314,1416,95,16,17,1858
+PP16,Baltimore County,rep,President - Vice Pres,03,Carly Fiorina,REP,0,0,4,11,0,1,0,16
+PP16,Baltimore County,rep,President - Vice Pres,03,Mike Huckabee,REP,0,0,3,9,1,0,0,13
+PP16,Baltimore County,rep,President - Vice Pres,03,John R. Kasich,REP,0,0,393,2287,105,27,30,2842
+PP16,Baltimore County,rep,President - Vice Pres,03,Rand Paul,REP,0,0,4,31,2,1,0,38
+PP16,Baltimore County,rep,President - Vice Pres,03,Marco Rubio,REP,0,0,16,46,4,2,0,68
+PP16,Baltimore County,rep,President - Vice Pres,03,Rick Santorum,REP,0,0,2,9,0,0,0,11
+PP16,Baltimore County,rep,President - Vice Pres,03,Donald J. Trump,REP,1,0,762,4912,151,69,41,5935
+PP16,Baltimore County,rep,President - Vice Pres,07,Jeb Bush,REP,0,0,6,54,2,0,3,65
+PP16,Baltimore County,rep,President - Vice Pres,07,Ben Carson,REP,0,0,27,159,3,7,1,197
+PP16,Baltimore County,rep,President - Vice Pres,07,Chris Christie,REP,0,0,2,33,4,0,0,39
+PP16,Baltimore County,rep,President - Vice Pres,07,Ted Cruz,REP,0,0,454,2055,96,40,23,2668
+PP16,Baltimore County,rep,President - Vice Pres,07,Carly Fiorina,REP,0,0,8,29,0,0,0,37
+PP16,Baltimore County,rep,President - Vice Pres,07,Mike Huckabee,REP,0,0,4,11,3,0,0,18
+PP16,Baltimore County,rep,President - Vice Pres,07,John R. Kasich,REP,0,0,609,3617,97,50,56,4429
+PP16,Baltimore County,rep,President - Vice Pres,07,Rand Paul,REP,0,0,7,48,2,2,2,61
+PP16,Baltimore County,rep,President - Vice Pres,07,Marco Rubio,REP,0,0,4,77,2,2,1,86
+PP16,Baltimore County,rep,President - Vice Pres,07,Rick Santorum,REP,0,0,2,20,0,0,1,23
+PP16,Baltimore County,rep,President - Vice Pres,07,Donald J. Trump,REP,1,0,1072,6572,154,105,63,7966
+PP16,Baltimore County,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,494,2886,130,52,25,3587
+PP16,Baltimore County,rep,U.S. Senator,"",Sean P. Connor,REP,0,0,358,2193,70,44,15,2680
+PP16,Baltimore County,rep,U.S. Senator,"",Richard J. Douglas,REP,0,0,423,2185,99,53,35,2795
+PP16,Baltimore County,rep,U.S. Senator,"",John R. Graziani,REP,0,0,315,1774,57,30,15,2191
+PP16,Baltimore County,rep,U.S. Senator,"",Greg Holmes,REP,0,0,262,1246,43,31,14,1596
+PP16,Baltimore County,rep,U.S. Senator,"",Joseph David Hooe,REP,0,0,340,1648,36,34,12,2070
+PP16,Baltimore County,rep,U.S. Senator,"",Chrys Kefalas,REP,0,0,749,5471,67,64,35,6386
+PP16,Baltimore County,rep,U.S. Senator,"",Mark McNicholas,REP,0,0,182,1353,45,28,5,1613
+PP16,Baltimore County,rep,U.S. Senator,"",Lynn Richardson,REP,0,0,343,1736,70,29,11,2189
+PP16,Baltimore County,rep,U.S. Senator,"",Anthony Seda,REP,0,0,47,295,12,6,5,365
+PP16,Baltimore County,rep,U.S. Senator,"",Richard Shawver,REP,0,0,59,250,7,5,4,325
+PP16,Baltimore County,rep,U.S. Senator,"",Kathy Szeliga,REP,1,0,4752,23587,436,198,149,29122
+PP16,Baltimore County,rep,U.S. Senator,"",Dave Wallace,REP,0,0,390,1966,77,39,21,2493
+PP16,Baltimore County,rep,U.S. Senator,"",Garry Thomas Yarrington,REP,0,0,51,267,10,2,2,332
+PP16,Baltimore County,rep,Rep in Congress,01,"Jonathan Marvin Goff, Jr.",REP,0,0,65,293,2,5,0,365
+PP16,Baltimore County,rep,Rep in Congress,01,Andy Harris,REP,1,0,1540,5427,99,55,29,7150
+PP16,Baltimore County,rep,Rep in Congress,01,Sean M. Jackson,REP,0,0,52,218,1,4,5,280
+PP16,Baltimore County,rep,Rep in Congress,01,"Michael D. Smigiel, Sr.",REP,0,0,117,604,3,2,1,727
+PP16,Baltimore County,rep,Rep in Congress,02,Bill Heine,REP,0,0,238,1475,54,18,12,1797
+PP16,Baltimore County,rep,Rep in Congress,02,"Carl H. Magee, Jr.",REP,0,0,293,2163,53,35,11,2555
+PP16,Baltimore County,rep,Rep in Congress,02,Pat McDonough,REP,1,0,3033,16115,398,156,77,19779
+PP16,Baltimore County,rep,Rep in Congress,02,Yuripzy Morgan,REP,0,0,162,1131,29,18,18,1358
+PP16,Baltimore County,rep,Rep in Congress,02,Mark Gerard Shell,REP,0,0,147,806,27,17,3,1000
+PP16,Baltimore County,rep,Rep in Congress,03,Thomas E. Pinkston Harris,REP,0,0,474,2938,77,29,16,3534
+PP16,Baltimore County,rep,Rep in Congress,03,Mark Plaster,REP,1,0,742,3968,150,35,45,4940
+PP16,Baltimore County,rep,Rep in Congress,07,Ray Bly,REP,0,0,288,1533,40,14,11,1886
+PP16,Baltimore County,rep,Rep in Congress,07,William T. Newton,REP,0,0,684,4029,91,46,36,4886
+PP16,Baltimore County,rep,Rep in Congress,07,Corrogan R. Vaughn,REP,1,0,664,3655,95,39,52,4505
+PP16,Baltimore County,rep,Judge of the Circuit Court,03,Kathleen G. Cox,REP,1,0,6704,34844,924,400,250,43122
+PP16,Baltimore County,rep,Judge of the Circuit Court,03,Keith R. Truffer,REP,1,0,6150,31125,839,344,236,38694
+PP16,Baltimore County,rep,Republican Delegates,01,Matthew F. Adams,REP,0,0,4,22,0,0,0,26
+PP16,Baltimore County,rep,Republican Delegates,01,"Carl Anderton, Jr.",REP,0,0,3,19,0,0,0,22
+PP16,Baltimore County,rep,Republican Delegates,01,Richard L. Andrews,REP,0,0,4,22,1,0,0,27
+PP16,Baltimore County,rep,Republican Delegates,01,Steven James Arentz,REP,0,0,256,936,28,5,7,1232
+PP16,Baltimore County,rep,Republican Delegates,01,"Michael Lee Arntz, Sr.",REP,0,0,2,7,0,0,0,9
+PP16,Baltimore County,rep,Republican Delegates,01,Sharon Beam,REP,0,0,4,27,1,1,1,34
+PP16,Baltimore County,rep,Republican Delegates,01,Helen Anita Bennett,REP,0,0,63,311,2,4,1,381
+PP16,Baltimore County,rep,Republican Delegates,01,Jessica Blake,REP,0,0,9,22,1,1,0,33
+PP16,Baltimore County,rep,Republican Delegates,01,Muir W. Boda,REP,0,0,1,8,0,0,0,9
+PP16,Baltimore County,rep,Republican Delegates,01,Denise Anne Bode,REP,0,0,12,55,0,0,0,67
+PP16,Baltimore County,rep,Republican Delegates,01,Julie D. Brewington,REP,0,0,242,905,28,6,7,1188
+PP16,Baltimore County,rep,Republican Delegates,01,Bob Cassilly,REP,0,0,22,52,1,0,0,75
+PP16,Baltimore County,rep,Republican Delegates,01,Jan Marie Christensen,REP,0,0,6,15,0,1,0,22
+PP16,Baltimore County,rep,Republican Delegates,01,John Cluster,REP,0,0,68,247,1,1,1,318
+PP16,Baltimore County,rep,Republican Delegates,01,"Eugene S. Craig, III",REP,0,0,6,11,0,0,0,17
+PP16,Baltimore County,rep,Republican Delegates,01,Barry Donadio,REP,0,0,7,39,0,0,0,46
+PP16,Baltimore County,rep,Republican Delegates,01,"James T. Dresher, Jr.",REP,0,0,30,95,2,1,1,129
+PP16,Baltimore County,rep,Republican Delegates,01,Ad Duer,REP,0,0,2,20,0,0,0,22
+PP16,Baltimore County,rep,Republican Delegates,01,Mike Euler,REP,0,0,6,17,0,0,0,23
+PP16,Baltimore County,rep,Republican Delegates,01,Donald C. Frazier,REP,0,0,3,20,0,0,1,24
+PP16,Baltimore County,rep,Republican Delegates,01,Jeff Ghrist,REP,0,0,244,906,30,4,7,1191
+PP16,Baltimore County,rep,Republican Delegates,01,Travis Gold,REP,0,0,3,8,0,0,0,11
+PP16,Baltimore County,rep,Republican Delegates,01,Wendy Joanne Grubbs,REP,0,0,15,36,0,0,0,51
+PP16,Baltimore County,rep,Republican Delegates,01,Jeannie Haddaway-Riccio,REP,0,0,16,50,2,0,1,69
+PP16,Baltimore County,rep,Republican Delegates,01,Bill Harris,REP,0,0,19,44,0,1,2,66
+PP16,Baltimore County,rep,Republican Delegates,01,Grant Helvey,REP,1,0,928,3557,54,37,10,4586
+PP16,Baltimore County,rep,Republican Delegates,01,Wendy L. Hershey,REP,0,0,15,69,1,1,0,86
+PP16,Baltimore County,rep,Republican Delegates,01,"Robert Bobby Holmes, III",REP,0,0,7,19,0,0,0,26
+PP16,Baltimore County,rep,Republican Delegates,01,Luke Kaczmarek,REP,0,0,0,16,0,0,0,16
+PP16,Baltimore County,rep,Republican Delegates,01,Susan Karsner,REP,0,0,57,226,2,4,1,290
+PP16,Baltimore County,rep,Republican Delegates,01,Lynn Ann Lang,REP,0,0,51,170,1,3,1,226
+PP16,Baltimore County,rep,Republican Delegates,01,Bonnie N. Luna,REP,0,0,0,18,0,0,1,19
+PP16,Baltimore County,rep,Republican Delegates,01,Michael Marchi,REP,1,0,934,3520,56,36,13,4559
+PP16,Baltimore County,rep,Republican Delegates,01,David Marks,REP,0,0,151,391,3,4,3,552
+PP16,Baltimore County,rep,Republican Delegates,01,Johnny Mautz,REP,0,0,5,8,0,0,0,13
+PP16,Baltimore County,rep,Republican Delegates,01,Susan K. McComas,REP,0,0,19,86,1,1,0,107
+PP16,Baltimore County,rep,Republican Delegates,01,Thomas McCormick,REP,0,0,5,48,0,1,0,54
+PP16,Baltimore County,rep,Republican Delegates,01,Mark G. McIver,REP,0,0,3,9,0,0,0,12
+PP16,Baltimore County,rep,Republican Delegates,01,Wayne Norman,REP,0,0,10,31,1,0,0,42
+PP16,Baltimore County,rep,Republican Delegates,01,Cynthia P. Orem,REP,0,0,5,29,0,0,0,34
+PP16,Baltimore County,rep,Republican Delegates,01,"Bob Phillips, Jr.",REP,0,0,1,6,0,0,0,7
+PP16,Baltimore County,rep,Republican Delegates,01,Justin Ready,REP,0,0,16,95,0,1,1,113
+PP16,Baltimore County,rep,Republican Delegates,01,David Reel,REP,0,0,1,3,0,0,0,4
+PP16,Baltimore County,rep,Republican Delegates,01,"Morris G. Richardson, Jr.",REP,0,0,6,40,2,1,1,50
+PP16,Baltimore County,rep,Republican Delegates,01,Erik Robey,REP,0,0,311,1182,26,13,12,1544
+PP16,Baltimore County,rep,Republican Delegates,01,Michael J. Roseberry,REP,0,0,3,7,1,0,0,11
+PP16,Baltimore County,rep,Republican Delegates,01,Christopher Shays,REP,0,0,311,1167,25,10,11,1524
+PP16,Baltimore County,rep,Republican Delegates,01,Joe Sliwka,REP,1,0,975,3592,57,38,13,4675
+PP16,Baltimore County,rep,Republican Delegates,01,"Michael D. Smigiel, Sr.",REP,0,0,21,80,0,0,0,101
+PP16,Baltimore County,rep,Republican Delegates,01,Richard Sossi,REP,0,0,2,12,0,1,0,15
+PP16,Baltimore County,rep,Republican Delegates,01,Ann Brittingham Suthowski,REP,0,0,5,31,0,2,0,38
+PP16,Baltimore County,rep,Republican Delegates,01,Nadine M. Whelan,REP,0,0,3,11,0,1,0,15
+PP16,Baltimore County,rep,Republican Delegates,01,Todd T. Williams,REP,0,0,4,13,0,0,0,17
+PP16,Baltimore County,rep,Republican Delegates,01,Craig S. Willis,REP,0,0,3,12,0,0,0,15
+PP16,Baltimore County,rep,Republican Delegates,01,Robert Wayne Willoughby,REP,0,0,283,1121,25,11,12,1452
+PP16,Baltimore County,rep,Republican Delegates,01,Joe Woods,REP,0,0,10,30,0,0,0,40
+PP16,Baltimore County,rep,Republican Delegates,02,Ana T. Blair,REP,0,0,169,1360,22,17,13,1581
+PP16,Baltimore County,rep,Republican Delegates,02,"Joseph C. Boteler, III",REP,0,0,221,944,33,6,7,1211
+PP16,Baltimore County,rep,Republican Delegates,02,Antonio Campbell,REP,0,0,180,1215,29,10,10,1444
+PP16,Baltimore County,rep,Republican Delegates,02,J. Michael Collins,REP,1,0,2373,13682,332,169,55,16611
+PP16,Baltimore County,rep,Republican Delegates,02,Steve Dishon,REP,0,0,678,3614,127,35,28,4482
+PP16,Baltimore County,rep,Republican Delegates,02,"John C. Fiastro, Jr.",REP,0,0,672,3431,119,32,26,4280
+PP16,Baltimore County,rep,Republican Delegates,02,Fred Fleischmann,REP,0,0,174,1134,25,12,12,1357
+PP16,Baltimore County,rep,Republican Delegates,02,Glen Glass,REP,0,0,652,3202,112,35,26,4027
+PP16,Baltimore County,rep,Republican Delegates,02,Robin Grammer,REP,0,0,179,974,18,8,10,1189
+PP16,Baltimore County,rep,Republican Delegates,02,Julianne Grim,REP,0,0,105,542,21,11,3,682
+PP16,Baltimore County,rep,Republican Delegates,02,Christina Louise Harris,REP,0,0,89,488,12,5,3,597
+PP16,Baltimore County,rep,Republican Delegates,02,"Thomas A. Harris, Jr.",REP,0,0,64,361,9,4,1,439
+PP16,Baltimore County,rep,Republican Delegates,02,William Hicklen,REP,0,0,50,251,9,8,4,322
+PP16,Baltimore County,rep,Republican Delegates,02,Dee Hodges,REP,0,0,146,576,19,3,4,748
+PP16,Baltimore County,rep,Republican Delegates,02,Charlene Kurland,REP,0,0,58,356,9,3,1,427
+PP16,Baltimore County,rep,Republican Delegates,02,William F. Martin,REP,0,0,65,353,13,3,2,436
+PP16,Baltimore County,rep,Republican Delegates,02,Brian J. Noon,REP,1,0,2251,12559,329,149,54,15342
+PP16,Baltimore County,rep,Republican Delegates,02,Patrick O'Keefe,REP,0,0,164,1017,26,14,11,1232
+PP16,Baltimore County,rep,Republican Delegates,02,Greg Ottensmeyer,REP,1,0,2139,11923,319,138,54,14573
+PP16,Baltimore County,rep,Republican Delegates,02,Christopher W. Pate,REP,0,0,43,237,8,5,1,294
+PP16,Baltimore County,rep,Republican Delegates,02,"Jerome C. Payne, Jr.",REP,0,0,59,318,10,3,2,392
+PP16,Baltimore County,rep,Republican Delegates,02,Tim Robinson,REP,0,0,102,593,28,9,6,738
+PP16,Baltimore County,rep,Republican Delegates,02,J.D. Russell,REP,0,0,761,3910,125,36,46,4878
+PP16,Baltimore County,rep,Republican Delegates,02,"Louis A. Sarkes, Jr.",REP,0,0,41,173,2,3,1,220
+PP16,Baltimore County,rep,Republican Delegates,02,Mitch Shank,REP,0,0,42,231,6,3,3,285
+PP16,Baltimore County,rep,Republican Delegates,02,Kathleen A. Smero,REP,0,0,93,545,10,9,3,660
+PP16,Baltimore County,rep,Republican Delegates,02,"Byron G. Tosi, III",REP,0,0,33,222,5,1,2,263
+PP16,Baltimore County,rep,Republican Delegates,02,Jeanne L. Turnock,REP,0,0,132,517,16,2,6,673
+PP16,Baltimore County,rep,Republican Delegates,02,Joshua Wolf,REP,0,0,112,618,13,6,5,754
+PP16,Baltimore County,rep,Republican Delegates,03,"J. Lee Annis, Jr.",REP,0,0,233,1453,57,11,20,1774
+PP16,Baltimore County,rep,Republican Delegates,03,E. Chiké Anyanwu,REP,0,0,3,31,1,0,3,38
+PP16,Baltimore County,rep,Republican Delegates,03,Diane M. Baker,REP,0,0,30,133,4,1,0,168
+PP16,Baltimore County,rep,Republican Delegates,03,William H. Campbell,REP,0,0,262,1247,84,10,12,1615
+PP16,Baltimore County,rep,Republican Delegates,03,"Joe Collins, Jr.",REP,1,0,664,4092,123,43,39,4961
+PP16,Baltimore County,rep,Republican Delegates,03,Mike Collins,REP,0,0,308,1695,76,14,22,2115
+PP16,Baltimore County,rep,Republican Delegates,03,Janet Moye Cornick,REP,0,0,5,48,0,1,1,55
+PP16,Baltimore County,rep,Republican Delegates,03,Julie E. Cram,REP,0,0,6,73,10,1,0,90
+PP16,Baltimore County,rep,Republican Delegates,03,Leonard Cutler,REP,0,0,33,262,7,1,1,304
+PP16,Baltimore County,rep,Republican Delegates,03,Jean C. Edwards,REP,0,0,5,37,2,0,1,45
+PP16,Baltimore County,rep,Republican Delegates,03,Jamie Falcon,REP,0,0,5,59,8,0,0,72
+PP16,Baltimore County,rep,Republican Delegates,03,Gail Elizabeth Filerino,REP,0,0,5,39,0,0,0,44
+PP16,Baltimore County,rep,Republican Delegates,03,Greg Fox,REP,0,0,6,40,2,0,0,48
+PP16,Baltimore County,rep,Republican Delegates,03,David J. Frankel,REP,0,0,10,87,5,0,2,104
+PP16,Baltimore County,rep,Republican Delegates,03,Tom Gardner,REP,0,0,311,1744,77,17,24,2173
+PP16,Baltimore County,rep,Republican Delegates,03,John C. Gordon,REP,0,0,3,42,0,0,0,45
+PP16,Baltimore County,rep,Republican Delegates,03,Nathan Hall,REP,0,0,0,30,1,1,0,32
+PP16,Baltimore County,rep,Republican Delegates,03,Melanie Harris,REP,0,0,270,1245,80,11,11,1617
+PP16,Baltimore County,rep,Republican Delegates,03,Joseph David Hooe,REP,0,0,26,118,3,0,1,148
+PP16,Baltimore County,rep,Republican Delegates,03,Jonah Jarosz,REP,0,0,9,36,0,0,1,46
+PP16,Baltimore County,rep,Republican Delegates,03,Henry S. Kim,REP,0,0,6,15,3,0,0,24
+PP16,Baltimore County,rep,Republican Delegates,03,Dick Ladd,REP,0,0,29,231,5,2,3,270
+PP16,Baltimore County,rep,Republican Delegates,03,James David Lashar,REP,0,0,0,9,0,0,0,9
+PP16,Baltimore County,rep,Republican Delegates,03,Herb McMillan,REP,0,0,25,98,4,0,1,128
+PP16,Baltimore County,rep,Republican Delegates,03,Townsend Lange McNitt,REP,0,0,1,11,1,0,0,13
+PP16,Baltimore County,rep,Republican Delegates,03,Christian Miele,REP,0,0,36,170,4,0,2,212
+PP16,Baltimore County,rep,Republican Delegates,03,Candice A. Morrison,REP,0,0,4,29,1,1,0,35
+PP16,Baltimore County,rep,Republican Delegates,03,Laura Neuman,REP,0,0,32,125,5,0,1,163
+PP16,Baltimore County,rep,Republican Delegates,03,Eugenia Korsak Ordynsky,REP,0,0,0,20,1,0,0,21
+PP16,Baltimore County,rep,Republican Delegates,03,Tracey Paliath,REP,0,0,15,75,0,1,0,91
+PP16,Baltimore County,rep,Republican Delegates,03,Christopher Panasuk,REP,0,0,3,9,1,0,0,13
+PP16,Baltimore County,rep,Republican Delegates,03,Peter Pollak,REP,0,0,3,55,1,1,0,60
+PP16,Baltimore County,rep,Republican Delegates,03,Lewis Porter,REP,0,0,4,17,2,0,0,23
+PP16,Baltimore County,rep,Republican Delegates,03,Mattie Procaccini,REP,0,0,241,1125,81,8,12,1467
+PP16,Baltimore County,rep,Republican Delegates,03,Rick Saffery,REP,0,0,1,19,0,0,0,20
+PP16,Baltimore County,rep,Republican Delegates,03,Brian A. Sailer,REP,0,0,9,36,5,1,0,51
+PP16,Baltimore County,rep,Republican Delegates,03,Susan Carroll Schwab,REP,0,0,14,77,4,0,0,95
+PP16,Baltimore County,rep,Republican Delegates,03,Scott Shaffer,REP,0,0,4,45,4,0,0,53
+PP16,Baltimore County,rep,Republican Delegates,03,Duane E. Shelton,REP,0,0,165,1021,34,11,13,1244
+PP16,Baltimore County,rep,Republican Delegates,03,Justin Shuy,REP,0,0,3,16,0,0,0,19
+PP16,Baltimore County,rep,Republican Delegates,03,Jonathan Erich Stitzinger,REP,0,0,2,12,0,0,0,14
+PP16,Baltimore County,rep,Republican Delegates,03,Nigel James Sutton,REP,0,0,2,9,0,0,0,11
+PP16,Baltimore County,rep,Republican Delegates,03,Mary Beth Tung,REP,0,0,18,99,2,2,0,121
+PP16,Baltimore County,rep,Republican Delegates,03,Shannon Wright,REP,1,0,683,4134,123,40,37,5017
+PP16,Baltimore County,rep,Republican Delegates,03,Chris Yates,REP,1,0,681,4141,119,41,37,5019
+PP16,Baltimore County,rep,Republican Delegates,03,Sally Marie Yates,REP,0,0,12,58,2,0,0,72
+PP16,Baltimore County,rep,Republican Delegates,03,Mark Young,REP,0,0,39,301,6,2,2,350
+PP16,Baltimore County,rep,Republican Delegates,07,David Glenn Albert,REP,0,0,27,149,4,3,3,186
+PP16,Baltimore County,rep,Republican Delegates,07,Katie Albert,REP,0,0,70,328,6,6,3,413
+PP16,Baltimore County,rep,Republican Delegates,07,"William Sam Broaddus, III",REP,0,0,22,112,2,1,0,137
+PP16,Baltimore County,rep,Republican Delegates,07,Chris Cavey,REP,0,0,92,688,14,7,5,806
+PP16,Baltimore County,rep,Republican Delegates,07,"Victor Clark, Jr.",REP,0,0,20,94,5,0,1,120
+PP16,Baltimore County,rep,Republican Delegates,07,Tamu Ifetayo Davenport,REP,0,0,93,470,9,5,2,579
+PP16,Baltimore County,rep,Republican Delegates,07,Judith A. De Libera,REP,0,0,28,134,3,2,1,168
+PP16,Baltimore County,rep,Republican Delegates,07,Dave Dobbs,REP,0,0,434,2104,76,24,20,2658
+PP16,Baltimore County,rep,Republican Delegates,07,Jonathan Edwin Dryja,REP,0,0,8,51,5,1,2,67
+PP16,Baltimore County,rep,Republican Delegates,07,Elizabeth Marsh Eaton,REP,0,0,58,313,5,2,5,383
+PP16,Baltimore County,rep,Republican Delegates,07,"George C. Eaton , III",REP,0,0,27,144,3,2,2,178
+PP16,Baltimore County,rep,Republican Delegates,07,Bob Flanagan,REP,0,0,75,561,23,6,7,672
+PP16,Baltimore County,rep,Republican Delegates,07,Susan Forrester,REP,0,0,58,327,14,2,4,405
+PP16,Baltimore County,rep,Republican Delegates,07,Thomas E. Pinkston Harris,REP,0,0,16,111,1,0,2,130
+PP16,Baltimore County,rep,Republican Delegates,07,Kathleen Imhoff,REP,0,0,70,414,13,5,7,509
+PP16,Baltimore County,rep,Republican Delegates,07,Robert Imhoff,REP,0,0,50,361,9,3,5,428
+PP16,Baltimore County,rep,Republican Delegates,07,Brian E. Jackson,REP,0,0,26,137,5,1,1,170
+PP16,Baltimore County,rep,Republican Delegates,07,"Matthew G. Mann, Sr.",REP,0,0,108,624,12,5,6,755
+PP16,Baltimore County,rep,Republican Delegates,07,Larry Manross,REP,0,0,15,120,6,1,1,143
+PP16,Baltimore County,rep,Republican Delegates,07,Warren E. Miller,REP,0,0,438,2033,76,22,22,2591
+PP16,Baltimore County,rep,Republican Delegates,07,Richard A. Mosley,REP,0,0,28,252,7,2,2,291
+PP16,Baltimore County,rep,Republican Delegates,07,Don Murphy,REP,0,0,63,296,7,3,3,372
+PP16,Baltimore County,rep,Republican Delegates,07,Dave Myers,REP,0,0,62,477,14,3,8,564
+PP16,Baltimore County,rep,Republican Delegates,07,Maria B. Pycha,REP,0,0,393,1798,68,22,22,2303
+PP16,Baltimore County,rep,Republican Delegates,07,Loretta H. Shields,REP,0,0,498,2875,79,25,45,3522
+PP16,Baltimore County,rep,Republican Delegates,07,Matthew Jacob Smithson,REP,0,0,11,143,7,1,0,162
+PP16,Baltimore County,rep,Republican Delegates,07,Michael John Spade,REP,0,0,16,80,1,2,3,102
+PP16,Baltimore County,rep,Republican Delegates,07,Charlotte Rebecca Symms,REP,0,0,31,163,9,1,2,206
+PP16,Baltimore County,rep,Republican Delegates,07,Nicole Ann Marie Talley,REP,0,0,26,125,3,4,3,161
+PP16,Baltimore County,rep,Republican Delegates,07,Ruth F. Taylor,REP,0,0,111,566,8,9,5,699
+PP16,Baltimore County,rep,Republican Delegates,07,Kasezga Tembo,REP,0,0,14,60,2,1,2,79
+PP16,Baltimore County,rep,Republican Delegates,07,Chancellor Torbit,REP,1,0,925,5415,118,52,43,6553
+PP16,Baltimore County,rep,Republican Delegates,07,Corrogan R. Vaughn,REP,1,0,972,5790,122,59,48,6991
+PP16,Baltimore County,rep,Republican Delegates,07,Laura M. Walsh,REP,1,0,962,5702,119,61,49,6893
+PP16,Baltimore County,rep,Republican Delegates,07,Grace Mundie Wickwire,REP,0,0,34,121,6,1,1,163
+PP16,Baltimore County,rep,Republican Delegates,07,Jennifer Mundie Wickwire,REP,0,0,28,142,5,2,0,177
+PP16,Baltimore County,rep,Republican Delegates,07,Craig Wolf,REP,0,0,63,426,13,4,10,516
+PP16,Baltimore County,rep,Republican Alternates,01,Arlette Kelly Bright,REP,0,0,102,441,4,6,0,553
+PP16,Baltimore County,rep,Republican Alternates,01,David L. Catrino,REP,0,0,41,148,2,0,0,191
+PP16,Baltimore County,rep,Republican Alternates,01,Michael W. Dawson,REP,0,0,75,321,4,4,3,407
+PP16,Baltimore County,rep,Republican Alternates,01,Christopher Brian Gannon,REP,0,0,42,132,1,0,2,177
+PP16,Baltimore County,rep,Republican Alternates,01,Dona Goeller,REP,1,0,971,3669,52,38,12,4742
+PP16,Baltimore County,rep,Republican Alternates,01,"Stephen S. Hershey, Jr.",REP,0,0,54,229,3,1,0,287
+PP16,Baltimore County,rep,Republican Alternates,01,Kevin Bailey Hornberger,REP,0,0,75,264,5,3,4,351
+PP16,Baltimore County,rep,Republican Alternates,01,J. B. Jennings,REP,0,0,129,400,6,3,2,540
+PP16,Baltimore County,rep,Republican Alternates,01,David Scott Lazarus,REP,0,0,298,1108,28,8,7,1449
+PP16,Baltimore County,rep,Republican Alternates,01,Claude T. Lewis,REP,1,0,950,3548,53,37,11,4599
+PP16,Baltimore County,rep,Republican Alternates,01,Denise Kuchta Lovelady,REP,1,0,969,3608,55,38,13,4683
+PP16,Baltimore County,rep,Republican Alternates,01,Laurie Mullinx Luellen,REP,0,0,114,394,4,7,0,519
+PP16,Baltimore County,rep,Republican Alternates,01,Emma Middleton,REP,0,0,288,1078,29,7,7,1409
+PP16,Baltimore County,rep,Republican Alternates,01,Mark Novak,REP,0,0,54,226,0,1,1,282
+PP16,Baltimore County,rep,Republican Alternates,01,James Reilly,REP,0,0,42,157,0,0,0,199
+PP16,Baltimore County,rep,Republican Alternates,01,Haven Shoemaker,REP,0,0,70,290,5,5,3,373
+PP16,Baltimore County,rep,Republican Alternates,01,Chad R. Shrodes,REP,0,0,20,93,2,0,2,117
+PP16,Baltimore County,rep,Republican Alternates,01,Angela Sudano-Marcellino,REP,0,0,47,162,1,2,2,214
+PP16,Baltimore County,rep,Republican Alternates,01,Ummu Bradley Thomas,REP,0,0,69,269,3,4,1,346
+PP16,Baltimore County,rep,Republican Alternates,01,Christina Trotta,REP,0,0,307,1096,29,8,9,1449
+PP16,Baltimore County,rep,Republican Alternates,02,Joseph Arcieri,REP,0,0,268,1594,50,16,13,1941
+PP16,Baltimore County,rep,Republican Alternates,02,D.  Shannon Crider,REP,0,0,922,4919,121,53,27,6042
+PP16,Baltimore County,rep,Republican Alternates,02,Joe Fleckenstein,REP,0,0,820,4365,145,43,33,5406
+PP16,Baltimore County,rep,Republican Alternates,02,James Kane,REP,0,0,282,1705,47,16,17,2067
+PP16,Baltimore County,rep,Republican Alternates,02,Janice MacGregor,REP,0,0,365,2035,65,14,19,2498
+PP16,Baltimore County,rep,Republican Alternates,02,Patrick L. McGrady,REP,1,0,856,4694,151,54,32,5787
+PP16,Baltimore County,rep,Republican Alternates,02,Michael Steven Mckelvey,REP,1,0,1082,5651,126,56,33,6948
+PP16,Baltimore County,rep,Republican Alternates,02,Shalina Murrell-Ford,REP,0,0,524,3028,62,35,19,3668
+PP16,Baltimore County,rep,Republican Alternates,02,David Serenda,REP,0,0,766,4115,136,44,32,5093
+PP16,Baltimore County,rep,Republican Alternates,02,Lori Serenda,REP,0,0,448,2341,61,17,14,2881
+PP16,Baltimore County,rep,Republican Alternates,02,Danny Stephenson,REP,1,0,2457,14082,333,170,58,17100
+PP16,Baltimore County,rep,Republican Alternates,03,Timothy Boston,REP,1,0,699,4336,118,45,35,5233
+PP16,Baltimore County,rep,Republican Alternates,03,E. J. Cavanagh,REP,1,0,390,2207,96,19,30,2742
+PP16,Baltimore County,rep,Republican Alternates,03,Dorothy Cawthorne,REP,0,0,103,588,15,4,5,715
+PP16,Baltimore County,rep,Republican Alternates,03,Michael Eisenberg,REP,0,0,116,713,23,3,3,858
+PP16,Baltimore County,rep,Republican Alternates,03,Elaine M. Furth,REP,0,0,277,1365,93,10,13,1758
+PP16,Baltimore County,rep,Republican Alternates,03,Mary P. Gassmann,REP,0,0,35,187,6,2,2,232
+PP16,Baltimore County,rep,Republican Alternates,03,Ruth E. Goetz,REP,0,0,47,257,8,1,7,320
+PP16,Baltimore County,rep,Republican Alternates,03,Rick Hansen,REP,0,0,100,657,20,3,3,783
+PP16,Baltimore County,rep,Republican Alternates,03,Thomas Kelso,REP,0,0,112,637,15,8,2,774
+PP16,Baltimore County,rep,Republican Alternates,03,Marcos A. Lora,REP,0,0,4,54,4,0,1,63
+PP16,Baltimore County,rep,Republican Alternates,03,Mary O'Keeffe,REP,0,0,70,362,8,3,1,444
+PP16,Baltimore County,rep,Republican Alternates,03,Richard D. Paugh,REP,0,0,21,93,3,2,0,119
+PP16,Baltimore County,rep,Republican Alternates,03,Joyce Pope,REP,0,0,57,293,15,2,4,371
+PP16,Baltimore County,rep,Republican Alternates,03,Tony Ristaino,REP,0,0,264,1261,82,11,10,1628
+PP16,Baltimore County,rep,Republican Alternates,03,Lisa Abbe Robin Lederman,REP,0,0,256,1227,87,11,11,1592
+PP16,Baltimore County,rep,Republican Alternates,03,Jeff Robinson,REP,0,0,27,176,5,2,3,213
+PP16,Baltimore County,rep,Republican Alternates,03,Timothy Sutton,REP,0,0,35,195,7,1,2,240
+PP16,Baltimore County,rep,Republican Alternates,03,Meredith Leigh Thompson,REP,0,0,38,214,4,1,2,259
+PP16,Baltimore County,rep,Republican Alternates,03,Tim Walters,REP,1,0,699,4338,118,41,36,5232
+PP16,Baltimore County,rep,Republican Alternates,03,Chevy Fleischman Weiss,REP,0,0,360,2014,93,17,22,2506
+PP16,Baltimore County,rep,Republican Alternates,07,Michael P. Brady,REP,0,0,148,722,14,8,6,898
+PP16,Baltimore County,rep,Republican Alternates,07,Gary Clark,REP,0,0,114,628,10,10,11,773
+PP16,Baltimore County,rep,Republican Alternates,07,Gary M. Collins,REP,1,0,1012,6095,132,67,55,7361
+PP16,Baltimore County,rep,Republican Alternates,07,Thomas Paul Fuller,REP,0,0,85,451,6,6,5,553
+PP16,Baltimore County,rep,Republican Alternates,07,Bob Gillette,REP,0,0,98,548,8,8,5,667
+PP16,Baltimore County,rep,Republican Alternates,07,R. Bruce Heinz,REP,0,0,434,2476,49,27,25,3011
+PP16,Baltimore County,rep,Republican Alternates,07,Suzanne Paige Horn,REP,0,0,425,2446,55,29,27,2982
+PP16,Baltimore County,rep,Republican Alternates,07,Tom Kennedy,REP,1,0,502,2436,81,32,31,3082
+PP16,Baltimore County,rep,Republican Alternates,07,Marc M. McFaul,REP,1,0,470,2276,76,28,30,2880
+PP16,Baltimore County,rep,Republican Alternates,07,Gloria B. Murphy,REP,0,0,159,1018,35,9,19,1240
+PP16,Baltimore County,rep,Republican Alternates,07,William T. Newton,REP,0,0,143,737,16,8,6,910
+PP16,Baltimore County,rep,Republican Alternates,07,Liliana Pulvirenti,REP,0,0,88,399,13,3,7,510
+PP16,Baltimore County,rep,Republican Alternates,07,Scott Allen Selnick,REP,0,0,456,2154,78,19,21,2728
+PP16,Baltimore County,rep,Republican Alternates,07,Brighid L. Skamarakas,REP,0,0,111,727,26,7,12,883
+PP16,Baltimore County,rep,Republican Alternates,07,Kelly L. Smith,REP,0,0,155,611,18,7,8,799
+PP16,Baltimore County,rep,Republican Alternates,07,Pamela Jill Stocksdale,REP,0,0,317,1756,42,13,11,2139
+PP16,Baltimore County,rep,Republican Alternates,07,Brent M. Tracy,REP,0,0,115,857,29,7,13,1021
+PP16,Baltimore County,rep,Republican Alternates,07,Mary-Jo Wolf,REP,0,0,170,681,14,3,10,878

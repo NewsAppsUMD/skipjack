@@ -1,0 +1,174 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP16,Harford,rep,President - Vice Pres,"",Jeb Bush,REP,0,0,16,126,10,1,0,153
+PP16,Harford,rep,President - Vice Pres,"",Ben Carson,REP,0,0,62,449,7,5,2,525
+PP16,Harford,rep,President - Vice Pres,"",Chris Christie,REP,0,0,12,79,2,1,0,94
+PP16,Harford,rep,President - Vice Pres,"",Ted Cruz,REP,0,0,1075,4599,124,35,54,5887
+PP16,Harford,rep,President - Vice Pres,"",Carly Fiorina,REP,0,0,14,52,1,0,0,67
+PP16,Harford,rep,President - Vice Pres,"",Mike Huckabee,REP,0,0,7,51,1,0,0,59
+PP16,Harford,rep,President - Vice Pres,"",John R. Kasich,REP,0,0,1256,5757,98,37,39,7187
+PP16,Harford,rep,President - Vice Pres,"",Rand Paul,REP,0,0,14,103,1,0,1,119
+PP16,Harford,rep,President - Vice Pres,"",Marco Rubio,REP,0,0,27,172,6,3,2,210
+PP16,Harford,rep,President - Vice Pres,"",Rick Santorum,REP,0,0,6,19,0,1,0,26
+PP16,Harford,rep,President - Vice Pres,"",Donald J. Trump,REP,1,0,3807,17964,323,182,100,22376
+PP16,Harford,rep,President - Vice Pres,01,Jeb Bush,REP,0,0,11,78,8,1,0,98
+PP16,Harford,rep,President - Vice Pres,01,Ben Carson,REP,0,0,46,327,5,3,1,382
+PP16,Harford,rep,President - Vice Pres,01,Chris Christie,REP,0,0,10,52,1,0,0,63
+PP16,Harford,rep,President - Vice Pres,01,Ted Cruz,REP,0,0,821,3545,94,26,46,4532
+PP16,Harford,rep,President - Vice Pres,01,Carly Fiorina,REP,0,0,12,34,0,0,0,46
+PP16,Harford,rep,President - Vice Pres,01,Mike Huckabee,REP,0,0,5,39,0,0,0,44
+PP16,Harford,rep,President - Vice Pres,01,John R. Kasich,REP,0,0,1046,4646,82,26,30,5830
+PP16,Harford,rep,President - Vice Pres,01,Rand Paul,REP,0,0,11,81,0,0,1,93
+PP16,Harford,rep,President - Vice Pres,01,Marco Rubio,REP,0,0,19,133,6,1,2,161
+PP16,Harford,rep,President - Vice Pres,01,Rick Santorum,REP,0,0,4,14,0,1,0,19
+PP16,Harford,rep,President - Vice Pres,01,Donald J. Trump,REP,1,0,3029,13942,242,124,70,17407
+PP16,Harford,rep,President - Vice Pres,02,Jeb Bush,REP,0,0,5,48,2,0,0,55
+PP16,Harford,rep,President - Vice Pres,02,Ben Carson,REP,0,0,16,122,2,2,1,143
+PP16,Harford,rep,President - Vice Pres,02,Chris Christie,REP,0,0,2,27,1,1,0,31
+PP16,Harford,rep,President - Vice Pres,02,Ted Cruz,REP,0,0,254,1054,30,9,8,1355
+PP16,Harford,rep,President - Vice Pres,02,Carly Fiorina,REP,0,0,2,18,1,0,0,21
+PP16,Harford,rep,President - Vice Pres,02,Mike Huckabee,REP,0,0,2,12,1,0,0,15
+PP16,Harford,rep,President - Vice Pres,02,John R. Kasich,REP,0,0,210,1111,16,11,9,1357
+PP16,Harford,rep,President - Vice Pres,02,Rand Paul,REP,0,0,3,22,1,0,0,26
+PP16,Harford,rep,President - Vice Pres,02,Marco Rubio,REP,0,0,8,39,0,2,0,49
+PP16,Harford,rep,President - Vice Pres,02,Rick Santorum,REP,0,0,2,5,0,0,0,7
+PP16,Harford,rep,President - Vice Pres,02,Donald J. Trump,REP,1,0,778,4022,81,58,30,4969
+PP16,Harford,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,303,1478,36,16,8,1841
+PP16,Harford,rep,U.S. Senator,"",Sean P. Connor,REP,0,0,202,1085,20,17,5,1329
+PP16,Harford,rep,U.S. Senator,"",Richard J. Douglas,REP,0,0,226,1123,44,17,12,1422
+PP16,Harford,rep,U.S. Senator,"",John R. Graziani,REP,0,0,215,1042,26,9,4,1296
+PP16,Harford,rep,U.S. Senator,"",Greg Holmes,REP,0,0,145,753,17,12,8,935
+PP16,Harford,rep,U.S. Senator,"",Joseph David Hooe,REP,0,0,58,248,13,1,5,325
+PP16,Harford,rep,U.S. Senator,"",Chrys Kefalas,REP,0,0,500,2531,23,25,13,3092
+PP16,Harford,rep,U.S. Senator,"",Mark McNicholas,REP,0,0,174,997,14,8,3,1196
+PP16,Harford,rep,U.S. Senator,"",Lynn Richardson,REP,0,0,219,984,33,15,1,1252
+PP16,Harford,rep,U.S. Senator,"",Anthony Seda,REP,0,0,45,307,5,3,1,361
+PP16,Harford,rep,U.S. Senator,"",Richard Shawver,REP,0,0,26,136,3,2,1,168
+PP16,Harford,rep,U.S. Senator,"",Kathy Szeliga,REP,1,0,3140,13946,183,73,80,17422
+PP16,Harford,rep,U.S. Senator,"",Dave Wallace,REP,0,0,227,940,18,6,11,1202
+PP16,Harford,rep,U.S. Senator,"",Garry Thomas Yarrington,REP,0,0,36,220,4,4,1,265
+PP16,Harford,rep,Rep in Congress,01,"Jonathan Marvin Goff, Jr.",REP,0,0,306,1861,25,19,3,2214
+PP16,Harford,rep,Rep in Congress,01,Andy Harris,REP,1,0,3876,16773,321,108,118,21196
+PP16,Harford,rep,Rep in Congress,01,Sean M. Jackson,REP,0,0,231,951,27,14,4,1227
+PP16,Harford,rep,Rep in Congress,01,"Michael D. Smigiel, Sr.",REP,0,0,287,1769,23,10,7,2096
+PP16,Harford,rep,Rep in Congress,02,Bill Heine,REP,0,0,79,457,12,3,0,551
+PP16,Harford,rep,Rep in Congress,02,"Carl H. Magee, Jr.",REP,0,0,106,594,12,8,4,724
+PP16,Harford,rep,Rep in Congress,02,Pat McDonough,REP,1,0,807,3973,69,33,25,4907
+PP16,Harford,rep,Rep in Congress,02,Yuripzy Morgan,REP,0,0,54,351,7,1,4,417
+PP16,Harford,rep,Rep in Congress,02,Mark Gerard Shell,REP,0,0,54,223,4,0,2,283
+PP16,Harford,rep,Judge of the Circuit Court,03,Kevin J. Mahoney,REP,1,0,4390,20847,359,174,115,25885
+PP16,Harford,rep,Republican Delegates,01,Matthew F. Adams,REP,0,0,7,83,3,1,0,94
+PP16,Harford,rep,Republican Delegates,01,"Carl Anderton, Jr.",REP,0,0,8,33,2,1,0,44
+PP16,Harford,rep,Republican Delegates,01,Richard L. Andrews,REP,0,0,14,68,1,0,0,83
+PP16,Harford,rep,Republican Delegates,01,Steven James Arentz,REP,0,0,597,2728,72,18,33,3448
+PP16,Harford,rep,Republican Delegates,01,"Michael Lee Arntz, Sr.",REP,0,0,3,17,1,2,0,23
+PP16,Harford,rep,Republican Delegates,01,Sharon Beam,REP,0,0,74,262,4,0,0,340
+PP16,Harford,rep,Republican Delegates,01,Helen Anita Bennett,REP,0,0,171,1242,16,9,7,1445
+PP16,Harford,rep,Republican Delegates,01,Jessica Blake,REP,0,0,27,107,5,0,0,139
+PP16,Harford,rep,Republican Delegates,01,Muir W. Boda,REP,0,0,2,12,0,0,0,14
+PP16,Harford,rep,Republican Delegates,01,Denise Anne Bode,REP,0,0,39,189,7,0,2,237
+PP16,Harford,rep,Republican Delegates,01,Julie D. Brewington,REP,0,0,612,2644,70,19,30,3375
+PP16,Harford,rep,Republican Delegates,01,Bob Cassilly,REP,0,0,446,1721,26,12,10,2215
+PP16,Harford,rep,Republican Delegates,01,Jan Marie Christensen,REP,0,0,23,99,7,0,0,129
+PP16,Harford,rep,Republican Delegates,01,John Cluster,REP,0,0,69,297,7,0,1,374
+PP16,Harford,rep,Republican Delegates,01,"Eugene S. Craig, III",REP,0,0,15,84,0,0,1,100
+PP16,Harford,rep,Republican Delegates,01,Barry Donadio,REP,0,0,27,115,2,1,0,145
+PP16,Harford,rep,Republican Delegates,01,"James T. Dresher, Jr.",REP,0,0,122,584,7,4,3,720
+PP16,Harford,rep,Republican Delegates,01,Ad Duer,REP,0,0,7,39,1,0,0,47
+PP16,Harford,rep,Republican Delegates,01,Mike Euler,REP,0,0,41,223,3,0,3,270
+PP16,Harford,rep,Republican Delegates,01,Donald C. Frazier,REP,0,0,6,66,1,2,0,75
+PP16,Harford,rep,Republican Delegates,01,Jeff Ghrist,REP,0,0,607,2698,71,15,31,3422
+PP16,Harford,rep,Republican Delegates,01,Travis Gold,REP,0,0,9,30,0,1,0,40
+PP16,Harford,rep,Republican Delegates,01,Wendy Joanne Grubbs,REP,0,0,25,157,3,1,0,186
+PP16,Harford,rep,Republican Delegates,01,Jeannie Haddaway-Riccio,REP,0,0,43,166,2,1,0,212
+PP16,Harford,rep,Republican Delegates,01,Bill Harris,REP,0,0,41,217,4,0,0,262
+PP16,Harford,rep,Republican Delegates,01,Grant Helvey,REP,1,0,2319,10743,201,88,53,13404
+PP16,Harford,rep,Republican Delegates,01,Wendy L. Hershey,REP,0,0,48,193,2,2,0,245
+PP16,Harford,rep,Republican Delegates,01,"Robert Bobby Holmes, III",REP,0,0,10,71,1,0,0,82
+PP16,Harford,rep,Republican Delegates,01,Luke Kaczmarek,REP,0,0,34,76,2,1,3,116
+PP16,Harford,rep,Republican Delegates,01,Susan Karsner,REP,0,0,123,903,10,6,5,1047
+PP16,Harford,rep,Republican Delegates,01,Lynn Ann Lang,REP,0,0,108,709,8,3,2,830
+PP16,Harford,rep,Republican Delegates,01,Bonnie N. Luna,REP,0,0,9,75,0,0,0,84
+PP16,Harford,rep,Republican Delegates,01,Michael Marchi,REP,1,0,2305,10688,202,87,48,13330
+PP16,Harford,rep,Republican Delegates,01,David Marks,REP,0,0,68,357,7,2,2,436
+PP16,Harford,rep,Republican Delegates,01,Johnny Mautz,REP,0,0,2,10,3,0,0,15
+PP16,Harford,rep,Republican Delegates,01,Susan K. McComas,REP,0,0,389,1460,32,9,14,1904
+PP16,Harford,rep,Republican Delegates,01,Thomas McCormick,REP,0,0,17,158,4,1,1,181
+PP16,Harford,rep,Republican Delegates,01,Mark G. McIver,REP,0,0,1,11,0,0,0,12
+PP16,Harford,rep,Republican Delegates,01,Wayne Norman,REP,0,0,270,1049,14,8,7,1348
+PP16,Harford,rep,Republican Delegates,01,Cynthia P. Orem,REP,0,0,14,91,5,2,1,113
+PP16,Harford,rep,Republican Delegates,01,"Bob Phillips, Jr.",REP,0,0,10,42,0,0,0,52
+PP16,Harford,rep,Republican Delegates,01,Justin Ready,REP,0,0,46,226,8,2,3,285
+PP16,Harford,rep,Republican Delegates,01,David Reel,REP,0,0,2,12,0,1,0,15
+PP16,Harford,rep,Republican Delegates,01,"Morris G. Richardson, Jr.",REP,0,0,25,128,0,1,0,154
+PP16,Harford,rep,Republican Delegates,01,Erik Robey,REP,0,0,756,3229,61,20,26,4092
+PP16,Harford,rep,Republican Delegates,01,Michael J. Roseberry,REP,0,0,7,46,0,1,0,54
+PP16,Harford,rep,Republican Delegates,01,Christopher Shays,REP,0,0,748,3172,61,19,25,4025
+PP16,Harford,rep,Republican Delegates,01,Joe Sliwka,REP,1,0,2394,11004,204,90,55,13747
+PP16,Harford,rep,Republican Delegates,01,"Michael D. Smigiel, Sr.",REP,0,0,57,320,3,1,1,382
+PP16,Harford,rep,Republican Delegates,01,Richard Sossi,REP,0,0,13,28,1,0,0,42
+PP16,Harford,rep,Republican Delegates,01,Ann Brittingham Suthowski,REP,0,0,15,65,0,0,0,80
+PP16,Harford,rep,Republican Delegates,01,Nadine M. Whelan,REP,0,0,10,31,1,0,0,42
+PP16,Harford,rep,Republican Delegates,01,Todd T. Williams,REP,0,0,11,43,0,1,0,55
+PP16,Harford,rep,Republican Delegates,01,Craig S. Willis,REP,0,0,11,44,0,0,0,55
+PP16,Harford,rep,Republican Delegates,01,Robert Wayne Willoughby,REP,0,0,686,2979,58,16,24,3763
+PP16,Harford,rep,Republican Delegates,01,Joe Woods,REP,0,0,125,431,3,1,5,565
+PP16,Harford,rep,Republican Delegates,02,Ana T. Blair,REP,0,0,66,406,7,6,3,488
+PP16,Harford,rep,Republican Delegates,02,"Joseph C. Boteler, III",REP,0,0,20,113,0,1,0,134
+PP16,Harford,rep,Republican Delegates,02,Antonio Campbell,REP,0,0,44,356,5,3,1,409
+PP16,Harford,rep,Republican Delegates,02,J. Michael Collins,REP,1,0,651,3453,63,32,25,4224
+PP16,Harford,rep,Republican Delegates,02,Steve Dishon,REP,0,0,224,969,26,12,5,1236
+PP16,Harford,rep,Republican Delegates,02,"John C. Fiastro, Jr.",REP,0,0,216,904,24,9,4,1157
+PP16,Harford,rep,Republican Delegates,02,Fred Fleischmann,REP,0,0,43,326,10,6,1,386
+PP16,Harford,rep,Republican Delegates,02,Glen Glass,REP,0,0,331,1515,36,14,7,1903
+PP16,Harford,rep,Republican Delegates,02,Robin Grammer,REP,0,0,29,134,3,1,1,168
+PP16,Harford,rep,Republican Delegates,02,Julianne Grim,REP,0,0,23,145,5,2,0,175
+PP16,Harford,rep,Republican Delegates,02,Christina Louise Harris,REP,0,0,28,108,2,2,2,142
+PP16,Harford,rep,Republican Delegates,02,"Thomas A. Harris, Jr.",REP,0,0,15,96,3,0,1,115
+PP16,Harford,rep,Republican Delegates,02,William Hicklen,REP,0,0,8,74,3,0,0,85
+PP16,Harford,rep,Republican Delegates,02,Dee Hodges,REP,0,0,26,141,4,1,1,173
+PP16,Harford,rep,Republican Delegates,02,Charlene Kurland,REP,0,0,8,97,5,1,1,112
+PP16,Harford,rep,Republican Delegates,02,William F. Martin,REP,0,0,24,120,1,0,0,145
+PP16,Harford,rep,Republican Delegates,02,Brian J. Noon,REP,1,0,628,3183,65,27,22,3925
+PP16,Harford,rep,Republican Delegates,02,Patrick O'Keefe,REP,0,0,52,248,4,4,0,308
+PP16,Harford,rep,Republican Delegates,02,Greg Ottensmeyer,REP,1,0,606,3019,60,24,24,3733
+PP16,Harford,rep,Republican Delegates,02,Christopher W. Pate,REP,0,0,13,88,2,0,0,103
+PP16,Harford,rep,Republican Delegates,02,"Jerome C. Payne, Jr.",REP,0,0,22,71,0,0,1,94
+PP16,Harford,rep,Republican Delegates,02,Tim Robinson,REP,0,0,30,104,4,1,0,139
+PP16,Harford,rep,Republican Delegates,02,J.D. Russell,REP,0,0,186,924,15,11,6,1142
+PP16,Harford,rep,Republican Delegates,02,"Louis A. Sarkes, Jr.",REP,0,0,7,25,0,1,1,34
+PP16,Harford,rep,Republican Delegates,02,Mitch Shank,REP,0,0,40,169,5,0,4,218
+PP16,Harford,rep,Republican Delegates,02,Kathleen A. Smero,REP,0,0,21,126,1,4,2,154
+PP16,Harford,rep,Republican Delegates,02,"Byron G. Tosi, III",REP,0,0,12,49,2,1,2,66
+PP16,Harford,rep,Republican Delegates,02,Jeanne L. Turnock,REP,0,0,28,120,1,1,2,152
+PP16,Harford,rep,Republican Delegates,02,Joshua Wolf,REP,0,0,29,133,0,1,2,165
+PP16,Harford,rep,Republican Alternates,01,Arlette Kelly Bright,REP,0,0,263,1597,19,10,5,1894
+PP16,Harford,rep,Republican Alternates,01,David L. Catrino,REP,0,0,103,409,9,4,1,526
+PP16,Harford,rep,Republican Alternates,01,Michael W. Dawson,REP,0,0,169,880,24,3,11,1087
+PP16,Harford,rep,Republican Alternates,01,Christopher Brian Gannon,REP,0,0,103,387,6,2,4,502
+PP16,Harford,rep,Republican Alternates,01,Dona Goeller,REP,1,0,2471,11374,210,98,56,14209
+PP16,Harford,rep,Republican Alternates,01,"Stephen S. Hershey, Jr.",REP,0,0,120,620,7,4,1,752
+PP16,Harford,rep,Republican Alternates,01,Kevin Bailey Hornberger,REP,0,0,155,715,20,3,11,904
+PP16,Harford,rep,Republican Alternates,01,J. B. Jennings,REP,0,0,332,1297,25,8,7,1669
+PP16,Harford,rep,Republican Alternates,01,David Scott Lazarus,REP,0,0,715,3207,78,21,33,4054
+PP16,Harford,rep,Republican Alternates,01,Claude T. Lewis,REP,1,0,2377,10845,203,89,54,13568
+PP16,Harford,rep,Republican Alternates,01,Denise Kuchta Lovelady,REP,1,0,2375,10923,205,87,53,13643
+PP16,Harford,rep,Republican Alternates,01,Laurie Mullinx Luellen,REP,0,0,245,1365,16,10,9,1645
+PP16,Harford,rep,Republican Alternates,01,Emma Middleton,REP,0,0,689,3098,79,18,33,3917
+PP16,Harford,rep,Republican Alternates,01,Mark Novak,REP,0,0,151,768,9,4,3,935
+PP16,Harford,rep,Republican Alternates,01,James Reilly,REP,0,0,453,1559,26,11,5,2054
+PP16,Harford,rep,Republican Alternates,01,Haven Shoemaker,REP,0,0,154,691,17,2,10,874
+PP16,Harford,rep,Republican Alternates,01,Chad R. Shrodes,REP,0,0,482,1850,24,10,10,2376
+PP16,Harford,rep,Republican Alternates,01,Angela Sudano-Marcellino,REP,0,0,85,396,7,0,2,490
+PP16,Harford,rep,Republican Alternates,01,Ummu Bradley Thomas,REP,0,0,169,960,9,6,5,1149
+PP16,Harford,rep,Republican Alternates,01,Christina Trotta,REP,0,0,716,3279,78,20,33,4126
+PP16,Harford,rep,Republican Alternates,02,Joseph Arcieri,REP,0,0,80,351,5,4,4,444
+PP16,Harford,rep,Republican Alternates,02,D.  Shannon Crider,REP,0,0,244,1294,30,19,11,1598
+PP16,Harford,rep,Republican Alternates,02,Joe Fleckenstein,REP,0,0,284,1246,29,13,7,1579
+PP16,Harford,rep,Republican Alternates,02,James Kane,REP,0,0,84,373,6,3,1,467
+PP16,Harford,rep,Republican Alternates,02,Janice MacGregor,REP,0,0,107,465,9,4,3,588
+PP16,Harford,rep,Republican Alternates,02,Patrick L. McGrady,REP,1,0,333,1545,33,18,10,1939
+PP16,Harford,rep,Republican Alternates,02,Michael Steven Mckelvey,REP,1,0,276,1503,38,15,11,1843
+PP16,Harford,rep,Republican Alternates,02,Shalina Murrell-Ford,REP,0,0,141,819,18,7,7,992
+PP16,Harford,rep,Republican Alternates,02,David Serenda,REP,0,0,258,1115,27,12,6,1418
+PP16,Harford,rep,Republican Alternates,02,Lori Serenda,REP,0,0,120,590,6,4,3,723
+PP16,Harford,rep,Republican Alternates,02,Danny Stephenson,REP,1,0,698,3650,70,33,27,4478

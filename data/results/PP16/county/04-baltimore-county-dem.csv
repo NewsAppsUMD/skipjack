@@ -1,0 +1,116 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP16,Baltimore County,dem,President - Vice Pres,"",Hillary Clinton,DEM,1,0,19845,53648,1943,1108,508,77052
+PP16,Baltimore County,dem,President - Vice Pres,"",Roque Rocky De La Fuente,DEM,0,0,159,760,21,4,4,948
+PP16,Baltimore County,dem,President - Vice Pres,"",Bernie Sanders,DEM,0,0,8650,38440,1400,1495,656,50641
+PP16,Baltimore County,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,1047,4616,216,50,42,5971
+PP16,Baltimore County,dem,President - Vice Pres,01,Hillary Clinton,DEM,1,0,927,2316,78,65,21,3407
+PP16,Baltimore County,dem,President - Vice Pres,01,Roque Rocky De La Fuente,DEM,0,0,18,87,2,0,0,107
+PP16,Baltimore County,dem,President - Vice Pres,01,Bernie Sanders,DEM,0,0,745,2474,112,93,64,3488
+PP16,Baltimore County,dem,President - Vice Pres,01,Uncommitted To Any Presidential Candidate,DEM,0,0,109,313,14,4,1,441
+PP16,Baltimore County,dem,President - Vice Pres,02,Hillary Clinton,DEM,1,0,9663,26332,857,574,210,37636
+PP16,Baltimore County,dem,President - Vice Pres,02,Roque Rocky De La Fuente,DEM,0,0,69,394,11,2,1,477
+PP16,Baltimore County,dem,President - Vice Pres,02,Bernie Sanders,DEM,0,0,4109,19575,617,798,272,25371
+PP16,Baltimore County,dem,President - Vice Pres,02,Uncommitted To Any Presidential Candidate,DEM,0,0,492,2419,84,27,19,3041
+PP16,Baltimore County,dem,President - Vice Pres,03,Hillary Clinton,DEM,1,0,2822,9818,565,171,125,13501
+PP16,Baltimore County,dem,President - Vice Pres,03,Roque Rocky De La Fuente,DEM,0,0,35,144,5,2,1,187
+PP16,Baltimore County,dem,President - Vice Pres,03,Bernie Sanders,DEM,0,0,1449,6755,320,206,133,8863
+PP16,Baltimore County,dem,President - Vice Pres,03,Uncommitted To Any Presidential Candidate,DEM,0,0,254,1065,78,16,13,1426
+PP16,Baltimore County,dem,President - Vice Pres,07,Hillary Clinton,DEM,1,0,6433,15182,443,298,152,22508
+PP16,Baltimore County,dem,President - Vice Pres,07,Roque Rocky De La Fuente,DEM,0,0,37,135,3,0,2,177
+PP16,Baltimore County,dem,President - Vice Pres,07,Bernie Sanders,DEM,0,0,2347,9636,351,398,187,12919
+PP16,Baltimore County,dem,President - Vice Pres,07,Uncommitted To Any Presidential Candidate,DEM,0,0,192,819,40,3,9,1063
+PP16,Baltimore County,dem,U.S. Senator,"","Freddie Donald Dickson, Jr.",DEM,0,0,255,1708,60,96,21,2140
+PP16,Baltimore County,dem,U.S. Senator,"",Donna F. Edwards,DEM,0,0,11452,33603,1083,1159,410,47707
+PP16,Baltimore County,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,168,912,65,28,14,1187
+PP16,Baltimore County,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,267,1689,30,75,15,2076
+PP16,Baltimore County,dem,U.S. Senator,"",Charles U. Smith,DEM,0,0,130,753,29,40,12,964
+PP16,Baltimore County,dem,U.S. Senator,"",Violet Staley,DEM,0,0,158,1075,41,59,24,1357
+PP16,Baltimore County,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,183,775,27,32,7,1024
+PP16,Baltimore County,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,44,300,10,4,4,362
+PP16,Baltimore County,dem,U.S. Senator,"",Chris Van Hollen,DEM,1,0,16270,52667,1928,841,543,72249
+PP16,Baltimore County,dem,U.S. Senator,"",Lih Young,DEM,0,0,205,933,33,55,19,1245
+PP16,Baltimore County,dem,Rep in Congress,01,Jim Ireton,DEM,0,0,525,1328,86,24,46,2009
+PP16,Baltimore County,dem,Rep in Congress,01,Joe Werner,DEM,1,0,877,2648,57,47,14,3643
+PP16,Baltimore County,dem,Rep in Congress,02,C. A. Dutch Ruppersberger,DEM,1,0,12864,41700,1259,807,390,57020
+PP16,Baltimore County,dem,Rep in Congress,03,John Rea,DEM,0,0,422,2226,78,48,16,2790
+PP16,Baltimore County,dem,Rep in Congress,03,John Sarbanes,DEM,1,0,3973,14543,815,182,207,19720
+PP16,Baltimore County,dem,Rep in Congress,07,Elijah Cummings,DEM,1,0,8148,22286,672,383,278,31767
+PP16,Baltimore County,dem,Rep in Congress,07,Adrian Petrus,DEM,0,0,690,2706,80,55,33,3564
+PP16,Baltimore County,dem,Judge of the Circuit Court,03,Kathleen G. Cox,DEM,1,0,23832,75643,2466,1518,799,104258
+PP16,Baltimore County,dem,Judge of the Circuit Court,03,Keith R. Truffer,DEM,1,0,20069,59212,2147,979,691,83098
+PP16,Baltimore County,dem,Female Delegates,01,Cheryl Everman,DEM,1,0,856,2144,64,32,23,3119
+PP16,Baltimore County,dem,Female Delegates,01,Lesley Israel,DEM,0,0,819,1988,63,28,22,2920
+PP16,Baltimore County,dem,Female Delegates,01,Amanda L. Jackson,DEM,1,0,740,2389,99,46,56,3330
+PP16,Baltimore County,dem,Female Delegates,01,Deborah A. Nissley,DEM,0,0,705,2232,100,46,54,3137
+PP16,Baltimore County,dem,Female Delegates,01,Kelly Straub,DEM,0,0,728,2344,98,42,55,3267
+PP16,Baltimore County,dem,Female Delegates,01,Betty Weller,DEM,1,0,853,2034,67,31,22,3007
+PP16,Baltimore County,dem,Female Delegates,02,Vicki L. Almond,DEM,1,0,9006,23643,780,385,186,34000
+PP16,Baltimore County,dem,Female Delegates,02,Cathy Bevins,DEM,1,0,8692,23847,768,395,178,33880
+PP16,Baltimore County,dem,Female Delegates,02,Linda Dorsey-Walker,DEM,1,0,4320,18367,589,475,230,23981
+PP16,Baltimore County,dem,Female Delegates,02,Marietta A. English,DEM,0,0,8167,20576,712,328,173,29956
+PP16,Baltimore County,dem,Female Delegates,02,Cheryl D. Glenn,DEM,1,0,3965,16890,560,422,234,22071
+PP16,Baltimore County,dem,Female Delegates,02,Megan Ann Mioduszewski,DEM,0,0,1068,5039,132,49,25,6313
+PP16,Baltimore County,dem,Female Delegates,02,Feyisanmi Oluyemisi Ojo,DEM,0,0,3381,14969,507,383,213,19453
+PP16,Baltimore County,dem,Female Delegates,02,Shyrone R. Ridley,DEM,0,0,3502,15442,523,383,215,20065
+PP16,Baltimore County,dem,Female Delegates,02,Nichelle Danette Schoultz,DEM,0,0,7761,20030,683,318,168,28960
+PP16,Baltimore County,dem,Female Delegates,03,Lee Finney,DEM,1,0,2477,8037,474,95,100,11183
+PP16,Baltimore County,dem,Female Delegates,03,Barbara Friedland,DEM,1,0,1530,6553,341,101,127,8652
+PP16,Baltimore County,dem,Female Delegates,03,Shelly Hettleman,DEM,1,0,2728,8985,531,109,118,12471
+PP16,Baltimore County,dem,Female Delegates,03,Mirah Derora Ippolito,DEM,0,0,1291,5392,281,85,116,7165
+PP16,Baltimore County,dem,Female Delegates,03,Brooke Elizabeth Lierman,DEM,0,0,2493,7980,480,96,99,11148
+PP16,Baltimore County,dem,Female Delegates,03,Cheryl Ann Menke,DEM,0,0,470,2029,97,27,18,2641
+PP16,Baltimore County,dem,Female Delegates,03,Donna S. Plamondon,DEM,0,0,1237,5294,269,86,115,7001
+PP16,Baltimore County,dem,Female Delegates,03,Joan Taylor,DEM,1,0,1325,5617,281,98,116,7437
+PP16,Baltimore County,dem,Female Delegates,03,Lynn Morrison Venetoulis,DEM,0,0,2524,8090,469,90,103,11276
+PP16,Baltimore County,dem,Female Delegates,07,Karenthia A. Barber,DEM,1,0,5621,12550,369,176,119,18835
+PP16,Baltimore County,dem,Female Delegates,07,Lisa M. Brown,DEM,1,0,5919,13517,385,179,135,20135
+PP16,Baltimore County,dem,Female Delegates,07,Kathleen M. Bustraan,DEM,0,0,5184,11410,355,143,119,17211
+PP16,Baltimore County,dem,Female Delegates,07,Belinda K. Conaway,DEM,0,0,1041,2882,80,37,30,4070
+PP16,Baltimore County,dem,Female Delegates,07,Valerie L. Cunningham,DEM,0,0,612,2186,54,26,17,2895
+PP16,Baltimore County,dem,Female Delegates,07,Maysa Elsheikh,DEM,1,0,2003,7866,285,195,147,10496
+PP16,Baltimore County,dem,Female Delegates,07,Sharon Ann Fackler-Berkowitz,DEM,0,0,1904,7513,280,167,149,10013
+PP16,Baltimore County,dem,Female Delegates,07,Laurie Feinberg,DEM,0,0,347,1334,38,7,14,1740
+PP16,Baltimore County,dem,Female Delegates,07,Drue Nixon,DEM,0,0,1937,7605,283,170,140,10135
+PP16,Baltimore County,dem,Female Delegates,07,Karen D. Queen,DEM,0,0,362,1310,32,5,14,1723
+PP16,Baltimore County,dem,Female Delegates,07,Pauline Kibby Rada,DEM,0,0,1934,7528,281,173,142,10058
+PP16,Baltimore County,dem,Female Delegates,07,Maya Rockeymoore,DEM,0,0,280,1032,28,12,13,1365
+PP16,Baltimore County,dem,Female Delegates,07,Courtney Watson,DEM,1,0,5338,11842,367,142,116,17805
+PP16,Baltimore County,dem,Male Delegates,01,Daniel Bland,DEM,0,0,660,2115,88,40,56,2959
+PP16,Baltimore County,dem,Male Delegates,01,Connor Callahan,DEM,1,0,680,2196,99,41,56,3072
+PP16,Baltimore County,dem,Male Delegates,01,Mike Comeau,DEM,0,0,197,568,25,8,13,811
+PP16,Baltimore County,dem,Male Delegates,01,Ernie Grecco,DEM,0,0,805,1998,53,31,19,2906
+PP16,Baltimore County,dem,Male Delegates,01,Michael L. Pullen,DEM,1,0,674,2123,92,38,43,2970
+PP16,Baltimore County,dem,Male Delegates,01,Donald J. Sydnor,DEM,0,0,784,1899,57,34,19,2793
+PP16,Baltimore County,dem,Male Delegates,01,Tishan Weerasooriya,DEM,0,0,134,408,17,4,1,564
+PP16,Baltimore County,dem,Male Delegates,01,William L. Welsh,DEM,1,0,814,1954,57,31,19,2875
+PP16,Baltimore County,dem,Male Delegates,02,Frank Blatt,DEM,1,0,3748,16633,550,435,226,21592
+PP16,Baltimore County,dem,Male Delegates,02,Michael Wayne Brookins,DEM,0,0,895,3933,95,49,17,4989
+PP16,Baltimore County,dem,Male Delegates,02,Benjamin Brooks,DEM,1,0,8797,22875,725,399,173,32969
+PP16,Baltimore County,dem,Male Delegates,02,Peter N. Dimitriades,DEM,0,0,844,4089,106,40,20,5099
+PP16,Baltimore County,dem,Male Delegates,02,Dion F. Guthrie,DEM,0,0,8032,20455,688,322,158,29655
+PP16,Baltimore County,dem,Male Delegates,02,Stephen Lafferty,DEM,1,0,8198,21384,713,330,167,30792
+PP16,Baltimore County,dem,Male Delegates,02,Jason G. Robertson,DEM,0,0,3744,16388,542,423,223,21320
+PP16,Baltimore County,dem,Male Delegates,02,Jim L. Robinson,DEM,0,0,3543,15372,529,376,213,20033
+PP16,Baltimore County,dem,Male Delegates,03,Guy Guzzone,DEM,1,0,2430,7763,456,88,104,10841
+PP16,Baltimore County,dem,Male Delegates,03,Noel Levy,DEM,0,0,608,2495,126,26,23,3278
+PP16,Baltimore County,dem,Male Delegates,03,Al Liebeskind,DEM,0,0,1311,5620,299,89,120,7439
+PP16,Baltimore County,dem,Male Delegates,03,Michael G. Miller,DEM,1,0,2596,8352,487,105,100,11640
+PP16,Baltimore County,dem,Male Delegates,03,Todd Reynolds,DEM,0,0,2438,7672,454,97,98,10759
+PP16,Baltimore County,dem,Male Delegates,03,"C. A. Cory Ruppersberger, IV",DEM,1,0,2627,8392,510,93,101,11723
+PP16,Baltimore County,dem,Male Delegates,03,Keanuu Smith-Brown,DEM,1,0,1291,5631,279,97,120,7418
+PP16,Baltimore County,dem,Male Delegates,03,William Reed White,DEM,0,0,1307,5459,284,95,117,7262
+PP16,Baltimore County,dem,Male Delegates,03,Dean K. Yates,DEM,0,0,1307,5603,288,88,117,7403
+PP16,Baltimore County,dem,Male Delegates,07,John C.M. Angelos,DEM,0,0,588,2376,77,23,23,3087
+PP16,Baltimore County,dem,Male Delegates,07,Calvin Ball,DEM,1,0,5774,13022,372,169,123,19460
+PP16,Baltimore County,dem,Male Delegates,07,Gabe Cazares,DEM,0,0,1921,7727,281,174,155,10258
+PP16,Baltimore County,dem,Male Delegates,07,Paul Gass,DEM,1,0,1951,7756,283,175,150,10315
+PP16,Baltimore County,dem,Male Delegates,07,Dylan Goldberg,DEM,0,0,5222,11467,339,138,119,17285
+PP16,Baltimore County,dem,Male Delegates,07,Julian Earl Jones,DEM,1,0,2301,8275,291,185,156,11208
+PP16,Baltimore County,dem,Male Delegates,07,Paul V. Konka,DEM,0,0,405,1668,50,17,18,2158
+PP16,Baltimore County,dem,Male Delegates,07,"Fred D. Mason, Jr.",DEM,1,0,5328,11652,349,142,119,17590
+PP16,Baltimore County,dem,Male Delegates,07,Kweisi Mfume,DEM,1,0,6264,14335,397,205,133,21334
+PP16,Baltimore County,dem,Male Delegates,07,Merrick Moses Moise,DEM,0,0,5090,10889,338,136,111,16564
+PP16,Baltimore County,dem,Male Delegates,07,James Ward Morrow,DEM,0,0,424,1762,52,15,25,2278
+PP16,Baltimore County,dem,Male Delegates,07,Wesley H. Queen,DEM,0,0,461,1623,53,11,24,2172
+PP16,Baltimore County,dem,Male Delegates,07,Jay Bryan Ring,DEM,0,0,1894,7357,277,161,133,9822
+PP16,Baltimore County,dem,Male Delegates,07,Witold Skwierczynski,DEM,0,0,1756,6798,267,147,139,9107

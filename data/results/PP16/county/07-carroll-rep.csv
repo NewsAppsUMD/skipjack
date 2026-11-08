@@ -1,0 +1,187 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP16,Carroll,rep,President - Vice Pres,"",Jeb Bush,REP,0,0,13,120,10,1,1,145
+PP16,Carroll,rep,President - Vice Pres,"",Ben Carson,REP,0,0,49,442,8,2,2,503
+PP16,Carroll,rep,President - Vice Pres,"",Chris Christie,REP,0,0,6,70,2,0,1,79
+PP16,Carroll,rep,President - Vice Pres,"",Ted Cruz,REP,0,0,679,5177,131,33,40,6060
+PP16,Carroll,rep,President - Vice Pres,"",Carly Fiorina,REP,0,0,10,46,1,0,0,57
+PP16,Carroll,rep,President - Vice Pres,"",Mike Huckabee,REP,0,0,4,29,1,0,0,34
+PP16,Carroll,rep,President - Vice Pres,"",John R. Kasich,REP,0,0,748,5571,107,31,44,6501
+PP16,Carroll,rep,President - Vice Pres,"",Rand Paul,REP,0,0,4,74,2,1,1,82
+PP16,Carroll,rep,President - Vice Pres,"",Marco Rubio,REP,0,0,19,154,2,4,0,179
+PP16,Carroll,rep,President - Vice Pres,"",Rick Santorum,REP,0,0,0,18,1,0,0,19
+PP16,Carroll,rep,President - Vice Pres,"",Donald J. Trump,REP,1,0,1771,14763,226,111,71,16942
+PP16,Carroll,rep,President - Vice Pres,01,Jeb Bush,REP,0,0,4,50,0,0,1,55
+PP16,Carroll,rep,President - Vice Pres,01,Ben Carson,REP,0,0,20,171,3,0,1,195
+PP16,Carroll,rep,President - Vice Pres,01,Chris Christie,REP,0,0,0,25,2,0,0,27
+PP16,Carroll,rep,President - Vice Pres,01,Ted Cruz,REP,0,0,264,2001,49,15,12,2341
+PP16,Carroll,rep,President - Vice Pres,01,Carly Fiorina,REP,0,0,8,16,1,0,0,25
+PP16,Carroll,rep,President - Vice Pres,01,Mike Huckabee,REP,0,0,0,10,0,0,0,10
+PP16,Carroll,rep,President - Vice Pres,01,John R. Kasich,REP,0,0,324,1967,36,9,13,2349
+PP16,Carroll,rep,President - Vice Pres,01,Rand Paul,REP,0,0,4,24,0,0,0,28
+PP16,Carroll,rep,President - Vice Pres,01,Marco Rubio,REP,0,0,11,68,1,1,0,81
+PP16,Carroll,rep,President - Vice Pres,01,Rick Santorum,REP,0,0,0,11,0,0,0,11
+PP16,Carroll,rep,President - Vice Pres,01,Donald J. Trump,REP,1,0,793,6615,84,43,28,7563
+PP16,Carroll,rep,President - Vice Pres,08,Jeb Bush,REP,0,0,9,70,10,1,0,90
+PP16,Carroll,rep,President - Vice Pres,08,Ben Carson,REP,0,0,29,271,5,2,1,308
+PP16,Carroll,rep,President - Vice Pres,08,Chris Christie,REP,0,0,6,45,0,0,1,52
+PP16,Carroll,rep,President - Vice Pres,08,Ted Cruz,REP,0,0,415,3176,82,18,28,3719
+PP16,Carroll,rep,President - Vice Pres,08,Carly Fiorina,REP,0,0,2,30,0,0,0,32
+PP16,Carroll,rep,President - Vice Pres,08,Mike Huckabee,REP,0,0,4,19,1,0,0,24
+PP16,Carroll,rep,President - Vice Pres,08,John R. Kasich,REP,0,0,424,3604,71,22,31,4152
+PP16,Carroll,rep,President - Vice Pres,08,Rand Paul,REP,0,0,0,50,2,1,1,54
+PP16,Carroll,rep,President - Vice Pres,08,Marco Rubio,REP,0,0,8,86,1,3,0,98
+PP16,Carroll,rep,President - Vice Pres,08,Rick Santorum,REP,0,0,0,7,1,0,0,8
+PP16,Carroll,rep,President - Vice Pres,08,Donald J. Trump,REP,1,0,978,8148,142,68,43,9379
+PP16,Carroll,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,156,1404,34,13,15,1622
+PP16,Carroll,rep,U.S. Senator,"",Sean P. Connor,REP,0,0,82,831,9,13,1,936
+PP16,Carroll,rep,U.S. Senator,"",Richard J. Douglas,REP,0,0,129,1172,27,7,14,1349
+PP16,Carroll,rep,U.S. Senator,"",John R. Graziani,REP,0,0,84,671,12,6,2,775
+PP16,Carroll,rep,U.S. Senator,"",Greg Holmes,REP,0,0,80,826,24,10,10,950
+PP16,Carroll,rep,U.S. Senator,"",Joseph David Hooe,REP,0,0,39,311,2,2,3,357
+PP16,Carroll,rep,U.S. Senator,"",Chrys Kefalas,REP,0,0,118,2930,22,22,9,3101
+PP16,Carroll,rep,U.S. Senator,"",Mark McNicholas,REP,0,0,43,427,8,5,5,488
+PP16,Carroll,rep,U.S. Senator,"",Lynn Richardson,REP,0,0,138,966,20,3,4,1131
+PP16,Carroll,rep,U.S. Senator,"",Anthony Seda,REP,0,0,25,149,0,1,1,176
+PP16,Carroll,rep,U.S. Senator,"",Richard Shawver,REP,0,0,32,237,12,3,2,286
+PP16,Carroll,rep,U.S. Senator,"",Kathy Szeliga,REP,1,0,1488,9925,122,44,38,11617
+PP16,Carroll,rep,U.S. Senator,"",Dave Wallace,REP,0,0,325,2322,59,16,15,2737
+PP16,Carroll,rep,U.S. Senator,"",Garry Thomas Yarrington,REP,0,0,18,129,3,3,1,154
+PP16,Carroll,rep,Rep in Congress,01,"Jonathan Marvin Goff, Jr.",REP,0,0,60,563,10,3,3,639
+PP16,Carroll,rep,Rep in Congress,01,Andy Harris,REP,1,0,1043,7380,125,33,31,8612
+PP16,Carroll,rep,Rep in Congress,01,Sean M. Jackson,REP,0,0,54,504,7,7,3,575
+PP16,Carroll,rep,Rep in Congress,01,"Michael D. Smigiel, Sr.",REP,0,0,104,1096,12,10,8,1230
+PP16,Carroll,rep,Rep in Congress,08,Dan Cox,REP,1,0,679,5512,75,30,37,6333
+PP16,Carroll,rep,Rep in Congress,08,Jeffrey W. Jones,REP,0,0,230,2554,37,26,13,2860
+PP16,Carroll,rep,Rep in Congress,08,Liz Matory,REP,0,0,177,1513,30,10,14,1744
+PP16,Carroll,rep,Rep in Congress,08,Aryeh Shudofsky,REP,0,0,60,528,14,2,4,608
+PP16,Carroll,rep,Rep in Congress,08,Shelly Skolnick,REP,0,0,247,1648,32,9,3,1939
+PP16,Carroll,rep,Republican Delegates,01,Matthew F. Adams,REP,0,0,6,34,1,0,0,41
+PP16,Carroll,rep,Republican Delegates,01,"Carl Anderton, Jr.",REP,0,0,1,18,0,0,0,19
+PP16,Carroll,rep,Republican Delegates,01,Richard L. Andrews,REP,0,0,2,36,0,1,0,39
+PP16,Carroll,rep,Republican Delegates,01,Steven James Arentz,REP,0,0,212,1560,39,9,8,1828
+PP16,Carroll,rep,Republican Delegates,01,"Michael Lee Arntz, Sr.",REP,0,0,3,20,1,0,0,24
+PP16,Carroll,rep,Republican Delegates,01,Sharon Beam,REP,0,0,12,62,0,1,0,75
+PP16,Carroll,rep,Republican Delegates,01,Helen Anita Bennett,REP,0,0,49,611,8,5,3,676
+PP16,Carroll,rep,Republican Delegates,01,Jessica Blake,REP,0,0,3,41,0,1,0,45
+PP16,Carroll,rep,Republican Delegates,01,Muir W. Boda,REP,0,0,0,5,0,0,0,5
+PP16,Carroll,rep,Republican Delegates,01,Denise Anne Bode,REP,0,0,5,90,0,1,1,97
+PP16,Carroll,rep,Republican Delegates,01,Julie D. Brewington,REP,0,0,207,1467,36,10,9,1729
+PP16,Carroll,rep,Republican Delegates,01,Bob Cassilly,REP,0,0,2,36,1,0,1,40
+PP16,Carroll,rep,Republican Delegates,01,Jan Marie Christensen,REP,0,0,1,21,0,0,0,22
+PP16,Carroll,rep,Republican Delegates,01,John Cluster,REP,0,0,21,161,2,3,0,187
+PP16,Carroll,rep,Republican Delegates,01,"Eugene S. Craig, III",REP,0,0,5,13,0,0,0,18
+PP16,Carroll,rep,Republican Delegates,01,Barry Donadio,REP,0,0,2,69,1,0,1,73
+PP16,Carroll,rep,Republican Delegates,01,"James T. Dresher, Jr.",REP,0,0,14,109,2,0,0,125
+PP16,Carroll,rep,Republican Delegates,01,Ad Duer,REP,0,0,1,29,0,0,0,30
+PP16,Carroll,rep,Republican Delegates,01,Mike Euler,REP,0,0,2,26,0,0,0,28
+PP16,Carroll,rep,Republican Delegates,01,Donald C. Frazier,REP,0,0,45,277,5,2,3,332
+PP16,Carroll,rep,Republican Delegates,01,Jeff Ghrist,REP,0,0,207,1468,34,11,9,1729
+PP16,Carroll,rep,Republican Delegates,01,Travis Gold,REP,0,0,4,23,0,0,0,27
+PP16,Carroll,rep,Republican Delegates,01,Wendy Joanne Grubbs,REP,0,0,7,76,1,0,0,84
+PP16,Carroll,rep,Republican Delegates,01,Jeannie Haddaway-Riccio,REP,0,0,10,67,4,0,0,81
+PP16,Carroll,rep,Republican Delegates,01,Bill Harris,REP,0,0,13,88,1,0,0,102
+PP16,Carroll,rep,Republican Delegates,01,Grant Helvey,REP,1,0,676,5349,67,30,24,6146
+PP16,Carroll,rep,Republican Delegates,01,Wendy L. Hershey,REP,0,0,10,84,2,0,0,96
+PP16,Carroll,rep,Republican Delegates,01,"Robert Bobby Holmes, III",REP,0,0,1,27,0,0,0,28
+PP16,Carroll,rep,Republican Delegates,01,Luke Kaczmarek,REP,0,0,1,14,0,0,0,15
+PP16,Carroll,rep,Republican Delegates,01,Susan Karsner,REP,0,0,48,474,5,1,2,530
+PP16,Carroll,rep,Republican Delegates,01,Lynn Ann Lang,REP,0,0,33,382,4,1,2,422
+PP16,Carroll,rep,Republican Delegates,01,Bonnie N. Luna,REP,0,0,2,26,0,0,0,28
+PP16,Carroll,rep,Republican Delegates,01,Michael Marchi,REP,1,0,671,5285,66,28,23,6073
+PP16,Carroll,rep,Republican Delegates,01,David Marks,REP,0,0,23,180,2,3,2,210
+PP16,Carroll,rep,Republican Delegates,01,Johnny Mautz,REP,0,0,0,10,1,0,0,11
+PP16,Carroll,rep,Republican Delegates,01,Susan K. McComas,REP,0,0,7,89,0,1,0,97
+PP16,Carroll,rep,Republican Delegates,01,Thomas McCormick,REP,0,0,10,86,0,0,1,97
+PP16,Carroll,rep,Republican Delegates,01,Mark G. McIver,REP,0,0,2,15,0,0,0,17
+PP16,Carroll,rep,Republican Delegates,01,Wayne Norman,REP,0,0,0,8,0,0,0,8
+PP16,Carroll,rep,Republican Delegates,01,Cynthia P. Orem,REP,0,0,3,42,0,0,0,45
+PP16,Carroll,rep,Republican Delegates,01,"Bob Phillips, Jr.",REP,0,0,0,10,0,0,0,10
+PP16,Carroll,rep,Republican Delegates,01,Justin Ready,REP,0,0,165,1194,30,2,6,1397
+PP16,Carroll,rep,Republican Delegates,01,David Reel,REP,0,0,1,11,0,0,0,12
+PP16,Carroll,rep,Republican Delegates,01,"Morris G. Richardson, Jr.",REP,0,0,11,57,1,1,1,71
+PP16,Carroll,rep,Republican Delegates,01,Erik Robey,REP,0,0,253,1432,29,7,10,1731
+PP16,Carroll,rep,Republican Delegates,01,Michael J. Roseberry,REP,0,0,2,12,0,0,0,14
+PP16,Carroll,rep,Republican Delegates,01,Christopher Shays,REP,0,0,261,1400,27,7,9,1704
+PP16,Carroll,rep,Republican Delegates,01,Joe Sliwka,REP,1,0,673,5284,66,28,23,6074
+PP16,Carroll,rep,Republican Delegates,01,"Michael D. Smigiel, Sr.",REP,0,0,12,162,0,1,0,175
+PP16,Carroll,rep,Republican Delegates,01,Richard Sossi,REP,0,0,0,15,0,0,0,15
+PP16,Carroll,rep,Republican Delegates,01,Ann Brittingham Suthowski,REP,0,0,3,18,0,0,0,21
+PP16,Carroll,rep,Republican Delegates,01,Nadine M. Whelan,REP,0,0,0,18,0,0,0,18
+PP16,Carroll,rep,Republican Delegates,01,Todd T. Williams,REP,0,0,0,14,0,0,0,14
+PP16,Carroll,rep,Republican Delegates,01,Craig S. Willis,REP,0,0,2,17,2,0,0,21
+PP16,Carroll,rep,Republican Delegates,01,Robert Wayne Willoughby,REP,0,0,244,1327,30,5,9,1615
+PP16,Carroll,rep,Republican Delegates,01,Joe Woods,REP,0,0,1,33,0,0,1,35
+PP16,Carroll,rep,Republican Delegates,08,Jeanne Allen,REP,0,0,31,191,5,0,2,229
+PP16,Carroll,rep,Republican Delegates,08,Gus Alzona,REP,0,0,340,2709,64,16,20,3149
+PP16,Carroll,rep,Republican Delegates,08,Darin R. Bartram,REP,0,0,343,2897,51,18,23,3332
+PP16,Carroll,rep,Republican Delegates,08,David J. Beightol,REP,0,0,16,202,7,1,2,228
+PP16,Carroll,rep,Republican Delegates,08,Kenneth Blumenstock,REP,0,0,87,725,11,6,3,832
+PP16,Carroll,rep,Republican Delegates,08,Christopher Eric Bouchat,REP,0,0,44,391,6,2,2,445
+PP16,Carroll,rep,Republican Delegates,08,Robert B. Bowes,REP,1,0,853,6971,119,58,30,8031
+PP16,Carroll,rep,Republican Delegates,08,Nathaniel French Caldwell,REP,0,0,8,91,2,1,2,104
+PP16,Carroll,rep,Republican Delegates,08,Patricia Mae Caldwell,REP,0,0,17,154,4,1,2,178
+PP16,Carroll,rep,Republican Delegates,08,Robert Edge Carter,REP,0,0,13,82,2,1,1,99
+PP16,Carroll,rep,Republican Delegates,08,Sharon J. Castillo,REP,0,0,30,280,11,3,1,325
+PP16,Carroll,rep,Republican Delegates,08,Tom Collamore,REP,0,0,14,146,5,2,1,168
+PP16,Carroll,rep,Republican Delegates,08,Roberto P. Diaz,REP,0,0,11,73,2,1,0,87
+PP16,Carroll,rep,Republican Delegates,08,James S. Ensor,REP,0,0,88,878,12,3,9,990
+PP16,Carroll,rep,Republican Delegates,08,Bonnie Glick,REP,0,0,37,327,5,2,4,375
+PP16,Carroll,rep,Republican Delegates,08,"Samuel Shepard Jones, Jr.",REP,0,0,5,94,1,2,2,104
+PP16,Carroll,rep,Republican Delegates,08,Susan Wolf Krebs,REP,0,0,179,1477,33,7,7,1703
+PP16,Carroll,rep,Republican Delegates,08,Larry Lesser,REP,0,0,8,45,1,0,0,54
+PP16,Carroll,rep,Republican Delegates,08,Sam Malhotra,REP,0,0,15,135,1,1,2,154
+PP16,Carroll,rep,Republican Delegates,08,Liz Matory,REP,0,0,30,194,2,0,3,229
+PP16,Carroll,rep,Republican Delegates,08,Ruth Melson,REP,1,0,843,6758,116,54,31,7802
+PP16,Carroll,rep,Republican Delegates,08,Carol McChesney Palmer,REP,0,0,349,2833,54,18,22,3276
+PP16,Carroll,rep,Republican Delegates,08,Dwight Patel,REP,0,0,20,224,6,2,2,254
+PP16,Carroll,rep,Republican Delegates,08,Wendi W. Peters,REP,0,0,37,278,6,0,2,323
+PP16,Carroll,rep,Republican Delegates,08,Jesse T. Pippy,REP,0,0,344,2510,64,11,17,2946
+PP16,Carroll,rep,Republican Delegates,08,Kelly M. Schulz,REP,0,0,24,206,3,1,3,237
+PP16,Carroll,rep,Republican Delegates,08,Scott Staruch,REP,0,0,5,63,1,0,0,69
+PP16,Carroll,rep,Republican Delegates,08,John R. Stricklett,REP,1,0,851,6846,121,54,33,7905
+PP16,Carroll,rep,Republican Delegates,08,Chad Sweet,REP,0,0,346,2539,64,11,16,2976
+PP16,Carroll,rep,Republican Delegates,08,Gail E. Warner,REP,0,0,15,140,6,1,1,163
+PP16,Carroll,rep,Republican Delegates,08,Hugh M. Warner,REP,0,0,7,63,2,0,0,72
+PP16,Carroll,rep,Republican Delegates,08,Linda Jordan Willard,REP,0,0,9,66,4,0,0,79
+PP16,Carroll,rep,Republican Delegates,08,Jeff Yocum,REP,0,0,83,850,14,3,6,956
+PP16,Carroll,rep,Republican Delegates,08,Daniel Zubairi,REP,0,0,11,50,2,1,0,64
+PP16,Carroll,rep,Republican Alternates,01,Arlette Kelly Bright,REP,0,0,79,772,7,3,3,864
+PP16,Carroll,rep,Republican Alternates,01,David L. Catrino,REP,0,0,22,170,2,2,1,197
+PP16,Carroll,rep,Republican Alternates,01,Michael W. Dawson,REP,0,0,74,421,4,4,6,509
+PP16,Carroll,rep,Republican Alternates,01,Christopher Brian Gannon,REP,0,0,31,169,2,0,1,203
+PP16,Carroll,rep,Republican Alternates,01,Dona Goeller,REP,1,0,679,5331,71,30,19,6130
+PP16,Carroll,rep,Republican Alternates,01,"Stephen S. Hershey, Jr.",REP,0,0,33,286,3,2,2,326
+PP16,Carroll,rep,Republican Alternates,01,Kevin Bailey Hornberger,REP,0,0,85,390,10,1,4,490
+PP16,Carroll,rep,Republican Alternates,01,J. B. Jennings,REP,0,0,41,218,3,2,2,266
+PP16,Carroll,rep,Republican Alternates,01,David Scott Lazarus,REP,0,0,240,1757,46,13,11,2067
+PP16,Carroll,rep,Republican Alternates,01,Claude T. Lewis,REP,1,0,662,5221,72,30,23,6008
+PP16,Carroll,rep,Republican Alternates,01,Denise Kuchta Lovelady,REP,1,0,666,5244,71,26,21,6028
+PP16,Carroll,rep,Republican Alternates,01,Laurie Mullinx Luellen,REP,0,0,68,743,8,2,3,824
+PP16,Carroll,rep,Republican Alternates,01,Emma Middleton,REP,0,0,229,1684,40,12,11,1976
+PP16,Carroll,rep,Republican Alternates,01,Mark Novak,REP,0,0,42,236,3,4,3,288
+PP16,Carroll,rep,Republican Alternates,01,James Reilly,REP,0,0,31,195,3,2,1,232
+PP16,Carroll,rep,Republican Alternates,01,Haven Shoemaker,REP,0,0,228,1427,31,2,13,1701
+PP16,Carroll,rep,Republican Alternates,01,Chad R. Shrodes,REP,0,0,11,78,2,1,1,93
+PP16,Carroll,rep,Republican Alternates,01,Angela Sudano-Marcellino,REP,0,0,24,137,3,1,2,167
+PP16,Carroll,rep,Republican Alternates,01,Ummu Bradley Thomas,REP,0,0,47,477,9,2,4,539
+PP16,Carroll,rep,Republican Alternates,01,Christina Trotta,REP,0,0,223,1666,42,11,11,1953
+PP16,Carroll,rep,Republican Alternates,08,Marcus Alzona,REP,0,0,363,2748,65,16,21,3213
+PP16,Carroll,rep,Republican Alternates,08,Byron Anderson,REP,0,0,66,548,15,5,6,640
+PP16,Carroll,rep,Republican Alternates,08,James A. Calderwood,REP,0,0,51,457,13,4,3,528
+PP16,Carroll,rep,Republican Alternates,08,John DeWitt Crawford,REP,0,0,39,420,5,5,4,473
+PP16,Carroll,rep,Republican Alternates,08,Patricia Fenati,REP,0,0,380,2895,66,16,22,3379
+PP16,Carroll,rep,Republican Alternates,08,Sam Fenati,REP,0,0,24,273,4,1,2,304
+PP16,Carroll,rep,Republican Alternates,08,Joseph P. Gillin,REP,0,0,369,2818,72,17,21,3297
+PP16,Carroll,rep,Republican Alternates,08,Allen Mauricio Gutierrez,REP,0,0,7,116,2,1,3,129
+PP16,Carroll,rep,Republican Alternates,08,Ann Guthrie Hingston,REP,1,0,416,3295,63,24,23,3821
+PP16,Carroll,rep,Republican Alternates,08,Jaz Joglekar,REP,0,0,21,136,1,0,2,160
+PP16,Carroll,rep,Republican Alternates,08,Bonnie P. Leiter,REP,0,0,52,446,13,4,3,518
+PP16,Carroll,rep,Republican Alternates,08,Joan E. Palmer,REP,1,0,880,7212,125,54,34,8305
+PP16,Carroll,rep,Republican Alternates,08,Joseph S. Rubin,REP,0,0,42,334,7,2,1,386
+PP16,Carroll,rep,Republican Alternates,08,Gene Clayton Schaerr,REP,0,0,61,571,10,3,3,648
+PP16,Carroll,rep,Republican Alternates,08,Martha Schaerr,REP,0,0,47,420,6,1,1,475
+PP16,Carroll,rep,Republican Alternates,08,Nancy Reter Stocksdale,REP,0,0,294,2118,46,11,9,2478
+PP16,Carroll,rep,Republican Alternates,08,Mark Uncapher,REP,0,0,48,427,5,3,7,490
+PP16,Carroll,rep,Republican Alternates,08,Richard Keith Vaughn,REP,1,0,861,7001,118,54,31,8065
+PP16,Carroll,rep,Republican Alternates,08,Jared Christopher Welsh,REP,0,0,191,1501,22,7,12,1733
+PP16,Carroll,rep,Republican Alternates,08,"James D. Werner, Jr.",REP,0,0,142,1539,18,5,11,1715

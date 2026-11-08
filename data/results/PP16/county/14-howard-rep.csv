@@ -1,0 +1,232 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP16,Howard,rep,President - Vice Pres,"",Jeb Bush,REP,0,0,32,128,6,1,4,171
+PP16,Howard,rep,President - Vice Pres,"",Ben Carson,REP,0,0,26,225,6,4,1,262
+PP16,Howard,rep,President - Vice Pres,"",Chris Christie,REP,0,0,11,60,0,0,1,72
+PP16,Howard,rep,President - Vice Pres,"",Ted Cruz,REP,0,0,944,4338,101,48,46,5477
+PP16,Howard,rep,President - Vice Pres,"",Carly Fiorina,REP,0,0,15,78,6,0,0,99
+PP16,Howard,rep,President - Vice Pres,"",Mike Huckabee,REP,0,0,1,27,1,0,0,29
+PP16,Howard,rep,President - Vice Pres,"",John R. Kasich,REP,0,0,1633,8276,182,110,98,10299
+PP16,Howard,rep,President - Vice Pres,"",Rand Paul,REP,0,0,16,87,2,3,0,108
+PP16,Howard,rep,President - Vice Pres,"",Marco Rubio,REP,0,0,51,156,7,3,2,219
+PP16,Howard,rep,President - Vice Pres,"",Rick Santorum,REP,0,0,1,34,1,0,1,37
+PP16,Howard,rep,President - Vice Pres,"",Donald J. Trump,REP,1,0,1958,9924,193,121,42,12238
+PP16,Howard,rep,President - Vice Pres,02,Jeb Bush,REP,0,0,5,9,1,1,0,16
+PP16,Howard,rep,President - Vice Pres,02,Ben Carson,REP,0,0,3,36,0,1,0,40
+PP16,Howard,rep,President - Vice Pres,02,Chris Christie,REP,0,0,3,5,0,0,0,8
+PP16,Howard,rep,President - Vice Pres,02,Ted Cruz,REP,0,0,88,431,7,7,11,544
+PP16,Howard,rep,President - Vice Pres,02,Carly Fiorina,REP,0,0,1,8,2,0,0,11
+PP16,Howard,rep,President - Vice Pres,02,Mike Huckabee,REP,0,0,0,2,0,0,0,2
+PP16,Howard,rep,President - Vice Pres,02,John R. Kasich,REP,0,0,98,680,8,20,10,816
+PP16,Howard,rep,President - Vice Pres,02,Rand Paul,REP,0,0,2,6,0,1,0,9
+PP16,Howard,rep,President - Vice Pres,02,Marco Rubio,REP,0,0,4,23,1,1,0,29
+PP16,Howard,rep,President - Vice Pres,02,Rick Santorum,REP,0,0,0,1,0,0,0,1
+PP16,Howard,rep,President - Vice Pres,02,Donald J. Trump,REP,1,0,154,887,13,18,1,1073
+PP16,Howard,rep,President - Vice Pres,03,Jeb Bush,REP,0,0,6,42,2,0,1,51
+PP16,Howard,rep,President - Vice Pres,03,Ben Carson,REP,0,0,7,64,2,0,1,74
+PP16,Howard,rep,President - Vice Pres,03,Chris Christie,REP,0,0,2,22,0,0,0,24
+PP16,Howard,rep,President - Vice Pres,03,Ted Cruz,REP,0,0,196,1250,23,19,6,1494
+PP16,Howard,rep,President - Vice Pres,03,Carly Fiorina,REP,0,0,2,27,1,0,0,30
+PP16,Howard,rep,President - Vice Pres,03,Mike Huckabee,REP,0,0,0,15,0,0,0,15
+PP16,Howard,rep,President - Vice Pres,03,John R. Kasich,REP,0,0,382,2468,52,29,25,2956
+PP16,Howard,rep,President - Vice Pres,03,Rand Paul,REP,0,0,3,28,0,1,0,32
+PP16,Howard,rep,President - Vice Pres,03,Marco Rubio,REP,0,0,14,53,1,1,0,69
+PP16,Howard,rep,President - Vice Pres,03,Rick Santorum,REP,0,0,0,16,1,0,1,18
+PP16,Howard,rep,President - Vice Pres,03,Donald J. Trump,REP,1,0,356,2745,56,29,12,3198
+PP16,Howard,rep,President - Vice Pres,07,Jeb Bush,REP,0,0,21,77,3,0,3,104
+PP16,Howard,rep,President - Vice Pres,07,Ben Carson,REP,0,0,16,125,4,3,0,148
+PP16,Howard,rep,President - Vice Pres,07,Chris Christie,REP,0,0,6,33,0,0,1,40
+PP16,Howard,rep,President - Vice Pres,07,Ted Cruz,REP,0,0,660,2657,71,22,29,3439
+PP16,Howard,rep,President - Vice Pres,07,Carly Fiorina,REP,0,0,12,43,3,0,0,58
+PP16,Howard,rep,President - Vice Pres,07,Mike Huckabee,REP,0,0,1,10,1,0,0,12
+PP16,Howard,rep,President - Vice Pres,07,John R. Kasich,REP,0,0,1153,5128,122,61,63,6527
+PP16,Howard,rep,President - Vice Pres,07,Rand Paul,REP,0,0,11,53,2,1,0,67
+PP16,Howard,rep,President - Vice Pres,07,Marco Rubio,REP,0,0,33,80,5,1,2,121
+PP16,Howard,rep,President - Vice Pres,07,Rick Santorum,REP,0,0,1,17,0,0,0,18
+PP16,Howard,rep,President - Vice Pres,07,Donald J. Trump,REP,1,0,1448,6292,124,74,29,7967
+PP16,Howard,rep,U.S. Senator,"",Chris Chaffee,REP,0,0,379,1916,56,21,12,2384
+PP16,Howard,rep,U.S. Senator,"",Sean P. Connor,REP,0,0,170,978,16,14,8,1186
+PP16,Howard,rep,U.S. Senator,"",Richard J. Douglas,REP,0,0,336,1419,59,17,17,1848
+PP16,Howard,rep,U.S. Senator,"",John R. Graziani,REP,0,0,192,955,12,5,4,1168
+PP16,Howard,rep,U.S. Senator,"",Greg Holmes,REP,0,0,170,898,18,16,13,1115
+PP16,Howard,rep,U.S. Senator,"",Joseph David Hooe,REP,0,0,132,756,9,12,8,917
+PP16,Howard,rep,U.S. Senator,"",Chrys Kefalas,REP,0,0,329,2216,30,23,19,2617
+PP16,Howard,rep,U.S. Senator,"",Mark McNicholas,REP,0,0,98,461,18,8,7,592
+PP16,Howard,rep,U.S. Senator,"",Lynn Richardson,REP,0,0,277,980,22,11,7,1297
+PP16,Howard,rep,U.S. Senator,"",Anthony Seda,REP,0,0,44,230,6,3,2,285
+PP16,Howard,rep,U.S. Senator,"",Richard Shawver,REP,0,0,39,145,3,1,0,188
+PP16,Howard,rep,U.S. Senator,"",Kathy Szeliga,REP,1,0,1409,6674,98,52,40,8273
+PP16,Howard,rep,U.S. Senator,"",Dave Wallace,REP,0,0,236,1109,21,14,7,1387
+PP16,Howard,rep,U.S. Senator,"",Garry Thomas Yarrington,REP,0,0,28,135,2,2,1,168
+PP16,Howard,rep,Rep in Congress,02,Bill Heine,REP,0,0,30,202,4,7,0,243
+PP16,Howard,rep,Rep in Congress,02,"Carl H. Magee, Jr.",REP,0,0,48,263,6,2,3,322
+PP16,Howard,rep,Rep in Congress,02,Pat McDonough,REP,1,0,162,914,7,9,3,1095
+PP16,Howard,rep,Rep in Congress,02,Yuripzy Morgan,REP,0,0,23,171,2,4,5,205
+PP16,Howard,rep,Rep in Congress,02,Mark Gerard Shell,REP,0,0,23,103,3,0,1,130
+PP16,Howard,rep,Rep in Congress,03,Thomas E. Pinkston Harris,REP,0,0,251,1697,26,19,10,2003
+PP16,Howard,rep,Rep in Congress,03,Mark Plaster,REP,1,0,464,3367,74,30,21,3956
+PP16,Howard,rep,Rep in Congress,07,Ray Bly,REP,0,0,422,1701,30,12,14,2179
+PP16,Howard,rep,Rep in Congress,07,William T. Newton,REP,0,0,967,3949,67,36,17,5036
+PP16,Howard,rep,Rep in Congress,07,Corrogan R. Vaughn,REP,1,0,1029,4231,113,40,46,5459
+PP16,Howard,rep,Judge of the Circuit Court,05,Mary Kramer,REP,1,0,3056,14983,308,158,109,18614
+PP16,Howard,rep,Republican Delegates,02,Ana T. Blair,REP,0,0,19,128,0,2,0,149
+PP16,Howard,rep,Republican Delegates,02,"Joseph C. Boteler, III",REP,0,0,11,46,1,0,1,59
+PP16,Howard,rep,Republican Delegates,02,Antonio Campbell,REP,0,0,14,112,1,2,0,129
+PP16,Howard,rep,Republican Delegates,02,J. Michael Collins,REP,1,0,139,830,8,10,1,988
+PP16,Howard,rep,Republican Delegates,02,Steve Dishon,REP,0,0,80,449,7,5,10,551
+PP16,Howard,rep,Republican Delegates,02,"John C. Fiastro, Jr.",REP,0,0,78,439,6,6,11,540
+PP16,Howard,rep,Republican Delegates,02,Fred Fleischmann,REP,0,0,13,108,0,4,0,125
+PP16,Howard,rep,Republican Delegates,02,Glen Glass,REP,0,0,81,419,7,5,10,522
+PP16,Howard,rep,Republican Delegates,02,Robin Grammer,REP,0,0,15,74,2,0,3,94
+PP16,Howard,rep,Republican Delegates,02,Julianne Grim,REP,0,0,18,82,4,2,3,109
+PP16,Howard,rep,Republican Delegates,02,Christina Louise Harris,REP,0,0,5,53,4,0,1,63
+PP16,Howard,rep,Republican Delegates,02,"Thomas A. Harris, Jr.",REP,0,0,4,33,1,0,0,38
+PP16,Howard,rep,Republican Delegates,02,William Hicklen,REP,0,0,8,40,0,0,0,48
+PP16,Howard,rep,Republican Delegates,02,Dee Hodges,REP,0,0,11,58,2,0,1,72
+PP16,Howard,rep,Republican Delegates,02,Charlene Kurland,REP,0,0,4,28,0,0,0,32
+PP16,Howard,rep,Republican Delegates,02,William F. Martin,REP,0,0,7,45,1,0,0,53
+PP16,Howard,rep,Republican Delegates,02,Brian J. Noon,REP,1,0,130,762,9,10,0,911
+PP16,Howard,rep,Republican Delegates,02,Patrick O'Keefe,REP,0,0,26,149,3,3,0,181
+PP16,Howard,rep,Republican Delegates,02,Greg Ottensmeyer,REP,1,0,129,730,9,9,1,878
+PP16,Howard,rep,Republican Delegates,02,Christopher W. Pate,REP,0,0,9,42,2,2,0,55
+PP16,Howard,rep,Republican Delegates,02,"Jerome C. Payne, Jr.",REP,0,0,10,37,1,0,1,49
+PP16,Howard,rep,Republican Delegates,02,Tim Robinson,REP,0,0,20,111,1,3,0,135
+PP16,Howard,rep,Republican Delegates,02,J.D. Russell,REP,0,0,89,571,7,13,9,689
+PP16,Howard,rep,Republican Delegates,02,"Louis A. Sarkes, Jr.",REP,0,0,3,18,2,0,1,24
+PP16,Howard,rep,Republican Delegates,02,Mitch Shank,REP,0,0,4,26,0,2,0,32
+PP16,Howard,rep,Republican Delegates,02,Kathleen A. Smero,REP,0,0,6,34,0,0,0,40
+PP16,Howard,rep,Republican Delegates,02,"Byron G. Tosi, III",REP,0,0,3,19,0,0,0,22
+PP16,Howard,rep,Republican Delegates,02,Jeanne L. Turnock,REP,0,0,19,70,2,0,3,94
+PP16,Howard,rep,Republican Delegates,02,Joshua Wolf,REP,0,0,29,120,1,2,0,152
+PP16,Howard,rep,Republican Delegates,03,"J. Lee Annis, Jr.",REP,0,0,210,1464,31,16,10,1731
+PP16,Howard,rep,Republican Delegates,03,E. Chiké Anyanwu,REP,0,0,6,29,2,0,0,37
+PP16,Howard,rep,Republican Delegates,03,Diane M. Baker,REP,0,0,13,97,3,1,1,115
+PP16,Howard,rep,Republican Delegates,03,William H. Campbell,REP,0,0,182,1091,12,11,5,1301
+PP16,Howard,rep,Republican Delegates,03,"Joe Collins, Jr.",REP,1,0,322,2357,54,23,10,2766
+PP16,Howard,rep,Republican Delegates,03,Mike Collins,REP,0,0,306,1798,38,16,11,2169
+PP16,Howard,rep,Republican Delegates,03,Janet Moye Cornick,REP,0,0,15,67,2,0,1,85
+PP16,Howard,rep,Republican Delegates,03,Julie E. Cram,REP,0,0,7,62,6,0,1,76
+PP16,Howard,rep,Republican Delegates,03,Leonard Cutler,REP,0,0,16,169,2,5,2,194
+PP16,Howard,rep,Republican Delegates,03,Jean C. Edwards,REP,0,0,6,27,0,0,2,35
+PP16,Howard,rep,Republican Delegates,03,Jamie Falcon,REP,0,0,4,57,6,0,0,67
+PP16,Howard,rep,Republican Delegates,03,Gail Elizabeth Filerino,REP,0,0,3,31,1,1,0,36
+PP16,Howard,rep,Republican Delegates,03,Greg Fox,REP,0,0,28,242,6,0,4,280
+PP16,Howard,rep,Republican Delegates,03,David J. Frankel,REP,0,0,8,60,2,2,1,73
+PP16,Howard,rep,Republican Delegates,03,Tom Gardner,REP,0,0,309,1885,41,20,13,2268
+PP16,Howard,rep,Republican Delegates,03,John C. Gordon,REP,0,0,0,20,0,0,0,20
+PP16,Howard,rep,Republican Delegates,03,Nathan Hall,REP,0,0,3,12,1,0,0,16
+PP16,Howard,rep,Republican Delegates,03,Melanie Harris,REP,0,0,179,1074,14,12,5,1284
+PP16,Howard,rep,Republican Delegates,03,Joseph David Hooe,REP,0,0,5,37,0,0,2,44
+PP16,Howard,rep,Republican Delegates,03,Jonah Jarosz,REP,0,0,1,9,0,1,0,11
+PP16,Howard,rep,Republican Delegates,03,Henry S. Kim,REP,0,0,3,31,3,0,1,38
+PP16,Howard,rep,Republican Delegates,03,Dick Ladd,REP,0,0,13,154,2,1,1,171
+PP16,Howard,rep,Republican Delegates,03,James David Lashar,REP,0,0,0,9,0,0,0,9
+PP16,Howard,rep,Republican Delegates,03,Herb McMillan,REP,0,0,16,126,3,2,2,149
+PP16,Howard,rep,Republican Delegates,03,Townsend Lange McNitt,REP,0,0,0,6,0,0,0,6
+PP16,Howard,rep,Republican Delegates,03,Christian Miele,REP,0,0,13,113,3,3,2,134
+PP16,Howard,rep,Republican Delegates,03,Candice A. Morrison,REP,0,0,1,33,0,0,0,34
+PP16,Howard,rep,Republican Delegates,03,Laura Neuman,REP,0,0,16,124,6,2,4,152
+PP16,Howard,rep,Republican Delegates,03,Eugenia Korsak Ordynsky,REP,0,0,1,20,0,0,0,21
+PP16,Howard,rep,Republican Delegates,03,Tracey Paliath,REP,0,0,5,47,0,1,0,53
+PP16,Howard,rep,Republican Delegates,03,Christopher Panasuk,REP,0,0,0,8,0,0,0,8
+PP16,Howard,rep,Republican Delegates,03,Peter Pollak,REP,0,0,2,54,3,1,1,61
+PP16,Howard,rep,Republican Delegates,03,Lewis Porter,REP,0,0,0,19,0,1,1,21
+PP16,Howard,rep,Republican Delegates,03,Mattie Procaccini,REP,0,0,167,981,11,10,4,1173
+PP16,Howard,rep,Republican Delegates,03,Rick Saffery,REP,0,0,1,14,0,0,0,15
+PP16,Howard,rep,Republican Delegates,03,Brian A. Sailer,REP,0,0,4,38,1,0,0,43
+PP16,Howard,rep,Republican Delegates,03,Susan Carroll Schwab,REP,0,0,6,50,3,0,0,59
+PP16,Howard,rep,Republican Delegates,03,Scott Shaffer,REP,0,0,5,32,1,0,0,38
+PP16,Howard,rep,Republican Delegates,03,Duane E. Shelton,REP,0,0,208,1149,25,13,9,1404
+PP16,Howard,rep,Republican Delegates,03,Justin Shuy,REP,0,0,1,10,0,2,0,13
+PP16,Howard,rep,Republican Delegates,03,Jonathan Erich Stitzinger,REP,0,0,1,21,0,0,0,22
+PP16,Howard,rep,Republican Delegates,03,Nigel James Sutton,REP,0,0,2,8,0,0,0,10
+PP16,Howard,rep,Republican Delegates,03,Mary Beth Tung,REP,0,0,11,120,2,2,2,137
+PP16,Howard,rep,Republican Delegates,03,Shannon Wright,REP,1,0,312,2340,50,20,8,2730
+PP16,Howard,rep,Republican Delegates,03,Chris Yates,REP,1,0,318,2387,50,22,10,2787
+PP16,Howard,rep,Republican Delegates,03,Sally Marie Yates,REP,0,0,8,76,2,1,3,90
+PP16,Howard,rep,Republican Delegates,03,Mark Young,REP,0,0,27,183,3,1,1,215
+PP16,Howard,rep,Republican Delegates,07,David Glenn Albert,REP,0,0,45,241,5,3,2,296
+PP16,Howard,rep,Republican Delegates,07,Katie Albert,REP,0,0,117,455,8,4,6,590
+PP16,Howard,rep,Republican Delegates,07,"William Sam Broaddus, III",REP,0,0,19,98,4,0,1,122
+PP16,Howard,rep,Republican Delegates,07,Chris Cavey,REP,0,0,86,455,8,1,1,551
+PP16,Howard,rep,Republican Delegates,07,"Victor Clark, Jr.",REP,0,0,40,131,1,0,3,175
+PP16,Howard,rep,Republican Delegates,07,Tamu Ifetayo Davenport,REP,0,0,67,410,6,11,0,494
+PP16,Howard,rep,Republican Delegates,07,Judith A. De Libera,REP,0,0,57,147,1,1,1,207
+PP16,Howard,rep,Republican Delegates,07,Dave Dobbs,REP,0,0,655,2778,63,27,25,3548
+PP16,Howard,rep,Republican Delegates,07,Jonathan Edwin Dryja,REP,0,0,40,159,2,0,2,203
+PP16,Howard,rep,Republican Delegates,07,Elizabeth Marsh Eaton,REP,0,0,66,347,6,2,4,425
+PP16,Howard,rep,Republican Delegates,07,"George C. Eaton , III",REP,0,0,23,148,2,1,1,175
+PP16,Howard,rep,Republican Delegates,07,Bob Flanagan,REP,0,0,367,1252,41,11,19,1690
+PP16,Howard,rep,Republican Delegates,07,Susan Forrester,REP,0,0,115,449,14,4,6,588
+PP16,Howard,rep,Republican Delegates,07,Thomas E. Pinkston Harris,REP,0,0,24,101,0,1,0,126
+PP16,Howard,rep,Republican Delegates,07,Kathleen Imhoff,REP,0,0,111,465,8,3,6,593
+PP16,Howard,rep,Republican Delegates,07,Robert Imhoff,REP,0,0,98,363,8,3,6,478
+PP16,Howard,rep,Republican Delegates,07,Brian E. Jackson,REP,0,0,38,152,1,1,1,193
+PP16,Howard,rep,Republican Delegates,07,"Matthew G. Mann, Sr.",REP,0,0,111,584,8,7,2,712
+PP16,Howard,rep,Republican Delegates,07,Larry Manross,REP,0,0,34,110,2,1,2,149
+PP16,Howard,rep,Republican Delegates,07,Warren E. Miller,REP,0,0,733,3148,71,28,30,4010
+PP16,Howard,rep,Republican Delegates,07,Richard A. Mosley,REP,0,0,56,276,1,2,2,337
+PP16,Howard,rep,Republican Delegates,07,Don Murphy,REP,0,0,63,240,3,2,3,311
+PP16,Howard,rep,Republican Delegates,07,Dave Myers,REP,0,0,206,804,30,7,18,1065
+PP16,Howard,rep,Republican Delegates,07,Maria B. Pycha,REP,0,0,565,2310,59,23,21,2978
+PP16,Howard,rep,Republican Delegates,07,Loretta H. Shields,REP,0,0,994,4190,99,48,44,5375
+PP16,Howard,rep,Republican Delegates,07,Matthew Jacob Smithson,REP,0,0,30,168,1,0,1,200
+PP16,Howard,rep,Republican Delegates,07,Michael John Spade,REP,0,0,27,114,3,1,2,147
+PP16,Howard,rep,Republican Delegates,07,Charlotte Rebecca Symms,REP,0,0,50,203,2,2,2,259
+PP16,Howard,rep,Republican Delegates,07,Nicole Ann Marie Talley,REP,0,0,44,154,3,1,0,202
+PP16,Howard,rep,Republican Delegates,07,Ruth F. Taylor,REP,0,0,89,567,8,7,1,672
+PP16,Howard,rep,Republican Delegates,07,Kasezga Tembo,REP,0,0,11,72,0,0,1,84
+PP16,Howard,rep,Republican Delegates,07,Chancellor Torbit,REP,1,0,1243,5203,104,48,26,6624
+PP16,Howard,rep,Republican Delegates,07,Corrogan R. Vaughn,REP,1,0,1326,5583,110,55,28,7102
+PP16,Howard,rep,Republican Delegates,07,Laura M. Walsh,REP,1,0,1312,5552,113,58,26,7061
+PP16,Howard,rep,Republican Delegates,07,Grace Mundie Wickwire,REP,0,0,61,164,6,3,1,235
+PP16,Howard,rep,Republican Delegates,07,Jennifer Mundie Wickwire,REP,0,0,48,167,4,4,0,223
+PP16,Howard,rep,Republican Delegates,07,Craig Wolf,REP,0,0,147,639,27,7,16,836
+PP16,Howard,rep,Republican Alternates,02,Joseph Arcieri,REP,0,0,40,235,4,5,3,287
+PP16,Howard,rep,Republican Alternates,02,D.  Shannon Crider,REP,0,0,60,358,6,3,1,428
+PP16,Howard,rep,Republican Alternates,02,Joe Fleckenstein,REP,0,0,89,526,9,6,11,641
+PP16,Howard,rep,Republican Alternates,02,James Kane,REP,0,0,45,261,5,5,2,318
+PP16,Howard,rep,Republican Alternates,02,Janice MacGregor,REP,0,0,45,267,2,4,3,321
+PP16,Howard,rep,Republican Alternates,02,Patrick L. McGrady,REP,1,0,85,520,10,9,10,634
+PP16,Howard,rep,Republican Alternates,02,Michael Steven Mckelvey,REP,1,0,74,410,6,4,2,496
+PP16,Howard,rep,Republican Alternates,02,Shalina Murrell-Ford,REP,0,0,40,262,4,3,3,312
+PP16,Howard,rep,Republican Alternates,02,David Serenda,REP,0,0,84,506,6,7,10,613
+PP16,Howard,rep,Republican Alternates,02,Lori Serenda,REP,0,0,54,237,5,0,3,299
+PP16,Howard,rep,Republican Alternates,02,Danny Stephenson,REP,1,0,153,862,9,11,1,1036
+PP16,Howard,rep,Republican Alternates,03,Timothy Boston,REP,1,0,332,2491,53,23,10,2909
+PP16,Howard,rep,Republican Alternates,03,E. J. Cavanagh,REP,1,0,360,2219,48,20,14,2661
+PP16,Howard,rep,Republican Alternates,03,Dorothy Cawthorne,REP,0,0,60,389,7,6,4,466
+PP16,Howard,rep,Republican Alternates,03,Michael Eisenberg,REP,0,0,56,411,8,7,1,483
+PP16,Howard,rep,Republican Alternates,03,Elaine M. Furth,REP,0,0,182,1218,18,13,6,1437
+PP16,Howard,rep,Republican Alternates,03,Mary P. Gassmann,REP,0,0,25,168,8,1,1,203
+PP16,Howard,rep,Republican Alternates,03,Ruth E. Goetz,REP,0,0,18,113,1,1,2,135
+PP16,Howard,rep,Republican Alternates,03,Rick Hansen,REP,0,0,38,413,11,5,3,470
+PP16,Howard,rep,Republican Alternates,03,Thomas Kelso,REP,0,0,59,471,10,3,2,545
+PP16,Howard,rep,Republican Alternates,03,Marcos A. Lora,REP,0,0,8,34,0,2,2,46
+PP16,Howard,rep,Republican Alternates,03,Mary O'Keeffe,REP,0,0,46,314,4,2,5,371
+PP16,Howard,rep,Republican Alternates,03,Richard D. Paugh,REP,0,0,15,87,0,0,2,104
+PP16,Howard,rep,Republican Alternates,03,Joyce Pope,REP,0,0,67,440,12,5,11,535
+PP16,Howard,rep,Republican Alternates,03,Tony Ristaino,REP,0,0,172,1087,13,13,6,1291
+PP16,Howard,rep,Republican Alternates,03,Lisa Abbe Robin Lederman,REP,0,0,163,1056,16,11,5,1251
+PP16,Howard,rep,Republican Alternates,03,Jeff Robinson,REP,0,0,41,249,6,2,4,302
+PP16,Howard,rep,Republican Alternates,03,Timothy Sutton,REP,0,0,22,175,5,0,3,205
+PP16,Howard,rep,Republican Alternates,03,Meredith Leigh Thompson,REP,0,0,29,211,7,4,3,254
+PP16,Howard,rep,Republican Alternates,03,Tim Walters,REP,1,0,334,2474,55,24,10,2897
+PP16,Howard,rep,Republican Alternates,03,Chevy Fleischman Weiss,REP,0,0,340,2011,45,22,14,2432
+PP16,Howard,rep,Republican Alternates,07,Michael P. Brady,REP,0,0,174,660,13,6,7,860
+PP16,Howard,rep,Republican Alternates,07,Gary Clark,REP,0,0,220,801,18,3,5,1047
+PP16,Howard,rep,Republican Alternates,07,Gary M. Collins,REP,1,0,1376,5842,114,56,29,7417
+PP16,Howard,rep,Republican Alternates,07,Thomas Paul Fuller,REP,0,0,119,442,12,5,2,580
+PP16,Howard,rep,Republican Alternates,07,Bob Gillette,REP,0,0,179,618,18,2,9,826
+PP16,Howard,rep,Republican Alternates,07,R. Bruce Heinz,REP,0,0,518,2258,45,25,12,2858
+PP16,Howard,rep,Republican Alternates,07,Suzanne Paige Horn,REP,0,0,511,2279,42,22,12,2866
+PP16,Howard,rep,Republican Alternates,07,Tom Kennedy,REP,1,0,741,3174,68,35,28,4046
+PP16,Howard,rep,Republican Alternates,07,Marc M. McFaul,REP,1,0,674,2858,64,29,24,3649
+PP16,Howard,rep,Republican Alternates,07,Gloria B. Murphy,REP,0,0,362,1457,37,14,27,1897
+PP16,Howard,rep,Republican Alternates,07,William T. Newton,REP,0,0,212,800,11,8,7,1038
+PP16,Howard,rep,Republican Alternates,07,Liliana Pulvirenti,REP,0,0,142,506,12,6,3,669
+PP16,Howard,rep,Republican Alternates,07,Scott Allen Selnick,REP,0,0,660,2812,63,29,26,3590
+PP16,Howard,rep,Republican Alternates,07,Brighid L. Skamarakas,REP,0,0,271,1104,32,13,19,1439
+PP16,Howard,rep,Republican Alternates,07,Kelly L. Smith,REP,0,0,210,688,21,8,5,932
+PP16,Howard,rep,Republican Alternates,07,Pamela Jill Stocksdale,REP,0,0,345,1555,23,14,5,1942
+PP16,Howard,rep,Republican Alternates,07,Brent M. Tracy,REP,0,0,315,1284,36,10,22,1667
+PP16,Howard,rep,Republican Alternates,07,Mary-Jo Wolf,REP,0,0,210,693,23,6,6,938

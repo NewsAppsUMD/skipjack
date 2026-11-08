@@ -1,0 +1,66 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+PP16,Carroll,dem,President - Vice Pres,"",Hillary Clinton,DEM,1,0,1164,5352,329,43,129,7017
+PP16,Carroll,dem,President - Vice Pres,"",Roque Rocky De La Fuente,DEM,0,0,13,88,5,2,0,108
+PP16,Carroll,dem,President - Vice Pres,"",Bernie Sanders,DEM,0,0,973,5713,353,63,197,7299
+PP16,Carroll,dem,President - Vice Pres,"",Uncommitted To Any Presidential Candidate,DEM,0,0,92,675,41,8,14,830
+PP16,Carroll,dem,President - Vice Pres,01,Hillary Clinton,DEM,1,0,419,1736,56,10,19,2240
+PP16,Carroll,dem,President - Vice Pres,01,Roque Rocky De La Fuente,DEM,0,0,4,44,1,0,0,49
+PP16,Carroll,dem,President - Vice Pres,01,Bernie Sanders,DEM,0,0,367,2091,97,17,47,2619
+PP16,Carroll,dem,President - Vice Pres,01,Uncommitted To Any Presidential Candidate,DEM,0,0,37,269,7,0,2,315
+PP16,Carroll,dem,President - Vice Pres,08,Hillary Clinton,DEM,1,0,745,3616,273,33,110,4777
+PP16,Carroll,dem,President - Vice Pres,08,Roque Rocky De La Fuente,DEM,0,0,9,44,4,2,0,59
+PP16,Carroll,dem,President - Vice Pres,08,Bernie Sanders,DEM,0,0,606,3622,256,46,150,4680
+PP16,Carroll,dem,President - Vice Pres,08,Uncommitted To Any Presidential Candidate,DEM,0,0,55,406,34,8,12,515
+PP16,Carroll,dem,U.S. Senator,"","Freddie Donald Dickson, Jr.",DEM,0,0,19,149,7,3,6,184
+PP16,Carroll,dem,U.S. Senator,"",Donna F. Edwards,DEM,0,0,387,2026,148,24,71,2656
+PP16,Carroll,dem,U.S. Senator,"",Ralph Jaffe,DEM,0,0,22,117,11,1,2,153
+PP16,Carroll,dem,U.S. Senator,"",Theresa C. Scaldaferri,DEM,0,0,38,230,6,2,6,282
+PP16,Carroll,dem,U.S. Senator,"",Charles U. Smith,DEM,0,0,13,91,7,4,3,118
+PP16,Carroll,dem,U.S. Senator,"",Violet Staley,DEM,0,0,17,219,9,6,4,255
+PP16,Carroll,dem,U.S. Senator,"",Blaine Taylor,DEM,0,0,20,95,0,3,1,119
+PP16,Carroll,dem,U.S. Senator,"",Ed Tinus,DEM,0,0,14,60,3,1,2,80
+PP16,Carroll,dem,U.S. Senator,"",Chris Van Hollen,DEM,1,0,1635,8063,471,54,203,10426
+PP16,Carroll,dem,U.S. Senator,"",Lih Young,DEM,0,0,18,134,6,2,5,165
+PP16,Carroll,dem,Rep in Congress,01,Jim Ireton,DEM,0,0,246,920,76,6,22,1270
+PP16,Carroll,dem,Rep in Congress,01,Joe Werner,DEM,1,0,393,2146,36,13,24,2612
+PP16,Carroll,dem,Rep in Congress,08,David M. Anderson,DEM,0,0,48,220,19,3,9,299
+PP16,Carroll,dem,Rep in Congress,08,Kumar P. Barve,DEM,0,0,23,147,15,1,10,196
+PP16,Carroll,dem,Rep in Congress,08,Dan Bolling,DEM,0,0,14,105,13,3,4,139
+PP16,Carroll,dem,Rep in Congress,08,Ana Sol Gutierrez,DEM,0,0,27,299,31,11,11,379
+PP16,Carroll,dem,Rep in Congress,08,William Jawando,DEM,0,0,41,138,19,2,7,207
+PP16,Carroll,dem,Rep in Congress,08,Kathleen Matthews,DEM,0,0,343,1476,118,12,39,1988
+PP16,Carroll,dem,Rep in Congress,08,Jamie Raskin,DEM,1,0,152,864,72,3,29,1120
+PP16,Carroll,dem,Rep in Congress,08,Joel Rubin,DEM,0,0,15,115,20,2,5,157
+PP16,Carroll,dem,Rep in Congress,08,David Trone,DEM,0,0,694,3768,198,31,126,4817
+PP16,Carroll,dem,Female Delegates,01,Cheryl Everman,DEM,1,0,400,1599,54,6,16,2075
+PP16,Carroll,dem,Female Delegates,01,Lesley Israel,DEM,0,0,387,1481,54,7,17,1946
+PP16,Carroll,dem,Female Delegates,01,Amanda L. Jackson,DEM,1,0,348,1971,88,16,42,2465
+PP16,Carroll,dem,Female Delegates,01,Deborah A. Nissley,DEM,0,0,334,1882,85,14,40,2355
+PP16,Carroll,dem,Female Delegates,01,Kelly Straub,DEM,0,0,348,1953,86,15,43,2445
+PP16,Carroll,dem,Female Delegates,01,Betty Weller,DEM,1,0,397,1567,54,6,17,2041
+PP16,Carroll,dem,Female Delegates,08,Valerie Ervin,DEM,1,0,569,3251,255,26,126,4227
+PP16,Carroll,dem,Female Delegates,08,Susan Esserman,DEM,1,0,680,3203,233,21,99,4236
+PP16,Carroll,dem,Female Delegates,08,Natalia Mizina Farrar,DEM,0,0,112,800,32,11,21,976
+PP16,Carroll,dem,Female Delegates,08,Nancy Floreen,DEM,1,0,656,3041,229,21,94,4041
+PP16,Carroll,dem,Female Delegates,08,Johntel Greene,DEM,0,0,541,2878,227,21,117,3784
+PP16,Carroll,dem,Female Delegates,08,Roxie Herbekian,DEM,0,0,531,2957,237,28,114,3867
+PP16,Carroll,dem,Female Delegates,08,Susan C. Lee,DEM,0,0,675,3114,239,20,96,4144
+PP16,Carroll,dem,Female Delegates,08,Jennifer Rodriguez,DEM,0,0,662,3157,227,28,98,4172
+PP16,Carroll,dem,Female Delegates,08,Kendra Ziegler,DEM,1,0,562,3143,235,30,117,4087
+PP16,Carroll,dem,Male Delegates,01,Daniel Bland,DEM,0,0,322,1769,86,14,39,2230
+PP16,Carroll,dem,Male Delegates,01,Connor Callahan,DEM,1,0,333,1825,81,14,40,2293
+PP16,Carroll,dem,Male Delegates,01,Mike Comeau,DEM,0,0,55,412,9,1,3,480
+PP16,Carroll,dem,Male Delegates,01,Ernie Grecco,DEM,0,0,383,1435,53,6,15,1892
+PP16,Carroll,dem,Male Delegates,01,Michael L. Pullen,DEM,1,0,334,1823,84,13,39,2293
+PP16,Carroll,dem,Male Delegates,01,Donald J. Sydnor,DEM,0,0,367,1389,50,6,16,1828
+PP16,Carroll,dem,Male Delegates,01,Tishan Weerasooriya,DEM,0,0,38,286,8,1,4,337
+PP16,Carroll,dem,Male Delegates,01,William L. Welsh,DEM,1,0,384,1485,50,6,16,1941
+PP16,Carroll,dem,Male Delegates,08,Edward Fischman,DEM,1,0,569,3208,245,29,120,4171
+PP16,Carroll,dem,Male Delegates,08,David Raphael Goodfriend,DEM,1,0,665,3088,227,24,98,4102
+PP16,Carroll,dem,Male Delegates,08,Jake Goodman,DEM,0,0,122,934,46,8,21,1131
+PP16,Carroll,dem,Male Delegates,08,Jim Grossfeld,DEM,0,0,545,2977,242,28,119,3911
+PP16,Carroll,dem,Male Delegates,08,Korey M. Hartwich,DEM,0,0,537,2962,231,25,111,3866
+PP16,Carroll,dem,Male Delegates,08,George L. Leventhal,DEM,1,0,656,3066,227,20,94,4063
+PP16,Carroll,dem,Male Delegates,08,Anthony M. Reardon,DEM,1,0,671,3104,230,20,97,4122
+PP16,Carroll,dem,Male Delegates,08,Gerard M. Waites,DEM,0,0,622,2891,210,19,92,3834
+PP16,Carroll,dem,Male Delegates,08,Kenneth Stuart Zinn,DEM,0,0,552,3070,240,27,119,4008

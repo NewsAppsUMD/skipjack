@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG16-county-23-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Wicomico_County_2016_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Wicomico results (all)",
+  "fetch_date": "2026-11-08T01:34:28+00:00",
+  "parse_date": "2026-11-08T01:50:49+00:00",
+  "sha256_original": "93e2509506e548c544219fcb3ee9a079512645448f7fe2bd82dce91293d2198e",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG16 Wicomico county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 72,
+    "row_totals": "ok",
+    "statewide_check": "ok: 118 statewide rows (113 for, 5 against) match State_Congressional_Districts_2016_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

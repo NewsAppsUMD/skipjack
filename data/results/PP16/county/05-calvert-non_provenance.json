@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP16-county-05-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Calvert_County_NonPartisan_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Calvert results (non)",
+  "fetch_date": "2026-11-08T01:34:29+00:00",
+  "parse_date": "2026-11-08T01:50:49+00:00",
+  "sha256_original": "d04c873f7beb6926aaf9ff164a1c02e7f3ffcb32b61faa54b6ff7f2f6aa7a189",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP16 Calvert county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 9,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2016_Primary.csv carries no statewide rows"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP16-county-01-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Allegany_County_Republican_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Allegany results (rep)",
+  "fetch_date": "2026-11-08T01:34:28+00:00",
+  "parse_date": "2026-11-08T01:50:49+00:00",
+  "sha256_original": "392eba91824ef06f80d418b1d092c29f0d00c8b9399a057d55d10df7900f7610",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP16 Allegany county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 103,
+    "row_totals": "ok",
+    "statewide_check": "ok: 594 statewide rows (594 for, 0 against) match State_Congressional_Districts_Republican_2016_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP16-county-21-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Talbot_County_Democratic_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Talbot results (dem)",
+  "fetch_date": "2026-11-08T01:34:34+00:00",
+  "parse_date": "2026-11-08T01:50:49+00:00",
+  "sha256_original": "49eb2d63a88c90037bcc2b5a9568aeb2a2f4396ba7c4381c95ed5152334c2aa5",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP16 Talbot county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 35,
+    "row_totals": "ok",
+    "statewide_check": "ok: 234 statewide rows (234 for, 0 against) match State_Congressional_Districts_Democratic_2016_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

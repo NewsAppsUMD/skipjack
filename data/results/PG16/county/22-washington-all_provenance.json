@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PG16-county-22-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Washington_County_2016_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Washington results (all)",
+  "fetch_date": "2026-11-08T01:34:28+00:00",
+  "parse_date": "2026-11-08T01:50:49+00:00",
+  "sha256_original": "94102420355c1975032268ec36cd094a0a385d56c70c379057e51bd812b5db9d",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "results",
+  "geography": "county",
+  "notes": "PG16 Washington county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 97,
+    "row_totals": "ok",
+    "statewide_check": "ok: 118 statewide rows (113 for, 5 against) match State_Congressional_Districts_2016_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

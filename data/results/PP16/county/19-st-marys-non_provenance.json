@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-PP16-county-19-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/St._Marys_County_NonPartisan_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 St. Mary's results (non)",
+  "fetch_date": "2026-11-08T01:34:34+00:00",
+  "parse_date": "2026-11-08T01:50:49+00:00",
+  "sha256_original": "0168b9daf42eccfbfe492167980c554385b2adfe6d9efa936b39b7d5a40e8592",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "county",
+  "notes": "PP16 St. Mary's county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2016_Primary.csv carries no statewide rows"
+  }
+}
