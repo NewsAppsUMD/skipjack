@@ -505,3 +505,13 @@ def test_county_plots_groups_each_level(trends):
     state = plot.county_plots(trends)["levels"]["state"]
     assert [(s["id"], p is None) for s, p in state["more"]] == [("state_senate-1", False), ("house_of_delegates-1B", True)]  # fmt: skip
     assert state["sparse"] == []
+
+
+def test_shift_bars_scale_each_column_to_its_largest_shift():
+    rows = [
+        {"cycle_shift": {"value": 6.6}, "shift": -8.9},
+        {"cycle_shift": {"value": -2.2}, "shift": 26.7},
+        {"cycle_shift": None, "shift": None},
+    ]
+    assert plot.shift_bars(rows) == {"cycle": 10.0, "since": 30.0}
+    assert plot.shift_bars([]) == {"cycle": 5.0, "since": 5.0}

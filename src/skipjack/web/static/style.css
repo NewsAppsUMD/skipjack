@@ -360,6 +360,13 @@ nav.breadcrumb { display: block; }
 .trend svg { display: block; width: 100%; height: auto; overflow: visible; }
 /* On a phone the full-width figures scroll sideways rather than shrink past reading. */
 .trend-scroll { overflow-x: auto; }
+/* the index's shift bars: a track with a centre rule, a thin bar out from it per shift */
+.trend-shift { white-space: nowrap; }  /* the index table's margin and shift cells */
+.trend-bar { display: inline-block; position: relative; width: 64px; height: 12px; margin-left: 0.5rem;
+    vertical-align: -1px; background: linear-gradient(#c3c2b7, #c3c2b7) center / 1px 100% no-repeat; }
+.trend-bar-fill { position: absolute; top: 3px; height: 6px; border-radius: 2px; }
+.trend-bar-dem { background: #2a78d6; }
+.trend-bar-rep { background: #e34948; }
 .trend-scroll > svg { min-width: 560px; }
 .trend-lead { font-size: 1.05rem; }
 .trend-hero { font-size: 0.95rem; color: #52514e; }

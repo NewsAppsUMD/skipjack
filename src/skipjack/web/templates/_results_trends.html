@@ -16,6 +16,15 @@
 {%- if v is none %}<span class="muted">&mdash;</span>{% elif v|round(1) == 0 %}no change{% else %}+{{ "%.1f"|format(v|abs) }} {{ "Dem" if v > 0 else "Rep" }}{% endif -%}
 {%- endmacro %}
 
+{# A thin bar from the centre of a track for a shift of ``v`` points against a column ``scale``
+   (results_trends_plot.shift_bars): right and blue toward the Democrats, left and red toward
+   the Republicans. Decorative: the number beside it carries the value. #}
+{% macro shift_bar(v, scale) -%}
+{%- if v is not none -%}
+<span class="trend-bar" aria-hidden="true">{% if v|round(1) != 0 %}<span class="trend-bar-fill trend-bar-{{ 'dem' if v > 0 else 'rep' }}" style="{{ 'left' if v > 0 else 'right' }}: 50%; width: {{ '%.1f'|format([50 * (v|abs) / scale, 50]|min) }}%"></span>{% endif %}</span>
+{%- endif -%}
+{%- endmacro %}
+
 {# The same margin spelled out, as maps.fmt_margin does but to a decimal. #}
 {% macro long_margin(v) -%}
 {%- if v is none %}<span class="muted">&mdash;</span>{% elif v|round(1) == 0 %}even{% else %}{{ "Democrats" if v > 0 else "Republicans" }} +{{ "%.1f"|format(v|abs) }}{% endif -%}

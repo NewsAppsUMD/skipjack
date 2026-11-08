@@ -6,7 +6,7 @@
 {% block title %}Results by county, over time{% endblock %}
 
 {% macro margin_cell(p, show_year) -%}
-<td class="num"{% if p and p.margin is not none %} data-sort="{{ p.margin }}"{% endif %}>{% if p %}{{ t.long_margin(p.margin) }}{% if show_year %} <span class="muted">({{ p.year }})</span>{% endif %}{{ t.unofficial_tag(p.unofficial) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+<td class="num trend-shift"{% if p and p.margin is not none %} data-sort="{{ p.margin }}"{% endif %}>{% if p %}{{ t.long_margin(p.margin) }}{% if show_year %} <span class="muted">({{ p.year }})</span>{% endif %}{{ t.unofficial_tag(p.unofficial) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
 {%- endmacro %}
 
 {% block content %}
@@ -48,8 +48,8 @@
             <th scope="row"><a href="{{ base }}/results/county/{{ row.slug }}/">{{ row.county }}</a></th>
             {{ margin_cell(row.governor, not one_gov) }}
             {{ margin_cell(row.president, not one_pres) }}
-            <td class="num"{% if row.cycle_shift %} data-sort="{{ row.cycle_shift.value }}"{% endif %}>{% if row.cycle_shift %}{{ t.party_shift(row.cycle_shift.value) }}{% if not span %} <span class="muted">({{ row.cycle_shift.from }} to {{ row.cycle_shift.to }})</span>{% endif %}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
-            <td class="num"{% if row.shift is not none %} data-sort="{{ row.shift }}"{% endif %}>{% if row.shift is none %}<span class="muted">&mdash;</span>{% else %}{{ t.party_shift(row.shift) }}{% if not one_first %} <span class="muted">(since {{ row.first.year }})</span>{% endif %}{% endif %}</td>
+            <td class="num trend-shift"{% if row.cycle_shift %} data-sort="{{ row.cycle_shift.value }}"{% endif %}>{% if row.cycle_shift %}{{ t.party_shift(row.cycle_shift.value) }}{{ t.shift_bar(row.cycle_shift.value, bars.cycle) }}{% if not span %} <span class="muted">({{ row.cycle_shift.from }} to {{ row.cycle_shift.to }})</span>{% endif %}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num trend-shift"{% if row.shift is not none %} data-sort="{{ row.shift }}"{% endif %}>{% if row.shift is none %}<span class="muted">&mdash;</span>{% else %}{{ t.party_shift(row.shift) }}{{ t.shift_bar(row.shift, bars.since) }}{% if not one_first %} <span class="muted">(since {{ row.first.year }})</span>{% endif %}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

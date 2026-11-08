@@ -675,3 +675,17 @@ def county_plots(trends: dict) -> dict:
         "electorate": electorate_columns(trends),
         "levels": {lv["level"]: _level_layout(lv, trends["generals"]) for lv in trends["levels"]},
     }
+
+
+def shift_bars(rows: list[dict]) -> dict:
+    """For the index table's two shift columns, the half-width of each column's bar in points:
+    its largest shift rounded up to a multiple of 5, so every bar in a column shares one scale.
+    A bar of ``v`` points fills ``50 * |v| / scale`` percent of its track from the centre."""
+
+    def scale(values: list[float]) -> float:
+        return _nice_ceiling(max((abs(v) for v in values), default=0))
+
+    return {
+        "cycle": scale([r["cycle_shift"]["value"] for r in rows if r.get("cycle_shift")]),
+        "since": scale([r["shift"] for r in rows if r.get("shift") is not None]),
+    }

@@ -160,7 +160,12 @@ async def trends_index(request: Request):
     return _render(
         request,
         "results_county_trends_index.html",
-        {"rows": rows, "county_maps": [trends_shift_map(rows)], **context},
+        {
+            "rows": rows,
+            "county_maps": [trends_shift_map(rows)],
+            "bars": results_trends_plot.shift_bars(rows),
+            **context,
+        },
     )
 
 
