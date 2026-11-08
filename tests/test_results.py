@@ -1291,9 +1291,18 @@ def test_null_token_in_total_votes_reads_as_zero_and_the_sum_check_still_applies
         read_named(g14_csv(G14_ROWS + one_vote.replace("#NULL#", "")), GG14, "St. Mary's", "all")
     # the coded layout still refuses a blank total
     row = '"Governor","","Write-In","","","Y","0","","0","","0","","0","","0","","","" \n'
-    with pytest.raises(results.ResultsParseError, match="total votes None"):
+    with pytest.raises(results.ResultsParseError, match="Write-In: blank Total Votes"):
         read_coded(
             (BOM + GENERAL_HEAD + row).encode(), results.RESULTS_ELECTIONS["PG24"], "Kent", "all"
+        )
+
+
+def test_coded_layout_refuses_a_blank_total_even_in_a_file_with_listed_exceptions():
+    # a blank total is never one of the board's arithmetic errors: refused before the list
+    blank = GG10_BALTIMORE_CITY_BAD_ROWS.splitlines(keepends=True)[0].replace('"62"', '""')
+    with pytest.raises(results.ResultsParseError, match="Ralph Jaffe: blank Total Votes"):
+        results._read_coded(
+            g10_csv(GG10_BALTIMORE_CITY_GOOD_ROWS + blank), GG10, "Baltimore City", "all"
         )
 
 
@@ -1409,7 +1418,7 @@ GG10_BALTIMORE_CITY = g10_csv(GG10_BALTIMORE_CITY_GOOD_ROWS + GG10_BALTIMORE_CIT
 
 
 def test_row_total_exceptions_keep_the_printed_total_and_list_the_rows():
-    assert results.ROW_TOTAL_EXCEPTIONS == {("GG10", "Baltimore City"): 15}
+    assert results.ROW_TOTAL_EXCEPTIONS == {("GG10", "Baltimore City", "all"): 15}
     frame, exceptions = results._read_named(GG10_BALTIMORE_CITY, GG10, "Baltimore City", "all")
     assert frame.height == 17
     # the board's printed total is kept, never the computed sum
@@ -1421,6 +1430,7 @@ def test_row_total_exceptions_keep_the_printed_total_and_list_the_rows():
         "office": "Governor / Lt. Governor",
         "district": "",
         "candidate": "Ralph Jaffe",
+        "party": "DEM",
         "total_votes": 62,
         "sum_of_vote_types": 71,
     }
@@ -1428,6 +1438,7 @@ def test_row_total_exceptions_keep_the_printed_total_and_list_the_rows():
         "office": "Sheriff",
         "district": "",
         "candidate": "Other Write-Ins",
+        "party": "BOT",
         "total_votes": 696,
         "sum_of_vote_types": 944,
     }
@@ -1450,6 +1461,9 @@ def test_row_total_exceptions_accept_exactly_the_listed_count():
     # the same rows in a file not listed fail on the first one, with no mention of a list
     with pytest.raises(results.ResultsParseError, match=r"Ralph Jaffe: total votes 62 != .*71$"):
         results._read_named(GG10_BALTIMORE_CITY, GG10, "Baltimore County", "all")
+    # the list names one party file: the county's other files are not licensed by it
+    with pytest.raises(results.ResultsParseError, match=r"Ralph Jaffe: total votes 62 != .*71$"):
+        results._read_named(GG10_BALTIMORE_CITY, GG10, "Baltimore City", "dem")
     with pytest.raises(results.ResultsParseError, match="Ralph Jaffe"):
         results._read_named(
             g14_csv(
@@ -1744,6 +1758,7 @@ def test_parse_gg10_checks_against_the_legislative_file_on_election_night_votes(
         "office": "Governor / Lt. Governor",
         "district": "",
         "candidate": "Ralph Jaffe",
+        "party": "DEM",
         "total_votes": 62,
         "sum_of_vote_types": 71,
     }

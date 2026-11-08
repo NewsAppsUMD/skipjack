@@ -361,39 +361,90 @@ JAFFE_EXCEPTION = {
     "office": "Governor / Lt. Governor",
     "district": "",
     "candidate": "Ralph Jaffe",
+    "party": "DEM",
     "total_votes": 62,
     "sum_of_vote_types": 71,
 }
 
 
-def test_loads_a_listed_row_total_exception_with_the_printed_total(conn, tmp_path):
+def jaffe_rows(n):
+    """n rows with Jaffe's figures (the first his, the rest distinct write-ins), and the sidecar
+    entries that list them."""
+    rows, listed = [], []
+    for i in range(n):
+        candidate = "Ralph Jaffe" if i == 0 else f"Write-In {i}"
+        rows.append([*JAFFE[:2], candidate, *JAFFE[3:]])
+        listed.append({**JAFFE_EXCEPTION, "candidate": candidate})
+    return rows, listed
+
+
+def test_loads_the_listed_row_total_exceptions_with_the_printed_totals(conn, tmp_path):
+    rows, listed = jaffe_rows(15)
+    # two rows sharing office, district and candidate but not party are two exceptions
+    rows[1] = [*JAFFE[:3], "REP", *JAFFE[4:]]
+    listed[1] = {**JAFFE_EXCEPTION, "party": "REP"}
     write_county(
-        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, JAFFE],
-        checks={"rows": 3, "row_total_exceptions": [JAFFE_EXCEPTION]},
+        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, *rows],
+        checks={"rows": 17, "row_total_exceptions": listed},
     )  # fmt: skip
-    assert load_results(conn, tmp_path) == 3
-    jaffe = conn.execute("SELECT * FROM results_county WHERE candidate = 'Ralph Jaffe'").fetchone()
-    assert jaffe["total_votes"] == 62 and jaffe["write_in"] == 1
+    assert load_results(conn, tmp_path) == 17
+    jaffes = conn.execute(
+        "SELECT * FROM results_county WHERE candidate = 'Ralph Jaffe' ORDER BY party"
+    ).fetchall()
+    assert [(j["party"], j["total_votes"], j["write_in"]) for j in jaffes] == [
+        ("DEM", 62, 1),
+        ("REP", 62, 1),
+    ]
     votes = conn.execute(
-        "SELECT SUM(votes) FROM results_votes WHERE result_id = ?", (jaffe["id"],)
+        "SELECT SUM(votes) FROM results_votes WHERE result_id = ?", (jaffes[0]["id"],)
     ).fetchone()[0]
     assert votes == 71
 
 
 def test_rejects_a_row_total_mismatch_the_sidecar_does_not_list(conn, tmp_path):
-    write_county(tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, JAFFE])
+    rows, listed = jaffe_rows(15)
+    # listed with other figures
+    listed[0] = {**JAFFE_EXCEPTION, "sum_of_vote_types": 72}
+    write_county(
+        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, *rows],
+        checks={"row_total_exceptions": listed},
+    )  # fmt: skip
     with pytest.raises(
         ResultsLoadError, match="Ralph Jaffe: total votes 62 != sum of vote types 71"
     ):
         load_results(conn, tmp_path)
-    # listed with other figures
-    other = {**JAFFE_EXCEPTION, "sum_of_vote_types": 72}
+    # listed under another party
+    listed[0] = {**JAFFE_EXCEPTION, "party": "REP"}
     write_county(
-        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, JAFFE],
-        checks={"row_total_exceptions": [other]},
+        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, *rows],
+        checks={"row_total_exceptions": listed},
     )  # fmt: skip
     with pytest.raises(
         ResultsLoadError, match="Ralph Jaffe: total votes 62 != sum of vote types 71"
+    ):
+        load_results(conn, tmp_path)
+
+
+def test_rejects_a_sidecar_whose_exception_count_is_not_the_registry_count(conn, tmp_path):
+    # the registry says exactly 15 for this file: a sidecar listing 14, with a file of 14, is
+    # not the file the registry describes
+    rows, listed = jaffe_rows(14)
+    write_county(
+        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, *rows],
+        checks={"row_total_exceptions": listed},
+    )  # fmt: skip
+    with pytest.raises(
+        ResultsLoadError,
+        match="03-baltimore-city-all.csv: the sidecar lists 14 row-total exceptions, but the "
+        "registry lists 15 for GG10 Baltimore City all",
+    ):
+        load_results(conn, tmp_path)
+    # and none listed for a file of 15 mismatches
+    write_county(
+        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, *jaffe_rows(15)[0]]
+    )
+    with pytest.raises(
+        ResultsLoadError, match="lists 0 row-total exceptions, but the registry lists 15"
     ):
         load_results(conn, tmp_path)
 
@@ -403,16 +454,43 @@ def test_rejects_a_listed_row_total_exception_in_a_file_the_registry_does_not_na
         tmp_path, "GG10", "01", "Allegany", "all", [*GG10_GENERAL, JAFFE],
         checks={"row_total_exceptions": [JAFFE_EXCEPTION]},
     )  # fmt: skip
-    with pytest.raises(ResultsLoadError, match="01-allegany-all.csv.*no row-total exceptions"):
+    with pytest.raises(
+        ResultsLoadError,
+        match="01-allegany-all.csv: the sidecar lists 1 row-total exceptions, but the registry "
+        "lists 0 for GG10 Allegany all",
+    ):
         load_results(conn, tmp_path)
+    # the registry names one party file of the county, not the county
+    rows, listed = jaffe_rows(15)
+    write_county(
+        tmp_path / "dem", "GG10", "03", "Baltimore City", "dem", [*GG10_GENERAL, *rows],
+        checks={"row_total_exceptions": listed},
+    )  # fmt: skip
+    with pytest.raises(ResultsLoadError, match="registry lists 0 for GG10 Baltimore City dem"):
+        load_results(conn, tmp_path / "dem")
 
 
 def test_rejects_a_sidecar_listing_a_row_total_exception_the_file_lacks(conn, tmp_path):
+    rows, listed = jaffe_rows(15)
     write_county(
-        tmp_path, "GG10", "03", "Baltimore City", "all", GG10_GENERAL,
-        checks={"row_total_exceptions": [JAFFE_EXCEPTION]},
+        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, *rows[1:]],
+        checks={"row_total_exceptions": listed},
     )  # fmt: skip
     with pytest.raises(
-        ResultsLoadError, match="lists a row-total exception.*Ralph Jaffe.*no such row"
+        ResultsLoadError, match=r"lists a row-total exception.*Ralph Jaffe \(DEM\).*no such row"
+    ):
+        load_results(conn, tmp_path)
+
+
+def test_rejects_a_malformed_row_total_exception_entry(conn, tmp_path):
+    rows, listed = jaffe_rows(15)
+    del listed[0]["total_votes"]
+    write_county(
+        tmp_path, "GG10", "03", "Baltimore City", "all", [*GG10_GENERAL, *rows],
+        checks={"row_total_exceptions": listed},
+    )  # fmt: skip
+    with pytest.raises(
+        ResultsLoadError,
+        match="03-baltimore-city-all.csv: row_total_exceptions entry 1 .*total_votes",
     ):
         load_results(conn, tmp_path)

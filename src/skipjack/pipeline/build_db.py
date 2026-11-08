@@ -301,19 +301,26 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
         )
         _upsert_source(conn, prov)
         # the rows whose printed total the parser accepted as the board's own arithmetic
-        # (results.ROW_TOTAL_EXCEPTIONS), listed in the sidecar: accepted here only as listed
-        county = df["county"][0]
-        exceptions = {
-            (x["office"], _normalize_district(x["district"]), x["candidate"]): (
-                x["total_votes"],
-                x["sum_of_vote_types"],
-            )
-            for x in prov.get("checks", {}).get("row_total_exceptions", [])
-        }
-        if exceptions and (code, county) not in ROW_TOTAL_EXCEPTIONS:
+        # (results.ROW_TOTAL_EXCEPTIONS), listed in the sidecar: accepted here only as listed,
+        # and only as many as the registry says that file has
+        county, party_file = df["county"][0], df["party_file"][0]
+        listed = prov.get("checks", {}).get("row_total_exceptions", [])
+        exceptions = {}
+        for i, x in enumerate(listed, start=1):
+            try:
+                exceptions[
+                    (x["office"], _normalize_district(x["district"]), x["candidate"], x["party"])
+                ] = (x["total_votes"], x["sum_of_vote_types"])
+            except (KeyError, TypeError) as e:
+                raise ResultsLoadError(
+                    f"{csv_path}: row_total_exceptions entry {i} in the sidecar is malformed "
+                    f"({e!r})"
+                ) from None
+        registered = ROW_TOTAL_EXCEPTIONS.get((code, county, party_file), 0)
+        if len(listed) != registered:
             raise ResultsLoadError(
-                f"{csv_path}: the sidecar lists {len(exceptions)} row-total exceptions, but the "
-                f"registry has no row-total exceptions for {code} {county}"
+                f"{csv_path}: the sidecar lists {len(listed)} row-total exceptions, but the "
+                f"registry lists {registered} for {code} {county} {party_file}"
             )
         unused = set(exceptions)
 
@@ -341,7 +348,7 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
                         f"{total_against} != sum of vote types against {sum(seen)}"
                     )
             if vote_sum != row["total_votes"]:
-                key = (row["office"], row["district"], row["candidate"])
+                key = (row["office"], row["district"], row["candidate"], row["party"])
                 if exceptions.get(key) != (row["total_votes"], vote_sum):
                     raise ResultsLoadError(
                         f"{csv_path}: {row['candidate']}: total votes {row['total_votes']} "
@@ -361,10 +368,10 @@ def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
             )
             next_id += 1
         if unused:
-            office, district, candidate = sorted(unused)[0]
+            office, district, candidate, party = sorted(unused)[0]
             raise ResultsLoadError(
                 f"{csv_path}: the sidecar lists a row-total exception for {office} {district} / "
-                f"{candidate}, but the file has no such row with that total"
+                f"{candidate} ({party}), but the file has no such row with that total"
             )
         conn.executemany(
             """INSERT INTO results_county

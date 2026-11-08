@@ -142,11 +142,12 @@ STATEWIDE_CHECK_EXCEPTIONS: dict[tuple[str, str, str, str, str], tuple[int, int]
 }
 
 # County files in which the SBE's printed Total Votes is not the sum of the vote types on some
-# rows: (election code, county) -> exactly how many rows. The board's own arithmetic errors in
-# that file (Baltimore City's 2010 general: 15 write-in rows whose total is below the sum); the
-# printed total is kept as total_votes and the rows are listed in the sidecar. A different
-# count, or any mismatch in a file not listed, still fails the election.
-ROW_TOTAL_EXCEPTIONS: dict[tuple[str, str], int] = {("GG10", "Baltimore City"): 15}
+# rows: (election code, county, party file) -> exactly how many rows. The board's own arithmetic
+# errors in that one file (Baltimore City's 2010 general: 15 write-in rows whose total is below
+# the sum); the printed total is kept as total_votes and the rows are listed in the sidecar. A
+# different count, or any mismatch in a file not listed (a primary's other party files
+# included), still fails the election.
+ROW_TOTAL_EXCEPTIONS: dict[tuple[str, str, str], int] = {("GG10", "Baltimore City", "all"): 15}
 
 
 class ResultsParseError(RuntimeError):
@@ -362,7 +363,8 @@ def _int(value: str, where: str, column: str) -> int | None:
 class ReadFile(NamedTuple):
     frame: pl.DataFrame
     # the rows whose printed total is not the sum of the vote types, accepted only for a file
-    # in ROW_TOTAL_EXCEPTIONS: {office, district, candidate, total_votes, sum_of_vote_types}
+    # in ROW_TOTAL_EXCEPTIONS: {office, district, candidate, party, total_votes,
+    # sum_of_vote_types}
     row_total_exceptions: list[dict]
 
 
@@ -427,7 +429,7 @@ def _read_wide(
         raise ResultsParseError(f"{where}: no data rows (header only)")
 
     rows = []
-    allowed_total_mismatches = ROW_TOTAL_EXCEPTIONS.get((election.code, county), 0)
+    allowed_total_mismatches = ROW_TOTAL_EXCEPTIONS.get((election.code, county, party_file), 0)
     row_total_exceptions: list[dict] = []
     for r in raw.iter_rows(named=True):
         who = f"{where}: {r['Office Name']} / {r['Candidate Name']}"
@@ -461,6 +463,8 @@ def _read_wide(
         if total is None and blank_is_zero:
             total = 0
         out["total_votes"] = total
+        if total is None:
+            raise ResultsParseError(f"{who}: blank Total Votes")
         if total != votes_sum:
             if len(row_total_exceptions) >= allowed_total_mismatches:
                 raise ResultsParseError(
@@ -476,6 +480,7 @@ def _read_wide(
                     "office": out["office"],
                     "district": out["district"],
                     "candidate": out["candidate"],
+                    "party": out["party"],
                     "total_votes": total,
                     "sum_of_vote_types": votes_sum,
                 }
@@ -807,8 +812,6 @@ def _statewide_check_text(e: ResultsElection, check_file: str, result: Statewide
             " on election-night votes (the SBE's district files for 2010-2018 carry "
             "election-day votes only)"
         )
-    elif e.check_votes != "total":
-        text += f" on {e.check_votes} votes"
     if result.exceptions:
         text += (
             "; the board's own figures disagree on "
