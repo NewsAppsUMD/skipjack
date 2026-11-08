@@ -1,0 +1,1441 @@
+"Vote Type (FOR=1,AGAINST=2)","County","Candidate Name","Party","Office Name","Office District","Winner","Write-In?", CONG 04,CONG 08,CONG 07,CONG 01,CONG 05,CONG 03,CONG 02,CONG 06
+1,00,"Anthony G. Brown",DEM,Governor / Lt. Governor,,,,93156,90825,92263,39776,91722,74226,63240,63268
+1,00,"Larry Hogan",REP,Governor / Lt. Governor,,Y,,48209,92712,59309,151903,84441,95078,86702,92500
+1,00,"Shawn Quinn",LIB,Governor / Lt. Governor,,,,1411,2612,2660,2882,2367,2946,2757,2772
+1,00,"Charles U. Smith",DEM,Governor / Lt. Governor,,,Y,12,13,43,19,11,38,29,16
+1,00,"Ed Tinus",UNF,Governor / Lt. Governor,,,Y,0,3,2,2,5,2,1,1
+1,00,"Other Write-Ins",BOT,Governor / Lt. Governor,,,Y,179,344,583,269,223,615,492,198
+1,00,"Peter Franchot",DEM,Comptroller            ,,Y,,103807,110379,110653,85507,106139,104779,95682,79792
+1,00,"William H. Campbell",REP,Comptroller            ,,,,35883,71465,39657,104783,68005,63677,54279,74246
+1,00,"Anjali Reed Phukan",OTH,Comptroller            ,,,Y,36,54,73,44,54,79,55,43
+1,00,"Other Write-Ins",BOT,Comptroller            ,,,Y,131,219,272,127,185,230,189,177
+1,00,"Brian E. Frosh",DEM,Attorney General       ,,Y,,97375,101794,99988,59019,99384,91445,81214,71167
+1,00,"Jeffrey N. Pritzker",REP,Attorney General       ,,,,38393,73633,43729,119246,67738,69195,61062,75608
+1,00,"Leo Wayne Dymowski",LIB,Attorney General       ,,,,3398,5922,5077,7962,5555,6804,6410,5635
+1,00,"Other Write-Ins",BOT,Attorney General       ,,,Y,96,140,537,114,110,237,231,105
+1,00,"Bill Tilghman",DEM,Rep in Congress,01,,,,,,53473,,,,
+1,00,"Andy Harris",REP,Rep in Congress,01,Y,,,,,137982,,,,
+1,00,"Other Write-Ins",BOT,Rep in Congress,01,,Y,,,,182,,,,
+1,00,"C. A. Dutch Ruppersberger",DEM,Rep in Congress,02,Y,,,,,,,,89754,
+1,00,"David Banach",REP,Rep in Congress,02,,,,,,,,,56383,
+1,00,"Ian Schlakman",GRN,Rep in Congress,02,,,,,,,,,4334,
+1,00,"Other Write-Ins",BOT,Rep in Congress,02,,Y,,,,,,,149,
+1,00,"John Sarbanes",DEM,Rep in Congress,03,Y,,,,,,,98356,,
+1,00,"Charles A. Long",REP,Rep in Congress,03,,,,,,,,70607,,
+1,00,"Other Write-Ins",BOT,Rep in Congress,03,,Y,,,,,,265,,
+1,00,"Donna F. Edwards",DEM,Rep in Congress,04,Y,,97262,,,,,,,
+1,00,"Nancy Hoyt",REP,Rep in Congress,04,,,40680,,,,,,,
+1,00,"Arvin Vohra",LIB,Rep in Congress,04,,,2204,,,,,,,
+1,00,"Other Write-Ins",BOT,Rep in Congress,04,,Y,153,,,,,,,
+1,00,"Steny H. Hoyer",DEM,Rep in Congress,05,Y,,,,,,110527,,,
+1,00,"Chris Chaffee",REP,Rep in Congress,05,,,,,,,65947,,,
+1,00,"Dennis L. Fritz",UNF,Rep in Congress,05,,Y,,,,,182,,,
+1,00,"Other Write-Ins",BOT,Rep in Congress,05,,Y,,,,,267,,,
+1,00,"John K. Delaney",DEM,Rep in Congress,06,Y,,,,,,,,,76322
+1,00,"Dan Bongino",REP,Rep in Congress,06,,,,,,,,,,77846
+1,00,"George Gluck",GRN,Rep in Congress,06,,,,,,,,,,3128
+1,00,"Other Write-Ins",BOT,Rep in Congress,06,,Y,,,,,,,,114
+1,00,"Elijah Cummings",DEM,Rep in Congress,07,Y,,,,104094,,,,,
+1,00,"Corrogan R. Vaughn",REP,Rep in Congress,07,,,,,43558,,,,,
+1,00,"Scott Soffen",LIB,Rep in Congress,07,,,,,4815,,,,,
+1,00,"Other Write-Ins",BOT,Rep in Congress,07,,Y,,,156,,,,,
+1,00,"Chris Van Hollen",DEM,Rep in Congress,08,Y,,,107718,,,,,,
+1,00,"Dave Wallace",REP,Rep in Congress,08,,,,74876,,,,,,
+1,00,"Lih Young",DEM,Rep in Congress,08,,Y,,15,,,,,,
+1,00,"Andrew Jaye Wildman",UNF,Rep in Congress,08,,Y,,90,,,,,,
+1,00,"Other Write-Ins",BOT,Rep in Congress,08,,Y,,314,,,,,,
+1,00,"George C. Edwards",REP,State Senator          ,01,Y,,,,,,,,,26434
+1,00,"Other Write-Ins",BOT,State Senator          ,01,,Y,,,,,,,,203
+1,00,"Christopher B. Shank",REP,State Senator          ,02,Y,,,,,,,,,22836
+1,00,"Other Write-Ins",BOT,State Senator          ,02,,Y,,,,,,,,392
+1,00,"Ronald N. Young",DEM,State Senator          ,03,Y,,,2709,,,,,,11380
+1,00,"Corey Stottlemyer",REP,State Senator          ,03,,,,3822,,,,,,10751
+1,00,"Other Write-Ins",BOT,State Senator          ,03,,Y,,7,,,,,,42
+1,00,"Dan Rupli",DEM,State Senator          ,04,,,,10081,,,,,,2166
+1,00,"Michael Hough",REP,State Senator          ,04,Y,,,24344,,,,,,3244
+1,00,"Other Write-Ins",BOT,State Senator          ,04,,Y,,85,,,,,,7
+1,00,"Anita Riley",DEM,State Senator          ,05,,,,4566,,3471,,,,
+1,00,"Joseph M. Getty",REP,State Senator          ,05,Y,,,14034,,17392,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,05,,Y,,29,,19,,,,
+1,00,"John Olszewski, Jr.",DEM,State Senator          ,06,,,,,,,,,10868,
+1,00,"Johnny Ray Salling",REP,State Senator          ,06,Y,,,,,,,,11549,
+1,00,"Scott M. Collier",UNF,State Senator          ,06,,,,,,,,,1787,
+1,00,"Other Write-Ins",BOT,State Senator          ,06,,Y,,,,,,,17,
+1,00,"Kim Letke",DEM,State Senator          ,07,,,,,833,5089,,,3829,
+1,00,"J. B. Jennings",REP,State Senator          ,07,Y,,,,3401,18383,,,7648,
+1,00,"Other Write-Ins",BOT,State Senator          ,07,,Y,,,2,24,,,11,
+1,00,"Katherine Klausmeier",DEM,State Senator          ,08,Y,,,,,3411,,6603,8660,
+1,00,"Erik Lofstad",REP,State Senator          ,08,,,,,,2584,,4947,4422,
+1,00,"Other Write-Ins",BOT,State Senator          ,08,,Y,,,,2,,14,10,
+1,00,"Ryan Frederic",DEM,State Senator          ,09,,,,2109,10356,,,280,,
+1,00,"Gail Bates",REP,State Senator          ,09,Y,,,6668,18993,,,539,,
+1,00,"Other Write-Ins",BOT,State Senator          ,09,,Y,,12,29,,,2,,
+1,00,"Delores G. Kelley",DEM,State Senator          ,10,Y,,,,6308,,,,13602,
+1,00,"Stephanie Boston",DEM,State Senator          ,10,,Y,,,20,,,,85,
+1,00,"Other Write-Ins",BOT,State Senator          ,10,,Y,,,115,,,,212,
+1,00,"Bobby A. Zirkin",DEM,State Senator          ,11,Y,,,,2552,,,12667,7764,
+1,00,"Other Write-Ins",BOT,State Senator          ,11,,Y,,,112,,,316,176,
+1,00,"Edward J. Kasemeyer",DEM,State Senator          ,12,Y,,,,11290,,,3373,1202,
+1,00,"Jesse Tyler Pippy",REP,State Senator          ,12,,,,,7249,,,3945,1259,
+1,00,"Other Write-Ins",BOT,State Senator          ,12,,Y,,,22,,,13,4,
+1,00,"Guy J. Guzzone",DEM,State Senator          ,13,Y,,,,1650,,,13277,4376,
+1,00,"Jody Venkatesan",REP,State Senator          ,13,,,,,804,,,9032,2827,
+1,00,"Other Write-Ins",BOT,State Senator          ,13,,Y,,,2,,,15,8,
+1,00,"Karen S. Montgomery",DEM,State Senator          ,14,Y,,,4760,,,,11025,,1144
+1,00,"Franklin Frank Delano Howard, Jr.",REP,State Senator          ,14,,,,4244,,,,7474,,1729
+1,00,"Other Write-Ins",BOT,State Senator          ,14,,Y,,8,,,,20,,3
+1,00,"Brian J. Feldman",DEM,State Senator          ,15,Y,,,872,,,,,,15241
+1,00,"Robin Ficker",REP,State Senator          ,15,,,,506,,,,,,10095
+1,00,"Other Write-Ins",BOT,State Senator          ,15,,Y,,2,,,,,,37
+1,00,"Susan C. Lee",DEM,State Senator          ,16,Y,,,22214,,,,,,1358
+1,00,"Meyer Marks",REP,State Senator          ,16,,,,9324,,,,,,1131
+1,00,"Other Write-Ins",BOT,State Senator          ,16,,Y,,42,,,,,,3
+1,00,"Cheryl C. Kagan",DEM,State Senator          ,17,Y,,,8070,,,,,,6368
+1,00,"Steve Zellers",REP,State Senator          ,17,,,,3836,,,,,,3094
+1,00,"Other Write-Ins",BOT,State Senator          ,17,,Y,,109,,,,,,32
+1,00,"Richard Madaleno",DEM,State Senator          ,18,Y,,,20402,,,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,18,,Y,,509,,,,,,
+1,00,"Roger Manno",DEM,State Senator          ,19,Y,,,10372,,,,545,,5901
+1,00,"Felix Ed Gonzalez, II",REP,State Senator          ,19,,,,4281,,,,444,,3883
+1,00,"Other Write-Ins",BOT,State Senator          ,19,,Y,,33,,,,3,,14
+1,00,"Jamie Raskin",DEM,State Senator          ,20,Y,,,16674,,,,3183,,
+1,00,"Other Write-Ins",BOT,State Senator          ,20,,Y,,222,,,,56,,
+1,00,"Jim Rosapepe",DEM,State Senator          ,21,Y,,9686,,,,4454,2361,,
+1,00,"Other Write-Ins",BOT,State Senator          ,21,,Y,194,,,,129,99,,
+1,00,"Paul G. Pinsky",DEM,State Senator          ,22,Y,,4975,,,,12340,,,
+1,00,"Janice Denise Fountaine",REP,State Senator          ,22,,,485,,,,2259,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,22,,Y,11,,,,23,,,
+1,00,"Douglas J. J. Peters",DEM,State Senator          ,23,Y,,6072,,,,18690,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,23,,Y,59,,,,292,,,
+1,00,"Joanne C. Benson",DEM,State Senator          ,24,Y,,19896,,,,1682,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,24,,Y,127,,,,22,,,
+1,00,"Ulysses Currie",DEM,State Senator          ,25,Y,,17177,,,,3666,,,
+1,00,"Kory Boone",REP,State Senator          ,25,,,1061,,,,344,,,
+1,00,"Matthew Fogg",DEM,State Senator          ,25,,Y,428,,,,73,,,
+1,00,"Jennifer Lowery-Bell",DEM,State Senator          ,25,,Y,50,,,,0,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,25,,Y,22,,,,2,,,
+1,00,"C. Anthony Muse",DEM,State Senator          ,26,Y,,12836,,,,8957,,,
+1,00,"Kelley Howells",REP,State Senator          ,26,,,1195,,,,1475,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,26,,Y,23,,,,27,,,
+1,00,"Thomas V. Mike Miller, Jr.",DEM,State Senator          ,27,Y,,,,,,22326,,,
+1,00,"Jesse Allen Peed",REP,State Senator          ,27,,,,,,,14081,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,27,,Y,,,,,50,,,
+1,00,"Mac Middleton",DEM,State Senator          ,28,Y,,,,,,21845,,,
+1,00,"Allan Donnelly",REP,State Senator          ,28,,,,,,,11373,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,28,,Y,,,,,52,,,
+1,00,"Roy Dyson",DEM,State Senator          ,29,,,,,,,13825,,,
+1,00,"Steve Waugh",REP,State Senator          ,29,Y,,,,,,18677,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,29,,Y,,,,,21,,,
+1,00,"John C. Astle",DEM,State Senator          ,30,Y,,2333,,,,4143,8395,,
+1,00,"Don Quinn",REP,State Senator          ,30,,,2889,,,,6622,5855,,
+1,00,"Other Write-Ins",BOT,State Senator          ,30,,Y,1,,,,11,24,,
+1,00,"Anthony Scott Harman",DEM,State Senator          ,31,,,2919,,,,,3442,1745,
+1,00,"Bryan W. Simonaire",REP,State Senator          ,31,Y,,10976,,,,,9599,2153,
+1,00,"Other Write-Ins",BOT,State Senator          ,31,,Y,10,,,,,13,4,
+1,00,"James Ed DeGrange",DEM,State Senator          ,32,Y,,839,,,,,6965,6203,
+1,00,"Larry Barber",REP,State Senator          ,32,,,769,,,,,5815,3775,
+1,00,"Other Write-Ins",BOT,State Senator          ,32,,Y,1,,,,,9,1,
+1,00,"Edward R. Reilly",REP,State Senator          ,33,Y,,22655,,,,3678,4920,,
+1,00,"Other Write-Ins",BOT,State Senator          ,33,,Y,399,,,,81,115,,
+1,00,"Mary-Dulany James",DEM,State Senator          ,34,,,,,,3151,,,8918,
+1,00,"Bob Cassilly",REP,State Senator          ,34,Y,,,,,7805,,,9283,
+1,00,"Other Write-Ins",BOT,State Senator          ,34,,Y,,,,18,,,22,
+1,00,"Bridget Kelly",DEM,State Senator          ,35,,,,,,8633,,,,
+1,00,"Wayne Norman",REP,State Senator          ,35,Y,,,,,25444,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,35,,Y,,,,31,,,,
+1,00,"Benjamin Tilghman",DEM,State Senator          ,36,,,,,,9450,,,,
+1,00,"Stephen S. Hershey, Jr.",REP,State Senator          ,36,Y,,,,,20849,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,36,,Y,,,,19,,,,
+1,00,"Christopher R. Robinson",DEM,State Senator          ,37,,,,,,9636,,,,
+1,00,"Adelaide Addie Eckardt",REP,State Senator          ,37,Y,,,,,19495,,,,
+1,00,"Taren James Nance",DEM,State Senator          ,37,,Y,,,,1,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,37,,Y,,,,91,,,,
+1,00,"Jim Mathias",DEM,State Senator          ,38,Y,,,,,15287,,,,
+1,00,"Mike McDermott",REP,State Senator          ,38,,,,,,14479,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,38,,Y,,,,19,,,,
+1,00,"Nancy J. King",DEM,State Senator          ,39,Y,,,,,,,,,15099
+1,00,"Other Write-Ins",BOT,State Senator          ,39,,Y,,,,,,,,421
+1,00,"Catherine E. Pugh",DEM,State Senator          ,40,Y,,,,12967,,,2949,,
+1,00,"Other Write-Ins",BOT,State Senator          ,40,,Y,,,235,,,123,,
+1,00,"Lisa Gladden",DEM,State Senator          ,41,Y,,,,11890,,,7112,,
+1,00,"Other Write-Ins",BOT,State Senator          ,41,,Y,,,131,,,162,,
+1,00,"Jim Brochin",DEM,State Senator          ,42,Y,,,,2869,2098,,1832,12491,
+1,00,"Tim Robinson",REP,State Senator          ,42,,,,,5018,3180,,1278,9051,
+1,00,"Other Write-Ins",BOT,State Senator          ,42,,Y,,,6,6,,4,22,
+1,00,"Joan Carter Conway",DEM,State Senator          ,43,Y,,,,13890,,,4704,,
+1,00,"Other Write-Ins",BOT,State Senator          ,43,,Y,,,226,,,143,,
+1,00,"Shirley Nathan-Pulliam",DEM,State Senator          ,44,Y,,,,18805,,,,,
+1,00,"Bernard Reiter",REP,State Senator          ,44,,,,,4735,,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,44,,Y,,,40,,,,,
+1,00,"Nathaniel J. McFadden",DEM,State Senator          ,45,Y,,,,7589,,,3172,6769,
+1,00,"Other Write-Ins",BOT,State Senator          ,45,,Y,,,89,,,58,68,
+1,00,"Bill Ferguson",DEM,State Senator          ,46,Y,,,,1760,,,9334,3344,
+1,00,"Mateen Rasul Zar",DEM,State Senator          ,46,,Y,,,3,,,38,17,
+1,00,"Other Write-Ins",BOT,State Senator          ,46,,Y,,,5,,,282,37,
+1,00,"Victor Ramirez",DEM,State Senator          ,47,Y,,12722,,,,,,,
+1,00,"Other Write-Ins",BOT,State Senator          ,47,,Y,129,,,,,,,
+1,00,"Wendell R. Beitzel",REP,House of Delegates     ,01A,Y,,,,,,,,,9014
+1,00,"Other Write-Ins",BOT,House of Delegates     ,01A,,Y,,,,,,,,81
+1,00,"Kevin Kelly",DEM,House of Delegates     ,01B,,,,,,,,,,4046
+1,00,"Jason C. Buckel",REP,House of Delegates     ,01B,Y,,,,,,,,,6040
+1,00,"Other Write-Ins",BOT,House of Delegates     ,01B,,Y,,,,,,,,18
+1,00,"Nick Scarpelli",DEM,House of Delegates     ,01C,,,,,,,,,,4146
+1,00,"Mike McKay",REP,House of Delegates     ,01C,Y,,,,,,,,,5623
+1,00,"Other Write-Ins",BOT,House of Delegates     ,01C,,Y,,,,,,,,7
+1,00,"Charles Bailey",DEM,House of Delegates     ,02A,,,,,,,,,,4618
+1,00,"Elizabeth Paul",DEM,House of Delegates     ,02A,,,,,,,,,,7017
+1,00,"Neil C. Parrott",REP,House of Delegates     ,02A,Y,,,,,,,,,15603
+1,00,"Andrew A. Serafini",REP,House of Delegates     ,02A,Y,,,,,,,,,15389
+1,00,"Other Write-Ins",BOT,House of Delegates     ,02A,,Y,,,,,,,,19
+1,00,"John P. Donoghue",DEM,House of Delegates     ,02B,,,,,,,,,,2639
+1,00,"Brett Wilson",REP,House of Delegates     ,02B,Y,,,,,,,,,3289
+1,00,"Other Write-Ins",BOT,House of Delegates     ,02B,,Y,,,,,,,,5
+1,00,"Carol L. Krimm",DEM,House of Delegates     ,03A,Y,,,1105,,,,,,7537
+1,00,"Karen Lewis Young",DEM,House of Delegates     ,03A,Y,,,1035,,,,,,7210
+1,00,"Paul Smith",REP,House of Delegates     ,03A,,,,1508,,,,,,6317
+1,00,"Victoria Wilkins",REP,House of Delegates     ,03A,,,,1440,,,,,,5649
+1,00,"Other Write-Ins",BOT,House of Delegates     ,03A,,Y,,4,,,,,,36
+1,00,"Stephen Slater",DEM,House of Delegates     ,03B,,,,1483,,,,,,3215
+1,00,"William Bill Folden",REP,House of Delegates     ,03B,Y,,,2230,,,,,,4333
+1,00,"Other Write-Ins",BOT,House of Delegates     ,03B,,Y,,2,,,,,,14
+1,00,"Gene Stanton",DEM,House of Delegates     ,04,,,,11245,,,,,,2435
+1,00,"Kathy Afzali",REP,House of Delegates     ,04,Y,,,23846,,,,,,3224
+1,00,"Kelly Schulz",REP,House of Delegates     ,04,Y,,,25836,,,,,,3525
+1,00,"David E. Vogt, III",REP,House of Delegates     ,04,Y,,,20956,,,,,,2871
+1,00,"Other Write-Ins",BOT,House of Delegates     ,04,,Y,,230,,,,,,54
+1,00,"Zachary Hands",DEM,House of Delegates     ,05,,,,3499,,3002,,,,
+1,00,"Dorothy G. Scanlan",DEM,House of Delegates     ,05,,,,4939,,4394,,,,
+1,00,"Susan Krebs",REP,House of Delegates     ,05,Y,,,14042,,15747,,,,
+1,00,"Justin Ready",REP,House of Delegates     ,05,Y,,,13052,,15918,,,,
+1,00,"Haven Shoemaker",REP,House of Delegates     ,05,Y,,,12969,,15440,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,05,,Y,,134,,154,,,,
+1,00,"Nicholas C. D'Adamo, Jr.",DEM,House of Delegates     ,06,,,,,,,,,8912,
+1,00,"Jake Mohorovic",DEM,House of Delegates     ,06,,,,,,,,,7121,
+1,00,"Mike Weir, Jr.",DEM,House of Delegates     ,06,,,,,,,,,8671,
+1,00,"Robin L. Grammer, Jr.",REP,House of Delegates     ,06,Y,,,,,,,,11145,
+1,00,"Bob Long",REP,House of Delegates     ,06,Y,,,,,,,,12888,
+1,00,"Ric Metzgar",REP,House of Delegates     ,06,Y,,,,,,,,11818,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,06,,Y,,,,,,,75,
+1,00,"Bob Bowie, Jr.",DEM,House of Delegates     ,07,,,,,909,4486,,,3175,
+1,00,"Pete Definbaugh",DEM,House of Delegates     ,07,,,,,780,3846,,,2775,
+1,00,"Norman Gifford, Jr.",DEM,House of Delegates     ,07,,,,,784,3990,,,3028,
+1,00,"Rick Impallaria",REP,House of Delegates     ,07,Y,,,,2903,16406,,,6495,
+1,00,"Pat McDonough",REP,House of Delegates     ,07,Y,,,,3145,17581,,,7633,
+1,00,"Kathy Szeliga",REP,House of Delegates     ,07,Y,,,,3021,16801,,,6385,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,07,,Y,,,1,65,,,29,
+1,00,"Eric Bromwell",DEM,House of Delegates     ,08,Y,,,,,2203,,4818,6682,
+1,00,"Bill Paulshock",DEM,House of Delegates     ,08,,,,,,2515,,4041,5764,
+1,00,"Renee Smith",DEM,House of Delegates     ,08,,,,,,1719,,3930,6018,
+1,00,"John Cluster",REP,House of Delegates     ,08,Y,,,,,3548,,6631,5588,
+1,00,"Christian Miele",REP,House of Delegates     ,08,Y,,,,,3704,,6514,5658,
+1,00,"Norma Secoura",REP,House of Delegates     ,08,,,,,,2655,,5273,4523,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,08,,Y,,,,19,,22,21,
+1,00,"Walter E. Carson",DEM,House of Delegates     ,09A,,,,2044,5544,,,273,,
+1,00,"James Ward Morrow",DEM,House of Delegates     ,09A,,,,1770,4842,,,243,,
+1,00,"Trent Kittleman",REP,House of Delegates     ,09A,Y,,,6403,13027,,,540,,
+1,00,"Warren E. Miller",REP,House of Delegates     ,09A,Y,,,5840,11395,,,449,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,09A,,Y,,45,37,,,3,,
+1,00,"Tom Coale",DEM,House of Delegates     ,09B,,,,,4631,,,,,
+1,00,"Bob Flanagan",REP,House of Delegates     ,09B,Y,,,,5751,,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,09B,,Y,,,7,,,,,
+1,00,"Benjamin Brooks",DEM,House of Delegates     ,10,Y,,,,4732,,,,10270,
+1,00,"Jay Jalisi",DEM,House of Delegates     ,10,Y,,,,4514,,,,10262,
+1,00,"Adrienne A. Jones",DEM,House of Delegates     ,10,Y,,,,4843,,,,10351,
+1,00,"William T. Newton",REP,House of Delegates     ,10,,,,,2647,,,,4671,
+1,00,"Michael Tyrone Brown, Sr.",DEM,House of Delegates     ,10,,Y,,,10,,,,36,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,10,,Y,,,61,,,,105,
+1,00,"Shelly Hettleman",DEM,House of Delegates     ,11,Y,,,,1552,,,10430,6102,
+1,00,"Dan Morhaim",DEM,House of Delegates     ,11,Y,,,,1683,,,9917,5491,
+1,00,"Dana M. Stein",DEM,House of Delegates     ,11,Y,,,,1617,,,10068,5644,
+1,00,"Laura Harkins",REP,House of Delegates     ,11,,,,,3049,,,6235,4084,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,11,,Y,,,25,,,123,90,
+1,00,"Eric Ebersole",DEM,House of Delegates     ,12,Y,,,,10144,,,2669,962,
+1,00,"Terri L. Hill",DEM,House of Delegates     ,12,Y,,,,10006,,,2674,1002,
+1,00,"Clarence K. Lam",DEM,House of Delegates     ,12,Y,,,,9768,,,2480,886,
+1,00,"Gordon Bull",REP,House of Delegates     ,12,,,,,6574,,,3603,1143,
+1,00,"Joseph D.Joe Hooe",REP,House of Delegates     ,12,,,,,7300,,,4349,1347,
+1,00,"Rick Martel",REP,House of Delegates     ,12,,,,,6745,,,3510,1132,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,12,,Y,,,64,,,27,6,
+1,00,"Vanessa Atterbeary",DEM,House of Delegates     ,13,Y,,,,1519,,,11799,4049,
+1,00,"Shane Pendergrass",DEM,House of Delegates     ,13,Y,,,,1546,,,12274,4002,
+1,00,"Frank S. Turner",DEM,House of Delegates     ,13,Y,,,,1504,,,11651,3806,
+1,00,"Danny Eaton",REP,House of Delegates     ,13,,,,,754,,,8719,2575,
+1,00,"Jimmy Williams",REP,House of Delegates     ,13,,,,,746,,,8363,2574,
+1,00,"Chris Yates",REP,House of Delegates     ,13,,,,,788,,,8756,2615,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,13,,Y,,,3,,,56,18,
+1,00,"Anne R. Kaiser",DEM,House of Delegates     ,14,Y,,,4687,,,,10940,,1115
+1,00,"Eric Luedtke",DEM,House of Delegates     ,14,Y,,,4281,,,,9882,,999
+1,00,"Craig J. Zucker",DEM,House of Delegates     ,14,Y,,,4461,,,,10403,,1049
+1,00,"Sharon Trexler Begosh",REP,House of Delegates     ,14,,,,3876,,,,6840,,1639
+1,00,"Patricia Fenati",REP,House of Delegates     ,14,,,,4029,,,,6884,,1671
+1,00,"Michael A. Ostroff",REP,House of Delegates     ,14,,,,3908,,,,6785,,1597
+1,00,"V.A. Nia Shell",DEM,House of Delegates     ,14,,Y,,8,,,,19,,0
+1,00,"Other Write-Ins",BOT,House of Delegates     ,14,,Y,,12,,,,39,,7
+1,00,"Kathleen Dumais",DEM,House of Delegates     ,15,Y,,,840,,,,,,14554
+1,00,"David Fraser-Hidalgo",DEM,House of Delegates     ,15,Y,,,732,,,,,,13243
+1,00,"Aruna Miller",DEM,House of Delegates     ,15,Y,,,780,,,,,,13777
+1,00,"Ed Edmundson",REP,House of Delegates     ,15,,,,544,,,,,,10001
+1,00,"Flynn Ficker",REP,House of Delegates     ,15,,,,483,,,,,,9521
+1,00,"Christine Thron",REP,House of Delegates     ,15,,,,489,,,,,,9927
+1,00,"Other Write-Ins",BOT,House of Delegates     ,15,,Y,,4,,,,,,60
+1,00,"Bill Frick",DEM,House of Delegates     ,16,Y,,,20773,,,,,,1224
+1,00,"Ariana Kelly",DEM,House of Delegates     ,16,Y,,,19464,,,,,,1164
+1,00,"Marc Korman",DEM,House of Delegates     ,16,Y,,,19912,,,,,,1185
+1,00,"John Andrews",REP,House of Delegates     ,16,,,,9024,,,,,,1079
+1,00,"Lynda del Castillo",REP,House of Delegates     ,16,,,,8757,,,,,,1029
+1,00,"Rose Maria Li",REP,House of Delegates     ,16,,,,12034,,,,,,1259
+1,00,"Other Write-Ins",BOT,House of Delegates     ,16,,Y,,89,,,,,,2
+1,00,"Kumar P. Barve",DEM,House of Delegates     ,17,Y,,,8573,,,,,,6529
+1,00,"Jim Gilchrist",DEM,House of Delegates     ,17,Y,,,8767,,,,,,6574
+1,00,"Andrew Platt",DEM,House of Delegates     ,17,Y,,,8358,,,,,,6341
+1,00,"Other Write-Ins",BOT,House of Delegates     ,17,,Y,,241,,,,,,214
+1,00,"Al Carr",DEM,House of Delegates     ,18,Y,,,18600,,,,,,
+1,00,"Ana Sol Gutierrez",DEM,House of Delegates     ,18,Y,,,18726,,,,,,
+1,00,"Jeff Waldstreicher",DEM,House of Delegates     ,18,Y,,,18113,,,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,18,,Y,,651,,,,,,
+1,00,"Bonnie Cullison",DEM,House of Delegates     ,19,Y,,,9990,,,,539,,5804
+1,00,"Ben Kramer",DEM,House of Delegates     ,19,Y,,,10405,,,,585,,6018
+1,00,"Marice I. Morales",DEM,House of Delegates     ,19,Y,,,9445,,,,494,,5430
+1,00,"Martha Schaerr",REP,House of Delegates     ,19,,,,5228,,,,511,,4616
+1,00,"Other Write-Ins",BOT,House of Delegates     ,19,,Y,,140,,,,8,,95
+1,00,"Sheila E. Hixson",DEM,House of Delegates     ,20,Y,,,14664,,,,2930,,
+1,00,"David Moon",DEM,House of Delegates     ,20,Y,,,13527,,,,2607,,
+1,00,"Will Smith",DEM,House of Delegates     ,20,Y,,,13672,,,,2661,,
+1,00,"Daniel S. Robinson",GRN,House of Delegates     ,20,,,,4542,,,,652,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,20,,Y,,222,,,,60,,
+1,00,"Ben Barnes",DEM,House of Delegates     ,21,Y,,7528,,,,3599,1517,,
+1,00,"Barbara A. Frush",DEM,House of Delegates     ,21,Y,,7861,,,,3756,1673,,
+1,00,"Joseline Peña-Melnyk",DEM,House of Delegates     ,21,Y,,7265,,,,3694,1405,,
+1,00,"Katherine M. Butcher",REP,House of Delegates     ,21,,,4188,,,,1827,1997,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,21,,Y,89,,,,57,51,,
+1,00,"Tawanna P. Gaines",DEM,House of Delegates     ,22,Y,,4347,,,,11068,,,
+1,00,"Anne Healey",DEM,House of Delegates     ,22,Y,,3848,,,,10803,,,
+1,00,"Alonzo T. Washington",DEM,House of Delegates     ,22,Y,,4110,,,,10866,,,
+1,00,"Lynn White",REP,House of Delegates     ,22,,,590,,,,2711,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,22,,Y,33,,,,86,,,
+1,00,"Geraldine Valentino-Smith",DEM,House of Delegates     ,23A,Y,,1372,,,,3912,,,
+1,00,"Shukoor Ahmed",UNF,House of Delegates     ,23A,,,512,,,,1700,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,23A,,Y,15,,,,19,,,
+1,00,"Marvin E. Holmes, Jr.",DEM,House of Delegates     ,23B,Y,,4031,,,,10989,,,
+1,00,"Joseph F. Vallario, Jr.",DEM,House of Delegates     ,23B,Y,,3102,,,,9741,,,
+1,00,"Mike Hethmon",REP,House of Delegates     ,23B,,,339,,,,3877,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,23B,,Y,19,,,,74,,,
+1,00,"Erek Barron",DEM,House of Delegates     ,24,Y,,15447,,,,1246,,,
+1,00,"Carolyn J. B. Howard",DEM,House of Delegates     ,24,Y,,17053,,,,1418,,,
+1,00,"Michael L. Vaughn",DEM,House of Delegates     ,24,Y,,15612,,,,1315,,,
+1,00,"Cy Okoro",REP,House of Delegates     ,24,,,1600,,,,492,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,24,,Y,69,,,,11,,,
+1,00,"Angela Angel",DEM,House of Delegates     ,25,Y,,15708,,,,3446,,,
+1,00,"Darryl Barnes",DEM,House of Delegates     ,25,Y,,13530,,,,2959,,,
+1,00,"Dereck E. Davis",DEM,House of Delegates     ,25,Y,,13618,,,,2884,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,25,,Y,79,,,,34,,,
+1,00,"Tony Knotts",DEM,House of Delegates     ,26,Y,,11396,,,,8453,,,
+1,00,"Kris Valderrama",DEM,House of Delegates     ,26,Y,,10044,,,,7822,,,
+1,00,"Jay Walker",DEM,House of Delegates     ,26,Y,,10298,,,,8004,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,26,,Y,107,,,,88,,,
+1,00,"James E. Proctor, Jr.",DEM,House of Delegates     ,27A,Y,,,,,,8123,,,
+1,00,"Joe Crawford",REP,House of Delegates     ,27A,,,,,,,3103,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,27A,,Y,,,,,15,,,
+1,00,"Michael A. Jackson",DEM,House of Delegates     ,27B,Y,,,,,,6321,,,
+1,00,"Philip A. Parenti",REP,House of Delegates     ,27B,,,,,,,6359,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,27B,,Y,,,,,14,,,
+1,00,"Sue Kullen",DEM,House of Delegates     ,27C,,,,,,,5020,,,
+1,00,"Mark N. Fisher",REP,House of Delegates     ,27C,Y,,,,,,7369,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,27C,,Y,,,,,7,,,
+1,00,"Sally Y. Jameson",DEM,House of Delegates     ,28,Y,,,,,,20476,,,
+1,00,"Edith J. Patterson",DEM,House of Delegates     ,28,Y,,,,,,17156,,,
+1,00,"C. T. Wilson",DEM,House of Delegates     ,28,Y,,,,,,19029,,,
+1,00,"Jim Crawford",REP,House of Delegates     ,28,,,,,,,14455,,,
+1,00,"John C. Ford",REP,House of Delegates     ,28,,Y,,,,,715,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,28,,Y,,,,,323,,,
+1,00,"Daniel A.M. Slade",DEM,House of Delegates     ,29A,,,,,,,3887,,,
+1,00,"Matt Morgan",REP,House of Delegates     ,29A,Y,,,,,,7479,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,29A,,Y,,,,,12,,,
+1,00,"John Bohanan",DEM,House of Delegates     ,29B,,,,,,,4346,,,
+1,00,"Deb Rey",REP,House of Delegates     ,29B,Y,,,,,,4650,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,29B,,Y,,,,,10,,,
+1,00,"Len Zuza",DEM,House of Delegates     ,29C,,,,,,,3626,,,
+1,00,"Tony O'Donnell",REP,House of Delegates     ,29C,Y,,,,,,8204,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,29C,,Y,,,,,13,,,
+1,00,"Mike Busch",DEM,House of Delegates     ,30A,Y,,1738,,,,336,7212,,
+1,00,"Chuck Ferrar",DEM,House of Delegates     ,30A,,,1348,,,,249,6043,,
+1,00,"Genevieve Lindner",REP,House of Delegates     ,30A,,,2125,,,,513,5222,,
+1,00,"Herb McMillan",REP,House of Delegates     ,30A,Y,,2590,,,,619,7070,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,30A,,Y,12,,,,0,26,,
+1,00,"Mitchelle Stephenson",DEM,House of Delegates     ,30B,,,307,,,,3350,,,
+1,00,"Seth Howard",REP,House of Delegates     ,30B,Y,,589,,,,6433,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,30B,,Y,0,,,,6,,,
+1,00,"Ned Carey",DEM,House of Delegates     ,31A,Y,,,,,,,1478,2320,
+1,00,"Terry Lynn DeGraw",REP,House of Delegates     ,31A,,,,,,,,2060,1641,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,31A,,Y,,,,,,3,4,
+1,00,"Jeremiah Chiappelli",DEM,House of Delegates     ,31B,,,2851,,,,,1907,,
+1,00,"Doug Morris",DEM,House of Delegates     ,31B,,,2360,,,,,1670,,
+1,00,"Nicholaus R. Kipke",REP,House of Delegates     ,31B,Y,,9881,,,,,6891,,
+1,00,"Meagan C. Simonaire",REP,House of Delegates     ,31B,Y,,9373,,,,,6375,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,31B,,Y,34,,,,,31,,
+1,00,"Pamela Beidle",DEM,House of Delegates     ,32,Y,,699,,,,,5997,5781,
+1,00,"Mark S. Chang",DEM,House of Delegates     ,32,Y,,634,,,,,5616,5272,
+1,00,"Theodore J. Sophocleus",DEM,House of Delegates     ,32,Y,,607,,,,,5385,4851,
+1,00,"Mark Angell",REP,House of Delegates     ,32,,,762,,,,,5413,3392,
+1,00,"Joseph Fioravante",REP,House of Delegates     ,32,,,704,,,,,5224,3320,
+1,00,"Tim Walters",REP,House of Delegates     ,32,,,747,,,,,5790,3647,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,32,,Y,5,,,,,23,22,
+1,00,"Kostas Alexakis",DEM,House of Delegates     ,33,,,6811,,,,1184,1726,,
+1,00,"Tom Angelis",DEM,House of Delegates     ,33,,,7473,,,,1411,1892,,
+1,00,"Henry Green",DEM,House of Delegates     ,33,,,8025,,,,1510,1978,,
+1,00,"Tony McConkey",REP,House of Delegates     ,33,Y,,14940,,,,2353,3325,,
+1,00,"Sid Saab",REP,House of Delegates     ,33,Y,,16208,,,,2515,3277,,
+1,00,"Cathy Vitale",REP,House of Delegates     ,33,Y,,19566,,,,2978,4179,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,33,,Y,100,,,,22,14,,
+1,00,"Mary Ann Lisanti",DEM,House of Delegates     ,34A,Y,,,,,167,,,7368,
+1,00,"Marla Posey-Moss",DEM,House of Delegates     ,34A,,,,,,116,,,5874,
+1,00,"Mike Blizzard",REP,House of Delegates     ,34A,,,,,,216,,,6941,
+1,00,"Glen Glass",REP,House of Delegates     ,34A,Y,,,,,260,,,8213,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,34A,,Y,,,,0,,,32,
+1,00,"Cassandra R. Beverley",DEM,House of Delegates     ,34B,,,,,,2563,,,533,
+1,00,"Susan K. McComas",REP,House of Delegates     ,34B,Y,,,,,7862,,,990,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,34B,,Y,,,,11,,,2,
+1,00,"David D. Rudolph",DEM,House of Delegates     ,35A,,,,,,3792,,,,
+1,00,"Kevin Bailey Hornberger",REP,House of Delegates     ,35A,Y,,,,,5145,,,,
+1,00,"Mary Catherine Podlesak",REP,House of Delegates     ,35A,,Y,,,,6,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,35A,,Y,,,,2,,,,
+1,00,"Jeffrey Elliott",DEM,House of Delegates     ,35B,,,,,,4647,,,,
+1,00,"Daniel Lewis Lamey",DEM,House of Delegates     ,35B,,,,,,3447,,,,
+1,00,"Andrew Cassilly",REP,House of Delegates     ,35B,Y,,,,,19225,,,,
+1,00,"Teresa Reilly",REP,House of Delegates     ,35B,Y,,,,,17070,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,35B,,Y,,,,56,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,36,,Y,,,,219,,,,
+1,00,"Robert Alan Thornton, Jr.",DEM,House of Delegates     ,36,,,,,,8496,,,,
+1,00,"Jeff Ghrist",REP,House of Delegates     ,36,Y,,,,,20476,,,,
+1,00,"Jay A. Jacobs",REP,House of Delegates     ,36,Y,,,,,24921,,,,
+1,00,"Irving Pinder",DEM,House of Delegates     ,36,,,,,,9762,,,,
+1,00,"Steve Arentz",REP,House of Delegates     ,36,Y,,,,,19186,,,,
+1,00,"Sheree Sample-Hughes",DEM,House of Delegates     ,37A,Y,,,,,4634,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,37A,,Y,,,,70,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,37B,,Y,,,,21,,,,
+1,00,"Rodney Benjamin",DEM,House of Delegates     ,37B,,,,,,5764,,,,
+1,00,"Keasha N. Haythe",DEM,House of Delegates     ,37B,,,,,,5253,,,,
+1,00,"Johnny Mautz",REP,House of Delegates     ,37B,Y,,,,,15370,,,,
+1,00,"Christopher T. Adams",REP,House of Delegates     ,37B,Y,,,,,11933,,,,
+1,00,"Percy J. Purnell, Jr.",DEM,House of Delegates     ,38A,,,,,,3796,,,,
+1,00,"Charles James Otto",REP,House of Delegates     ,38A,Y,,,,,5824,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,38A,,Y,,,,6,,,,
+1,00,"Norman H. Conway",DEM,House of Delegates     ,38B,,,,,,3584,,,,
+1,00,"Carl Anderton, Jr.",REP,House of Delegates     ,38B,Y,,,,,4309,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,38B,,Y,,,,5,,,,
+1,00,"Judy H. Davis",DEM,House of Delegates     ,38C,,,,,,3039,,,,
+1,00,"Mary Beth Carozza",REP,House of Delegates     ,38C,Y,,,,,8923,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,38C,,Y,,,,3,,,,
+1,00,"Charles Barkley",DEM,House of Delegates     ,39,Y,,,,,,,,,12097
+1,00,"Kirill Reznik",DEM,House of Delegates     ,39,Y,,,,,,,,,10874
+1,00,"Shane Robinson",DEM,House of Delegates     ,39,Y,,,,,,,,,11171
+1,00,"Gloria Chang",REP,House of Delegates     ,39,,,,,,,,,,6744
+1,00,"Xiangfei Cheng",REP,House of Delegates     ,39,,,,,,,,,,6116
+1,00,"Al Phillips",REP,House of Delegates     ,39,,,,,,,,,,6258
+1,00,"Other Write-Ins",BOT,House of Delegates     ,39,,Y,,,,,,,,53
+1,00,"Frank M. Conaway, Jr.",DEM,House of Delegates     ,40,Y,,,,9240,,,1731,,
+1,00,"Antonio Hayes",DEM,House of Delegates     ,40,Y,,,,9278,,,2204,,
+1,00,"Barbara A. Robinson",DEM,House of Delegates     ,40,Y,,,,8784,,,2253,,
+1,00,"Shawn Tarrant",DEM,House of Delegates     ,40,,Y,,,1763,,,845,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,40,,Y,,,165,,,133,,
+1,00,"Jill P. Carter",DEM,House of Delegates     ,41,Y,,,,10598,,,5801,,
+1,00,"Nathaniel T. Oaks",DEM,House of Delegates     ,41,Y,,,,9158,,,5378,,
+1,00,"Samuel I. Sandy Rosenberg",DEM,House of Delegates     ,41,Y,,,,8372,,,6888,,
+1,00,"Chancellor Torbit",UNF,House of Delegates     ,41,,Y,,,142,,,2,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,41,,Y,,,95,,,169,,
+1,00,"Stephen Lafferty",DEM,House of Delegates     ,42A,Y,,,,,,,1228,4710,
+1,00,"Michael A. McAllister",REP,House of Delegates     ,42A,,,,,,,,1012,2892,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,42A,,Y,,,,,,3,9,
+1,00,"Robert Leonard",DEM,House of Delegates     ,42B,,,,,1699,1120,,221,4316,
+1,00,"Craig J. Little",DEM,House of Delegates     ,42B,,,,,1530,1024,,196,3511,
+1,00,"Susan L. Aumann",REP,House of Delegates     ,42B,Y,,,,5741,3894,,561,9168,
+1,00,"Chris West",REP,House of Delegates     ,42B,Y,,,,5083,3339,,545,7597,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,42B,,Y,,,15,9,,2,40,
+1,00,"Curt Anderson",DEM,House of Delegates     ,43,Y,,,,12191,,,4297,,
+1,00,"Maggie McIntosh",DEM,House of Delegates     ,43,Y,,,,11573,,,4473,,
+1,00,"Mary Washington",DEM,House of Delegates     ,43,Y,,,,11440,,,4187,,
+1,00,"Greg Dorsey",UNF,House of Delegates     ,43,,Y,,,54,,,37,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,43,,Y,,,130,,,76,,
+1,00,"Keith E. Haynes",DEM,House of Delegates     ,44A,Y,,,,5727,,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,44A,,Y,,,43,,,,,
+1,00,"Charles E. Sydnor, III",DEM,House of Delegates     ,44B,Y,,,,11226,,,,,
+1,00,"Pat Young",DEM,House of Delegates     ,44B,Y,,,,11011,,,,,
+1,00,"Michael J. Russell",REP,House of Delegates     ,44B,,,,,4904,,,,,
+1,00,"Bishop Barry Chapman",DEM,House of Delegates     ,44B,,Y,,,1,,,,,
+1,00,"Frederick D. Ware-Newsome",DEM,House of Delegates     ,44B,,Y,,,11,,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,44B,,Y,,,64,,,,,
+1,00,"Talmadge Branch",DEM,House of Delegates     ,45,Y,,,,6343,,,2314,5382,
+1,00,"Cheryl D. Glenn",DEM,House of Delegates     ,45,Y,,,,6147,,,2387,5613,
+1,00,"Cory V. McCray",DEM,House of Delegates     ,45,Y,,,,5818,,,2337,5160,
+1,00,"Rick Saffery",REP,House of Delegates     ,45,,,,,599,,,1091,914,
+1,00,"Larry O. Wardlow, Jr.",REP,House of Delegates     ,45,,,,,545,,,974,827,
+1,00,"Ronald M. Owens-Bey",LIB,House of Delegates     ,45,,,,,735,,,697,772,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,45,,Y,,,47,,,18,27,
+1,00,"Luke Clippinger",DEM,House of Delegates     ,46,Y,,,,1365,,,6697,2386,
+1,00,"Peter A. Hammen",DEM,House of Delegates     ,46,Y,,,,1410,,,6886,2560,
+1,00,"Brooke Elizabeth Lierman",DEM,House of Delegates     ,46,Y,,,,1522,,,7339,2644,
+1,00,"Roger D. Bedingfield",REP,House of Delegates     ,46,,,,,222,,,4137,803,
+1,00,"Joseph Joh Sedtal",REP,House of Delegates     ,46,,,,,199,,,3537,690,
+1,00,"Duane Shelton",REP,House of Delegates     ,46,,,,,211,,,3409,689,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,46,,Y,,,8,,,68,17,
+1,00,"Diana M. Fennell",DEM,House of Delegates     ,47A,Y,,8998,,,,,,,
+1,00,"Jimmy Tarlau",DEM,House of Delegates     ,47A,Y,,7110,,,,,,,
+1,00,"Fred Price, Jr.",REP,House of Delegates     ,47A,,,1187,,,,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,47A,,Y,45,,,,,,,
+1,00,"Will Campos",DEM,House of Delegates     ,47B,Y,,2727,,,,,,,
+1,00,"Other Write-Ins",BOT,House of Delegates     ,47B,,Y,16,,,,,,,
+1,02,"George Johnson",DEM,County Executive       ,,,,15553,,,,5015,20070,7371,
+1,02,"Steve Schuh",REP,County Executive       ,,Y,,35238,,,,10222,29601,6515,
+1,02,"Other Write-Ins",BOT,County Executive       ,,,Y,114,,,,27,80,11,
+1,04,"Kevin Kamenetz",DEM,County Executive       ,,Y,,,,28615,6349,,19824,51740,
+1,04,"George H. Harman",REP,County Executive       ,,,,,,19950,10789,,15201,42853,
+1,04,"Kevin Francis Marron",DEM,County Executive       ,,,Y,,,3,3,,9,29,
+1,04,"Tony Solesky",UNF,County Executive       ,,,Y,,,23,25,,23,88,
+1,04,"Other Write-Ins",BOT,County Executive       ,,,Y,,,54,13,,49,133,
+1,11,"Jan H. Gardner",DEM,County Executive       ,,Y,,,17826,,,,,,16257
+1,11,"Blaine R. Young",REP,County Executive       ,,,,,19408,,,,,,11519
+1,11,"Other Write-Ins",BOT,County Executive       ,,,Y,,154,,,,,,87
+1,13,"Joseph Werner",DEM,County Executive       ,,,,,,,8466,,,8063,
+1,13,"Barry Glassman",REP,County Executive       ,,Y,,,,,39785,,,12338,
+1,13,"Other Write-Ins",BOT,County Executive       ,,,Y,,,,42,,,33,
+1,14,"Courtney Watson",DEM,County Executive       ,,,,,,19169,,,13153,4704,
+1,14,"Allan H. Kittleman",REP,County Executive       ,,Y,,,,25575,,,12559,3817,
+1,14,"Other Write-Ins",BOT,County Executive       ,,,Y,,,50,,,23,8,
+1,16,"Ike Leggett",DEM,County Executive       ,,Y,,,76582,,,,14125,,39843
+1,16,"Jim Shalleck",REP,County Executive       ,,,,,34153,,,,8723,,28874
+1,16,"Other Write-Ins",BOT,County Executive       ,,,Y,,561,,,,81,,295
+1,17,"Rushern L. Baker, III",DEM,County Executive       ,,Y,,83301,,,,60569,,,
+1,17,"James J. Carpenter",DEM,County Executive       ,,,Y,4,,,,14,,,
+1,17,"Roussan Etienne, Jr.",UNF,County Executive       ,,,Y,84,,,,151,,,
+1,17,"Aliya Mullins",UNF,County Executive       ,,,Y,43,,,,77,,,
+1,17,"Other Write-Ins",BOT,County Executive       ,,,Y,546,,,,740,,,
+1,23,"Richard M. Pollitt, Jr.",DEM,County Executive       ,,,,,,,8249,,,,
+1,23,"Bob Culver",REP,County Executive       ,,Y,,,,,11231,,,,
+1,23,"Other Write-Ins",BOT,County Executive       ,,,Y,,,,16,,,,
+1,08,"John Ulrich",DEM,County Council         ,002,,,,,,6281,,,,
+1,08,"Joyce A. Bowlsbey",REP,County Council         ,002,Y,,,,,14857,,,,
+1,08,"Other Write-Ins",BOT,County Council         ,002,,Y,,,,19,,,,
+1,08,"Bob Porter",DEM,County Council         ,003,,,,,,5804,,,,
+1,08,"Dan Schneckenburger",REP,County Council         ,003,Y,,,,,14981,,,,
+1,08,"Other Write-Ins",BOT,County Council         ,003,,Y,,,,8,,,,
+1,08,"Wayne Lee Tome, Sr.",DEM,County Council         ,004,,,,,,6989,,,,
+1,08,"George Patchell",REP,County Council         ,004,Y,,,,,14126,,,,
+1,08,"Other Write-Ins",BOT,County Council         ,004,,Y,,,,9,,,,
+1,13,"James Jim D. Thornton",DEM,Pres County Council,,,,,,,12737,,,9237,
+1,13,"Richard C. Slutzky",REP,Pres County Council,,Y,,,,,34975,,,11071,
+1,13,"Other Write-Ins",BOT,Pres County Council,,,Y,,,,63,,,20,
+1,09,"Peter Murphy",DEM,Pres County Commission,,Y,,,,,,23703,,,
+1,09,"Tom Desabla",REP,Pres County Commission,,,,,,,,13949,,,
+1,09,"Other Write-Ins",BOT,Pres County Commission,,,Y,,,,,97,,,
+1,19,"Jack Russell",DEM,Pres County Commission,,,,,,,,12095,,,
+1,19,"Randy Guy",REP,Pres County Commission,,Y,,,,,,14290,,,
+1,19,"Other Write-Ins",BOT,Pres County Commission,,,Y,,,,,18,,,
+1,21,"Eric M. Lowery",DEM,County Council         ,,,,,,,3470,,,,
+1,21,"Hilary Spence",DEM,County Council         ,,,,,,,3995,,,,
+1,21,"Dirck Bartlett",REP,County Council         ,,Y,,,,,5579,,,,
+1,21,"Chuck Callahan",REP,County Council         ,,Y,,,,,6061,,,,
+1,21,"Corey W. Pack",REP,County Council         ,,Y,,,,,6350,,,,
+1,21,"Laura E. Price",REP,County Council         ,,Y,,,,,5947,,,,
+1,21,"Jennifer L. Williams",REP,County Council         ,,Y,,,,,5783,,,,
+1,21,"Other Write-Ins",BOT,County Council         ,,,Y,,,,55,,,,
+1,01,"Kevin M. Shaffer",DEM,County Commissioner    ,,,,,,,,,,,3678
+1,01,"Tom Striplin",DEM,County Commissioner    ,,,,,,,,,,,8335
+1,01,"Creade Brodie, Jr.",REP,County Commissioner    ,,Y,,,,,,,,,10899
+1,01,"Jake Shade",REP,County Commissioner    ,,Y,,,,,,,,,11912
+1,01,"Bill Valentine",REP,County Commissioner    ,,Y,,,,,,,,,10222
+1,01,"Other Write-Ins",BOT,County Commissioner    ,,,Y,,,,,,,,65
+1,06,"James Brown",DEM,County Commissioner    ,,,,,,,2305,,,,
+1,06,"Daniel Franklin",REP,County Commissioner    ,,Y,,,,,4302,,,,
+1,06,"Wilbur Levengood, Jr.",REP,County Commissioner    ,,Y,,,,,4762,,,,
+1,06,"Larry C. Porter",REP,County Commissioner    ,,Y,,,,,5032,,,,
+1,06,"Other Write-Ins",BOT,County Commissioner    ,,,Y,,,,66,,,,
+1,15,"Steven G. Atkinson",DEM,County Commissioner    ,,,,,,,1752,,,,
+1,15,"Ronald H. Fithian",DEM,County Commissioner    ,,Y,,,,,2867,,,,
+1,15,"William W. Pickrum",DEM,County Commissioner    ,,Y,,,,,2653,,,,
+1,15,"Walter T. Coryell, Sr.",REP,County Commissioner    ,,,,,,,2436,,,,
+1,15,"William Billy Short",REP,County Commissioner    ,,Y,,,,,3269,,,,
+1,15,"Other Write-Ins",BOT,County Commissioner    ,,,Y,,,,37,,,,
+1,22,"Brian Beall",DEM,County Commissioner    ,,,,,,,,,,,8907
+1,22,"Ronald L Bowers",DEM,County Commissioner    ,,,,,,,,,,,11320
+1,22,"Millard H. Miller, Jr.",DEM,County Commissioner    ,,,,,,,,,,,6632
+1,22,"Paul F. Miller",DEM,County Commissioner    ,,,,,,,,,,,7715
+1,22,"Terry Baker",REP,County Commissioner    ,,Y,,,,,,,,,23261
+1,22,"John F. Barr",REP,County Commissioner    ,,Y,,,,,,,,,21061
+1,22,"Jeff Cline",REP,County Commissioner    ,,Y,,,,,,,,,21322
+1,22,"LeRoy Myers",REP,County Commissioner    ,,Y,,,,,,,,,19887
+1,22,"William Joseph Wivell",REP,County Commissioner    ,,Y,,,,,,,,,19449
+1,22,"Other Write-Ins",BOT,County Commissioner    ,,,Y,,,,,,,,222
+1,11,"Susan Reeder Jessee",DEM,County Council At Large,,,,,13984,,,,,,13693
+1,11,"Linda Marie Norris",DEM,County Council At Large,,,,,13575,,,,,,13534
+1,11,"Bud Otis",REP,County Council At Large,,Y,,,21498,,,,,,12444
+1,11,"Billy Shreve",REP,County Council At Large,,Y,,,19377,,,,,,11319
+1,11,"Other Write-Ins",BOT,County Council At Large,,,Y,,77,,,,,,64
+1,16,"Marc Elrich",DEM,County Council At Large,,Y,,,73631,,,,13476,,38487
+1,16,"Nancy M. Floreen",DEM,County Council At Large,,Y,,,72356,,,,13437,,38363
+1,16,"George L. Leventhal",DEM,County Council At Large,,Y,,,68669,,,,12697,,35982
+1,16,"Hans Riemer",DEM,County Council At Large,,Y,,,64783,,,,11936,,33579
+1,16,"Robert Dyer",REP,County Council At Large,,,,,31649,,,,8113,,26829
+1,16,"Chris P. Fiotes, Jr.",REP,County Council At Large,,,,,28286,,,,7541,,24314
+1,16,"Adol T. Owen-Williams, II",REP,County Council At Large,,,,,25718,,,,6838,,22336
+1,16,"Shelly Skolnick",REP,County Council At Large,,,,,33072,,,,8064,,26519
+1,16,"Tim Willard",GRN,County Council At Large,,,,,11019,,,,1561,,5161
+1,16,"Other Write-Ins",BOT,County Council At Large,,,Y,,354,,,,69,,180
+1,23,"Laura Mitchell",DEM,County Council At Large,,,,,,,7535,,,,
+1,23,"John T. Cannon",REP,County Council At Large,,Y,,,,,11178,,,,
+1,23,"Matt Holloway",REP,County Council At Large,,Y,,,,,12097,,,,
+1,23,"Other Write-Ins",BOT,County Council At Large,,,Y,,,,68,,,,
+1,05,"Joyce Stinnett Baki",DEM,Cty Commission at Large,,,,,,,,7623,,,
+1,05,"George W. Owings, III",DEM,Cty Commission at Large,,,,,,,,9830,,,
+1,05,"Tom Hejl",REP,Cty Commission at Large,,Y,,,,,,12904,,,
+1,05,"Steve Weems",REP,Cty Commission at Large,,Y,,,,,,14443,,,
+1,05,"Paul Harrison",UNF,Cty Commission at Large,,,,,,,,2313,,,
+1,05,"Other Write-Ins",BOT,Cty Commission at Large,,,Y,,,,,47,,,
+1,18,"Suzanne Hogan",DEM,Cty Commission at Large,,,,,,,5198,,,,
+1,18,"Jim Moran",REP,Cty Commission at Large,,Y,,,,,7997,,,,
+1,18,"Other Write-Ins",BOT,Cty Commission at Large,,,Y,,,,28,,,,
+1,02,"Pete Smith",DEM,County Council         ,001,Y,,,,,,,1391,6033,
+1,02,"Bill Heine",REP,County Council         ,001,,,,,,,,2671,5159,
+1,02,"Other Write-Ins",BOT,County Council         ,001,,Y,,,,,,3,9,
+1,04,"Tom Quirk",DEM,County Council         ,001,Y,,,,12437,,,2017,506,
+1,04,"Albert Nalley",REP,County Council         ,001,,,,,6873,,,2768,659,
+1,04,"Other Write-Ins",BOT,County Council         ,001,,Y,,,26,,,4,1,
+1,10,"Jay L. Newcomb",DEM,County Council         ,001,,,,,,1119,,,,
+1,10,"Don B. Satterfield",REP,County Council         ,001,Y,,,,,1158,,,,
+1,10,"Other Write-Ins",BOT,County Council         ,001,,Y,,,,5,,,,
+1,11,"Jerry Donald",DEM,County Council         ,001,Y,,,3490,,,,,,3432
+1,11,"Ellen L. Bartlett",REP,County Council         ,001,,,,3358,,,,,,3952
+1,11,"Other Write-Ins",BOT,County Council         ,001,,Y,,7,,,,,,22
+1,14,"Jon Weinstein",DEM,County Council         ,001,Y,,,,6133,,,1009,317,
+1,14,"Kevin Forrest Schmidt",REP,County Council         ,001,,,,,5830,,,1092,447,
+1,14,"Other Write-Ins",BOT,County Council         ,001,,Y,,,6,,,5,1,
+1,16,"Roger Berliner",DEM,County Council         ,001,Y,,,29760,,,,,,7352
+1,16,"Jim Kirkland",REP,County Council         ,001,,,,12254,,,,,,5442
+1,16,"Other Write-Ins",BOT,County Council         ,001,,Y,,66,,,,,,13
+1,17,"Mary A. Lehman",DEM,County Council         ,001,Y,,9803,,,,4331,,,
+1,17,"Other Write-Ins",BOT,County Council         ,001,,Y,84,,,,55,,,
+1,23,"Ernest Davis",DEM,County Council         ,001,Y,,,,,2108,,,,
+1,23,"Other Write-Ins",BOT,County Council         ,001,,Y,,,,18,,,,
+1,02,"Andy Werner",DEM,County Council         ,002,,,1247,,,,,4975,,
+1,02,"John Joseph Grasso",REP,County Council         ,002,Y,,1953,,,,,6199,,
+1,02,"David Sgambellone",LIB,County Council         ,002,,,149,,,,,574,,
+1,02,"Other Write-Ins",BOT,County Council         ,002,,Y,0,,,,,10,,
+1,04,"Vicki Almond",DEM,County Council         ,002,Y,,,,1266,,,10731,6817,
+1,04,"Rudy Mitchell Stoler",REP,County Council         ,002,,,,,594,,,5928,3470,
+1,04,"Other Write-Ins",BOT,County Council         ,002,,Y,,,0,,,12,8,
+1,10,"William Nichols",DEM,County Council         ,002,Y,,,,,754,,,,
+1,10,"Other Write-Ins",BOT,County Council         ,002,,Y,,,,2,,,,
+1,11,"Annette Breiling",DEM,County Council         ,002,,,,3874,,,,,,1365
+1,11,"Tony Chmelik",REP,County Council         ,002,Y,,,7257,,,,,,1538
+1,11,"Steve Dempsey",UNF,County Council         ,002,,Y,,638,,,,,,195
+1,11,"Other Write-Ins",BOT,County Council         ,002,,Y,,11,,,,,,3
+1,14,"Calvin Ball",DEM,County Council         ,002,Y,,,,3131,,,3791,1684,
+1,14,"Ralph Colavita",REP,County Council         ,002,,,,,2188,,,2371,1385,
+1,14,"Other Write-Ins",BOT,County Council         ,002,,Y,,,8,,,10,4,
+1,16,"Craig L. Rice",DEM,County Council         ,002,Y,,,1164,,,,,,19085
+1,16,"Dick Jurgena",REP,County Council         ,002,,,,2068,,,,,,12097
+1,16,"Other Write-Ins",BOT,County Council         ,002,,Y,,1,,,,,,42
+1,17,"Deni Taveras",DEM,County Council         ,002,Y,,7088,,,,1177,,,
+1,17,"Other Write-Ins",BOT,County Council         ,002,,Y,106,,,,21,,,
+1,23,"Kirby H. Travers",DEM,County Council         ,002,,,,,,1770,,,,
+1,23,"Marc L. Kilmer",REP,County Council         ,002,Y,,,,,3879,,,,
+1,23,"Other Write-Ins",BOT,County Council         ,002,,Y,,,,3,,,,
+1,02,"Theresa Belinda Martin",DEM,County Council         ,003,,,2725,,,,,2484,,
+1,02,"Derek Fink",REP,County Council         ,003,Y,,8441,,,,,6658,,
+1,02,"Other Write-Ins",BOT,County Council         ,003,,Y,28,,,,,14,,
+1,04,"Laurie Taylor-Mitchell",DEM,County Council         ,003,,,,,4415,1718,,,5688,
+1,04,"A. Wade Kach",REP,County Council         ,003,Y,,,,12347,4877,,,8495,
+1,04,"Other Write-Ins",BOT,County Council         ,003,,Y,,,28,3,,,22,
+1,10,"Ricky C. Travers",DEM,County Council         ,003,Y,,,,,1340,,,,
+1,10,"Other Write-Ins",BOT,County Council         ,003,,Y,,,,14,,,,
+1,11,"M. C. Keegan-Ayer",DEM,County Council         ,003,Y,,,409,,,,,,4817
+1,11,"Denny Shafer",REP,County Council         ,003,,,,491,,,,,,3717
+1,11,"Other Write-Ins",BOT,County Council         ,003,,Y,,1,,,,,,8
+1,14,"Jen Terrasa",DEM,County Council         ,003,Y,,,,,,,7506,3519,
+1,14,"Other Write-Ins",BOT,County Council         ,003,,Y,,,,,,137,108,
+1,16,"Sidney A. Katz",DEM,County Council         ,003,Y,,,12952,,,,,,16089
+1,16,"Other Write-Ins",BOT,County Council         ,003,,Y,,161,,,,,,295
+1,17,"Dannielle Glaros",DEM,County Council         ,003,Y,,3226,,,,8776,,,
+1,17,"Other Write-Ins",BOT,County Council         ,003,,Y,18,,,,78,,,
+1,23,"Joshua Hastings",DEM,County Council         ,003,,,,,,1499,,,,
+1,23,"Larry W. Dodd",REP,County Council         ,003,Y,,,,,2581,,,,
+1,23,"Other Write-Ins",BOT,County Council         ,003,,Y,,,,3,,,,
+1,02,"Andrew C. Pruski",DEM,County Council         ,004,Y,,3501,,,,14,3217,1870,
+1,02,"E. Chiké Anyanwu",REP,County Council         ,004,,,3962,,,,20,2001,610,
+1,02,"Other Write-Ins",BOT,County Council         ,004,,Y,11,,,,0,9,0,
+1,04,"Julian Earl Jones",DEM,County Council         ,004,Y,,,,9079,,,,10904,
+1,04,"Other Write-Ins",BOT,County Council         ,004,,Y,,,88,,,,65,
+1,10,"Lenny Pfeffer",DEM,County Council         ,004,,,,,,813,,,,
+1,10,"Rick Price",REP,County Council         ,004,Y,,,,,937,,,,
+1,10,"Other Write-Ins",BOT,County Council         ,004,,Y,,,,3,,,,
+1,11,"Jessica Fitzwater",DEM,County Council         ,004,Y,,,1571,,,,,,4464
+1,11,"Robert Bob Lawrence",REP,County Council         ,004,,,,1865,,,,,,3464
+1,11,"Other Write-Ins",BOT,County Council         ,004,,Y,,1,,,,,,5
+1,14,"Mary Kay Sigaty",DEM,County Council         ,004,Y,,,,6743,,,4504,,
+1,14,"Other Write-Ins",BOT,County Council         ,004,,Y,,,151,,,176,,
+1,16,"Nancy Navarro",DEM,County Council         ,004,Y,,,16154,,,,5821,,2022
+1,16,"John O'Malley",REP,County Council         ,004,,,,7207,,,,5371,,1458
+1,16,"Other Write-Ins",BOT,County Council         ,004,,Y,,20,,,,16,,3
+1,17,"Todd M. Turner",DEM,County Council         ,004,Y,,1022,,,,15868,,,
+1,17,"Fiona Moodie",REP,County Council         ,004,,,156,,,,4977,,,
+1,17,"Other Write-Ins",BOT,County Council         ,004,,Y,1,,,,32,,,
+1,23,"John B. Hall",REP,County Council         ,004,Y,,,,,1711,,,,
+1,23,"Other Write-Ins",BOT,County Council         ,004,,Y,,,,30,,,,
+1,02,"Patrick Armstrong",DEM,County Council         ,005,,,7432,,,,,2501,,
+1,02,"Michael Anthony Peroutka",REP,County Council         ,005,Y,,9065,,,,,2848,,
+1,02,"Other Write-Ins",BOT,County Council         ,005,,Y,109,,,,,27,,
+1,04,"David Marks",REP,County Council         ,005,Y,,,,,8518,,5781,9668,
+1,04,"Other Write-Ins",BOT,County Council         ,005,,Y,,,,81,,79,172,
+1,10,"Jerome Harris",DEM,County Council         ,005,,,,,,401,,,,
+1,10,"Thomas Bradshaw",REP,County Council         ,005,Y,,,,,1299,,,,
+1,10,"Other Write-Ins",BOT,County Council         ,005,,Y,,,,4,,,,
+1,11,"Mark Long",DEM,County Council         ,005,,,,5915,,,,,,0
+1,11,"Kirby Delauter",REP,County Council         ,005,Y,,,7602,,,,,,0
+1,11,"Other Write-Ins",BOT,County Council         ,005,,Y,,17,,,,,,0
+1,14,"Alan Joseph Schneider",DEM,County Council         ,005,,,,,5091,,,258,,
+1,14,"Greg Fox",REP,County Council         ,005,Y,,,,12833,,,565,,
+1,14,"Other Write-Ins",BOT,County Council         ,005,,Y,,,18,,,2,,
+1,16,"Tom Hucker",DEM,County Council         ,005,Y,,,22080,,,,9548,,
+1,16,"Other Write-Ins",BOT,County Council         ,005,,Y,,257,,,,149,,
+1,17,"Andrea Fletcher Harrison",DEM,County Council         ,005,Y,,14562,,,,,,,
+1,17,"Other Write-Ins",BOT,County Council         ,005,,Y,61,,,,,,,
+1,23,"Joe Holloway",REP,County Council         ,005,Y,,,,,3814,,,,
+1,23,"Other Write-Ins",BOT,County Council         ,005,,Y,,,,44,,,,
+1,02,"Chris Trumbauer",DEM,County Council         ,006,Y,,2025,,,,,7139,,
+1,02,"Dean Matthew D'Camera",REP,County Council         ,006,,,3216,,,,,6311,,
+1,02,"Other Write-Ins",BOT,County Council         ,006,,Y,2,,,,,8,,
+1,04,"Cathy Bevins",DEM,County Council         ,006,Y,,,,,285,,3152,12392,
+1,04,"Jason L. Samios-Uy",REP,County Council         ,006,,,,,,398,,2958,8728,
+1,04,"Other Write-Ins",BOT,County Council         ,006,,Y,,,,1,,7,24,
+1,17,"Derrick Leon Davis",DEM,County Council         ,006,Y,,20977,,,,,,,
+1,17,"Kenneth Blanchard",REP,County Council         ,006,,,1278,,,,,,,
+1,17,"Other Write-Ins",BOT,County Council         ,006,,Y,17,,,,,,,
+1,02,"Jerry Walker",REP,County Council         ,007,Y,,4837,,,,12227,,,
+1,02,"Other Write-Ins",BOT,County Council         ,007,,Y,81,,,,211,,,
+1,04,"Joseph A. DiCara",DEM,County Council         ,007,,,,,,,,,8794,
+1,04,"Todd Crandell",REP,County Council         ,007,Y,,,,,,,,13992,
+1,04,"Other Write-Ins",BOT,County Council         ,007,,Y,,,,,,,31,
+1,17,"Karen Toles",DEM,County Council         ,007,Y,,13705,,,,,,,
+1,17,"Other Write-Ins",BOT,County Council         ,007,,Y,75,,,,,,,
+1,17,"Obie Patterson",DEM,County Council         ,008,Y,,11525,,,,5937,,,
+1,17,"Other Write-Ins",BOT,County Council         ,008,,Y,59,,,,39,,,
+1,17,"Mel Franklin",DEM,County Council         ,009,Y,,,,,,22307,,,
+1,17,"Other Write-Ins",BOT,County Council         ,009,,Y,,,,,161,,,
+1,13,"Dion F. Guthrie",DEM,County Council         ,A,,,,,,,,,4161,
+1,13,"Mike Perrone, Jr.",REP,County Council         ,A,Y,,,,,,,,4732,
+1,13,"Other Write-Ins",BOT,County Council         ,A,,Y,,,,,,,7,
+1,13,"Joe Woods",REP,County Council         ,B,Y,,,,,11736,,,,
+1,13,"Other Write-Ins",BOT,County Council         ,B,,Y,,,,140,,,,
+1,13,"Gina A. Kazimir",DEM,County Council         ,C,,,,,,3230,,,,
+1,13,"James V. Jim McMahan, Jr.",REP,County Council         ,C,Y,,,,,8098,,,,
+1,13,"Other Write-Ins",BOT,County Council         ,C,,Y,,,,22,,,,
+1,13,"Chad R. Shrodes",REP,County Council         ,D,Y,,,,,12342,,,16,
+1,13,"Other Write-Ins",BOT,County Council         ,D,,Y,,,,147,,,0,
+1,13,"Barbara Osborn Kreamer",DEM,County Council         ,E,,,,,,1787,,,1491,
+1,13,"Patrick Vincenti",REP,County Council         ,E,Y,,,,,5366,,,1573,
+1,13,"Other Write-Ins",BOT,County Council         ,E,,Y,,,,6,,,4,
+1,13,"Joseph C. Smith",DEM,County Council         ,F,,,,,,540,,,3537,
+1,13,"Curtis L. Beulah",REP,County Council         ,F,Y,,,,,1503,,,4887,
+1,13,"Other Write-Ins",BOT,County Council         ,F,,Y,,,,2,,,5,
+1,05,"Emad Emile Dides",DEM,County Commissioner    ,001,,,,,,,5940,,,
+1,05,"Mike Hart",REP,County Commissioner    ,001,Y,,,,,,19237,,,
+1,05,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,,,,88,,,
+1,07,"Jackie Jones",DEM,County Commissioner    ,001,,,,58,,1127,,,,
+1,07,"Stephen Albert Wantz",REP,County Commissioner    ,001,Y,,,533,,8174,,,,
+1,07,"Robin Bartlett Frazier",REP,County Commissioner    ,001,,Y,,101,,822,,,,
+1,07,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,14,,66,,,,
+1,09,"Ken Robinson",DEM,County Commissioner    ,001,Y,,,,,,21280,,,
+1,09,"Charles Lollar",REP,County Commissioner    ,001,,,,,,,16593,,,
+1,09,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,,,,75,,,
+1,12,"S. Larry Tichnell",REP,County Commissioner    ,001,Y,,,,,,,,,5084
+1,12,"Leo Martin",LIB,County Commissioner    ,001,,,,,,,,,,1928
+1,12,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,,,,,,,66
+1,18,"Paul W. Comfort",REP,County Commissioner    ,001,Y,,,,,10897,,,,
+1,18,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,,,116,,,,
+1,19,"Merl Evans",DEM,County Commissioner    ,001,,,,,,,8175,,,
+1,19,"Tom Jarboe",REP,County Commissioner    ,001,Y,,,,,,17830,,,
+1,19,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,,,,15,,,
+1,20,"Craig N. Mathies, Sr.",DEM,County Commissioner    ,001,Y,,,,,216,,,,
+1,20,"Van B. Muir, Jr.",REP,County Commissioner    ,001,,,,,,161,,,,
+1,20,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,,,0,,,,
+1,24,"Merrill W. Lockfaw, Jr.",REP,County Commissioner    ,001,Y,,,,,1558,,,,
+1,24,"Other Write-Ins",BOT,County Commissioner    ,001,,Y,,,,21,,,,
+1,05,"Michael J. Moore",DEM,County Commissioner    ,002,,,,,,,7739,,,
+1,05,"Pat Nutter",REP,County Commissioner    ,002,Y,,,,,,16523,,,
+1,05,"Peggy J. O'Donnell",LIB,County Commissioner    ,002,,,,,,,1837,,,
+1,05,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,,20,,,
+1,07,"C. Richard Weaver",REP,County Commissioner    ,002,Y,,,,,9574,,,,
+1,07,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,151,,,,
+1,09,"Debra Davis",DEM,County Commissioner    ,002,Y,,,,,,19144,,,
+1,09,"Mike Bakir",REP,County Commissioner    ,002,,,,,,,15193,,,
+1,09,"Melanie B. Holland",DEM,County Commissioner    ,002,,Y,,,,,2770,,,
+1,09,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,,58,,,
+1,12,"Paul C. Edwards",REP,County Commissioner    ,002,Y,,,,,,,,,6201
+1,12,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,,,,,167
+1,18,"Fred M. McNeil",DEM,County Commissioner    ,002,,,,,,4818,,,,
+1,18,"Steve Wilson",REP,County Commissioner    ,002,Y,,,,,8133,,,,
+1,18,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,17,,,,
+1,19,"Bob Schaller",DEM,County Commissioner    ,002,,,,,,,11014,,,
+1,19,"Mike Hewitt",REP,County Commissioner    ,002,Y,,,,,,15190,,,
+1,19,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,,13,,,
+1,20,"Rex Simpkins",DEM,County Commissioner    ,002,Y,,,,,584,,,,
+1,20,"Mike Lokey",REP,County Commissioner    ,002,,Y,,,,18,,,,
+1,20,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,11,,,,
+1,24,"Diana Purnell",DEM,County Commissioner    ,002,Y,,,,,837,,,,
+1,24,"Lorraine Purnell-Ayres",REP,County Commissioner    ,002,,,,,,541,,,,
+1,24,"Other Write-Ins",BOT,County Commissioner    ,002,,Y,,,,0,,,,
+1,05,"Kelly McConkey",DEM,County Commissioner    ,003,,,,,,,11604,,,
+1,05,"Evan K. Slaughenhoupt, Jr.",REP,County Commissioner    ,003,Y,,,,,,14362,,,
+1,05,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,,,,46,,,
+1,07,"Maria Warburton",DEM,County Commissioner    ,003,,,,2068,,,,,,
+1,07,"Dennis E. Frazier",REP,County Commissioner    ,003,Y,,,6078,,,,,,
+1,07,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,103,,,,,,
+1,09,"Amanda M. Stewart",DEM,County Commissioner    ,003,Y,,,,,,22117,,,
+1,09,"Marcus N. Tillman",REP,County Commissioner    ,003,,,,,,,14790,,,
+1,09,"Cornell CP Posey",DEM,County Commissioner    ,003,,Y,,,,,126,,,
+1,09,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,,,,98,,,
+1,12,"April Hebden",DEM,County Commissioner    ,003,,,,,,,,,,546
+1,12,"Jim Hinebaugh",REP,County Commissioner    ,003,Y,,,,,,,,,3507
+1,12,"Bill Welch",LIB,County Commissioner    ,003,,,,,,,,,,730
+1,12,"James R. Smokey Stanton",UNF,County Commissioner    ,003,,,,,,,,,,1154
+1,12,"Bob Gatto",REP,County Commissioner    ,003,,Y,,,,,,,,1371
+1,12,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,,,,,,,15
+1,18,"Robert Buckey Buckey",REP,County Commissioner    ,003,Y,,,,,9748,,,,
+1,18,"Phil Dumenil",REP,County Commissioner    ,003,,Y,,,,1222,,,,
+1,18,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,,,81,,,,
+1,19,"Joseph Tony St. Clair",DEM,County Commissioner    ,003,,,,,,,11045,,,
+1,19,"John O'Connor",REP,County Commissioner    ,003,Y,,,,,,14837,,,
+1,19,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,,,,16,,,
+1,20,"Charles F. Fisher",REP,County Commissioner    ,003,Y,,,,,1004,,,,
+1,20,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,,,28,,,,
+1,24,"Michael Stewart Maykrantz",DEM,County Commissioner    ,003,,,,,,654,,,,
+1,24,"Bud Church",REP,County Commissioner    ,003,Y,,,,,1624,,,,
+1,24,"Other Write-Ins",BOT,County Commissioner    ,003,,Y,,,,0,,,,
+1,07,"Richard Rothschild",REP,County Commissioner    ,004,Y,,,7739,,,,,,
+1,07,"Jim Rowe",REP,County Commissioner    ,004,,Y,,2564,,,,,,
+1,07,"Sean Shaffer",REP,County Commissioner    ,004,,Y,,15,,,,,,
+1,07,"Other Write-Ins",BOT,County Commissioner    ,004,,Y,,210,,,,,,
+1,09,"Bobby Rucci",DEM,County Commissioner    ,004,Y,,,,,,21389,,,
+1,09,"John Young",REP,County Commissioner    ,004,,,,,,,15646,,,
+1,09,"Other Write-Ins",BOT,County Commissioner    ,004,,Y,,,,,120,,,
+1,18,"Mark A. Anderson",REP,County Commissioner    ,004,Y,,,,,10581,,,,
+1,18,"Other Write-Ins",BOT,County Commissioner    ,004,,Y,,,,109,,,,
+1,19,"Todd B. Morgan",REP,County Commissioner    ,004,Y,,,,,,22187,,,
+1,19,"Other Write-Ins",BOT,County Commissioner    ,004,,Y,,,,,360,,,
+1,20,"Alfred E. Bradford",DEM,County Commissioner    ,004,,,,,,626,,,,
+1,20,"Jerry S. Boston",REP,County Commissioner    ,004,Y,,,,,752,,,,
+1,20,"Eleanor Jeannette Monheiser",UNF,County Commissioner    ,004,,Y,,,,60,,,,
+1,20,"Other Write-Ins",BOT,County Commissioner    ,004,,Y,,,,3,,,,
+1,24,"Virgil L. Shockley",DEM,County Commissioner    ,004,,,,,,966,,,,
+1,24,"Ted Elder",REP,County Commissioner    ,004,Y,,,,,1094,,,,
+1,24,"Other Write-Ins",BOT,County Commissioner    ,004,,Y,,,,3,,,,
+1,07,"Doug Howard",REP,County Commissioner    ,005,Y,,,9363,,,,,,
+1,07,"Cathey Allison",REP,County Commissioner    ,005,,Y,,645,,,,,,
+1,07,"Other Write-Ins",BOT,County Commissioner    ,005,,Y,,143,,,,,,
+1,20,"Randy Laird",DEM,County Commissioner    ,005,Y,,,,,1002,,,,
+1,20,"Other Write-Ins",BOT,County Commissioner    ,005,,Y,,,,22,,,,
+1,24,"Tom Wilson",DEM,County Commissioner    ,005,,,,,,771,,,,
+1,24,"Chip Bertino",REP,County Commissioner    ,005,Y,,,,,1510,,,,
+1,24,"Other Write-Ins",BOT,County Commissioner    ,005,,Y,,,,3,,,,
+1,24,"Madison Jim Bunting, Jr.",REP,County Commissioner    ,006,Y,,,,,2114,,,,
+1,24,"Other Write-Ins",BOT,County Commissioner    ,006,,Y,,,,28,,,,
+1,24,"Joseph M. Mitrecic",REP,County Commissioner    ,007,Y,,,,,1825,,,,
+1,24,"Other Write-Ins",BOT,County Commissioner    ,007,,Y,,,,21,,,,
+1,23,"Melvin M.J. Caldwell, Jr.",BOT,Judge of the Circuit Court,01,,,,,,8182,,,,
+1,23,"Jimmy Sarbanes",BOT,Judge of the Circuit Court,01,Y,,,,,10296,,,,
+1,23,"Other Write-Ins",BOT,Judge of the Circuit Court,01,,Y,,,,32,,,,
+1,08,"Brenda A. Sexton",BOT,Judge of the Circuit Court,02,Y,,,,,17720,,,,
+1,08,"Other Write-Ins",BOT,Judge of the Circuit Court,02,,Y,,,,99,,,,
+1,04,"Colleen A. Cavanaugh",BOT,Judge of the Circuit Court,03,Y,,,,31968,10643,,22684,62807,
+1,04,"Julie L. Glass",BOT,Judge of the Circuit Court,03,Y,,,,28842,9744,,21719,55838,
+1,04,"Paul J. Hanley",BOT,Judge of the Circuit Court,03,Y,,,,26238,9203,,19482,49839,
+1,04,"Justin J. King",BOT,Judge of the Circuit Court,03,Y,,,,25393,8620,,18460,47924,
+1,04,"Other Write-Ins",BOT,Judge of the Circuit Court,03,,Y,,,450,155,,354,944,
+1,13,"Yolanda L. Curtin",BOT,Judge of the Circuit Court,03,Y,,,,,35391,,,16022,
+1,13,"Other Write-Ins",BOT,Judge of the Circuit Court,03,,Y,,,,491,,,212,
+1,22,"Donald E. Beachley",BOT,Judge of the Circuit Court,04,Y,,,,,,,,,21912
+1,22,"Dana Moylan Wright",BOT,Judge of the Circuit Court,04,Y,,,,,,,,,21725
+1,22,"Other Write-Ins",BOT,Judge of the Circuit Court,04,,Y,,,,,,,,220
+1,02,"Ronald A. Silkworth",BOT,Judge of the Circuit Court,05,Y,,38468,,,,11076,38665,11120,
+1,02,"Other Write-Ins",BOT,Judge of the Circuit Court,05,,Y,398,,,,114,429,123,
+1,07,"Fred S. Hecker",BOT,Judge of the Circuit Court,05,Y,,,23161,,15620,,,,
+1,07,"Other Write-Ins",BOT,Judge of the Circuit Court,05,,Y,,195,,94,,,,
+1,11,"Danny B. O'Connor",BOT,Judge of the Circuit Court,06,,,,15166,,,,,,12612
+1,11,"Scott Rolle",BOT,Judge of the Circuit Court,06,Y,,,17950,,,,,,11738
+1,11,"Other Write-Ins",BOT,Judge of the Circuit Court,06,,Y,,61,,,,,,74
+1,16,"Gary Eugene Bair",BOT,Judge of the Circuit Court,06,Y,,,60286,,,,11870,,34743
+1,16,"Daniel Patrick Connell",BOT,Judge of the Circuit Court,06,,,,50203,,,,11180,,33937
+1,16,"Audrey Anne Creighton",BOT,Judge of the Circuit Court,06,Y,,,58399,,,,12562,,35684
+1,16,"Nelson W. Rupp, Jr.",BOT,Judge of the Circuit Court,06,Y,,,59691,,,,11521,,34069
+1,16,"Joan Elizabeth Ryon",BOT,Judge of the Circuit Court,06,Y,,,62806,,,,12339,,37189
+1,16,"Other Write-Ins",BOT,Judge of the Circuit Court,06,,Y,,890,,,,207,,583
+1,05,"Mark S. Chandlee",BOT,Judge of the Circuit Court,07,Y,,,,,,15008,,,
+1,05,"E. Gregory Wells",BOT,Judge of the Circuit Court,07,Y,,,,,,17233,,,
+1,05,"Other Write-Ins",BOT,Judge of the Circuit Court,07,,Y,,,,,106,,,
+1,09,"Thomas R. Simpson, Jr.",BOT,Judge of the Circuit Court,07,Y,,,,,,16539,,,
+1,09,"Jerome R. Spencer",BOT,Judge of the Circuit Court,07,,,,,,,16015,,,
+1,09,"H. James West",BOT,Judge of the Circuit Court,07,Y,,,,,,21632,,,
+1,09,"Other Write-Ins",BOT,Judge of the Circuit Court,07,,Y,,,,,116,,,
+1,17,"Sheila R. Tillerson Adams",BOT,Judge of the Circuit Court,07,Y,,68497,,,,50321,,,
+1,17,"Toni Evon Clarke",BOT,Judge of the Circuit Court,07,Y,,56688,,,,43089,,,
+1,17,"Lawrence V. Hill, Jr.",BOT,Judge of the Circuit Court,07,Y,,55581,,,,42525,,,
+1,17,"Other Write-Ins",BOT,Judge of the Circuit Court,07,,Y,349,,,,447,,,
+1,03,"Melissa Kaye Copeland",BOT,Judge of the Circuit Court,08,Y,,,,39403,,,19886,7652,
+1,03,"Jeffrey M. Geller",BOT,Judge of the Circuit Court,08,Y,,,,30758,,,17948,5910,
+1,03,"Philip S. Jackson",BOT,Judge of the Circuit Court,08,Y,,,,33327,,,17675,6325,
+1,03,"Alfred Nance",BOT,Judge of the Circuit Court,08,Y,,,,30298,,,16386,5634,
+1,03,"Christopher Panos",BOT,Judge of the Circuit Court,08,Y,,,,29256,,,17953,5634,
+1,03,"Melissa Phinn",BOT,Judge of the Circuit Court,08,Y,,,,31456,,,18242,6047,
+1,03,"Julie Rubin",BOT,Judge of the Circuit Court,08,Y,,,,30329,,,18800,5817,
+1,03,"Other Write-Ins",BOT,Judge of the Circuit Court,08,,Y,,,532,,,421,119,
+1,00,"Shirley M. Watts",BOT,Judge Court of Appeals,06,Y,,,,45919,,,21776,8758,
+2,00,"Shirley M. Watts",BOT,Judge Court of Appeals,06,Y,,,,4596,,,4842,1368,
+1,00,"Kevin F. Arthur",BOT,Judge Special Appeals At Large,,Y,,106146,124824,106646,132767,127028,113314,102298,106557
+2,00,"Kevin F. Arthur",BOT,Judge Special Appeals At Large,,Y,,15333,19326,19012,26268,21490,23887,24571,19034
+1,00,"Andrea M. Leahy",BOT,Judge Special Appeals At Large,,Y,,107659,126432,107554,131806,128453,114558,103848,107439
+2,00,"Andrea M. Leahy",BOT,Judge Special Appeals At Large,,Y,,13487,17964,17825,25719,19671,22608,23163,17799
+1,00,"Douglas R. M. Nazarian",BOT,Judge Special Appeals,02,Y,,,,31781,41299,,22857,75720,
+2,00,"Douglas R. M. Nazarian",BOT,Judge Special Appeals,02,Y,,,,7973,11678,,5732,20828,
+1,00,"Michael W. Reed",BOT,Judge Special Appeals,06,Y,,,,42531,,,21095,8160,
+2,00,"Michael W. Reed",BOT,Judge Special Appeals,06,Y,,,,4887,,,4437,1404,
+1,05,"Nova Tracy-Soper",REP,Treasurer              ,,Y,,,,,,22461,,,
+1,05,"Other Write-Ins",BOT,Treasurer              ,,,Y,,,,,131,,,
+1,19,"Carrie Swartz",DEM,Treasurer              ,,,,,,,,7247,,,
+1,19,"Christy Kelly",REP,Treasurer              ,,Y,,,,,,15218,,,
+1,19,"Steve Gelrud",UNF,Treasurer              ,,,,,,,,3170,,,
+1,19,"Other Write-Ins",BOT,Treasurer              ,,,Y,,,,,10,,,
+1,22,"Todd L. Hershey",DEM,Treasurer              ,,Y,,,,,,,,,24283
+1,22,"Other Write-Ins",BOT,Treasurer              ,,,Y,,,,,,,,288
+1,01,"Michael O. Twigg",REP,State's Attorney       ,,Y,,,,,,,,,15598
+1,01,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,,,,,101
+1,02,"Anne Colt Leitess",DEM,State's Attorney       ,,,,17432,,,,5475,21623,7692,
+1,02,"Wes Adams",REP,State's Attorney       ,,Y,,32422,,,,9522,27147,5974,
+1,02,"Other Write-Ins",BOT,State's Attorney       ,,,Y,34,,,,4,34,14,
+1,03,"Marilyn J. Mosby",DEM,State's Attorney       ,,Y,,,,50663,,,23516,9571,
+1,03,"Russell Neverdon",UNF,State's Attorney       ,,,Y,,,2285,,,982,462,
+1,03,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,349,,,701,81,
+1,04,"Scott Shellenberger",DEM,State's Attorney       ,,Y,,,,35852,10908,,25916,71579,
+1,04,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,606,255,,464,1192,
+1,05,"Laura L. Martin",REP,State's Attorney       ,,Y,,,,,,22192,,,
+1,05,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,,135,,,
+1,06,"Jonathan G. Newell",REP,State's Attorney       ,,Y,,,,,6199,,,,
+1,06,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,32,,,,
+1,07,"Brian Deleonardo",REP,State's Attorney       ,,Y,,,27098,,18523,,,,
+1,07,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,291,,141,,,,
+1,08,"E.D. Ellis Rollins, III",REP,State's Attorney       ,,Y,,,,,18538,,,,
+1,08,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,156,,,,
+1,09,"Anthony Tony Covington",DEM,State's Attorney       ,,Y,,,,,,29363,,,
+1,09,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,,368,,,
+1,10,"William H. Jones",DEM,State's Attorney       ,,Y,,,,,6430,,,,
+1,10,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,47,,,,
+1,11,"Teresa Rivera Bean",DEM,State's Attorney       ,,,,,10823,,,,,,12020
+1,11,"Charlie Smith",REP,State's Attorney       ,,Y,,,25600,,,,,,14938
+1,11,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,15,,,,,,23
+1,12,"Lisa Thayer Welch",REP,State's Attorney       ,,Y,,,,,,,,,6031
+1,12,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,,,,,98
+1,13,"Steven Trostle",DEM,State's Attorney       ,,,,,,,9390,,,8346,
+1,13,"Joseph I. Cassilly",REP,State's Attorney       ,,Y,,,,,38251,,,12017,
+1,13,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,27,,,18,
+1,14,"Dario Joseph Broccolino",DEM,State's Attorney       ,,Y,,,,31177,,,19059,6495,
+1,14,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,905,,,384,148,
+1,15,"Andrew C. Meehan",DEM,State's Attorney       ,,,,,,,1974,,,,
+1,15,"Harris P. Murphy",REP,State's Attorney       ,,Y,,,,,3362,,,,
+1,15,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,2,,,,
+1,16,"John McCarthy",DEM,State's Attorney       ,,Y,,,78995,,,,14804,,41750
+1,16,"Dan Gaskill",REP,State's Attorney       ,,,,,30191,,,,7783,,25671
+1,16,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,96,,,,19,,46
+1,17,"Angela Alsobrooks",DEM,State's Attorney       ,,Y,,83804,,,,60538,,,
+1,17,"Other Write-Ins",BOT,State's Attorney       ,,,Y,270,,,,388,,,
+1,18,"Lance Richardson",REP,State's Attorney       ,,Y,,,,,11334,,,,
+1,18,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,75,,,,
+1,19,"Shane Mattingly",DEM,State's Attorney       ,,,,,,,,10147,,,
+1,19,"Richard D. Fritz",REP,State's Attorney       ,,Y,,,,,,16052,,,
+1,19,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,,22,,,
+1,20,"Daniel W. Powell",REP,State's Attorney       ,,Y,,,,,4006,,,,
+1,20,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,41,,,,
+1,21,"Scott G. Patterson",DEM,State's Attorney       ,,Y,,,,,6970,,,,
+1,21,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,87,,,,
+1,22,"Charles P. Strong, Jr.",REP,State's Attorney       ,,Y,,,,,,,,,26627
+1,22,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,,,,,157
+1,23,"Matthew A. Maciarello",REP,State's Attorney       ,,Y,,,,,16388,,,,
+1,23,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,134,,,,
+1,24,"Michael W. Farlow",DEM,State's Attorney       ,,,,,,,5121,,,,
+1,24,"Beau H. Oglesby",REP,State's Attorney       ,,Y,,,,,9329,,,,
+1,24,"Other Write-Ins",BOT,State's Attorney       ,,,Y,,,,8,,,,
+1,01,"Dawne Lindsey",REP,Clerk Circuit Court,,Y,,,,,,,,,16184
+1,01,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,,,,,46
+1,02,"Robert P. Duckworth",REP,Clerk Circuit Court,,Y,,43277,,,,12750,40540,10467,
+1,02,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,268,,,,97,387,163,
+1,03,"Frank M. Conaway",DEM,Clerk Circuit Court,,Y,,,,50085,,,22741,9715,
+1,03,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,798,,,799,92,
+1,04,"Julie Ensor",DEM,Clerk Circuit Court,,Y,,,,28159,6593,,19152,53042,
+1,04,"Eugene Craig, III",REP,Clerk Circuit Court,,,,,,17896,9552,,13890,36712,
+1,04,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,35,13,,28,80,
+1,05,"Kathy P. Smith",DEM,Clerk Circuit Court,,Y,,,,,,19812,,,
+1,05,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,,253,,,
+1,06,"Samuel S. Woods",DEM,Clerk Circuit Court,,,,,,,1383,,,,
+1,06,"Dale Minner",REP,Clerk Circuit Court,,Y,,,,,5764,,,,
+1,06,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,2,,,,
+1,07,"Donald Sealing, II",REP,Clerk Circuit Court,,Y,,,26580,,17992,,,,
+1,07,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,117,,49,,,,
+1,08,"Derrick W. Lowe",REP,Clerk Circuit Court,,Y,,,,,18417,,,,
+1,08,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,66,,,,
+1,09,"Sharon Sherri Hancock",DEM,Clerk Circuit Court,,Y,,,,,,31026,,,
+1,09,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,,237,,,
+1,10,"Amy J. Craig",REP,Clerk Circuit Court,,Y,,,,,7023,,,,
+1,10,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,28,,,,
+1,11,"Lisa Munyan",DEM,Clerk Circuit Court,,,,,9547,,,,,,10914
+1,11,"Sandra K. Dalton",REP,Clerk Circuit Court,,Y,,,26637,,,,,,15834
+1,11,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,11,,,,,,12
+1,12,"Timothy W. Miller",REP,Clerk Circuit Court,,Y,,,,,,,,,6476
+1,12,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,,,,,14
+1,13,"Robert Jay Neuman, Jr.",DEM,Clerk Circuit Court,,,,,,,9136,,,8302,
+1,13,"James Reilly",REP,Clerk Circuit Court,,Y,,,,,37235,,,11649,
+1,13,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,31,,,13,
+1,14,"Wayne A. Robey",DEM,Clerk Circuit Court,,Y,,,,30929,,,18845,6513,
+1,14,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,559,,,259,104,
+1,15,"Mark L. Mumford",DEM,Clerk Circuit Court,,Y,,,,,4008,,,,
+1,15,"Robert H. Strong",REP,Clerk Circuit Court,,,,,,,1422,,,,
+1,15,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,0,,,,
+1,16,"Barbara H. Meiklejohn",DEM,Clerk Circuit Court,,Y,,,87006,,,,17351,,50440
+1,16,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,768,,,,208,,627
+1,17,"Sydney Harrison",DEM,Clerk Circuit Court,,Y,,82313,,,,59296,,,
+1,17,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,217,,,,293,,,
+1,18,"Scott MacGlashan",REP,Clerk Circuit Court,,Y,,,,,11420,,,,
+1,18,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,63,,,,
+1,19,"Joanie W. Williams",DEM,Clerk Circuit Court,,Y,,,,,,19961,,,
+1,19,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,,350,,,
+1,20,"Kathy M. Grant",DEM,Clerk Circuit Court,,,,,,,1788,,,,
+1,20,"Charles T. Horner",REP,Clerk Circuit Court,,Y,,,,,3142,,,,
+1,20,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,3,,,,
+1,21,"Mary Ann Shortall",DEM,Clerk Circuit Court,,Y,,,,,7604,,,,
+1,21,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,50,,,,
+1,22,"Dennis Weaver",DEM,Clerk Circuit Court,,Y,,,,,,,,,16181
+1,22,"Douglas Bigelow",REP,Clerk Circuit Court,,,,,,,,,,,15753
+1,22,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,,,,,10
+1,23,"Mark S. Bowen",DEM,Clerk Circuit Court,,Y,,,,,15530,,,,
+1,23,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,173,,,,
+1,24,"Valerie Gaskill",DEM,Clerk Circuit Court,,,,,,,4622,,,,
+1,24,"Susan Braniecki",REP,Clerk Circuit Court,,Y,,,,,9607,,,,
+1,24,"Other Write-Ins",BOT,Clerk Circuit Court,,,Y,,,,27,,,,
+1,01,"Rebecca Drew",REP,Register of Wills      ,,Y,,,,,,,,,15297
+1,01,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,,,,,33
+1,02,"Jacqueline Allsup",DEM,Register of Wills      ,,,,13963,,,,4655,18789,7232,
+1,02,"Lauren M. Parker",REP,Register of Wills      ,,Y,,34450,,,,9915,28924,6228,
+1,02,"Other Write-Ins",BOT,Register of Wills      ,,,Y,39,,,,8,39,8,
+1,03,"Belinda K. Conaway",DEM,Register of Wills      ,,Y,,,,49549,,,22701,9613,
+1,03,"Ramona Moore Baker",DEM,Register of Wills      ,,,Y,,,517,,,311,76,
+1,03,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,546,,,561,74,
+1,04,"Grace G. Connolly",DEM,Register of Wills      ,,Y,,,,36068,10897,,25678,71710,
+1,04,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,350,161,,262,678,
+1,05,"Margaret H. Phipps",DEM,Register of Wills      ,,Y,,,,,,13517,,,
+1,05,"Mark S. Lynch",REP,Register of Wills      ,,,,,,,,11947,,,
+1,05,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,,6,,,
+1,06,"Jim Phelps",REP,Register of Wills      ,,Y,,,,,6296,,,,
+1,06,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,28,,,,
+1,07,"Paul G. Zimmermann",REP,Register of Wills      ,,Y,,,26672,,18119,,,,
+1,07,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,100,,32,,,,
+1,08,"Allyn Lyn Price Nickle",DEM,Register of Wills      ,,,,,,,9431,,,,
+1,08,"Michael W. Good Mike Dawson",REP,Register of Wills      ,,Y,,,,,11448,,,,
+1,08,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,10,,,,
+1,09,"Loraine Davies Hennessy",DEM,Register of Wills      ,,Y,,,,,,30646,,,
+1,09,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,,228,,,
+1,10,"Doris Keene Lewis",DEM,Register of Wills      ,,Y,,,,,6595,,,,
+1,10,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,32,,,,
+1,11,"Chad W. Weddle",DEM,Register of Wills      ,,,,,10593,,,,,,11235
+1,11,"Sharon Keller",REP,Register of Wills      ,,Y,,,25359,,,,,,15367
+1,11,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,25,,,,,,22
+1,12,"Rita L. Watson",REP,Register of Wills      ,,Y,,,,,,,,,6652
+1,12,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,,,,,19
+1,13,"Derek K. Hopkins",REP,Register of Wills      ,,Y,,,,,42806,,,16561,
+1,13,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,217,,,149,
+1,14,"Byron Macfarlane",DEM,Register of Wills      ,,Y,,,,30320,,,18545,6451,
+1,14,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,507,,,248,103,
+1,15,"Nancy Lee Jewell",DEM,Register of Wills      ,,Y,,,,,3356,,,,
+1,15,"Leslie C. Moorhouse",REP,Register of Wills      ,,,,,,,1876,,,,
+1,15,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,1,,,,
+1,16,"Joseph M. Griffin",DEM,Register of Wills      ,,Y,,,87519,,,,17668,,51124
+1,16,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,564,,,,156,,466
+1,17,"Cereta A. Lee",DEM,Register of Wills      ,,Y,,82354,,,,59284,,,
+1,17,"Other Write-Ins",BOT,Register of Wills      ,,,Y,176,,,,281,,,
+1,18,"Debbie Thompson Callahan",DEM,Register of Wills      ,,,,,,,4610,,,,
+1,18,"Laura Nan Cook",REP,Register of Wills      ,,Y,,,,,8509,,,,
+1,18,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,16,,,,
+1,19,"Lois Duke",DEM,Register of Wills      ,,Y,,,,,,19795,,,
+1,19,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,,319,,,
+1,20,"Betsy Simpkins Schrock",DEM,Register of Wills      ,,,,,,,2154,,,,
+1,20,"Keith B. Ward",REP,Register of Wills      ,,Y,,,,,2818,,,,
+1,20,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,7,,,,
+1,21,"Patricia Patti E. Campen",DEM,Register of Wills      ,,Y,,,,,6936,,,,
+1,21,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,41,,,,
+1,22,"Jason A. Malott",DEM,Register of Wills      ,,Y,,,,,,,,,23175
+1,22,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,,,,,215
+1,23,"Karen A. Lemon",DEM,Register of Wills      ,,Y,,,,,15523,,,,
+1,23,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,143,,,,
+1,24,"Charlotte Kerbin Cathell",REP,Register of Wills      ,,Y,,,,,12505,,,,
+1,24,"Other Write-Ins",BOT,Register of Wills      ,,,Y,,,,55,,,,
+1,01,"Charles Buck Taylor",DEM,Judge Orphans Court,,,,,,,,,,,5403
+1,01,"Edward C. Crossland",REP,Judge Orphans Court,,Y,,,,,,,,,9963
+1,01,"Billie J. Gilpin",REP,Judge Orphans Court,,Y,,,,,,,,,10550
+1,01,"Donna F. May",REP,Judge Orphans Court,,Y,,,,,,,,,11944
+1,01,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,,,,,33
+1,02,"Nancy B. Hirshman",DEM,Judge Orphans Court,,,,16640,,,,5356,20985,7737,
+1,02,"Judith L. Duckett",REP,Judge Orphans Court,,Y,,34066,,,,10101,30313,7250,
+1,02,"Nancy C. Phelps",REP,Judge Orphans Court,,Y,,34524,,,,9759,30485,7406,
+1,02,"Alan Rzepkowski",REP,Judge Orphans Court,,Y,,28684,,,,7966,24613,5639,
+1,02,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,197,,,,78,203,61,
+1,03,"Charles Chuck Bernstein",DEM,Judge Orphans Court,,Y,,,,43207,,,21661,8478,
+1,03,"Lewyn Scott Garrett",DEM,Judge Orphans Court,,Y,,,,39349,,,19731,7666,
+1,03,"Michele E. Loewenthal",DEM,Judge Orphans Court,,Y,,,,39913,,,21538,7860,
+1,03,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,198,,,212,65,
+1,04,"William R. Bill Evans",DEM,Judge Orphans Court,,Y,,,,24883,6310,,17126,47895,
+1,04,"Juliet Fisher",DEM,Judge Orphans Court,,Y,,,,27792,7290,,19617,53239,
+1,04,"Arthur M. Frank",DEM,Judge Orphans Court,,Y,,,,24063,5937,,17269,44786,
+1,04,"Peter V. Gargano",REP,Judge Orphans Court,,,,,,21256,11290,,16807,44102,
+1,04,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,210,79,,162,411,
+1,05,"Thomas Michael Pelagatti",DEM,Judge Orphans Court,,Y,,,,,,14487,,,
+1,05,"Leslie Downs",REP,Judge Orphans Court,,Y,,,,,,16856,,,
+1,05,"Theodore Philip LeBlanc",REP,Judge Orphans Court,,Y,,,,,,14594,,,
+1,05,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,,146,,,
+1,06,"Ellery Adams",REP,Judge Orphans Court,,Y,,,,,4625,,,,
+1,06,"Ron Fearins",REP,Judge Orphans Court,,Y,,,,,5043,,,,
+1,06,"Conway Gregory",REP,Judge Orphans Court,,Y,,,,,4660,,,,
+1,06,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,47,,,,
+1,07,"Charles E. Harrison",DEM,Judge Orphans Court,,,,,7271,,3530,,,,
+1,07,"Ed Leister",DEM,Judge Orphans Court,,,,,7399,,4725,,,,
+1,07,"Neil Ridgely",DEM,Judge Orphans Court,,,,,6068,,3205,,,,
+1,07,"John D. Carbaugh",REP,Judge Orphans Court,,Y,,,18492,,13124,,,,
+1,07,"Cathy Reese",REP,Judge Orphans Court,,Y,,,20191,,13718,,,,
+1,07,"Dorothy V. Utz",REP,Judge Orphans Court,,Y,,,20752,,14687,,,,
+1,07,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,45,,16,,,,
+1,08,"Richard Charles Bartel",DEM,Judge Orphans Court,,,,,,,5161,,,,
+1,08,"W. Edwin Cole, Jr.",DEM,Judge Orphans Court,,,,,,,7035,,,,
+1,08,"Sally Saunders Camp",REP,Judge Orphans Court,,Y,,,,,12084,,,,
+1,08,"Carolyn L. Crouch",REP,Judge Orphans Court,,Y,,,,,13836,,,,
+1,08,"Pete Pritchard",REP,Judge Orphans Court,,Y,,,,,11418,,,,
+1,08,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,28,,,,
+1,09,"J. Lorraine Berry",DEM,Judge Orphans Court,,Y,,,,,,22123,,,
+1,09,"Darlene Breck",DEM,Judge Orphans Court,,Y,,,,,,21141,,,
+1,09,"Frank H. Lancaster",DEM,Judge Orphans Court,,Y,,,,,,21042,,,
+1,09,"Brian L. Still",REP,Judge Orphans Court,,,,,,,,15477,,,
+1,09,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,,120,,,
+1,11,"James Edward French",DEM,Judge Orphans Court,,,,,9500,,,,,,10771
+1,11,"Janis Judson",DEM,Judge Orphans Court,,,,,9858,,,,,,11077
+1,11,"Bonnie L. Nicholson",DEM,Judge Orphans Court,,,,,10152,,,,,,11089
+1,11,"Cleopatra Campbell",REP,Judge Orphans Court,,Y,,,20691,,,,,,12665
+1,11,"Adrian McC. Remsberg",REP,Judge Orphans Court,,Y,,,20777,,,,,,12110
+1,11,"Jimmy W. Trout",REP,Judge Orphans Court,,Y,,,21661,,,,,,12046
+1,11,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,49,,,,,,51
+1,12,"Fred Sanders",REP,Judge Orphans Court,,Y,,,,,,,,,4817
+1,12,"Wayne Wilt",REP,Judge Orphans Court,,Y,,,,,,,,,4570
+1,12,"Everett B. DeBerry",DEM,Judge Orphans Court,,,Y,,,,,,,,175
+1,12,"Dave Beard",REP,Judge Orphans Court,,,Y,,,,,,,,408
+1,12,"Dan Duggan",REP,Judge Orphans Court,,Y,Y,,,,,,,,1492
+1,12,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,,,,,82
+1,14,"Anne L. Dodd",DEM,Judge Orphans Court,,Y,,,,21125,,,13930,4680,
+1,14,"Nicole Bormel Miller",DEM,Judge Orphans Court,,Y,,,,18733,,,12755,4451,
+1,14,"Leslie Smith Turner",DEM,Judge Orphans Court,,Y,,,,19233,,,13175,4557,
+1,14,"Ellen Harrison",REP,Judge Orphans Court,,,,,,21184,,,10445,3301,
+1,14,"Emma Travis-Howard",REP,Judge Orphans Court,,,,,,18949,,,9658,3101,
+1,14,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,247,,,165,70,
+1,15,"Elroy G. Boyer, Jr.",DEM,Judge Orphans Court,,Y,,,,,2638,,,,
+1,15,"Rosalie Brady Kuechler",DEM,Judge Orphans Court,,,,,,,2231,,,,
+1,15,"Paul M. Showalter",DEM,Judge Orphans Court,,,,,,,2001,,,,
+1,15,"Elizabeth Betty Carroll",REP,Judge Orphans Court,,Y,,,,,2714,,,,
+1,15,"Amy L. Nickerson",REP,Judge Orphans Court,,Y,,,,,2584,,,,
+1,15,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,10,,,,
+1,17,"Wendy Alise Cartwright",DEM,Judge Orphans Court,,Y,,73517,,,,53428,,,
+1,17,"Athena Malloy Groves",DEM,Judge Orphans Court,,Y,,67768,,,,50145,,,
+1,17,"Vicky L. Ivory-Orem",DEM,Judge Orphans Court,,Y,,65942,,,,49073,,,
+1,17,"Monika Wilson",DEM,Judge Orphans Court,,,Y,17,,,,14,,,
+1,17,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,265,,,,365,,,
+1,18,"Stan Ruddie",DEM,Judge Orphans Court,,,,,,,2534,,,,
+1,18,"Thomas Walsh",DEM,Judge Orphans Court,,,,,,,4788,,,,
+1,18,"Kimberly Jean Cascia",REP,Judge Orphans Court,,Y,,,,,8284,,,,
+1,18,"Joseph V. DiPietro",REP,Judge Orphans Court,,Y,,,,,7409,,,,
+1,18,"Eric Wargotz",REP,Judge Orphans Court,,Y,,,,,7202,,,,
+1,18,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,50,,,,
+1,19,"Linda R. Dean",DEM,Judge Orphans Court,,,,,,,,10262,,,
+1,19,"Bill Mattingly",DEM,Judge Orphans Court,,,,,,,,10846,,,
+1,19,"Albert Allie Babcock",REP,Judge Orphans Court,,Y,,,,,,11376,,,
+1,19,"Michael R. White",REP,Judge Orphans Court,,Y,,,,,,11907,,,
+1,19,"Dalton Wood, Jr.",REP,Judge Orphans Court,,Y,,,,,,15546,,,
+1,19,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,,68,,,
+1,20,"Kenneth E. Ballard, Jr.",DEM,Judge Orphans Court,,,,,,,1468,,,,
+1,20,"Donald L. Howard",DEM,Judge Orphans Court,,,,,,,2274,,,,
+1,20,"Bob McCready",DEM,Judge Orphans Court,,Y,,,,,2289,,,,
+1,20,"Libby M. Hall",REP,Judge Orphans Court,,Y,,,,,2380,,,,
+1,20,"John R. Somers",REP,Judge Orphans Court,,Y,,,,,2977,,,,
+1,20,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,21,,,,
+1,21,"Paul S. Carroll",REP,Judge Orphans Court,,Y,,,,,6466,,,,
+1,21,"Carville Don Duncan",REP,Judge Orphans Court,,Y,,,,,5888,,,,
+1,21,"Will Howard",REP,Judge Orphans Court,,Y,,,,,6270,,,,
+1,21,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,26,,,,
+1,22,"Linda Davis",DEM,Judge Orphans Court,,,,,,,,,,,10806
+1,22,"Eileen W. Wiggins",DEM,Judge Orphans Court,,,,,,,,,,,9315
+1,22,"Cassandra Laverne Costley",REP,Judge Orphans Court,,Y,,,,,,,,,17376
+1,22,"Joseph W. Eichelberger",REP,Judge Orphans Court,,Y,,,,,,,,,18965
+1,22,"John M. Shriver",REP,Judge Orphans Court,,Y,,,,,,,,,19760
+1,22,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,,,,,84
+1,23,"Norma Lee Barkley",DEM,Judge Orphans Court,,Y,,,,,8679,,,,
+1,23,"Melissa Pollitt Bright",DEM,Judge Orphans Court,,Y,,,,,8822,,,,
+1,23,"Peter D. Pete Evans",DEM,Judge Orphans Court,,,,,,,7790,,,,
+1,23,"Grover Green Cantwell, Jr.",REP,Judge Orphans Court,,Y,,,,,11514,,,,
+1,23,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,88,,,,
+1,24,"Bill Shockley",DEM,Judge Orphans Court,,Y,,,,,7049,,,,
+1,24,"Linda M. Hess",REP,Judge Orphans Court,,Y,,,,,8502,,,,
+1,24,"J. Franklin Knight",REP,Judge Orphans Court,,,,,,,6973,,,,
+1,24,"Dale Smack",REP,Judge Orphans Court,,Y,,,,,9099,,,,
+1,24,"Other Write-Ins",BOT,Judge Orphans Court,,,Y,,,,35,,,,
+1,10,"George Robert Ames, Jr.",DEM,Judge Orphans Court,001,Y,,,,,1944,,,,
+1,10,"Other Write-Ins",BOT,Judge Orphans Court,001,,Y,,,,5,,,,
+1,10,"Carolyn I. Todd",DEM,Judge Orphans Court,002,Y,,,,,3795,,,,
+1,10,"Calvin Travers",DEM,Judge Orphans Court,002,Y,,,,,3845,,,,
+1,10,"Other Write-Ins",BOT,Judge Orphans Court,002,,Y,,,,34,,,,
+1,01,"Craig Robertson",REP,Sheriff                ,,Y,,,,,,,,,15827
+1,01,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,,,,,74
+1,02,"Ron Bateman",DEM,Sheriff                ,,Y,,24454,,,,7124,27011,8639,
+1,02,"Joseph James Delimater, III",REP,Sheriff                ,,,,24826,,,,7695,21426,4979,
+1,02,"Other Write-Ins",BOT,Sheriff                ,,,Y,50,,,,13,40,16,
+1,03,"John W. Anderson",DEM,Sheriff                ,,Y,,,,47070,,,19206,8510,
+1,03,"David Anthony Wiggins",REP,Sheriff                ,,,,,,6381,,,11055,2182,
+1,03,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,138,,,121,27,
+1,04,"R. Jay Fisher",DEM,Sheriff                ,,Y,,,,34577,10567,,24716,69005,
+1,04,"Al Roberts",DEM,Sheriff                ,,,Y,,,81,34,,30,148,
+1,04,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,417,182,,306,831,
+1,05,"Craig W. Kontra",DEM,Sheriff                ,,,,,,,,12965,,,
+1,05,"Mike Evans",REP,Sheriff                ,,Y,,,,,,13648,,,
+1,05,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,,36,,,
+1,06,"Randy Bounds",DEM,Sheriff                ,,Y,,,,,3614,,,,
+1,06,"George Bacorn",REP,Sheriff                ,,,,,,,3397,,,,
+1,06,"Thomas M. Walsh",DEM,Sheriff                ,,,Y,,,,22,,,,
+1,06,"Tim Crook",UNF,Sheriff                ,,,Y,,,,119,,,,
+1,06,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,12,,,,
+1,07,"Vincent C. Pacelli",DEM,Sheriff                ,,,,,7386,,4055,,,,
+1,07,"Jim DeWees",REP,Sheriff                ,,Y,,,23794,,16689,,,,
+1,07,"Other Write-Ins",BOT,Sheriff                ,,,Y,,54,,31,,,,
+1,08,"W. Danny Blackburn",DEM,Sheriff                ,,,,,,,5398,,,,
+1,08,"Scott Adams",REP,Sheriff                ,,Y,,,,,15925,,,,
+1,08,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,49,,,,
+1,09,"Troy Berry",DEM,Sheriff                ,,Y,,,,,,29046,,,
+1,09,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,,2525,,,
+1,10,"James W. Phillips, Jr.",DEM,Sheriff                ,,Y,,,,,4610,,,,
+1,10,"Gregory Scott Robbins, Sr.",REP,Sheriff                ,,,,,,,3406,,,,
+1,10,"John A. Foster, Sr.",DEM,Sheriff                ,,,Y,,,,244,,,,
+1,10,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,8,,,,
+1,11,"Karl Bickel",DEM,Sheriff                ,,,,,10793,,,,,,12182
+1,11,"Chuck Jenkins",REP,Sheriff                ,,Y,,,26284,,,,,,15249
+1,11,"Other Write-Ins",BOT,Sheriff                ,,,Y,,51,,,,,,42
+1,12,"Skyler Hebden",DEM,Sheriff                ,,,,,,,,,,,949
+1,12,"Robert E. Corley",REP,Sheriff                ,,Y,,,,,,,,,6242
+1,12,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,,,,,26
+1,13,"Jesse Bane",DEM,Sheriff                ,,,,,,,17948,,,10847,
+1,13,"Jeffrey R. Gahler",REP,Sheriff                ,,Y,,,,,30360,,,9636,
+1,13,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,58,,,25,
+1,14,"James F. Fitzgerald",DEM,Sheriff                ,,Y,,,,21772,,,14295,4967,
+1,14,"John Francis McMahon",REP,Sheriff                ,,,,,,20367,,,10088,3203,
+1,14,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,115,,,72,25,
+1,15,"John F. Price",REP,Sheriff                ,,Y,,,,,4366,,,,
+1,15,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,71,,,,
+1,16,"Darren Mark Popkin",DEM,Sheriff                ,,Y,,,87110,,,,17706,,50875
+1,16,"Other Write-Ins",BOT,Sheriff                ,,,Y,,833,,,,216,,629
+1,17,"Melvin C. High",DEM,Sheriff                ,,Y,,79814,,,,54880,,,
+1,17,"Gregory Prakas",REP,Sheriff                ,,,,8064,,,,12749,,,
+1,17,"Other Write-Ins",BOT,Sheriff                ,,,Y,88,,,,81,,,
+1,18,"Kevin Rhodes",DEM,Sheriff                ,,,,,,,5752,,,,
+1,18,"Gary Hofmann",REP,Sheriff                ,,Y,,,,,7606,,,,
+1,18,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,36,,,,
+1,19,"Tim Cameron",REP,Sheriff                ,,Y,,,,,,22896,,,
+1,19,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,,251,,,
+1,20,"Ronald Howard",DEM,Sheriff                ,,Y,,,,,2796,,,,
+1,20,"Rick Taylor",REP,Sheriff                ,,,,,,,2205,,,,
+1,20,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,8,,,,
+1,21,"Joe Gamble",REP,Sheriff                ,,Y,,,,,7940,,,,
+1,21,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,63,,,,
+1,22,"Doug Mullendore",DEM,Sheriff                ,,Y,,,,,,,,,24339
+1,22,"Dennis J Rudden",REP,Sheriff                ,,,Y,,,,,,,,59
+1,22,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,,,,,305
+1,23,"Mike Lewis",REP,Sheriff                ,,Y,,,,,16412,,,,
+1,23,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,247,,,,
+1,24,"Reggie T. Mason, Sr.",REP,Sheriff                ,,Y,,,,,12519,,,,
+1,24,"Other Write-Ins",BOT,Sheriff                ,,,Y,,,,73,,,,
+1,08,"Wendy Wintersgill",NON,Board of Education,003,Y,,,,,16199,,,,
+1,08,"Other Write-Ins",NON,Board of Education,003,,Y,,,,66,,,,
+1,08,"William Malesh",NON,Board of Education,004,Y,,,,,16026,,,,
+1,08,"Other Write-Ins",NON,Board of Education,004,,Y,,,,54,,,,
+1,08,"Dawn Branch",NON,Board of Education,005,Y,,,,,16125,,,,
+1,08,"Other Write-Ins",NON,Board of Education,005,,Y,,,,48,,,,
+1,01,"Bill Davis",NON,Board of Education     ,,,,,,,,,,,5013
+1,01,"Lorelee Farrell",NON,Board of Education     ,,,,,,,,,,,7041
+1,01,"Wayne T. Foote",NON,Board of Education     ,,Y,,,,,,,,,7084
+1,01,"Sara-Beth James",NON,Board of Education     ,,Y,,,,,,,,,9996
+1,01,"Laurie Peskin Marchini",NON,Board of Education     ,,Y,,,,,,,,,7635
+1,01,"James M. Smith",NON,Board of Education     ,,,,,,,,,,,5103
+1,01,"Other Write-Ins",NON,Board of Education     ,,,Y,,,,,,,,54
+1,07,"George E. Harmening",NON,Board of Education     ,,,,,9575,,6755,,,,
+1,07,"Virginia R. Harrison",NON,Board of Education     ,,Y,,,15773,,9153,,,,
+1,07,"Bob Lord",NON,Board of Education     ,,Y,,,11066,,6869,,,,
+1,07,"Charles Bud Nason",NON,Board of Education     ,,,,,9910,,7401,,,,
+1,07,"Jim Roenick",NON,Board of Education     ,,,,,10313,,7139,,,,
+1,07,"Devon Rothschild",NON,Board of Education     ,,Y,,,14407,,8229,,,,
+1,07,"Other Write-Ins",NON,Board of Education     ,,,Y,,261,,101,,,,
+1,09,"Jennifer S. Abell",NON,Board of Education     ,,Y,,,,,,20677,,,
+1,09,"Mark Crawford",NON,Board of Education     ,,Y,,,,,,13311,,,
+1,09,"Lorina Harris",NON,Board of Education     ,,,,,,,,10582,,,
+1,09,"Jason Henry, Sr.",NON,Board of Education     ,,,,,,,,8935,,,
+1,09,"Victoria Vicki Talley Kelly",NON,Board of Education     ,,Y,,,,,,17310,,,
+1,09,"Karla M. Kornegay",NON,Board of Education     ,,,,,,,,8591,,,
+1,09,"Michael Mike Lukas",NON,Board of Education     ,,Y,,,,,,15927,,,
+1,09,"Margaret T. Marshall",NON,Board of Education     ,,Y,,,,,,12048,,,
+1,09,"Virginia Ginny McGraw",NON,Board of Education     ,,Y,,,,,,15567,,,
+1,09,"Barbara Palko",NON,Board of Education     ,,Y,,,,,,13034,,,
+1,09,"Melissa Pascarella",NON,Board of Education     ,,,,,,,,8597,,,
+1,09,"Robert Michael Pitts",NON,Board of Education     ,,,,,,,,10931,,,
+1,09,"Michael A. Wilson",NON,Board of Education     ,,,,,,,,10992,,,
+1,09,"Stephen Ziegler",NON,Board of Education     ,,,,,,,,8187,,,
+1,09,"Derrick Terry",NON,Board of Education     ,,,Y,,,,,320,,,
+1,09,"Other Write-Ins",NON,Board of Education     ,,,Y,,,,,453,,,
+1,11,"Liz Barrett",NON,Board of Education     ,,Y,,,15676,,,,,,13505
+1,11,"Colleen E. Cusimano",NON,Board of Education     ,,Y,,,14839,,,,,,11110
+1,11,"Mike Ferrell",NON,Board of Education     ,,,,,12635,,,,,,9240
+1,11,"Millicent Hall",NON,Board of Education     ,,,,,10307,,,,,,8941
+1,11,"Kenneth Kerr",NON,Board of Education     ,,,,,13515,,,,,,10609
+1,11,"April Fleming Miller",NON,Board of Education     ,,Y,,,14350,,,,,,10346
+1,11,"Richard S. Vallaster, III",NON,Board of Education     ,,,,,9224,,,,,,7160
+1,11,"Brad W. Young",NON,Board of Education     ,,Y,,,16305,,,,,,10839
+1,11,"Other Write-Ins",NON,Board of Education     ,,,Y,,180,,,,,,175
+1,14,"Bess I. Altwerger",NON,Board of Education     ,,Y,,,,15046,,,9799,3396,
+1,14,"Zaneb K. Beams",NON,Board of Education     ,,,,,,11706,,,7679,2560,
+1,14,"Allen Dyer",NON,Board of Education     ,,,,,,12186,,,6731,2399,
+1,14,"Sandra H. French",NON,Board of Education     ,,Y,,,,18096,,,10079,3358,
+1,14,"Dan Furman",NON,Board of Education     ,,,,,,13753,,,8631,2861,
+1,14,"Christine O'Connor",NON,Board of Education     ,,Y,,,,16258,,,9243,3402,
+1,14,"Mike Smith",NON,Board of Education     ,,,,,,10897,,,5629,2018,
+1,14,"Cynthia L. Vaillancourt",NON,Board of Education     ,,Y,,,,17874,,,11463,3768,
+1,14,"Other Write-Ins",NON,Board of Education     ,,,Y,,,449,,,262,125,
+1,15,"Wendy Costa",NON,Board of Education     ,,Y,,,,,1824,,,,
+1,15,"Michael Harvey",NON,Board of Education     ,,,,,,,1609,,,,
+1,15,"Nivek M. Johnson",NON,Board of Education     ,,,,,,,1073,,,,
+1,15,"Trish McGee",NON,Board of Education     ,,Y,,,,,3380,,,,
+1,15,"Jeff Reed",NON,Board of Education     ,,Y,,,,,2476,,,,
+1,15,"Linda M. Reed",NON,Board of Education     ,,,,,,,1641,,,,
+1,15,"Other Write-Ins",NON,Board of Education     ,,,Y,,,,15,,,,
+1,22,"Jacqueline Fischer",NON,Board of Education     ,,Y,,,,,,,,,13539
+1,22,"Mike Guessford",NON,Board of Education     ,,Y,,,,,,,,,15115
+1,22,"Karen J. Harshman",NON,Board of Education     ,,Y,,,,,,,,,14137
+1,22,"Ryan Richard Miner",NON,Board of Education     ,,,,,,,,,,,8007
+1,22,"Peter E. Perini, Sr.",NON,Board of Education     ,,,,,,,,,,,13204
+1,22,"Stan Stouffer",NON,Board of Education     ,,,,,,,,,,,12154
+1,22,"Other Write-Ins",NON,Board of Education     ,,,Y,,,,,,,,215
+1,05,"Dawn C. Balinski",NON,Board of Education At Large,,,,,,,,8871,,,
+1,05,"Pamela L. Cousins",NON,Board of Education At Large,,Y,,,,,,11092,,,
+1,05,"Eugene Gene Karol",NON,Board of Education At Large,,,,,,,,8851,,,
+1,05,"William J. Bill Phalen",NON,Board of Education At Large,,Y,,,,,,10218,,,
+1,05,"Other Write-Ins",NON,Board of Education At Large,,,Y,,,,,134,,,
+1,16,"Shebra Evans",NON,Board of Education At Large,,,,,36419,,,,9304,,24365
+1,16,"Jill Ortman-Fouse",NON,Board of Education At Large,,Y,,,42821,,,,7540,,24863
+1,16,"Other Write-Ins",NON,Board of Education At Large,,,Y,,406,,,,91,,300
+1,18,"John T. McQueeney, Jr.",NON,Board of Education At Large,,,,,,,5366,,,,
+1,18,"Arlene F. Taylor",NON,Board of Education At Large,,Y,,,,,5445,,,,
+1,18,"Other Write-Ins",NON,Board of Education At Large,,,Y,,,,27,,,,
+1,16,"Judy Docca",NON,Board of Education     ,001,Y,,,42033,,,,9194,,25875
+1,16,"Kristin C. Trible",NON,Board of Education     ,001,,,,32645,,,,7273,,23087
+1,16,"Other Write-Ins",NON,Board of Education     ,001,,Y,,289,,,,71,,218
+1,16,"Laurie Halverson",NON,Board of Education     ,003,,,,27706,,,,6063,,19586
+1,16,"Patricia O'Neill",NON,Board of Education     ,003,Y,,,49299,,,,10680,,30719
+1,16,"Other Write-Ins",NON,Board of Education     ,003,,Y,,260,,,,61,,171
+1,16,"Mike Durso",NON,Board of Education     ,005,Y,,,46968,,,,9963,,27367
+1,16,"Larry E. Edmonds",NON,Board of Education     ,005,,,,26187,,,,6853,,20632
+1,16,"Other Write-Ins",NON,Board of Education     ,005,,Y,,301,,,,66,,213
+1,21,"Otis Sampson",NON,Board of Education     ,001,Y,,,,,424,,,,
+1,21,"Other Write-Ins",NON,Board of Education     ,001,,Y,,,,4,,,,
+1,17,"Lupi Grady",NON,Board of Education     ,002,Y,,203,,,,6501,,,
+1,17,"Peggy Higgins",NON,Board of Education     ,002,,,276,,,,5384,,,
+1,17,"Other Write-Ins",NON,Board of Education     ,002,,Y,0,,,,42,,,
+1,06,"Jim Newcomb, Jr.",NON,Board of Education     ,003,Y,,,,,2116,,,,
+1,06,"Other Write-Ins",NON,Board of Education     ,003,,Y,,,,15,,,,
+1,17,"Dinora A. Hernandez",NON,Board of Education     ,003,Y,,3897,,,,911,,,
+1,17,"Amber Waller",NON,Board of Education     ,003,,,3643,,,,885,,,
+1,17,"Other Write-Ins",NON,Board of Education     ,003,,Y,24,,,,10,,,
+1,21,"Michael Garman",NON,Board of Education     ,003,Y,,,,,470,,,,
+1,21,"Dorothy Pruitt Olds",NON,Board of Education     ,003,,,,,,434,,,,
+1,21,"Other Write-Ins",NON,Board of Education     ,003,,Y,,,,4,,,,
+1,21,"Bob Burris",NON,Board of Education     ,004,,,,,,518,,,,
+1,21,"Martha Darling Sparks",NON,Board of Education     ,004,Y,,,,,808,,,,
+1,21,"Other Write-Ins",NON,Board of Education     ,004,,Y,,,,3,,,,
+1,17,"Carolyn M. Boston",NON,Board of Education     ,006,Y,,13525,,,,,,,
+1,17,"Pat Fletcher",NON,Board of Education     ,006,,,4431,,,,,,,
+1,17,"Other Write-Ins",NON,Board of Education     ,006,,Y,41,,,,,,,
+1,21,"Jeff Craig",NON,Board of Education     ,007,,,,,,454,,,,
+1,21,"Sandra E. Kleppinger",NON,Board of Education     ,007,Y,,,,,1078,,,,
+1,21,"Other Write-Ins",NON,Board of Education     ,007,,Y,,,,8,,,,
+1,17,"Domonique A. Flowers",NON,Board of Education     ,009,,,20,,,,9932,,,
+1,17,"Sonya Williams",NON,Board of Education     ,009,Y,,21,,,,11266,,,
+1,17,"Other Write-Ins",NON,Board of Education     ,009,,Y,1,,,,66,,,
+1,12,"Stuart Harvey",NON,Board of Education     ,001,,,,,,,,,,2010
+1,12,"Matthew A. Paugh",NON,Board of Education     ,001,Y,,,,,,,,,3839
+1,12,"Other Write-Ins",NON,Board of Education     ,001,,Y,,,,,,,,22
+1,18,"Annette DiMaggio",NON,Board of Education     ,001,Y,,,,,9635,,,,
+1,18,"Other Write-Ins",NON,Board of Education     ,001,,Y,,,,36,,,,
+1,19,"John Alonzo Gaskin",NON,Board of Education     ,001,,,,,,,9498,,,
+1,19,"Rita Weaver",NON,Board of Education     ,001,Y,,,,,,12873,,,
+1,19,"Other Write-Ins",NON,Board of Education     ,001,,Y,,,,,67,,,
+1,12,"Tom Carr",NON,Board of Education     ,002,Y,,,,,,,,,5436
+1,12,"Other Write-Ins",NON,Board of Education     ,002,,Y,,,,,,,,36
+1,18,"Jennifer M. George",NON,Board of Education     ,002,Y,,,,,6576,,,,
+1,18,"Steven K. Kline",NON,Board of Education     ,002,,,,,,3483,,,,
+1,18,"Other Write-Ins",NON,Board of Education     ,002,,Y,,,,16,,,,
+1,12,"Fred Gregg",NON,Board of Education     ,003,,,,,,,,,,2852
+1,12,"Monica L. Rinker",NON,Board of Education     ,003,Y,,,,,,,,,3768
+1,12,"Other Write-Ins",NON,Board of Education     ,003,,Y,,,,,,,,25
+1,19,"Karin Bailey",NON,Board of Education     ,003,Y,,,,,,13493,,,
+1,19,"Brooke Matthews",NON,Board of Education     ,003,,,,,,,7940,,,
+1,19,"Other Write-Ins",NON,Board of Education     ,003,,Y,,,,,84,,,
+1,20,"Penny Nicholson",NON,Board of Education     ,001,Y,,,,,291,,,,
+1,20,"Other Write-Ins",NON,Board of Education     ,001,,Y,,,,5,,,,
+1,24,"Doug Dryden",NON,Board of Education     ,001,Y,,,,,1576,,,,
+1,24,"Other Write-Ins",NON,Board of Education     ,001,,Y,,,,8,,,,
+1,20,"Robert Thomas Wells",NON,Board of Education     ,003,Y,,,,,992,,,,
+1,20,"Other Write-Ins",NON,Board of Education     ,003,,Y,,,,7,,,,
+1,24,"Scott Baker",NON,Board of Education     ,004,,,,,,799,,,,
+1,24,"Bill Gordy",NON,Board of Education     ,004,Y,,,,,1058,,,,
+1,24,"Other Write-Ins",NON,Board of Education     ,004,,Y,,,,5,,,,
+1,20,"Margo Green-Gale",NON,Board of Education     ,005,Y,,,,,621,,,,
+1,20,"Carolyn Marquis",NON,Board of Education     ,005,,,,,,448,,,,
+1,20,"Other Write-Ins",NON,Board of Education     ,005,,Y,,,,10,,,,
+1,24,"Eric Cropper",NON,Board of Education     ,006,Y,,,,,1212,,,,
+1,24,"Bob Hulburd",NON,Board of Education     ,006,,,,,,887,,,,
+1,24,"Other Write-Ins",NON,Board of Education     ,006,,Y,,,,10,,,,
+1,24,"JeriLyn Holston",NON,Board of Education     ,007,,,,,,605,,,,
+1,24,"Robert A. Rothermel, Jr.",NON,Board of Education     ,007,Y,,,,,1243,,,,
+1,24,"Other Write-Ins",NON,Board of Education     ,007,,Y,,,,3,,,,
+1,10,"LeOtha N. Hull",NON,Board of Education,002,Y,,,,,723,,,,
+1,10,"Other Write-Ins",NON,Board of Education,002,,Y,,,,2,,,,
+1,10,"Glen Payne",NON,Board of Education,004,Y,,,,,1412,,,,
+1,10,"Other Write-Ins",NON,Board of Education,004,,Y,,,,10,,,,
+1,13,"Frederick A. Mullis",NON,Board of Education,A,,,,,,,,,3250,
+1,13,"Jansen M. Robinson",NON,Board of Education,A,Y,,,,,,,,4073,
+1,13,"Other Write-Ins",NON,Board of Education,A,,Y,,,,,,,70,
+1,13,"Robert Bob Frisch",NON,Board of Education,B,Y,,,,,6443,,,,
+1,13,"Laura Runyeon",NON,Board of Education,B,,,,,,5154,,,,
+1,13,"Other Write-Ins",NON,Board of Education,B,,Y,,,,103,,,,
+1,13,"Alysson L. Krchnavy",NON,Board of Education,C,,,,,,4678,,,,
+1,13,"Joseph L. Voskuhl",NON,Board of Education,C,Y,,,,,4665,,,,
+1,13,"Other Write-Ins",NON,Board of Education,C,,Y,,,,155,,,,
+1,13,"Nancy Reynolds",NON,Board of Education,D,Y,,,,,7513,,,12,
+1,13,"Mike Simon",NON,Board of Education,D,,,,,,3635,,,3,
+1,13,"Other Write-Ins",NON,Board of Education,D,,Y,,,,131,,,1,
+1,13,"Rachel Gauthier",NON,Board of Education,E,Y,,,,,3619,,,1720,
+1,13,"Arthur Kaff",NON,Board of Education,E,,,,,,2240,,,920,
+1,13,"Other Write-Ins",NON,Board of Education,E,,Y,,,,67,,,20,
+1,13,"Thomas Fitzpatrick",NON,Board of Education,F,Y,,,,,927,,,3686,
+1,13,"Michael R. Hitchings",NON,Board of Education,F,,,,,,677,,,3632,
+1,13,"Other Write-Ins",NON,Board of Education,F,,Y,,,,19,,,44,
+1,01,"Brian K. Grim",NON,Mayor of Cumberland,CU,Y,,,,,,,,,3278
+1,01,"Jeffrey M. Grogg",NON,Mayor of Cumberland,CU,,,,,,,,,,486
+1,01,"Mary C. Miltenberger",NON,Mayor of Cumberland,CU,,,,,,,,,,694
+1,01,"Seth D. Bernard",NON,Council - City of Cumberland,CU,Y,,,,,,,,,3088
+1,01,"Dustin W. Freas",NON,Council - City of Cumberland,CU,,,,,,,,,,2033
+1,01,"David F. Kauffman",NON,Council - City of Cumberland,CU,Y,,,,,,,,,2457
+1,01,"Sylvester Young, III",NON,Council - City of Cumberland,CU,,,,,,,,,,250
+1,02,"Teresa Milio Birge",NON,Board of Education,32,Y,,32530,,,,9569,32819,9901,
+2,02,"Teresa Milio Birge",NON,Board of Education,32,Y,,9115,,,,2755,9143,2368,

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG14-county-13-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Harford_County_2014_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Harford results (all)",
+  "fetch_date": "2026-11-08T01:34:36+00:00",
+  "parse_date": "2026-11-08T01:50:48+00:00",
+  "sha256_original": "a7b15d1895863bb5245f7ea8ecbdec218467e01303b82d8c2bc07e8d9737f808",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG14 Harford county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 106,
+    "row_totals": "ok",
+    "statewide_check": "ok: 495 statewide rows (490 for, 5 against) match State_Congressional_Districts_2014_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP14-county-16-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Montgomery_County_Republican_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Montgomery results (rep)",
+  "fetch_date": "2026-11-08T01:34:42+00:00",
+  "parse_date": "2026-11-08T01:50:47+00:00",
+  "sha256_original": "d0eef1ab12afefe5d937fb1f07e7fa67b1d6b440e856802c5b782d4edd476805",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP14 Montgomery county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 89,
+    "row_totals": "ok",
+    "statewide_check": "ok: 209 statewide rows (209 for, 0 against) match State_Congressional_Districts_Republican_2014_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

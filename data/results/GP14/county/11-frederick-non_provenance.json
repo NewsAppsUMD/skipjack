@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP14-county-11-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Frederick_County_NonPartisan_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Frederick results (non)",
+  "fetch_date": "2026-11-08T01:34:40+00:00",
+  "parse_date": "2026-11-08T01:50:47+00:00",
+  "sha256_original": "8c0d65cf28bec33879eb30708df26464fb22676264fee8ee14e6be5023e6affc",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP14 Frederick county results (non), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 9,
+    "row_totals": "ok",
+    "statewide_check": "n/a: State_Congressional_Districts_NonPartisan_2014_Primary.csv carries no statewide rows"
+  }
+}

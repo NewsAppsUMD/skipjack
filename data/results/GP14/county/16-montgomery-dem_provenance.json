@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP14-county-16-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Montgomery_County_Democratic_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Montgomery results (dem)",
+  "fetch_date": "2026-11-08T01:34:42+00:00",
+  "parse_date": "2026-11-08T01:50:47+00:00",
+  "sha256_original": "8e414fed79cfc5b95d6f47c7b0122220efec8dde92c4d953ea2b7ee762bcaf98",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP14 Montgomery county results (dem), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 142,
+    "row_totals": "ok",
+    "statewide_check": "ok: 358 statewide rows (358 for, 0 against) match State_Congressional_Districts_Democratic_2014_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

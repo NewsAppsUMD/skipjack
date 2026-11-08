@@ -1,0 +1,64 @@
+election,county,party_file,office,district,candidate,party,winner,write_in,early_votes,election_night_votes,absentees_votes,provisional_votes,absentees_2_votes,total_votes
+GP14,Frederick,dem,Governor / Lt. Governor,"",Anthony G. Brown,DEM,1,0,1144,4853,111,51,53,6212
+GP14,Frederick,dem,Governor / Lt. Governor,"",Doug Gansler,DEM,0,0,476,2665,96,25,29,3291
+GP14,Frederick,dem,Governor / Lt. Governor,"",Ralph Jaffe,DEM,0,0,8,129,4,2,3,146
+GP14,Frederick,dem,Governor / Lt. Governor,"",Heather Mizeur,DEM,0,0,603,2742,40,32,30,3447
+GP14,Frederick,dem,Governor / Lt. Governor,"",Charles U. Smith,DEM,0,0,36,258,16,2,0,312
+GP14,Frederick,dem,Governor / Lt. Governor,"",Cindy A. Walsh,DEM,0,0,35,274,10,6,4,329
+GP14,Frederick,dem,Comptroller,"",Peter Franchot,DEM,1,0,1919,8527,234,98,103,10881
+GP14,Frederick,dem,Attorney General,"",Aisha Braveboy,DEM,0,0,248,1344,29,29,16,1666
+GP14,Frederick,dem,Attorney General,"",Jon S. Cardin,DEM,0,0,805,3769,121,38,32,4765
+GP14,Frederick,dem,Attorney General,"",Brian E. Frosh,DEM,1,0,1139,5061,105,38,59,6402
+GP14,Frederick,dem,Rep in Congress,06,John K. Delaney,DEM,1,0,1155,4520,175,62,52,5964
+GP14,Frederick,dem,Rep in Congress,08,George English,DEM,0,0,71,681,7,7,3,769
+GP14,Frederick,dem,Rep in Congress,08,Chris Van Hollen,DEM,1,0,789,4021,63,22,46,4941
+GP14,Frederick,dem,Rep in Congress,08,Lih Young,DEM,0,0,41,305,3,3,5,357
+GP14,Frederick,dem,State Senator,03,Ronald N. Young,DEM,1,0,1193,4575,161,52,56,6037
+GP14,Frederick,dem,State Senator,04,Dan Rupli,DEM,1,0,720,3919,55,36,37,4767
+GP14,Frederick,dem,House of Delegates,03A,Nicholas Bouquet,DEM,0,0,107,412,20,8,2,549
+GP14,Frederick,dem,House of Delegates,03A,Carol L. Krimm,DEM,1,0,662,2249,123,29,24,3087
+GP14,Frederick,dem,House of Delegates,03A,Roger Wilson,DEM,0,0,419,1447,48,13,11,1938
+GP14,Frederick,dem,House of Delegates,03A,Karen Lewis Young,DEM,1,0,575,2202,116,23,22,2938
+GP14,Frederick,dem,House of Delegates,03B,Stephen Slater,DEM,1,0,304,1494,21,11,24,1854
+GP14,Frederick,dem,House of Delegates,04,Gene Stanton,DEM,1,0,729,3871,52,33,40,4725
+GP14,Frederick,dem,County Executive,"",Jan H. Gardner,DEM,1,0,2033,9230,243,99,101,11706
+GP14,Frederick,dem,County Council At Large,"",Steve Bruns,DEM,0,0,197,1214,28,13,12,1464
+GP14,Frederick,dem,County Council At Large,"",Whitney M. Duck,DEM,0,0,366,1830,49,16,18,2279
+GP14,Frederick,dem,County Council At Large,"",Susan Reeder Jessee,DEM,1,0,1036,4870,137,62,61,6166
+GP14,Frederick,dem,County Council At Large,"",Linda Marie Norris,DEM,1,0,1473,6036,141,51,55,7756
+GP14,Frederick,dem,County Council At Large,"",Dave Twigg,DEM,0,0,826,3332,81,25,38,4302
+GP14,Frederick,dem,County Council,001,Jerry Donald,DEM,1,0,209,1152,13,7,18,1399
+GP14,Frederick,dem,County Council,001,Richard A. Maranto,DEM,0,0,136,868,9,6,8,1027
+GP14,Frederick,dem,County Council,002,Pamela Abramson,DEM,0,0,49,323,1,5,1,379
+GP14,Frederick,dem,County Council,002,Annette Breiling,DEM,1,0,163,751,12,8,8,942
+GP14,Frederick,dem,County Council,002,Stacey Van Veen,DEM,0,0,93,479,7,6,1,586
+GP14,Frederick,dem,County Council,003,Jesse Goode,DEM,0,0,43,177,11,3,0,234
+GP14,Frederick,dem,County Council,003,M. C. Keegan-Ayer,DEM,1,0,287,803,28,5,10,1133
+GP14,Frederick,dem,County Council,003,Luis O. Mantilla,DEM,0,0,37,127,5,2,2,173
+GP14,Frederick,dem,County Council,003,Sandra Reed,DEM,0,0,98,416,35,7,2,558
+GP14,Frederick,dem,County Council,003,Dwaine Earl Robbins,DEM,0,0,102,412,15,4,5,538
+GP14,Frederick,dem,County Council,004,Jessica Fitzwater,DEM,1,0,415,1764,48,23,22,2272
+GP14,Frederick,dem,County Council,005,Mark Long,DEM,1,0,224,1081,25,4,6,1340
+GP14,Frederick,dem,County Council,005,Fred Wood,DEM,0,0,153,655,12,6,5,831
+GP14,Frederick,dem,Judge of the Circuit Court,06,Danny B. O'Connor,DEM,1,0,1434,6188,152,64,75,7913
+GP14,Frederick,dem,Judge of the Circuit Court,06,Scott Rolle,DEM,0,0,692,3697,106,34,32,4561
+GP14,Frederick,dem,State's Attorney,"",Teresa Rivera Bean,DEM,1,0,1819,8209,212,92,86,10418
+GP14,Frederick,dem,Clerk Circuit Court,"",Lisa Munyan,DEM,1,0,1783,8066,208,90,86,10233
+GP14,Frederick,dem,Register of Wills,"",Chad W. Weddle,DEM,1,0,1795,8183,201,91,88,10358
+GP14,Frederick,dem,Judge Orphans Court,"",James Edward French,DEM,1,0,1502,6671,177,56,73,8479
+GP14,Frederick,dem,Judge Orphans Court,"",Janis Judson,DEM,1,0,1583,6871,184,68,77,8783
+GP14,Frederick,dem,Judge Orphans Court,"",Bonnie L. Nicholson,DEM,1,0,1557,6906,175,65,74,8777
+GP14,Frederick,dem,Sheriff,"",Karl Bickel,DEM,1,0,1754,7810,195,86,89,9934
+GP14,Frederick,dem,DEM Cent Comm Female,"",Deborah Carter,DEM,1,0,1560,7005,170,63,71,8869
+GP14,Frederick,dem,DEM Cent Comm Female,"",Mari Lee,DEM,1,0,1543,6642,167,62,71,8485
+GP14,Frederick,dem,DEM Cent Comm Female,"",Helena Madison,DEM,1,0,1476,6537,161,60,71,8305
+GP14,Frederick,dem,DEM Cent Comm Female,"",Jamie Shopland,DEM,1,0,1473,6356,156,59,68,8112
+GP14,Frederick,dem,DEM Cent Comm Female,"",Myrna R. Whitworth,DEM,1,0,1529,6613,174,63,72,8451
+GP14,Frederick,dem,DEM Cent Comm Male,"",Kavonte Duckett,DEM,0,0,872,3954,100,49,34,5009
+GP14,Frederick,dem,DEM Cent Comm Male,"",Kristopher Fair,DEM,0,0,895,3930,91,31,34,4981
+GP14,Frederick,dem,DEM Cent Comm Male,"",Thomas Stratton Gill,DEM,1,0,926,4392,112,41,44,5515
+GP14,Frederick,dem,DEM Cent Comm Male,"",Mark R. Jafari,DEM,1,0,890,4076,88,36,47,5137
+GP14,Frederick,dem,DEM Cent Comm Male,"",Bob Kresslein,DEM,1,0,1189,4936,141,43,59,6368
+GP14,Frederick,dem,DEM Cent Comm Male,"",Derek Timothy Shackelford,DEM,1,0,1164,5002,123,45,44,6378
+GP14,Frederick,dem,DEM Cent Comm Male,"",Tony Soltero,DEM,1,0,953,4086,101,32,48,5220
+GP14,Frederick,dem,DEM Cent Comm Male,"",Michael L. Sowell,DEM,1,0,1078,4780,121,39,52,6070

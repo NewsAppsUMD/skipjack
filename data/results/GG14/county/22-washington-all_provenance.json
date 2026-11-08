@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG14-county-22-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Washington_County_2014_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Washington results (all)",
+  "fetch_date": "2026-11-08T01:34:37+00:00",
+  "parse_date": "2026-11-08T01:50:48+00:00",
+  "sha256_original": "8aa17966e4179e64fbed05897cbae1b04b5d546eab22f7b1645a24f4bdab22d6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "results",
+  "geography": "county",
+  "notes": "GG14 Washington county results (all), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 73,
+    "row_totals": "ok",
+    "statewide_check": "ok: 495 statewide rows (490 for, 5 against) match State_Congressional_Districts_2014_General.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GP14-county-07-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Carroll_County_Republican_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Carroll results (rep)",
+  "fetch_date": "2026-11-08T01:34:39+00:00",
+  "parse_date": "2026-11-08T01:50:47+00:00",
+  "sha256_original": "43b0f9769a57d9cc3359112f364a247da92992e65b0762a27f0931c4eb6c9b9f",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "county",
+  "notes": "GP14 Carroll county results (rep), totals checked per row.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 74,
+    "row_totals": "ok",
+    "statewide_check": "ok: 209 statewide rows (209 for, 0 against) match State_Congressional_Districts_Republican_2014_Primary.csv on election-night votes (the SBE's district files for 2010-2018 carry election-day votes only)"
+  }
+}
