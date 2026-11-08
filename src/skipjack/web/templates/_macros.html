@@ -16,12 +16,14 @@
 <td class="barcell" style="--w: {{ v if v is not none else 0 }}%; --c: {{ color }}">{{ p(v, digits) }}</td>
 {%- endmacro %}
 
-{# Links between a county's pages. `active` is "trends" or "file". #}
+{# Links between a county's pages. `active` is "trends", "file" or "results". The results
+   over time are per county, so the statewide pages do not link them. #}
 {% macro county_nav(active, county, statewide_label="Maryland") -%}
 {% set slug = "" if county == statewide_label else (county|slug) -%}
 <nav class="subnav" aria-label="Pages for {{ county }}">
     <a href="{{ base }}/voters/county/{{ slug ~ '/' if slug }}"{% if active == "trends" %} aria-current="page"{% endif %}>Registration trends</a>
     <a href="{{ base }}/voters/file/{{ 'county/' ~ slug ~ '/' if slug }}"{% if active == "file" %} aria-current="page"{% endif %}>Voter file</a>
+    {% if slug %}<a href="{{ base }}/results/county/{{ slug }}/"{% if active == "results" %} aria-current="page"{% endif %}>Results over time</a>{% endif %}
 </nav>
 {%- endmacro %}
 

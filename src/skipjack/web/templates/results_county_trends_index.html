@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% import "_results.html" as r with context %}
+{% import "_macros.html" as m with context %}
+{% import "_results_trends.html" as t with context %}
+{% import "_maps.html" as maps with context %}
+{% import "_unofficial.html" as u with context %}
+{% block title %}Results by county, over time{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ r.breadcrumb(none, [("By county, over time", none)]) }}
+<h1>Results by county, over time</h1>
+{{ u.banner(full=false) }}
+<p class="secondary">How each county has voted in every primary and general election since
+    2010: pick a county for its lean against the state, every office on its ballot, its
+    primaries and its winners.</p>
+
+{{ maps.map_defs() }}
+{% for mp in county_maps %}{{ maps.county_map(mp) }}{% endfor %}
+
+<div class="overflow-auto">
+<table data-sortable class="results-table">
+    <caption class="sr-only">Each county's latest margin for president or governor, its shift since its first general on file, and the elections covered</caption>
+    <thead>
+        <tr>
+            <th scope="col">County</th>
+            <th scope="col" class="num">Latest margin</th>
+            <th scope="col" class="num">Shift since first general</th>
+            <th scope="col" class="num">Generals</th>
+            <th scope="col" class="num">Primaries</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <th scope="row"><a href="{{ base }}/results/county/{{ row.slug }}/">{{ row.county }}</a></th>
+            <td class="num"{% if row.latest and row.latest.margin is not none %} data-sort="{{ row.latest.margin }}"{% endif %}>{% if row.latest %}{{ t.long_margin(row.latest.margin) }} <span class="muted">({{ row.latest.year }}, {{ row.latest.title|lower }})</span>{{ t.unofficial_tag(row.latest.unofficial) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num"{% if row.shift is not none %} data-sort="{{ row.shift }}"{% endif %}>{% if row.shift is none %}<span class="muted">&mdash;</span>{% else %}{{ row.shift|signed(1) }} <span class="muted">(since {{ row.first.year }})</span>{% endif %}</td>
+            <td class="num">{{ row.generals }}</td>
+            <td class="num">{{ row.primaries }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The margin is the Democratic minus Republican share of the county's votes for
+    president or governor, in points; the shift is the latest margin minus the margin in the
+    county's first general on file, so a positive shift is toward the Democrats.
+    {% if unofficial %}Source: the State Board of Elections'
+    <a href="{{ data_page }}" target="_blank" rel="noopener">unofficial results pages</a>, as
+    refreshed {{ unofficial.as_of }}, and its certified results files.{% else %}Source: the
+    State Board of Elections' results files, from its
+    <a href="{{ data_page }}/" target="_blank" rel="noopener">election data page</a>.{% endif %}
+    County files start with the 2010 elections.</p>
+</div>
+{% endblock %}

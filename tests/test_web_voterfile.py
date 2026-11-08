@@ -114,7 +114,8 @@ def test_small_county_cells_may_be_suppressed_but_pages_render():
         ctx = build_county_context(conn, snapshot, meta, "Kent")
     # Whatever is suppressed arrives as None and never breaks the page.
     assert ctx["tiles"]["registered"] > 10_000
-    assert client.get("/voters/file/county/kent/").status_code == 200
+    html = client.get("/voters/file/county/kent/").text
+    assert 'href="/results/county/kent/"' in html and "Results over time" in html
 
 
 def test_previous_general():

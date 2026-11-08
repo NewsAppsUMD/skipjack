@@ -108,3 +108,9 @@ def test_the_home_page_carries_the_hero_logo_and_enlarged_title():
     # the nav brand keeps its own size: the hero class comes from the hero div alone
     assert html.count('class="hero"') == 1
     assert 'class="hero-now"' in html
+
+
+def test_county_pages_link_to_the_results_over_time():
+    html = client.get("/voters/county/kent/").text
+    assert 'href="/results/county/kent/"' in html and "Results over time" in html
+    assert 'href="/results/county/"' not in client.get("/voters/county/").text

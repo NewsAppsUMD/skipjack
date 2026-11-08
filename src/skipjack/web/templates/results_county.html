@@ -9,6 +9,7 @@
 <h1>{{ county }}{% if unofficial %} <span class="tag">unofficial</span>{% endif %}</h1>
 {{ u.banner(full=false) }}
 <p class="secondary">{{ election.name.title() }}: every contest on the county's ballot.</p>
+<p class="note">How {{ county }} has voted since 2010: <a href="{{ base }}/results/county/{{ county|slug }}/">results over time</a>.</p>
 
 {% if unofficial %}
 {% set mine = unofficial.canvass|selectattr("county", "equalto", county)|first %}

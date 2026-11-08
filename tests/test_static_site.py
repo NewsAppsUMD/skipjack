@@ -161,6 +161,7 @@ def test_download_files_offers_results_only_for_published_elections(tmp_path):
 @needs_db
 def test_page_urls_include_every_results_page_per_election():
     from skipjack.web.db import get_db
+    from skipjack.web import results_trends
     from skipjack.web.results import contest_slugs, county_slugs, elections
 
     urls = set(page_urls())
@@ -175,6 +176,9 @@ def test_page_urls_include_every_results_page_per_election():
                 assert f"{base}county/{c}/" in urls
             for c in contest_slugs(conn, e["code"]):
                 assert f"{base}{c}/" in urls
+        assert "/results/county/" in urls
+        for slug in results_trends.county_slugs(conn):
+            assert f"/results/county/{slug}/" in urls
 
 
 def test_page_urls_have_no_results_pages_when_the_tables_are_empty(tmp_path, monkeypatch):

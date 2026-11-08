@@ -1,0 +1,309 @@
+{# The sections of a county's results-over-time page (web/results_trends.py's dicts). Import with
+   context: {% import "_results_trends.html" as t with context %}. Each section is a table of its
+   data for now; the SVG visuals in docs/plans/2026-11-07-results-trends-design.md come later and
+   sit beside these tables, which stay as the accessible form. #}
+{% import "_results.html" as r with context %}
+{% import "_macros.html" as m with context %}
+
+{# A Democratic-minus-Republican margin, in points: "D+23.4", "R+8.0" or "even". #}
+{% macro short_margin(v) -%}
+{%- if v is none %}<span class="muted">&mdash;</span>{% elif v|round(1) == 0 %}even{% else %}{{ "D" if v > 0 else "R" }}+{{ "%.1f"|format(v|abs) }}{% endif -%}
+{%- endmacro %}
+
+{# The same margin spelled out, as maps.fmt_margin does but to a decimal. #}
+{% macro long_margin(v) -%}
+{%- if v is none %}<span class="muted">&mdash;</span>{% elif v|round(1) == 0 %}even{% else %}{{ "Democrats" if v > 0 else "Republicans" }} +{{ "%.1f"|format(v|abs) }}{% endif -%}
+{%- endmacro %}
+
+{% macro unofficial_tag(flag) -%}
+{%- if flag %} <span class="tag">unofficial</span>{% endif -%}
+{%- endmacro %}
+
+{% macro party_name(c) -%}
+{%- if c is none %}<span class="muted">&mdash;</span>{% else %}{{ c.name }}{% endif -%}
+{%- endmacro %}
+
+{# The county's lean: its top-of-ticket margin against the state's, one row per general. #}
+{% macro lean(trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+<div class="overflow-auto">
+<table class="results-table compact">
+    <caption class="sr-only">{{ trends.county }}'s margin for president or governor against the statewide margin, by general election</caption>
+    <thead>
+        <tr>
+            <th scope="col">Year</th>
+            <th scope="col">Contest</th>
+            <th scope="col" class="num">{{ trends.county }}</th>
+            <th scope="col" class="num">Maryland</th>
+            <th scope="col" class="num">Lean</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in trends.generals %}{% set top = trends.summary.top[loop.index0] %}
+        <tr>
+            <th scope="row">{{ e.year }}{{ unofficial_tag(e.unofficial) }}</th>
+            {% if top %}
+            <td><a href="{{ base }}{{ top.href }}">{{ top.title }}</a></td>
+            <td class="num">{{ short_margin(top.margin) }}</td>
+            <td class="num">{{ short_margin(top.statewide_margin) }}</td>
+            <td class="num">{% if top.lean is none %}<span class="muted">&mdash;</span>{% else %}{{ top.lean|signed(1) }}{% endif %}</td>
+            {% else %}
+            <td colspan="4" class="muted">no contest for president or governor on file</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The lean is {{ trends.county }}'s Democratic-minus-Republican margin minus
+    Maryland's, in points: positive means the county ran more Democratic than the state.</p>
+{%- endmacro %}
+
+{# Every office the county has voted on, one row each, with the margin in every general. #}
+{% macro ballot_grid(trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+<div class="overflow-auto">
+<table class="results-table compact">
+    <caption class="sr-only">Democratic minus Republican margin in {{ trends.county }} for every office, by general election</caption>
+    <thead>
+        <tr>
+            <th scope="col">Office</th>
+            {% for e in trends.generals %}<th scope="col" class="num">{{ e.year }}{{ unofficial_tag(e.unofficial) }}</th>{% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for level in trends.levels if level.offices %}
+        <tr class="group"><th scope="rowgroup" colspan="{{ trends.generals|length + 1 }}">{{ level.label }}</th></tr>
+        {% for s in level.offices %}
+        <tr>
+            <th scope="row"><a href="#{{ s.id }}">{{ s.title }}</a></th>
+            {% for p in s.general %}
+            <td class="num">{% if p is none %}<span class="muted">&mdash;</span>{% elif not p.contested %}<a href="{{ base }}{{ p.href }}">unopp.</a>{% else %}<a href="{{ base }}{{ p.href }}">{{ short_margin(p.margin) }}</a>{% endif %}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">"Unopp." is a contest without both a Democrat and a Republican; a dash, an
+    office not on that year's ballot in {{ trends.county }}. Each cell links to the county's
+    page for that election.</p>
+{%- endmacro %}
+
+{# One level's offices: a table of the general results per office. #}
+{% macro level(lv, trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+{% if not lv.offices %}
+<p class="muted">No {{ lv.label|lower }} offices on {{ trends.county }}'s ballots since 2010.</p>
+{% endif %}
+{% for s in lv.offices %}
+<article class="contest-card" id="{{ s.id }}">
+    <h3>{{ s.title }}</h3>
+    {% if s.breaks %}<p class="note">Lines redrawn for {{ s.breaks|join(", ") }}.</p>{% endif %}
+    <div class="overflow-auto">
+    <table class="results-table compact">
+        <caption class="sr-only">{{ s.title }} in {{ trends.county }}, by general election</caption>
+        <thead>
+            <tr>
+                <th scope="col">Year</th>
+                <th scope="col">Democrat</th>
+                <th scope="col" class="num">Share</th>
+                <th scope="col">Republican</th>
+                <th scope="col" class="num">Share</th>
+                <th scope="col" class="num">Margin</th>
+                <th scope="col">Winner{{ "s" if s.general|select|selectattr("seats", "gt", 1)|list }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in s.general if p %}
+            <tr>
+                <th scope="row"><a href="{{ base }}{{ p.href }}">{{ p.year }}</a>{{ unofficial_tag(p.unofficial) }}</th>
+                <td>{{ party_name(p.dem) }}</td>
+                <td class="num">{% if p.dem %}{{ m.p(p.dem.share, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+                <td>{{ party_name(p.rep) }}</td>
+                <td class="num">{% if p.rep %}{{ m.p(p.rep.share, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+                <td class="num">{{ short_margin(p.margin) }}</td>
+                <td>{% if p.winners %}{% for w in p.winners %}{{ w.name }}{% if w.party %} ({{ w.party }}){% endif %}{% if not loop.last %}; {% endif %}{% endfor %}{% else %}<span class="muted">{{ "not yet called" if p.unofficial else "&mdash;"|safe }}</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</article>
+{% endfor %}
+{%- endmacro %}
+
+{# How county offices ran against the top of the ticket, per general. #}
+{% macro ticket_gap(trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+{% set gaps = trends.summary.ticket_gap|select|list %}
+{% if not gaps %}
+<p class="muted">No contested countywide office to compare with the top of the ticket.</p>
+{% else %}
+<div class="overflow-auto">
+<table class="results-table compact">
+    <caption class="sr-only">Democratic share of the vote for county offices against the top of the ticket in {{ trends.county }}, by general election</caption>
+    <thead>
+        <tr>
+            <th scope="col">Year</th>
+            <th scope="col">Top of the ticket</th>
+            <th scope="col" class="num">Dem share</th>
+            <th scope="col">County offices compared</th>
+            <th scope="col" class="num">Mean gap</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in trends.generals %}{% set g = trends.summary.ticket_gap[loop.index0] %}
+        {% if g %}
+        <tr>
+            <th scope="row">{{ e.year }}{{ unofficial_tag(e.unofficial) }}</th>
+            <td>{{ g.top_title }}</td>
+            <td class="num">{{ m.p(g.top_dem_share, 1) }}</td>
+            <td>{% if g.offices %}{% for o in g.offices %}<a href="#{{ o.id }}">{{ o.title }}</a> {{ o.gap|signed(1) }}{% if not loop.last %}; {% endif %}{% endfor %}{% else %}<span class="muted">none contested countywide</span>{% endif %}</td>
+            <td class="num">{% if g.mean_gap is none %}<span class="muted">&mdash;</span>{% else %}{{ g.mean_gap|signed(1) }}{% endif %}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The gap is a county office's Democratic share of the vote minus the top of the
+    ticket's, in points, for offices every {{ trends.county }} voter had on the ballot with
+    both a Democrat and a Republican running.</p>
+{% endif %}
+{%- endmacro %}
+
+{# Votes in the top contest, per general: the county's turnout in results terms. #}
+{% macro ballots_cast(trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+<div class="overflow-auto">
+<table class="results-table compact">
+    <caption class="sr-only">Votes cast for president or governor in {{ trends.county }}, by general election</caption>
+    <thead>
+        <tr>
+            <th scope="col">Year</th>
+            <th scope="col">Cycle</th>
+            <th scope="col">Contest</th>
+            <th scope="col" class="num">Votes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in trends.generals %}{% set top = trends.summary.top[loop.index0] %}
+        <tr>
+            <th scope="row">{{ e.year }}{{ unofficial_tag(e.unofficial) }}</th>
+            <td>{{ e.cycle|capitalize }}</td>
+            <td>{% if top %}<a href="{{ base }}{{ top.href }}">{{ top.title }}</a>{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num">{% if top %}{{ r.votes(top.total) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{%- endmacro %}
+
+{# The primaries: who turned out for each party's ballot, and who won each contest. #}
+{% macro primaries(trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+{% if not trends.primaries %}
+<p class="muted">No primary results on file for {{ trends.county }}.</p>
+{% else %}
+{% set disagreed = trends.summary.disagreements|map(attribute="href")|list %}
+<h3>The primary electorate</h3>
+<div class="overflow-auto">
+<table class="results-table compact">
+    <caption class="sr-only">Votes in the top contest on each party's primary ballot in {{ trends.county }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">Year</th>
+            <th scope="col" class="num">Democratic ballots</th>
+            <th scope="col" class="num">Republican ballots</th>
+            <th scope="col" class="num">Democratic share of the two</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in trends.primaries %}{% set pe = trends.summary.primary_electorate[loop.index0] %}
+        <tr>
+            <th scope="row">{{ e.year }}{{ unofficial_tag(e.unofficial) }}</th>
+            <td class="num">{% if pe and pe.dem %}{{ r.votes(pe.dem.total) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num">{% if pe and pe.rep %}{{ r.votes(pe.rep.total) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num">{% if pe %}{{ m.p(pe.dem_share_of_two, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">Ballots are the votes in the first contest on each party's primary ballot, the
+    nearest the results files come to a count of each party's primary voters.</p>
+{% for pf, label in [("dem", "Democratic"), ("rep", "Republican"), ("non", "Nonpartisan")] %}
+{% set rows = [] %}
+{% for level in trends.levels %}{% for s in level.offices if pf in s.primary %}{% for p in s.primary[pf] if p %}{% set _ = rows.append((s, p)) %}{% endfor %}{% endfor %}{% endfor %}
+{% if rows %}
+<h3>{{ label }} primaries</h3>
+<div class="overflow-auto">
+<table class="results-table compact">
+    <caption class="sr-only">{{ label }} primary winners in {{ trends.county }}, by contest and year</caption>
+    <thead>
+        <tr>
+            <th scope="col">Year</th>
+            <th scope="col">Contest</th>
+            <th scope="col">Winner</th>
+            <th scope="col" class="num">Share</th>
+            <th scope="col" class="num">Candidates</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s, p in rows|sort(attribute="1.year") %}
+        <tr>
+            <th scope="row">{{ p.year }}{{ unofficial_tag(p.unofficial) }}</th>
+            <td><a href="{{ base }}{{ p.href }}">{{ s.title }}</a></td>
+            <td>{% if p.winner %}{{ p.winner.name }}{% if p.href in disagreed %} <span class="tag">&ne; statewide</span>{% endif %}{% else %}<span class="muted">{{ "not yet called" if p.unofficial else "&mdash;"|safe }}</span>{% endif %}</td>
+            <td class="num">{% if p.winner %}{{ m.p(p.winner.share, 1) }}{% else %}<span class="muted">&mdash;</span>{% endif %}</td>
+            <td class="num">{{ p.candidates }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+{% endfor %}
+<p class="note">The winner is the State Board's flag: the nominee, or for a county office the
+    county's own result. "&ne; statewide" marks a statewide contest where {{ trends.county }}'s
+    voters preferred someone else.</p>
+{% endif %}
+{%- endmacro %}
+
+{# Statewide contests where the county's leader was not the winner. #}
+{% macro disagreements(trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+{% set found = trends.summary.disagreements %}
+{% if not found %}
+<p>Never since 2010: in every statewide contest on file, the candidate who led in
+    {{ trends.county }} won statewide.</p>
+{% else %}
+<p>{{ found|length }} time{{ "s" if found|length != 1 }} since 2010, {{ trends.county }}'s
+    voters preferred a candidate who lost statewide.</p>
+<ul>
+    {% for d in found %}
+    <li>{{ d.year }}, <a href="{{ base }}{{ d.href }}">{{ d.title }}</a>: {{ d.county_leader.name }}{% if d.county_leader.party %} ({{ d.county_leader.party }}){% endif %}
+        led here; {{ d.statewide_winner.name }}{% if d.statewide_winner.party %} ({{ d.statewide_winner.party }}){% endif %} won statewide.</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{%- endmacro %}
+
+{# Every office's winners, consecutive wins by the same person collapsed into one run. #}
+{% macro winners_wall(trends) -%}
+{# visual: see docs/plans/2026-11-07-results-trends-design.md #}
+{% set wall = trends.summary.winners_wall %}
+{% if not wall %}
+<p class="muted">No general-election winners on file for {{ trends.county }}.</p>
+{% else %}
+<dl class="winners-wall">
+    {% for w in wall %}
+    <dt><a href="#{{ w.id }}">{{ w.title }}</a></dt>
+    <dd>{% for run in w.runs %}{{ run.name }}{% if run.party %} ({{ run.party }}){% endif %} {{ run.years|join(", ") }}{% if not loop.last %}; {% endif %}{% endfor %}</dd>
+    {% endfor %}
+</dl>
+{% endif %}
+{%- endmacro %}

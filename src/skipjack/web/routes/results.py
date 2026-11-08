@@ -1,8 +1,10 @@
 """The /results/ section: county-level results from the State Board's results CSVs.
 
-Route order matters: ``/{slug}/county/...`` is registered before ``/{slug}/{contest_slug}/``
-so the county pages are never read as a contest. No contest slug can be "county" either (they
-all end in a party-file suffix, see ``results.contest_slug``).
+Route order matters: ``/county/`` and ``/county/{county_slug}/`` (a county's results over
+time, ``results_trends``) are registered before ``/{slug}/``, since ``_code`` 404s a slug that
+is not an election; and ``/{slug}/county/...`` before ``/{slug}/{contest_slug}/`` so the
+county pages are never read as a contest. No contest slug can be "county" either (they all
+end in a party-file suffix, see ``results.contest_slug``).
 """
 
 from __future__ import annotations
@@ -14,10 +16,11 @@ from fastapi import APIRouter, HTTPException, Request
 
 from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
 from skipjack.web import results as qr
+from skipjack.web import results_trends
 from skipjack.web import results_unofficial as qu
 from skipjack.web import ticket
 from skipjack.web.db import get_db
-from skipjack.web.maps import question_map, results_map
+from skipjack.web.maps import question_map, results_map, trends_shift_map
 
 router = APIRouter(prefix="/results")
 
@@ -77,6 +80,17 @@ def _page_context(conn: sqlite3.Connection, code: str) -> dict:
     return {"unofficial": None, "data_page": RESULTS_ELECTIONS[code].base_url}
 
 
+def _trends_context(conn: sqlite3.Connection, elections: list[dict]) -> dict:
+    """The page context for a page spanning several elections: the unofficial banner's facts
+    when one of them is being counted, else the latest certified election's data page."""
+    live = next((e for e in elections if e["unofficial"]), None)
+    if live is not None:
+        return _page_context(conn, live["code"])
+    certified = [e for e in elections if not e["unofficial"]]
+    data_page = RESULTS_ELECTIONS[certified[-1]["code"]].base_url if certified else ""
+    return {"unofficial": None, "data_page": data_page}
+
+
 def _election_sources(conn: sqlite3.Connection, code: str) -> list[dict]:
     if qu.is_unofficial(code):
         return source_links(conn, qu.election_source_ids(conn, code))
@@ -116,6 +130,36 @@ async def index(request: Request):
     data_page = RESULTS_ELECTIONS[certified[0]["code"]].base_url if certified else ""
     return _render(
         request, "results_index.html", {"years": list(years.values()), "data_page": data_page}
+    )
+
+
+@router.get("/county/")
+async def trends_index(request: Request):
+    with get_db() as conn:
+        rows = results_trends.counties_index(conn)
+        latest = [
+            {"code": r["latest"]["election"], "unofficial": r["latest"]["unofficial"]}
+            for r in rows
+            if r["latest"]
+        ]
+        context = _trends_context(conn, latest)
+    return _render(
+        request,
+        "results_county_trends_index.html",
+        {"rows": rows, "county_maps": [trends_shift_map(rows)], **context},
+    )
+
+
+@router.get("/county/{county_slug}/")
+async def trends_county(request: Request, county_slug: str):
+    with get_db() as conn:
+        trends = results_trends.county_trends(conn, county_slug)
+        if trends is None:
+            raise HTTPException(status_code=404)
+        sources = source_links(conn, trends["source_ids"])
+        context = _trends_context(conn, trends["generals"])
+    return _render(
+        request, "results_county_trends.html", {"trends": trends, "sources": sources, **context}
     )
 
 

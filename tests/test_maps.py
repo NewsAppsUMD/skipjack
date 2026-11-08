@@ -90,6 +90,26 @@ def test_county_map_names_every_county_and_marks_hidden_ones():
                            maps.fmt_pct())["none"] is None  # fmt: skip
 
 
+def test_trends_shift_map_hatches_missing_counties_and_links_to_the_trends_page():
+    rows = [
+        {"county": "Allegany", "shift": -12.4},
+        {"county": "Kent", "shift": 3.2},
+        {"county": "Montgomery", "shift": None},
+    ]
+    m = maps.trends_shift_map(rows)
+    by_name = {c["name"]: c for c in m["counties"]}
+    assert m["link"] == "href"
+    assert by_name["Allegany"]["href"] == "/results/county/allegany/"
+    assert by_name["Allegany"]["label"] == "Allegany: toward Republicans, 12 points"
+    assert by_name["Kent"]["label"] == "Kent: toward Democrats, 3 points"
+    assert by_name["Montgomery"]["css"] == "map-none"
+    assert by_name["Talbot"]["css"] == "map-none"  # no row at all
+    assert by_name["Kent"]["css"].startswith("map-party-")
+    assert m["none"] == "no comparison"
+    assert maps.fmt_shift(0.3) == "no change"
+    assert maps.fmt_shift(-1.2) == "toward Republicans, 1 point"
+
+
 def test_margin_labels_name_the_party():
     assert maps.fmt_margin(43.9) == "Democrats +44 points"
     assert maps.fmt_margin(-50.5) == "Republicans +50 points"

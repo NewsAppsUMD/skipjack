@@ -11,6 +11,14 @@
 <p>Each election has a page of its statewide, congressional and legislative contests, a page for
     every contest with a county table and map, and a page for every county with the contests on
     its ballot. Statewide totals are the county results added up.</p>
+<div class="grid">
+    <article>
+        <h3><a href="{{ base }}/results/county/">By county, over time</a></h3>
+        <p>How each county has voted in every election since 2010: its lean against the state,
+            every office on its ballot, its primaries and its winners.</p>
+        <p><a href="{{ base }}/results/county/" role="button">Results over time</a></p>
+    </article>
+</div>
 {% for y in years %}
 <h2>{{ y.year }}</h2>
 <div class="grid">
@@ -26,7 +34,7 @@
 {% endfor %}
 <p class="note">Source: the State Board of Elections' results files, from its
     <a href="{{ data_page }}/" target="_blank" rel="noopener">election data page</a>.
-    Results before 2020 are not on the State Board's data pages as county files.</p>
+    County files start with the 2010 elections.</p>
 {% else %}
 <p>There are no election results on this site yet.</p>
 {% endif %}

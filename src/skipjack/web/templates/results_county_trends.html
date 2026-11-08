@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% import "_results.html" as r with context %}
+{% import "_macros.html" as m with context %}
+{% import "_results_trends.html" as t with context %}
+{% import "_unofficial.html" as u with context %}
+{% block title %}{{ trends.county }}: results over time{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ r.breadcrumb(none, [("By county, over time", base ~ "/results/county/"), (trends.county, none)]) }}
+{{ m.county_nav("results", trends.county) }}
+<h1>{{ trends.county }}: results over time</h1>
+{{ u.banner(full=false) }}
+<p class="secondary">Every general and primary election since {{ trends.elections[0].year }},
+    from the State Board of Elections' county results: {{ trends.generals|length }}
+    general{{ "s" if trends.generals|length != 1 }} and {{ trends.primaries|length }}
+    primar{{ "y" if trends.primaries|length == 1 else "ies" }}.</p>
+
+<nav class="subnav" aria-label="Sections of this page">
+    <a href="#lean">Lean</a>
+    <a href="#ballot">The ballot</a>
+    <a href="#federal">Federal</a>
+    <a href="#state">State</a>
+    <a href="#county">County</a>
+    <a href="#ticket">Against the ticket</a>
+    <a href="#ballots">Ballots cast</a>
+    <a href="#primaries">Primaries</a>
+    <a href="#disagreements">Disagreements</a>
+    <a href="#winners">Winners</a>
+</nav>
+
+<section aria-labelledby="lean">
+<h2 id="lean">Lean</h2>
+<p>{{ trends.county }}'s margin for president or governor against Maryland's.</p>
+{{ t.lean(trends) }}
+</section>
+
+<section aria-labelledby="ballot">
+<h2 id="ballot">The ballot</h2>
+<p>Every office {{ trends.county }} has voted on, with the margin in each general election.</p>
+{{ t.ballot_grid(trends) }}
+</section>
+
+{% for lv in trends.levels %}
+<section aria-labelledby="{{ lv.level }}">
+<h2 id="{{ lv.level }}">{{ lv.label }}</h2>
+{{ t.level(lv, trends) }}
+</section>
+{% endfor %}
+
+<section aria-labelledby="ticket">
+<h2 id="ticket">Against the ticket</h2>
+<p>How county offices ran against the top of the ticket.</p>
+{{ t.ticket_gap(trends) }}
+</section>
+
+<section aria-labelledby="ballots">
+<h2 id="ballots">Ballots cast</h2>
+<p>Votes for president or governor in {{ trends.county }}, general by general.</p>
+{{ t.ballots_cast(trends) }}
+</section>
+
+<section aria-labelledby="primaries">
+<h2 id="primaries">Primaries</h2>
+{{ t.primaries(trends) }}
+</section>
+
+<section aria-labelledby="disagreements">
+<h2 id="disagreements">Disagreements with the state</h2>
+{{ t.disagreements(trends) }}
+</section>
+
+<section aria-labelledby="winners">
+<h2 id="winners">Winners</h2>
+<p>Who has won each office in {{ trends.county }}, general by general.</p>
+{{ t.winners_wall(trends) }}
+</section>
+
+<p class="note">Congressional districts were redrawn for 2012 and 2022, legislative districts for
+    2014 and 2022; county council and commissioner lines are detected from the districts on the
+    ballot and may miss a redraw that kept the same numbers.</p>
+{{ r.source_strip(sources, data_page, "this page") }}
+</div>
+{% endblock %}

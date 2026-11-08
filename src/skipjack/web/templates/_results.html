@@ -67,13 +67,14 @@
 </div>
 {%- endmacro %}
 
+{# `election` may be none for a page outside any one election: then the trail follows "Results". #}
 {% macro breadcrumb(election, trail=[]) -%}
 <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="{{ base }}/results/">Results</a> &rsaquo;
-    {% if trail %}<a href="{{ base }}/results/{{ election.slug }}/">{{ election.name.title() }}</a>
+    <a href="{{ base }}/results/">Results</a>
+    {%- if election %} &rsaquo;
+    {% if trail %}<a href="{{ base }}/results/{{ election.slug }}/">{{ election.name.title() }}</a>{% else %}<span aria-current="page">{{ election.name.title() }}</span>{% endif %}{% endif %}
     {%- for label, href in trail %} &rsaquo;
     {% if href %}<a href="{{ href }}">{{ label }}</a>{% else %}<span aria-current="page">{{ label }}</span>{% endif %}{% endfor %}
-    {% else %}<span aria-current="page">{{ election.name.title() }}</span>{% endif %}
 </nav>
 {%- endmacro %}
 

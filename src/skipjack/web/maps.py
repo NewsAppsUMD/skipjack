@@ -138,13 +138,15 @@ def county_map(
     none_text: str = "not shown",
     linked_counties: Collection[str] | None = None,
     href_prefix: str | None = None,
+    href_for: Callable[[str], str] | None = None,
 ) -> dict:
     """Everything templates/_maps.html needs to draw one map.
 
     ``link`` is "county_page" (each county links to /voters/county/<slug>/), "row" (to the
     ``#county-<slug>`` row of the table on the same page) or "" (no links). Given
     ``href_prefix`` (a site path such as "/turnout/gg26/county/") the link is "href" instead:
-    each county links to that page's ``#county-<slug>`` row. With
+    each county links to that page's ``#county-<slug>`` row; given ``href_for`` (a county's
+    slug to a site path) each county links to that path. With
     ``linked_counties`` only those counties are linked and the rest are drawn without a link
     (a "row" link to a row the table does not have would be dead); without it the ``linked``
     key is absent from the county dicts, so the other pages' markup is unchanged.
@@ -162,6 +164,8 @@ def county_map(
         }
         if href_prefix is not None:
             county["href"] = f"{href_prefix}#county-{county['slug']}"
+        elif href_for is not None:
+            county["href"] = href_for(county["slug"])
         if linked_counties is not None:
             county["linked"] = name in linked_counties
         counties.append(county)
@@ -169,7 +173,7 @@ def county_map(
         "id": map_id,
         "title": title,
         "caption": caption,
-        "link": "href" if href_prefix is not None else link,
+        "link": "href" if href_prefix is not None or href_for is not None else link,
         "view_box": load_shapes()["viewBox"],
         "counties": counties,
         "legend": scale.legend(),
@@ -196,6 +200,14 @@ def fmt_margin(v: float) -> str:
     if round(v) == 0:
         return "even"
     return f"{'Democrats' if v > 0 else 'Republicans'} +{abs(v):.0f} points"
+
+
+def fmt_shift(v: float) -> str:
+    """A change in a Democratic-minus-Republican margin, in points."""
+    if round(v) == 0:
+        return "no change"
+    n = abs(round(v))
+    return f"toward {'Democrats' if v > 0 else 'Republicans'}, {n} point{'s' if n != 1 else ''}"
 
 
 # --------------------------------------------------------------------------------------
@@ -399,9 +411,7 @@ def race_maps(counties: list[dict], calibration: dict, labels: dict[str, str]) -
     return {"per_race": per_race, "gap": gap_map}
 
 
-def results_map(
-    contest: dict, href_prefix: str | None = None, id_suffix: str = ""
-) -> list[dict]:
+def results_map(contest: dict, href_prefix: str | None = None, id_suffix: str = "") -> list[dict]:
     """The map on a results contest page (``results.contest()``'s dict), as a list of one.
 
     A primary shows the winner's share of the vote in each county (the SBE's winner, else the
@@ -455,6 +465,20 @@ def results_map(
             href_prefix=href_prefix,
         )
     ]  # fmt: skip
+
+
+def trends_shift_map(rows: list[dict]) -> dict:
+    """The map on /results/county/ (``results_trends.counties_index``'s rows): how far each
+    county's top-of-ticket margin has moved since its first general on the site. A county with
+    one general or none is hatched. Each county links to its results-over-time page."""
+    values = {r["county"]: r["shift"] for r in rows}
+    return county_map(
+        "trends-shift", "Shift in the top-of-ticket margin since 2010", values,
+        party_margin(list(values.values())), fmt_shift,
+        caption="change in the Democratic minus Republican margin for president or governor, "
+        "first general to latest, in points. Select a county for its results over time.",
+        none_text="no comparison", href_for=lambda slug: f"/results/county/{slug}/",
+    )  # fmt: skip
 
 
 def question_map(question: dict) -> list[dict]:

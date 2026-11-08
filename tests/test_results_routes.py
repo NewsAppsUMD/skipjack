@@ -306,6 +306,8 @@ def test_pages_use_the_base_path(data):
         "/results/gp26/county/",
         "/results/gp26/county/garrett/",
         "/results/gp26/governor-lt-governor-dem/",
+        "/results/county/",
+        "/results/county/garrett/",
     ):
         html = client.get(url).text
         assert 'href="/skipjack/results/' in html
@@ -464,3 +466,78 @@ def test_general_county_page_has_the_ahead_of_the_ticket_table(client):
 
 def test_primary_county_page_has_no_ahead_of_the_ticket_table(client):
     assert 'id="outran"' not in client.get("/results/gp26/county/garrett/").text
+
+
+# --- results over time -------------------------------------------------------------------
+
+
+@pytest.fixture
+def history_client(data):
+    """The fixture elections plus a GG22 general, so a county has two top-of-ticket points."""
+    for county, cox, moore in (("Allegany", 60, 40), ("Garrett", 70, 30)):
+        add(data, "GG22", county, "all", "Governor / Lt. Governor", "",
+            [("Dan Cox", "REP", False, {"early": cox}), ("Wes Moore", "DEM", True, {"early": moore})])  # fmt: skip
+        add(data, "GG22", county, "all", "Sheriff", "",
+            [("Sal Sheriff", "REP", True, {"early": 5}), ("Dee Sheriff", "DEM", False, {"early": 3})])  # fmt: skip
+    return TestClient(create_app())
+
+
+def test_trends_index_lists_every_county_with_the_shift_and_the_map(history_client):
+    html = history_client.get("/results/county/").text
+    assert "<h1>Results by county, over time</h1>" in html
+    assert 'href="/results/county/allegany/"' in html and 'href="/results/county/garrett/"' in html
+    assert "data-sortable" in html
+    # Allegany: Cox +20 in 2022 to Trump +40 in 2024 (of 101 votes with the write-in)
+    table = html[html.index("<tbody>") :]
+    row = table[table.index('href="/results/county/allegany/"') :]
+    row = row[: row.index("</tr>")]
+    assert "Republicans +39.6" in row
+    assert "−19.6" in row  # the shift, a real minus sign
+    assert 'id="map-trends-shift"' in html and "map-defs" in html
+    assert 'href="/results/county/montgomery/"' in html  # the map links every county
+
+
+def test_trends_county_page_sections_and_links(history_client):
+    html = history_client.get("/results/county/allegany/").text
+    assert "<h1>Allegany: results over time</h1>" in html
+    for anchor in ("lean", "ballot", "federal", "state", "county", "ticket", "ballots",
+                   "primaries", "disagreements", "winners"):  # fmt: skip
+        assert f'href="#{anchor}"' in html, anchor
+    for level in ("Federal", "State", "County"):
+        assert f'<h2 id="{level.lower()}">{level}</h2>' in html
+    # the ballot grid links each margin cell to the election's county page
+    grid = html[html.index('id="ballot"') :]
+    assert '<a href="/results/gg22/county/allegany/#' in grid
+    assert "R+20.0" in grid
+    assert "unopp." in grid  # the sheriff in 2024 had no Democrat
+    assert "source-strip" in html and "elections.maryland.gov" in html
+    assert 'href="/results/county/allegany/"' in html  # the county nav's own link
+    assert 'href="/voters/county/allegany/"' in html
+
+
+def test_trends_county_page_tables_carry_the_summary(history_client):
+    html = history_client.get("/results/county/allegany/").text
+    lean = html[html.index('id="lean"') : html.index('id="ballot"')]
+    assert "2022" in lean and "2024" in lean
+    winners = html[html.index('id="winners"') :]
+    assert "Sal Sheriff (REP)" in winners and "2022, 2024" in winners
+    primaries = html[html.index('id="primaries"') : html.index('id="disagreements"')]
+    assert "Wes Moore" in primaries and "Dan Cox" in primaries
+
+
+def test_trends_unknown_county_is_404(history_client):
+    assert history_client.get("/results/county/atlantis/").status_code == 404
+
+
+def test_trends_routes_are_not_read_as_an_election(client):
+    assert client.get("/results/county/").status_code == 200
+    assert client.get("/results/county/allegany/").status_code == 200
+    assert client.get("/results/gp26/county/").status_code == 200
+    assert client.get("/results/gp26/county/allegany/").status_code == 200
+
+
+def test_results_pages_link_to_the_trends(client):
+    assert 'href="/results/county/"' in client.get("/results/").text
+    assert "County files start with the 2010 elections." in client.get("/results/").text
+    county = client.get("/results/pg24/county/allegany/").text
+    assert 'href="/results/county/allegany/">results over time</a>' in county
