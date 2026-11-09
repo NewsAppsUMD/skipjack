@@ -418,6 +418,10 @@ nav.breadcrumb { display: block; }
 .trend-grid { font-size: 11px; }
 .trend-grid .trend-label { font-size: 11px; }
 .trend-cell { stroke: none; }
+/* maps.css loads only with a county map, so the grid carries the margin ramp's fills itself */
+.trend-cell.map-party-0 { fill: #b8232a; } .trend-cell.map-party-1 { fill: #f19a95; }
+.trend-cell.map-party-2 { fill: #efece4; } .trend-cell.map-party-3 { fill: #93b9ea; }
+.trend-cell.map-party-4 { fill: #1d5aa8; }
 .trend-cell-text { font-size: 11px; fill: #0b0b0b; text-anchor: middle; pointer-events: none; font-variant-numeric: tabular-nums; }
 .trend-cell-light { fill: #ffffff; }
 .trend-only-dem { fill: #dbe7f8; }
