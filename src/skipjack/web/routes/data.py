@@ -194,6 +194,7 @@ def turnout_listing(data_dir: Path) -> list[dict]:
                         "requests": "mail-in ballot requests",
                         "sent-returned": "ballots sent and returned",
                         "same-day": "same-day registrations and address changes (unofficial)",
+                        "election-night": "ballots cast so far (unofficial)",
                     }
                     blocks.append(
                         {

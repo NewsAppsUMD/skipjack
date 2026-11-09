@@ -23,13 +23,76 @@
     {%- for t in tiles %}{% if t.as_of != last.as_of %}{% if last.as_of %} (ballot figures as of {{ t.as_of|day_label }}){% else %} {{ t.as_of|day_label }}{% endif %}{% set last.as_of = t.as_of %}{% endif %}{% endfor %}{% if not tiles %} no published report yet{% endif %}.
 </p>
 
+{% if election_night %}
+{% set en = election_night %}
+{% import "_maps.html" as maps with context %}
+<div class="section-head"><h2>Turnout so far</h2></div>
+<p>By the State Board's unofficial count, {{ m.num(en.cast) }} ballots had been cast as of
+    {{ en.as_of|day_label }}, {{ "%.1f"|format(en.share * 100) }}% of the
+    {{ m.num(en.eligible) }} eligible voters.
+    {%- if en.canvasses %} The count holds {% for c in en.canvasses %}{{ c }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %}{% if en.missing %}; {% for c in en.missing %}{{ c }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %} {{ "are" if en.missing|length > 1 or en.missing[0].endswith("s") else "is" }} not in it yet{% endif %}.{% endif %}
+    Mail-in ballots still being canvassed will add to it.
+    {%- if en.reported is not none and en.reported == en.precincts %} All {{ m.num(en.precincts) }} election-day precincts have reported.{% elif en.reported is not none %} {{ m.num(en.reported) }} of {{ m.num(en.precincts) }} election-day precincts have reported.{% endif %}
+    {%- if en.compare %}{% set c = en.compare[0] %} That is {{ "already more than" if en.cast > c.cast else "short of" }}
+    the {{ m.num(c.cast) }} ballots cast in all in the {{ c.label }}{% if c.turnout is not none %},
+    whose certified turnout was {{ "%.1f"|format(c.turnout * 100) }}%{% endif %}.{% endif %}</p>
+
+<div class="tiles">
+    <div class="tile">
+        <div class="v">{{ m.num(en.cast) }}</div>
+        <div class="l">ballots cast so far{% if en.change is not none %} &middot; {{ m.delta_span(en.change) }}{% endif %}</div>
+    </div>
+    {% if en.share is not none %}
+    <div class="tile">
+        <div class="v">{{ "%.1f"|format(en.share * 100) }}%</div>
+        <div class="l">of eligible voters</div>
+    </div>
+    {% endif %}
+    {% for c in en.compare %}
+    <div class="tile">
+        <div class="v">{% if c.turnout is not none %}{{ "%.1f"|format(c.turnout * 100) }}%{% else %}{{ m.num(c.cast) }}{% endif %}</div>
+        <div class="l">{{ c.label }}, certified{% if c.turnout is not none %} &middot; {{ m.num(c.cast) }} ballots{% endif %}</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if election_night_maps %}
+{{ maps.map_defs() }}
+{{ maps.map_group(election_night_maps, "County map") }}
+{% endif %}
+
+<h3 style="font-size:1.05rem">By county</h3>
+<div class="overflow-auto">
+<table>
+    <thead><tr><th>County</th><th class="num">Ballots cast</th><th class="num">Eligible voters</th><th class="num">Turnout so far</th><th class="num">Election-day precincts reported</th></tr></thead>
+    <tbody>
+        {% for c in en.counties %}
+        <tr id="county-{{ c.county|slug }}">
+            <td>{{ c.county }}</td>
+            <td class="num">{{ m.num(c.cast) }}</td>
+            <td class="num">{{ m.num(c.eligible) }}</td>
+            <td class="num">{% if c.share is not none %}{{ "%.1f"|format(c.share * 100) }}%{% else %}{{ m.num(none) }}{% endif %}</td>
+            <td class="num">{{ m.num(c.reported) }} of {{ m.num(c.precincts) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="note">The State Board's election-night unofficial turnout report counts ballot cards
+    cast; this election's ballot is one card per voter, so the page calls them ballots. Eligible voters are the report's own, the active voters eligible
+    for this election. The certified turnout comes from the board's official reports once the
+    election is certified, and replaces this count here.</p>
+
+<div class="section-head"><h2>Mail-in ballots</h2></div>
+{% endif %}
+
 {% set sr = headline.get("sent-returned") %}
 <p>Skipjack counts <em>mail-in ballots</em>, not votes: the request a voter makes, the ballot
     the State Board sends, the envelope the State Board receives back, and — during the
     canvass, which starts after election day — the ballots accepted and counted. {% if sr %}As of
     {{ sr.as_of|day_label }}, {{ m.num(sr.accepted) }} have been accepted.{% endif %}
-    Certified turnout percentages are published by the State Board after certification
-    and are not yet part of this page.</p>
+    {% if not election_night %}Certified turnout percentages are published by the State Board after certification
+    and are not yet part of this page.{% endif %}</p>
 
 {% if tiles %}
 <div class="tiles">

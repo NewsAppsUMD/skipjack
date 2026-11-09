@@ -10,6 +10,7 @@ against these rows at parse time and are not stored.
 
 from __future__ import annotations
 
+import json
 import re
 import sqlite3
 from datetime import date, timedelta
@@ -215,6 +216,8 @@ def headline(conn: sqlite3.Connection, election: str) -> dict:
         (election,),
     ):
         family = r[0]
+        if family == "election-night":
+            continue  # the count of ballots cast has its own section (election_night)
         dates = _snapshot_dates(conn, election, family)
         if not dates:
             continue
@@ -775,6 +778,99 @@ def _same_day_cells(cells: dict[str, int]) -> dict:
         "new": new_total,
         "addrchg": cells.get("addrchg-total", 0),
         "total": cells.get("total", 0),
+    }
+
+
+# The canvasses the election-night report's title names (its snapshot's checks), in words.
+ELECTION_NIGHT_CANVASS_LABELS = {
+    "ev": "early voting",
+    "en": "election day",
+    "mib1": "the first mail-in canvass",
+    "mib2": "the second mail-in canvass",
+    "prov": "provisional ballots",
+}
+
+
+def election_night(conn: sqlite3.Connection, election: str) -> dict | None:
+    """The latest election-night unofficial turnout report of an election in progress: the
+    ballot cards cast so far statewide and by county, each over the eligible voters the
+    report prints, its election-day precincts reported, the change from the previous run,
+    the canvasses the count holds, and the certified ballots cast in the comparison
+    elections (the pace chart's) for scale.
+
+    None when the election has no such report, or is certified: its turnout of record is
+    then the certified reports (may_publish).
+    """
+    if not may_publish(election, "election-night"):
+        return None
+    dates = _snapshot_dates(conn, election, "election-night")
+    if not dates:
+        return None
+    as_of = dates[-1]
+    state = _statewide(conn, election, "election-night", as_of)
+    cast, eligible = state.get("cards-cast"), state.get("eligible")
+    change = None
+    if len(dates) > 1 and (before := _statewide(conn, election, "election-night", dates[-2])):
+        change = cast - before.get("cards-cast", 0)
+    counties: dict[str, dict[str, int]] = {}
+    for r in conn.execute(
+        """SELECT county, measure, value FROM turnout_counts
+           WHERE election = ? AND family = 'election-night' AND geography = 'county'
+             AND county != '' AND district = '' AND category = 'ALL' AND party = 'ALL'
+             AND as_of = ?""",
+        (election, as_of),
+    ):
+        counties.setdefault(r["county"], {})[r["measure"]] = r["value"]
+    rows = [
+        {
+            "county": county,
+            "cast": m.get("cards-cast"),
+            "eligible": m.get("eligible"),
+            "share": _ratio(m.get("cards-cast"), m.get("eligible")),
+            "reported": m.get("precincts-reported"),
+            "precincts": m.get("precincts-total"),
+        }
+        for county, m in sorted(counties.items())
+    ]
+    source = conn.execute(
+        """SELECT checks_json FROM turnout_sources
+           WHERE election = ? AND family = 'election-night' AND as_of = ?
+           ORDER BY fetch_date DESC LIMIT 1""",
+        (election, as_of),
+    ).fetchone()
+    keys = (json.loads(source["checks_json"] or "{}").get("canvasses") or []) if source else []
+    canvasses = [
+        ELECTION_NIGHT_CANVASS_LABELS[k] for k in keys if k in ELECTION_NIGHT_CANVASS_LABELS
+    ]
+    config = ELECTIONS.get(election)
+    compare = []
+    for code in config.pace_comparisons if config else ():
+        cert = certified_headline(conn, code)
+        if cert.get("cast"):
+            compare.append(
+                {
+                    "label": _election_year_label(code),
+                    "cast": cert["cast"],
+                    "turnout": (cert.get("turnout") or {}).get("value"),
+                }
+            )
+    return {
+        "as_of": as_of,
+        "previous": dates[-2] if change is not None else None,
+        "cast": cast,
+        "eligible": eligible,
+        "share": _ratio(cast, eligible),
+        "change": change,
+        "reported": state.get("precincts-reported"),
+        "precincts": state.get("precincts-total"),
+        "counties": rows,
+        "canvasses": canvasses,
+        "missing": [
+            label
+            for key, label in ELECTION_NIGHT_CANVASS_LABELS.items()
+            if key not in keys and key not in ("ev", "en")
+        ],
+        "compare": compare,
     }
 
 

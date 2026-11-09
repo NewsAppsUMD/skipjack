@@ -120,6 +120,13 @@ def _gg26_files() -> list[FamilyFile]:
                 ("location", "Location"),
             )
         ),
+        # posted after election day and re-run as the canvasses report
+        FamilyFile(
+            "election-night",
+            "county",
+            "pdf",
+            f"{base}/2026-general_election_night_unofficial_turnout.pdf",
+        ),
     ]
 
 
@@ -428,7 +435,11 @@ UNOFFICIAL_TALLY_FAMILIES = ("early-voting", "same-day")
 # downloads. Same-day registrations and address changes have no certified counterpart:
 # the unofficial tally is the board's only count of them, so it publishes for every
 # election, labelled unofficial.
-UNPUBLISHED_WHEN_CERTIFIED = ("early-voting",)
+#
+# The election-night turnout report is the board's running count of ballot cards cast while
+# the canvass goes on; a certified election's turnout of record is its certified reports, so
+# it too stays in the archive once the election is certified.
+UNPUBLISHED_WHEN_CERTIFIED = ("early-voting", "election-night")
 
 
 def may_publish(election: str, family: str) -> bool:
@@ -3089,6 +3100,145 @@ def _daily_published(
     ]
 
 
+# --- the election-night unofficial turnout report ----------------------------------------------
+#
+# One page, one row per county: "Allegany County (30 of 30) 21,179 44,679 47.40%" -- the
+# county, its election-day precincts reported of its total, the ballot cards cast so far,
+# the eligible voters and the printed share -- and a closing "Total" row. Its title names
+# the canvasses the count holds ("Unofficial MIB 1, Early Voting, Election Day, and MIB2
+# Turnout"), which changes as the board re-runs it, and its only date is the run's own
+# ("Run Date: 11/8/2026 7:44 pm"). The table extractor reads each row as one cell and drops
+# the Total row, so the report is read from its text lines.
+
+ELECTION_NIGHT_TITLE_RE = re.compile(r"^Unofficial (?P<counts>.+) Turnout$", re.MULTILINE)
+ELECTION_NIGHT_ELECTION_RE = re.compile(r"^Election:\s*(?P<title>.+)$", re.MULTILINE)
+ELECTION_NIGHT_RUN_RE = re.compile(r"Run Date:\s*(\d{1,2}/\d{1,2}/\d{4})")
+ELECTION_NIGHT_ROW_RE = re.compile(
+    r"^(?P<county>[A-Z][A-Za-z.' ]+?) \((?P<reported>[\d,]+) of (?P<precincts>[\d,]+)\)\s+"
+    r"(?P<cards>[\d,]+)\s+(?P<eligible>[\d,]+)\s+(?P<share>[\d.]+)%$",
+    re.MULTILINE,
+)
+ELECTION_NIGHT_TOTAL_RE = re.compile(
+    r"^Total\s+(?P<cards>[\d,]+)\s+(?P<eligible>[\d,]+)\s+(?P<share>[\d.]+)%$", re.MULTILINE
+)
+# The title's canvass names, in the canvass-status table's own keys (results_unofficial).
+ELECTION_NIGHT_CANVASSES = {
+    "MIB 1": "mib1",
+    "MIB1": "mib1",
+    "EARLY VOTING": "ev",
+    "ELECTION DAY": "en",
+    "MIB 2": "mib2",
+    "MIB2": "mib2",
+    "PROVISIONAL": "prov",
+}
+ELECTION_NIGHT_MEASURES = ("cards-cast", "eligible", "precincts-reported", "precincts-total")
+
+
+def election_night_run_date(text: str) -> str | None:
+    """The report's "Run Date: 11/8/2026 7:44 pm" as "YYYY-MM-DD", else None."""
+    if not (found := ELECTION_NIGHT_RUN_RE.search(text)):
+        return None
+    try:
+        return datetime.datetime.strptime(found.group(1), "%m/%d/%Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+def election_night_canvasses(text: str) -> list[str]:
+    """The canvasses the report's title says it counts, as canvass keys, in printed order.
+
+    A canvass name the title prints that is not known fails: the page says what the count
+    holds, so an unread name cannot be dropped silently."""
+    if not (found := ELECTION_NIGHT_TITLE_RE.search(text)):
+        raise TurnoutParseError("no 'Unofficial ... Turnout' title")
+    names = re.split(r",\s*(?:and\s+)?|\s+and\s+", found.group("counts"))
+    keys = []
+    for name in names:
+        key = ELECTION_NIGHT_CANVASSES.get(" ".join(name.split()).upper())
+        if key is None:
+            raise TurnoutParseError(f"the title names an unknown canvass {name!r}")
+        keys.append(key)
+    return keys
+
+
+def _comma_int(text: str) -> int:
+    return int(text.replace(",", ""))
+
+
+def parse_election_night_text(text: str, election: str) -> tuple[str | None, pl.DataFrame]:
+    """The election-night unofficial turnout report's county rows as long rows.
+
+    Every county publishes its cards cast, eligible voters, and election-day precincts
+    reported and in all, at the county grain with no party. The printed shares and the
+    Total row are not stored; they are what the rows are checked against: each share
+    against its own cards over eligible voters, every column's county sum against the Total
+    row, and the 24 counties once each. The report's printed election must be the one it
+    is filed under, and its title's canvasses must all be known (election_night_canvasses).
+    """
+    as_of = election_night_run_date(text)
+    if not (printed := ELECTION_NIGHT_ELECTION_RE.search(text)):
+        raise TurnoutParseError("no 'Election:' line")
+    code = election_code_from_title(f"{printed.group('title').strip()} Election")
+    if code != election:
+        raise TurnoutParseError(f"the report is for {printed.group('title')!r}, not {election}")
+    election_night_canvasses(text)
+    rows: list[dict] = []
+    seen: set[str] = set()
+    sums = {"cards-cast": 0, "eligible": 0}
+    for m in ELECTION_NIGHT_ROW_RE.finditer(text):
+        label = " ".join(m.group("county").split())
+        if label != "Baltimore County":
+            label = label.removesuffix(" County")
+        county = canonical_county(label)
+        if county not in CANONICAL_COUNTIES:
+            raise TurnoutParseError(f"unknown county {m.group('county')!r}")
+        if county in seen:
+            raise TurnoutParseError(f"{county} prints twice")
+        seen.add(county)
+        values = {
+            "cards-cast": _comma_int(m.group("cards")),
+            "eligible": _comma_int(m.group("eligible")),
+            "precincts-reported": _comma_int(m.group("reported")),
+            "precincts-total": _comma_int(m.group("precincts")),
+        }
+        if values["precincts-reported"] > values["precincts-total"]:
+            raise TurnoutParseError(f"{county}: more precincts reported than it has")
+        if not share_matches(
+            values["cards-cast"], values["eligible"], float(m.group("share")) / 100, 0.0001
+        ):
+            raise TurnoutParseError(f"{county}: the printed share is not cards over eligible")
+        sums["cards-cast"] += values["cards-cast"]
+        sums["eligible"] += values["eligible"]
+        rows += _daily_published(
+            county, "", "", values, election, "election-night", "county", as_of
+        )
+    if seen != CANONICAL_COUNTIES:
+        missing = ", ".join(sorted(CANONICAL_COUNTIES - seen))
+        raise TurnoutParseError(f"counties not printed (or not read): {missing}")
+    if not (total := ELECTION_NIGHT_TOTAL_RE.search(text)):
+        raise TurnoutParseError("no Total row")
+    for measure in ("cards", "eligible"):
+        key = "cards-cast" if measure == "cards" else measure
+        if sums[key] != _comma_int(total.group(measure)):
+            raise TurnoutParseError(
+                f"the counties' {key} sum to {sums[key]}, the Total row prints {total.group(measure)}"
+            )
+    if not share_matches(
+        sums["cards-cast"], sums["eligible"], float(total.group("share")) / 100, 0.0001
+    ):
+        raise TurnoutParseError("the Total row's share is not cards over eligible")
+    return as_of, pl.DataFrame(rows, schema=TURNOUT_COLUMNS, strict=True)
+
+
+def parse_election_night_pdf(path: Path, election: str) -> tuple[str | None, pl.DataFrame]:
+    """One election-night unofficial turnout PDF, from its text."""
+    try:
+        text = read_pdf_text(path)
+    except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
+        raise TurnoutParseError(f"could not read the election-night PDF ({err})") from err
+    return parse_election_night_text(text, election)
+
+
 TURNOUT_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 PARSER_VERSION = "skipjack 0.2.0"
 
@@ -3170,6 +3320,8 @@ def extract_as_of_bytes(
                     )
                 except TurnoutParseError:
                     return None  # the parse command reports what does not reconcile
+            if family == "election-night":
+                return election_night_run_date(text)
             if election is not None and family in UNOFFICIAL_TALLY_FAMILIES:
                 return eight_day_snapshot_date(text, election)
             return pdf_snapshot_date(text)
@@ -3496,7 +3648,11 @@ def turnout_parse(
                 record,
                 parser_version=PARSER_VERSION,
                 extraction_method=_extraction_of(path),
-                checks={"rows": frame.height, "as_of": snapshot_date},
+                checks={
+                    "rows": frame.height,
+                    "as_of": snapshot_date,
+                    **_family_checks(path, family),
+                },
                 notes=f"{election_code} {family} ({geography}) snapshot, reconciled against its printed totals."
                 + FAMILY_SNAPSHOT_NOTES.get((family, geography), "")
                 + ELECTION_SNAPSHOT_NOTES.get((election_code, family, geography), ""),
@@ -3575,7 +3731,17 @@ def _parse_file(
         return parse_early_voting_pdf(path, election_code, geography)
     if family == "same-day":
         return parse_same_day_pdf(path, election_code, geography)
+    if family == "election-night":
+        return parse_election_night_pdf(path, election_code)
     raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
+
+
+def _family_checks(path: Path, family: str) -> dict:
+    """What a family's snapshot records beside its rows: the election-night report's
+    canvasses, which its title names and the page repeats."""
+    if family == "election-night":
+        return {"canvasses": election_night_canvasses(read_pdf_text(path))}
+    return {}
 
 
 def _extraction_of(path: Path) -> str:

@@ -1577,3 +1577,79 @@ def test_the_real_same_day_pages_render_for_all_six_elections():
     assert client.get("/turnout/gg18/same-day/").status_code == 404  # no 2018 files
     pg24 = client.get("/turnout/pg24/same-day/").text
     assert "65,431" in pg24 and "42,931" in pg24
+
+
+# --- the election-night unofficial turnout report ------------------------------------------
+
+
+def _en_county(county, cast, eligible, reported=10, precincts=10):
+    return [
+        ("county", county, "", "ALL", "ALL", m, v)
+        for m, v in (
+            ("cards-cast", cast),
+            ("eligible", eligible),
+            ("precincts-reported", reported),
+            ("precincts-total", precincts),
+        )
+    ]
+
+
+def test_election_night_reads_the_latest_run_by_county(conn):
+    add(conn, "2026-11-04", _en_county("Kent", 5000, 14000), "en1", "election-night")
+    add(
+        conn,
+        "2026-11-08",
+        _en_county("Kent", 8000, 14000) + _en_county("Allegany", 20000, 44000, 29, 30),
+        "en2",
+        "election-night",
+    )
+    conn.execute(
+        "UPDATE turnout_sources SET checks_json = ? WHERE source_id = 'en2'",
+        ('{"canvasses": ["mib1", "ev", "en", "mib2"]}',),
+    )
+    en = turnout.election_night(conn, "GG26")
+    assert en["as_of"] == "2026-11-08"
+    assert en["cast"] == 28000 and en["eligible"] == 58000
+    assert en["share"] == pytest.approx(28000 / 58000)
+    assert en["change"] == 23000  # since the 11-04 run's 5,000
+    assert (en["reported"], en["precincts"]) == (39, 40)
+    assert [(c["county"], c["cast"], c["reported"]) for c in en["counties"]] == [
+        ("Allegany", 20000, 29),
+        ("Kent", 8000, 10),
+    ]
+    assert en["canvasses"] == [
+        "the first mail-in canvass",
+        "early voting",
+        "election day",
+        "the second mail-in canvass",
+    ]
+    assert en["missing"] == ["provisional ballots"]
+
+
+def test_election_night_is_none_without_a_report_or_for_a_certified_election(conn):
+    assert turnout.election_night(conn, "GG26") is None
+    add(conn, "2026-07-17", _en_county("Kent", 5000, 14000), "gp", "election-night", "GP26")
+    assert turnout.election_night(conn, "GP26") is None
+
+
+@needs_db
+def test_the_election_page_leads_with_turnout_so_far(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    import skipjack.web.db as web_db
+    from skipjack.web.app import create_app
+
+    db_path = _page_db(
+        tmp_path,
+        [
+            ("2026-11-07", ALLEGANY + WORCESTER),
+            ("2026-11-08", _en_county("Kent", 8312, 14362), "election-night"),
+        ],
+    )
+    monkeypatch.setattr(web_db, "DB_PATH", db_path)
+    html = TestClient(create_app()).get("/turnout/gg26/").text
+    assert "Turnout so far" in html
+    assert "8,312" in html and "57.9%" in html
+    assert 'id="county-kent"' in html and "10 of 10" in html
+    assert 'data-map="turnout-election-night"' in html
+    assert "not yet part of this page" not in html

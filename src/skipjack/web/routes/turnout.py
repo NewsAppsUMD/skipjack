@@ -10,7 +10,7 @@ from skipjack.web import forecast as fc
 from skipjack.web import turnout as qt
 from skipjack.web.dates import day_label
 from skipjack.web.db import get_db
-from skipjack.web.maps import turnout_certified_maps, turnout_live_maps
+from skipjack.web.maps import election_night_map, turnout_certified_maps, turnout_live_maps
 
 router = APIRouter(prefix="/turnout")
 
@@ -75,6 +75,12 @@ async def election(request: Request, slug: str):
         early = qt.early_voting(conn, code)
         pace = qt.pace(conn, code)
         same_day = qt.same_day_statewide(conn, code)
+        election_night = qt.election_night(conn, code)
+    election_night_maps = (
+        [election_night_map(election_night["counties"], day_label(election_night["as_of"]))]
+        if election_night
+        else []
+    )
     return request.app.state.templates.TemplateResponse(
         request,
         "turnout_election.html",
@@ -91,6 +97,8 @@ async def election(request: Request, slug: str):
             "early": early,
             "pace": pace,
             "same_day": same_day,
+            "election_night": election_night,
+            "election_night_maps": election_night_maps,
         },
     )
 

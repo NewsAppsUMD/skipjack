@@ -309,6 +309,19 @@ def early_voting_map(rows: list[dict], as_of: str, href_prefix: str | None = Non
     )  # fmt: skip
 
 
+def election_night_map(rows: list[dict], as_of: str) -> dict:
+    """An election being counted: each county's ballot cards cast so far over the eligible
+    voters the board's election-night report prints. Green, like the certified turnout map,
+    so it does not read as partisan; each county links to its row of the table under it."""
+    values = {r["county"]: _ratio(r.get("cast"), r.get("eligible")) for r in rows}
+    return county_map(
+        "turnout-election-night", "Turnout so far", values,
+        sequential(list(values.values()), "%", kind="green"), fmt_pct(1),
+        caption=f"ballots cast as a share of eligible voters, unofficial, as of {as_of}",
+        none_text="not reported",
+    )  # fmt: skip
+
+
 def same_day_map(
     counties: list[dict], early: dict[str, int | None], as_of: str, href_prefix: str | None = None
 ) -> dict:

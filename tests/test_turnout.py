@@ -1270,7 +1270,8 @@ GG26 = dataclasses.replace(
     files=[
         f
         for f in turnout.ELECTIONS["GG26"].files
-        if f.family not in turnout.UNOFFICIAL_TALLY_FAMILIES
+        # the eight-day and election-night PDFs are dated and parsed in their own tests
+        if f.family not in (*turnout.UNOFFICIAL_TALLY_FAMILIES, "election-night")
     ],
 )
 
@@ -5584,3 +5585,101 @@ def test_a_live_same_day_file_is_dated_by_its_last_counted_day():
         )
         == "2026-06-23"
     )
+
+
+# --- the election-night unofficial turnout report ------------------------------------------
+
+# The GG26 report's text as natural-pdf reads it (run 11/8/2026 7:44 pm).
+ELECTION_NIGHT_TEXT = """\
+Unofficial MIB 1, Early Voting, Election Day, and MIB2 Turnout
+Election: 2026 Gubernatorial General
+County Cards Cast Eligible Voters Percentage
+Allegany County (30 of 30) 21,179 44,679 47.40%
+Anne Arundel County (196 of 196) 221,514 419,214 52.84%
+Baltimore City (295 of 295) 146,253 410,056 35.67%
+Baltimore County (258 of 258) 272,194 585,870 46.46%
+Calvert County (17 of 17) 38,494 70,346 54.72%
+Caroline County (8 of 8) 11,666 22,857 51.04%
+Carroll County (49 of 49) 71,485 130,502 54.78%
+Cecil County (28 of 28) 31,929 73,853 43.23%
+Charles County (34 of 34) 67,566 130,463 51.79%
+Dorchester County (44 of 44) 12,641 24,238 52.15%
+Frederick County (66 of 66) 113,601 207,859 54.65%
+Garrett County (19 of 19) 10,823 21,065 51.38%
+Harford County (63 of 63) 107,858 198,340 54.38%
+Howard County (67 of 67) 136,193 240,658 56.59%
+Kent County (10 of 10) 8,312 14,362 57.87%
+Montgomery County (257 of 257) 345,263 700,314 49.30%
+Prince George's County (327 of 327) 266,439 621,380 42.88%
+Queen Anne's County (11 of 11) 24,331 41,780 58.24%
+Saint Mary's County (27 of 27) 41,503 78,879 52.62%
+Somerset County (23 of 23) 7,152 14,662 48.78%
+Talbot County (12 of 12) 18,230 28,892 63.10%
+Washington County (47 of 47) 49,320 101,311 48.68%
+Wicomico County (69 of 69) 32,443 67,216 48.27%
+Worcester County (22 of 22) 23,412 44,526 52.58%
+Total 2,079,801 4,293,322 48.44%
+Run Date: 11/8/2026 7:44 pm
+"""
+
+
+def test_election_night_reads_every_county_at_the_county_grain():
+    as_of, df = turnout.parse_election_night_text(ELECTION_NIGHT_TEXT, "GG26")
+    assert as_of == "2026-11-08"  # the run date: the report prints no other
+    assert df.height == 24 * 4
+    assert set(df["family"]) == {"election-night"} and set(df["geography"]) == {"county"}
+    assert set(df["party"]) == {"ALL"} and set(df["district"]) == {""}
+    assert set(df["measure"]) == set(turnout.ELECTION_NIGHT_MEASURES)
+    cards = dict(df.filter(pl.col("measure") == "cards-cast").select("county", "value").iter_rows())
+    assert set(cards) == turnout.CANONICAL_COUNTIES  # "Saint Mary's County" -> "St. Mary's"
+    assert cards["St. Mary's"] == 41503 and cards["Baltimore County"] == 272194
+    assert sum(cards.values()) == 2079801  # the printed Total row
+
+
+def test_election_night_reads_the_canvasses_its_title_names():
+    assert turnout.election_night_canvasses(ELECTION_NIGHT_TEXT) == ["mib1", "ev", "en", "mib2"]
+    gp26 = "Unofficial Early Voting, Election Day, MIB1, MIB2, and Provisional Turnout"
+    assert turnout.election_night_canvasses(gp26) == ["ev", "en", "mib1", "mib2", "prov"]
+    with pytest.raises(turnout.TurnoutParseError, match="unknown canvass"):
+        turnout.election_night_canvasses("Unofficial Early Voting and MIB 3 Turnout")
+
+
+@pytest.mark.parametrize(
+    "old, new, message",
+    [
+        ("Total 2,079,801", "Total 2,079,802", "sum to"),
+        ("21,179 44,679 47.40%", "21,179 44,679 48.40%", "printed share"),
+        ("Kent County (10 of 10) 8,312 14,362 57.87%\n", "", "not printed"),
+        (
+            "Election: 2026 Gubernatorial General",
+            "Election: 2026 Gubernatorial Primary",
+            "not GG26",
+        ),
+        ("Allegany County (30 of 30)", "Allegany County (31 of 30)", "more precincts"),
+    ],
+)
+def test_election_night_rejects_a_report_that_does_not_add_up(old, new, message):
+    assert old in ELECTION_NIGHT_TEXT
+    with pytest.raises(turnout.TurnoutParseError, match=message):
+        turnout.parse_election_night_text(ELECTION_NIGHT_TEXT.replace(old, new), "GG26")
+
+
+def test_election_night_publishes_only_while_the_election_is_uncertified():
+    assert turnout.may_publish("GG26", "election-night")
+    assert not turnout.may_publish("GP26", "election-night")
+
+
+ELECTION_NIGHT_ARCHIVE = (
+    Path(__file__).resolve().parents[1]
+    / "archives/sbe/campaign_stats/GG26/election-night__county__2026-11-08__f4ac1aa87b06.pdf"
+)
+
+
+@pytest.mark.skipif(not ELECTION_NIGHT_ARCHIVE.exists(), reason="archive not present")
+def test_election_night_fetch_dates_the_report_by_its_run():
+    data = ELECTION_NIGHT_ARCHIVE.read_bytes()
+    assert turnout.extract_as_of_bytes(data, "pdf", "GG26", "election-night", "county") == (
+        "2026-11-08"
+    )
+    as_of, df = turnout.parse_election_night_pdf(ELECTION_NIGHT_ARCHIVE, "GG26")
+    assert as_of == "2026-11-08" and df.height == 96

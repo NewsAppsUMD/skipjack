@@ -44,7 +44,11 @@ Once GitHub Pages is switched on, the site publishes to
   For a running election: the mail-in tracking (requests, sent, received back, accepted in the
   canvass), snapshotted under each report's own as-of date so the trend is visible day by day,
   and, once early voting opens, the board's unofficial early-voting counts by day, party and
-  county against the eligible active voters.
+  county against the eligible active voters. After election day the page leads with the
+  board's election-night unofficial turnout report (GG26 only): ballots cast so far by county
+  against the eligible voters it prints, the election-day precincts reported, and the canvasses
+  its title says the count holds. It is dated by its run date and drops out, like the
+  early-voting counts, once the election is certified.
 - **Same-day registration**: every election from 2022 on has a `/turnout/<code>/same-day/` page
   from the board's unofficial same-day reports: new registrants (during early voting and on
   election day) and registered voters who changed their address and voted, by day, party,
