@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-08T194040-status",
+  "source_url": "https://elections.maryland.gov/",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, status.html (refreshed 11/08/2026 07:40:40 PM)",
+  "fetch_date": "2026-11-09T12:51:22+00:00",
+  "parse_date": "2026-11-09T12:51:22+00:00",
+  "sha256_original": "799b846490afd0cf6a8f076e34c0e31c1782601551e845fdf2f38a885f680cff",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "status",
+  "notes": "GG26 canvass status per county from the board's home page, snapshot 2026-11-08T194040.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "counties": 24
+  }
+}
