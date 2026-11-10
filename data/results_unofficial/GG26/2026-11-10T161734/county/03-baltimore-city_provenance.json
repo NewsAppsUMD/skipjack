@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-10T161734-gen_results_2026_by_county_3",
+  "source_url": "https://elections.maryland.gov/elections/2026/General_results/gen_results_2026_by_county_3.html",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, gen_results_2026_by_county_3.html (refreshed 11/10/2026 04:17:34 PM)",
+  "fetch_date": "2026-11-10T21:45:11+00:00",
+  "parse_date": "2026-11-10T21:45:11+00:00",
+  "sha256_original": "1a3fc259bdfefff0f755d58fa635ea288ba72962cb62f60382319fb6e22806b3",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "county",
+  "notes": "GG26 Baltimore City, the board's unofficial and incomplete count as of 11/10/2026 04:17:34 PM. Empty vote cells are not reported (NR), or a printed 0 in a canvass the county had not reported.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "last_refreshed": "11/10/2026 04:17:34 PM",
+    "tables": 35,
+    "rows": 101,
+    "row_totals": "ok",
+    "table_totals": "ok",
+    "statewide_check": "ok: 145 statewide tables match the county pages (2703 rows checked across the snapshot)",
+    "zeros_not_reported": 24,
+    "canvass_status_source": "sbe-results-unofficial-GG26-2026-11-10T161734-status"
+  }
+}
