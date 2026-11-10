@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-10T133547-gen_results_2026_by_county_14",
+  "source_url": "https://elections.maryland.gov/elections/2026/General_results/gen_results_2026_by_county_14.html",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, gen_results_2026_by_county_14.html (refreshed 11/10/2026 01:35:47 PM)",
+  "fetch_date": "2026-11-10T19:01:26+00:00",
+  "parse_date": "2026-11-10T19:01:27+00:00",
+  "sha256_original": "b2acb4443ab01d849e791ead65bc18244d391b6c40901f3de6fc96a9e0dd1663",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "county",
+  "notes": "GG26 Howard, the board's unofficial and incomplete count as of 11/10/2026 01:35:47 PM. Empty vote cells are not reported (NR), or a printed 0 in a canvass the county had not reported.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "last_refreshed": "11/10/2026 01:35:47 PM",
+    "tables": 29,
+    "rows": 79,
+    "row_totals": "ok",
+    "table_totals": "ok",
+    "statewide_check": "ok: 145 statewide tables match the county pages (2703 rows checked across the snapshot)",
+    "zeros_not_reported": 10,
+    "canvass_status_source": "sbe-results-unofficial-GG26-2026-11-10T133547-status"
+  }
+}
