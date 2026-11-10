@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-09T200700-gen_results_2026_by_county_8",
+  "source_url": "https://elections.maryland.gov/elections/2026/General_results/gen_results_2026_by_county_8.html",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, gen_results_2026_by_county_8.html (refreshed 11/09/2026 08:07:00 PM)",
+  "fetch_date": "2026-11-10T01:21:56+00:00",
+  "parse_date": "2026-11-10T01:21:56+00:00",
+  "sha256_original": "4808cf6faf023aaa4c921fa5b840177711e0885150df749835635f14c0139a79",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "county",
+  "notes": "GG26 Cecil, the board's unofficial and incomplete count as of 11/09/2026 08:07:00 PM. Empty vote cells are not reported (NR), or a printed 0 in a canvass the county had not reported.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "last_refreshed": "11/09/2026 08:07:00 PM",
+    "tables": 26,
+    "rows": 79,
+    "row_totals": "ok",
+    "table_totals": "ok",
+    "statewide_check": "ok: 145 statewide tables match the county pages (2703 rows checked across the snapshot)",
+    "zeros_not_reported": 8,
+    "canvass_status_source": "sbe-results-unofficial-GG26-2026-11-09T200700-status"
+  }
+}
