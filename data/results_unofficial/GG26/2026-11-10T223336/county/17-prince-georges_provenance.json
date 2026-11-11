@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-10T223336-gen_results_2026_by_county_17",
+  "source_url": "https://elections.maryland.gov/elections/2026/General_results/gen_results_2026_by_county_17.html",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, gen_results_2026_by_county_17.html (refreshed 11/10/2026 10:33:36 PM)",
+  "fetch_date": "2026-11-11T12:31:17+00:00",
+  "parse_date": "2026-11-11T12:31:17+00:00",
+  "sha256_original": "ce86bdd8b4724e8c8c8b8c9f3600859bd3cede504e4a720a1428568f18aad96e",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "county",
+  "notes": "GG26 Prince George's, the board's unofficial and incomplete count as of 11/10/2026 10:33:36 PM. Empty vote cells are not reported (NR), or a printed 0 in a canvass the county had not reported.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "last_refreshed": "11/10/2026 10:33:36 PM",
+    "tables": 60,
+    "rows": 175,
+    "row_totals": "ok",
+    "table_totals": "ok",
+    "statewide_check": "ok: 145 statewide tables match the county pages (2703 rows checked across the snapshot)",
+    "zeros_not_reported": 26,
+    "canvass_status_source": "sbe-results-unofficial-GG26-2026-11-10T223336-status"
+  }
+}
