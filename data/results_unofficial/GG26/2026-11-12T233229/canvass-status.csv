@@ -1,0 +1,25 @@
+election,snapshot,county,last_updated,precincts_reported,precincts_total,ev,en,mib1,prov,mib2
+GG26,2026-11-12T233229,Allegany,11/12/26 07:53 PM,30,30,complete,complete,complete,complete,partial
+GG26,2026-11-12T233229,Anne Arundel,11/12/26 10:33 PM,196,196,complete,complete,complete,complete,partial
+GG26,2026-11-12T233229,Baltimore City,11/12/26 07:05 PM,295,295,complete,complete,complete,partial,partial
+GG26,2026-11-12T233229,Baltimore County,11/12/26 11:20 PM,258,258,complete,complete,complete,partial,partial
+GG26,2026-11-12T233229,Calvert,11/12/26 02:53 PM,17,17,complete,complete,complete,complete,partial
+GG26,2026-11-12T233229,Caroline,11/12/26 01:16 PM,8,8,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Carroll,11/12/26 05:51 PM,49,49,complete,complete,complete,complete,partial
+GG26,2026-11-12T233229,Cecil,11/12/26 06:24 PM,28,28,complete,complete,complete,complete,partial
+GG26,2026-11-12T233229,Charles,11/05/26 10:36 PM,34,34,complete,complete,complete,not_reported,not_reported
+GG26,2026-11-12T233229,Dorchester,11/12/26 12:45 PM,44,44,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Frederick,11/12/26 08:19 PM,66,66,complete,complete,complete,complete,partial
+GG26,2026-11-12T233229,Garrett,11/12/26 12:03 PM,19,19,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Harford,11/12/26 04:32 PM,63,63,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Howard,11/12/26 05:51 PM,67,67,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Kent,11/12/26 01:19 PM,10,10,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Montgomery,11/12/26 09:17 PM,257,257,complete,complete,complete,not_reported,partial
+GG26,2026-11-12T233229,Prince George's,11/12/26 08:33 PM,327,327,complete,complete,complete,partial,partial
+GG26,2026-11-12T233229,Queen Anne's,11/12/26 12:34 PM,11,11,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,St. Mary's,11/12/26 04:54 PM,27,27,complete,complete,complete,complete,partial
+GG26,2026-11-12T233229,Somerset,11/12/26 02:12 PM,23,23,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Talbot,11/12/26 04:18 PM,12,12,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Washington,11/12/26 06:00 PM,47,47,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Wicomico,11/12/26 08:22 PM,69,69,complete,complete,complete,complete,not_reported
+GG26,2026-11-12T233229,Worcester,11/12/26 03:09 PM,22,22,complete,complete,complete,complete,not_reported
