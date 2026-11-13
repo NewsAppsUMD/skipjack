@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-13T113019-gen_results_2026_by_county_11",
+  "source_url": "https://elections.maryland.gov/elections/2026/General_results/gen_results_2026_by_county_11.html",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, gen_results_2026_by_county_11.html (refreshed 11/13/2026 11:30:19 AM)",
+  "fetch_date": "2026-11-13T16:43:13+00:00",
+  "parse_date": "2026-11-13T16:43:14+00:00",
+  "sha256_original": "4efa0b60dcacd7ebd695a4c3f9e3b091f4aba25b6ada943aa24f150819dbe5d3",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "county",
+  "notes": "GG26 Frederick, the board's unofficial and incomplete count as of 11/13/2026 11:30:19 AM. Empty vote cells are not reported (NR), or a printed 0 in a canvass the county had not reported.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "last_refreshed": "11/13/2026 11:30:19 AM",
+    "tables": 31,
+    "rows": 113,
+    "row_totals": "ok",
+    "table_totals": "ok",
+    "statewide_check": "ok: 145 statewide tables match the county pages (2703 rows checked across the snapshot)",
+    "zeros_not_reported": 0,
+    "canvass_status_source": "sbe-results-unofficial-GG26-2026-11-13T113019-status"
+  }
+}
