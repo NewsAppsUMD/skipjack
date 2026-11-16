@@ -1,0 +1,19 @@
+{
+  "source_id": "maryland-manual-officials-36ddbea",
+  "source_url": "https://raw.githubusercontent.com/NewsAppsUMD/maryland-manual/36ddbeaeef4aecda7c3ad646847c2a2b241c97d9/data/officials.csv",
+  "source_name": "Maryland State Archives, Maryland Manual On-Line (compiled by NewsAppsUMD)",
+  "document_title": "Maryland Manual officeholders (NewsAppsUMD/maryland-manual@36ddbea)",
+  "fetch_date": "2026-11-16T17:38:43+00:00",
+  "parse_date": "2026-11-16T17:38:43+00:00",
+  "sha256_original": "2ed7faf1761520c6107ba2c9cf4884e9a2829e13450060f352e49b8216c2f243",
+  "parser_version": "skipjack 0.2.0",
+  "election": "",
+  "family": "",
+  "geography": "",
+  "notes": "Copied verbatim from NewsAppsUMD/maryland-manual at commit 36ddbeaeef4aecda7c3ad646847c2a2b241c97d9. Manual page dates 2022-03-11 to 2026-11-13. Used for the 2026 elections' incumbents only.",
+  "extraction_method": "copy",
+  "checks": {
+    "rows": 19733,
+    "columns": "ok"
+  }
+}

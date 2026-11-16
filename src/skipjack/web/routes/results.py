@@ -18,7 +18,7 @@ from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
 from skipjack.web import results as qr
 from skipjack.web import results_trends, results_trends_plot
 from skipjack.web import results_unofficial as qu
-from skipjack.web import ticket
+from skipjack.web import incumbents, ticket
 from skipjack.web.db import get_db
 from skipjack.web.maps import question_map, results_map, trends_shift_map
 
@@ -128,6 +128,24 @@ def mail_pair(vote_types: list[dict]) -> tuple[str, str] | None:
     return None
 
 
+def _hub_marked(groups: list[dict], unofficial: bool) -> bool:
+    """Whether the election page shows an incumbent's mark: its statewide and congressional
+    cards list every candidate, its district lists only the winners (or leaders so far)."""
+    for g in groups:
+        for c in g["contests"]:
+            if g["scope"] in ("statewide", "congress"):
+                shown = c["candidates"]
+            else:
+                shown = (
+                    c.get("ahead", [])
+                    if unofficial
+                    else [x for x in c["candidates"] if x["winner"]]
+                )
+            if any(x.get("incumbent") for x in shown):
+                return True
+    return False
+
+
 def _render(request: Request, template: str, context: dict):
     return request.app.state.templates.TemplateResponse(request, template, context)
 
@@ -199,6 +217,9 @@ async def election(request: Request, slug: str):
         if code in ticket.HUB_PLOT_ELECTIONS:
             pages = [q.county_page(conn, code, s) for s in q.county_slugs(conn, code)]
             outran = ticket.statewide([p for p in pages if p])
+        inc = incumbents.summary(conn, code)
+        incumbents.mark(conn, code, [c for g in data["groups"] for c in g["contests"]])
+        marked = _hub_marked(data["groups"], context["unofficial"] is not None)
     return _render(
         request,
         "results_election.html",
@@ -207,6 +228,8 @@ async def election(request: Request, slug: str):
             "groups": data["groups"],
             "questions": data.get("questions", []),
             "outran": outran,
+            "incumbents": inc,
+            "marked": marked,
             "sources": sources,
             **context,
         },
@@ -244,6 +267,8 @@ async def county(request: Request, slug: str, county_slug: str):
             raise HTTPException(status_code=404)
         sources = source_links(conn, data["source_ids"])
         context = _page_context(conn, code)
+        contests = [c for g in data["groups"] for c in g["contests"]]
+        marked = incumbents.mark(conn, code, contests, data["county"])
     return _render(
         request,
         "results_county.html",
@@ -255,6 +280,7 @@ async def county(request: Request, slug: str, county_slug: str):
             "groups": data["groups"],
             "questions": data.get("questions", []),
             "outran": ticket.outran(data),
+            "marked": marked,
             "sources": sources,
             **context,
         },
@@ -288,6 +314,7 @@ async def contest(request: Request, slug: str, contest_slug: str):
             raise HTTPException(status_code=404)
         sources = source_links(conn, data["source_ids"])
         context = _page_context(conn, code)
+        marked = incumbents.mark(conn, code, [data])
     return _render(
         request,
         "results_contest.html",
@@ -297,6 +324,7 @@ async def contest(request: Request, slug: str, contest_slug: str):
             "county_maps": results_map(data),
             "sources": sources,
             "mail_pair": mail_pair(data["vote_types"]),
+            "marked": marked,
             **context,
         },
     )

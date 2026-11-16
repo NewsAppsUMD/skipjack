@@ -2,6 +2,7 @@
 {% import "_results.html" as r with context %}
 {% import "_unofficial.html" as u with context %}
 {% import "_ticket.html" as t with context %}
+{% import "_incumbents.html" as i with context %}
 {% block title %}{{ election.name.title() }} results{% endblock %}
 
 {% block content %}
@@ -12,10 +13,11 @@
 <p class="secondary">{{ election.kind.title() }} election{% if election.election_day %}, {{ election.election_day|day_label }}{% endif %}.
     Totals are the county results added up{% if not unofficial %}; a check mark is the State Board's own
     winner flag{% endif %}. <a href="{{ base }}/results/{{ election.slug }}/county/">Results by county</a>.</p>
+{% if marked %}{{ r.incumbent_note(election) }}{% endif %}
 
 {% if groups %}
 <nav class="subnav" aria-label="Contests">
-    {% for g in groups %}<a href="#{{ g.scope }}">{{ g.label }}</a>{% endfor %}{% if outran %}<a href="#outran">Ahead of the ticket</a>{% endif %}{% if questions %}<a href="#questions">Ballot questions</a>{% endif %}
+    {% for g in groups %}<a href="#{{ g.scope }}">{{ g.label }}</a>{% endfor %}{% if outran %}<a href="#outran">Ahead of the ticket</a>{% endif %}{% if incumbents %}<a href="#incumbents">Incumbents</a>{% endif %}{% if questions %}<a href="#questions">Ballot questions</a>{% endif %}
 </nav>
 {% endif %}
 
@@ -47,9 +49,9 @@
         <tr>
             <th scope="row"><a href="{{ base }}/results/{{ election.slug }}/{{ c.slug }}/">{{ c.district }}</a></th>
             {% if unofficial %}
-            <td>{% for w in c.ahead %}{{ w.name }}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.votes(w.total) }}{% if not loop.last %}; {% endif %}{% endfor %}</td>
+            <td>{% for w in c.ahead %}{{ w.name }}{% if w.incumbent %} {{ r.incumbent() }}{% endif %}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.votes(w.total) }}{% if not loop.last %}; {% endif %}{% endfor %}</td>
             {% else %}
-            <td>{% for w in c.candidates if w.winner %}{{ w.name }}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.winner() }} {{ r.votes(w.total) }}{% if not loop.last %}; {% endif %}{% else %}<span class="muted">no winner flagged</span>{% endfor %}</td>
+            <td>{% for w in c.candidates if w.winner %}{{ w.name }}{% if w.incumbent %} {{ r.incumbent() }}{% endif %}{% if w.party %} <span class="muted">({{ w.party }})</span>{% endif %} {{ r.winner() }} {{ r.votes(w.total) }}{% if not loop.last %}; {% endif %}{% else %}<span class="muted">no winner flagged</span>{% endfor %}</td>
             {% endif %}
         </tr>
         {% endfor %}
@@ -61,6 +63,8 @@
 </section>
 {% if outran and g.scope == "statewide" %}{{ t.dot_plot(outran, election, unofficial) }}{% endif %}
 {% endfor %}
+
+{% if incumbents %}{{ i.section(incumbents, election, unofficial) }}{% endif %}
 
 {% if questions %}
 <section aria-labelledby="questions">

@@ -227,4 +227,59 @@ CREATE INDEX IF NOT EXISTS idx_results_unofficial_county
     ON results_unofficial (election, snapshot, county);
 CREATE INDEX IF NOT EXISTS idx_results_unofficial_votes_result
     ON results_unofficial_votes (result_id);
+
+-- The Maryland Manual's officeholders (NewsAppsUMD/maryland-manual, data/officials.csv),
+-- verbatim: every column TEXT, as published. skipjack.web.incumbents reads it for the 2026
+-- elections' incumbents.
+CREATE TABLE IF NOT EXISTS officials (
+    source_id TEXT REFERENCES sources(source_id),
+    id TEXT,
+    person_id TEXT,
+    person_id_method TEXT,
+    name_full TEXT,
+    name_first TEXT,
+    name_middle TEXT,
+    name_last TEXT,
+    name_suffix TEXT,
+    nickname TEXT,
+    office_title TEXT,
+    role TEXT,
+    role_note TEXT,
+    body_name TEXT,
+    parent_body TEXT,
+    jurisdiction_level TEXT,
+    jurisdiction TEXT,
+    jurisdiction_id TEXT,
+    branch TEXT,
+    record_type TEXT,
+    selection_method TEXT,
+    appointing_authority TEXT,
+    selection_text TEXT,
+    party TEXT,
+    party_source TEXT,
+    district TEXT,
+    counties TEXT,
+    term_length_years TEXT,
+    term_start TEXT,
+    term_start_title TEXT,
+    term_end_year TEXT,
+    is_vacancy TEXT,
+    is_ex_officio TEXT,
+    note TEXT,
+    bio_url TEXT,
+    source_url TEXT,
+    evidence TEXT,
+    page_date TEXT
+);
+
+-- Hand-checked corrections to the incumbents' name matching (data/officials/
+-- incumbent_overrides.csv): a roster person and a ballot candidate the matcher pairs that are
+-- not the same person, or that could not be confirmed to be.
+CREATE TABLE IF NOT EXISTS official_overrides (
+    person_id TEXT NOT NULL,
+    election TEXT NOT NULL,
+    candidate TEXT NOT NULL,
+    decision TEXT NOT NULL,
+    note TEXT NOT NULL
+);
 """

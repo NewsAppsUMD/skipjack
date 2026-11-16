@@ -1,0 +1,85 @@
+{# The incumbents section of a 2026 election's results page (skipjack.web.incumbents).
+   Import with context: {% import "_incumbents.html" as i with context %} #}
+
+{% macro outcome(won, unofficial) -%}
+{%- if unofficial %}{{ "ahead" if won else "behind" }} so far{% else %}{{ "won" if won else "lost" }}{% endif -%}
+{%- endmacro %}
+
+{% macro section(inc, election, unofficial) -%}
+{% set primary = election.kind == "primary" %}
+{% set lost_word = "are behind in the count so far" if unofficial else "lost" %}
+<section aria-labelledby="incumbents">
+<h2 id="incumbents">Incumbents</h2>
+<p>{{ inc.ran }} of the {{ inc.up }} state and county officeholders whose seats were up in 2026
+    were on this {{ "primary's ballots" if primary else "election's ballot" }} for their own
+    office{% if primary %}, in their party's primary or a school board's nonpartisan one{% endif %};
+    <strong>{{ inc.lost|length }} {{ lost_word }}</strong>{% if inc.other %}.
+    {{ inc.other|length }} more ran for a different office{% endif %}.
+    {% if primary %}Many school board seats have no primary: their incumbents are on the general
+    election's ballot only.{% else %}Incumbents who lost their primary are not on this ballot; see the
+    <a href="{{ base }}/results/{{ election.slug|replace("gg", "gp") }}/#incumbents">{{ election.year }} primary's results</a>.{% endif %}</p>
+
+<table class="results-table compact">
+    <caption>Incumbents by office</caption>
+    <thead><tr><th scope="col">Office</th><th scope="col" class="num">Seats held by someone up in 2026</th>
+        <th scope="col" class="num">On the ballot for it</th>
+        <th scope="col" class="num">{{ "Behind so far" if unofficial else "Lost" }}</th></tr></thead>
+    <tbody>
+    {% for f in inc.families %}
+    <tr><th scope="row">{{ f.label }}</th><td class="num">{{ f.up }}</td><td class="num">{{ f.ran }}</td>
+        <td class="num">{{ f.lost }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% if inc.lost %}
+<table class="results-table compact">
+    <caption>Incumbents who {{ "are behind in the count so far" if unofficial else "lost" }}</caption>
+    <thead><tr><th scope="col">Incumbent</th><th scope="col">Office</th><th scope="col">Contest</th>
+        <th scope="col" class="num">Votes</th><th scope="col" class="num">Share</th></tr></thead>
+    <tbody>
+    {% for e in inc.lost %}
+    <tr>
+        <th scope="row">{{ e.candidate }}{% if e.appointed %} <span class="muted">(appointed to the seat)</span>{% endif %}</th>
+        <td>{{ e.office }}, {{ e.place }}</td>
+        <td><a href="{{ base }}{{ e.url }}">{{ e.contest }}</a></td>
+        <td class="num">{{ "{:,}".format(e.total) }}</td>
+        <td class="num">{% if e.share is not none %}{{ "%.1f"|format(e.share) }}%{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if inc.other %}
+<details class="district-list">
+    <summary>Incumbents who ran for a different office ({{ inc.other|length }})</summary>
+    <table class="results-table compact">
+        <caption class="sr-only">Incumbents who ran for a different office</caption>
+        <thead><tr><th scope="col">Incumbent</th><th scope="col">Holds</th><th scope="col">Ran for</th>
+            <th scope="col">Result</th></tr></thead>
+        <tbody>
+        {% for e in inc.other %}
+        <tr>
+            <th scope="row">{{ e.candidate }}</th>
+            <td>{{ e.office }}, {{ e.place }}</td>
+            <td><a href="{{ base }}{{ e.url }}">{{ e.contest }}</a></td>
+            <td>{{ outcome(e.won, unofficial) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</details>
+{% endif %}
+
+<p class="note">The State Board's files do not mark incumbents. These officeholders come from the
+    Maryland Manual's roster{% if inc.source %} (<a href="{{ inc.source.url }}" target="_blank" rel="noopener">{{ inc.source.title }}</a>){% endif %},
+    a snapshot of who held each office in 2025 and 2026, matched to the ballot by name. It covers
+    statewide offices, the General Assembly and elected county offices; it has no members of
+    Congress, and judges of the Circuit Court are not counted. A seat is up when its term ends in
+    2026 or 2027. {% if unofficial %}Until certification, "behind" means outside the contest's
+    leaders, as many as it elects, in the unofficial count.{% else %}"Lost" is the State Board's
+    winner flag.{% endif %} Someone appointed to a seat since the last election counts as its
+    incumbent.</p>
+</section>
+{%- endmacro %}

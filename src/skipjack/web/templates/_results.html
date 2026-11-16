@@ -15,8 +15,20 @@
 <span class="mark" aria-hidden="true" title="tied for the most votes">=</span><span class="sr-only"> tied</span>
 {%- endmacro %}
 
+{# An incumbent running for their own office (skipjack.web.incumbents; 2026 only). #}
+{% macro incumbent() -%}
+<span class="inc" aria-hidden="true" title="incumbent">(i)</span><span class="sr-only"> incumbent</span>
+{%- endmacro %}
+
+{# The legend for the (i) marks, on a page that has any. #}
+{% macro incumbent_note(election) -%}
+<p class="note"><span class="inc">(i)</span> marks an incumbent running for their own office, from the
+    Maryland Manual's roster of officeholders; see
+    <a href="{{ base }}/results/{{ election.slug }}/#incumbents">who lost</a>.</p>
+{%- endmacro %}
+
 {% macro name(c, win_label="winner", lead=false, tie=false, lead_label="leads here") -%}
-{{ c.name }}{% if c.write_in %} <span class="muted">(write-in)</span>{% endif %}{% if c.winner %} {{ winner(win_label) }}{% endif %}{% if lead %} {{ leads(lead_label) }}{% endif %}{% if tie %} {{ tied() }}{% endif %}
+{{ c.name }}{% if c.incumbent %} {{ incumbent() }}{% endif %}{% if c.write_in %} <span class="muted">(write-in)</span>{% endif %}{% if c.winner %} {{ winner(win_label) }}{% endif %}{% if lead %} {{ leads(lead_label) }}{% endif %}{% if tie %} {{ tied() }}{% endif %}
 {%- endmacro %}
 
 {% macro votes(v) -%}

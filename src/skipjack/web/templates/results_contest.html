@@ -12,6 +12,7 @@
 <p class="secondary">{{ contest.scope_label }}{% if contest.party_label %}, {{ contest.party_label }} primary{% endif %}.
     {{ election.name.title() }}, {{ contest.counties_reporting }} count{{ 'y' if contest.counties_reporting == 1 else 'ies' }}.
     Totals are the county results added up{% if not unofficial %}; a check mark is the State Board's {{ "retention result" if contest.has_against else "winner flag" }}{% endif %}.</p>
+{% if marked %}{{ r.incumbent_note(election) }}{% endif %}
 
 {% set totals_label = "Statewide" if contest.scope == "statewide" else "Totals" %}
 <h2>{{ totals_label }}</h2>
@@ -40,7 +41,7 @@
         <tr>
             <th scope="col">County</th>
             {% for c in contest.candidates %}
-            <th scope="col" class="num">{{ c.name }}{% if c.party %} <span class="muted">({{ c.party }})</span>{% endif %}{% if c.write_in %} <span class="muted">write-in</span>{% endif %}{% if contest.has_against %} for{% endif %}</th>
+            <th scope="col" class="num">{{ c.name }}{% if c.incumbent %} {{ r.incumbent() }}{% endif %}{% if c.party %} <span class="muted">({{ c.party }})</span>{% endif %}{% if c.write_in %} <span class="muted">write-in</span>{% endif %}{% if contest.has_against %} for{% endif %}</th>
             {% if contest.has_against %}<th scope="col" class="num">{{ c.name }} against</th>{% endif %}
             {% endfor %}
             {% if not contest.has_against %}<th scope="col" class="num">Total</th>{% endif %}

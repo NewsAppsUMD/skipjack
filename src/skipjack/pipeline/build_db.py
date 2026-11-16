@@ -12,6 +12,7 @@ import polars as pl
 from polars.exceptions import PolarsError
 
 from skipjack.models import SCHEMA_SQL
+from skipjack.pipeline.officials import load_officials
 from skipjack.pipeline.results import (
     COUNTY_CODES,
     RESULTS_ELECTIONS,
@@ -602,6 +603,7 @@ def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     counts["turnout"] = load_turnout(conn, data_dir)
     counts["results"] = load_results(conn, data_dir)
     counts["results_unofficial"] = load_results_unofficial(conn, data_dir)
+    counts["officials"] = load_officials(conn, data_dir)
     conn.commit()
     conn.close()
 

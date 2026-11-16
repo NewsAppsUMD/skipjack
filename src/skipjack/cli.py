@@ -256,6 +256,16 @@ def cmd_build_site(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
+def cmd_officials_fetch(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.officials import DEFAULT_REF, fetch_officials
+
+    dest = fetch_officials(args.ref or DEFAULT_REF)
+    if dest is None:
+        print(f"Could not download the roster at {args.ref}", file=sys.stderr)
+        sys.exit(1)
+    print(f"Wrote {dest}")
+
+
 def cmd_build_db(args: argparse.Namespace) -> None:
     from skipjack.pipeline.build_db import build
 
@@ -374,6 +384,13 @@ def main(argv: list[str] | None = None) -> None:
     )
     site_p.add_argument("--include-db", action="store_true", help="Offer skipjack.db to download")
 
+    officials_p = sub.add_parser(
+        "officials-fetch", help="Copy the Maryland Manual officeholder roster (2026 incumbents)"
+    )
+    officials_p.add_argument(
+        "--ref", default=None, help="Commit of NewsAppsUMD/maryland-manual (default: pinned)"
+    )
+
     sub.add_parser("build-db", help="Build SQLite database from CSVs")
 
     serve_p = sub.add_parser("serve", help="Run the web server")
@@ -399,6 +416,7 @@ def main(argv: list[str] | None = None) -> None:
         "voterfile": cmd_voterfile,
         "race-input": cmd_race_input,
         "build-site": cmd_build_site,
+        "officials-fetch": cmd_officials_fetch,
         "build-db": cmd_build_db,
         "serve": cmd_serve,
     }

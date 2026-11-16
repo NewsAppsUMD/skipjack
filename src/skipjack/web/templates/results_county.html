@@ -10,6 +10,7 @@
 {{ u.banner(full=false) }}
 <p class="secondary">{{ election.name.title() }}: every contest on the county's ballot.</p>
 <p class="note">How {{ county }} has voted since 2010: <a href="{{ base }}/results/county/{{ county|slug }}/">results over time</a>.</p>
+{% if marked %}{{ r.incumbent_note(election) }}{% endif %}
 
 {% if unofficial %}
 {% set mine = unofficial.canvass|selectattr("county", "equalto", county)|first %}
