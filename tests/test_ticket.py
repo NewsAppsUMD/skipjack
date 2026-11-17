@@ -286,3 +286,32 @@ def test_statewide_skips_unopposed_and_district_contests_and_primaries():
     primary = {**county("A", gov(300, 100), ag(1, 2)), "election": {"kind": "primary"}}
     assert ticket.statewide([primary]) is None
     assert ticket.statewide([]) is None
+
+
+def test_statewide_marks_where_the_lead_exceeds_the_minor_tickets_vote():
+    def gov3(dem, rep, grn, wcp):
+        return contest(
+            "Governor / Lt. Governor",
+            [cand("Moore and Miller", "DEM", dem), cand("Cox", "REP", rep),
+             cand("Ellis", "GRN", grn), cand("White", "WCP", wcp)],
+            scope="statewide",
+        )  # fmt: skip
+
+    st = ticket.statewide(
+        [
+            county("Kent", gov3(1000, 500, 20, 20), ag(1060, 480)),  # lead 60 > 40
+            county("Howard", gov3(2000, 500, 60, 40), ag(2080, 520)),  # lead 80 < 100
+        ]
+    )
+    assert st["minor"] == {"label": "Green and Working Class", "total": 140}
+    assert st["series"][0]["exceeds"] == 1
+    kent, howard = st["rows"]
+    assert (kent["minor_votes"], kent["minor_pct"], kent["values"][0]["exceeds"]) == (40, 4.0, True)
+    assert (howard["minor_votes"], howard["values"][0]["exceeds"]) == (100, False)
+    pk, ph = st["plot"]["rows"]
+    assert pk["minor_x"] < pk["dots"][0]["x"] and ph["minor_x"] > ph["dots"][0]["x"]
+    # a party with a candidate in the other contest is not a minor ticket
+    plain = ticket.statewide([county("A", gov(300, 100), ag(336, 80))])
+    assert plain["minor"] is None
+    assert plain["plot"]["rows"][0]["minor_x"] is None
+    assert plain["rows"][0]["values"][0]["exceeds"] is False

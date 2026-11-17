@@ -161,7 +161,14 @@ def statewide(pages: list[dict]) -> dict | None:
     ``pages`` are the election's county pages (``county_page`` of either results module), one
     per county. The party compared is that of the top-of-ticket candidate with the most votes
     statewide. A statewide contest is a series when that party's candidate has a real opponent
-    (same rule as ``outran``). None when the election is not a general one, its first contest
+    (same rule as ``outran``).
+
+    ``minor`` is the top-of-ticket vote for the parties with no candidate in any of the series'
+    contests (Green and Working Class in 2026's governor's contest), None when there is none:
+    the voters who had a choice at the top that the other contests did not offer. Each row
+    carries their votes as a share of the ticket-mate's, on the plot's own scale, and each
+    value whether the candidate's lead is larger (``exceeds``): where it is, those tickets
+    cannot account for all of the lead. None when the election is not a general one, its first contest
     is not President or Governor, or no statewide contest can be compared.
     """
     counties = []
@@ -186,6 +193,7 @@ def statewide(pages: list[dict]) -> dict | None:
     party = max(totals, key=totals.get)
     # the series: each statewide contest's candidate of that party, by contest title
     series: dict[str, dict] = {}
+    series_parties: set[str] = set()
     for _, contests in counties:
         for contest in contests[1:]:
             if contest["scope"] != "statewide" or contest["has_against"]:
@@ -198,12 +206,23 @@ def statewide(pages: list[dict]) -> dict | None:
                 ):
                     s = series.setdefault(
                         contest["title"],
-                        {"contest": contest["title"], "name": cand["name"], "total": 0, "ahead": 0},
+                        {
+                            "contest": contest["title"],
+                            "name": cand["name"],
+                            "total": 0,
+                            "ahead": 0,
+                            "exceeds": 0,
+                        },
                     )
                     s["total"] += cand["total"] or 0
+                    series_parties |= {
+                        c["party"] for c in contest["candidates"] if not c["write_in"]
+                    }
     if not series:
         return None
     head = {"name": "", "party": party, "total": 0}
+    minor_parties = [p for p in PARTIES if p in totals and p not in series_parties]
+    minor_total = 0
     rows = []
     for county, contests in counties:
         top = next(
@@ -214,6 +233,12 @@ def statewide(pages: list[dict]) -> dict | None:
             continue
         head["name"] = head["name"] or top["name"]
         head["total"] += top["total"] or 0
+        minor_votes = sum(
+            c["total"] or 0
+            for c in contests[0]["candidates"]
+            if c["party"] in minor_parties and not c["write_in"]
+        )
+        minor_total += minor_votes
         values = []
         for title, s in series.items():
             cand = next(
@@ -232,11 +257,26 @@ def statewide(pages: list[dict]) -> dict | None:
             diff = (cand["total"] or 0) - top["total"]
             if diff > 0:
                 s["ahead"] += 1
+            exceeds = bool(minor_parties) and diff > minor_votes
+            if exceeds:
+                s["exceeds"] += 1
             values.append(
-                {"votes": cand["total"] or 0, "diff": diff, "diff_pct": 100 * diff / top["total"]}
+                {
+                    "votes": cand["total"] or 0,
+                    "diff": diff,
+                    "diff_pct": 100 * diff / top["total"],
+                    "exceeds": exceeds,
+                }
             )
         rows.append(
-            {"county": county, "slug": slugify(county), "top_votes": top["total"], "values": values}
+            {
+                "county": county,
+                "slug": slugify(county),
+                "top_votes": top["total"],
+                "minor_votes": minor_votes,
+                "minor_pct": 100 * minor_votes / top["total"] if top["total"] else None,
+                "values": values,
+            }
         )
     rows.sort(key=lambda r: -(r["values"][0]["diff_pct"] if r["values"][0] else float("-inf")))
     for s in series.values():
@@ -245,6 +285,12 @@ def statewide(pages: list[dict]) -> dict | None:
         "top_title": TOP_LABELS[top_office],
         "head": head,
         "party_label": PARTY_NAMES.get(party, party),
+        "minor": {
+            "label": " and ".join(PARTY_NAMES[p] for p in minor_parties),
+            "total": minor_total,
+        }
+        if minor_parties
+        else None,
         "series": [
             {**s, "color": SERIES_COLORS[i % len(SERIES_COLORS)]}
             for i, s in enumerate(series.values())
@@ -260,6 +306,8 @@ def _plot(st: dict) -> dict:
     """Pixel positions for the dot plot in templates/_ticket.html: a row per county, a dot per
     series, the gap as a share of the ticket-mate's vote on the x axis."""
     pcts = [v["diff_pct"] for r in st["rows"] for v in r["values"] if v]
+    if st["minor"]:
+        pcts += [r["minor_pct"] for r in st["rows"] if r["minor_pct"] is not None]
     hi = _nice_ceiling(max(pcts, default=0))
     lo = -_nice_ceiling(-min(pcts)) if pcts and min(pcts) < 0 else 0.0
     span = PLOT_WIDTH - PLOT_LABEL_WIDTH - 20
@@ -281,7 +329,10 @@ def _plot(st: dict) -> dict:
             if v
         ]
         xs = [d["x"] for d in dots] + [x(0)]
-        rows.append({**r, "y": y, "x_min": min(xs), "x_max": max(xs), "dots": dots})
+        minor_x = x(r["minor_pct"]) if st["minor"] and r["minor_pct"] is not None else None
+        rows.append(
+            {**r, "y": y, "x_min": min(xs), "x_max": max(xs), "dots": dots, "minor_x": minor_x}
+        )
     return {
         "width": PLOT_WIDTH,
         "height": PLOT_TOP + PLOT_ROW * len(rows) + 4,

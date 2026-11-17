@@ -343,6 +343,8 @@ nav.breadcrumb { display: block; }
               margin: 0 0 0.4rem; font-size: 0.85rem; color: #52514e; }
 .dot-legend li { display: flex; align-items: center; gap: 0.35rem; margin: 0; }
 .dot-key { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot-minor { stroke: #0b0b0b; stroke-width: 2; }
+.dot-minor-key { width: 2px; height: 13px; background: #0b0b0b; display: inline-block; margin: 0 4px; }
 .dot-grid { stroke: #d4c5a9; stroke-width: 0.5; }
 .dot-zero { stroke: #52514e; stroke-width: 1.5; }
 .dot-rule { stroke: #e1e0d9; stroke-width: 1; }

@@ -10,10 +10,18 @@
     the gap in votes as a share of {{ head }}'s own vote there.
     {% for s in st.series %}{{ s.name }} ({{ s.contest|lower }}) got more votes in
     {% if s.ahead == st.counties %}all {{ st.counties }}{% else %}{{ s.ahead }} of the {{ st.counties }}{% endif %}
-    counties, {{ "{:,}".format(s.lead|abs) }} {% if s.lead >= 0 %}more{% else %}fewer{% endif %} statewide.{% if not loop.last %} {% endif %}{% endfor %}</p>
+    counties, {{ "{:,}".format(s.lead|abs) }} {% if s.lead >= 0 %}more{% else %}fewer{% endif %} statewide.{% if not loop.last %} {% endif %}{% endfor %}
+    {% if st.minor %}{% set minor = st.minor.label ~ " tickets" %}
+    The {{ minor }} for {{ st.top_title }}, which had no candidates in {{ "that contest" if st.series|length == 1 else "those contests" }},
+    got {{ "{:,}".format(st.minor.total) }} votes{% if unofficial %} so far{% endif %}.
+    {% for s in st.series %}{{ s.name }}'s {% if loop.first %}lead over {{ head }} is larger than their combined vote {% endif %}in
+    {% if s.exceeds == st.counties %}all {{ st.counties }}{% elif s.exceeds == 0 %}none of the {{ st.counties }}{% else %}{{ s.exceeds }} of the {{ st.counties }}{% endif %}
+    counties{% if not loop.last %}; {% else %}.{% endif %}{% endfor %}
+    There, those tickets' voters cannot account for all of the lead.{% endif %}</p>
 <figure class="dot-plot">
     <ul class="dot-legend" aria-hidden="true">
         {% for s in st.series %}<li><span class="dot-key" style="background: {{ s.color }}"></span>{{ s.name }} ({{ s.contest|lower }})</li>{% endfor %}
+        {% if st.minor %}<li><span class="dot-minor-key"></span>{{ st.minor.label }} votes for {{ st.top_title }}</li>{% endif %}
     </ul>
     <svg viewBox="0 0 {{ st.plot.width }} {{ st.plot.height }}" role="group"
          aria-label="Lead over {{ st.head.name }} by county, as a share of {{ st.head.name }}'s vote">
@@ -22,15 +30,18 @@
         <text x="{{ t.x }}" y="{{ st.plot.top - 12 }}" class="dot-tick">{{ t.label }}</text>
         {% endfor %}
         {% for r in st.plot.rows %}
-        <g role="img" aria-label="{{ r.county }}: {% for d in r.dots %}{{ d.series }} {{ "%+.1f"|format(d.diff_pct) }}%{% if not loop.last %}, {% endif %}{% endfor %}">
-            <title>{{ r.county }}: {{ head }} {{ "{:,}".format(r.top_votes) }}{% for d in r.dots %}; {{ d.series }} {{ "{:,}".format(d.votes) }} ({{ "%+.1f"|format(d.diff_pct) }}%){% endfor %}</title>
+        <g role="img" aria-label="{{ r.county }}: {% for d in r.dots %}{{ d.series }} {{ "%+.1f"|format(d.diff_pct) }}%{% if not loop.last %}, {% endif %}{% endfor %}{% if r.minor_x is not none %}; {{ st.minor.label }} votes {{ "%.1f"|format(r.minor_pct) }}%{% for d in r.dots if d.exceeds %}, less than {{ d.series }}'s lead{% endfor %}{% endif %}">
+            <title>{{ r.county }}: {{ head }} {{ "{:,}".format(r.top_votes) }}{% for d in r.dots %}; {{ d.series }} {{ "{:,}".format(d.votes) }} ({{ "%+.1f"|format(d.diff_pct) }}%){% endfor %}{% if r.minor_x is not none %}; {{ st.minor.label }} for {{ st.top_title }} {{ "{:,}".format(r.minor_votes) }} ({{ "%.1f"|format(r.minor_pct) }}%){% endif %}</title>
             <a href="{{ base }}/results/{{ election.slug }}/county/{{ r.slug }}/#outran"><text x="{{ st.plot.label_x }}" y="{{ r.y + 4 }}" class="dot-label">{{ r.county }}</text></a>
             <line x1="{{ r.x_min }}" y1="{{ r.y }}" x2="{{ r.x_max }}" y2="{{ r.y }}" class="dot-rule"></line>
+            {% if r.minor_x is not none %}<line x1="{{ r.minor_x }}" y1="{{ r.y - 7 }}" x2="{{ r.minor_x }}" y2="{{ r.y + 7 }}" class="dot-minor"></line>{% endif %}
             {% for d in r.dots %}<circle cx="{{ d.x }}" cy="{{ r.y }}" r="5" fill="{{ d.color }}" class="dot"></circle>{% endfor %}
         </g>
         {% endfor %}
     </svg>
-    <figcaption class="note">Counties sorted by {{ st.series[0].name }}'s gap. A county's name links to
+    <figcaption class="note">Counties sorted by {{ st.series[0].name }}'s gap.{% if st.minor %} The mark on
+        each row is the {{ st.minor.label }} tickets' combined vote for {{ st.top_title }}, on the
+        same scale; a dot to its right is a lead larger than that vote.{% endif %} A county's name links to
         its page, where every candidate on its ballot is compared with the ticket.</figcaption>
 </figure>
 </section>
