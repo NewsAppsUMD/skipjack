@@ -282,4 +282,47 @@ CREATE TABLE IF NOT EXISTS official_overrides (
     decision TEXT NOT NULL,
     note TEXT NOT NULL
 );
+
+-- Current members of Congress (unitedstates/congress-legislators, legislators-current.csv),
+-- verbatim: every column TEXT. skipjack.web.incumbents reads Maryland's House members for the
+-- 2026 elections' incumbents.
+CREATE TABLE IF NOT EXISTS congress_members (
+    source_id TEXT REFERENCES sources(source_id),
+    last_name TEXT,
+    first_name TEXT,
+    middle_name TEXT,
+    suffix TEXT,
+    nickname TEXT,
+    full_name TEXT,
+    birthday TEXT,
+    gender TEXT,
+    type TEXT,
+    state TEXT,
+    district TEXT,
+    senate_class TEXT,
+    party TEXT,
+    url TEXT,
+    address TEXT,
+    phone TEXT,
+    contact_form TEXT,
+    rss_url TEXT,
+    twitter TEXT,
+    twitter_id TEXT,
+    facebook TEXT,
+    youtube TEXT,
+    youtube_id TEXT,
+    mastodon TEXT,
+    bioguide_id TEXT,
+    thomas_id TEXT,
+    opensecrets_id TEXT,
+    lis_id TEXT,
+    fec_ids TEXT,
+    cspan_id TEXT,
+    govtrack_id TEXT,
+    votesmart_id TEXT,
+    ballotpedia_id TEXT,
+    washington_post_id TEXT,
+    icpsr_id TEXT,
+    wikipedia_id TEXT
+);
 """

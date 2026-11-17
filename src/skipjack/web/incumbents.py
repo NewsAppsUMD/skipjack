@@ -7,8 +7,10 @@ snapshot of who held each office in 2025-2026, so this covers the 2026 primary a
 
 An officeholder is *up* in 2026 when the roster's term ends in 2026 or 2027 (legislators' and
 statewide officers' terms end in January 2027, county officers' in December 2026) and the office
-is one the board's ballots carry (``FAMILIES``). The roster has no members of Congress, so the
-U.S. House is not covered. An officeholder is matched to a ballot candidate by name: last name
+is one the board's ballots carry (``FAMILIES``). The roster has no members of Congress; Maryland's
+U.S. House members come from congress-legislators' current list (``congress_members``), all up
+in 2026 (no Maryland U.S. Senate seat is: its classes 1 and 3 are up in 2030 and 2028). An
+officeholder is matched to a ballot candidate by name: last name
 and first name (or nickname, or the middle name of someone who goes by it), within the
 officeholder's county for a county office. Where that finds nothing, a candidate with the same
 last name and a compatible first name ("Sam" and "Samuel", "Bill" and "William") in a contest
@@ -40,6 +42,7 @@ FAMILIES = {
     "governor": "Governor",
     "comptroller": "Comptroller",
     "attorney_general": "Attorney General",
+    "congress": "U.S. House",
     "state_senator": "State Senate",
     "delegate": "House of Delegates",
     "county_executive": "County executive",
@@ -54,8 +57,7 @@ FAMILIES = {
     "orphans_court": "Orphans' Court",
     "treasurer": "County treasurer",
     "board_of_education": "Board of Education",
-    # ballot offices no roster row is matched to: they only appear as "another office"
-    "congress": "U.S. House",
+    # a ballot office no roster row is matched to: it only appears as "another office"
     "circuit_judge": "Circuit Court judge",
 }
 STATE_FAMILIES = ("governor", "comptroller", "attorney_general", "state_senator", "delegate")
@@ -229,6 +231,12 @@ def _county(jurisdiction: str) -> str | None:
     return name if name in _COUNTY_NAMES else None
 
 
+def _congress_district(district: str) -> str:
+    """A congressional district's number: "District 4" (unofficial pages), "4", "04" -> "4"."""
+    m = re.search(r"\d+", district)
+    return str(int(m.group())) if m else district
+
+
 def _legislative_district(district: str) -> str:
     """The board's form of a legislative district: "1A" -> "01A", "10" -> "10"."""
     m = re.match(r"(\d+)([A-Z]?)$", district.strip())
@@ -270,15 +278,58 @@ def roster(conn: sqlite3.Connection) -> list[dict]:
             "bio_url": row["bio_url"],
             "source_id": row["source_id"],
         }
-    return list(out.values())
+    return list(out.values()) + _house(conn)
 
 
-def roster_source(conn: sqlite3.Connection) -> dict | None:
-    row = conn.execute(
-        """SELECT s.source_url, s.document_title, s.notes FROM sources s
-           WHERE s.source_id = (SELECT source_id FROM officials LIMIT 1)"""
-    ).fetchone()
-    return {"url": row[0], "title": row[1], "notes": row[2]} if row else None
+def _house(conn: sqlite3.Connection) -> list[dict]:
+    """Maryland's U.S. House members, in the roster's shape."""
+    try:
+        cur = conn.execute(
+            """SELECT * FROM congress_members WHERE state = 'MD' AND type = 'rep'
+               ORDER BY CAST(district AS INTEGER)"""
+        )
+    except sqlite3.OperationalError:  # a database built before the list
+        return []
+    names = [d[0] for d in cur.description]
+    out = []
+    for values in cur:
+        row = dict(zip(names, values, strict=True))
+        given = set(_words(row["first_name"])[:1]) | set(_words(row["nickname"]))
+        last = " ".join(_words(row["last_name"]))
+        out.append(
+            {
+                "person_id": f"bioguide:{row['bioguide_id']}",
+                "name": row["full_name"],
+                "family": "congress",
+                "office": FAMILIES["congress"],
+                "county": None,
+                "district": _congress_district(row["district"]),
+                "counties": "",
+                "party": row["party"],
+                "appointed": False,
+                "given": given,
+                "lasts": {last, last.split()[-1]} if last else set(),
+                "bio_url": row["url"],
+                "source_id": row["source_id"],
+            }
+        )
+    return out
+
+
+def roster_sources(conn: sqlite3.Connection) -> list[dict]:
+    """The Manual's roster and the members-of-Congress list, those that are loaded."""
+    out = []
+    for table in ("officials", "congress_members"):
+        try:
+            row = conn.execute(
+                f"""SELECT s.source_url, s.document_title, s.notes FROM sources s
+                    WHERE s.source_id = (SELECT source_id FROM {table} LIMIT 1)"""
+            ).fetchone()
+        except sqlite3.OperationalError:
+            row = None
+        if row:
+            out.append({"url": row[0], "title": row[1], "notes": row[2]})
+    return out
 
 
 # --- the ballots ----------------------------------------------------------------------------
@@ -360,6 +411,8 @@ def _place_ok(person: dict, contest: dict) -> bool:
         return person["county"] in contest["counties"]
     if person["family"] in LEGISLATIVE:
         return contest["county"] is None or contest["county"] in person["counties"]
+    if person["family"] == "congress":  # not a namesake in some county's local contest
+        return contest["county"] is None
     return True
 
 
@@ -370,6 +423,8 @@ def _same_seat(person: dict, contest: dict) -> bool:
         return False
     if person["family"] in LEGISLATIVE:
         return contest["district"] == _legislative_district(person["district"])
+    if person["family"] == "congress":
+        return _congress_district(contest["district"]) == person["district"]
     return True
 
 
@@ -416,11 +471,12 @@ def _overrides(conn: sqlite3.Connection, code: str) -> dict[str, set[str]]:
 
 
 def _entry(person: dict, contest: dict, cand: dict) -> dict:
+    district = person["family"] in LEGISLATIVE or person["family"] == "congress"
     return {
         "name": person["name"],
         "office": person["office"],
         "place": person["county"]
-        or (f"District {person['district']}" if person["family"] in LEGISLATIVE else "Statewide"),
+        or (f"District {person['district']}" if district else "Statewide"),
         "party": person["party"],
         "appointed": person["appointed"],
         "bio_url": person["bio_url"],
@@ -478,7 +534,7 @@ def _summary(conn: sqlite3.Connection, code: str) -> dict | None:
     families: dict[str, dict] = {
         f: {"family": f, "label": FAMILIES[f], "up": 0, "ran": 0, "lost": 0}
         for f in FAMILIES
-        if f not in ("congress", "circuit_judge")
+        if f != "circuit_judge"
     }
     lost, held, other, absent = [], [], [], []
     for person in people:
@@ -517,7 +573,7 @@ def _summary(conn: sqlite3.Connection, code: str) -> dict | None:
         "other": sorted(other, key=key),
         "absent": len(absent),
         "families": [f for f in families.values() if f["up"]],
-        "source": roster_source(conn),
+        "sources": roster_sources(conn),
     }
 
 

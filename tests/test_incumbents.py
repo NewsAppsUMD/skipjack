@@ -57,6 +57,19 @@ def official(conn, name_full, first, last, body, title, jurisdiction, **extra):
     )
 
 
+def member(conn, full, first, last, district, state="MD", kind="rep", **extra):
+    row = dict.fromkeys(officials.CONGRESS_COLUMNS, "")
+    row.update(full_name=full, first_name=first, last_name=last, district=district, state=state,
+               type=kind, party="Republican", bioguide_id=f"B{last[:4].upper()}")  # fmt: skip
+    row.update(extra)
+    cols = ", ".join(officials.CONGRESS_COLUMNS)
+    conn.execute(
+        f"INSERT INTO congress_members (source_id, {cols})"
+        f" VALUES (?{', ?' * len(officials.CONGRESS_COLUMNS)})",
+        ("congress-legislators-current-test", *(row[c] for c in officials.CONGRESS_COLUMNS)),
+    )
+
+
 @pytest.fixture
 def conn(monkeypatch):
     monkeypatch.setattr(results, "N_COUNTIES", 2)
@@ -177,6 +190,35 @@ def test_summary_of_a_primary(conn):
     }  # fmt: skip
 
 
+def test_house_members(conn):
+    for county in ("Allegany", "Garrett"):
+        add(conn, "GP26", county, "rep", "U.S. Congress", "6",
+            [("Pat Q. Member", "REP", False, 10), ("Upstart Winner", "REP", True, 30)])  # fmt: skip
+    # a namesake of the retiring member in a county contest is not him
+    add(conn, "GP26", "Allegany", "rep", "Judge Orphans' Court", "",
+        [("Lee Retiring", "REP", True, 9)])  # fmt: skip
+    member(conn, "Patrick Q. Member", "Patrick", "Member", "6", nickname="Pat")
+    member(conn, "Lee Retiring", "Lee", "Retiring", "1")
+    member(conn, "Out Of State", "Out", "State", "6", state="PA")
+    member(conn, "Some Senator", "Some", "Senator", "", kind="sen")
+    s = inc.summary(conn, "GP26")
+    families = {f["family"]: (f["up"], f["ran"], f["lost"]) for f in s["families"]}
+    assert families["congress"] == (2, 1, 1)
+    lost = next(e for e in s["lost"] if e["office"] == "U.S. House")
+    assert (lost["name"], lost["candidate"], lost["place"]) == (
+        "Patrick Q. Member", "Pat Q. Member", "District 6",
+    )  # fmt: skip
+    assert s["lost"][0] is lost  # the House sorts before the legislature
+    assert all(e["name"] != "Lee Retiring" for e in s["other"])
+    contest = results.contest(conn, "GP26", "u-s-congress-6-rep")
+    assert inc.mark(conn, "GP26", [contest]) is True
+    assert [c["name"] for c in contest["candidates"] if c["incumbent"]] == ["Pat Q. Member"]
+
+
+def test_congress_district():
+    assert [inc._congress_district(d) for d in ("District 4", "4", "04")] == ["4", "4", "4"]
+
+
 def test_overrides_drop_a_match(conn):
     conn.execute(
         "INSERT INTO official_overrides VALUES ('person:jones', 'GP26', 'Robert \"Bob\" Jones',"
@@ -294,6 +336,31 @@ def test_load_officials(tmp_path):
     assert c.execute("SELECT decision FROM official_overrides").fetchall() == [("not_a_match",)]
 
 
+def test_load_congress_members(tmp_path):
+    _write_roster(tmp_path, [{"id": "a"}])
+    path = tmp_path / "officials" / officials.CONGRESS_NAME
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=officials.CONGRESS_COLUMNS)
+        w.writeheader()
+        w.writerow({**dict.fromkeys(officials.CONGRESS_COLUMNS, ""), "full_name": "A B"})
+    sidecar = {
+        "source_id": "congress-legislators-current-test", "source_url": "https://example.org",
+        "source_name": "congress-legislators", "document_title": "test",
+        "fetch_date": "2026-11-16", "sha256_original": compute_sha256(path),
+    }  # fmt: skip
+    path.with_name(path.stem + "_provenance.json").write_text(json.dumps(sidecar))
+    c = sqlite3.connect(":memory:")
+    c.executescript(SCHEMA_SQL)
+    officials.load_officials(c, tmp_path)
+    assert c.execute("SELECT full_name, source_id FROM congress_members").fetchall() == [
+        ("A B", "congress-legislators-current-test"),
+    ]
+    path.write_text(path.read_text() + "x\n")
+    c.execute("DELETE FROM congress_members")
+    with pytest.raises(officials.OfficialsLoadError, match="sha256"):
+        officials.load_officials(c, tmp_path)
+
+
 def test_load_officials_checks_the_file(tmp_path):
     roster = _write_roster(tmp_path, [{"id": "a"}])
     roster.write_text(roster.read_text() + "b" + "," * (len(officials.COLUMNS) - 1) + "\n")
@@ -339,6 +406,11 @@ def test_real_roster_and_primary():
     lost = {e["name"] for e in s["lost"]}
     assert {"Nancy J. King", "Dalya Attar", "Scott D. Shellenberger, Esq."} <= lost
     assert "Samuel L. Cogen" in lost  # "Sam Cogen" on the ballot
+    # Maryland's eight House members; Hoyer (5th) retired, and the other seven were renominated
+    house = next(f for f in s["families"] if f["family"] == "congress")
+    assert (house["up"], house["ran"], house["lost"]) == (8, 7, 0)
+    held = {e["name"] for e in s["held"] if e["office"] == "U.S. House"}
+    assert {"Johnny Olszewski, Jr.", "April McClain Delaney", "Glenn Ivey"} <= held
     # the unconfirmed Robertson match stays out
     assert all(e["name"] != "Craig A. Robertson" for e in s["other"])
     c.close()

@@ -10,7 +10,7 @@
 {% set lost_word = "are behind in the count so far" if unofficial else "lost" %}
 <section aria-labelledby="incumbents">
 <h2 id="incumbents">Incumbents</h2>
-<p>{{ inc.ran }} of the {{ inc.up }} state and county officeholders whose seats were up in 2026
+<p>{{ inc.ran }} of the {{ inc.up }} U.S. House members and state and county officeholders whose seats were up in 2026
     were on this {{ "primary's ballots" if primary else "election's ballot" }} for their own
     office{% if primary %}, in their party's primary or a school board's nonpartisan one{% endif %};
     <strong>{{ inc.lost|length }} {{ lost_word }}</strong>{% if inc.other %}.
@@ -73,11 +73,13 @@
 {% endif %}
 
 <p class="note">The State Board's files do not mark incumbents. These officeholders come from the
-    Maryland Manual's roster{% if inc.source %} (<a href="{{ inc.source.url }}" target="_blank" rel="noopener">{{ inc.source.title }}</a>){% endif %},
-    a snapshot of who held each office in 2025 and 2026, matched to the ballot by name. It covers
-    statewide offices, the General Assembly and elected county offices; it has no members of
-    Congress, and judges of the Circuit Court are not counted. A seat is up when its term ends in
-    2026 or 2027. {% if unofficial %}Until certification, "behind" means outside the contest's
+    Maryland Manual's roster, a snapshot of who held each office in 2025 and 2026, and, for the
+    U.S. House, the congress-legislators project's list of current members of Congress; both are
+    matched to the ballot by name.
+    {%- if inc.sources %} Sources: {% for s in inc.sources %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.title }}</a>{{ "; " if not loop.last else "." }}{% endfor %}{% endif %}
+    The roster covers statewide offices, the General Assembly and elected county offices; judges
+    of the Circuit Court are not counted. A seat is up when its term ends in 2026 or 2027, which
+    includes every House seat; neither of Maryland's U.S. Senate seats was up in 2026. {% if unofficial %}Until certification, "behind" means outside the contest's
     leaders, as many as it elects, in the unofficial count.{% else %}"Lost" is the State Board's
     winner flag.{% endif %} Someone appointed to a seat since the last election counts as its
     incumbent.</p>

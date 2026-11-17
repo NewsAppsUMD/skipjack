@@ -266,6 +266,16 @@ def cmd_officials_fetch(args: argparse.Namespace) -> None:
     print(f"Wrote {dest}")
 
 
+def cmd_congress_fetch(args: argparse.Namespace) -> None:
+    from skipjack.pipeline.officials import CONGRESS_REF, fetch_congress
+
+    dest = fetch_congress(args.ref or CONGRESS_REF)
+    if dest is None:
+        print(f"Could not download the members of Congress at {args.ref}", file=sys.stderr)
+        sys.exit(1)
+    print(f"Wrote {dest}")
+
+
 def cmd_build_db(args: argparse.Namespace) -> None:
     from skipjack.pipeline.build_db import build
 
@@ -391,6 +401,15 @@ def main(argv: list[str] | None = None) -> None:
         "--ref", default=None, help="Commit of NewsAppsUMD/maryland-manual (default: pinned)"
     )
 
+    congress_p = sub.add_parser(
+        "congress-fetch", help="Copy the current members of Congress (2026 House incumbents)"
+    )
+    congress_p.add_argument(
+        "--ref",
+        default=None,
+        help="gh-pages commit of unitedstates/congress-legislators (default: pinned)",
+    )
+
     sub.add_parser("build-db", help="Build SQLite database from CSVs")
 
     serve_p = sub.add_parser("serve", help="Run the web server")
@@ -417,6 +436,7 @@ def main(argv: list[str] | None = None) -> None:
         "race-input": cmd_race_input,
         "build-site": cmd_build_site,
         "officials-fetch": cmd_officials_fetch,
+        "congress-fetch": cmd_congress_fetch,
         "build-db": cmd_build_db,
         "serve": cmd_serve,
     }

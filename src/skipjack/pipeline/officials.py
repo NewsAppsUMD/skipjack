@@ -8,6 +8,10 @@ from), so it says who the incumbents were at the 2026 elections and nothing abou
 
 The file is copied verbatim from the repository at a pinned commit, so the sha256 in its
 sidecar is the file's own; ``officials-fetch --ref`` takes a newer commit.
+
+The Manual has no members of Congress. They come from unitedstates/congress-legislators'
+``legislators-current.csv`` (public domain), copied the same way at a pinned commit of its
+gh-pages branch (``congress-fetch --ref``) into the ``congress_members`` table.
 """
 
 from __future__ import annotations
@@ -46,6 +50,23 @@ OVERRIDE_COLUMNS = ("person_id", "election", "candidate", "decision", "note")
 DECISIONS = ("not_a_match", "unconfirmed")
 
 
+CONGRESS_NAME = "congress_legislators_current.csv"
+CONGRESS_REPO = "unitedstates/congress-legislators"
+CONGRESS_PATH = "legislators-current.csv"
+# gh-pages "update to main @ d5af3d2" (2026-09-24): the 119th Congress's members, whose House
+# terms end in January 2027
+CONGRESS_REF = "577ca04282d14688cb14f6559eb27b52bdc50dfc"
+CONGRESS_SOURCE_NAME = "unitedstates/congress-legislators (public domain)"
+CONGRESS_COLUMNS = (
+    "last_name", "first_name", "middle_name", "suffix", "nickname", "full_name", "birthday",
+    "gender", "type", "state", "district", "senate_class", "party", "url", "address", "phone",
+    "contact_form", "rss_url", "twitter", "twitter_id", "facebook", "youtube", "youtube_id",
+    "mastodon", "bioguide_id", "thomas_id", "opensecrets_id", "lis_id", "fec_ids", "cspan_id",
+    "govtrack_id", "votesmart_id", "ballotpedia_id", "washington_post_id", "icpsr_id",
+    "wikipedia_id",
+)  # fmt: skip
+
+
 class OfficialsLoadError(RuntimeError):
     """The roster file contradicts its sidecar or has an unexpected shape."""
 
@@ -58,32 +79,29 @@ def raw_url(ref: str) -> str:
     return f"https://raw.githubusercontent.com/{REPO}/{ref}/{REPO_PATH}"
 
 
-def fetch_officials(ref: str = DEFAULT_REF, out_dir: Path = OFFICIALS_DIR) -> Path | None:
-    """Download the roster at ``ref`` and write it with its provenance sidecar."""
-    dest = out_dir / ROSTER_NAME
-    url = raw_url(ref)
+def congress_source_id(ref: str) -> str:
+    return f"congress-legislators-current-{ref[:7]}"
+
+
+def congress_raw_url(ref: str) -> str:
+    return f"https://raw.githubusercontent.com/{CONGRESS_REPO}/{ref}/{CONGRESS_PATH}"
+
+
+def _copy(url: str, dest: Path, columns: tuple, record_args: dict, notes) -> Path | None:
+    """Download ``url`` to ``dest`` verbatim, check its columns and write its sidecar;
+    ``notes(rows)`` is the sidecar's note."""
     if not fetch_file(url, dest, expect_csv=True):
         return None
     with dest.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         header = tuple(reader.fieldnames or ())
         rows = list(reader)
-    if header != COLUMNS:
+    if header != columns:
         raise OfficialsLoadError(f"{url}: columns changed: {header}")
-    record = SourceRecord.create(
-        source_id=source_id(ref),
-        source_url=url,
-        source_name=SOURCE_NAME,
-        local_path=dest,
-        document_title=f"Maryland Manual officeholders ({REPO}@{ref[:7]})",
-    )
-    pages = sorted(r["page_date"] for r in rows if r["page_date"])
+    record = SourceRecord.create(source_url=url, local_path=dest, **record_args)
     sidecar = ProvenanceSidecar.from_source(
         record,
-        notes=(
-            f"Copied verbatim from {REPO} at commit {ref}. Manual page dates "
-            f"{pages[0]} to {pages[-1]}. Used for the 2026 elections' incumbents only."
-        ),
+        notes=notes(rows),
         extraction_method="copy",
         checks={"rows": len(rows), "columns": "ok"},
     )
@@ -92,29 +110,86 @@ def fetch_officials(ref: str = DEFAULT_REF, out_dir: Path = OFFICIALS_DIR) -> Pa
     return dest
 
 
-def load_officials(conn: sqlite3.Connection, data_dir: Path) -> int:
-    """Load the roster and the hand-checked match overrides, if the roster is there."""
+def fetch_officials(ref: str = DEFAULT_REF, out_dir: Path = OFFICIALS_DIR) -> Path | None:
+    """Download the roster at ``ref`` and write it with its provenance sidecar."""
+
+    def notes(rows: list[dict]) -> str:
+        pages = sorted(r["page_date"] for r in rows if r["page_date"])
+        return (
+            f"Copied verbatim from {REPO} at commit {ref}. Manual page dates "
+            f"{pages[0]} to {pages[-1]}. Used for the 2026 elections' incumbents only."
+        )
+
+    return _copy(
+        raw_url(ref),
+        out_dir / ROSTER_NAME,
+        COLUMNS,
+        {
+            "source_id": source_id(ref),
+            "source_name": SOURCE_NAME,
+            "document_title": f"Maryland Manual officeholders ({REPO}@{ref[:7]})",
+        },
+        notes,
+    )
+
+
+def fetch_congress(ref: str = CONGRESS_REF, out_dir: Path = OFFICIALS_DIR) -> Path | None:
+    """Download the current members of Congress at ``ref`` (a gh-pages commit)."""
+    return _copy(
+        congress_raw_url(ref),
+        out_dir / CONGRESS_NAME,
+        CONGRESS_COLUMNS,
+        {
+            "source_id": congress_source_id(ref),
+            "source_name": CONGRESS_SOURCE_NAME,
+            "document_title": f"Current members of Congress ({CONGRESS_REPO}@{ref[:7]})",
+        },
+        lambda rows: (
+            f"Copied verbatim from {CONGRESS_REPO} (gh-pages) at commit {ref}: {len(rows)} "
+            "members. Used for the 2026 elections' congressional incumbents only."
+        ),
+    )
+
+
+def _verified(conn: sqlite3.Connection, path: Path, columns: tuple) -> tuple[str, list[dict]]:
+    """The source id and rows of a copied file, after checking it against its sidecar."""
     from skipjack.pipeline.build_db import _upsert_source, load_provenance
 
+    prov = load_provenance(path)
+    if prov is None:
+        raise OfficialsLoadError(f"{path}: no provenance sidecar")
+    if (sha := compute_sha256(path)) != prov["sha256_original"]:
+        raise OfficialsLoadError(f"{path}: sha256 {sha} is not the sidecar's")
+    _upsert_source(conn, prov)
+    with path.open(newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        if tuple(reader.fieldnames or ()) != columns:
+            raise OfficialsLoadError(f"{path}: unexpected columns")
+        return prov["source_id"], list(reader)
+
+
+def _insert(conn: sqlite3.Connection, table: str, columns: tuple, sid: str, rows: list[dict]):
+    marks = ", ".join("?" * (len(columns) + 1))
+    conn.executemany(
+        f"INSERT INTO {table} (source_id, {', '.join(columns)}) VALUES ({marks})",
+        [(sid, *(r[c] for c in columns)) for r in rows],
+    )
+
+
+def load_officials(conn: sqlite3.Connection, data_dir: Path) -> int:
+    """Load the roster, the members of Congress and the hand-checked match overrides, each
+    if its file is there."""
+    congress = data_dir / "officials" / CONGRESS_NAME
+    if congress.exists():
+        sid, members = _verified(conn, congress, CONGRESS_COLUMNS)
+        _insert(conn, "congress_members", CONGRESS_COLUMNS, sid, members)
+        logger.info("Loaded members of Congress: %d rows", len(members))
     roster = data_dir / "officials" / ROSTER_NAME
     if not roster.exists():
         logger.warning("No officials roster at %s", roster)
         return 0
-    prov = load_provenance(roster)
-    if prov is None:
-        raise OfficialsLoadError(f"{roster}: no provenance sidecar")
-    if (sha := compute_sha256(roster)) != prov["sha256_original"]:
-        raise OfficialsLoadError(f"{roster}: sha256 {sha} is not the sidecar's")
-    _upsert_source(conn, prov)
-    with roster.open(newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        if tuple(reader.fieldnames or ()) != COLUMNS:
-            raise OfficialsLoadError(f"{roster}: unexpected columns")
-        rows = [(prov["source_id"], *(r[c] for c in COLUMNS)) for r in reader]
-    marks = ", ".join("?" * (len(COLUMNS) + 1))
-    conn.executemany(
-        f"INSERT INTO officials (source_id, {', '.join(COLUMNS)}) VALUES ({marks})", rows
-    )
+    sid, rows = _verified(conn, roster, COLUMNS)
+    _insert(conn, "officials", COLUMNS, sid, rows)
     overrides = data_dir / "officials" / OVERRIDES_NAME
     if overrides.exists():
         with overrides.open(newline="", encoding="utf-8") as f:
