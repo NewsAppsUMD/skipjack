@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-results-unofficial-GG26-2026-11-17T111403-gen_results_2026_by_county_22",
+  "source_url": "https://elections.maryland.gov/elections/2026/General_results/gen_results_2026_by_county_22.html",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 unofficial results, gen_results_2026_by_county_22.html (refreshed 11/17/2026 11:14:03 AM)",
+  "fetch_date": "2026-11-17T16:25:10+00:00",
+  "parse_date": "2026-11-17T16:25:11+00:00",
+  "sha256_original": "a8a2f9bc6fe7db7c288c9c5ea0389fc0972120c4dff76c24ddf1677ee0d33da2",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "results-unofficial",
+  "geography": "county",
+  "notes": "GG26 Washington, the board's unofficial and incomplete count as of 11/17/2026 11:14:03 AM. Empty vote cells are not reported (NR), or a printed 0 in a canvass the county had not reported.",
+  "extraction_method": "html",
+  "checks": {
+    "unofficial": true,
+    "last_refreshed": "11/17/2026 11:14:03 AM",
+    "tables": 21,
+    "rows": 76,
+    "row_totals": "ok",
+    "table_totals": "ok",
+    "statewide_check": "ok: 145 statewide tables match the county pages (2703 rows checked across the snapshot)",
+    "zeros_not_reported": 0,
+    "canvass_status_source": "sbe-results-unofficial-GG26-2026-11-17T111403-status"
+  }
+}
