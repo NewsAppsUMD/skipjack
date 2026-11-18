@@ -61,6 +61,11 @@
     </tbody>
 </table>
 </div>
+{% if csv_file %}
+<p class="note">Download this table as <a href="{{ base }}/downloads/statewide/{{ csv_file }}" download><code>{{ csv_file }}</code></a>:
+    a row per county, a column per candidate on the ballot, write-ins added up as <code>others</code>.{% if unofficial %}
+    A blank cell is a count the county has not reported yet.{% endif %}</p>
+{% endif %}
 
 {{ r.source_strip(sources, data_page, "this contest") }}
 </div>

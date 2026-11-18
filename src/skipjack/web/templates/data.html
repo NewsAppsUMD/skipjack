@@ -102,6 +102,31 @@
 {% endfor %}
 {% endif %}
 
+{% if statewide_sections %}
+<h2>Statewide races by county</h2>
+<p>
+    One file per statewide race, in the shape a spreadsheet wants: a row per county, a column
+    per candidate on the ballot (the lower-case last name), then <code>others</code>, every
+    write-in added up, and <code>total</code>. A primary is one file per party. These are
+    built from the county results files below.
+</p>
+{% for section in statewide_sections %}
+<section class="dataset">
+    <h3>{{ section.code }} — {{ section.name }}{% if section.unofficial %} (unofficial, still being counted){% endif %}</h3>
+    {% if section.unofficial %}
+    <p>The State Board's running count: a blank cell is a count the county has not reported
+        yet, not zero. These files are withdrawn when the certified results are published.</p>
+    {% endif %}
+    <p>
+        {% for f in section.files %}
+        <a href="{{ base }}/downloads/statewide/{{ f.file }}" style="white-space:nowrap"><code>{{ f.file }}</code></a>
+        ({{ f.title }}; <a href="{{ base }}/results/{{ section.slug }}/{{ f.slug }}/">page</a>)&nbsp;
+        {% endfor %}
+    </p>
+</section>
+{% endfor %}
+{% endif %}
+
 {% if results_sections or unofficial_sections %}
 <h2>Election results</h2>
 <p>

@@ -8,10 +8,12 @@ from collections import defaultdict
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 
 from skipjack.pipeline.turnout import may_publish
 from skipjack.web.bulk import BULK_FILES, DESCRIPTIONS
+from skipjack.web import statewide_csv
+from skipjack.web.db import get_db
 from skipjack.pipeline.results import RESULTS_ELECTIONS
 from skipjack.pipeline.results_unofficial import UNOFFICIAL_RESULTS
 from skipjack.web.downloads import (
@@ -84,6 +86,16 @@ async def results_download(relative: str):
         if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
             return FileResponse(target)
     raise HTTPException(404)
+
+
+@router.get("/downloads/statewide/{file}")
+async def statewide_download(file: str):
+    """Serve one statewide race's wide CSV (a column per candidate), built from the database."""
+    with get_db() as conn:
+        text = statewide_csv.csv_for(conn, file)
+    if text is None:
+        raise HTTPException(404)
+    return PlainTextResponse(text, media_type="text/csv")
 
 
 @router.get("/downloads/results_unofficial/{relative:path}")
@@ -165,6 +177,27 @@ def results_listing(data_dir: Path) -> list[dict]:
         ]
         if files:
             blocks.append({"code": code, "name": election.name, "files": files})
+    return blocks
+
+
+def statewide_listing() -> list[dict]:
+    """One block per election with statewide CSVs, newest first: each file with its contest
+    title, and whether it is the unofficial count."""
+    with get_db() as conn:
+        found = statewide_csv.downloads(conn)
+    blocks: list[dict] = []
+    for d in found:
+        if not blocks or blocks[-1]["code"] != d["code"]:
+            blocks.append(
+                {
+                    "code": d["code"],
+                    "name": d["election"]["name"],
+                    "slug": d["election"]["slug"],
+                    "unofficial": d["unofficial"],
+                    "files": [],
+                }
+            )
+        blocks[-1]["files"].append({"file": d["file"], "title": d["title"], "slug": d["slug"]})
     return blocks
 
 
@@ -250,6 +283,7 @@ async def data_page(request: Request):
             "turnout_sections": turnout_listing(DATA_DIR),
             "results_sections": results_listing(DATA_DIR),
             "unofficial_sections": results_unofficial_listing(DATA_DIR),
+            "statewide_sections": statewide_listing(),
             "discrepancies": "voter_registration/source_discrepancies.csv" in available,
         },
     )

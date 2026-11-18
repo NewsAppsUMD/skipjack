@@ -18,7 +18,7 @@ from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
 from skipjack.web import results as qr
 from skipjack.web import results_trends, results_trends_plot
 from skipjack.web import results_unofficial as qu
-from skipjack.web import incumbents, ticket
+from skipjack.web import incumbents, statewide_csv, ticket
 from skipjack.web.db import get_db
 from skipjack.web.maps import question_map, results_map, trends_shift_map
 
@@ -325,6 +325,9 @@ async def contest(request: Request, slug: str, contest_slug: str):
             "sources": sources,
             "mail_pair": mail_pair(data["vote_types"]),
             "marked": marked,
+            "csv_file": None
+            if data["has_against"]
+            else statewide_csv.file_for(code, data["office"], data["party_file"], data["scope"]),
             **context,
         },
     )

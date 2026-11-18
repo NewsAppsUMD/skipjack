@@ -275,6 +275,10 @@ def _candidates(rows: list[dict]) -> list[dict]:
     for c in out:
         base = c["total"] + c["against"] if c["against"] is not None else cast
         c["share"] = 100 * c["total"] / base if base else None
+    # the SBE's order of appearance, the ballot order (skipjack.web.statewide_csv reads it)
+    for rank, c in enumerate(sorted(out, key=lambda c: c["first"])):
+        c["ballot"] = rank
+    for c in out:
         del c["first"]
     return out
 

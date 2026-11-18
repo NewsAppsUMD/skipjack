@@ -31,6 +31,7 @@ from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
 from skipjack.web.results_trends import county_slugs
 from skipjack.web.results_unofficial import contest_slugs_for, county_slugs_for, site_elections
+from skipjack.web import statewide_csv
 from skipjack.web.turnout import publishable_geographies, same_day_statewide
 from skipjack.web.race import snapshots_with_race
 from skipjack.web.young import snapshots_with_young
@@ -262,6 +263,12 @@ def build_site(
             (out_dir / "downloads" / "combined" / name).write_text(
                 bulk_csv(conn, name), encoding="utf-8"
             )
+        statewide = out_dir / "downloads" / "statewide"
+        for d in statewide_csv.downloads(conn):
+            text = statewide_csv.csv_for(conn, d["file"])
+            if text is not None:
+                statewide.mkdir(exist_ok=True)
+                (statewide / d["file"]).write_text(text, encoding="utf-8")
     if include_db:
         database = PROJECT_ROOT / SQLITE_NAME
         if not database.exists():

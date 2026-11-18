@@ -306,8 +306,11 @@ def test_the_results_pages_and_downloads_are_published(root_site, project_site):
             assert (out / rel / "index.html").is_file(), rel
         assert (out / "downloads/results/GP26/county/01-allegany-dem.csv").is_file()
         assert (out / "downloads/results/GP26/county/01-allegany-dem_provenance.json").is_file()
+        statewide = (out / "downloads/statewide/GP26-governor-dem.csv").read_text()
+        assert statewide.startswith("jurisdiction,") and ",others,total\n" in statewide
     html = (project_site[0] / "data" / "index.html").read_text()
     assert 'href="/skipjack/downloads/results/GP26/county/01-allegany-dem.csv"' in html
+    assert 'href="/skipjack/downloads/statewide/GP26-governor-dem.csv"' in html
     about = (project_site[0] / "about" / "index.html").read_text()
     assert "elections/2026/election_data/index.html" in about
     assert "elections/archive/2024/election_data/index.html" in about

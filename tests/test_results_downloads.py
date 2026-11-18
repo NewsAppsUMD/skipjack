@@ -66,3 +66,30 @@ def test_a_results_csv_and_its_sidecar_download(client):
 )
 def test_paths_outside_the_published_results_are_404(client, path):
     assert client.get(f"/downloads/results/{path}").status_code == 404
+
+
+@needs_results
+def test_the_data_page_lists_the_statewide_csvs_and_the_contest_page_links_its_own(client):
+    html = client.get("/data/").text
+    assert "Statewide races by county" in html
+    assert "/downloads/statewide/GP26-governor-dem.csv" in html
+    page = client.get("/results/gp26/governor-lt-governor-dem/").text
+    assert 'href="/downloads/statewide/GP26-governor-dem.csv"' in page
+    # the county index is no contest: no file
+    assert "/downloads/statewide/" not in client.get("/results/gp26/county/").text
+
+
+@needs_results
+def test_a_statewide_csv_downloads_as_a_wide_table(client):
+    r = client.get("/downloads/statewide/GP26-governor-dem.csv")
+    assert r.status_code == 200 and r.headers["content-type"].startswith("text/csv")
+    header, first = r.text.splitlines()[:2]
+    assert header.startswith("jurisdiction,") and header.endswith(",others,total")
+    assert first.startswith("Allegany,")
+
+
+@pytest.mark.parametrize(
+    "file", ["GP26-sheriff.csv", "GP26-governor.csv", "XX99-governor.csv", "..%2Fskipjack.db"]
+)
+def test_an_unknown_statewide_file_is_404(client, file):
+    assert client.get(f"/downloads/statewide/{file}").status_code == 404
