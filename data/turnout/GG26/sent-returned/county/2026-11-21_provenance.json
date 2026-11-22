@@ -1,0 +1,19 @@
+{
+  "source_id": "sbe-turnout-gg26-sent-returned-county-20261121-defc08798554",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/Absentees_Sent_and_Returned_by_County.xlsx",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 sent-returned (county) as of 2026-11-21",
+  "fetch_date": "2026-11-22T17:37:55+00:00",
+  "parse_date": "2026-11-22T17:45:31+00:00",
+  "sha256_original": "defc08798554802afd96169627c1d7f5b8c3b9e9022a0d610cf807e0c0ac7290",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "sent-returned",
+  "geography": "county",
+  "notes": "GG26 sent-returned (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "xlsx (calamine)",
+  "checks": {
+    "rows": 1440,
+    "as_of": "2026-11-21"
+  }
+}
