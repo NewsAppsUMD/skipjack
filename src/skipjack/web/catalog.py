@@ -22,6 +22,7 @@ REGISTRATION_TABLES = {
 
 
 def build_catalog(data_dir: Path) -> dict:
+    """The index of every offered download, as published at downloads/index.json."""
     months: list[str] = []
     results: dict[str, dict] = {}
     turnout: dict[str, dict] = {}
@@ -42,7 +43,7 @@ def build_catalog(data_dir: Path) -> dict:
             entry["families"].setdefault(family, {}).setdefault(geography, []).append(relative.stem)
     return {
         "version": CATALOG_VERSION,
-        "registration": {"tables": REGISTRATION_TABLES, "months": sorted(months)},
+        "registration": {"tables": dict(REGISTRATION_TABLES), "months": sorted(months)},
         "counties": [
             {"name": name, "slug": slugify(name), "code": code}
             for code, name in COUNTY_CODES.items()
