@@ -54,7 +54,7 @@ def test_a_pipeline_command_without_its_extra_says_what_to_install(capsys, monke
     assert exit_info.value.code == 2
     err = capsys.readouterr().err
     assert "`skipjack build-db` needs fastapi, which is not installed" in err
-    assert "uv sync --all-extras" in err and "skipjack[web]" in err
+    assert "In a checkout: uv sync. Otherwise:" in err and "skipjack[web]" in err
 
 
 def test_a_pdf_submodule_names_the_pdf_extra(capsys, monkeypatch):

@@ -473,7 +473,7 @@ def main(argv: list[str] | None = None) -> None:
             raise  # not a missing extra: a genuine bug keeps its traceback
         print(
             f"error: `skipjack {args.command}` needs {top}, which is not installed. "
-            f"In a checkout: uv sync --all-extras. Otherwise: install skipjack[{_EXTRAS[top]}]",
+            f"In a checkout: uv sync. Otherwise: install skipjack[{_EXTRAS[top]}]",
             file=sys.stderr,
         )
         sys.exit(2)

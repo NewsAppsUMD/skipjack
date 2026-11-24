@@ -101,13 +101,14 @@ repository holds everything the site is built from, so there is nothing to downl
 ```bash
 git clone git@github.com:NewsAppsUMD/skipjack.git
 cd skipjack
-uv sync --all-extras
+uv sync
 make build-db    # builds skipjack.db from the CSV and JSON files in data/
 make serve       # http://127.0.0.1:8000
 ```
 
-`--all-extras` installs the PDF parsers and the web stack; the data commands (`skipjack get`,
-`skipjack list`) need neither.
+In a checkout, `uv sync` installs everything, the PDF parsers and the web stack included. The
+data commands (`skipjack get`, `skipjack list`) need neither: installed on its own, skipjack
+brings only httpx, polars and python-calamine, and the `pdf` and `web` extras add the rest.
 
 ## Commands
 
