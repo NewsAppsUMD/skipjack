@@ -354,6 +354,9 @@ def test_the_catalog_and_county_documents_are_published(root_site):
     # every path the catalog names exists in the build
     for table in catalog["registration"]["tables"].values():
         assert (downloads / table).is_file()
+    for month in catalog["registration"]["months"]:
+        path = downloads / "voter_registration" / "monthly" / f"{month}.csv"
+        assert path.is_file(), path
     for election in catalog["results"].values():
         assert election["files"] and all((downloads / f).is_file() for f in election["files"])
     for code, election in catalog["turnout"].items():
@@ -363,7 +366,8 @@ def test_the_catalog_and_county_documents_are_published(root_site):
                     path = downloads / "turnout" / code / family / geography / f"{as_of}.csv"
                     assert path.is_file(), path
     for county in catalog["counties"]:
-        doc = json.loads((downloads / "county" / f"{county['slug']}.json").read_text())
+        path = downloads / catalog["county_history"].format(slug=county["slug"])
+        doc = json.loads(path.read_text())
         assert doc["county"] == county["name"]
 
 
@@ -467,7 +471,8 @@ def test_no_raw_or_personal_files_are_published(root_site):
     suffixes = {p.suffix for p in out.rglob("*") if p.is_file()}
     # '' is .nojekyll; .webp is the logo in static/img and the brand icons derived for it (.ico, .png).
     assert suffixes <= {".html", ".js", ".css", ".csv", ".json", ".webp", ".ico", ".png", ""}
-    published = "".join(p.read_text() for p in (out / "downloads" / "voter_file").rglob("*.json"))
+    # Every published JSON: the voter-file summaries, the catalog and the county documents.
+    published = "".join(p.read_text() for p in (out / "downloads").rglob("*.json"))
     for forbidden in ("VTR_ID", "LastName", "FirstName", "BirthDate"):
         assert forbidden not in published
     assert not list(out.rglob("*.pdf")) and not list(out.rglob("*.txt"))

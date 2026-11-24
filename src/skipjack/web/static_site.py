@@ -280,10 +280,11 @@ def build_site(
         trends_cache: dict = {}
         for county in catalog["counties"]:
             doc = county_document(conn, county["slug"], trends_cache)
-            if doc is not None:
-                (counties / f"{county['slug']}.json").write_text(
-                    json.dumps(doc, separators=(",", ":")), encoding="utf-8"
-                )
+            if doc is None:
+                raise SiteBuildError(f"no county document for {county['name']}")
+            (counties / f"{county['slug']}.json").write_text(
+                json.dumps(doc, separators=(",", ":")), encoding="utf-8"
+            )
     if include_db:
         database = PROJECT_ROOT / SQLITE_NAME
         if not database.exists():
