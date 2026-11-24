@@ -74,13 +74,6 @@ def test_turnout_as_of_must_be_latest_all_or_a_date(capsys, base, as_of):
     assert "latest, all or a date" in capsys.readouterr().err
 
 
-def test_turnout_from_the_sbe_is_not_yet_offered(capsys, base):
-    with pytest.raises(SystemExit) as exit_info:
-        main(["get", "turnout", "--election", "GG26", "--source", "sbe", "--base-url", base])
-    assert exit_info.value.code == 2
-    assert "later version" in capsys.readouterr().err
-
-
 def _add_district_turnout(root):
     """sent-returned by legislative district, as the board publishes it: no county column value."""
     path = root / "turnout/GG26/sent-returned/legislative/2026-10-15.csv"

@@ -3697,7 +3697,22 @@ def _split_snapshot_name(path: Path) -> tuple[str, str, str, str]:
 def _parse_file(
     path: Path, record: SourceRecord, election_code: str, family: str, geography: str
 ) -> tuple[str | None, pl.DataFrame]:
-    """One archived file, by its family.
+    """One archived file, by its family (see parse_path); a missing parser names the source."""
+    try:
+        return parse_path(path, election_code, family, geography)
+    except _NoParser as err:
+        raise TurnoutParseError(f"{record.source_id}: {err}") from None
+
+
+class _NoParser(TurnoutParseError):
+    """parse_path has no parser for the family."""
+
+
+def parse_path(
+    path: Path, election_code: str, family: str, geography: str
+) -> tuple[str | None, pl.DataFrame]:
+    """One file, by its family, with no manifest record: (as_of, frame), as_of None when the
+    file prints no date. The data CLI's live source calls this on a just-downloaded file.
 
     The requests report parses from either format: the workbook where it is readable,
     its PDF twin where not (the GG26 export is corrupt on SBE's side)."""
@@ -3733,7 +3748,7 @@ def _parse_file(
         return parse_same_day_pdf(path, election_code, geography)
     if family == "election-night":
         return parse_election_night_pdf(path, election_code)
-    raise TurnoutParseError(f"{record.source_id}: no parser for family {family!r}")
+    raise _NoParser(f"no parser for family {family!r}")
 
 
 def _family_checks(path: Path, family: str) -> dict:

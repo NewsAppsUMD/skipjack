@@ -14,7 +14,7 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from skipjack.client import datasets
+from skipjack.client import datasets, sbe
 from skipjack.client.output import render, typed
 from skipjack.client.sources import DEFAULT_BASE_URL, ClientError, SkipjackSource
 
@@ -145,11 +145,7 @@ _SBE_REFUSED = {
 }
 
 
-def _sbe_later(args: argparse.Namespace) -> tuple[dict, list[dict]]:
-    raise ClientError(f"--source sbe for {args.dataset} arrives in a later version")
-
-
-_SBE = {"results": _sbe_later, "turnout": _sbe_later}
+_SBE = {"results": sbe.results, "turnout": sbe.turnout}
 
 
 def _debug_hint(err: Exception) -> str:

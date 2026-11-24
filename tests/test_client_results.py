@@ -79,13 +79,6 @@ def test_results_office_matching_nothing_is_empty(capsys, base):
     assert out["rows"] == []
 
 
-def test_results_from_the_sbe_is_not_yet_offered(capsys, base):
-    with pytest.raises(SystemExit) as exit_info:
-        main(["get", "results", "--election", "GG22", "--base-url", base, "--source", "sbe"])
-    assert exit_info.value.code == 2
-    assert "later version" in capsys.readouterr().err
-
-
 def _add_unofficial(root):
     """A live unofficial count: no party suffix on its file names, and no winner column."""
     path = "results_unofficial/GG26/2026-11-17T111403/county/15-kent.csv"
