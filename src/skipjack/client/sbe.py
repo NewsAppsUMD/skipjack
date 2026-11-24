@@ -103,6 +103,7 @@ def _candidates(files: list) -> list:
 def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
     """One family's current report at one geography, as the board serves it now."""
     import httpx
+    import polars as pl
 
     from skipjack.pipeline import turnout as pt
 
@@ -162,7 +163,7 @@ def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         if as_of is None and e.undated_as_of:
             # a file that prints no date of its own, as turnout_parse handles it
             as_of = e.undated_as_of
-            frame = frame.with_columns(pt.pl.lit(as_of).alias("as_of"))
+            frame = frame.with_columns(pl.lit(as_of).alias("as_of"))
         if as_of is None:
             failures.append(f"{f.url} prints no As-of date")
             continue
