@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import logging
 import sys
 from datetime import date
@@ -469,8 +470,10 @@ def main(argv: list[str] | None = None) -> None:
         commands[args.command](args)
     except ModuleNotFoundError as err:
         top = (err.name or "").split(".")[0]
-        if top not in _EXTRAS:
-            raise  # not a missing extra: a genuine bug keeps its traceback
+        if top not in _EXTRAS or importlib.util.find_spec(top) is not None:
+            # not a missing extra (or the extra is there and a submodule moved): a genuine
+            # bug keeps its traceback
+            raise
         print(
             f"error: `skipjack {args.command}` needs {top}, which is not installed. "
             f"In a checkout: uv sync. Otherwise: install skipjack[{_EXTRAS[top]}]",

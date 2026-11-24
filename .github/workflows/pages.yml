@@ -39,6 +39,7 @@ jobs:
 
       # uv reads the Python version from .python-version and downloads it if needed.
       - name: Install dependencies
+        # belt-and-braces: the dev group already pulls in skipjack[pdf,web]
         run: uv sync --locked --all-extras
 
       - name: Build the database from the committed data

@@ -330,6 +330,42 @@ def test_turnout_live_a_pdf_family_without_the_pdf_reader(capsys, monkeypatch):
     assert "skipjack[pdf]" in err and "--source skipjack" in err
 
 
+def test_turnout_live_a_pdf_reader_submodule_names_its_package(capsys, monkeypatch):
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: b"%PDF-1.7 ...")
+
+    def no_reader(*args, **kwargs):
+        raise ModuleNotFoundError("No module named 'pypdfium2._helpers'", name="pypdfium2._helpers")
+
+    monkeypatch.setattr(turnout, "parse_path", no_reader)
+    err = fails(capsys, "get", "turnout", "--election", "GG26", "--family", "early-voting",
+                "--source", "sbe")  # fmt: skip
+    assert "needs the PDF reader (pypdfium2): install skipjack[pdf]" in err
+
+
+def test_turnout_live_a_missing_module_that_is_not_the_pdf_reader_is_a_bug(monkeypatch):
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: b"%PDF-1.7 ...")
+
+    def broken(*args, **kwargs):
+        raise ModuleNotFoundError("No module named 'skipjack.nope'", name="skipjack.nope")
+
+    monkeypatch.setattr(turnout, "parse_path", broken)
+    with pytest.raises(ModuleNotFoundError, match="skipjack.nope"):
+        main(["get", "turnout", "--election", "GG26", "--family", "early-voting",
+              "--source", "sbe"])  # fmt: skip
+
+
+def test_turnout_live_an_import_error_inside_the_reader_is_not_a_missing_reader(monkeypatch):
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: b"%PDF-1.7 ...")
+
+    def broken(*args, **kwargs):
+        raise ImportError("cannot import name 'Thing' from 'natural_pdf'", name="natural_pdf")
+
+    monkeypatch.setattr(turnout, "parse_path", broken)
+    with pytest.raises(ImportError, match="cannot import name"):
+        main(["get", "turnout", "--election", "GG26", "--family", "early-voting",
+              "--source", "sbe"])  # fmt: skip
+
+
 def test_turnout_live_a_pdf_twin_without_the_pdf_reader(capsys, monkeypatch):
     files = [
         f

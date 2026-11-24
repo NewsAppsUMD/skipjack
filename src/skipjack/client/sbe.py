@@ -18,6 +18,9 @@ from skipjack.client.sources import ClientError
 
 _FALLBACK = "Use --source skipjack for the published copy"
 
+# The PDF extra's packages, as a missing one names itself; any other missing module is a bug
+_PDF_READER = {"natural_pdf", "rapidocr", "pdfplumber", "pypdfium2"}
+
 
 def _counties() -> list[dict]:
     """The counties as the catalog lists them, from the pipeline's own codes."""
@@ -140,14 +143,17 @@ def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
             path.write_bytes(data)
             try:
                 as_of, frame = pt.parse_path(path, code, family, args.geography)
-            except ImportError as err:
+            except ModuleNotFoundError as err:
+                reader = (err.name or "").split(".")[0]
+                if reader not in _PDF_READER:
+                    raise  # not the PDF reader missing: a genuine bug keeps its traceback
                 if any(c.kind == "xlsx" for c in files):
                     # the workbook was tried first and failed; only its PDF twin is left
                     why = "the PDF twin needs the PDF reader"
                 else:
                     why = f"{family} is a PDF report and needs the PDF reader"
                 raise ClientError(
-                    "; ".join([*failures, f"{why} ({err.name}): install skipjack[pdf]"])
+                    "; ".join([*failures, f"{why} ({reader}): install skipjack[pdf]"])
                     + f". {_FALLBACK}"
                 ) from err
             except pt.TurnoutParseError as err:

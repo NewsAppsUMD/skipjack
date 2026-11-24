@@ -48,6 +48,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
+        # belt-and-braces: the dev group already pulls in skipjack[pdf,web]
         run: uv sync --locked --all-extras
 
       - name: Fetch and parse new snapshots
