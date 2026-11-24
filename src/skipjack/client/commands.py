@@ -56,6 +56,14 @@ def register(sub: argparse._SubParsersAction) -> None:
     reg.add_argument("--to", dest="end", metavar="YYYY-MM", type=_month)
     _shared(reg, sbe=True)
 
+    res = get_sub.add_parser("results", help="An election's results by county")
+    res.add_argument("--election", required=True, help="An election code, e.g. GG22")
+    res.add_argument("--county")
+    res.add_argument("--office", help="Keep offices containing this text (case-insensitive)")
+    res.add_argument("--party-file", choices=["dem", "rep", "non", "all"],
+                     help="A primary's party file")  # fmt: skip
+    _shared(res, sbe=True)
+
 
 # ---- helpers ---------------------------------------------------------------------------------
 
@@ -165,9 +173,55 @@ def _registration(args: argparse.Namespace, source: SkipjackSource) -> tuple[dic
     return meta, rows
 
 
+# ---- get results -----------------------------------------------------------------------------
+
+
+def _results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
+    """County files are NN-<county-slug>-<party_file>.csv (certified) or NN-<county-slug>.csv
+    (the live unofficial count), so the filters pick files by name before any download."""
+    if args.source == "sbe":
+        raise ClientError("--source sbe for results arrives in a later version")
+    catalog = source.catalog()
+    code = _choice("election", args.election.upper(), catalog["results"])
+    election = catalog["results"][code]
+    if args.party_file and not election["official"]:
+        raise ClientError(
+            f"{code}'s unofficial count has no party files (it covers every party); "
+            "drop --party-file"
+        )
+    county = _county(catalog, args.county)
+    files = election["files"]
+    if county:
+        # The two-digit code keeps 03-baltimore-city apart from 04-baltimore-county
+        prefix = f"{county['code']}-{county['slug']}"
+        files = [f for f in files if (s := Path(f).stem) == prefix or s.startswith(prefix + "-")]
+    if args.party_file:
+        files = [f for f in files if Path(f).stem.endswith(f"-{args.party_file}")]
+    office = args.office.lower() if args.office else None
+    rows = [
+        row
+        for f in files
+        for row in source.rows(f)
+        if office is None or office in (row.get("office") or "").lower()
+    ]
+    filters = {"county": county["name"] if county else None, "office": args.office,
+               "party_file": args.party_file}  # fmt: skip
+    meta = {
+        "dataset": "results",
+        "election": code,
+        "name": election["name"],
+        "election_day": election["election_day"],
+        "official": election["official"],
+        "as_of": election["as_of"],
+        "source_urls": [source.url(f) for f in files],
+        "filters": {k: v for k, v in filters.items() if v is not None},
+    }
+    return meta, rows
+
+
 # ---- dispatch --------------------------------------------------------------------------------
 
-_GET = {"registration": _registration}
+_GET = {"registration": _registration, "results": _results}
 
 
 def run(args: argparse.Namespace) -> None:
