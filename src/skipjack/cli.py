@@ -10,6 +10,22 @@ from pathlib import Path
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
+# The top-level modules of the optional extras (pyproject.toml), to the extra that installs them
+_EXTRAS = {
+    "natural_pdf": "pdf",
+    "rapidocr": "pdf",
+    "llm": "pdf",
+    "llm_anthropic": "pdf",
+    "fastapi": "web",
+    "uvicorn": "web",
+    "jinja2": "web",
+    "aiosqlite": "web",
+    "datasette": "web",
+    "datasette_vega": "web",
+    "openpyxl": "web",
+    "xlrd": "web",
+}
+
 
 def cmd_fetch(args: argparse.Namespace) -> None:
     from skipjack.pipeline.fetch import fetch_vrar
@@ -449,7 +465,18 @@ def main(argv: list[str] | None = None) -> None:
         "build-db": cmd_build_db,
         "serve": cmd_serve,
     }
-    commands[args.command](args)
+    try:
+        commands[args.command](args)
+    except ModuleNotFoundError as err:
+        top = (err.name or "").split(".")[0]
+        if top not in _EXTRAS:
+            raise  # not a missing extra: a genuine bug keeps its traceback
+        print(
+            f"error: `skipjack {args.command}` needs {top}, which is not installed. "
+            f"In a checkout: uv sync --all-extras. Otherwise: install skipjack[{_EXTRAS[top]}]",
+            file=sys.stderr,
+        )
+        sys.exit(2)
 
 
 if __name__ == "__main__":

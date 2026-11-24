@@ -2403,19 +2403,25 @@ name = "skipjack"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "httpx" },
+    { name = "polars" },
+    { name = "python-calamine" },
+]
+
+[package.optional-dependencies]
+pdf = [
+    { name = "llm" },
+    { name = "llm-anthropic" },
+    { name = "natural-pdf" },
+    { name = "rapidocr" },
+]
+web = [
     { name = "aiosqlite" },
     { name = "datasette" },
     { name = "datasette-vega" },
     { name = "fastapi" },
-    { name = "httpx" },
     { name = "jinja2" },
-    { name = "llm" },
-    { name = "llm-anthropic" },
-    { name = "natural-pdf" },
     { name = "openpyxl" },
-    { name = "polars" },
-    { name = "python-calamine" },
-    { name = "rapidocr" },
     { name = "uvicorn", extra = ["standard"] },
     { name = "xlrd" },
 ]
@@ -2431,22 +2437,23 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiosqlite", specifier = ">=0.21" },
-    { name = "datasette", specifier = ">=0.65" },
-    { name = "datasette-vega", specifier = ">=0.6" },
-    { name = "fastapi", specifier = ">=0.115" },
+    { name = "aiosqlite", marker = "extra == 'web'", specifier = ">=0.21" },
+    { name = "datasette", marker = "extra == 'web'", specifier = ">=0.65" },
+    { name = "datasette-vega", marker = "extra == 'web'", specifier = ">=0.6" },
+    { name = "fastapi", marker = "extra == 'web'", specifier = ">=0.115" },
     { name = "httpx", specifier = ">=0.28" },
-    { name = "jinja2", specifier = ">=3.1" },
-    { name = "llm", specifier = ">=0.24" },
-    { name = "llm-anthropic", specifier = ">=0.25.1" },
-    { name = "natural-pdf", specifier = ">=0.1" },
-    { name = "openpyxl", specifier = ">=3.1" },
+    { name = "jinja2", marker = "extra == 'web'", specifier = ">=3.1" },
+    { name = "llm", marker = "extra == 'pdf'", specifier = ">=0.24" },
+    { name = "llm-anthropic", marker = "extra == 'pdf'", specifier = ">=0.25.1" },
+    { name = "natural-pdf", marker = "extra == 'pdf'", specifier = ">=0.1" },
+    { name = "openpyxl", marker = "extra == 'web'", specifier = ">=3.1" },
     { name = "polars", specifier = ">=1.20" },
     { name = "python-calamine", specifier = ">=0.8.3" },
-    { name = "rapidocr", specifier = ">=3.9.2" },
-    { name = "uvicorn", extras = ["standard"], specifier = ">=0.34" },
-    { name = "xlrd", specifier = ">=2.0" },
+    { name = "rapidocr", marker = "extra == 'pdf'", specifier = ">=3.9.2" },
+    { name = "uvicorn", extras = ["standard"], marker = "extra == 'web'", specifier = ">=0.34" },
+    { name = "xlrd", marker = "extra == 'web'", specifier = ">=2.0" },
 ]
+provides-extras = ["pdf", "web"]
 
 [package.metadata.requires-dev]
 dev = [
