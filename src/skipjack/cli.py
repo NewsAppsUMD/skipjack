@@ -299,7 +299,8 @@ def cmd_serve(args: argparse.Namespace) -> None:
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
-        prog="skipjack", description="Maryland elections data pipeline"
+        prog="skipjack",
+        description="Maryland elections data: the pipeline, and list/get to pull the published data",
     )
     sub = parser.add_subparsers(dest="command")
 
@@ -417,10 +418,18 @@ def main(argv: list[str] | None = None) -> None:
     serve_p.add_argument("--port", type=int, default=8000)
     serve_p.add_argument("--reload", action="store_true")
 
+    from skipjack.client import commands as client_commands
+
+    client_commands.register(sub)
+
     args = parser.parse_args(argv)
     if not args.command:
         parser.print_help()
         sys.exit(1)
+
+    if args.command in ("list", "get"):
+        client_commands.run(args)
+        return
 
     commands = {
         "fetch": cmd_fetch,
