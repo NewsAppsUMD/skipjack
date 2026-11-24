@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 from skipjack.client.helpers import choice, county_for, meta, read_rows
@@ -197,3 +198,36 @@ def turnout(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
         official=election["certified"], as_of=as_of,
     )  # fmt: skip
     return built, rows
+
+
+# ---- get county ------------------------------------------------------------------------------
+
+SECTIONS = ("registration", "turnout", "results")
+
+
+def county_history(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list | dict]:
+    """The county document, county/<slug>.json: registration, turnout and results rows plus
+    the nested results_over_time. Without --section the rows are the document itself."""
+    if args.source == "sbe":
+        raise ClientError(
+            "the county history is assembled by skipjack from its checked files. "
+            "Use --source skipjack"
+        )
+    if args.format == "csv" and not args.section:
+        raise ClientError(
+            "the county document is nested; for CSV pick one: "
+            "--section registration|turnout|results"
+        )
+    catalog = source.catalog()
+    county = county_for(catalog, args.name)
+    path = catalog["county_history"].format(slug=county["slug"])
+    try:
+        doc = json.loads(source.text(path))
+    except json.JSONDecodeError as err:
+        raise ClientError(f"{source.url(path)} is not valid JSON ({err})") from err
+    if not isinstance(doc, dict):
+        raise ClientError(f"{source.url(path)} is not a county document")
+    built = meta("county", source, [path], county=county["name"], official=True)
+    if args.section:
+        return {**built, "section": args.section}, doc[args.section]
+    return {**built, "sections": {s: len(doc[s]) for s in SECTIONS}}, doc

@@ -7,6 +7,7 @@ renders.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import sys
@@ -87,6 +88,14 @@ def register(sub: argparse._SubParsersAction) -> None:
     tur.add_argument("--county")
     _shared(tur, sbe=True)
 
+    cty = get_sub.add_parser(
+        "county", help="A county's whole record: registration, turnout, results"
+    )
+    cty.add_argument("name", help='A county name or slug, e.g. "Prince George\'s" or st-marys')
+    cty.add_argument("--section", choices=list(datasets.SECTIONS),
+                     help="One section as rows (required for --format csv)")  # fmt: skip
+    _shared(cty, sbe=True)
+
 
 # ---- dispatch --------------------------------------------------------------------------------
 
@@ -94,6 +103,7 @@ _GET = {
     "registration": datasets.registration,
     "results": datasets.results,
     "turnout": datasets.turnout,
+    "county": datasets.county_history,
 }
 
 
@@ -123,7 +133,8 @@ def run(args: argparse.Namespace) -> None:
 
 
 def _text(args: argparse.Namespace) -> str:
-    """The rendered output, or a ClientError."""
+    """The rendered output, or a ClientError. A handler's rows are a list, or (get county
+    without --section) the whole document as a dict."""
     with SkipjackSource(args.base_url) as source:
         try:
             if args.command == "list":
@@ -131,7 +142,8 @@ def _text(args: argparse.Namespace) -> str:
             else:
                 meta, rows = _GET[args.dataset](args, source)
         except (KeyError, IndexError, TypeError) as err:
-            # A catalog missing a key, or a CSV missing a column the handler reads. These
+            # A catalog missing a key, or a file not shaped as expected (CSV columns are
+            # checked up front, so this is mostly the catalog or a county document). These
             # also hide our own bugs, so SKIPJACK_DEBUG lets the traceback through.
             if os.environ.get("SKIPJACK_DEBUG"):
                 raise
@@ -141,13 +153,13 @@ def _text(args: argparse.Namespace) -> str:
                 f"or one of its files is not as expected: {detail} "
                 "(set SKIPJACK_DEBUG=1 for the traceback)"
             ) from err
+    source_name = getattr(args, "source", "skipjack")
+    retrieved_at = datetime.now(UTC).isoformat(timespec="seconds")
+    if isinstance(rows, dict):  # get county without --section: the document itself, meta first
+        stamped = {**meta, "source": source_name, "retrieved_at": retrieved_at}
+        return json.dumps({"meta": stamped, **rows}, indent=1) + "\n"
     rows = typed(rows)
-    meta = {
-        **meta,
-        "source": getattr(args, "source", "skipjack"),
-        "rows": len(rows),
-        "retrieved_at": datetime.now(UTC).isoformat(timespec="seconds"),
-    }
+    meta = {**meta, "source": source_name, "rows": len(rows), "retrieved_at": retrieved_at}
     try:
         return render(meta, rows, args.format)
     except ValueError as err:
