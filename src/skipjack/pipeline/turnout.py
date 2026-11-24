@@ -21,7 +21,7 @@ import httpx
 import polars as pl
 from python_calamine import CalamineError, CalamineWorkbook
 
-from skipjack.pipeline.vrar import COUNTY_NORMALIZE
+from skipjack.pipeline.clean import COUNTY_NORMALIZE
 from skipjack.pipeline.fetch import (
     ARCHIVES_DIR,
     MANIFEST_PATH,
@@ -2319,6 +2319,8 @@ def parse_county_canvass_pdf(
     """One Official County and Canvass PDF, table rows first, its date from its text."""
     try:
         rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except ImportError:  # no PDF reader installed is not a broken PDF
+        raise
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the county-canvass PDF ({err})") from err
     return parse_county_canvass_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
@@ -2356,6 +2358,8 @@ def parse_votes_accepted_pdf(
     its text."""
     try:
         rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except ImportError:  # no PDF reader installed is not a broken PDF
+        raise
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the votes-accepted PDF ({err})") from err
     return parse_votes_accepted_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
@@ -2516,6 +2520,8 @@ def parse_mail_voting_pdf(
     """One Official Mail-In Voting PDF, table rows first, its date from its text."""
     try:
         rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except ImportError:  # no PDF reader installed is not a broken PDF
+        raise
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the mail-voting PDF ({err})") from err
     return parse_mail_voting_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
@@ -2578,6 +2584,8 @@ def parse_provisional_pdf(
     """One Official Provisional Voting PDF, table rows first, its date from its text."""
     try:
         rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except ImportError:  # no PDF reader installed is not a broken PDF
+        raise
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the provisional PDF ({err})") from err
     return parse_provisional_rows(rows, election, geography, as_of=pdf_snapshot_date(text))
@@ -2924,6 +2932,8 @@ def parse_early_voting_pdf(
     """One EarlyVoting PDF, table rows first, its date from its text."""
     try:
         rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except ImportError:  # no PDF reader installed is not a broken PDF
+        raise
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the early-voting PDF ({err})") from err
     return parse_early_voting_rows(
@@ -3028,6 +3038,8 @@ def parse_same_day_pdf(
     """One SameDayRegistration PDF, table rows first, its date from its text."""
     try:
         rows, text = pdf_table_rows(path), read_pdf_text(path)
+    except ImportError:  # no PDF reader installed is not a broken PDF
+        raise
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the same-day PDF ({err})") from err
     return parse_same_day_rows(
@@ -3234,6 +3246,8 @@ def parse_election_night_pdf(path: Path, election: str) -> tuple[str | None, pl.
     """One election-night unofficial turnout PDF, from its text."""
     try:
         text = read_pdf_text(path)
+    except ImportError:  # no PDF reader installed is not a broken PDF
+        raise
     except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
         raise TurnoutParseError(f"could not read the election-night PDF ({err})") from err
     return parse_election_night_text(text, election)
@@ -3719,9 +3733,9 @@ def parse_path(
     if family == "requests" and path.suffix == ".pdf":
         try:
             text = read_requests_pdf(path)
-        except (
-            Exception
-        ) as err:  # natural-pdf has no error taxonomy; a broken PDF is a parse failure
+        except ImportError:  # no PDF reader installed is not a broken PDF
+            raise
+        except Exception as err:  # natural-pdf has no error taxonomy; a broken PDF fails here
             raise TurnoutParseError(f"could not read the requests PDF ({err})") from err
         return parse_requests_text(text, election_code)
     if family == "requests":

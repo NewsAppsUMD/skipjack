@@ -35,37 +35,10 @@ import polars as pl
 from natural_pdf import PDF
 from natural_pdf.ocr.ocr_options import RapidOCROptions
 
+from skipjack.pipeline.clean import COUNTY_NORMALIZE  # re-exported: older imports name vrar
+
 logger = logging.getLogger(__name__)
 
-COUNTY_NORMALIZE = {
-    "ALLEGANY": "Allegany",
-    "ANNE ARUNDEL": "Anne Arundel",
-    "BALTIMORE CITY": "Baltimore City",
-    "BALTIMORE CO.": "Baltimore County",
-    "BALTIMORE CO": "Baltimore County",
-    "BALTIMORE COUNTY": "Baltimore County",
-    "CALVERT": "Calvert",
-    "CAROLINE": "Caroline",
-    "CARROLL": "Carroll",
-    "CECIL": "Cecil",
-    "CHARLES": "Charles",
-    "DORCHESTER": "Dorchester",
-    "FREDERICK": "Frederick",
-    "GARRETT": "Garrett",
-    "HARFORD": "Harford",
-    "HOWARD": "Howard",
-    "KENT": "Kent",
-    "MONTGOMERY": "Montgomery",
-    "PR. GEORGE'S": "Prince George's",
-    "PRINCE GEORGE'S": "Prince George's",
-    "QUEEN ANNE'S": "Queen Anne's",
-    "ST. MARY'S": "St. Mary's",
-    "SOMERSET": "Somerset",
-    "TALBOT": "Talbot",
-    "WASHINGTON": "Washington",
-    "WICOMICO": "Wicomico",
-    "WORCESTER": "Worcester",
-}
 N_COUNTIES = 24
 
 # Codes seen in VRAR headers 2010-2026. Used only to correct OCR misreads and

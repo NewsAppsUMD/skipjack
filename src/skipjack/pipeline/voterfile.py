@@ -47,7 +47,7 @@ from skipjack.pipeline.provenance import (
     compute_sha256,
     find_source,
 )
-from skipjack.pipeline.vrar import COUNTY_NORMALIZE
+from skipjack.pipeline.clean import COUNTY_NORMALIZE
 
 logger = logging.getLogger(__name__)
 

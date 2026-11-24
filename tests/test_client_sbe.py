@@ -40,7 +40,7 @@ def fails(capsys, *argv) -> str:
 
 
 def archived(folder: Path):
-    """A results._download that answers from the archive, and "unpublished" for a file the
+    """A results.download_status that answers from the archive, and "unpublished" for a file the
     archive lacks (as the board does for a county with no non-partisan contests)."""
 
     def fake(url, timeout=30.0):
@@ -59,7 +59,7 @@ def no_network(monkeypatch):
     def refuse(*args, **kwargs):
         raise AssertionError("a test reached for the network")
 
-    monkeypatch.setattr(results, "_download", refuse)
+    monkeypatch.setattr(results, "download_status", refuse)
     monkeypatch.setattr(turnout, "download", refuse)
 
 
@@ -74,7 +74,7 @@ def test_results_live_reads_only_the_counties_asked_for(capsys, monkeypatch):
         asked.append(url)
         return "ok", (GG22 / url.rsplit("/", 1)[1]).read_bytes(), ""
 
-    monkeypatch.setattr(results, "_download", fake)
+    monkeypatch.setattr(results, "download_status", fake)
     out = run(capsys, "get", "results", "--election", "GG22", "--county", "Allegany",
               "--source", "sbe")  # fmt: skip
     assert len(asked) == 1 and asked[0].endswith("GG22_01CountyResults.csv")
@@ -90,7 +90,7 @@ def test_results_live_rows_match_the_published_columns(capsys, monkeypatch):
     published = ROOT / "data" / "results" / "GG22" / "county" / "01-allegany-all.csv"
     if not published.exists():
         pytest.skip("GG22 results not parsed")
-    monkeypatch.setattr(results, "_download", archived(GG22))
+    monkeypatch.setattr(results, "download_status", archived(GG22))
     out = run(capsys, "get", "results", "--election", "GG22", "--county", "Allegany",
               "--source", "sbe")  # fmt: skip
     with published.open(newline="") as f:
@@ -103,7 +103,7 @@ def test_results_live_rows_match_the_published_columns(capsys, monkeypatch):
 
 @needs_results
 def test_results_live_office_filter(capsys, monkeypatch):
-    monkeypatch.setattr(results, "_download", archived(GG22))
+    monkeypatch.setattr(results, "download_status", archived(GG22))
     out = run(capsys, "get", "results", "--election", "gg22", "--county", "kent",
               "--office", "GOVERNOR", "--source", "sbe")  # fmt: skip
     assert out["rows"] and all("governor" in r["office"].lower() for r in out["rows"])
@@ -112,7 +112,9 @@ def test_results_live_office_filter(capsys, monkeypatch):
 
 @needs_results
 def test_results_live_fails_loudly_on_a_download_error(capsys, monkeypatch):
-    monkeypatch.setattr(results, "_download", lambda url, timeout=30.0: ("error", b"", "HTTP 503"))
+    monkeypatch.setattr(
+        results, "download_status", lambda url, timeout=30.0: ("error", b"", "HTTP 503")
+    )
     err = fails(capsys, "get", "results", "--election", "GG22", "--county", "Allegany",
                 "--source", "sbe")  # fmt: skip
     assert "HTTP 503" in err and "--source skipjack" in err
@@ -120,7 +122,7 @@ def test_results_live_fails_loudly_on_a_download_error(capsys, monkeypatch):
 
 def test_results_live_fails_loudly_on_a_file_that_does_not_parse(capsys, monkeypatch):
     garbage = b"this,is,not\nthe,board's,layout\n"
-    monkeypatch.setattr(results, "_download", lambda url, timeout=30.0: ("ok", garbage, ""))
+    monkeypatch.setattr(results, "download_status", lambda url, timeout=30.0: ("ok", garbage, ""))
     err = fails(capsys, "get", "results", "--election", "GG22", "--county", "Allegany",
                 "--source", "sbe")  # fmt: skip
     assert "GG22_01CountyResults.csv" in err and "--source skipjack" in err
@@ -129,9 +131,32 @@ def test_results_live_fails_loudly_on_a_file_that_does_not_parse(capsys, monkeyp
 
 def test_results_live_refuses_an_election_the_board_has_not_posted(capsys, monkeypatch):
     monkeypatch.setattr(results.RESULTS_ELECTIONS["GG26"], "published", False)
-    with pytest.raises(SystemExit):
-        main(["get", "results", "--election", "GG26", "--source", "sbe"])
-    assert "--source skipjack" in capsys.readouterr().err
+    err = fails(capsys, "get", "results", "--election", "GG26", "--source", "sbe")
+    assert "--source skipjack" in err
+
+
+@needs_results
+def test_results_live_without_a_county_reads_every_county(capsys, monkeypatch):
+    monkeypatch.setattr(results, "download_status", archived(GG22))
+    out = run(capsys, "get", "results", "--election", "GG22", "--office", "governor",
+              "--source", "sbe")  # fmt: skip
+    urls = out["meta"]["source_urls"]
+    assert len(urls) == 24 and len(set(urls)) == 24
+    assert len({r["county"] for r in out["rows"]}) == 24
+    assert "county" not in out["meta"]["filters"]
+
+
+def test_sbe_a_file_not_as_expected_is_a_clean_error(capsys, monkeypatch):
+    from skipjack.client import commands
+
+    def malformed(args):
+        raise KeyError("county")
+
+    monkeypatch.delenv("SKIPJACK_DEBUG", raising=False)
+    monkeypatch.setitem(commands._SBE, "results", malformed)
+    err = fails(capsys, "get", "results", "--election", "GG22", "--source", "sbe")
+    assert "the State Board's file was not as expected: missing 'county'" in err
+    assert "Traceback" not in err
 
 
 def test_results_live_party_file_must_be_the_elections(capsys):
@@ -159,11 +184,13 @@ def test_results_live_a_primary_county_without_non_partisan_contests(capsys, mon
     if not missing:
         pytest.skip("every GP22 county has a non-partisan file")
     county = results.COUNTY_CODES[missing[0]]
-    monkeypatch.setattr(results, "_download", archived(GP22))
+    monkeypatch.setattr(results, "download_status", archived(GP22))
     out = run(capsys, "get", "results", "--election", "GP22", "--county", county,
               "--source", "sbe")  # fmt: skip
     assert {r["party_file"] for r in out["rows"]} == {"dem", "rep"}
     assert len(out["meta"]["source_urls"]) == 2
+    name = f"GP22_{missing[0]}Non-PartisanResults.csv"
+    assert out["meta"]["notes"] == [f"{name} not posted (no non-partisan contests)"]
 
 
 # ---- turnout ---------------------------------------------------------------------------------
@@ -299,7 +326,48 @@ def test_turnout_live_a_pdf_family_without_the_pdf_reader(capsys, monkeypatch):
     monkeypatch.setattr(turnout, "parse_path", no_reader)
     err = fails(capsys, "get", "turnout", "--election", "GG26", "--family", "early-voting",
                 "--source", "sbe")  # fmt: skip
-    assert "skipjack[pdf]" in err and "natural_pdf" in err and "--source skipjack" in err
+    assert "early-voting is a PDF report and needs the PDF reader (natural_pdf)" in err
+    assert "skipjack[pdf]" in err and "--source skipjack" in err
+
+
+def test_turnout_live_a_pdf_twin_without_the_pdf_reader(capsys, monkeypatch):
+    files = [
+        f
+        for f in turnout.ELECTIONS["GP26"].files
+        if (f.family, f.geography) == ("requests", "county")
+    ]
+    assert sorted(f.kind for f in files) == ["pdf", "xlsx"]
+    by_kind = {f.kind: f.url for f in files}
+    bodies = {by_kind["xlsx"]: b"PK broken", by_kind["pdf"]: b"%PDF-1.7 ..."}
+    monkeypatch.setattr(turnout, "download", lambda url, timeout=30.0: bodies[url])
+
+    def parse(path, *args):
+        if path.suffix == ".xlsx":
+            raise turnout.TurnoutParseError("the workbook is corrupt")
+        raise ModuleNotFoundError("No module named 'natural_pdf'", name="natural_pdf")
+
+    monkeypatch.setattr(turnout, "parse_path", parse)
+    err = fails(capsys, "get", "turnout", "--election", "GP26", "--family", "requests",
+                "--source", "sbe")  # fmt: skip
+    assert f"{by_kind['xlsx']} did not parse: the workbook is corrupt" in err
+    assert "the PDF twin needs the PDF reader (natural_pdf): install skipjack[pdf]" in err
+    assert "is a PDF report" not in err and "--source skipjack" in err
+
+
+def test_turnout_live_tries_the_updated_re_post_first_in_every_election():
+    from skipjack.client.sbe import _candidates
+
+    for code, e in turnout.ELECTIONS.items():
+        groups = {}
+        for f in e.files:
+            groups.setdefault((f.family, f.geography), []).append(f)
+        for key, files in groups.items():
+            ordered = _candidates(files)
+            assert sorted(ordered, key=lambda f: f.kind != "xlsx") == ordered, (code, key)
+            for kind in ("xlsx", "pdf"):
+                same = [f for f in ordered if f.kind == kind]
+                if any("Updated-" in f.url for f in same):
+                    assert "Updated-" in same[0].url, (code, key)
 
 
 def test_turnout_live_a_file_that_does_not_parse(capsys, monkeypatch):

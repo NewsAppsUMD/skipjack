@@ -198,9 +198,10 @@ SECTIONS = ("registration", "turnout", "results")
 
 
 def _official(catalog: dict, doc: dict, sections: list[str]) -> dict[str, bool]:
-    """For each of ``sections`` (validated already; the others are not read), whether every row's election is official (results) or certified
-    (turnout) by the catalog; an election the catalog does not list counts as not official.
-    Registration is the board's monthly reports, official as published."""
+    """For each of ``sections`` (validated already; the others are not read), whether every
+    row's election is official (results) or certified (turnout) by the catalog; an election
+    the catalog does not list counts as not official. Registration is the board's monthly
+    reports, official as published."""
 
     def all_official(section: str, dataset: str, flag: str) -> bool:
         listed = catalog[dataset]

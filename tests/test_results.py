@@ -10,7 +10,7 @@ import pytest
 
 from skipjack.pipeline import fetch, results
 from skipjack.pipeline.provenance import SourceRecord, append_to_manifest, read_manifest
-from skipjack.pipeline.vrar import COUNTY_NORMALIZE
+from skipjack.pipeline.clean import COUNTY_NORMALIZE
 
 BOM = "﻿"
 PRIMARY_HEAD = (

@@ -4,6 +4,37 @@ from __future__ import annotations
 
 import polars as pl
 
+# The counties as the board prints them (VRAR, turnout reports), to their canonical names.
+COUNTY_NORMALIZE = {
+    "ALLEGANY": "Allegany",
+    "ANNE ARUNDEL": "Anne Arundel",
+    "BALTIMORE CITY": "Baltimore City",
+    "BALTIMORE CO.": "Baltimore County",
+    "BALTIMORE CO": "Baltimore County",
+    "BALTIMORE COUNTY": "Baltimore County",
+    "CALVERT": "Calvert",
+    "CAROLINE": "Caroline",
+    "CARROLL": "Carroll",
+    "CECIL": "Cecil",
+    "CHARLES": "Charles",
+    "DORCHESTER": "Dorchester",
+    "FREDERICK": "Frederick",
+    "GARRETT": "Garrett",
+    "HARFORD": "Harford",
+    "HOWARD": "Howard",
+    "KENT": "Kent",
+    "MONTGOMERY": "Montgomery",
+    "PR. GEORGE'S": "Prince George's",
+    "PRINCE GEORGE'S": "Prince George's",
+    "QUEEN ANNE'S": "Queen Anne's",
+    "ST. MARY'S": "St. Mary's",
+    "SOMERSET": "Somerset",
+    "TALBOT": "Talbot",
+    "WASHINGTON": "Washington",
+    "WICOMICO": "Wicomico",
+    "WORCESTER": "Worcester",
+}
+
 PARTY_NORMALIZE = {
     "DEM": "Democratic",
     "REP": "Republican",

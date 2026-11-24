@@ -47,15 +47,17 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         )
     county = county_for(_counties(), args.county)
     office = args.office.lower() if args.office else None
-    rows, urls, exceptions = [], [], 0
+    rows, urls, notes, exceptions = [], [], [], 0
     for f in pr.county_files(e):
         if f.role != "county" or (county and f.county != county["name"]):
             continue
         if args.party_file and f.party_file != args.party_file:
             continue
-        status, body, detail = pr._download(f.url)
+        status, body, detail = pr.download_status(f.url)
         if status == "unpublished" and f.party_file == "non":
-            continue  # not every county has non-partisan contests
+            # not every county has non-partisan contests; say so rather than skip silently
+            notes.append(f"{f.file_name} not posted (no non-partisan contests)")
+            continue
         if status != "ok":
             raise ClientError(f"could not get {f.url} ({detail or status}). {_FALLBACK}")
         try:
@@ -80,6 +82,8 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         election=code, name=e.name, election_day=e.election_day,
         official=True, as_of=None, checks=checks,
     )  # fmt: skip
+    if notes:
+        built["notes"] = notes
     return built, rows
 
 
@@ -88,10 +92,9 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
 
 def _candidates(files: list) -> list:
     """A family's files in the order to try: workbook before its PDF twin, and a certified
-    report's Updated- re-post (listed after the original) before the original."""
-    ordered = list(enumerate(files))
-    ordered.sort(key=lambda pair: (pair[1].kind != "xlsx", -pair[0]))
-    return [f for _, f in ordered]
+    report's Updated- re-post before the original. The sort is stable, so files that tie keep
+    their configured order."""
+    return sorted(files, key=lambda f: (f.kind != "xlsx", "Updated-" not in f.url))
 
 
 def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
@@ -138,9 +141,14 @@ def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
             try:
                 as_of, frame = pt.parse_path(path, code, family, args.geography)
             except ImportError as err:
+                if any(c.kind == "xlsx" for c in files):
+                    # the workbook was tried first and failed; only its PDF twin is left
+                    why = "the PDF twin needs the PDF reader"
+                else:
+                    why = f"{family} is a PDF report and needs the PDF reader"
                 raise ClientError(
-                    f"{family} is a PDF report and needs the PDF reader ({err.name}): "
-                    f"install skipjack[pdf]. {_FALLBACK}"
+                    "; ".join([*failures, f"{why} ({err.name}): install skipjack[pdf]"])
+                    + f". {_FALLBACK}"
                 ) from err
             except pt.TurnoutParseError as err:
                 failures.append(f"{f.url} did not parse: {err}")

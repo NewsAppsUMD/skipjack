@@ -682,7 +682,7 @@ def _selected(election: str | None) -> list[ResultsElection]:
     return [RESULTS_ELECTIONS[election]]
 
 
-def _download(url: str, timeout: float = 30.0) -> tuple[str, bytes, str]:
+def download_status(url: str, timeout: float = 30.0) -> tuple[str, bytes, str]:
     """(status, body, detail): "ok", "unpublished" (the SBE's HTML page or a 404) or "error".
 
     A network failure, timeout or 5xx is an error, not "not published": for a Non-Partisan file
@@ -723,7 +723,7 @@ def results_fetch(
             newest = newest_source(MANIFEST_PATH, f.source_id)
             if not force and newest and resolve_archived(newest).exists():
                 continue
-            status, body, detail = _download(f.url)
+            status, body, detail = download_status(f.url)
             if status == "error":
                 failures.append(f"{e.code}: could not download {f.url} ({detail})")
                 logger.warning("%s: download failed: %s (%s)", e.code, f.url, detail)
