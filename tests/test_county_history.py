@@ -53,6 +53,14 @@ def test_the_document_has_every_section_and_is_plain_json():
     assert len(snapshots) == len({(e, f) for e, f, _ in snapshots})
     # a certified election's unofficial early-voting tallies are never published
     assert ("GG22", "early-voting") not in {(e, f) for e, f, _ in snapshots}
+    with get_db() as conn:
+        for election, family, as_of in snapshots:
+            newest = conn.execute(
+                "SELECT MAX(as_of) FROM turnout_counts"
+                " WHERE election = ? AND family = ? AND geography = 'county'",
+                (election, family),
+            ).fetchone()[0]
+            assert as_of == newest, (election, family)
 
     results = doc["results"]
     assert {"GG22", "GG10"} <= {r["election"] for r in results}
@@ -67,3 +75,4 @@ def test_every_county_has_all_three_row_sections():
         for name in COUNTY_CODES.values():
             doc = county_document(conn, slugify(name))
             assert doc and doc["registration"] and doc["turnout"] and doc["results"], name
+            assert doc["results_over_time"], name

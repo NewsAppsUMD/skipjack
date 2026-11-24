@@ -347,6 +347,27 @@ def test_trend_pages_scripts_and_combined_downloads_are_published(root_site, pro
 
 
 @needs_db
+def test_the_catalog_and_county_documents_are_published(root_site):
+    downloads = root_site[0] / "downloads"
+    catalog = json.loads((downloads / "index.json").read_text())
+    assert catalog["version"] == 1
+    # every path the catalog names exists in the build
+    for table in catalog["registration"]["tables"].values():
+        assert (downloads / table).is_file()
+    for election in catalog["results"].values():
+        assert election["files"] and all((downloads / f).is_file() for f in election["files"])
+    for code, election in catalog["turnout"].items():
+        for family, geographies in election["families"].items():
+            for geography, dates in geographies.items():
+                for as_of in dates:
+                    path = downloads / "turnout" / code / family / geography / f"{as_of}.csv"
+                    assert path.is_file(), path
+    for county in catalog["counties"]:
+        doc = json.loads((downloads / "county" / f"{county['slug']}.json").read_text())
+        assert doc["county"] == county["name"]
+
+
+@needs_db
 def test_the_snapshot_comparison_is_published_once_per_newest_pair(root_site, project_site):
     urls = list(dict.fromkeys(page_urls()))
     assert urls.count("/voters/file/compare/") == 1

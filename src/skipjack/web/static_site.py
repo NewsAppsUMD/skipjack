@@ -23,7 +23,9 @@ from fastapi.testclient import TestClient
 
 from skipjack.web.app import app, configure_templates
 from skipjack.web.bulk import BULK_FILES, bulk_csv
+from skipjack.web.catalog import build_catalog
 from skipjack.web.compare import snapshot_pairs
+from skipjack.web.county_history import county_document
 from skipjack.web.forecast import available as forecast_available
 from skipjack.web.forecast import report_available
 from skipjack.web.db import get_db
@@ -269,6 +271,19 @@ def build_site(
             if text is not None:
                 statewide.mkdir(exist_ok=True)
                 (statewide / d["file"]).write_text(text, encoding="utf-8")
+        catalog = build_catalog(data_dir)
+        (out_dir / "downloads" / "index.json").write_text(
+            json.dumps(catalog, indent=1), encoding="utf-8"
+        )
+        counties = out_dir / "downloads" / "county"
+        counties.mkdir(exist_ok=True)
+        trends_cache: dict = {}
+        for county in catalog["counties"]:
+            doc = county_document(conn, county["slug"], trends_cache)
+            if doc is not None:
+                (counties / f"{county['slug']}.json").write_text(
+                    json.dumps(doc, separators=(",", ":")), encoding="utf-8"
+                )
     if include_db:
         database = PROJECT_ROOT / SQLITE_NAME
         if not database.exists():

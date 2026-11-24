@@ -50,7 +50,7 @@ def county_document(conn: sqlite3.Connection, slug: str, cache: dict | None = No
             "WHERE geography = 'county' AND county = ? AND as_of = ("
             "  SELECT MAX(as_of) FROM turnout_counts"
             "  WHERE election = t.election AND family = t.family AND geography = 'county')"
-            " ORDER BY election, family, category, party, measure",
+            " ORDER BY election, family, category, party, measure, district, id",
             _TURNOUT,
             (county,),
         )
