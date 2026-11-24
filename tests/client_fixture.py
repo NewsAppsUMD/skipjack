@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from skipjack.cli import main
+
 MONTHLY = """report_date,county,party,party_name,active_voters,source_id
 2026-09-30,Allegany,DEM,Democratic,100,sbe-vrar-2026-09-30
 2026-09-30,Allegany,REP,Republican,200,sbe-vrar-2026-09-30
@@ -101,3 +103,9 @@ def write_downloads(root: Path) -> Path:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
     return root
+
+
+def run(capsys, *argv) -> str:
+    """Run the CLI and return what it printed to stdout."""
+    main(list(argv))
+    return capsys.readouterr().out
