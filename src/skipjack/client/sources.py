@@ -26,31 +26,55 @@ class SkipjackSource:
 
     def __init__(self, base: str, transport: httpx.BaseTransport | None = None):
         self.base = base.rstrip("/")
-        self.local = None if base.startswith(("http://", "https://")) else Path(base)
+        is_url = base.lower().startswith(("http://", "https://"))
+        self.local = None if is_url else Path(base)
         self._transport = transport
+        self._client: httpx.Client | None = None
         self._catalog: dict | None = None
 
+    def __enter__(self) -> SkipjackSource:
+        return self
+
+    def __exit__(self, *exc) -> None:
+        self.close()
+
+    def close(self) -> None:
+        if self._client is not None:
+            self._client.close()
+            self._client = None
+
+    def _http(self) -> httpx.Client:
+        if self._client is None:
+            self._client = httpx.Client(
+                transport=self._transport, timeout=30.0, follow_redirects=True
+            )
+        return self._client
+
     def url(self, path: str) -> str:
-        return str(self.local / path) if self.local else f"{self.base}/{path}"
+        return str(self.local / path) if self.local is not None else f"{self.base}/{path}"
 
     def text(self, path: str) -> str:
-        if self.local:
+        """The file's text, decoded as UTF-8 with any byte-order mark dropped."""
+        if self.local is not None:
             target = self.local / path
             if not target.is_file():
                 raise NotFound(f"not found: {target}")
-            return target.read_text(encoding="utf-8")
+            try:
+                return target.read_bytes().decode("utf-8-sig")
+            except (OSError, UnicodeDecodeError) as err:
+                raise ClientError(f"could not read {target} ({err})") from err
         try:
-            with httpx.Client(
-                transport=self._transport, timeout=30.0, follow_redirects=True
-            ) as client:
-                response = client.get(self.url(path))
+            response = self._http().get(self.url(path))
         except httpx.HTTPError as err:
             raise ClientError(f"could not reach {self.url(path)} ({err})") from err
         if response.status_code == 404:
             raise NotFound(f"not found: {self.url(path)}")
         if response.status_code != 200:
             raise ClientError(f"{self.url(path)}: HTTP {response.status_code}")
-        return response.text
+        try:
+            return response.content.decode("utf-8-sig")
+        except UnicodeDecodeError as err:
+            raise ClientError(f"could not read {self.url(path)} ({err})") from err
 
     def rows(self, path: str) -> list[dict]:
         return list(csv.DictReader(io.StringIO(self.text(path))))
@@ -70,7 +94,10 @@ class SkipjackSource:
                 raise ClientError(f"{self.url('index.json')} is not a skipjack catalog") from err
             if not isinstance(catalog, dict):
                 raise ClientError(f"{self.url('index.json')} is not a skipjack catalog")
-            if catalog.get("version", 0) > SUPPORTED_CATALOG:
+            version = catalog.get("version")
+            if not isinstance(version, int) or isinstance(version, bool):
+                raise ClientError(f"{self.url('index.json')} is not a skipjack catalog")
+            if version > SUPPORTED_CATALOG:
                 raise ClientError("the site's catalog is newer than this skipjack; upgrade it")
             self._catalog = catalog
         return self._catalog
