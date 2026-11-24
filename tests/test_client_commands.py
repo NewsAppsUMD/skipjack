@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import shlex
 import subprocess
 import sys
 
@@ -139,6 +140,14 @@ def test_a_malformed_catalog_is_a_clean_error(capsys, base, tmp_path):
     assert exit_info.value.code == 2
     err = capsys.readouterr().err
     assert err.startswith("error:") and "'counties'" in err and "Traceback" not in err
+    assert "SKIPJACK_DEBUG=1" in err
+
+
+def test_skipjack_debug_lets_the_traceback_through(base, tmp_path, monkeypatch):
+    (tmp_path / "downloads" / "index.json").write_text('{"version": 1}')
+    monkeypatch.setenv("SKIPJACK_DEBUG", "1")
+    with pytest.raises(KeyError, match="counties"):
+        main(["list", "counties", "--base-url", base])
 
 
 def test_a_csv_missing_a_column_is_a_clean_error(capsys, base, tmp_path):
@@ -148,7 +157,18 @@ def test_a_csv_missing_a_column_is_a_clean_error(capsys, base, tmp_path):
     with pytest.raises(SystemExit) as exit_info:
         main(["get", "registration", "--base-url", base])
     assert exit_info.value.code == 2
-    assert "'report_date'" in capsys.readouterr().err
+    err = capsys.readouterr().err
+    assert "registration_monthly_all.csv has no 'report_date' column" in err
+
+
+def test_a_results_csv_missing_the_office_column_names_the_file(capsys, base, tmp_path):
+    (tmp_path / "downloads" / "results" / "GG22" / "county" / "14-howard-all.csv").write_text(
+        "election,county\nGG22,Howard\n"
+    )
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--office", "gov"])
+    assert exit_info.value.code == 2
+    assert "14-howard-all.csv has no 'office' column" in capsys.readouterr().err
 
 
 def test_output_into_a_missing_folder(capsys, base, tmp_path):
@@ -176,10 +196,15 @@ def test_a_closed_pipe_exits_quietly(base):
     path = f"{base}/combined/registration_monthly_all.csv"
     with open(path, "a") as f:
         f.writelines(big)
+    pipeline = (
+        f"{shlex.quote(sys.executable)} -c {shlex.quote(script)} {shlex.quote(base)} | head -1"
+    )
+    # pipefail: the pipeline's status is the CLI's own, not head's
     proc = subprocess.run(
-        f"{sys.executable} -c \"{script}\" {base} | head -1",
-        shell=True, capture_output=True, text=True, timeout=60,
+        ["bash", "-o", "pipefail", "-c", pipeline],
+        capture_output=True, text=True, timeout=60,
     )  # fmt: skip
+    assert proc.returncode == 0, proc.stderr
     assert proc.stdout.startswith("report_date,")
     assert "Traceback" not in proc.stderr and "BrokenPipe" not in proc.stderr
 
@@ -253,12 +278,27 @@ def test_results_party_file_all_keeps_both_files(capsys, base):
     assert out["meta"]["filters"] == {"party_file": "all"}
 
 
-def test_results_party_file_with_no_files_is_empty(capsys, base):
+def test_results_party_file_with_no_files_names_the_party_files(capsys, base):
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--party-file", "dem"])
+    assert exit_info.value.code == 2
+    assert "GG22 has no 'dem' files; party files: all" in capsys.readouterr().err
+
+
+def test_results_party_file_with_a_county_and_no_files(capsys, base):
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "results", "--election", "GG22", "--base-url", base,
+              "--party-file", "rep", "--county", "Howard"])  # fmt: skip
+    assert exit_info.value.code == 2
+    assert "GG22 has no 'rep' files for Howard; party files: all" in capsys.readouterr().err
+
+
+def test_results_office_matching_nothing_is_empty(capsys, base):
     out = json.loads(
         run(capsys, "get", "results", "--election", "GG22", "--base-url", base,
-            "--party-file", "dem")
+            "--office", "dogcatcher")
     )  # fmt: skip
-    assert out["rows"] == [] and out["meta"]["source_urls"] == []
+    assert out["rows"] == []
 
 
 def test_results_from_the_sbe_is_not_yet_offered(capsys, base):

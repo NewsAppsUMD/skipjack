@@ -17,7 +17,7 @@ from skipjack.client.sources import DEFAULT_BASE_URL, ClientError, SkipjackSourc
 
 
 def _month(value: str) -> str:
-    if not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", value):
+    if not re.fullmatch(r"[0-9]{4}-(0[1-9]|1[0-2])", value):
         raise argparse.ArgumentTypeError(f"{value!r} is not a month like 2026-10")
     return value
 
@@ -148,15 +148,18 @@ def _registration(args: argparse.Namespace, source: SkipjackSource) -> tuple[dic
     county = _county(catalog, args.county)
     party = args.party.upper() if args.party else None
     rows = []
-    for row in source.rows(path):
-        month = row["report_date"][:7]
-        if county and row["county"] != county["name"]:
-            continue
-        if party and row["party"] != party:
-            continue
-        if (args.start and month < args.start) or (args.end and month > args.end):
-            continue
-        rows.append(row)
+    try:
+        for row in source.rows(path):
+            month = row["report_date"][:7]
+            if county and row["county"] != county["name"]:
+                continue
+            if party and row["party"] != party:
+                continue
+            if (args.start and month < args.start) or (args.end and month > args.end):
+                continue
+            rows.append(row)
+    except KeyError as err:
+        raise ClientError(f"{source.url(path)} has no {err} column") from err
     filters = {
         "county": county["name"] if county else None,
         "party": party,
@@ -197,13 +200,22 @@ def _results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, li
         files = [f for f in files if (s := Path(f).stem) == prefix or s.startswith(prefix + "-")]
     if args.party_file:
         files = [f for f in files if Path(f).stem.endswith(f"-{args.party_file}")]
+        if not files:
+            # Party files are single words, so the stem's last hyphenated part names one
+            have = sorted({Path(f).stem.rsplit("-", 1)[-1] for f in election["files"]})
+            where = f" for {county['name']}" if county else ""
+            raise ClientError(
+                f"{code} has no {args.party_file!r} files{where}; party files: {', '.join(have)}"
+            )
     office = args.office.lower() if args.office else None
-    rows = [
-        row
-        for f in files
-        for row in source.rows(f)
-        if office is None or office in (row.get("office") or "").lower()
-    ]
+    rows = []
+    for f in files:
+        try:
+            rows += [
+                row for row in source.rows(f) if office is None or office in row["office"].lower()
+            ]
+        except KeyError as err:
+            raise ClientError(f"{source.url(f)} has no {err} column") from err
     filters = {"county": county["name"] if county else None, "office": args.office,
                "party_file": args.party_file}  # fmt: skip
     meta = {
@@ -244,6 +256,7 @@ def run(args: argparse.Namespace) -> None:
     except BrokenPipeError:
         # The reader went away (e.g. `| head`): that is not a failure, so exit 0, quietly.
         # Pointing stdout at devnull keeps Python's exit-time flush from raising again.
+        # The devnull fd is left open: the process exits on the next line.
         os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
         sys.exit(0)
 
@@ -257,11 +270,15 @@ def _text(args: argparse.Namespace) -> str:
             else:
                 meta, rows = _GET[args.dataset](args, source)
         except (KeyError, IndexError, TypeError) as err:
-            # A catalog missing a key, or a CSV missing a column the handler reads
+            # A catalog missing a key, or a CSV missing a column the handler reads. These
+            # also hide our own bugs, so SKIPJACK_DEBUG lets the traceback through.
+            if os.environ.get("SKIPJACK_DEBUG"):
+                raise
             detail = f"missing {err}" if isinstance(err, KeyError) else f"({err})"
             raise ClientError(
                 f"{source.url('index.json')} is not a catalog this skipjack understands, "
-                f"or one of its files is not as expected: {detail}"
+                f"or one of its files is not as expected: {detail} "
+                "(set SKIPJACK_DEBUG=1 for the traceback)"
             ) from err
     rows = typed(rows)
     meta = {
