@@ -49,8 +49,14 @@ def typed(rows: list[dict]) -> list[dict]:
 def render(meta: dict, rows: list[dict], fmt: str) -> str:
     if fmt == "json":
         return json.dumps({"meta": meta, "rows": rows}, indent=1) + "\n"
+    if fmt != "csv":
+        raise ValueError(f"unknown format {fmt!r}")
     if not rows:
         return ""
+    for row in rows:
+        for column, value in row.items():
+            if isinstance(value, (dict, list)):
+                raise ValueError(f"column {column!r} holds nested values; use json")
     columns = list(dict.fromkeys(k for row in rows for k in row))
     out = io.StringIO()
     writer = csv.DictWriter(out, fieldnames=columns, lineterminator="\n")

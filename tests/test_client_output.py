@@ -2,7 +2,25 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from skipjack.client.output import render, typed
+
+
+def test_a_non_numeric_count_stays_as_is():
+    assert typed([{"value": "n/a"}]) == [{"value": "n/a"}]
+
+
+def test_an_unknown_format_is_refused():
+    with pytest.raises(ValueError, match="unknown format 'xml'"):
+        render({}, [{"a": 1}], "xml")
+
+
+def test_csv_refuses_nested_values_and_names_the_column():
+    with pytest.raises(ValueError, match="'turnout'"):
+        render({}, [{"a": 1, "turnout": {"x": 1}}], "csv")
+    with pytest.raises(ValueError, match="'races'"):
+        render({}, [{"races": [1, 2]}], "csv")
 
 
 def test_count_columns_become_numbers_and_codes_stay_text():
