@@ -173,10 +173,10 @@ filled for contests decided for and against, such as judicial retention, and a p
 By default the data comes from this site's published files, which have been through the checks
 described under "Accuracy". `--source sbe` instead downloads the State Board's own file and
 parses it on the spot, for results and turnout only. It reflects the board's file as of that
-moment, checks row totals but not the statewide cross-check, and fails rather than fall back if
-the board's file is missing or does not parse. `meta` then has `checks`, saying what was
-checked, and `notes` when it skipped a file and why. Results come from the board only once they
-are certified. Turnout needs `--family` and gets only the board's current file, so `--as-of`
+moment and fails rather than fall back if the board's file is missing or does not parse. `meta`
+then has `notes` when it skipped a file and why. Results are checked row by row but not against
+the statewide totals, and their `meta` has `checks` saying so; they come from the board only
+once they are certified. Turnout needs `--family` and gets only the board's current file, so `--as-of`
 does not apply. Turnout reports the board publishes as PDF need the PDF reader:
 `skipjack[pdf]`.
 
