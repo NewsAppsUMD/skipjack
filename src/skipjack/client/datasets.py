@@ -39,7 +39,7 @@ def list_(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[
             for family, geographies in election["families"].items()
             for geography, dates in geographies.items()
         ]  # fmt: skip
-    return meta(f"list {args.what}", source, ["index.json"]), rows
+    return meta(f"list {args.what}", [source.url("index.json")]), rows
 
 
 # ---- get registration ------------------------------------------------------------------------
@@ -48,17 +48,12 @@ def list_(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[
 def registration(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
     """The monthly, activity or summary table. All three have report_date and party; summary
     is statewide (no county column), and activity's party is blank for some measures."""
-    if args.source == "sbe":
-        raise ClientError(
-            "registration is not parsed live: the board's monthly PDFs need OCR and skipjack's "
-            "checked errata. Use --source skipjack"
-        )
     if args.county and args.table == "summary":
         raise ClientError("the summary table is statewide; drop --county")
     catalog = source.catalog()
     tables = catalog["registration"]["tables"]
     path = tables[choice("table", args.table, tables)]
-    county = county_for(catalog, args.county)
+    county = county_for(catalog["counties"], args.county)
     party = args.party.upper() if args.party else None
     # Every table has report_date; the other columns are checked only when filtered on
     needs = ["report_date"] + (["county"] if county else []) + (["party"] if party else [])
@@ -78,7 +73,8 @@ def registration(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict
         "from": args.start,
         "to": args.end,
     }
-    return meta("registration", source, [path], filters, table=args.table, official=True), rows
+    built = meta("registration", [source.url(path)], filters, table=args.table, official=True)
+    return built, rows
 
 
 # ---- get results -----------------------------------------------------------------------------
@@ -87,8 +83,6 @@ def registration(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict
 def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
     """County files are NN-<county-slug>-<party_file>.csv (certified) or NN-<county-slug>.csv
     (the live unofficial count), so the filters pick files by name before any download."""
-    if args.source == "sbe":
-        raise ClientError("--source sbe for results arrives in a later version")
     catalog = source.catalog()
     code = choice("election", args.election.upper(), catalog["results"])
     election = catalog["results"][code]
@@ -97,7 +91,7 @@ def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
             f"{code}'s unofficial count has no party files (it covers every party); "
             "drop --party-file"
         )
-    county = county_for(catalog, args.county)
+    county = county_for(catalog["counties"], args.county)
     files = election["files"]
     if county:
         # The two-digit code keeps 03-baltimore-city apart from 04-baltimore-county
@@ -124,7 +118,7 @@ def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
     filters = {"county": county["name"] if county else None, "office": args.office,
                "party_file": args.party_file}  # fmt: skip
     built = meta(
-        "results", source, files, filters,
+        "results", [source.url(f) for f in files], filters,
         election=code, name=election["name"], election_day=election["election_day"],
         official=election["official"], as_of=election["as_of"],
     )  # fmt: skip
@@ -137,12 +131,10 @@ def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
 def turnout(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
     """Files are turnout/<code>/<family>/<geography>/<date>.csv, one per snapshot; the catalog
     lists each family's dates by geography, oldest first."""
-    if args.source == "sbe":
-        raise ClientError("--source sbe for turnout arrives in a later version")
     catalog = source.catalog()
     code = choice("election", args.election.upper(), catalog["turnout"])
     election = catalog["turnout"][code]
-    county = county_for(catalog, args.county)
+    county = county_for(catalog["counties"], args.county)
     families = election["families"]
     if args.family:
         families = {args.family: families[choice("family", args.family, families)]}
@@ -193,7 +185,7 @@ def turnout(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
     filters = {"family": args.family, "geography": args.geography,
                "county": county["name"] if county else None}  # fmt: skip
     built = meta(
-        "turnout", source, paths, filters,
+        "turnout", [source.url(p) for p in paths], filters,
         election=code, name=election["name"], election_day=election["election_day"],
         official=election["certified"], as_of=as_of,
     )  # fmt: skip
@@ -205,29 +197,50 @@ def turnout(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
 SECTIONS = ("registration", "turnout", "results")
 
 
+def _official(catalog: dict, doc: dict) -> dict[str, bool]:
+    """Per section, whether every row's election is official (results) or certified
+    (turnout) by the catalog; an election the catalog does not list counts as not official.
+    Registration is the board's monthly reports, official as published."""
+
+    def all_official(section: str, dataset: str, flag: str) -> bool:
+        listed = catalog[dataset]
+        return all(bool(listed.get(row.get("election"), {}).get(flag)) for row in doc[section])
+
+    return {
+        "registration": True,
+        "results": all_official("results", "results", "official"),
+        "turnout": all_official("turnout", "turnout", "certified"),
+    }
+
+
 def county_history(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list | dict]:
     """The county document, county/<slug>.json: registration, turnout and results rows plus
-    the nested results_over_time. Without --section the rows are the document itself."""
-    if args.source == "sbe":
-        raise ClientError(
-            "the county history is assembled by skipjack from its checked files. "
-            "Use --source skipjack"
-        )
+    the nested results_over_time. With --section the rows are that section's list; without,
+    meta["document"] is True and the rows are the document itself (run() pops the flag)."""
     if args.format == "csv" and not args.section:
         raise ClientError(
             "the county document is nested; for CSV pick one: "
             "--section registration|turnout|results"
         )
     catalog = source.catalog()
-    county = county_for(catalog, args.name)
+    county = county_for(catalog["counties"], args.name)
     path = catalog["county_history"].format(slug=county["slug"])
+    url = source.url(path)
     try:
         doc = json.loads(source.text(path))
     except json.JSONDecodeError as err:
-        raise ClientError(f"{source.url(path)} is not valid JSON ({err})") from err
+        raise ClientError(f"{url} is not valid JSON ({err})") from err
     if not isinstance(doc, dict):
-        raise ClientError(f"{source.url(path)} is not a county document")
-    built = meta("county", source, [path], county=county["name"], official=True)
+        raise ClientError(f"{url} is not a county document")
+    wanted = [args.section] if args.section else list(SECTIONS)
+    for section in wanted:
+        rows = doc.get(section)
+        if not isinstance(rows, list) or not all(isinstance(r, dict) for r in rows):
+            raise ClientError(f"{url} has no {section} section as a list of rows")
+    official = _official(catalog, doc)
     if args.section:
+        built = meta("county", [url], county=county["name"], official=official[args.section])
         return {**built, "section": args.section}, doc[args.section]
-    return {**built, "sections": {s: len(doc[s]) for s in SECTIONS}}, doc
+    built = meta("county", [url], county=county["name"], official=official)
+    sections = {s: len(doc[s]) for s in SECTIONS}
+    return {**built, "sections": sections, "document": True}, doc

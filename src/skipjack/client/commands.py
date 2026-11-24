@@ -1,7 +1,7 @@
 """skipjack list and skipjack get: the argument parsers, dispatch and output.
 
-Every handler (in datasets.py) returns (meta, rows); run() adds the shared meta fields and
-renders.
+Every handler (in datasets.py, or for --source sbe its _SBE entry) returns (meta, rows); run()
+adds the shared meta fields and renders.
 """
 
 from __future__ import annotations
@@ -37,7 +37,8 @@ def _as_of(value: str) -> str:
     raise argparse.ArgumentTypeError(f"{value!r} is not latest, all or a date like 2026-10-15")
 
 
-def _shared(parser: argparse.ArgumentParser, sbe: bool = False) -> None:
+def _shared(parser: argparse.ArgumentParser, sbe: bool | str = False) -> None:
+    """The options every command shares; ``sbe`` adds --source (a string: its own help)."""
     parser.add_argument("--format", choices=["json", "csv"], default="json")
     parser.add_argument("-o", "--output", type=Path, help="Write to a file instead of stdout")
     parser.add_argument(
@@ -46,11 +47,12 @@ def _shared(parser: argparse.ArgumentParser, sbe: bool = False) -> None:
         help="The skipjack downloads/ root: a URL or a local folder (env: SKIPJACK_URL)",
     )
     if sbe:
+        default_help = "skipjack: the published, checked files. sbe: the State Board's file, now"
         parser.add_argument(
             "--source",
             choices=["skipjack", "sbe"],
             default="skipjack",
-            help="skipjack: the published, checked files. sbe: the State Board's file, now",
+            help=sbe if isinstance(sbe, str) else default_help,
         )
 
 
@@ -94,7 +96,9 @@ def register(sub: argparse._SubParsersAction) -> None:
     cty.add_argument("name", help='A county name or slug, e.g. "Prince George\'s" or st-marys')
     cty.add_argument("--section", choices=list(datasets.SECTIONS),
                      help="One section as rows (required for --format csv)")  # fmt: skip
-    _shared(cty, sbe=True)
+    _shared(
+        cty, sbe="skipjack only: sbe is refused, as skipjack assembles this from its checked files"
+    )
 
 
 # ---- dispatch --------------------------------------------------------------------------------
@@ -132,32 +136,68 @@ def run(args: argparse.Namespace) -> None:
         sys.exit(0)
 
 
-def _text(args: argparse.Namespace) -> str:
-    """The rendered output, or a ClientError. A handler's rows are a list, or (get county
-    without --section) the whole document as a dict."""
+# --source sbe: only results and turnout are parsed live; the rest say why not
+_SBE_REFUSED = {
+    "registration": "registration is not parsed live: the board's monthly PDFs need OCR and "
+    "skipjack's checked errata. Use --source skipjack",
+    "county": "the county history is assembled by skipjack from its checked files. "
+    "Use --source skipjack",
+}
+
+
+def _sbe_later(args: argparse.Namespace) -> tuple[dict, list[dict]]:
+    raise ClientError(f"--source sbe for {args.dataset} arrives in a later version")
+
+
+_SBE = {"results": _sbe_later, "turnout": _sbe_later}
+
+
+def _debug_hint(err: Exception) -> str:
+    detail = f"missing {err}" if isinstance(err, KeyError) else f"({err})"
+    return f"{detail} (set SKIPJACK_DEBUG=1 for the traceback)"
+
+
+def _fetch(args: argparse.Namespace) -> tuple[dict, list | dict]:
+    """The handler's (meta, rows). The broad catch turns a file not shaped as expected into a
+    ClientError; these also hide our own bugs, so SKIPJACK_DEBUG lets the traceback through."""
+    if getattr(args, "source", "skipjack") == "sbe":
+        if args.dataset not in _SBE:
+            raise ClientError(_SBE_REFUSED[args.dataset])
+        try:
+            return _SBE[args.dataset](args)
+        except (KeyError, IndexError, TypeError) as err:
+            if os.environ.get("SKIPJACK_DEBUG"):
+                raise
+            raise ClientError(
+                f"the State Board's file was not as expected: {_debug_hint(err)}"
+            ) from err
     with SkipjackSource(args.base_url) as source:
         try:
             if args.command == "list":
-                meta, rows = datasets.list_(args, source)
-            else:
-                meta, rows = _GET[args.dataset](args, source)
+                return datasets.list_(args, source)
+            return _GET[args.dataset](args, source)
         except (KeyError, IndexError, TypeError) as err:
             # A catalog missing a key, or a file not shaped as expected (CSV columns are
-            # checked up front, so this is mostly the catalog or a county document). These
-            # also hide our own bugs, so SKIPJACK_DEBUG lets the traceback through.
+            # checked up front, so this is mostly the catalog or a county document)
             if os.environ.get("SKIPJACK_DEBUG"):
                 raise
-            detail = f"missing {err}" if isinstance(err, KeyError) else f"({err})"
             raise ClientError(
                 f"{source.url('index.json')} is not a catalog this skipjack understands, "
-                f"or one of its files is not as expected: {detail} "
-                "(set SKIPJACK_DEBUG=1 for the traceback)"
+                f"or one of its files is not as expected: {_debug_hint(err)}"
             ) from err
+
+
+def _text(args: argparse.Namespace) -> str:
+    """The rendered output, or a ClientError. A handler's rows are a list, or, when its meta
+    says ``document`` (get county without --section), a whole JSON document."""
+    meta, rows = _fetch(args)
     source_name = getattr(args, "source", "skipjack")
     retrieved_at = datetime.now(UTC).isoformat(timespec="seconds")
-    if isinstance(rows, dict):  # get county without --section: the document itself, meta first
+    if meta.pop("document", False):  # the document itself, meta first
         stamped = {**meta, "source": source_name, "retrieved_at": retrieved_at}
-        return json.dumps({"meta": stamped, **rows}, indent=1) + "\n"
+        # A document with its own top-level "meta" key would replace ours; ours wins
+        body = {k: v for k, v in rows.items() if k != "meta"}
+        return json.dumps({"meta": stamped, **body}, indent=1) + "\n"
     rows = typed(rows)
     meta = {**meta, "source": source_name, "rows": len(rows), "retrieved_at": retrieved_at}
     try:

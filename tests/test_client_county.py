@@ -69,3 +69,52 @@ def test_county_whole_document_to_a_file(capsys, base, tmp_path):
     assert run(capsys, "get", "county", "Allegany", "--base-url", base, "-o", str(target)) == ""
     doc = json.loads(target.read_text())
     assert doc["meta"]["county"] == "Allegany" and doc["results_over_time"]["levels"] == []
+
+
+def _rewrite(tmp_path, change):
+    path = tmp_path / "downloads" / "county" / "allegany.json"
+    doc = json.loads(path.read_text())
+    change(doc)
+    path.write_text(json.dumps(doc))
+
+
+def test_county_official_is_per_section(capsys, base):
+    out = json.loads(run(capsys, "get", "county", "Allegany", "--base-url", base))
+    # GG22 results are official; the fixture's turnout is GG26, not certified
+    assert out["meta"]["official"] == {"registration": True, "results": True, "turnout": False}
+    out = json.loads(run(capsys, "get", "county", "Allegany", "--section", "turnout",
+                         "--base-url", base))  # fmt: skip
+    assert out["meta"]["official"] is False
+    out = json.loads(run(capsys, "get", "county", "Allegany", "--section", "results",
+                         "--base-url", base))  # fmt: skip
+    assert out["meta"]["official"] is True
+
+
+def test_county_an_election_missing_from_the_catalog_is_not_official(capsys, base, tmp_path):
+    _rewrite(tmp_path, lambda doc: doc["results"].append({**doc["results"][0], "election": "XX99"}))
+    out = json.loads(run(capsys, "get", "county", "Allegany", "--base-url", base))
+    assert out["meta"]["official"]["results"] is False
+
+
+def test_county_a_section_that_is_not_rows_names_the_file(capsys, base, tmp_path):
+    _rewrite(tmp_path, lambda doc: doc.update(turnout={"as_of": "2026-10-15"}))
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "county", "Allegany", "--section", "turnout", "--base-url", base])
+    assert exit_info.value.code == 2
+    err = capsys.readouterr().err
+    assert "county/allegany.json has no turnout section" in err and "index.json" not in err
+
+
+def test_county_a_document_missing_a_section_names_the_file(capsys, base, tmp_path):
+    _rewrite(tmp_path, lambda doc: doc.pop("registration"))
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "county", "Allegany", "--base-url", base])
+    assert exit_info.value.code == 2
+    err = capsys.readouterr().err
+    assert "county/allegany.json has no registration section" in err and "index.json" not in err
+
+
+def test_county_a_document_with_its_own_meta_does_not_replace_ours(capsys, base, tmp_path):
+    _rewrite(tmp_path, lambda doc: doc.update(meta={"dataset": "impostor"}))
+    out = json.loads(run(capsys, "get", "county", "Allegany", "--base-url", base))
+    assert list(out)[0] == "meta" and out["meta"]["dataset"] == "county"

@@ -17,15 +17,17 @@ def county_key(text: str) -> str:
     return re.sub(r"[\s-]+", "-", text)
 
 
-def county_for(catalog: dict, given: str | None) -> dict | None:
-    """The catalog's county for a name or slug, loosely matched; None when not asked for."""
+def county_for(counties: Iterable[dict], given: str | None) -> dict | None:
+    """The county ({"name", "slug", "code"}) for a name or slug, loosely matched; None when
+    not asked for. ``counties`` is the catalog's list, or the pipeline's for the live source."""
     if given is None:
         return None
+    counties = list(counties)
     wanted = county_key(given)
-    for county in catalog["counties"]:
+    for county in counties:
         if wanted in (county_key(county["name"]), county_key(county["slug"])):
             return county
-    names = ", ".join(c["name"] for c in catalog["counties"])
+    names = ", ".join(c["name"] for c in counties)
     raise ClientError(f"unknown county {given!r}; one of: {names}")
 
 
@@ -50,15 +52,14 @@ def read_rows(source: SkipjackSource, path: str, needs: Iterable[str] = ()) -> l
 
 def meta(
     dataset: str,
-    source: SkipjackSource,
-    paths: Iterable[str],
+    source_urls: Iterable[str],
     filters: dict | None = None,
     **extra,
 ) -> dict:
-    """A handler's meta: the dataset, its own fields, the files read and the filters in use
+    """A handler's meta: the dataset, its own fields, the URLs read and the filters in use
     (those given as None dropped). A command that takes no filters passes none and gets no
     filters key."""
-    built = {"dataset": dataset, **extra, "source_urls": [source.url(p) for p in paths]}
+    built = {"dataset": dataset, **extra, "source_urls": list(source_urls)}
     if filters is not None:
         built["filters"] = {k: v for k, v in filters.items() if v is not None}
     return built
