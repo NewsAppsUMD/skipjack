@@ -76,7 +76,7 @@ jobs:
         if: steps.changed.outputs.skip != 'true'
         run: |
           uv run skipjack build-db
-          uv run pytest -q -m "not slow"
+          uv run pytest -q -m "not slow and not live"
 
       - name: Commit the new snapshots
         if: steps.changed.outputs.skip != 'true'

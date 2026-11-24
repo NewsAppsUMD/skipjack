@@ -133,6 +133,60 @@ registered but not yet published by the SBE, so `make results` skips it until it
 `published` in the registry (`pipeline/results.py`) then. Each make target wraps `uv run skipjack <command>`;
 run `uv run skipjack --help` for the options.
 
+## Pulling the data from the command line
+
+`skipjack get` prints any of the published datasets as JSON (the default) or CSV. It needs
+nothing but the package, not a checkout:
+
+```bash
+uvx --from git+https://github.com/NewsAppsUMD/skipjack skipjack get registration --county Howard --from 2024-01
+```
+
+| Command | What it prints |
+|---|---|
+| `skipjack list elections` / `counties` / `turnout GG26` | What there is to ask for |
+| `skipjack get registration [--table monthly\|activity\|summary] [--county] [--party] [--from YYYY-MM] [--to YYYY-MM]` | Registration by month; `monthly` (the default) is active voters by county and party, `summary` is statewide |
+| `skipjack get results --election GG22 [--county] [--office] [--party-file dem\|rep\|non\|all]` | An election's results by county; `--office` keeps offices containing the text |
+| `skipjack get turnout --election GG26 [--family] [--geography] [--as-of latest\|all\|DATE] [--county]` | Turnout reports, by county unless `--geography` says otherwise; `--as-of all` is the day-by-day trend |
+| `skipjack get county "Prince George's" [--section registration\|turnout\|results]` | A county's whole record in one document |
+
+Every command takes `--format csv`, `-o FILE` and `--base-url` (a URL or a local `downloads/`
+folder such as `site/downloads`; also the `SKIPJACK_URL` environment variable). Counties match
+loosely: `"St. Mary's"`, `st-marys` and `"st marys"` are the same county.
+
+JSON output is `{"meta": {...}, "rows": [...]}`. `meta` records where the rows came from
+(`source_urls`), whether the figures are certified (`official`), the filters applied and, for
+results and turnout, the snapshot (`as_of`). For turnout `as_of` is a date per report family,
+or a list of dates with `--as-of all`; for results it is the running count's snapshot, and null
+once the results are certified. CSV output is the rows alone.
+
+`get county` without `--section` prints the county's document itself, with `meta` first and the
+sections after it rather than a `rows` list; its `official` says which sections are certified.
+CSV needs `--section`, which prints that one section as rows.
+
+The columns differ by election. Certified results use party codes (`DEM`) and a `*_votes`
+column for each way of voting; a general election also has an `*_against` column beside each,
+filled for contests decided for and against, such as judicial retention, and a primary does not. The running count of the
+2026 general uses party names (`Democratic`) and `early`, `election_day`, `mail_in`,
+`provisional` and `total`. Turnout rows are long: one `measure` and its `value` per row.
+
+By default the data comes from this site's published files, which have been through the checks
+described under "Accuracy". `--source sbe` instead downloads the State Board's own file and
+parses it on the spot, for results and turnout only. It reflects the board's file as of that
+moment, checks row totals but not the statewide cross-check, and fails rather than fall back if
+the board's file is missing or does not parse. `meta` then has `checks`, saying what was
+checked, and `notes` when it skipped a file and why. Results come from the board only once they
+are certified. Turnout needs `--family` and gets only the board's current file, so `--as-of`
+does not apply. Turnout reports the board publishes as PDF need the PDF reader:
+`skipjack[pdf]`.
+
+A failed command prints a one-line `error:` and exits 2. When a file is not shaped as expected,
+`SKIPJACK_DEBUG=1` shows the traceback instead.
+
+`uv sync --no-dev` in a checkout, or `pip install git+https://github.com/NewsAppsUMD/skipjack`,
+gives the light install: the data commands work, and the pipeline commands say which extra
+they need (`skipjack[pdf]` or `skipjack[web]`).
+
 ## How it works
 
 ```

@@ -55,4 +55,9 @@ line-length = 100
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["slow: runs OCR on a scanned-font report (about 30 seconds)"]
+markers = [
+    "slow: runs OCR on a scanned-font report (about 30 seconds)",
+    "live: reaches the published site and the State Board over the network (run with -m live)",
+]
+# a -m on the command line replaces this one, so the workflows say "not live" themselves
+addopts = "-m 'not live'"
