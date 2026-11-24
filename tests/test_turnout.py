@@ -5683,3 +5683,15 @@ def test_election_night_fetch_dates_the_report_by_its_run():
     )
     as_of, df = turnout.parse_election_night_pdf(ELECTION_NIGHT_ARCHIVE, "GG26")
     assert as_of == "2026-11-08" and df.height == 96
+
+
+def test_extract_as_of_bytes_lets_a_missing_pdf_reader_through(monkeypatch):
+    """No PDF reader installed is a missing extra, not an undated snapshot."""
+
+    def no_reader(path):
+        raise ModuleNotFoundError("No module named 'natural_pdf'", name="natural_pdf")
+
+    monkeypatch.setattr(turnout, "read_requests_pdf", no_reader)
+    with pytest.raises(ModuleNotFoundError) as err:
+        turnout.extract_as_of_bytes(b"%PDF-1.7 ...", "pdf", "GG26", "early-voting", "county")
+    assert err.value.name == "natural_pdf"

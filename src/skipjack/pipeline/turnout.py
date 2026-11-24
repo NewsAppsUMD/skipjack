@@ -3325,6 +3325,8 @@ def extract_as_of_bytes(
             fh.flush()
             try:
                 text = read_requests_pdf(Path(fh.name))
+            except ImportError:  # no PDF reader installed is not an unreadable file
+                raise
             except Exception:  # natural-pdf has no error taxonomy; unreadable reads as unknown
                 return None
             if election is not None and family == "same-day" and geography is not None:
