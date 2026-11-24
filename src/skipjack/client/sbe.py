@@ -122,7 +122,7 @@ def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         )
     county = county_for(_counties(), args.county)
     failures = []
-    for f in _candidates(files):  # the first that parses wins
+    for f in _candidates(files):  # the first that parses wins; the others' reasons are notes
         try:
             data = pt.download(f.url)
         except httpx.HTTPError as err:
@@ -152,6 +152,13 @@ def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         if as_of is None:
             failures.append(f"{f.url} prints no As-of date")
             continue
+        unreconciled = pt.UNRECONCILED_SNAPSHOTS.get((code, family, args.geography, as_of))
+        if unreconciled:
+            # the pipeline leaves this snapshot unparsed; so does the live source
+            failures.append(
+                f"{f.url} skipped: its {as_of} report does not reconcile ({unreconciled})"
+            )
+            continue
         rows = frame.to_dicts()
         if county is not None:
             if rows and not any(r["county"] for r in rows):
@@ -168,5 +175,8 @@ def turnout(args: argparse.Namespace) -> tuple[dict, list[dict]]:
             election=code, name=e.name, election_day=e.election_day,
             official=e.certified, as_of={family: as_of},
         )  # fmt: skip
+        if failures:
+            # a newer re-post or a workbook twin passed over: say why, not silently
+            built["notes"] = failures
         return built, rows
     raise ClientError("; ".join(failures) + f". {_FALLBACK}")

@@ -118,3 +118,19 @@ def test_county_a_document_with_its_own_meta_does_not_replace_ours(capsys, base,
     _rewrite(tmp_path, lambda doc: doc.update(meta={"dataset": "impostor"}))
     out = json.loads(run(capsys, "get", "county", "Allegany", "--base-url", base))
     assert list(out)[0] == "meta" and out["meta"]["dataset"] == "county"
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        lambda doc: doc.update(turnout={"as_of": "x"}),
+        lambda doc: doc.update(turnout=None),
+        lambda doc: doc.pop("turnout"),
+    ],
+    ids=["dict", "none", "missing"],
+)
+def test_county_one_section_ignores_a_malformed_other_section(capsys, base, tmp_path, change):
+    _rewrite(tmp_path, change)
+    out = json.loads(run(capsys, "get", "county", "Allegany", "--section", "results",
+                         "--base-url", base))  # fmt: skip
+    assert out["rows"][0]["total_votes"] == 6796 and out["meta"]["official"] is True

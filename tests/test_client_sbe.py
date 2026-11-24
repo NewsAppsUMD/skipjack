@@ -203,6 +203,60 @@ def test_turnout_live_county_filter(capsys, monkeypatch):
     assert out["meta"]["filters"]["county"] == "St. Mary's"
 
 
+GG22_STATS = ROOT / "archives" / "sbe" / "campaign_stats" / "GG22"
+GG22_OFFICIAL = {
+    "2022-12-08": GG22_STATS / "official-turnout__county__2022-12-08__725250fe1235.xlsx",
+    "2026-04-29": GG22_STATS / "official-turnout__county__2026-04-29__83efd0240441.xlsx",
+}
+
+
+@pytest.mark.skipif(
+    not all(p.exists() for p in GG22_OFFICIAL.values()), reason="GG22 official turnout not archived"
+)
+def test_turnout_live_skips_a_re_post_that_does_not_reconcile(capsys, monkeypatch):
+    files = [
+        f
+        for f in turnout.ELECTIONS["GG22"].files
+        if (f.family, f.geography) == ("official-turnout", "county")
+    ]
+    original, updated = (f.url for f in files)
+    assert "Updated-" in updated and "Updated-" not in original
+    by_url = {original: GG22_OFFICIAL["2022-12-08"], updated: GG22_OFFICIAL["2026-04-29"]}
+    asked = []
+
+    def fake(url, timeout=30.0):
+        asked.append(url)
+        return by_url[url].read_bytes()
+
+    monkeypatch.setattr(turnout, "download", fake)
+    out = run(capsys, "get", "turnout", "--election", "GG22", "--family", "official-turnout",
+              "--source", "sbe")  # fmt: skip
+    assert asked == [updated, original]  # the re-post is tried first
+    meta = out["meta"]
+    assert meta["as_of"] == {"official-turnout": "2022-12-08"}
+    assert meta["source_urls"] == [original] and meta["official"] is True
+    # the re-post fails the reader's own Statewide reconciliation before the
+    # UNRECONCILED_SNAPSHOTS listing is consulted; either way it is a note, not silence
+    assert len(meta["notes"]) == 1 and meta["notes"][0].startswith(updated)
+    assert "Statewide" in meta["notes"][0]
+    assert out["rows"] and {r["as_of"] for r in out["rows"]} == {"2022-12-08"}
+
+
+@pytest.mark.skipif(
+    not all(p.exists() for p in GG22_OFFICIAL.values()), reason="GG22 official turnout not archived"
+)
+def test_turnout_live_refuses_a_snapshot_the_pipeline_leaves_unparsed(capsys, monkeypatch):
+    monkeypatch.setattr(
+        turnout, "download", lambda url, timeout=30.0: GG22_OFFICIAL["2022-12-08"].read_bytes()
+    )
+    key = ("GG22", "official-turnout", "county", "2022-12-08")
+    monkeypatch.setitem(turnout.UNRECONCILED_SNAPSHOTS, key, "a reason on file")
+    err = fails(capsys, "get", "turnout", "--election", "GG22", "--family", "official-turnout",
+                "--source", "sbe")  # fmt: skip
+    assert "skipped: its 2022-12-08 report does not reconcile (a reason on file)" in err
+    assert "--source skipjack" in err
+
+
 def test_turnout_live_needs_a_family_and_serves_only_the_current_file(capsys):
     with pytest.raises(SystemExit):
         main(["get", "turnout", "--election", "GG26", "--source", "sbe"])

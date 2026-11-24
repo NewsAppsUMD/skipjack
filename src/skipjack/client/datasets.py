@@ -197,8 +197,8 @@ def turnout(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
 SECTIONS = ("registration", "turnout", "results")
 
 
-def _official(catalog: dict, doc: dict) -> dict[str, bool]:
-    """Per section, whether every row's election is official (results) or certified
+def _official(catalog: dict, doc: dict, sections: list[str]) -> dict[str, bool]:
+    """For each of ``sections`` (validated already; the others are not read), whether every row's election is official (results) or certified
     (turnout) by the catalog; an election the catalog does not list counts as not official.
     Registration is the board's monthly reports, official as published."""
 
@@ -206,11 +206,12 @@ def _official(catalog: dict, doc: dict) -> dict[str, bool]:
         listed = catalog[dataset]
         return all(bool(listed.get(row.get("election"), {}).get(flag)) for row in doc[section])
 
-    return {
-        "registration": True,
-        "results": all_official("results", "results", "official"),
-        "turnout": all_official("turnout", "turnout", "certified"),
+    flags = {
+        "registration": lambda: True,
+        "results": lambda: all_official("results", "results", "official"),
+        "turnout": lambda: all_official("turnout", "turnout", "certified"),
     }
+    return {section: flags[section]() for section in sections}
 
 
 def county_history(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list | dict]:
@@ -237,7 +238,7 @@ def county_history(args: argparse.Namespace, source: SkipjackSource) -> tuple[di
         rows = doc.get(section)
         if not isinstance(rows, list) or not all(isinstance(r, dict) for r in rows):
             raise ClientError(f"{url} has no {section} section as a list of rows")
-    official = _official(catalog, doc)
+    official = _official(catalog, doc, wanted)
     if args.section:
         built = meta("county", [url], county=county["name"], official=official[args.section])
         return {**built, "section": args.section}, doc[args.section]
