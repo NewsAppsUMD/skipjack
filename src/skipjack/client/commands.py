@@ -7,12 +7,19 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
 from skipjack.client.output import render, typed
 from skipjack.client.sources import DEFAULT_BASE_URL, ClientError, SkipjackSource
+
+
+def _month(value: str) -> str:
+    if not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", value):
+        raise argparse.ArgumentTypeError(f"{value!r} is not a month like 2026-10")
+    return value
 
 
 def _shared(parser: argparse.ArgumentParser, sbe: bool = False) -> None:
@@ -45,21 +52,28 @@ def register(sub: argparse._SubParsersAction) -> None:
     reg.add_argument("--table", choices=["monthly", "activity", "summary"], default="monthly")
     reg.add_argument("--county")
     reg.add_argument("--party", help="A party code, e.g. DEM")
-    reg.add_argument("--from", dest="start", metavar="YYYY-MM")
-    reg.add_argument("--to", dest="end", metavar="YYYY-MM")
+    reg.add_argument("--from", dest="start", metavar="YYYY-MM", type=_month)
+    reg.add_argument("--to", dest="end", metavar="YYYY-MM", type=_month)
     _shared(reg, sbe=True)
 
 
 # ---- helpers ---------------------------------------------------------------------------------
 
 
+def _county_key(text: str) -> str:
+    """Lowercase, no periods or apostrophes, spaces and hyphens as one hyphen: "St Marys",
+    "st. mary's" and "ST-MARYS" all become "st-marys"."""
+    text = re.sub(r"[.'\u2019]", "", text.strip().lower())
+    return re.sub(r"[\s-]+", "-", text)
+
+
 def _county(catalog: dict, given: str | None) -> dict | None:
-    """The catalog's county for a name or slug, case-insensitively; None when not asked for."""
+    """The catalog's county for a name or slug, loosely matched; None when not asked for."""
     if given is None:
         return None
-    wanted = given.strip().lower()
+    wanted = _county_key(given)
     for county in catalog["counties"]:
-        if wanted in (county["name"].lower(), county["slug"]):
+        if wanted in (_county_key(county["name"]), _county_key(county["slug"])):
             return county
     names = ", ".join(c["name"] for c in catalog["counties"])
     raise ClientError(f"unknown county {given!r}; one of: {names}")
@@ -76,6 +90,8 @@ def _choice(kind: str, given: str, choices) -> str:
 
 
 def _list(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
+    if args.election and args.what != "turnout":
+        raise ClientError(f"list {args.what} takes no election code; only `list turnout` takes one")
     catalog = source.catalog()
     if args.what == "counties":
         rows = catalog["counties"]
@@ -156,14 +172,43 @@ _GET = {"registration": _registration}
 
 def run(args: argparse.Namespace) -> None:
     try:
-        with SkipjackSource(args.base_url) as source:
+        text = _text(args)
+    except ClientError as err:
+        print(f"error: {err}", file=sys.stderr)
+        sys.exit(2)
+    if args.output:
+        try:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(text, encoding="utf-8")
+        except OSError as err:
+            print(f"error: could not write {args.output} ({err})", file=sys.stderr)
+            sys.exit(2)
+        return
+    try:
+        sys.stdout.write(text)
+        sys.stdout.flush()
+    except BrokenPipeError:
+        # The reader went away (e.g. `| head`): that is not a failure, so exit 0, quietly.
+        # Pointing stdout at devnull keeps Python's exit-time flush from raising again.
+        os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
+        sys.exit(0)
+
+
+def _text(args: argparse.Namespace) -> str:
+    """The rendered output, or a ClientError."""
+    with SkipjackSource(args.base_url) as source:
+        try:
             if args.command == "list":
                 meta, rows = _list(args, source)
             else:
                 meta, rows = _GET[args.dataset](args, source)
-    except ClientError as err:
-        print(f"error: {err}", file=sys.stderr)
-        sys.exit(2)
+        except (KeyError, IndexError, TypeError) as err:
+            # A catalog missing a key, or a CSV missing a column the handler reads
+            detail = f"missing {err}" if isinstance(err, KeyError) else f"({err})"
+            raise ClientError(
+                f"{source.url('index.json')} is not a catalog this skipjack understands, "
+                f"or one of its files is not as expected: {detail}"
+            ) from err
     rows = typed(rows)
     meta = {
         **meta,
@@ -171,8 +216,7 @@ def run(args: argparse.Namespace) -> None:
         "rows": len(rows),
         "retrieved_at": datetime.now(UTC).isoformat(timespec="seconds"),
     }
-    text = render(meta, rows, args.format)
-    if args.output:
-        args.output.write_text(text, encoding="utf-8")
-    else:
-        sys.stdout.write(text)
+    try:
+        return render(meta, rows, args.format)
+    except ValueError as err:
+        raise ClientError(str(err)) from err
