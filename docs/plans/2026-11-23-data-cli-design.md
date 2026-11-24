@@ -34,8 +34,8 @@ Shared by every `get`:
 - `--format json|csv` (default `json`)
 - `--source skipjack|sbe` (default `skipjack`)
 - `-o FILE` (default stdout)
-- `--base-url` or `SKIPJACK_URL`: another deployment
-- `--data-dir`: read a local checkout instead of the network
+- `--base-url` or `SKIPJACK_URL`: another deployment's `downloads/` URL, or a local
+  `downloads/` folder (such as `site/downloads`) to read without the network
 
 ## Output
 
