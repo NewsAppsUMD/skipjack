@@ -22,6 +22,18 @@ def _month(value: str) -> str:
     return value
 
 
+def _as_of(value: str) -> str:
+    if value in ("latest", "all"):
+        return value
+    if re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", value):
+        try:
+            datetime.strptime(value, "%Y-%m-%d")
+            return value
+        except ValueError:
+            pass
+    raise argparse.ArgumentTypeError(f"{value!r} is not latest, all or a date like 2026-10-15")
+
+
 def _shared(parser: argparse.ArgumentParser, sbe: bool = False) -> None:
     parser.add_argument("--format", choices=["json", "csv"], default="json")
     parser.add_argument("-o", "--output", type=Path, help="Write to a file instead of stdout")
@@ -63,6 +75,14 @@ def register(sub: argparse._SubParsersAction) -> None:
     res.add_argument("--party-file", choices=["dem", "rep", "non", "all"],
                      help="A primary's party file")  # fmt: skip
     _shared(res, sbe=True)
+
+    tur = get_sub.add_parser("turnout", help="An election's turnout reports")
+    tur.add_argument("--election", required=True, help="An election code, e.g. GG26")
+    tur.add_argument("--family", help="One report family (see: skipjack list turnout CODE)")
+    tur.add_argument("--geography", default="county")
+    tur.add_argument("--as-of", default="latest", metavar="latest|all|YYYY-MM-DD", type=_as_of)
+    tur.add_argument("--county")
+    _shared(tur, sbe=True)
 
 
 # ---- helpers ---------------------------------------------------------------------------------
@@ -231,9 +251,85 @@ def _results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, li
     return meta, rows
 
 
+# ---- get turnout -----------------------------------------------------------------------------
+
+
+def _turnout(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
+    """Files are turnout/<code>/<family>/<geography>/<date>.csv, one per snapshot; the catalog
+    lists each family's dates by geography, oldest first."""
+    if args.source == "sbe":
+        raise ClientError("--source sbe for turnout arrives in a later version")
+    catalog = source.catalog()
+    code = _choice("election", args.election.upper(), catalog["turnout"])
+    election = catalog["turnout"][code]
+    county = _county(catalog, args.county)
+    families = election["families"]
+    if args.family:
+        families = {args.family: families[_choice("family", args.family, families)]}
+    families = {f: g[args.geography] for f, g in families.items() if args.geography in g}
+    if not families:
+        available = sorted({g for geos in election["families"].values() for g in geos})
+        raise ClientError(
+            f"no {args.geography!r} reports for {code}"
+            + (f" {args.family}" if args.family else "")
+            + f"; geographies: {', '.join(available)}"
+        )
+    picked, as_of = {}, {}
+    for family, dates in families.items():
+        if args.as_of == "latest":
+            chosen = dates[-1:]
+        elif args.as_of == "all":
+            chosen = dates
+        elif args.as_of in dates:
+            chosen = [args.as_of]
+        elif args.family:
+            raise ClientError(f"no {family} snapshot dated {args.as_of}; dates: {', '.join(dates)}")
+        else:
+            chosen = []  # a date across every family: keep the families that have it
+        if chosen:
+            as_of[family] = chosen if args.as_of == "all" else chosen[-1]
+            picked[family] = [f"turnout/{code}/{family}/{args.geography}/{d}.csv" for d in chosen]
+    if not picked:
+        raise ClientError(f"no {code} snapshot dated {args.as_of} at {args.geography}")
+    rows = []
+    for family, paths in picked.items():
+        named = False  # whether any of this family's rows names a county
+        for path in paths:
+            try:
+                for row in source.rows(path):
+                    if county is None:
+                        rows.append(row)
+                        continue
+                    named = named or bool(row["county"])
+                    if row["county"] == county["name"]:
+                        rows.append(row)
+            except KeyError as err:
+                raise ClientError(f"{source.url(path)} has no {err} column") from err
+        if county and not named:
+            # e.g. sent-returned by legislative district: statewide districts, no county
+            raise ClientError(
+                f"{code} {family} {args.geography} reports have no county column values; drop --county"
+                + ("" if args.family else " or pick a --family")
+            )
+    paths = [p for family_paths in picked.values() for p in family_paths]
+    filters = {"family": args.family, "geography": args.geography,
+               "county": county["name"] if county else None}  # fmt: skip
+    meta = {
+        "dataset": "turnout",
+        "election": code,
+        "name": election["name"],
+        "election_day": election["election_day"],
+        "official": election["certified"],
+        "as_of": as_of,
+        "source_urls": [source.url(p) for p in paths],
+        "filters": {k: v for k, v in filters.items() if v is not None},
+    }
+    return meta, rows
+
+
 # ---- dispatch --------------------------------------------------------------------------------
 
-_GET = {"registration": _registration, "results": _results}
+_GET = {"registration": _registration, "results": _results, "turnout": _turnout}
 
 
 def run(args: argparse.Namespace) -> None:
