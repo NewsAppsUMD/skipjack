@@ -1,0 +1,26 @@
+{
+  "source_id": "sbe-turnout-gg26-election-night-county-20261118-530e7541e46e",
+  "source_url": "https://elections.maryland.gov/press_room/2026_stats/GG26/2026-general_election_night_unofficial_turnout.pdf",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG26 election-night (county) as of 2026-11-18",
+  "fetch_date": "2026-11-18T22:17:39+00:00",
+  "parse_date": "2026-11-18T22:24:13+00:00",
+  "sha256_original": "530e7541e46ed20a9fbe1f2e05dd9601b566329d1cc00f06abece0be7d3dad11",
+  "parser_version": "skipjack 0.2.0",
+  "election": "GG26",
+  "family": "election-night",
+  "geography": "county",
+  "notes": "GG26 election-night (county) snapshot, reconciled against its printed totals.",
+  "extraction_method": "pdf text",
+  "checks": {
+    "rows": 96,
+    "as_of": "2026-11-18",
+    "canvasses": [
+      "ev",
+      "en",
+      "mib1",
+      "mib2",
+      "prov"
+    ]
+  }
+}
