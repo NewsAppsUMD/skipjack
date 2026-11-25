@@ -130,6 +130,10 @@ OUTPUT_ID_COLUMNS = [
     "winner",
     "write_in",
 ]
+PRECINCT_ID_COLUMNS = [
+    "election", "county", "party_file", "precinct", "congressional", "legislative", "office",
+    "district", "candidate", "party", "winner", "write_in",
+]  # fmt: skip
 
 # Statewide rows whose figure the SBE's own files disagree on: (election code, office, district,
 # candidate, party) -> (what the county files sum to, what the state file's County 00 row says),
@@ -190,6 +194,12 @@ class ResultsElection:
         if self.year <= 2018:
             return [("Election Night", "election_night")]
         return list(self.vote_types)
+
+    @property
+    def precinct_total(self) -> bool:
+        """Whether the precinct files print Total Votes (only the 2020 general's do); elsewhere
+        the precinct total is the sum of the vote types."""
+        return self.layout == "named" and self.year == 2020
 
     @property
     def question_check(self) -> bool:
@@ -516,23 +526,75 @@ def _read_named(data: bytes, election: ResultsElection, county: str, party_file:
 READERS = {"coded": _read_coded, "named": _read_named}
 
 
+def read_precinct(data: bytes, election: ResultsElection, county: str, party_file: str) -> ReadFile:
+    """One county's precinct file (a row per precinct and candidate) as the wide output frame,
+    with precinct, congressional and legislative after party_file. Read like the county files of
+    its layout; the total is checked where the file prints one and summed where it does not."""
+    return _read_wide(
+        data, election, county, party_file, blank_is_zero=election.layout == "named",
+        level="precinct",
+    )  # fmt: skip
+
+
+def _precinct_id_columns(election: ResultsElection) -> list[str]:
+    """The columns that place a precinct row."""
+    if election.layout == "coded":
+        return ["County", "Election District - Precinct", "Congressional", "Legislative"]
+    raise ResultsParseError(f"{election.code}: no precinct reader for the named layout yet")
+
+
+def _precinct_id(r: dict, where: str) -> str:
+    """The precinct as DDD-PPP, from either layout's columns."""
+    if "Election District - Precinct" in r:
+        value = r["Election District - Precinct"]
+    else:
+        value = f"{r['Election District']}-{r['Election Precinct']}"
+    district, _, precinct = value.partition("-")
+    if not all(p.isascii() and p.isdigit() for p in (district, precinct)):
+        raise ResultsParseError(f"{where}: precinct {value!r} is not district-precinct")
+    return f"{int(district):03d}-{int(precinct):03d}"
+
+
 def _read_wide(
-    data: bytes, election: ResultsElection, county: str, party_file: str, blank_is_zero: bool
+    data: bytes,
+    election: ResultsElection,
+    county: str,
+    party_file: str,
+    blank_is_zero: bool,
+    level: str = "county",
 ) -> ReadFile:
-    where = f"{election.code} {county} {party_file}"
+    """One results file of either layout, read by column name, as the wide output frame.
+
+    level "county" reads a county file, whose printed Total Votes must be the sum of the vote
+    types. level "precinct" reads a precinct file: its id columns (the county code, checked
+    against `county`, and the precinct as DDD-PPP, congressional and legislative district), the
+    election's precinct vote types, and a Total Votes that is checked where the file prints one
+    (election.precinct_total) and otherwise the sum of the vote types (total_against likewise:
+    the sum of the Against cells, None where the row has none).
+    """
+    precinct = level == "precinct"
+    where = f"{election.code} {county} {party_file}" + (" precincts" if precinct else "")
     raw = _frame(data, where)
     against = election.kind == "general"
-    need = ["Office Name", "Office District", "Candidate Name", "Party", "Winner", "Total Votes"]
-    for label, _ in election.vote_types:
+    code = next((c for c, n in COUNTY_CODES.items() if n == county), "00")
+    vote_types = election.precinct_vote_types if precinct else election.vote_types
+    printed = not precinct or election.precinct_total
+    need = ["Office Name", "Office District", "Candidate Name", "Party", "Winner"]
+    if precinct:
+        need = _precinct_id_columns(election) + need
+    if printed:
+        need.append("Total Votes")
+    for label, _ in vote_types:
         need.append(f"{label} Votes")
         if against:
             need.append(f"{label} Votes Against")
     if against:
-        need += ["Write-In?", "Total Votes Against"]
+        need.append("Write-In?")
+        if printed:
+            need.append("Total Votes Against")
     missing = [c for c in need if c not in raw.columns]
     if missing:
-        code = next((c for c, n in COUNTY_CODES.items() if n == county), "00")
-        expected = ResultsFile(election, code, county, party_file, "county").file_name
+        expected = ResultsFile(election, code, county, party_file, level).file_name
         raise ResultsParseError(
             f"{where}: expected {election.code} {election.layout} layout columns in {expected}; "
             f"missing {missing}"
@@ -553,14 +615,22 @@ def _read_wide(
         raise ResultsParseError(f"{where}: no data rows (header only)")
 
     rows = []
-    allowed_total_mismatches = ROW_TOTAL_EXCEPTIONS.get((election.code, county, party_file), 0)
+    allowed_total_mismatches = (
+        0 if precinct else ROW_TOTAL_EXCEPTIONS.get((election.code, county, party_file), 0)
+    )
     row_total_exceptions: list[dict] = []
     for r in raw.iter_rows(named=True):
         who = f"{where}: {r['Office Name']} / {r['Candidate Name']}"
-        out = {
-            "election": election.code,
-            "county": county,
-            "party_file": party_file,
+        out = {"election": election.code, "county": county, "party_file": party_file}
+        if precinct:
+            if r["County"] != code:
+                raise ResultsParseError(
+                    f"{who}: County {r['County']!r} is not {county}'s code {code}"
+                )
+            out["precinct"] = _precinct_id(r, who)
+            out["congressional"] = r["Congressional"] if "Congressional" in r else r["Cong"]
+            out["legislative"] = r["Legislative"] if "Legislative" in r else r["Legs"]
+        out |= {
             "office": r["Office Name"],
             "district": r["Office District"],
             "candidate": r["Candidate Name"],
@@ -569,7 +639,7 @@ def _read_wide(
             "write_in": 1 if against and r["Write-In?"].upper() == "Y" else 0,
         }
         votes_sum, against_sum, against_seen = 0, 0, False
-        for label, stem in election.vote_types:
+        for label, stem in vote_types:
             v = _int(r[f"{label} Votes"], who, f"{label} Votes")
             if v is None and blank_is_zero:
                 v = 0
@@ -583,12 +653,15 @@ def _read_wide(
                 if a is not None:
                     against_sum += a
                     against_seen = True
-        total = _int(r["Total Votes"], who, "Total Votes")
-        if total is None and blank_is_zero:
-            total = 0
+        if printed:
+            total = _int(r["Total Votes"], who, "Total Votes")
+            if total is None and blank_is_zero:
+                total = 0
+            if total is None:
+                raise ResultsParseError(f"{who}: blank Total Votes")
+        else:
+            total = votes_sum
         out["total_votes"] = total
-        if total is None:
-            raise ResultsParseError(f"{who}: blank Total Votes")
         if total != votes_sum:
             if len(row_total_exceptions) >= allowed_total_mismatches:
                 raise ResultsParseError(
@@ -609,11 +682,13 @@ def _read_wide(
                     "sum_of_vote_types": votes_sum,
                 }
             )
-        if against:
+        if against and not printed:
+            out["total_against"] = against_sum if against_seen else None
+        elif against:
             total_against = _int(r["Total Votes Against"], who, "Total Votes Against")
             if blank_is_zero and total_against is None and against_seen and against_sum == 0:
                 # a lone 0 in one Against cell with no total: no Against figures on this row
-                for _, stem in election.vote_types:
+                for _, stem in vote_types:
                     out[f"{stem}_against"] = None
                 against_seen = False
             out["total_against"] = total_against
@@ -629,10 +704,11 @@ def _read_wide(
             f"types, but {allowed_total_mismatches} are listed for this file"
         )
 
-    schema = {c: pl.Utf8 for c in OUTPUT_ID_COLUMNS[:7]}
+    ids = PRECINCT_ID_COLUMNS if precinct else OUTPUT_ID_COLUMNS
+    schema = {c: pl.Utf8 for c in ids if c not in ("winner", "write_in")}
     schema |= {"winner": pl.Int64, "write_in": pl.Int64}
     cols = []
-    for _, stem in election.vote_types:
+    for _, stem in vote_types:
         cols.append(f"{stem}_votes")
         if against:
             cols.append(f"{stem}_against")

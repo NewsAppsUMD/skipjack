@@ -11,6 +11,7 @@ from skipjack.pipeline import fetch, results
 
 # Not tests.<module>: another project's `tests` package on PYTHONPATH can shadow ours.
 from conftest import fake_client
+from test_results import BOM, GENERAL_HEAD
 
 PG24 = results.RESULTS_ELECTIONS["PG24"]
 ARCHIVE = "https://elections.maryland.gov/elections/archive"
@@ -135,3 +136,92 @@ def test_cli_results_fetch_passes_the_level(monkeypatch):
     monkeypatch.setattr(results, "results_fetch", fake_fetch)
     cli.main(["results-fetch", "--election", "PG24", "--level", "precinct"])
     assert seen["level"] == "precinct" and seen["election"] == "PG24"
+
+
+# ---- the coded-layout precinct reader --------------------------------------------------------
+
+PRECINCT_GENERAL_HEAD = (
+    '"County","County Name","Election District - Precinct","Congressional","Legislative",'
+    '"Office Name","Office District","Candidate Name","Party","Winner","Write-In?",'
+    '"Early Votes","Early Votes Against","Election Night Votes","Election Night Votes Against",'
+    '"Mail-In Ballot 1 Votes","Mail-In Ballot 1 Votes Against","Provisional Votes",'
+    '"Provisional Votes Against","Mail-In Ballot 2 Votes","Mail-In Ballot 2 Votes Against" \n'
+)
+# Two precincts of one contest, as PG24's files print them (CC becomes the county's code).
+# Harris 70+149+23+22+124 = 388 and 30+51+7+8+16 = 112; Trump 99+390+12+38+51 = 590 and
+# 1+10+0+2+9 = 22: the county rows below are the sums.
+PRECINCT_ROWS = (
+    '"CC","Kent County","001-001","01","36","President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","70","","149","","23","","22","","124","" \n'
+    '"CC","Kent County","001-001","01","36","President - Vice Pres","","Donald J. Trump and JD Vance","REP","","","99","","390","","12","","38","","51","" \n'
+    '"CC","Kent County","001-002","01","36","President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","30","","51","","7","","8","","16","" \n'
+    '"CC","Kent County","001-002","01","36","President - Vice Pres","","Donald J. Trump and JD Vance","REP","","","1","","10","","0","","2","","9","" \n'
+)
+COUNTY_ROWS = (
+    '"President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","100","","200","","30","","30","","140","","500","" \n'
+    '"President - Vice Pres","","Donald J. Trump and JD Vance","REP","","","100","","400","","12","","40","","60","","612","" \n'
+)
+PRECINCT_COLUMNS = [
+    "election", "county", "party_file", "precinct", "congressional", "legislative", "office",
+    "district", "candidate", "party", "winner", "write_in",
+]  # fmt: skip
+
+
+def precinct_csv(code: str = "15", rows: str = PRECINCT_ROWS) -> bytes:
+    return (BOM + PRECINCT_GENERAL_HEAD + rows.replace('"CC"', f'"{code}"')).encode()
+
+
+def county_csv(rows: str = COUNTY_ROWS) -> bytes:
+    return (BOM + GENERAL_HEAD + rows).encode()
+
+
+def test_read_precinct_coded_general_computes_the_totals():
+    read = results.read_precinct(precinct_csv(), PG24, "Kent", "all")
+    frame = read.frame
+    assert frame.columns[:12] == PRECINCT_COLUMNS
+    assert frame.columns[-2:] == ["total_votes", "total_against"]
+    assert frame["precinct"].to_list() == ["001-001", "001-001", "001-002", "001-002"]
+    assert frame["congressional"][0] == "01" and frame["legislative"][0] == "36"
+    assert frame["county"].unique().to_list() == ["Kent"]
+    assert frame["total_votes"].to_list() == [388, 590, 112, 22]
+    assert frame["total_against"].to_list() == [None, None, None, None]
+    assert frame["winner"].to_list() == [1, 0, 1, 0]
+    assert read.row_total_exceptions == []
+
+
+def test_read_precinct_sums_the_against_votes_of_a_retention_question():
+    row = (
+        '"15","Kent County","001-001","01","36","Judge","","Jane Roe","","","",'
+        '"3","1","3","2","3","1","0","0","1","0" \n'
+    )
+    frame = results.read_precinct((PRECINCT_GENERAL_HEAD + row).encode(), PG24, "Kent", "all").frame
+    assert frame["total_votes"].to_list() == [10] and frame["total_against"].to_list() == [4]
+
+
+def test_read_precinct_coded_primary():
+    head = (
+        '"County","County Name","Election District - Precinct","Congressional","Legislative",'
+        '"Office Name","Office District","Candidate Name","Party","Winner","Early Votes",'
+        '"Election Night Votes","Mail-In Ballot 1 Votes","Provisional Votes",'
+        '"Mail-In Ballot 2 Votes" \n'
+    )
+    row = '"15","Kent County","1-12","01","36","President - Vice Pres","","Joe Biden","DEM","Y","11","18","16","6","3" \n'
+    e = results.RESULTS_ELECTIONS["PP24"]
+    frame = results.read_precinct((head + row).encode(), e, "Kent", "dem").frame
+    assert frame["precinct"].to_list() == ["001-012"]  # normalized to DDD-PPP
+    assert frame["total_votes"].to_list() == [54]
+    assert "total_against" not in frame.columns and frame["write_in"].to_list() == [0]
+
+
+def test_read_precinct_refuses_another_countys_rows_and_a_bad_precinct():
+    with pytest.raises(results.ResultsParseError, match="not Kent's code 15"):
+        results.read_precinct(precinct_csv("16"), PG24, "Kent", "all")
+    bad = PRECINCT_ROWS.replace('"001-002"', '"Absentee"')
+    with pytest.raises(results.ResultsParseError, match="'Absentee' is not district-precinct"):
+        results.read_precinct(precinct_csv("15", bad), PG24, "Kent", "all")
+
+
+def test_read_precinct_names_the_precinct_file_when_columns_are_missing():
+    head = PRECINCT_GENERAL_HEAD.replace('"Legislative",', "")
+    rows = PRECINCT_ROWS.replace('"36",', "")
+    with pytest.raises(results.ResultsParseError, match="PG24_15PrecinctsResults.csv.*Legislative"):
+        results.read_precinct((head + rows.replace('"CC"', '"15"')).encode(), PG24, "Kent", "all")
