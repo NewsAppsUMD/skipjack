@@ -141,6 +141,27 @@ def test_precinct_results_for_a_county(capsys, base):
     assert out["rows"][0]["total_votes"] == 4000 and out["rows"][0]["congressional"] == "06"
     assert out["meta"]["filters"] == {"county": "Allegany", "geography": "precinct"}
     assert out["meta"]["source_urls"][0].endswith("01-allegany-all.csv.gz")
+    assert "notes" not in out["meta"]  # 2022: every vote type
+
+
+def test_precinct_results_before_2020_say_they_are_election_night_votes(capsys, base, tmp_path):
+    # the catalog gives the election day; an election through 2018 gets the note
+    index = tmp_path / "downloads" / "index.json"
+    catalog = json.loads(index.read_text())
+    catalog["results"]["GG22"]["election_day"] = "2018-11-06"
+    index.write_text(json.dumps(catalog))
+    out = json.loads(
+        run(capsys, "get", "results", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "Allegany")
+    )  # fmt: skip
+    assert out["meta"]["notes"] == [
+        "the board's precinct files for 2010-2018 carry election-night votes only, so "
+        "total_votes is election-night votes"
+    ]
+    county = json.loads(
+        run(capsys, "get", "results", "--election", "GG22", "--base-url", base)
+    )  # the county files carry every vote type
+    assert "notes" not in county["meta"]
 
 
 def test_one_precinct_matches_loosely(capsys, base):

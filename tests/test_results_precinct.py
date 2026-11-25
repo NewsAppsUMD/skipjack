@@ -612,6 +612,21 @@ def test_read_precinct_pg20_checks_its_printed_total():
         results.read_precinct((PG20_HEAD + row.replace('"324"', '"325"')).encode(), PG20, "Kent", "all")  # fmt: skip
 
 
+def test_read_precinct_pg20_follows_the_row_rule_not_the_contest_rule():
+    # PG20's precinct files print Total Votes Against, so the county reader's row rule applies:
+    # a lone 0 with a blank total is no Against figure. A contest whose Against cells are 0 in
+    # every precinct under a printed 0 total keeps its zeros (the 2010-2018 contest rule would
+    # make them None)
+    rows = (
+        '"15","001","001","01","36","Joe Biden","DEM","President - Vice Pres","","Y","","1","","2","0","3","","4","","5","","15",""\n'
+        '"15","001","001","01","36","Jane Roe","","Judge Court of Appeals","","Y","","1","0","1","0","1","0","1","0","1","0","5","0"\n'
+        '"15","001","002","01","36","Jane Roe","","Judge Court of Appeals","","Y","","2","0","2","0","2","0","2","0","2","0","10","0"\n'
+    )  # fmt: skip
+    frame = results.read_precinct((PG20_HEAD + rows).encode(), PG20, "Kent", "all").frame
+    assert frame["election_day_against"].to_list() == [None, 0, 0]
+    assert frame["total_against"].to_list() == [None, 0, 0]
+
+
 def test_named_precinct_check_compares_election_night_only():
     assert results._precinct_check_columns(GG18) == ["election_night_votes", "election_night_against"]  # fmt: skip
     assert results._precinct_check_columns(GP18) == ["election_night_votes"]

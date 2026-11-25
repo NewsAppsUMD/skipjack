@@ -461,6 +461,7 @@ def test_results_live_precincts_for_a_county(capsys, monkeypatch):
     assert out["rows"][0]["total_votes"] == 388
     assert "precinct-to-county check not run" in out["meta"]["checks"]
     assert out["meta"]["filters"] == {"county": "Kent", "geography": "precinct"}
+    assert "notes" not in out["meta"]  # 2020 on, every vote type
 
 
 def test_results_live_one_precinct(capsys, monkeypatch):
@@ -522,7 +523,9 @@ def test_results_live_named_layout_precincts(capsys, monkeypatch):
     ]  # fmt: skip
     assert out["rows"][0]["election_night_votes"] == 17 and out["rows"][0]["total_votes"] == 17
     assert out["meta"]["notes"] == [
-        "Kent_By_Precinct_NonPartisan_2018_Primary.csv not posted (no non-partisan contests)"
+        "Kent_By_Precinct_NonPartisan_2018_Primary.csv not posted (no non-partisan contests)",
+        "the board's precinct files for 2010-2018 carry election-night votes only, so "
+        "total_votes is election-night votes",
     ]
 
 

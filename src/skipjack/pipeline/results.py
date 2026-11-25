@@ -745,7 +745,12 @@ def _drop_lone_zero_against(rows: list[dict], vote_types: list[tuple[str, str]])
     (a lone 0 in an Against cell with a blank total is no Against figure) is applied by contest:
     a contest whose Against cells are blank or 0 in every precinct has no Against figures, None
     throughout, as its county row reads. A contest with Against votes somewhere (a retention
-    judge) keeps a precinct's 0, which is a count there."""
+    judge) keeps a precinct's 0, which is a count there.
+
+    In theory a retention contest whose election-night Against is 0 or blank in every precinct,
+    while absentee Against votes exist, would read 0 at the county and None here; the precinct
+    check counts None as 0, so it would still pass. No county file 2010-2018 has such a contest.
+    """
     stems = [f"{stem}_against" for _, stem in vote_types]
     counted = {(r["office"], r["district"]) for r in rows if any(r[c] for c in stems)}
     for r in rows:

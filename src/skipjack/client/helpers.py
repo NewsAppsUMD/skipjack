@@ -51,6 +51,13 @@ def precinct_id(given: str) -> str:
     return f"{int(m.group(1)):03d}-{int(m.group(2)):03d}"
 
 
+# A precinct pull of an election through 2018 says what its figures are
+ELECTION_NIGHT_ONLY = (
+    "the board's precinct files for 2010-2018 carry election-night votes only, so total_votes "
+    "is election-night votes"
+)
+
+
 def precinct_args(args) -> tuple[str, str | None]:
     """(geography, precinct) from get results' --geography and --precinct, the precinct as
     DDD-PPP; --precinct without --geography precinct, or without --county, is refused."""

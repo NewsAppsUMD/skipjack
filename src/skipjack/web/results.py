@@ -520,7 +520,6 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
         grouped.setdefault((r["party_file"], r["office"], r["district"]), []).append(r)
     # the contests with precinct rows: both tables hold the district as the loader normalizes
     # it ("01" -> "1"), so the keys match
-    # (only for a published election: the precinct page points at its published files)
     try:
         with_precincts = (
             {
@@ -531,6 +530,7 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
                     (code, county),
                 )
             }
+            # only for a published election: the precinct page points at its published files
             if results_published(code)
             else set()
         )

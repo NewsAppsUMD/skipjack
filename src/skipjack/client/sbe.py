@@ -13,7 +13,7 @@ import argparse
 import tempfile
 from pathlib import Path
 
-from skipjack.client.helpers import choice, county_for, meta, precinct_args
+from skipjack.client.helpers import ELECTION_NIGHT_ONLY, choice, county_for, meta, precinct_args
 from skipjack.client.sources import ClientError
 
 _FALLBACK = "Use --source skipjack for the published copy"
@@ -95,6 +95,8 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         checks += f" ({exceptions} rows keep the board's own printed total, as published)"
     if geography == "precinct":
         checks += "; precinct-to-county check not run (skipjack results-parse runs it)"
+        if not e.precinct_every_vote_type:
+            notes.append(ELECTION_NIGHT_ONLY)
     else:
         checks += "; statewide cross-check not run (it needs every county's file)"
     filters = {"county": county["name"] if county else None, "office": args.office,

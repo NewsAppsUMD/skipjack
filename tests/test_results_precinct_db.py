@@ -131,6 +131,20 @@ def test_load_precinct_rows_and_votes(conn, tmp_path):
     assert conn.execute("SELECT COUNT(*) FROM sources").fetchone() == (1,)
 
 
+def test_load_a_2010_precinct_file_with_blank_districts(conn, tmp_path):
+    # the board's 2010 precinct files carry no Cong/Legs: the parser writes them blank, and the
+    # NOT NULL columns take "" rather than a null
+    rows = [["001-001", "", "", "Governor / Lt. Governor", "", "Martin O'Malley", "DEM", 1, 0, 195, "", 195, ""]]  # fmt: skip
+    write_precinct(tmp_path, "GG10", "15", "Kent", "all", rows)
+    assert load_results_precinct(conn, tmp_path) == 1
+    row = conn.execute(
+        "SELECT election, precinct, congressional, legislative, total_votes FROM results_precinct"
+    ).fetchone()
+    assert row == ("GG10", "001-001", "", "", 195)
+    votes = conn.execute("SELECT vote_type, votes FROM results_precinct_votes").fetchall()
+    assert votes == [("election_night", 195)]
+
+
 def test_load_precinct_refuses_a_total_that_is_not_the_sum(conn, tmp_path):
     bad = [[*GG18_ROWS[0][:11], 421, ""]]
     write_precinct(tmp_path, "GG18", "15", "Kent", "all", bad)
