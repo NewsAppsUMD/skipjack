@@ -205,6 +205,48 @@ CREATE INDEX IF NOT EXISTS idx_results_precinct_office
 CREATE INDEX IF NOT EXISTS idx_results_precinct_votes_result
     ON results_precinct_votes (result_id);
 
+-- A ballot question's certified result in one county (geography 'county', precinct and the
+-- district columns NULL) or one precinct (geography 'precinct'; congressional and legislative ''
+-- in 2010). question is the board's number with a numeric one's leading zeros dropped ('01' and
+-- '1' are both '1'; a county's own questions are lettered, 'A', and Garrett's 'A 002 000' stays
+-- as printed); how_it_runs is as printed ('State', 'County', 'Ed'). total_votes is For,
+-- total_against Against, total_third the third choice where the files print one (2016-2020,
+-- NULL elsewhere and where blank). Through 2018 the precinct rows are election-night votes only,
+-- so there total_third is the election-night third choice. winner is the board's flag as
+-- printed (whether it marks the statewide or the county outcome is not documented).
+CREATE TABLE IF NOT EXISTS results_questions (
+    id INTEGER PRIMARY KEY,
+    source_id TEXT REFERENCES sources(source_id),
+    election TEXT NOT NULL,
+    geography TEXT NOT NULL,
+    county TEXT NOT NULL,
+    precinct TEXT,
+    congressional TEXT,
+    legislative TEXT,
+    question TEXT NOT NULL,
+    how_it_runs TEXT NOT NULL,
+    winner INTEGER NOT NULL,
+    total_votes INTEGER NOT NULL,
+    total_against INTEGER NOT NULL,
+    total_third INTEGER
+);
+
+-- A results_questions row's votes by vote type: For, Against and the third choice (NULL where
+-- not printed).
+CREATE TABLE IF NOT EXISTS results_question_votes (
+    question_id INTEGER NOT NULL REFERENCES results_questions(id),
+    vote_type TEXT NOT NULL,
+    votes INTEGER NOT NULL,
+    votes_against INTEGER NOT NULL,
+    votes_third INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_results_questions_county
+    ON results_questions (election, county, geography);
+CREATE INDEX IF NOT EXISTS idx_results_questions_question
+    ON results_questions (election, question);
+CREATE INDEX IF NOT EXISTS idx_results_question_votes_question
+    ON results_question_votes (question_id);
+
 -- The board's unofficial running count while an election is canvassed (GG26): one row per
 -- candidate, judge's Yes/No or question choice per table on a county page, per snapshot (the
 -- board's Last refreshed time, e.g. 2026-11-04T160222). Kept apart from results_county, which

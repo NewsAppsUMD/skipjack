@@ -19,6 +19,7 @@ from skipjack.pipeline.results import (
     RESULTS_ELECTIONS,
     ROW_TOTAL_EXCEPTIONS,
     county_slug,
+    question_third,
 )
 
 logger = logging.getLogger(__name__)
@@ -445,7 +446,12 @@ def _check_results_file(
 
 def _check_county_source(path: Path, prov: dict) -> None:
     """A precinct file loads only beside the county file revision it was checked against: its
-    sidecar's checks.county_source must name the county CSV's own source_id and sha256."""
+    sidecar's checks.county_source must name the county CSV's own source_id and sha256.
+
+    Shared by the candidates (results/<CODE>/precinct/<stem>.csv.gz beside
+    results/<CODE>/county/<stem>.csv) and the ballot questions (results/<CODE>/questions/
+    precinct/ beside questions/county/): in both the county CSV is the sibling county/ folder's
+    file of the same name, plain."""
     county_csv = path.parent.parent / "county" / (path.name.removesuffix(".gz"))
     recorded = (prov.get("checks") or {}).get("county_source") or {}
     county_prov = load_provenance(county_csv) if county_csv.exists() else None
@@ -587,6 +593,148 @@ def load_results_precinct(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -
         )
         total += len(precinct_rows)
     logger.info("Loaded precinct results: %d rows", total)
+    return total
+
+
+_QUESTION_SIDES = ("votes", "against", "third")
+
+
+def _check_question_file(
+    df: pl.DataFrame, prov: dict, path: Path, code: str, geography: str
+) -> None:
+    """A question CSV must agree with its sidecar, its directory and its file name
+    (<cc>-<slug>.csv or .csv.gz)."""
+    elections = df["election"].unique().to_list()
+    if elections != [prov.get("election", "")] or elections != [code]:
+        raise ResultsLoadError(
+            f"{path}: election column holds {elections} but the sidecar says "
+            f"{prov.get('election', '')!r} and the directory says {code!r}"
+        )
+    if (prov.get("family"), prov.get("geography")) != ("questions", geography):
+        raise ResultsLoadError(
+            f"{path}: the sidecar says family {prov.get('family')!r}, geography "
+            f"{prov.get('geography')!r}; expected 'questions', {geography!r}"
+        )
+    number, _, slug = path.name.removesuffix(".gz").removesuffix(".csv").partition("-")
+    county = COUNTY_CODES.get(number)
+    if county is None or slug != county_slug(county):
+        raise ResultsLoadError(f"{path}: file name does not match a registry county")
+    counties = df["county"].unique().to_list()
+    if counties != [county]:
+        raise ResultsLoadError(f"{path}: county column holds {counties} but the file is {county!r}")
+    role = "question" if geography == "county" else "question-precinct"
+    expected = f"sbe-results-{code}-{role}-{number}"
+    if prov.get("source_id") != expected:
+        raise ResultsLoadError(
+            f"{path}: sidecar source_id {prov.get('source_id')!r} does not match the file name "
+            f"(expected {expected!r})"
+        )
+    rows = (prov.get("checks") or {}).get("rows")
+    if rows is not None and rows != df.height:
+        raise ResultsLoadError(f"{path}: {df.height} data rows but the sidecar's checks say {rows}")
+
+
+def load_results_questions(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
+    """Load every data/results/<CODE>/questions/county/*.csv and questions/precinct/*.csv.gz,
+    melting the vote types into results_question_votes. Each row's totals must be the sums of
+    its vote types (For, Against and, where the files print one, the third choice: a total_third
+    with no third-choice cell printed must be blank or 0). A precinct file loads only beside the
+    county question file revision it was checked against (_check_county_source). Returns the
+    number of results_questions rows loaded."""
+    root = data_dir / "results"
+    if not root.exists():
+        return 0
+    next_id = conn.execute("SELECT COALESCE(MAX(id), 0) FROM results_questions").fetchone()[0] + 1
+    total = 0
+    paths = sorted(root.glob("*/questions/county/*.csv"))
+    paths += sorted(root.glob("*/questions/precinct/*.csv.gz"))
+    for path in paths:
+        geography = path.parent.name
+        precinct = geography == "precinct"
+        prov = load_provenance(path)
+        if not prov:
+            raise ResultsLoadError(
+                f"{path}: no provenance sidecar; refusing to load an unattributable file"
+            )
+        code = path.parents[2].name
+        election = RESULTS_ELECTIONS.get(code)
+        if election is None:
+            raise ResultsLoadError(f"{path}: unknown election code {code!r}")
+        types = election.precinct_vote_types if precinct else election.vote_types
+        stems = [stem for _, stem in types]
+        sides = _QUESTION_SIDES if question_third(election) else _QUESTION_SIDES[:2]
+        text = ["election", "county", "question", "how_it_runs"]
+        text += ["precinct", "congressional", "legislative"] if precinct else []
+        overrides = {c: pl.String for c in text} | {"winner": pl.Int64}
+        overrides |= {f"{stem}_{side}": pl.Int64 for stem in stems for side in sides}
+        overrides |= {f"total_{side}": pl.Int64 for side in sides}
+        try:
+            # a blank text cell (written "" by the parser) reads as "", not null
+            df = pl.read_csv(path, schema_overrides=overrides, missing_utf8_is_empty_string=True)
+        except PolarsError as e:
+            raise ResultsLoadError(f"{path}: {e}") from e
+        missing = [c for c in overrides if c not in df.columns]
+        if missing:
+            raise ResultsLoadError(f"{path}: missing columns {missing} for {code}")
+        if df.height == 0:
+            raise ResultsLoadError(f"{path}: no rows")
+        _check_question_file(df, prov, path, code, geography)
+        if precinct:
+            _check_county_source(path, prov)
+            _check_precinct_ids(df, path)
+        _upsert_source(conn, prov)
+        question_rows, vote_rows = [], []
+        for row in df.with_row_index("_line", offset=2).iter_rows(named=True):
+            where = f"{path}: row {row['_line']}, question {row['question']}"
+            if row["winner"] is None:
+                raise ResultsLoadError(f"{where}: blank winner")
+            sums: dict[str, int | None] = {"votes": 0, "against": 0, "third": None}
+            for stem in stems:
+                for side in sides:
+                    n = row[f"{stem}_{side}"]
+                    if n is None and side != "third":
+                        raise ResultsLoadError(f"{where}: blank {stem}_{side}")
+                    if n is not None:
+                        sums[side] = (sums[side] or 0) + n
+                vote_rows.append(
+                    (next_id, stem, row[f"{stem}_votes"], row[f"{stem}_against"],
+                     row.get(f"{stem}_third"))
+                )  # fmt: skip
+            for side in sides:
+                printed = row[f"total_{side}"]
+                if side == "third":  # a 0 over blank cells agrees, as in the reader
+                    agrees = (printed or 0) == (sums[side] or 0) and (
+                        printed is not None or sums[side] is None
+                    )
+                else:
+                    agrees = printed == sums[side]
+                if not agrees:
+                    raise ResultsLoadError(
+                        f"{where}: total {side} {printed} != sum of vote types {sums[side]}"
+                    )
+            question_rows.append(
+                (
+                    next_id, prov["source_id"], code, geography, row["county"],
+                    row.get("precinct"), row.get("congressional"), row.get("legislative"),
+                    _normalize_district(row["question"]), row["how_it_runs"], row["winner"],
+                    row["total_votes"], row["total_against"], row.get("total_third"),
+                )
+            )  # fmt: skip
+            next_id += 1
+        conn.executemany(
+            """INSERT INTO results_questions
+               (id, source_id, election, geography, county, precinct, congressional, legislative,
+                question, how_it_runs, winner, total_votes, total_against, total_third)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            question_rows,
+        )
+        conn.executemany(
+            "INSERT INTO results_question_votes (question_id, vote_type, votes, votes_against, "
+            "votes_third) VALUES (?, ?, ?, ?, ?)",
+            vote_rows,
+        )
+        total += len(question_rows)
+    logger.info("Loaded ballot questions: %d rows", total)
     return total
 
 
@@ -755,6 +903,7 @@ def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     counts["turnout"] = load_turnout(conn, data_dir)
     counts["results"] = load_results(conn, data_dir)
     counts["results_precinct"] = load_results_precinct(conn, data_dir)
+    counts["results_questions"] = load_results_questions(conn, data_dir)
     counts["results_unofficial"] = load_results_unofficial(conn, data_dir)
     counts["officials"] = load_officials(conn, data_dir)
     conn.commit()
