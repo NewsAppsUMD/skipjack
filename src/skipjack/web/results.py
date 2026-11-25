@@ -603,13 +603,18 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
 
 # How it Runs? as the board prints it: "State" is statewide; a county's own questions say
 # "County", and Montgomery's GG22 question B "Ed". Anything not listed is tagged as printed.
-QUESTION_KINDS = {"State": None, "County": "county question"}
+# How it Runs? as the board prints it -> the tag on a question's card. "Ed" is an election
+# district's own question: GG22 Montgomery question B, the General Assembly's referendum on a
+# Class B alcoholic beverages license for Damascus (the 12th election district), on the ballot
+# only in district 012's precincts.
+QUESTION_KINDS = {"State": None, "County": "county question", "Ed": "election district question"}
 QUESTION_CHOICES = (("votes", "For"), ("against", "Against"), ("third", "Third choice"))
 
 
 def question_kind(how_it_runs: str) -> str | None:
     """The tag on a certified question's card: none for a statewide question, "county
-    question" for a county's own, and the board's word otherwise ("local question (Ed)")."""
+    question" for a county's own, "election district question" for one district's (the board's
+    "Ed"), and the board's word for any other ("local question (X)")."""
     if how_it_runs in QUESTION_KINDS:
         return QUESTION_KINDS[how_it_runs]
     return f"local question ({how_it_runs})"

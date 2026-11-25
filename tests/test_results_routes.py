@@ -933,7 +933,7 @@ def test_county_question_data_by_vote_type_and_local_questions_after(db, data):
     add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
     page = results.county_page(db, "PG24", "allegany")
     assert [(q["question"], q["kind"]) for q in page["questions"]] == [
-        ("1", None), ("A", "county question"), ("B", "local question (Ed)"),
+        ("1", None), ("A", "county question"), ("B", "election district question"),
     ]  # fmt: skip
     q = page["questions"][0]
     assert [(c["label"], c["total"], c["votes"]["early"], c["votes"]["election_night"]) for c in q["choices"]] == [  # fmt: skip
@@ -948,7 +948,10 @@ def test_county_page_tags_local_questions_by_how_they_run(client, db):
     add_question(db, "PG24", "Allegany", "county", "B", 2, 2, how_it_runs="Ed")
     html = client.get("/results/pg24/county/allegany/").text
     assert '<span class="tag">county question</span>' in _article(html, "question-a")
-    assert '<span class="tag">local question (Ed)</span>' in _article(html, "question-b")
+    assert '<span class="tag">election district question</span>' in _article(html, "question-b")
+    add_question(db, "PG24", "Allegany", "county", "C", 1, 1, how_it_runs="Town")
+    html = client.get("/results/pg24/county/allegany/").text
+    assert '<span class="tag">local question (Town)</span>' in _article(html, "question-c")
 
 
 def test_a_third_choice_gets_its_own_column(client, db):
