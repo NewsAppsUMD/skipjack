@@ -110,9 +110,15 @@
 <h2 id="questions">Ballot questions</h2>
 {% for q in questions %}
 <article class="contest-card" id="{{ q.anchor }}">
+    {% if unofficial %}
     <h3>{% if q.slug %}<a href="{{ base }}/results/{{ election.slug }}/{{ q.slug }}/">{{ q.title }}</a>{% else %}{{ q.title }} <span class="tag">county question</span>{% endif %}</h3>
     {{ u.question_detail(q) }}
     {{ u.question_table(q, q.title ~ " in " ~ county, vote_types, compact=true) }}
+    {% else %}
+    <h3>{{ q.title }}{% if q.kind %} <span class="tag">{{ q.kind }}</span>{% endif %}</h3>
+    {{ r.question_table(q, q.title ~ " in " ~ county, vote_types, compact=true) }}
+    {% if q.by_precinct %}<p class="note"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/precincts/#{{ q.anchor }}">By precinct</a></p>{% endif %}
+    {% endif %}
 </article>
 {% endfor %}
 </section>

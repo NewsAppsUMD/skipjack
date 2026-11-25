@@ -8,6 +8,7 @@ import sys
 
 from skipjack.client.helpers import (
     ELECTION_NIGHT_ONLY,
+    ELECTION_NIGHT_ONLY_QUESTIONS,
     choice,
     election_night_only,
     county_for,
@@ -166,6 +167,49 @@ def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
     year = (election.get("election_day") or "")[:4]
     if geography == "precinct" and election_night_only(year):
         built["notes"] = [ELECTION_NIGHT_ONLY]
+    return built, rows
+
+
+# ---- get questions ---------------------------------------------------------------------------
+
+
+def questions(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
+    """Certified ballot questions: the catalog's question_files, questions/county/
+    NN-<county-slug>.csv or, with --geography precinct, questions/precinct/NN-<county-slug>
+    .csv.gz, passed through as written (the third choice's *_third and total_third where the
+    files carry them). Generals only; the live unofficial count has none."""
+    catalog = source.catalog()
+    code = choice("election", args.election.upper(), catalog["results"])
+    election = catalog["results"][code]
+    geography, precinct = precinct_args(args)
+    files = (election.get("question_files") or {}).get(geography) or []
+    if not files:
+        raise ClientError(f"{code} has no ballot-question files on this site")
+    county = county_for(catalog["counties"], args.county)
+    if county:
+        files = [f for f in files if file_stem(f) == f"{county['code']}-{county['slug']}"]
+        if not files:
+            raise ClientError(
+                f"{code} has no ballot-question files for {county['name']} on this site"
+            )
+    rows = []
+    for f in files:
+        rows += [
+            row
+            for row in read_rows(source, f, ["precinct"] if precinct else [])
+            if precinct is None or row["precinct"] == precinct
+        ]
+    filters = {"county": county["name"] if county else None,
+               "geography": geography if geography != "county" else None,
+               "precinct": precinct}  # fmt: skip
+    built = meta(
+        "questions", [source.url(f) for f in files], filters,
+        election=code, name=election["name"], election_day=election["election_day"],
+        official=election["official"],
+    )  # fmt: skip
+    year = (election.get("election_day") or "")[:4]
+    if geography == "precinct" and election_night_only(year):
+        built["notes"] = [ELECTION_NIGHT_ONLY_QUESTIONS]
     return built, rows
 
 

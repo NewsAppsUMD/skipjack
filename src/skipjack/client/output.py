@@ -22,7 +22,8 @@ _COUNT_COLUMNS = {
     "precincts_total",
     "vote_for",
 }
-_COUNT_SUFFIXES = ("_votes", "_against")
+# a ballot question's third choice (2016-2020) is *_third
+_COUNT_SUFFIXES = ("_votes", "_against", "_third")
 
 
 def _is_count(column: str) -> bool:

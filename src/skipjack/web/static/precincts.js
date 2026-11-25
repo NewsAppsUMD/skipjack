@@ -1,4 +1,5 @@
-// The precinct page: draw the picked contest's table from the county's published precinct file.
+// The precinct page: draw the picked contest's or ballot question's table from the county's
+// published precinct file (a question's from the county's question precinct file).
 // The files are gzipped CSV; a server may already have undone the compression (Content-Encoding:
 // gzip), so the bytes are decompressed only when they still start with the gzip magic number.
 // The figures are never copied into the page: the file is the one source.
@@ -60,13 +61,17 @@ function load(file) {
 
 // The CSV prints the board's district ("01"); the database, and so the picker, holds it as the
 // loader normalizes it (skipjack.pipeline.build_db._normalize_district): an all-digit district
-// drops its leading zeros, anything else ("1A", "") stays.
+// drops its leading zeros, anything else ("1A", "") stays. A question number is written the
+// same way by the reader (skipjack.pipeline.results.question_number: "01" is "1", Garrett's
+// "A 002 000" stays), so the same normalizing compares either.
 const district = (d) => (/^[0-9]+$/.test(d) ? String(parseInt(d, 10)) : d);
 // A ballot line is a name under a party: one candidate on two party lines is two columns.
 const line = (name, party) => `${name}\u0000${party ?? ""}`;
 const num = (s) => (s === undefined || s === "" ? null : Number(s));
 const add = (a, b) => (a == null ? b : b === null ? a : a + b);
 const fmt = (n) => (n === null ? "—" : n.toLocaleString("en-US"));
+// a share as the county page prints it: one decimal and a percent sign
+const pct = (part, whole) => (whole ? `${((100 * part) / whole).toFixed(1)}%` : "—");
 
 // kind: "num" for a number column, "row" for a row's precinct heading
 function cell(tag, value, kind) {
@@ -113,13 +118,39 @@ function contestTable(c, rows) {
   return { head, body };
 }
 
+// A ballot question: a row per precinct with For, Against, the third choice (only for a
+// question that has one) and For's share of them, as the county page's question table counts
+// shares. Rows are picked by number and How it Runs?, as the picker gives them.
+function questionTable(c, rows) {
+  const mine = rows.filter(
+    (r) => district(r.question) === district(c.question) && r.how_it_runs === c.how_it_runs,
+  );
+  const sides = ["total_votes", "total_against"].concat(c.has_third ? ["total_third"] : []);
+  const byPrecinct = new Map();
+  for (const r of mine) {
+    // a precinct printed twice is added, never overwritten
+    const p = byPrecinct.get(r.precinct) ?? { r, cells: sides.map(() => null) };
+    sides.forEach((side, i) => (p.cells[i] = add(p.cells[i], num(r[side]))));
+    byPrecinct.set(r.precinct, p);
+  }
+  const head = ["For", "Against"].concat(c.has_third ? ["Third choice"] : []);
+  const body = [...byPrecinct.values()]
+    .sort((a, b) => a.r.precinct.localeCompare(b.r.precinct))
+    .map((p) => ({
+      precinct: p.r.precinct, cong: p.r.congressional, legs: p.r.legislative, cells: p.cells,
+    }));
+  return { head, body, share: "For share" };
+}
+
 // "001-012" sorts as 1012 when a heading is clicked (sortable.js reads data-sort)
 const precinctOrder = (p) => {
   const m = /^(\d+)-(\d+)$/.exec(p);
   return m ? String(Number(m[1]) * 1000 + Number(m[2])) : "";
 };
 
-function draw(c, { head, body }) {
+// share: a last column (its heading) holding the first column's share of the counted columns,
+// in each row and in the totals
+function draw(c, { head, body, share }) {
   const withDistricts = body.some((b) => b.cong || b.legs);
   const caption = document.createElement("caption");
   caption.className = "sr-only";
@@ -129,7 +160,9 @@ function draw(c, { head, body }) {
   tr.append(cell("th", "Precinct"));
   if (withDistricts) tr.append(cell("th", "Congressional district"), cell("th", "Legislative district"));
   for (const h of head) tr.append(cell("th", h, "num"));
+  if (share) tr.append(cell("th", share, "num"));
   thead.append(tr);
+  const shareOf = (cells) => pct(cells[0] ?? 0, cells.reduce((s, n) => s + (n || 0), 0));
   const tbody = document.createElement("tbody");
   const sums = head.map(() => null);
   for (const b of body) {
@@ -142,6 +175,7 @@ function draw(c, { head, body }) {
       row.append(cell("td", fmt(n), "num"));
       if (n !== null) sums[i] = (sums[i] || 0) + n;
     });
+    if (share) row.append(cell("td", shareOf(b.cells), "num"));
     tbody.append(row);
   }
   // the column sums: the county page's totals (election-day votes through 2018)
@@ -150,6 +184,7 @@ function draw(c, { head, body }) {
   total.append(cell("th", "Total", "row"));
   if (withDistricts) total.append(cell("td", ""), cell("td", ""));
   for (const n of sums) total.append(cell("td", fmt(n), "num"));
+  if (share) total.append(cell("td", shareOf(sums), "num"));
   tfoot.append(total);
   table.replaceChildren(caption, thead, tbody, tfoot);
   table.hidden = false;
@@ -170,7 +205,7 @@ async function show(anchor) {
   try {
     const rows = await load(c.file);
     if (select.value !== c.anchor) return; // another contest was picked while this one loaded
-    draw(c, contestTable(c, rows));
+    draw(c, c.kind === "question" ? questionTable(c, rows) : contestTable(c, rows));
   } catch (err) {
     if (select.value !== c.anchor) return; // a stale failure must not hide another table
     table.hidden = true;

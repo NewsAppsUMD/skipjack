@@ -585,15 +585,118 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
         for pf in PARTY_FILE_ORDER
         if pf in by_party
     ]
+    questions = _county_questions(conn, code, county, used)  # anchored after the contests
     return {
         "election": _election_record(code),
         "county": county,
         "slug": county_slug,
         "vote_types": vote_types,
         "groups": groups,
-        "source_ids": sorted({r["source_id"] for r in rows}),
-        "by_precinct": any(c["by_precinct"] for g in groups for c in g["contests"]),
+        "questions": questions,
+        "source_ids": sorted(
+            {r["source_id"] for r in rows} | {q["source_id"] for q in questions if q["source_id"]}
+        ),
+        "by_precinct": any(c["by_precinct"] for g in groups for c in g["contests"])
+        or any(q["by_precinct"] for q in questions),
     }
+
+
+# How it Runs? as the board prints it: "State" is statewide; a county's own questions say
+# "County", and Montgomery's GG22 question B "Ed". Anything not listed is tagged as printed.
+QUESTION_KINDS = {"State": None, "County": "county question"}
+QUESTION_CHOICES = (("votes", "For"), ("against", "Against"), ("third", "Third choice"))
+
+
+def question_kind(how_it_runs: str) -> str | None:
+    """The tag on a certified question's card: none for a statewide question, "county
+    question" for a county's own, and the board's word otherwise ("local question (Ed)")."""
+    if how_it_runs in QUESTION_KINDS:
+        return QUESTION_KINDS[how_it_runs]
+    return f"local question ({how_it_runs})"
+
+
+def _county_questions(
+    conn: sqlite3.Connection, code: str, county: str, used: set[str]
+) -> list[dict]:
+    """The county's certified ballot questions, statewide first, then in the board's order:
+    For, Against and (only where the files print one) the third choice, each by vote type
+    with its share of the choices' votes, and whether it has precinct rows in a published
+    election. Anchors are "question-<slugified number>" (Garrett's "A 002 000" is
+    question-a-002-000), kept apart from the contests' anchors in ``used``. A database built
+    before the question tables has none."""
+    stems = [s for _, s in RESULTS_ELECTIONS[code].vote_types]
+    try:
+        rows = conn.execute(
+            """SELECT id, source_id, question, how_it_runs, total_votes, total_against,
+                      total_third
+               FROM results_questions
+               WHERE election = ? AND county = ? AND geography = 'county'
+               ORDER BY how_it_runs <> 'State', id""",
+            (code, county),
+        ).fetchall()
+    except sqlite3.OperationalError as err:
+        if "no such table" not in str(err):
+            raise
+        return []
+    if not rows:
+        return []
+    votes: dict[int, dict[str, tuple]] = {}
+    for qid, vote_type, n, against, third in conn.execute(
+        """SELECT v.question_id, v.vote_type, v.votes, v.votes_against, v.votes_third
+           FROM results_question_votes v JOIN results_questions q ON q.id = v.question_id
+           WHERE q.election = ? AND q.county = ? AND q.geography = 'county'""",
+        (code, county),
+    ):
+        votes.setdefault(qid, {})[vote_type] = {"votes": n, "against": against, "third": third}
+    with_precincts = (
+        {
+            tuple(r)
+            for r in conn.execute(
+                "SELECT DISTINCT question, how_it_runs FROM results_questions "
+                "WHERE election = ? AND county = ? AND geography = 'precinct'",
+                (code, county),
+            )
+        }
+        if results_published(code)
+        else set()
+    )
+    out = []
+    for qid, source_id, number, runs, for_votes, against, third in rows:
+        mine = votes.get(qid, {})
+        has_third = third is not None or any(v["third"] is not None for v in mine.values())
+        totals = {"votes": for_votes, "against": against, "third": third or 0}
+        sides = [s for s in QUESTION_CHOICES if has_third or s[0] != "third"]
+        cast = sum(totals[side] for side, _ in sides)
+        anchor = base = f"question-{slugify(number)}"
+        n = 1
+        while anchor in used:
+            n += 1
+            anchor = f"{base}-{n}"
+        used.add(anchor)
+        out.append(
+            {
+                "question": number,
+                "how_it_runs": runs,
+                "title": f"Question {number}",
+                "anchor": anchor,
+                "statewide": runs == "State",
+                "kind": question_kind(runs),
+                "has_third": has_third,
+                "choices": [
+                    {
+                        "label": label,
+                        "total": totals[side],
+                        # a vote type the file has no row for is None ("—"), never 0
+                        "votes": {s: mine[s][side] if s in mine else None for s in stems},
+                        "share": 100 * totals[side] / cast if cast else None,
+                    }
+                    for side, label in sides
+                ],
+                "by_precinct": (number, runs) in with_precincts,
+                "source_id": source_id,
+            }
+        )
+    return out
 
 
 _CODE_FOR_COUNTY = {name: code for code, name in COUNTY_CODES.items()}
@@ -608,12 +711,21 @@ def precinct_file(code: str, county: str, party_file: str) -> str:
     )
 
 
+def question_precinct_file(code: str, county: str) -> str:
+    """A county's published ballot-question precinct file, relative to downloads/."""
+    return (
+        f"results/{code}/questions/precinct/{_CODE_FOR_COUNTY[county]}-{file_slug(county)}.csv.gz"
+    )
+
+
 def precinct_picker(conn: sqlite3.Connection, code: str, county_slug: str) -> dict | None:
     """One county's contests that have precinct rows, for the precinct page's picker: each
     with its anchor on the county page, its published file, the office and district that
     pick its rows out of that file, and its ballot lines (name and party) in the county page's
-    order. The figures stay in the files; the page's script reads them. None for an unknown
-    county or one with no precinct rows.
+    order; then its ballot questions with precinct rows (kind "question": the number and How it
+    Runs? that pick its rows out of the county's question precinct file, and whether it has a
+    third choice). The figures stay in the files; the page's script reads them. None for an
+    unknown county or one with no precinct rows.
 
     The district is the database's, normalized as the loader does ("01" -> "1"); the CSV
     prints the board's own ("01"), so the script normalizes the CSV's the same way before it
@@ -639,6 +751,22 @@ def precinct_picker(conn: sqlite3.Connection, code: str, county_slug: str) -> di
         ]
         if contests:
             groups.append({"label": g["label"], "contests": contests})
+    # the questions, from the county's question precinct file (one per county)
+    questions = [
+        {
+            "kind": "question",
+            "anchor": q["anchor"],
+            "title": q["title"],
+            "question": q["question"],
+            "how_it_runs": q["how_it_runs"],
+            "has_third": q["has_third"],
+            "file": question_precinct_file(code, page["county"]),
+        }
+        for q in page["questions"]
+        if q["by_precinct"]
+    ]
+    if questions:
+        groups.append({"label": "Ballot questions", "contests": questions})
     contests = [c for g in groups for c in g["contests"]]
     return {
         "election": page["election"],

@@ -298,3 +298,104 @@ def test_election_night_only_follows_the_registry():
         if e.precincts:
             assert election_night_only(e.year) == (not e.precinct_every_vote_type), e.code
     assert election_night_only("") is False and election_night_only(None) is False
+
+
+# ---- get questions ---------------------------------------------------------------------------
+
+
+def test_questions_by_county(capsys, base):
+    out = json.loads(run(capsys, "get", "questions", "--election", "gg22", "--base-url", base))
+    assert out["rows"] == [
+        {"election": "GG22", "county": "Allegany", "question": "1", "how_it_runs": "State",
+         "winner": 1, "early_votes": 3000, "early_against": 1000, "total_votes": 3000,
+         "total_against": 1000}
+    ]  # fmt: skip
+    meta = out["meta"]
+    assert meta["dataset"] == "questions" and meta["election"] == "GG22"
+    assert meta["source_urls"][0].endswith("questions/county/01-allegany.csv")
+    assert "notes" not in meta
+
+
+def test_questions_by_precinct(capsys, base):
+    out = json.loads(
+        run(capsys, "get", "questions", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "allegany")
+    )  # fmt: skip
+    assert [r["precinct"] for r in out["rows"]] == ["001-001", "001-002"]
+    assert out["meta"]["filters"] == {"county": "Allegany", "geography": "precinct"}
+    assert out["meta"]["source_urls"][0].endswith("questions/precinct/01-allegany.csv.gz")
+    assert "notes" not in out["meta"]  # 2022: every vote type
+    out = json.loads(
+        run(capsys, "get", "questions", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "allegany", "--precinct", "1-2")
+    )  # fmt: skip
+    assert [r["precinct"] for r in out["rows"]] == ["001-002"]
+
+
+def test_questions_pass_the_third_choice_through(capsys, base, tmp_path):
+    path = tmp_path / "downloads" / "results" / "GG22" / "questions" / "county" / "01-allegany.csv"
+    path.write_text(
+        "election,county,question,how_it_runs,winner,early_votes,early_against,early_third,"
+        "total_votes,total_against,total_third\n"
+        "GG22,Allegany,A,County,1,20,50,30,20,50,30\n"
+        "GG22,Allegany,1,State,1,7,3,,7,3,\n"
+    )
+    rows = json.loads(run(capsys, "get", "questions", "--election", "GG22", "--base-url", base))["rows"]  # fmt: skip
+    assert (rows[0]["early_third"], rows[0]["total_third"]) == (30, 30)
+    assert rows[1]["total_third"] is None
+    csv_out = run(capsys, "get", "questions", "--election", "GG22", "--base-url", base, "--format", "csv")  # fmt: skip
+    assert csv_out.splitlines()[0].endswith("total_votes,total_against,total_third")
+
+
+def test_precinct_questions_before_2020_say_they_are_election_night_votes(capsys, base, tmp_path):
+    index = tmp_path / "downloads" / "index.json"
+    catalog = json.loads(index.read_text())
+    catalog["results"]["GG22"]["election_day"] = "2018-11-06"
+    index.write_text(json.dumps(catalog))
+    out = json.loads(
+        run(capsys, "get", "questions", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "allegany")
+    )  # fmt: skip
+    [note] = out["meta"]["notes"]
+    assert "election-night votes only" in note and "total_third" in note
+    county = json.loads(run(capsys, "get", "questions", "--election", "GG22", "--base-url", base))
+    assert "notes" not in county["meta"]
+
+
+def test_questions_for_an_election_without_them(capsys, base, tmp_path):
+    index = tmp_path / "downloads" / "index.json"
+    catalog = json.loads(index.read_text())
+    catalog["results"]["GG22"]["question_files"] = {"county": [], "precinct": []}
+    index.write_text(json.dumps(catalog))
+    with pytest.raises(SystemExit):
+        main(["get", "questions", "--election", "GG22", "--base-url", base])
+    assert "GG22 has no ballot-question files on this site" in capsys.readouterr().err
+    del catalog["results"]["GG22"]["question_files"]  # a catalog from before the questions
+    index.write_text(json.dumps(catalog))
+    with pytest.raises(SystemExit):
+        main(["get", "questions", "--election", "GG22", "--base-url", base])
+    assert "GG22 has no ballot-question files on this site" in capsys.readouterr().err
+
+
+def test_questions_for_a_county_without_them(capsys, base):
+    with pytest.raises(SystemExit):
+        main(["get", "questions", "--election", "GG22", "--base-url", base, "--county", "howard"])
+    assert "GG22 has no ballot-question files for Howard on this site" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize(
+    ("extra", "message"),
+    [
+        (["--precinct", "1-1", "--county", "allegany"], "--precinct needs --geography precinct"),
+        (["--geography", "precinct", "--precinct", "1-1"], "--precinct needs --county"),
+    ],
+)
+def test_question_precinct_needs_its_geography_and_county(capsys, base, extra, message):
+    with pytest.raises(SystemExit):
+        main(["get", "questions", "--election", "GG22", "--base-url", base, *extra])
+    assert message in capsys.readouterr().err
+
+
+def test_questions_are_not_parsed_live(capsys, base):
+    with pytest.raises(SystemExit):  # argparse: questions take no --source
+        main(["get", "questions", "--election", "GG22", "--base-url", base, "--source", "sbe"])

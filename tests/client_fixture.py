@@ -36,6 +36,20 @@ ALLEGANY_PRECINCTS = PRECINCT_HEADER + (
     'GG22,Allegany,all,001-002,06,01,Governor / Lt. Governor,"",Wes Moore and Aruna Miller,DEM,1,0,283,,2796,\n'
 )  # fmt: skip
 
+QUESTIONS_HEADER = (
+    "election,county,question,how_it_runs,winner,early_votes,early_against,total_votes,"
+    "total_against\n"
+)
+QUESTION_PRECINCT_HEADER = (
+    "election,county,precinct,congressional,legislative,question,how_it_runs,winner,"
+    "early_votes,early_against,total_votes,total_against\n"
+)
+ALLEGANY_QUESTIONS = QUESTIONS_HEADER + "GG22,Allegany,1,State,1,3000,1000,3000,1000\n"
+ALLEGANY_QUESTION_PRECINCTS = QUESTION_PRECINCT_HEADER + (
+    "GG22,Allegany,001-001,06,01,1,State,1,1800,600,1800,600\n"
+    "GG22,Allegany,001-002,06,01,1,State,1,1200,400,1200,400\n"
+)
+
 TURNOUT_HEADER = "as_of,election,family,geography,county,district,category,party,measure,value\n"
 
 
@@ -44,6 +58,7 @@ def write_downloads(root: Path) -> Path:
         "combined/registration_monthly_all.csv": MONTHLY,
         "results/GG22/county/01-allegany-all.csv": ALLEGANY,
         "results/GG22/county/14-howard-all.csv": HOWARD,
+        "results/GG22/questions/county/01-allegany.csv": ALLEGANY_QUESTIONS,
         "turnout/GG26/requests/county/2026-10-14.csv": TURNOUT_HEADER
         + '2026-10-14,GG26,requests,county,Allegany,"",ALL,DEM,requested,5\n',
         "turnout/GG26/requests/county/2026-10-15.csv": TURNOUT_HEADER
@@ -94,7 +109,10 @@ def write_downloads(root: Path) -> Path:
                     "results/GG22/county/14-howard-all.csv",
                 ],
                 "precinct_files": ["results/GG22/precinct/01-allegany-all.csv.gz"],
-                "question_files": {"county": [], "precinct": []},
+                "question_files": {
+                    "county": ["results/GG22/questions/county/01-allegany.csv"],
+                    "precinct": ["results/GG22/questions/precinct/01-allegany.csv.gz"],
+                },
             }
         },
         "turnout": {
@@ -114,7 +132,10 @@ def write_downloads(root: Path) -> Path:
         path = root / relative
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
-    gzipped = {"results/GG22/precinct/01-allegany-all.csv.gz": ALLEGANY_PRECINCTS}
+    gzipped = {
+        "results/GG22/precinct/01-allegany-all.csv.gz": ALLEGANY_PRECINCTS,
+        "results/GG22/questions/precinct/01-allegany.csv.gz": ALLEGANY_QUESTION_PRECINCTS,
+    }
     for relative, text in gzipped.items():
         path = root / relative
         path.parent.mkdir(parents=True, exist_ok=True)

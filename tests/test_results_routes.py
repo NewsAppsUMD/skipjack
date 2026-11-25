@@ -866,3 +866,177 @@ def test_an_unofficial_elections_precinct_page_is_404(client, db):
                  "Wes Moore", "DEM", 60)  # fmt: skip
     assert "GG26" in [e["code"] for e in site_elections(db)]  # the slug is known
     assert client.get("/results/gg26/county/allegany/precincts/").status_code == 404
+
+
+# --- ballot questions -----------------------------------------------------------------------
+
+
+def add_question(conn, election, county, geography, question, for_votes, against, precinct=None,
+                 how_it_runs="State", third=None, vote_type="early"):  # fmt: skip
+    """A results_questions row and its one vote type, as the loader stores them (the question
+    number as the reader writes it: "1", not "01")."""
+    code = {"Allegany": "01", "Garrett": "11"}[county]
+    role = "question" if geography == "county" else "question-precinct"
+    sid = f"sbe-results-{election}-{role}-{code}"
+    conn.execute(
+        "INSERT OR IGNORE INTO sources (source_id, source_url, source_name, fetch_date)"
+        " VALUES (?, ?, 'sbe', '2026-10-15')",
+        (sid, f"https://elections.maryland.gov/x/{sid}.csv"),
+    )
+    cur = conn.execute(
+        """INSERT INTO results_questions (source_id, election, geography, county, precinct,
+           congressional, legislative, question, how_it_runs, winner, total_votes, total_against,
+           total_third)
+           VALUES (?, ?, ?, ?, ?, '06', '01', ?, ?, 1, ?, ?, ?)""",
+        (sid, election, geography, county, precinct, question, how_it_runs, for_votes, against,
+         third),
+    )  # fmt: skip
+    conn.execute(
+        "INSERT INTO results_question_votes VALUES (?, ?, ?, ?, ?)",
+        (cur.lastrowid, vote_type, for_votes, against, third),
+    )
+
+
+def test_certified_county_page_lists_its_questions_with_a_precinct_link(client, db):
+    # the data fixture already has PG24 rows in Allegany, so its county page exists
+    add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
+    add_question(db, "PG24", "Allegany", "precinct", "1", 70, 30, precinct="001-001")
+    html = client.get("/results/pg24/county/allegany/").text
+    card = _article(html, "question-1")
+    assert "Question 1" in card and "70.0%" in card and "30.0%" in card
+    assert 'href="/results/pg24/county/allegany/precincts/#question-1"' in card
+    assert "Third choice" not in card  # no third choice: no third column
+    assert 'href="#questions"' in html  # in the section links
+    page = client.get("/results/pg24/county/allegany/precincts/")
+    assert page.status_code == 200
+    question = next(c for c in picker_contests(page.text) if c["kind"] == "question")
+    assert question == {
+        "kind": "question", "anchor": "question-1", "title": "Question 1",
+        "question": "1", "how_it_runs": "State", "has_third": False,
+        "file": "results/PG24/questions/precinct/01-allegany.csv.gz",
+    }  # fmt: skip
+    assert '<optgroup label="Ballot questions">' in page.text
+    assert 'href="/downloads/results/PG24/questions/precinct/01-allegany.csv.gz"' in page.text
+
+
+def test_a_county_page_question_without_precinct_rows_has_no_precinct_link(client, db):
+    add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
+    html = client.get("/results/pg24/county/allegany/").text
+    assert "Question 1" in _article(html, "question-1")
+    assert "/precincts/" not in html
+    assert client.get("/results/pg24/county/allegany/precincts/").status_code == 404
+
+
+def test_county_question_data_by_vote_type_and_local_questions_after(db, data):
+    add_question(db, "PG24", "Allegany", "county", "A", 5, 15, how_it_runs="County")
+    add_question(db, "PG24", "Allegany", "county", "B", 2, 2, how_it_runs="Ed")
+    add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
+    page = results.county_page(db, "PG24", "allegany")
+    assert [(q["question"], q["kind"]) for q in page["questions"]] == [
+        ("1", None), ("A", "county question"), ("B", "local question (Ed)"),
+    ]  # fmt: skip
+    q = page["questions"][0]
+    assert [(c["label"], c["total"], c["votes"]["early"], c["votes"]["election_night"]) for c in q["choices"]] == [  # fmt: skip
+        ("For", 70, 70, None), ("Against", 30, 30, None),  # no election-night row here
+    ]  # fmt: skip
+    assert q["choices"][0]["share"] == 70.0
+    assert "sbe-results-PG24-question-01" in page["source_ids"]
+
+
+def test_county_page_tags_local_questions_by_how_they_run(client, db):
+    add_question(db, "PG24", "Allegany", "county", "A", 5, 15, how_it_runs="County")
+    add_question(db, "PG24", "Allegany", "county", "B", 2, 2, how_it_runs="Ed")
+    html = client.get("/results/pg24/county/allegany/").text
+    assert '<span class="tag">county question</span>' in _article(html, "question-a")
+    assert '<span class="tag">local question (Ed)</span>' in _article(html, "question-b")
+
+
+def test_a_third_choice_gets_its_own_column(client, db):
+    add(db, "PG16", "Allegany", "all", "Sheriff", "", [("Sal Sheriff", "REP", True, {"early": 4})])
+    add_question(db, "PG16", "Allegany", "county", "A", 20, 50, how_it_runs="County", third=30)
+    add_question(db, "PG16", "Allegany", "county", "1", 7, 3)
+    page = results.county_page(db, "PG16", "allegany")
+    a = next(q for q in page["questions"] if q["question"] == "A")
+    assert [(c["label"], c["total"], c["share"]) for c in a["choices"]] == [
+        ("For", 20, 20.0), ("Against", 50, 50.0), ("Third choice", 30, 30.0),
+    ]  # fmt: skip
+    one = next(q for q in page["questions"] if q["question"] == "1")
+    assert [c["label"] for c in one["choices"]] == ["For", "Against"]
+    html = client.get("/results/pg16/county/allegany/").text
+    assert "Third choice" in _article(html, "question-a")
+    assert "Third choice" not in _article(html, "question-1")
+
+
+def test_question_anchors_are_safe_for_garretts_numbers(client, db):
+    add_question(db, "PG24", "Garrett", "county", "A 002 000", 9, 7, how_it_runs="County")
+    add_question(db, "PG24", "Garrett", "precinct", "A 002 000", 9, 7, how_it_runs="County",
+                 precinct="002-000")  # fmt: skip
+    page = results.county_page(db, "PG24", "garrett")
+    assert page["questions"][0]["anchor"] == "question-a-002-000"
+    html = client.get("/results/pg24/county/garrett/").text
+    assert 'id="question-a-002-000"' in html and "Question A 002 000" in html
+    picker = results.precinct_picker(db, "PG24", "garrett")
+    assert [c["anchor"] for c in picker["contests"]] == ["question-a-002-000"]
+    assert picker["contests"][0]["question"] == "A 002 000"
+
+
+def test_a_county_with_only_question_precincts_gets_a_precinct_page(client, db):
+    from skipjack.web.static_site import results_urls
+
+    add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
+    add_question(db, "PG24", "Allegany", "precinct", "1", 70, 30, precinct="001-001")
+    assert "/results/pg24/county/allegany/precincts/" in results_urls(db)
+    picker = results.precinct_picker(db, "PG24", "allegany")
+    assert [c["kind"] for c in picker["contests"]] == ["question"]
+    assert picker["files"] == ["results/PG24/questions/precinct/01-allegany.csv.gz"]
+    html = client.get("/results/pg24/county/allegany/").text
+    assert 'href="/results/pg24/county/allegany/precincts/"' in html
+    page = client.get("/results/pg24/county/allegany/precincts/").text
+    assert (
+        "each ballot question&#39;s votes" in page
+        and '<label for="precinct-contest">Question<' in page
+    )
+
+
+def test_question_precincts_follow_the_candidates_on_the_picker(client, db):
+    add_precinct(db, "PG24", "Allegany", "all", "President - Vice Pres", "", "001-001", "Trump",
+                 "REP", 70)  # fmt: skip
+    add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
+    add_question(db, "PG24", "Allegany", "precinct", "1", 70, 30, precinct="001-001")
+    picker = results.precinct_picker(db, "PG24", "allegany")
+    assert [g["label"] for g in picker["groups"]] == ["", "Ballot questions"]
+    assert [c["kind"] for c in picker["contests"]] == ["contest", "question"]
+    html = client.get("/results/pg24/county/allegany/precincts/").text
+    # the general's contests have no optgroup of their own; the questions do
+    assert html.count("<optgroup") == 1
+    assert "each contest&#39;s and ballot question&#39;s votes" in html
+    assert '<label for="precinct-contest">Contest or question<' in html
+
+
+def test_a_third_choice_question_says_so_to_the_picker(db, data):
+    add(db, "PG16", "Allegany", "all", "Sheriff", "", [("Sal Sheriff", "REP", True, {"early": 4})])
+    add_question(db, "PG16", "Allegany", "county", "A", 20, 50, how_it_runs="County", third=30)
+    add_question(db, "PG16", "Allegany", "precinct", "A", 20, 50, how_it_runs="County",
+                 third=30, precinct="001-001", vote_type="election_night")  # fmt: skip
+    picker = results.precinct_picker(db, "PG16", "allegany")
+    [q] = picker["contests"]
+    assert q["has_third"] is True and q["how_it_runs"] == "County"
+    assert picker["election_night_only"] is True
+
+
+def test_question_precinct_pages_only_for_published_elections(client, db, monkeypatch):
+    from skipjack.pipeline.results import RESULTS_ELECTIONS
+    from skipjack.web.static_site import results_urls
+
+    add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
+    add_question(db, "PG24", "Allegany", "precinct", "1", 70, 30, precinct="001-001")
+    monkeypatch.setattr(RESULTS_ELECTIONS["PG24"], "published", False)
+    assert "/precincts/" not in client.get("/results/pg24/county/allegany/").text
+    assert not [u for u in results_urls(db) if u.endswith("/precincts/")]
+
+
+def test_county_page_without_the_question_tables(client, db):
+    db.execute("DROP TABLE results_question_votes")
+    db.execute("DROP TABLE results_questions")  # a database built before the question tables
+    assert results.county_page(db, "PG24", "allegany")["questions"] == []
+    assert client.get("/results/pg24/county/allegany/").status_code == 200

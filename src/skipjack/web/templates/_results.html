@@ -79,6 +79,34 @@
 </div>
 {%- endmacro %}
 
+{# A certified ballot question in one county: For, Against and, only where the board's files
+   print one, the third choice, by way of voting; each choice's share of the question's votes. #}
+{% macro question_table(q, caption, vote_types=[], compact=false) -%}
+<div class="overflow-auto">
+<table class="results-table{% if compact %} compact{% endif %}">
+    <caption class="sr-only">{{ caption }}</caption>
+    <thead>
+        <tr>
+            <th scope="col">Choice</th>
+            {% for v in vote_types %}<th scope="col" class="num">{{ v.label }}</th>{% endfor %}
+            <th scope="col" class="num">Votes</th>
+            <th scope="col" class="num">Share</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in q.choices %}
+        <tr>
+            <th scope="row">{{ c.label }}</th>
+            {% for v in vote_types %}<td class="num">{{ votes(c.votes.get(v.stem)) }}</td>{% endfor %}
+            <td class="num">{{ votes(c.total) }}</td>
+            <td class="num">{{ share(c) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{%- endmacro %}
+
 {# `election` may be none for a page outside any one election: then the trail follows "Results". #}
 {% macro breadcrumb(election, trail=[]) -%}
 <nav class="breadcrumb" aria-label="Breadcrumb">

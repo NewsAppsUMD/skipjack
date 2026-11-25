@@ -62,19 +62,23 @@ class SiteReport:
 
 
 def _precinct_counties(conn: sqlite3.Connection, code: str) -> set[str]:
-    """The counties with precinct rows in a certified, published election (none in an older
-    database)."""
+    """The counties with precinct rows, for a contest or a ballot question, in a certified,
+    published election (none from a table an older database lacks)."""
     if not results_published(code):
         return set()  # the precinct page would point at files not offered
-    try:
-        rows = conn.execute(
-            "SELECT DISTINCT county FROM results_precinct WHERE election = ?", (code,)
-        )
-        return {slugify(r[0]) for r in rows}
-    except sqlite3.OperationalError as err:
-        if "no such table" not in str(err):
-            raise
-        return set()  # a database built before the precinct tables
+    found: set[str] = set()
+    for sql in (
+        "SELECT DISTINCT county FROM results_precinct WHERE election = ?",
+        "SELECT DISTINCT county FROM results_questions "
+        "WHERE election = ? AND geography = 'precinct'",
+    ):
+        try:
+            found |= {slugify(r[0]) for r in conn.execute(sql, (code,))}
+        except sqlite3.OperationalError as err:
+            if "no such table" not in str(err):
+                raise
+            # a database built before the precinct or question tables
+    return found
 
 
 def results_urls(conn: sqlite3.Connection) -> list[str]:
@@ -87,7 +91,8 @@ def results_urls(conn: sqlite3.Connection) -> list[str]:
         with_precincts = set() if e.get("unofficial") else _precinct_counties(conn, e["code"])
         for c in county_slugs_for(conn, e["code"]):
             urls.append(f"{base}county/{c}/")
-            # the page exists only where a contest on the county page has precinct rows
+            # the page exists only where a contest or question on the county page has
+            # precinct rows
             if c in with_precincts and qr.precinct_picker(conn, e["code"], c):
                 urls.append(f"{base}county/{c}/precincts/")
         urls += [f"{base}{c}/" for c in contest_slugs_for(conn, e["code"])]

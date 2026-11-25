@@ -9,7 +9,8 @@
 <div class="viz-root">
 {{ r.breadcrumb(election, [("By county", base ~ "/results/" ~ election.slug ~ "/county/"), (county, base ~ "/results/" ~ election.slug ~ "/county/" ~ county_slug ~ "/"), ("By precinct", none)]) }}
 <h1>{{ county }} by precinct</h1>
-<p class="secondary">{{ election.name.title() }}: each contest's votes in every {{ county }}
+{% set kinds = contests|map(attribute="kind")|unique|list %}
+<p class="secondary">{{ election.name.title() }}: each {{ {"contest": "contest's", "question": "ballot question's"}[kinds[0]] if kinds|length == 1 else "contest's and ballot question's" }} votes in every {{ county }}
     precinct. <a href="{{ base }}/results/{{ election.slug }}/county/{{ county_slug }}/">{{ county }}'s totals</a>.</p>
 {% if election_night_only %}
 {# keep "election-day votes only" on one line: the tests look for the phrase #}
@@ -23,7 +24,7 @@
 
 <div class="filters">
     <div>
-        <label for="precinct-contest">Contest</label>
+        <label for="precinct-contest">{{ {"contest": "Contest", "question": "Question"}[kinds[0]] if kinds|length == 1 else "Contest or question" }}</label>
         <select id="precinct-contest">
             {% for g in groups %}
             {% if g.label %}<optgroup label="{{ g.label }}">{% endif %}

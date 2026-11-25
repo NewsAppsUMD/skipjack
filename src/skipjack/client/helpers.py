@@ -64,6 +64,13 @@ ELECTION_NIGHT_ONLY = (
 )
 
 
+# ... and a precinct pull of ballot questions, whose third choice is election-night too
+ELECTION_NIGHT_ONLY_QUESTIONS = (
+    f"the board's precinct files for 2010-{ELECTION_NIGHT_ONLY_THROUGH} carry election-night "
+    "votes only, so total_votes, total_against and total_third are election-night votes"
+)
+
+
 def election_night_only(year: str | int | None) -> bool:
     """Whether a precinct pull of an election in ``year`` (a number or its digits) carries
     election-night votes only; an unknown year does not."""

@@ -85,6 +85,17 @@ def register(sub: argparse._SubParsersAction) -> None:
                      help="One precinct (with --geography precinct), e.g. 001-012")  # fmt: skip
     _shared(res, sbe=True)
 
+    qs = get_sub.add_parser(
+        "questions", help="An election's ballot questions by county or precinct (generals)"
+    )
+    qs.add_argument("--election", required=True, help="An election code, e.g. GG22")
+    qs.add_argument("--county")
+    qs.add_argument("--geography", choices=["county", "precinct"], default="county",
+                    help="county (the default) or precinct: a row per precinct")  # fmt: skip
+    qs.add_argument("--precinct", metavar="DDD-PPP",
+                    help="One precinct (with --geography precinct and --county)")  # fmt: skip
+    _shared(qs)  # no --source: the questions are not parsed live
+
     tur = get_sub.add_parser("turnout", help="An election's turnout reports")
     tur.add_argument("--election", required=True, help="An election code, e.g. GG26")
     tur.add_argument("--family", help="One report family (see: skipjack list turnout CODE)")
@@ -110,6 +121,7 @@ def register(sub: argparse._SubParsersAction) -> None:
 _GET = {
     "registration": datasets.registration,
     "results": datasets.results,
+    "questions": datasets.questions,
     "turnout": datasets.turnout,
     "county": datasets.county_history,
 }
