@@ -15,7 +15,7 @@ from skipjack.pipeline import fetch, results
 
 # Not tests.<module>: another project's `tests` package on PYTHONPATH can shadow ours.
 from conftest import archive, fake_client
-from test_results import BOM, GENERAL_HEAD
+from test_results import BOM, GENERAL_HEAD, fill2020
 
 PG24 = results.RESULTS_ELECTIONS["PG24"]
 ARCHIVE = "https://elections.maryland.gov/elections/archive"
@@ -398,12 +398,110 @@ def test_current_precinct_csvs_need_no_archive(env):
 
 
 def test_each_level_is_all_or_nothing_on_its_own(env):
-    fill_precincts(env)  # no statewide check file: the county level fails, the precinct level not
-    written, failed = results.results_parse("PG24", data_dir=env / "data")
-    assert written == 24 and len(failed) == 1
+    fill_precincts(env)  # no statewide check file: the county level fails
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="county")
+    assert written == 0 and len(failed) == 1
     assert failed[0].startswith("PG24 county: missing required file PG24_CongressionalBreakDown")
+    # an explicit --level precinct still runs, checked against the archived county files
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    assert written == 24 and failed == []
     assert (env / "data" / "results" / "PG24" / "precinct" / "15-kent-all.csv.gz").exists()
     assert not (env / "data" / "results" / "PG24" / "county").exists()
+
+
+def test_level_all_skips_the_precincts_when_the_county_level_failed(env):
+    fill_precincts(env)  # no statewide check file: the county level fails
+    written, failed = results.results_parse("PG24", data_dir=env / "data")
+    assert written == 0 and len(failed) == 2
+    assert failed[0].startswith("PG24 county: missing required file")
+    assert failed[1] == "PG24 precinct: not checked, the county level failed"
+    assert not (env / "data" / "results" / "PG24").exists()
+
+
+def test_level_all_skips_an_election_without_precinct_files(env):
+    fill2020(env, results.RESULTS_ELECTIONS["PP20"])
+    written, failed = results.results_parse("PP20", data_dir=env / "data")
+    assert failed == [] and written == 48
+    assert not (env / "data" / "results" / "PP20" / "precinct").exists()
+
+
+def test_unfetched_precinct_files_are_one_failure(env):
+    for f in results.county_files(PG24):
+        if f.role == "county":
+            archive(env, PG24, f, county_csv())
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    assert written == 0
+    assert failed == [
+        "PG24 precinct: precinct files not fetched (skipjack results-fetch --level precinct)"
+    ]
+
+
+def _kent_county():
+    return next(
+        f for f in results.county_files(PG24) if f.role == "county" and f.county_code == "15"
+    )
+
+
+def test_a_changed_county_file_rechecks_its_precincts(env):
+    fill_precincts(env)
+    assert results.results_parse("PG24", data_dir=env / "data", level="precinct") == (24, [])
+    out = env / "data" / "results" / "PG24" / "precinct" / "15-kent-all.csv.gz"
+    side_path = out.parent / "15-kent-all_provenance.json"
+    source = json.loads(side_path.read_text())["checks"]["county_source"]
+    assert source["source_id"] == "sbe-results-PG24-county-15-all"
+    before = (out.read_bytes(), side_path.read_text())
+
+    # a re-posted county file whose figures the precincts no longer sum to
+    archive(
+        env,
+        PG24,
+        _kent_county(),
+        county_csv(COUNTY_ROWS.replace('"400"', '"401"').replace('"612"', '"613"')),
+    )
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    assert written == 0 and len(failed) == 1 and "PG24_15PrecinctsResults.csv" in failed[0]
+    assert (out.read_bytes(), side_path.read_text()) == before
+
+    # a re-posted county file whose figures still match: Kent is rewritten, the rest are current
+    archive(env, PG24, _kent_county(), county_csv(COUNTY_ROWS.replace('"Y"', '""', 1)))
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    assert (written, failed) == (1, [])
+    new_sha = results.newest_source(results.MANIFEST_PATH, _kent_county().source_id).sha256
+    assert new_sha != source["sha256"]
+    assert json.loads(side_path.read_text())["checks"]["county_source"] == {
+        "source_id": "sbe-results-PG24-county-15-all",
+        "sha256": new_sha,
+    }
+    assert results.results_parse("PG24", data_dir=env / "data", level="precinct") == (0, [])
+
+
+def test_sum_check_counts_the_county_files_rows():
+    # Trump's county figures split over two rows: three rows, two summed keys
+    split = COUNTY_ROWS.replace('"400"', '"399"').replace('"612"', '"611"') + (
+        '"President - Vice Pres","","Donald J. Trump and JD Vance","REP","","",'
+        '"0","","1","","0","","0","","0","","1","" \n'
+    )
+    check = results._check_precinct_county(PG24, "Kent", "all", *frames(county=split))
+    assert check.rows == 3 and check.contests == 1
+
+
+def test_sum_check_treats_a_missing_key_cell_as_blank():
+    parts = pl.DataFrame({"office": ["A"], "district": [None], "votes": [3]})
+    whole = pl.DataFrame({"office": ["A"], "district": [""], "votes": [3]})
+    check = results._check_sums(
+        "x", ["office", "district"], 2, ["votes"], parts, whole, lambda *a: None
+    )
+    assert check.contests == 1 and check.exceptions == []
+
+
+def test_precinct_check_text_and_columns_share_one_rule():
+    gg18 = results.RESULTS_ELECTIONS["GG18"]
+    assert gg18.precinct_every_vote_type is False and PG24.precinct_every_vote_type is True
+    assert results.RESULTS_ELECTIONS["PG20"].precinct_every_vote_type is True
+    check = results.SumCheck(1, 2, ["election_night_votes"], [])
+    assert "election-night votes only" in results._precinct_check_text(gg18, "f.csv", check)
+    assert "election-night" not in results._precinct_check_text(PG24, "f.csv", check)
+    assert "total_votes" not in results._precinct_check_columns(gg18)
 
 
 def test_cli_results_parse_passes_the_level(monkeypatch):

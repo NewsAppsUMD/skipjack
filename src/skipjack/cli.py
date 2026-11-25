@@ -372,7 +372,7 @@ def main(argv: list[str] | None = None) -> None:
         choices=["county", "precinct", "all"],
         default="all",
         help="Which files: the county files, the precinct files (checked against the county "
-        "files), or all",
+        "files), or all (an election's precinct files are skipped when its county files fail)",
     )
 
     unofficial_fetch_p = sub.add_parser(

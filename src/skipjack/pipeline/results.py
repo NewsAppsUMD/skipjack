@@ -205,6 +205,12 @@ class ResultsElection:
         return list(self.vote_types)
 
     @property
+    def precinct_every_vote_type(self) -> bool:
+        """Whether the precinct files carry every vote type (from 2020), so their totals can be
+        checked too; through 2018 they carry election-night votes only."""
+        return self.precinct_vote_types == self.vote_types
+
+    @property
     def precinct_total(self) -> bool:
         """Whether the precinct files print Total Votes (only the 2020 general's do); elsewhere
         the precinct total is the sum of the vote types."""
@@ -982,7 +988,8 @@ def results_parse(
 ) -> tuple[int, list[str]]:
     """Parse each election's archived files into data/results/<CODE>/: the county files, then
     the precinct files checked against them (level picks one). Each level is all-or-nothing per
-    election: any failed check or missing required file writes nothing for that level.
+    election: any failed check or missing required file writes nothing for that level. Under
+    "all", an election whose county level failed has its precinct level skipped (and failed).
 
     A file whose CSV exists and was parsed from the newest archived revision is skipped unless
     force. Returns (files written, failures), each failure prefixed "<CODE> <level>: ".
@@ -996,10 +1003,18 @@ def results_parse(
         if not e.published:
             logger.info("%s: not published", e.code)
             continue
+        failed = set()
         for name in levels:
+            if name == "precinct" and not e.precincts:
+                continue  # the board posted no precinct files for this election
+            if name == "precinct" and "county" in failed:
+                # never write precinct files checked against county files that were refused
+                failures.append(f"{e.code} precinct: not checked, the county level failed")
+                continue
             try:
                 written += PARSERS[name](e, force, data_dir)
             except ResultsParseError as err:
+                failed.add(name)
                 failures.append(f"{e.code} {name}: {err}")
     return written, failures
 
@@ -1169,7 +1184,7 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
 
 class SumCheck(NamedTuple):
     contests: int  # contests (or questions) compared
-    rows: int  # county-file rows compared
+    rows: int  # rows of the county file compared
     columns: list[str]
     # the listed exceptions applied, as "<row> <column>: precincts N, county file M"
     exceptions: list[str]
@@ -1194,7 +1209,8 @@ def _check_sums(
     def summed(frame: pl.DataFrame) -> dict[tuple, dict[str, int]]:
         out: dict[tuple, dict[str, int]] = {}
         for r in frame.select(*keys, *columns).iter_rows(named=True):
-            sums = out.setdefault(tuple(r[k] for k in keys), dict.fromkeys(columns, 0))
+            key = tuple("" if r[k] is None else r[k] for k in keys)  # a missing cell is blank
+            sums = out.setdefault(key, dict.fromkeys(columns, 0))
             for c in columns:
                 sums[c] += r[c] or 0
         return out
@@ -1226,7 +1242,7 @@ def _check_sums(
                     f"{theirs[c]}"
                 )
             exceptions.append(f"{label} {c}: precincts {ours[c]}, county file {theirs[c]}")
-    return SumCheck(len(contests_board), len(board), columns, exceptions)
+    return SumCheck(len(contests_board), whole.height, columns, exceptions)
 
 
 def _precinct_check_columns(election: ResultsElection) -> list[str]:
@@ -1238,7 +1254,7 @@ def _precinct_check_columns(election: ResultsElection) -> list[str]:
         columns.append(f"{stem}_votes")
         if against:
             columns.append(f"{stem}_against")
-    if election.precinct_vote_types == election.vote_types:
+    if election.precinct_every_vote_type:
         columns += ["total_votes", "total_against"] if against else ["total_votes"]
     return columns
 
@@ -1280,7 +1296,7 @@ def _precinct_check_text(e: ResultsElection, county_file: str, check: SumCheck) 
         f"ok: the precincts sum to {county_file}'s {check.rows} rows ({check.contests} contests) "
         f"on {', '.join(check.columns)}"
     )
-    if e.year <= 2018:
+    if not e.precinct_every_vote_type:
         text += " (the board's precinct files for 2010-2018 carry election-night votes only)"
     if check.exceptions:
         text += (
@@ -1289,6 +1305,22 @@ def _precinct_check_text(e: ResultsElection, county_file: str, check: SumCheck) 
             + " (listed in PRECINCT_CHECK_EXCEPTIONS, recorded, not corrected)"
         )
     return text
+
+
+def _county_file(f: ResultsFile) -> ResultsFile:
+    """The county file a precinct file is checked against."""
+    return ResultsFile(f.election, f.county_code, f.county, f.party_file, "county")
+
+
+def _county_source_changed(csv_path: Path, county: ResultsFile) -> bool:
+    """Whether the precinct CSV's sidecar records a county file revision other than the newest
+    archived one (or none): a re-posted county file means its precincts are checked again."""
+    sidecar = sidecar_path(csv_path)
+    if not sidecar.exists():
+        return True
+    recorded = ProvenanceSidecar.read(sidecar).checks.get("county_source")
+    newest = newest_source(MANIFEST_PATH, county.source_id)
+    return newest is None or recorded != {"source_id": newest.source_id, "sha256": newest.sha256}
 
 
 def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
@@ -1301,6 +1333,10 @@ def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
     files = precinct_files(e)
     out_dir = data_dir / "results" / e.code / "precinct"
     records = {f.source_id: newest_source(MANIFEST_PATH, f.source_id) for f in files}
+    if files and all(r is None for r in records.values()):
+        raise ResultsParseError(
+            "precinct files not fetched (skipjack results-fetch --level precinct)"
+        )
     for f in files:
         if records[f.source_id] is None and f.party_file != "non":
             raise ResultsParseError(f"missing required file {f.file_name} ({f.source_id})")
@@ -1308,13 +1344,17 @@ def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
     stale = {
         f.source_id
         for f in present
-        if force or _revision_updated(_precinct_csv(out_dir, f), records[f.source_id])
+        if force
+        or _revision_updated(_precinct_csv(out_dir, f), records[f.source_id])
+        or _county_source_changed(_precinct_csv(out_dir, f), _county_file(f))
     }
     if not stale:
         return 0
     county_frames, _ = _read_county_files(e, with_checks=False)
     by_county = {
-        (f.county, f.party_file): rd.frame for items in county_frames.values() for f, _, rd in items
+        (f.county, f.party_file): (rd.frame, rec)
+        for items in county_frames.values()
+        for f, rec, rd in items
     }
     checked = []
     for f in present:
@@ -1329,18 +1369,17 @@ def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
             read = read_precinct(data, e, f.county, f.party_file)
             if (f.county, f.party_file) not in by_county:
                 raise ResultsParseError("no county file to check it against")
-            check = _check_precinct_county(
-                e, f.county, f.party_file, read.frame, by_county[(f.county, f.party_file)]
-            )
+            county_frame, county_record = by_county[(f.county, f.party_file)]
+            check = _check_precinct_county(e, f.county, f.party_file, read.frame, county_frame)
         except ResultsParseError as err:
             raise ResultsParseError(f"{f.file_name}: {err}") from None
-        checked.append((f, record, read, check))
+        checked.append((f, record, read, check, county_record))
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    for f, record, read, check in checked:
+    for f, record, read, check, county_record in checked:
         if f.source_id not in stale:
             continue
-        county_file = ResultsFile(e, f.county_code, f.county, f.party_file, "county").file_name
+        county_file = _county_file(f).file_name
         checks: dict = {
             "rows": read.frame.height,
             "row_totals": "ok"
@@ -1348,6 +1387,11 @@ def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
             else "computed: the precinct file prints no total, so total_votes is the sum of "
             "its vote types",
             "county_check": _precinct_check_text(e, county_file, check),
+            # the county file revision checked against: a re-posted one re-checks this file
+            "county_source": {
+                "source_id": county_record.source_id,
+                "sha256": county_record.sha256,
+            },
         }
         if check.exceptions:
             checks["county_check_exceptions"] = check.exceptions
