@@ -1040,3 +1040,26 @@ def test_county_page_without_the_question_tables(client, db):
     db.execute("DROP TABLE results_questions")  # a database built before the question tables
     assert results.county_page(db, "PG24", "allegany")["questions"] == []
     assert client.get("/results/pg24/county/allegany/").status_code == 200
+
+
+def test_one_question_number_run_two_ways_gets_two_anchors_and_two_picker_entries(client, db):
+    # a county's own "1" beside the statewide "1": the statewide question comes first and keeps
+    # question-1; the county's is question-1-2, on the county page and in the picker alike
+    add_question(db, "PG24", "Allegany", "county", "1", 5, 15, how_it_runs="County")
+    add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
+    add_question(db, "PG24", "Allegany", "precinct", "1", 5, 15, how_it_runs="County",
+                 precinct="001-001")  # fmt: skip
+    add_question(db, "PG24", "Allegany", "precinct", "1", 70, 30, precinct="001-001")
+    page = results.county_page(db, "PG24", "allegany")
+    assert [(q["anchor"], q["how_it_runs"]) for q in page["questions"]] == [
+        ("question-1", "State"), ("question-1-2", "County"),
+    ]  # fmt: skip
+    html = client.get("/results/pg24/county/allegany/").text
+    assert "70.0%" in _article(html, "question-1")
+    county = _article(html, "question-1-2")
+    assert "25.0%" in county and "county question" in county
+    assert 'href="/results/pg24/county/allegany/precincts/#question-1-2"' in county
+    picker = picker_contests(client.get("/results/pg24/county/allegany/precincts/").text)
+    assert [(c["anchor"], c["question"], c["how_it_runs"]) for c in picker] == [
+        ("question-1", "1", "State"), ("question-1-2", "1", "County"),
+    ]  # fmt: skip

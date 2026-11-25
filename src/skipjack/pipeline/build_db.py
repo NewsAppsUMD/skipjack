@@ -253,9 +253,9 @@ def _normalize_district(district: str) -> str:
     PP20's Dorchester file prints "01" where the other counties print "1". Only ASCII digits
     count (str.isdigit alone accepts "²", which int() rejects). "00" becomes "0": no contest
     uses it as a district (00 is the statewide *county* code), so it is only normalized, not
-    given a meaning.
+    given a meaning. The same rule numbers ballot questions, so results.question_number holds it.
     """
-    return str(int(district)) if district.isascii() and district.isdigit() else district
+    return question_number(district)
 
 
 def load_results(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:

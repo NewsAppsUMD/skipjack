@@ -3055,9 +3055,11 @@ def read_questions(
     level "county" reads the county question file, "precinct" its precinct file (the
     election's precinct vote types, and the precinct id columns). Columns are matched by name:
     the question number is "Question Number" in the named layout ("01"), "QuestionNumber" in a
-    coded county file and "Question" in a coded precinct file ("1"), kept as printed. The named
-    county file's County column is "00" for a statewide question (How it Runs? "State") and the
-    county's code for a local one; every other file prints the county's code. A "3rd option"
+    coded county file and "Question" in a coded precinct file ("1"); an all-digit number drops
+    its leading zeros everywhere ("01" -> "1"), any other (Garrett's "A 002 000", letters) is
+    kept as printed. The named county file's County column is "00" for a statewide question
+    (How it Runs? "State") and the county's code for a local one; every other file prints the
+    county's code. A "3rd option"
     column (2016-2020) must be blank in every row. A printed total must equal the sum of the vote
     types; the county files must print one, the precinct files print none (PG20's Total cells
     are blank or missing), so there the totals are the sums.

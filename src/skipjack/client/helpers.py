@@ -64,7 +64,12 @@ ELECTION_NIGHT_ONLY = (
 )
 
 
-# ... and a precinct pull of ballot questions, whose third choice is election-night too
+# The first year whose question files print a third choice (2016-2020, the named layout; the
+# pipeline's question_third). A precinct pull of ballot questions from that year through
+# ELECTION_NIGHT_ONLY_THROUGH carries total_third too, and it is election-night as well; earlier
+# ones say ELECTION_NIGHT_ONLY.
+QUESTION_THIRD_FROM = 2016
+
 ELECTION_NIGHT_ONLY_QUESTIONS = (
     f"the board's precinct files for 2010-{ELECTION_NIGHT_ONLY_THROUGH} carry election-night "
     "votes only, so total_votes, total_against and total_third are election-night votes"

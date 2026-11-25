@@ -370,11 +370,67 @@ def test_questions_for_an_election_without_them(capsys, base, tmp_path):
     with pytest.raises(SystemExit):
         main(["get", "questions", "--election", "GG22", "--base-url", base])
     assert "GG22 has no ballot-question files on this site" in capsys.readouterr().err
+    catalog["results"]["GG22"]["kind"] = "primary"
+    index.write_text(json.dumps(catalog))
+    with pytest.raises(SystemExit):
+        main(["get", "questions", "--election", "GG22", "--base-url", base])
+    assert "(they come with general elections)" in capsys.readouterr().err
     del catalog["results"]["GG22"]["question_files"]  # a catalog from before the questions
     index.write_text(json.dumps(catalog))
     with pytest.raises(SystemExit):
         main(["get", "questions", "--election", "GG22", "--base-url", base])
-    assert "GG22 has no ballot-question files on this site" in capsys.readouterr().err
+    assert "GG22 has no ballot-question files on this site: its catalog predates them" in (
+        capsys.readouterr().err
+    )
+
+
+def test_the_unofficial_count_has_no_questions(capsys, base, tmp_path):
+    _add_unofficial(tmp_path / "downloads")
+    with pytest.raises(SystemExit):
+        main(["get", "questions", "--election", "GG26", "--base-url", base])
+    assert "GG26's unofficial count has no ballot questions" in capsys.readouterr().err
+
+
+def test_questions_say_which_file_they_read_and_carry_as_of(capsys, base, tmp_path):
+    index = tmp_path / "downloads" / "index.json"
+    catalog = json.loads(index.read_text())
+    county = catalog["results"]["GG22"]["question_files"]["county"]
+    second = county[0].replace("01-allegany", "14-howard")
+    (tmp_path / "downloads" / second).write_text(
+        (tmp_path / "downloads" / county[0]).read_text().replace("Allegany", "Howard")
+    )
+    county.append(second)
+    catalog["results"]["GG22"]["as_of"] = "2022-12-09"
+    index.write_text(json.dumps(catalog))
+    main(["get", "questions", "--election", "GG22", "--base-url", base])
+    captured = capsys.readouterr()
+    assert "(1 of 2)" in captured.err and "(2 of 2)" in captured.err
+    out = json.loads(captured.out)
+    assert len(out["rows"]) == 2 and out["meta"]["as_of"] == "2022-12-09"
+    main(["get", "questions", "--election", "GG22", "--base-url", base, "--county", "howard"])
+    assert "reading" not in capsys.readouterr().err  # one file: no progress line
+
+
+def test_precinct_questions_before_2016_have_no_third_choice_to_mention(capsys, base, tmp_path):
+    index = tmp_path / "downloads" / "index.json"
+    catalog = json.loads(index.read_text())
+    catalog["results"]["GG22"]["election_day"] = "2014-11-04"
+    index.write_text(json.dumps(catalog))
+    out = json.loads(
+        run(capsys, "get", "questions", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "allegany")
+    )  # fmt: skip
+    [note] = out["meta"]["notes"]
+    assert "election-night votes only" in note and "total_third" not in note
+
+
+def test_question_third_from_follows_the_registry():
+    from skipjack.client.helpers import QUESTION_THIRD_FROM, election_night_only
+    from skipjack.pipeline.results import RESULTS_ELECTIONS, question_third
+
+    for e in RESULTS_ELECTIONS.values():
+        if e.kind == "general" and e.precincts and election_night_only(e.year):
+            assert question_third(e) == (e.year >= QUESTION_THIRD_FROM), e.code
 
 
 def test_questions_for_a_county_without_them(capsys, base):

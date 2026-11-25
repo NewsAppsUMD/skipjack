@@ -9,6 +9,7 @@ import sys
 from skipjack.client.helpers import (
     ELECTION_NIGHT_ONLY,
     ELECTION_NIGHT_ONLY_QUESTIONS,
+    QUESTION_THIRD_FROM,
     choice,
     election_night_only,
     county_for,
@@ -182,9 +183,21 @@ def questions(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, l
     code = choice("election", args.election.upper(), catalog["results"])
     election = catalog["results"][code]
     geography, precinct = precinct_args(args)
-    files = (election.get("question_files") or {}).get(geography) or []
+    if not election["official"]:
+        raise ClientError(
+            f"{code}'s unofficial count has no ballot questions; they come with the certified "
+            "results"
+        )
+    if "question_files" not in election:
+        raise ClientError(
+            f"{code} has no ballot-question files on this site: its catalog predates them"
+        )
+    files = election["question_files"].get(geography) or []
     if not files:
-        raise ClientError(f"{code} has no ballot-question files on this site")
+        raise ClientError(
+            f"{code} has no ballot-question files on this site"
+            + ("" if election.get("kind") == "general" else " (they come with general elections)")
+        )
     county = county_for(catalog["counties"], args.county)
     if county:
         files = [f for f in files if file_stem(f) == f"{county['code']}-{county['slug']}"]
@@ -193,7 +206,10 @@ def questions(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, l
                 f"{code} has no ballot-question files for {county['name']} on this site"
             )
     rows = []
-    for f in files:
+    for i, f in enumerate(files, 1):
+        if len(files) > 1:
+            # a statewide pull reads one file per county: say which, on stderr
+            print(f"reading {f} ({i} of {len(files)})", file=sys.stderr, flush=True)
         rows += [
             row
             for row in read_rows(source, f, ["precinct"] if precinct else [])
@@ -205,11 +221,13 @@ def questions(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, l
     built = meta(
         "questions", [source.url(f) for f in files], filters,
         election=code, name=election["name"], election_day=election["election_day"],
-        official=election["official"],
+        official=election["official"], as_of=election.get("as_of"),
     )  # fmt: skip
     year = (election.get("election_day") or "")[:4]
     if geography == "precinct" and election_night_only(year):
-        built["notes"] = [ELECTION_NIGHT_ONLY_QUESTIONS]
+        # total_third only where the files print a third choice (2016-2018 here)
+        third = int(year) >= QUESTION_THIRD_FROM
+        built["notes"] = [ELECTION_NIGHT_ONLY_QUESTIONS if third else ELECTION_NIGHT_ONLY]
     return built, rows
 
 

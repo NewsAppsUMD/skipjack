@@ -53,7 +53,9 @@ Surveyed on 2026-11-25 from Kent County's files for every election, plus statewi
   its 2016 question A had three choices, and its 2018 files print the identical third-choice
   figures again (county and every precinct); both are loaded as published, no errata.
 - `How it Runs?` is kept as printed: `State`, `County`, and `Ed` (GG22 Montgomery question B).
-  Question numbers are kept as printed too (Garrett 2014-2016 prints `A 002 000`).
+  All-digit question numbers drop their leading zeros everywhere (the named files' `01` is the
+  coded files' `1`, and the files, database and pages all carry `1`); any other number is kept
+  as printed (Garrett 2014-2016 prints `A 002 000`; lettered local questions).
 - Precinct question files carry Election Night only through 2018, every vote type from 2020.
 - The coded county question file names the question `QuestionNumber`; its precinct file
   `Question`.

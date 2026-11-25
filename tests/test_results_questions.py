@@ -442,6 +442,58 @@ def test_question_precinct_check():
         results._check_question_precincts(PG24, "Kent", bad, county)
 
 
+def test_one_question_number_run_two_ways_is_checked_as_two_questions(monkeypatch):
+    # a county can print a statewide "1" and its own "1": each sums on its own
+    local = (
+        CODED_COUNTY_ROWS.replace('"State"', '"County"')
+        .replace('"2454"', '"2455"')
+        .replace('"7773"', '"7774"')
+    )
+    county = results.read_questions(
+        coded_county(rows=CODED_COUNTY_ROWS + local), PG24, "Kent"
+    ).frame
+    rows = CODED_PRECINCT_ROWS + CODED_PRECINCT_ROWS.replace('"State"', '"County"').replace(
+        '"454"', '"455"'
+    )
+    precincts = results.read_questions(coded_precincts(rows=rows), PG24, "Kent", level="precinct").frame  # fmt: skip
+    check = results._check_question_precincts(PG24, "Kent", precincts, county)
+    assert check.contests == 2 and check.exceptions == []
+    # the State question's precincts do not stand in for the County question's
+    off = CODED_PRECINCT_ROWS + CODED_PRECINCT_ROWS.replace('"State"', '"County"')
+    bad = results.read_questions(coded_precincts(rows=off), PG24, "Kent", level="precinct").frame
+    with pytest.raises(results.ResultsParseError, match="1 County: precincts sum to 2454 early_votes, the county file says 2455"):  # fmt: skip
+        results._check_question_precincts(PG24, "Kent", bad, county)
+    # an exception names how the question runs: listed for the State question, it does not
+    # excuse the County one; listed for the County one, it does
+    key = ("PG24", "Kent", "1", "State", "early_votes")
+    monkeypatch.setitem(results.QUESTION_CHECK_EXCEPTIONS, key, (2454, 2455))
+    with pytest.raises(results.ResultsParseError, match="1 County"):
+        results._check_question_precincts(PG24, "Kent", bad, county)
+    monkeypatch.delitem(results.QUESTION_CHECK_EXCEPTIONS, key)
+    for column in ("early_votes", "total_votes"):
+        ours, theirs = (2454, 2455) if column == "early_votes" else (7773, 7774)
+        monkeypatch.setitem(
+            results.QUESTION_CHECK_EXCEPTIONS,
+            ("PG24", "Kent", "1", "County", column),
+            (ours, theirs),
+        )
+    check = results._check_question_precincts(PG24, "Kent", bad, county)
+    assert check.exceptions == [
+        "1 County early_votes: precincts 2454, county file 2455",
+        "1 County total_votes: precincts 7773, county file 7774",
+    ]
+
+
+def test_a_statewide_question_exception_is_keyed_as_state(monkeypatch):
+    frames = [results.read_questions(coded_county(), PG24, "Kent").frame]
+    breakdown = coded_breakdown(7774, 2937)
+    with pytest.raises(results.ResultsParseError, match="counties sum to 7773 for"):
+        results._check_questions_statewide(PG24, frames, breakdown)
+    key = ("PG24", "statewide", "1", "State", "total_votes")
+    monkeypatch.setitem(results.QUESTION_CHECK_EXCEPTIONS, key, (7773, 7774))
+    assert results._check_questions_statewide(PG24, frames, breakdown) == 1
+
+
 # Wicomico PG16 question A: election night 6289 for, 13195 against, 6514 third
 WICOMICO_PRECINCTS_A = (
     '"23","001","001","01","37A","A","County","","6000","13000","6500"\n'

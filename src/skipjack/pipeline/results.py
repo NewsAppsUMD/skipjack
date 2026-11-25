@@ -162,9 +162,11 @@ ROW_TOTAL_EXCEPTIONS: dict[tuple[str, str, str], int] = {("GG10", "Baltimore Cit
 # listed pair, and any other fails the election.
 PRECINCT_CHECK_EXCEPTIONS: dict[tuple[str, ...], tuple[int, int]] = {}
 # Ballot-question figures the board's own files disagree on: (election code, county or
-# "statewide", question, column) -> (what the parts sum to, what the whole says). Empty until a
-# full run finds one; accepted only as listed, and recorded in the sidecar.
-QUESTION_CHECK_EXCEPTIONS: dict[tuple[str, str, str, str], tuple[int, int]] = {}
+# "statewide", question, how it runs, column) -> (what the parts sum to, what the whole says).
+# How it runs is part of the key as it is of the check's: a county can print a "1" State and a
+# "1" County question. The statewide check compares State questions only. Empty until a full
+# run finds one; accepted only as listed, and recorded in the sidecar.
+QUESTION_CHECK_EXCEPTIONS: dict[tuple[str, str, str, str, str], tuple[int, int]] = {}
 
 
 class ResultsParseError(RuntimeError):
@@ -811,7 +813,8 @@ def _question_sides(election: ResultsElection, precinct: bool, label: str) -> li
 def question_number(printed: str) -> str:
     """A question number as every layer carries it: an all-digit number drops its leading zeros
     (the named files' "01" is the coded files' "1"); anything else is kept as printed (Garrett's
-    "A 002 000", lettered local questions). Only ASCII digits count."""
+    "A 002 000", lettered local questions). Only ASCII digits count (str.isdigit alone accepts
+    "²", which int() rejects). build_db numbers contest districts by the same rule."""
     return str(int(printed)) if printed.isascii() and printed.isdigit() else printed
 
 
@@ -1712,7 +1715,7 @@ def _check_questions_statewide(
                     )
                 )
         listed = QUESTION_CHECK_EXCEPTIONS.get(
-            (election.code, "statewide", question, f"{column}_{QUESTION_SUFFIX[side]}")
+            (election.code, "statewide", question, "State", f"{column}_{QUESTION_SUFFIX[side]}")
         )
         if ours != theirs and listed != (ours, theirs):
             raise ResultsParseError(
@@ -1750,7 +1753,7 @@ def _check_question_precincts(
         _question_precinct_check_columns(election),
         precincts,
         county_frame,
-        lambda key, c: QUESTION_CHECK_EXCEPTIONS.get((election.code, county, key[0], c)),
+        lambda key, c: QUESTION_CHECK_EXCEPTIONS.get((election.code, county, *key, c)),
     )
 
 
