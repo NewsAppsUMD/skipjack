@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import gzip
 import json
+from pathlib import Path
 
 import pytest
 
@@ -216,3 +218,51 @@ def test_the_unofficial_count_has_no_precinct_files(capsys, base, tmp_path):
         main(["get", "results", "--election", "GG26", "--base-url", base, "--geography",
               "precinct", "--county", "Kent"])  # fmt: skip
     assert "GG26's unofficial count has no precinct files" in capsys.readouterr().err
+
+
+def test_precinct_needs_a_county(capsys, base, tmp_path):
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--geography",
+              "precinct", "--precinct", "001-001", "-o", str(tmp_path / "x.json")])  # fmt: skip
+    assert exit_info.value.code == 2
+    assert "--precinct needs --county: precinct numbers repeat across counties" in (
+        capsys.readouterr().err
+    )
+
+
+def test_a_many_file_precinct_pull_says_what_it_reads(capsys, base, tmp_path):
+    root = Path(base)
+    index = root / "index.json"
+    catalog = json.loads(index.read_text())
+    second = "results/GG22/precinct/02-anne-arundel-all.csv.gz"
+    catalog["results"]["GG22"]["precinct_files"].append(second)
+    index.write_text(json.dumps(catalog))
+    (root / second).write_bytes(
+        (root / catalog["results"]["GG22"]["precinct_files"][0]).read_bytes()
+    )
+    out = tmp_path / "all.json"
+    main(["get", "results", "--election", "GG22", "--base-url", base, "--geography", "precinct",
+          "-o", str(out)])  # fmt: skip
+    captured = capsys.readouterr()
+    assert "reading results/GG22/precinct/01-allegany-all.csv.gz (1 of 2)" in captured.err
+    assert "reading results/GG22/precinct/02-anne-arundel-all.csv.gz (2 of 2)" in captured.err
+    assert "reading" not in captured.out
+    assert len(json.loads(out.read_text())["rows"]) == 4
+
+
+def test_one_precinct_file_reads_quietly(capsys, base):
+    run(capsys, "get", "results", "--election", "GG22", "--base-url", base,
+        "--geography", "precinct", "--county", "Allegany")  # fmt: skip
+    assert "reading" not in capsys.readouterr().err
+
+
+def test_a_corrupt_precinct_file_fails_cleanly(capsys, base):
+    path = Path(base) / "results/GG22/precinct/01-allegany-all.csv.gz"
+    good = gzip.compress(gzip.decompress(path.read_bytes()) * 50)
+    path.write_bytes(good[:10] + bytes(b ^ 0xFF for b in good[10:-8]) + good[-8:])
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--geography",
+              "precinct", "--county", "Allegany"])  # fmt: skip
+    assert exit_info.value.code == 2
+    err = capsys.readouterr().err
+    assert "could not decompress" in err and "Traceback" not in err

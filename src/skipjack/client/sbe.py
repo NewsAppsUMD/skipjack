@@ -54,11 +54,21 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
     county = county_for(_counties(), args.county)
     if geography == "precinct":
         if not e.precincts:
-            raise ClientError(f"the board posted no precinct files for {code}. {_FALLBACK}")
+            # nor does this site publish any: no fallback to suggest
+            raise ClientError(f"the board posted no precinct files for {code}")
         if county is None:
             raise ClientError(
                 "--source sbe reads one county's precinct files at a time; add --county"
             )
+        try:
+            # the precinct reader's own capability check: it passes once the reader handles
+            # this layout, so nothing here changes when the named layout's reader lands
+            pr._precinct_id_columns(e)
+        except pr.ResultsParseError as err:
+            raise ClientError(
+                f"--source sbe cannot read {code}'s precinct files: live precinct parsing of "
+                f"the 2010-2020 ({e.layout}) layout is not supported yet"
+            ) from err
         files, reader = pr.precinct_files(e), pr.read_precinct
     else:
         files = [f for f in pr.county_files(e) if f.role == "county"]

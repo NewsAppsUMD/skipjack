@@ -6,6 +6,7 @@ import csv
 import gzip
 import io
 import json
+import zlib
 from pathlib import Path
 
 import httpx
@@ -83,7 +84,8 @@ class SkipjackSource:
         if path.endswith(".gz") and data[:2] == GZIP_MAGIC:
             try:
                 data = gzip.decompress(data)
-            except (OSError, EOFError) as err:
+            except (OSError, EOFError, zlib.error) as err:
+                # a valid header over a corrupt body raises zlib.error, not OSError
                 raise ClientError(f"could not decompress {self.url(path)} ({err})") from err
         try:
             return data.decode("utf-8-sig")

@@ -53,12 +53,14 @@ def precinct_id(given: str) -> str:
 
 def precinct_args(args) -> tuple[str, str | None]:
     """(geography, precinct) from get results' --geography and --precinct, the precinct as
-    DDD-PPP; --precinct without --geography precinct is refused."""
+    DDD-PPP; --precinct without --geography precinct, or without --county, is refused."""
     geography = getattr(args, "geography", "county")
     given = getattr(args, "precinct", None)
     precinct = precinct_id(given) if given is not None else None
     if precinct and geography != "precinct":
         raise ClientError("--precinct needs --geography precinct")
+    if precinct and getattr(args, "county", None) is None:
+        raise ClientError("--precinct needs --county: precinct numbers repeat across counties")
     return geography, precinct
 
 

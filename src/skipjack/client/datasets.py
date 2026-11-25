@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 
 from skipjack.client.helpers import (
     choice,
@@ -140,7 +141,10 @@ def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
     office = args.office.lower() if args.office else None
     needs = (["office"] if office else []) + (["precinct"] if precinct else [])
     rows = []
-    for f in files:
+    for i, f in enumerate(files, 1):
+        if geography == "precinct" and len(files) > 1:
+            # a statewide pull reads one file per county and party file: say which, on stderr
+            print(f"reading {f} ({i} of {len(files)})", file=sys.stderr, flush=True)
         rows += [
             row
             for row in read_rows(source, f, needs)

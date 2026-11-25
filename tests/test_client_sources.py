@@ -149,3 +149,11 @@ def test_a_broken_gz_file_is_a_client_error(tmp_path):
     (tmp_path / "x.csv.gz").write_bytes(b"\x1f\x8b not really gzip")
     with pytest.raises(ClientError, match="could not decompress"):
         SkipjackSource(str(tmp_path)).text("x.csv.gz")
+
+
+def test_a_gz_file_with_a_good_header_and_a_corrupt_body_is_a_client_error(tmp_path):
+    good = gzip.compress(b"a,b\n" + b"1,2\n" * 500)
+    corrupt = good[:10] + bytes(b ^ 0xFF for b in good[10:-8]) + good[-8:]
+    (tmp_path / "x.csv.gz").write_bytes(corrupt)
+    with pytest.raises(ClientError, match="could not decompress"):
+        SkipjackSource(str(tmp_path)).text("x.csv.gz")

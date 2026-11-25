@@ -482,3 +482,22 @@ def test_results_live_pp20_has_no_precinct_files(capsys):
     err = fails(capsys, "get", "results", "--election", "PP20", "--source", "sbe",
                 "--geography", "precinct", "--county", "Kent")  # fmt: skip
     assert "the board posted no precinct files for PP20" in err
+
+
+def test_results_live_pp20_refusal_offers_no_published_copy(capsys):
+    err = fails(capsys, "get", "results", "--election", "PP20", "--source", "sbe",
+                "--geography", "precinct", "--county", "Kent")  # fmt: skip
+    assert "--source skipjack" not in err
+
+
+def test_results_live_named_layout_precincts_are_refused_before_any_download(capsys):
+    # the autouse no_network fixture fails the test if a download is attempted
+    err = fails(capsys, "get", "results", "--election", "GG18", "--source", "sbe",
+                "--geography", "precinct", "--county", "Kent")  # fmt: skip
+    assert "live precinct parsing of the 2010-2020 (named) layout is not supported yet" in err
+
+
+def test_results_live_precinct_needs_a_county(capsys):
+    err = fails(capsys, "get", "results", "--election", "PG24", "--source", "sbe",
+                "--geography", "precinct", "--precinct", "001-001")  # fmt: skip
+    assert "--precinct needs --county: precinct numbers repeat across counties" in err
