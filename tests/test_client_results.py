@@ -125,3 +125,94 @@ def test_results_office_filter_survives_a_short_row(capsys, base, tmp_path):
             "--county", "howard", "--office", "gov")
     )  # fmt: skip
     assert out["rows"] == []
+
+
+# ---- --geography precinct ----------------------------------------------------------------------
+
+
+def test_precinct_results_for_a_county(capsys, base):
+    out = json.loads(
+        run(capsys, "get", "results", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "Allegany")
+    )  # fmt: skip
+    assert [r["precinct"] for r in out["rows"]] == ["001-001", "001-002"]
+    assert out["rows"][0]["total_votes"] == 4000 and out["rows"][0]["congressional"] == "06"
+    assert out["meta"]["filters"] == {"county": "Allegany", "geography": "precinct"}
+    assert out["meta"]["source_urls"][0].endswith("01-allegany-all.csv.gz")
+
+
+def test_one_precinct_matches_loosely(capsys, base):
+    out = json.loads(
+        run(capsys, "get", "results", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "Allegany", "--precinct", "1-2")
+    )  # fmt: skip
+    assert [r["precinct"] for r in out["rows"]] == ["001-002"]
+    assert out["meta"]["filters"]["precinct"] == "001-002"
+
+
+def test_precinct_results_with_the_party_file_filter(capsys, base):
+    out = json.loads(
+        run(capsys, "get", "results", "--election", "GG22", "--base-url", base,
+            "--geography", "precinct", "--county", "Allegany", "--party-file", "all")
+    )  # fmt: skip
+    assert len(out["rows"]) == 2
+    with pytest.raises(SystemExit):
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--geography",
+              "precinct", "--county", "Allegany", "--party-file", "dem"])  # fmt: skip
+    assert "GG22 has no 'dem' files for Allegany; party files: all" in capsys.readouterr().err
+
+
+def test_every_countys_precincts_need_an_output_file(capsys, base, tmp_path):
+    with pytest.raises(SystemExit) as exit_info:
+        main(
+            ["get", "results", "--election", "GG22", "--base-url", base, "--geography", "precinct"]
+        )
+    assert exit_info.value.code == 2
+    assert "add --county, or -o FILE" in capsys.readouterr().err
+    out = tmp_path / "all.json"
+    main(["get", "results", "--election", "GG22", "--base-url", base, "--geography", "precinct",
+          "-o", str(out)])  # fmt: skip
+    assert len(json.loads(out.read_text())["rows"]) == 2
+
+
+def test_a_county_without_a_precinct_file_says_so(capsys, base):
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--geography",
+              "precinct", "--county", "Howard"])  # fmt: skip
+    assert exit_info.value.code == 2
+    assert "GG22 has no precinct files for Howard on this site" in capsys.readouterr().err
+
+
+def test_precinct_needs_the_precinct_geography(capsys, base):
+    with pytest.raises(SystemExit):
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--precinct", "001-001"])
+    assert "--precinct needs --geography precinct" in capsys.readouterr().err
+
+
+def test_a_bad_precinct_is_refused(capsys, base):
+    with pytest.raises(SystemExit):
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--geography",
+              "precinct", "--county", "Allegany", "--precinct", "north"])  # fmt: skip
+    assert "'north' is not a precinct like 001-012" in capsys.readouterr().err
+
+
+def test_a_catalog_without_precinct_files_says_so(capsys, base, tmp_path):
+    index = tmp_path / "downloads" / "index.json"
+    catalog = json.loads(index.read_text())
+    del catalog["results"]["GG22"]["precinct_files"]
+    index.write_text(json.dumps(catalog))
+    with pytest.raises(SystemExit) as exit_info:
+        main(["get", "results", "--election", "GG22", "--base-url", base, "--geography",
+              "precinct", "--county", "Allegany"])  # fmt: skip
+    assert exit_info.value.code == 2
+    err = capsys.readouterr().err
+    assert "GG22 has no precinct files on this site" in err
+    assert "Traceback" not in err
+
+
+def test_the_unofficial_count_has_no_precinct_files(capsys, base, tmp_path):
+    _add_unofficial(tmp_path / "downloads")
+    with pytest.raises(SystemExit):
+        main(["get", "results", "--election", "GG26", "--base-url", base, "--geography",
+              "precinct", "--county", "Kent"])  # fmt: skip
+    assert "GG26's unofficial count has no precinct files" in capsys.readouterr().err

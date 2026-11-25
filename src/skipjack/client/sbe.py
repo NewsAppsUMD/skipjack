@@ -13,7 +13,7 @@ import argparse
 import tempfile
 from pathlib import Path
 
-from skipjack.client.helpers import choice, county_for, meta
+from skipjack.client.helpers import choice, county_for, meta, precinct_args
 from skipjack.client.sources import ClientError
 
 _FALLBACK = "Use --source skipjack for the published copy"
@@ -34,11 +34,14 @@ def _counties() -> list[dict]:
 
 
 def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
-    """The certified county files, one download per county and party file asked for."""
+    """The certified county files, one download per county and party file asked for; with
+    --geography precinct, one county's precinct files (one per party file), whose sums are not
+    checked against the county file here."""
     from skipjack.pipeline import results as pr
 
     code = choice("election", args.election.upper(), pr.RESULTS_ELECTIONS)
     e = pr.RESULTS_ELECTIONS[code]
+    geography, precinct = precinct_args(args)
     if not e.published:
         raise ClientError(
             f"the board has not posted {code}'s certified county files. {_FALLBACK} "
@@ -49,10 +52,21 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
             f"{code} has no {args.party_file!r} files; party files: {', '.join(e.party_files)}"
         )
     county = county_for(_counties(), args.county)
+    if geography == "precinct":
+        if not e.precincts:
+            raise ClientError(f"the board posted no precinct files for {code}. {_FALLBACK}")
+        if county is None:
+            raise ClientError(
+                "--source sbe reads one county's precinct files at a time; add --county"
+            )
+        files, reader = pr.precinct_files(e), pr.read_precinct
+    else:
+        files = [f for f in pr.county_files(e) if f.role == "county"]
+        reader = pr.READERS[e.layout]
     office = args.office.lower() if args.office else None
     rows, urls, notes, exceptions = [], [], [], 0
-    for f in pr.county_files(e):
-        if f.role != "county" or (county and f.county != county["name"]):
+    for f in files:
+        if county and f.county != county["name"]:
             continue
         if args.party_file and f.party_file != args.party_file:
             continue
@@ -64,7 +78,7 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         if status != "ok":
             raise ClientError(f"could not get {f.url} ({detail or status}). {_FALLBACK}")
         try:
-            read = pr.READERS[e.layout](body, e, f.county, f.party_file)
+            read = reader(body, e, f.county, f.party_file)
         except pr.ResultsParseError as err:
             raise ClientError(f"{f.file_name} did not parse: {err}. {_FALLBACK}") from err
         urls.append(f.url)
@@ -72,14 +86,20 @@ def results(args: argparse.Namespace) -> tuple[dict, list[dict]]:
         rows += [
             r
             for r in read.frame.to_dicts()
-            if office is None or office in (r["office"] or "").lower()
+            if (office is None or office in (r["office"] or "").lower())
+            and (precinct is None or r["precinct"] == precinct)
         ]
     checks = "row totals checked"
     if exceptions:
         checks += f" ({exceptions} rows keep the board's own printed total, as published)"
-    checks += "; statewide cross-check not run (it needs every county's file)"
+    if geography == "precinct":
+        checks += "; precinct-to-county check not run (skipjack results-parse runs it)"
+    else:
+        checks += "; statewide cross-check not run (it needs every county's file)"
     filters = {"county": county["name"] if county else None, "office": args.office,
-               "party_file": args.party_file}  # fmt: skip
+               "party_file": args.party_file,
+               "geography": geography if geography != "county" else None,
+               "precinct": precinct}  # fmt: skip
     built = meta(
         "results", urls, filters,
         election=code, name=e.name, election_day=e.election_day,

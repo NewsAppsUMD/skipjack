@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gzip
 import json
 
 import httpx
@@ -125,3 +126,26 @@ def test_an_unreadable_local_file_is_a_client_error(tmp_path):
 
 def test_an_uppercase_scheme_is_still_a_url():
     assert SkipjackSource("HTTPS://example.org/downloads").local is None
+
+
+@pytest.mark.parametrize("already_decoded", [False, True])
+def test_a_gz_file_is_decompressed_unless_the_server_did_it(already_decoded):
+    body = b"a,b\n1,2\n"
+    sent = body if already_decoded else gzip.compress(body)
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, content=sent)
+
+    source = SkipjackSource("https://example.org/downloads", transport=httpx.MockTransport(handler))
+    assert source.rows("results/x.csv.gz") == [{"a": "1", "b": "2"}]
+
+
+def test_a_local_gz_file_is_decompressed(tmp_path):
+    (tmp_path / "x.csv.gz").write_bytes(gzip.compress("\ufeffa,b\n1,2\n".encode()))
+    assert SkipjackSource(str(tmp_path)).rows("x.csv.gz") == [{"a": "1", "b": "2"}]
+
+
+def test_a_broken_gz_file_is_a_client_error(tmp_path):
+    (tmp_path / "x.csv.gz").write_bytes(b"\x1f\x8b not really gzip")
+    with pytest.raises(ClientError, match="could not decompress"):
+        SkipjackSource(str(tmp_path)).text("x.csv.gz")

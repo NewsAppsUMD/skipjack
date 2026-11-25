@@ -4,9 +4,15 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 
-from skipjack.client.helpers import choice, county_for, meta, read_rows
+from skipjack.client.helpers import (
+    choice,
+    county_for,
+    file_stem,
+    meta,
+    precinct_args,
+    read_rows,
+)
 from skipjack.client.sources import ClientError, SkipjackSource
 
 # ---- list ------------------------------------------------------------------------------------
@@ -82,41 +88,70 @@ def registration(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict
 
 def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, list[dict]]:
     """County files are NN-<county-slug>-<party_file>.csv (certified) or NN-<county-slug>.csv
-    (the live unofficial count), so the filters pick files by name before any download."""
+    (the live unofficial count), so the filters pick files by name before any download. With
+    --geography precinct they are the certified precinct files, NN-<county-slug>-<party_file>
+    .csv.gz, which the catalog lists as precinct_files (a catalog built before them has no such
+    key: an older site)."""
     catalog = source.catalog()
     code = choice("election", args.election.upper(), catalog["results"])
     election = catalog["results"][code]
+    geography, precinct = precinct_args(args)
     if args.party_file and not election["official"]:
         raise ClientError(
             f"{code}'s unofficial count has no party files (it covers every party); "
             "drop --party-file"
         )
     county = county_for(catalog["counties"], args.county)
-    files = election["files"]
+    if geography == "precinct":
+        if not election["official"]:
+            raise ClientError(
+                f"{code}'s unofficial count has no precinct files; they come with the certified results"
+            )
+        if "precinct_files" not in election:
+            raise ClientError(
+                f"{code} has no precinct files on this site: its catalog predates them"
+            )
+        files = election["precinct_files"]
+        if not files:
+            raise ClientError(f"{code} has no precinct files on this site")
+        if county is None and not getattr(args, "output", None):
+            raise ClientError(
+                "precinct results are large (a statewide election is about 100,000 rows): add "
+                "--county, or -o FILE to write them all"
+            )
+    else:
+        files = election["files"]
+    every = files
     if county:
         # The two-digit code keeps 03-baltimore-city apart from 04-baltimore-county
         prefix = f"{county['code']}-{county['slug']}"
-        files = [f for f in files if (s := Path(f).stem) == prefix or s.startswith(prefix + "-")]
+        files = [f for f in files if (s := file_stem(f)) == prefix or s.startswith(prefix + "-")]
     if args.party_file:
-        files = [f for f in files if Path(f).stem.endswith(f"-{args.party_file}")]
+        files = [f for f in files if file_stem(f).endswith(f"-{args.party_file}")]
         if not files:
             # Party files are single words, so the stem's last hyphenated part names one
-            have = sorted({Path(f).stem.rsplit("-", 1)[-1] for f in election["files"]})
+            have = sorted({file_stem(f).rsplit("-", 1)[-1] for f in every})
             where = f" for {county['name']}" if county else ""
             raise ClientError(
                 f"{code} has no {args.party_file!r} files{where}; party files: {', '.join(have)}"
             )
+    if geography == "precinct" and county and not files:
+        raise ClientError(f"{code} has no precinct files for {county['name']} on this site")
     office = args.office.lower() if args.office else None
+    needs = (["office"] if office else []) + (["precinct"] if precinct else [])
     rows = []
     for f in files:
         rows += [
             row
-            for row in read_rows(source, f, ["office"] if office else [])
+            for row in read_rows(source, f, needs)
             # A short row's missing fields are None
-            if office is None or office in (row["office"] or "").lower()
+            if (office is None or office in (row["office"] or "").lower())
+            and (precinct is None or row["precinct"] == precinct)
         ]
     filters = {"county": county["name"] if county else None, "office": args.office,
-               "party_file": args.party_file}  # fmt: skip
+               "party_file": args.party_file,
+               "geography": geography if geography != "county" else None,
+               "precinct": precinct}  # fmt: skip
     built = meta(
         "results", [source.url(f) for f in files], filters,
         election=code, name=election["name"], election_day=election["election_day"],

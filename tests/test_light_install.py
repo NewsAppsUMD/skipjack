@@ -30,6 +30,8 @@ from client_fixture import write_downloads
 base = write_downloads(pathlib.Path({tmp!r}) / "downloads")
 main(["get", "registration", "--base-url", str(base), "--format", "csv"])
 main(["list", "counties", "--base-url", str(base), "--format", "csv"])
+main(["get", "results", "--election", "GG22", "--geography", "precinct", "--county", "Allegany",
+      "--base-url", str(base), "--format", "csv"])
 import skipjack.client.sbe, skipjack.pipeline.results, skipjack.pipeline.turnout
 """
 
@@ -46,6 +48,7 @@ def test_the_data_cli_runs_without_the_heavy_dependencies(tmp_path):
     )
     assert done.returncode == 0, done.stderr
     assert "report_date,county" in done.stdout
+    assert "\nGG22,Allegany,all,001-001,06,01," in done.stdout  # the gzipped precinct file
 
 
 def test_a_pipeline_command_without_its_extra_says_what_to_install(capsys, monkeypatch):

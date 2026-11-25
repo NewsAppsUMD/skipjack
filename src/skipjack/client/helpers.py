@@ -38,6 +38,30 @@ def choice(kind: str, given: str, choices) -> str:
     return given
 
 
+def file_stem(path: str) -> str:
+    """A download's name without .csv or .csv.gz ("01-allegany-all")."""
+    return path.rsplit("/", 1)[-1].removesuffix(".gz").removesuffix(".csv")
+
+
+def precinct_id(given: str) -> str:
+    """A precinct as the files print it: "1-12" and "001-012" are both "001-012"."""
+    m = re.fullmatch(r"\s*(\d{1,3})-(\d{1,3})\s*", given)
+    if not m:
+        raise ClientError(f"{given!r} is not a precinct like 001-012")
+    return f"{int(m.group(1)):03d}-{int(m.group(2)):03d}"
+
+
+def precinct_args(args) -> tuple[str, str | None]:
+    """(geography, precinct) from get results' --geography and --precinct, the precinct as
+    DDD-PPP; --precinct without --geography precinct is refused."""
+    geography = getattr(args, "geography", "county")
+    given = getattr(args, "precinct", None)
+    precinct = precinct_id(given) if given is not None else None
+    if precinct and geography != "precinct":
+        raise ClientError("--precinct needs --geography precinct")
+    return geography, precinct
+
+
 def read_rows(source: SkipjackSource, path: str, needs: Iterable[str] = ()) -> list[dict]:
     """A CSV file's rows, after checking its header has the columns the caller reads.
 

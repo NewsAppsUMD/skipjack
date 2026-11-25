@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import io
 import json
 from pathlib import Path
@@ -11,6 +12,7 @@ import httpx
 
 DEFAULT_BASE_URL = "https://newsappsumd.github.io/skipjack/downloads"
 SUPPORTED_CATALOG = 1
+GZIP_MAGIC = b"\x1f\x8b"
 
 
 class ClientError(Exception):
@@ -53,15 +55,14 @@ class SkipjackSource:
     def url(self, path: str) -> str:
         return str(self.local / path) if self.local is not None else f"{self.base}/{path}"
 
-    def text(self, path: str) -> str:
-        """The file's text, decoded as UTF-8 with any byte-order mark dropped."""
+    def _bytes(self, path: str) -> bytes:
         if self.local is not None:
             target = self.local / path
             if not target.is_file():
                 raise NotFound(f"not found: {target}")
             try:
-                return target.read_bytes().decode("utf-8-sig")
-            except (OSError, UnicodeDecodeError) as err:
+                return target.read_bytes()
+            except OSError as err:
                 raise ClientError(f"could not read {target} ({err})") from err
         try:
             response = self._http().get(self.url(path))
@@ -71,8 +72,21 @@ class SkipjackSource:
             raise NotFound(f"not found: {self.url(path)}")
         if response.status_code != 200:
             raise ClientError(f"{self.url(path)}: HTTP {response.status_code}")
+        return response.content
+
+    def text(self, path: str) -> str:
+        """The file's text, decoded as UTF-8 with any byte-order mark dropped. A .gz file is
+        decompressed, unless the server already undid the compression (a host that sends
+        Content-Encoding: gzip for .gz, which httpx decodes): only bytes that start with the
+        gzip magic are decompressed."""
+        data = self._bytes(path)
+        if path.endswith(".gz") and data[:2] == GZIP_MAGIC:
+            try:
+                data = gzip.decompress(data)
+            except (OSError, EOFError) as err:
+                raise ClientError(f"could not decompress {self.url(path)} ({err})") from err
         try:
-            return response.content.decode("utf-8-sig")
+            return data.decode("utf-8-sig")
         except UnicodeDecodeError as err:
             raise ClientError(f"could not read {self.url(path)} ({err})") from err
 

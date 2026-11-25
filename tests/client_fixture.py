@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gzip
 import json
 from pathlib import Path
 
@@ -25,6 +26,15 @@ ALLEGANY = RESULTS_HEADER + (
 HOWARD = RESULTS_HEADER + (
     'GG22,Howard,all,Governor / Lt. Governor,"",Wes Moore and Aruna Miller,DEM,1,0,9000,,90000,\n'
 )
+
+PRECINCT_HEADER = (
+    "election,county,party_file,precinct,congressional,legislative,office,district,candidate,"
+    "party,winner,write_in,early_votes,early_against,total_votes,total_against\n"
+)
+ALLEGANY_PRECINCTS = PRECINCT_HEADER + (
+    'GG22,Allegany,all,001-001,06,01,Governor / Lt. Governor,"",Wes Moore and Aruna Miller,DEM,1,0,500,,4000,\n'
+    'GG22,Allegany,all,001-002,06,01,Governor / Lt. Governor,"",Wes Moore and Aruna Miller,DEM,1,0,283,,2796,\n'
+)  # fmt: skip
 
 TURNOUT_HEADER = "as_of,election,family,geography,county,district,category,party,measure,value\n"
 
@@ -83,6 +93,8 @@ def write_downloads(root: Path) -> Path:
                     "results/GG22/county/01-allegany-all.csv",
                     "results/GG22/county/14-howard-all.csv",
                 ],
+                "precinct_files": ["results/GG22/precinct/01-allegany-all.csv.gz"],
+                "question_files": {"county": [], "precinct": []},
             }
         },
         "turnout": {
@@ -102,6 +114,11 @@ def write_downloads(root: Path) -> Path:
         path = root / relative
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
+    gzipped = {"results/GG22/precinct/01-allegany-all.csv.gz": ALLEGANY_PRECINCTS}
+    for relative, text in gzipped.items():
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(gzip.compress(text.encode(), mtime=0))
     return root
 
 

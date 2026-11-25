@@ -421,3 +421,64 @@ def test_sbe_does_not_open_the_skipjack_source(capsys, monkeypatch):
 
     monkeypatch.setattr(commands, "SkipjackSource", refuse)
     fails(capsys, "get", "turnout", "--election", "GG26", "--source", "sbe")
+
+
+# ---- results by precinct -----------------------------------------------------------------------
+
+PG24_PRECINCT_HEAD = (
+    '"County","County Name","Election District - Precinct","Congressional","Legislative",'
+    '"Office Name","Office District","Candidate Name","Party","Winner","Write-In?",'
+    '"Early Votes","Early Votes Against","Election Night Votes","Election Night Votes Against",'
+    '"Mail-In Ballot 1 Votes","Mail-In Ballot 1 Votes Against","Provisional Votes",'
+    '"Provisional Votes Against","Mail-In Ballot 2 Votes","Mail-In Ballot 2 Votes Against"\n'
+)
+PG24_PRECINCT_ROWS = (
+    '"15","Kent County","001-001","01","36","President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","70","","149","","23","","22","","124",""\n'
+    '"15","Kent County","001-002","01","36","President - Vice Pres","","Kamala D. Harris and Tim Walz","DEM","Y","","1","","2","","3","","4","","5",""\n'
+)  # fmt: skip
+
+
+def test_results_live_precincts_need_a_county(capsys):
+    err = fails(capsys, "get", "results", "--election", "PG24", "--source", "sbe",
+                "--geography", "precinct")  # fmt: skip
+    assert "one county's precinct files at a time; add --county" in err
+
+
+def test_results_live_precincts_for_a_county(capsys, monkeypatch):
+    seen = []
+
+    def fake(url, timeout=30.0):
+        seen.append(url)
+        return "ok", (PG24_PRECINCT_HEAD + PG24_PRECINCT_ROWS).encode(), ""
+
+    monkeypatch.setattr(results, "download_status", fake)
+    out = run(capsys, "get", "results", "--election", "PG24", "--source", "sbe",
+              "--geography", "precinct", "--county", "Kent")  # fmt: skip
+    assert seen == [
+        "https://elections.maryland.gov/elections/archive/2024/election_data/PG24_15PrecinctsResults.csv"
+    ]
+    assert [r["precinct"] for r in out["rows"]] == ["001-001", "001-002"]
+    assert out["rows"][0]["total_votes"] == 388
+    assert "precinct-to-county check not run" in out["meta"]["checks"]
+    assert out["meta"]["filters"] == {"county": "Kent", "geography": "precinct"}
+
+
+def test_results_live_one_precinct(capsys, monkeypatch):
+    body = (PG24_PRECINCT_HEAD + PG24_PRECINCT_ROWS).encode()
+    monkeypatch.setattr(results, "download_status", lambda url, timeout=30.0: ("ok", body, ""))
+    out = run(capsys, "get", "results", "--election", "PG24", "--source", "sbe",
+              "--geography", "precinct", "--county", "Kent", "--precinct", "1-2")  # fmt: skip
+    assert [r["precinct"] for r in out["rows"]] == ["001-002"]
+    assert out["meta"]["filters"]["precinct"] == "001-002"
+
+
+def test_results_live_precinct_needs_the_precinct_geography(capsys):
+    err = fails(capsys, "get", "results", "--election", "PG24", "--source", "sbe",
+                "--precinct", "001-001")  # fmt: skip
+    assert "--precinct needs --geography precinct" in err
+
+
+def test_results_live_pp20_has_no_precinct_files(capsys):
+    err = fails(capsys, "get", "results", "--election", "PP20", "--source", "sbe",
+                "--geography", "precinct", "--county", "Kent")  # fmt: skip
+    assert "the board posted no precinct files for PP20" in err

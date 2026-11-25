@@ -73,12 +73,16 @@ def register(sub: argparse._SubParsersAction) -> None:
     reg.add_argument("--to", dest="end", metavar="YYYY-MM", type=_month)
     _shared(reg, sbe=True)
 
-    res = get_sub.add_parser("results", help="An election's results by county")
+    res = get_sub.add_parser("results", help="An election's results by county or precinct")
     res.add_argument("--election", required=True, help="An election code, e.g. GG22")
     res.add_argument("--county")
     res.add_argument("--office", help="Keep offices containing this text (case-insensitive)")
     res.add_argument("--party-file", choices=["dem", "rep", "non", "all"],
                      help="A primary's party file")  # fmt: skip
+    res.add_argument("--geography", choices=["county", "precinct"], default="county",
+                     help="county (the default) or precinct: a row per precinct")  # fmt: skip
+    res.add_argument("--precinct", metavar="DDD-PPP",
+                     help="One precinct (with --geography precinct), e.g. 001-012")  # fmt: skip
     _shared(res, sbe=True)
 
     tur = get_sub.add_parser("turnout", help="An election's turnout reports")
