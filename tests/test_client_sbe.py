@@ -525,7 +525,7 @@ def test_results_live_named_layout_precincts(capsys, monkeypatch):
     assert out["meta"]["notes"] == [
         "Kent_By_Precinct_NonPartisan_2018_Primary.csv not posted (no non-partisan contests)",
         "the board's precinct files for 2010-2018 carry election-night votes only, so "
-        "total_votes is election-night votes",
+        "total_votes and total_against are election-night votes",
     ]
 
 

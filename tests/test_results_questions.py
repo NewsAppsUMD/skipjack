@@ -12,6 +12,7 @@ PG16 = results.RESULTS_ELECTIONS["PG16"]
 PG12 = results.RESULTS_ELECTIONS["PG12"]
 GG10 = results.RESULTS_ELECTIONS["GG10"]
 PG20 = results.RESULTS_ELECTIONS["PG20"]
+GG14 = results.RESULTS_ELECTIONS["GG14"]
 
 CODED_COUNTY_HEAD = (
     '"County","JurisdictionName","QuestionNumber","How it Runs?","Winner","Early Votes",'
@@ -204,9 +205,7 @@ def test_a_named_blank_for_or_against_reads_as_zero():
     # an empty precinct: Montgomery's 004-036 prints For "0" and a blank Against
     rows = '"CC","004","036","08","19","01","State","","0","",""\n'
     frame = results.read_questions(named_precincts("16", rows), GG18, "Montgomery", level="precinct").frame  # fmt: skip
-    assert frame["election_night_against"].to_list() == [0] and frame[
-        "total_against"
-    ].to_list() == [0]
+    assert frame["election_night_against"].to_list() == [0] and frame["total_against"].to_list() == [0]  # fmt: skip
 
 
 def test_precinct_rows_must_be_the_countys():
@@ -252,3 +251,56 @@ def test_county_files_keep_every_row_whole():
     short = NAMED_COUNTY_ROWS[: -len(',""\n')] + "\n"
     with pytest.raises(results.ResultsParseError, match="rows do not all have 22 columns"):
         results.read_questions(named_county(short), GG18, "Kent")
+
+
+GG14_COUNTY_HEAD = (
+    '"County","Question Number","How it Runs?","Winner","Early Votes","Early Votes Against",'
+    '"Election Night Votes","Election Night Votes Against","Absentees Votes",'
+    '"Absentees Votes Against","Provisional Votes","Provisional Votes Against",'
+    '"2nd Absentees Votes","2nd Absentees Votes Against","Total Votes","Total Votes Against"\n'
+)
+
+
+def test_garretts_question_numbers_are_kept_as_printed():
+    # Garrett's 2014 local questions are numbered by question and election district
+    row = '"12","A 002 000","County","","9","7","218","241","0","0","7","0","1","4","235","252"\n'
+    frame = results.read_questions((GG14_COUNTY_HEAD + row).encode(), GG14, "Garrett").frame
+    assert frame["question"].to_list() == ["A 002 000"]
+    assert (frame["total_votes"][0], frame["total_against"][0]) == (235, 252)
+
+
+def test_an_unknown_county_is_a_parse_error():
+    with pytest.raises(results.ResultsParseError, match="unknown county 'Narnia'"):
+        results.read_questions(coded_county(), PG24, "Narnia")
+
+
+def test_duplicated_unknown_columns_are_named_as_printed():
+    head = NAMED_COUNTY_HEAD.replace("\n", ',"Mystery 3rd option","Mystery 3rd option"\n')
+    with pytest.raises(results.ResultsParseError, match=r"not in the registry: \['Mystery 3rd option'\]$"):  # fmt: skip
+        results.read_questions((head + NAMED_COUNTY_ROWS.replace("\n", ',"",""\n')).encode(), GG18, "Kent")  # fmt: skip
+    head = CODED_COUNTY_HEAD.replace(" \n", ',"Mystery Votes","Mystery Votes" \n')
+    rows = CODED_COUNTY_ROWS.replace(" \n", ',"1","1" \n')
+    with pytest.raises(results.ResultsParseError, match=r"not in the registry: \['Mystery Votes'\]$"):  # fmt: skip
+        results.read_questions((head + rows.replace('"CC"', '"15"')).encode(), PG24, "Kent")
+
+
+def test_precinct_errors_name_the_precinct():
+    rows = NAMED_PRECINCT_ROWS.replace('"78","28"', '"78","x"')
+    with pytest.raises(results.ResultsParseError, match="precinct 001-002 question 01: 'Election Night Votes Against' is not a number"):  # fmt: skip
+        results.read_questions(named_precincts(rows=rows), GG18, "Kent", level="precinct")
+    rows = CODED_PRECINCT_ROWS.replace('"454","47"', '"454",""')
+    with pytest.raises(results.ResultsParseError, match="precinct 001-002 question 1: blank Early Votes Against"):  # fmt: skip
+        results.read_questions(coded_precincts(rows=rows), PG24, "Kent", level="precinct")
+
+
+def test_a_printed_zero_third_total_with_blank_third_cells_is_accepted():
+    zero = NAMED_COUNTY_ROWS[: -len('""\n')] + '"0"\n'
+    frame = results.read_questions(named_county(zero), GG18, "Kent").frame
+    assert frame["total_third"].to_list() == [0]  # as printed
+    assert frame["early_third"].to_list() == [None]
+    # a figure in a third cell under a printed 0 is still a mismatch
+    bad = zero.replace('"2409","290",""', '"2409","290","4"')
+    with pytest.raises(
+        results.ResultsParseError, match="Total 3rd option 0 != sum of vote types 4"
+    ):
+        results.read_questions(named_county(bad), GG18, "Kent")

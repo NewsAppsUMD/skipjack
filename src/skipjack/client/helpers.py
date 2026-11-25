@@ -51,11 +51,24 @@ def precinct_id(given: str) -> str:
     return f"{int(m.group(1)):03d}-{int(m.group(2)):03d}"
 
 
-# A precinct pull of an election through 2018 says what its figures are
+# The last year whose precinct files split election-night votes only. The downloads path reads
+# it here (election_night_only); the sbe path asks the pipeline registry's own flag
+# (ResultsElection.precinct_every_vote_type, derived from the same year in
+# pipeline/results.py's precinct_vote_types): change both together.
+ELECTION_NIGHT_ONLY_THROUGH = 2018
+
+# A precinct pull of an election through that year says what its figures are
 ELECTION_NIGHT_ONLY = (
-    "the board's precinct files for 2010-2018 carry election-night votes only, so total_votes "
-    "is election-night votes"
+    f"the board's precinct files for 2010-{ELECTION_NIGHT_ONLY_THROUGH} carry election-night "
+    "votes only, so total_votes and total_against are election-night votes"
 )
+
+
+def election_night_only(year: str | int | None) -> bool:
+    """Whether a precinct pull of an election in ``year`` (a number or its digits) carries
+    election-night votes only; an unknown year does not."""
+    year = str(year or "")
+    return year.isdigit() and int(year) <= ELECTION_NIGHT_ONLY_THROUGH
 
 
 def precinct_args(args) -> tuple[str, str | None]:

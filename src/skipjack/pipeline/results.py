@@ -199,7 +199,9 @@ class ResultsElection:
     @property
     def precinct_vote_types(self) -> list[tuple[str, str]]:
         """The vote types the precinct files carry: through 2018 only election-night votes are
-        split by precinct; from 2020 every vote type is."""
+        split by precinct; from 2020 every vote type is. The data CLI's downloads path, which
+        cannot import the pipeline, keeps the same year in client.helpers
+        (ELECTION_NIGHT_ONLY_THROUGH); change both together."""
         if self.year <= 2018:
             return [("Election Night", "election_night")]
         return list(self.vote_types)
@@ -821,13 +823,16 @@ def read_questions(
     question A fills it (2016's three-way question, and 2018's files repeat 2016's third-choice
     figures). A blank For or Against reads as 0 in the named layout (an empty precinct prints a
     blank Against). A printed total must equal the sum of the vote types, the third choice
-    included; the county files print them, the precinct files do not (PG20's Total cells are
-    blank or missing), so there the totals are the sums.
+    included (a printed third-choice total of 0 over blank third cells agrees, and is kept as
+    0); the county files print them, the precinct files do not (PG20's Total cells are blank or
+    missing), so there the totals are the sums. Errors on a precinct file name the precinct.
     """
     precinct = level == "precinct"
     where = f"{election.code} {county} questions" + (" by precinct" if precinct else "")
     raw = _frame(data, where, optional_tail=QUESTION_TOTALS if precinct else ())
-    code = next(c for c, n in COUNTY_CODES.items() if n == county)
+    code = next((c for c, n in COUNTY_CODES.items() if n == county), None)
+    if code is None:
+        raise ResultsParseError(f"{where}: unknown county {county!r}")
     named = election.layout == "named"
     third = question_third(election)
     vote_types = election.precinct_vote_types if precinct else election.vote_types
@@ -853,15 +858,17 @@ def read_questions(
             f"{where}: expected {election.code} {election.layout} layout columns in {expected}; "
             f"missing {missing}"
         )
+    # a repeated header is read as "<name>.1" (see _frame): judged, and named, as printed
+    printed_names = {re.sub(r"\.\d+$", "", c) for c in raw.columns}
     unknown = sorted(
         c
-        for c in raw.columns
+        for c in printed_names
         if c.endswith((" Votes", " Votes Against")) and c not in need and not c.startswith("Total")
     )
     if unknown:
         raise ResultsParseError(f"{where}: vote columns not in the registry: {unknown}")
     stray = sorted(
-        c for c in raw.columns if "3rd option" in c and c not in need and c != "Total 3rd option"
+        c for c in printed_names if "3rd option" in c and c not in need and c != "Total 3rd option"
     )
     if stray or (not third and "Total 3rd option" in raw.columns):
         raise ResultsParseError(
@@ -872,7 +879,13 @@ def read_questions(
 
     rows = []
     for r in raw.iter_rows(named=True):
-        who = f"{where}: question {r[number]}"
+        if precinct:  # named in errors as printed; _precinct_id checks it below
+            place = r.get("Election District - Precinct") or (
+                f"{r['Election District']}-{r['Election Precinct']}"
+            )
+            who = f"{where}: precinct {place} question {r[number]}"
+        else:
+            who = f"{where}: question {r[number]}"
         out: dict = {"election": election.code, "county": county}
         runs = r["How it Runs?"]
         if precinct or not named:
@@ -910,13 +923,21 @@ def read_questions(
             if printed is None and not precinct and side != "third":
                 raise ResultsParseError(f"{who}: blank {column}")
             # a county file's blank Total 3rd option must mean no third choice; a precinct
-            # file prints no totals (PG20's are blank), so there only a printed one is checked
+            # file prints no totals (PG20's are blank), so there only a printed one is checked.
+            # A third-choice total of 0 over blank cells agrees (both say no third votes)
             checked = printed is not None or (not precinct and side == "third")
-            if checked and printed != sums[side]:
+            if side == "third":
+                agrees = (printed or 0) == (sums[side] or 0)
+            else:
+                agrees = printed == sums[side]
+            if checked and not agrees:
                 raise ResultsParseError(
                     f"{who}: {column} {printed} != sum of vote types {sums[side]}"
                 )
-            out[f"total_{side}"] = sums[side]
+            # the third-choice total as printed (a 0 over blank cells stays 0)
+            out[f"total_{side}"] = (
+                printed if side == "third" and printed is not None else sums[side]
+            )
         rows.append(out)
 
     ids = QUESTION_PRECINCT_ID_COLUMNS if precinct else QUESTION_ID_COLUMNS

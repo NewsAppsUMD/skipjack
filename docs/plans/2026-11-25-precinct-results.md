@@ -3189,7 +3189,10 @@ Checks (all-or-nothing per election, questions as one level):
 - **Precinct to county:** each county's precinct question rows summed per question must equal
   its county question file on `_precinct_check_columns(e)`.
   The `_third` columns are compared too, on the precinct file's vote types (plus
-  `total_third` from 2020); the code below predates this and must add them.
+  `total_third` from 2020); the code below predates this and must add them. The 2016-2018
+  precinct files' `total_third` (equal to `election_night_third`, the only vote type they carry)
+  is **not** compared: the county file's `total_third` covers every vote type, so as for the
+  candidates the totals take part only when the precinct file carries every vote type (2020 on).
 
 Output: `data/results/{CODE}/questions/county/{cc}-{slug}.csv` (plain) and
 `data/results/{CODE}/questions/precinct/{cc}-{slug}.csv.gz`, with sidecars (`family`
@@ -3359,9 +3362,9 @@ def _check_questions_statewide(
     election: ResultsElection, frames: list[pl.DataFrame], breakdown: bytes
 ) -> int:
     """The statewide questions (How it Runs? "State") summed over the county files must equal
-    the breakdown file's County 00 rows, For and Against, on the election's check column; a
-    third-option row (Vote Type 3) must carry no votes. Local questions are not compared.
-    Returns how many questions matched."""
+    the breakdown file's County 00 rows, For and Against, on the election's check column, and
+    a third-option row (Vote Type 3) against the summed <column>_third (None counting as 0).
+    Local questions are not compared. Returns how many questions matched."""
     where = f"{election.code} question breakdown"
     raw = _frame(breakdown, where)
     vt = "Vote Type (FOR=1,AGAINST=2)"
@@ -3376,11 +3379,7 @@ def _check_questions_statewide(
     state: dict[tuple[str, str], int] = {}
     for r in raw.filter(pl.col("County") == "00").iter_rows(named=True):
         n = sum(_int(r[c], where, c) or 0 for c in district_cols)
-        if r[vt] == "3":
-            if n:
-                raise ResultsParseError(f"{where}: question {r[number]} has {n} third-option votes")
-            continue
-        side = {"1": "for", "2": "against"}.get(r[vt])
+        side = {"1": "for", "2": "against", "3": "third"}.get(r[vt])
         if side is None:
             raise ResultsParseError(f"{where}: unknown vote type {r[vt]!r}")
         state[(r[number], side)] = state.get((r[number], side), 0) + n
@@ -3388,9 +3387,12 @@ def _check_questions_statewide(
     sums: dict[tuple[str, str], int] = {}
     for frame in frames:
         for r in frame.filter(pl.col("how_it_runs") == "State").iter_rows(named=True):
-            for side, suffix in (("for", "votes"), ("against", "against")):
+            sides = [("for", "votes"), ("against", "against")]
+            if f"{column}_third" in r:
+                sides.append(("third", "third"))  # None counts as 0
+            for side, suffix in sides:
                 key = (r["question"], side)
-                sums[key] = sums.get(key, 0) + r[f"{column}_{suffix}"]
+                sums[key] = sums.get(key, 0) + (r[f"{column}_{suffix}"] or 0)
     for key in sorted(set(sums) | set(state)):
         ours, theirs = sums.get(key), state.get(key)
         if ours is None or theirs is None:

@@ -156,7 +156,7 @@ def test_precinct_results_before_2020_say_they_are_election_night_votes(capsys, 
     )  # fmt: skip
     assert out["meta"]["notes"] == [
         "the board's precinct files for 2010-2018 carry election-night votes only, so "
-        "total_votes is election-night votes"
+        "total_votes and total_against are election-night votes"
     ]
     county = json.loads(
         run(capsys, "get", "results", "--election", "GG22", "--base-url", base)
@@ -287,3 +287,14 @@ def test_a_corrupt_precinct_file_fails_cleanly(capsys, base):
     assert exit_info.value.code == 2
     err = capsys.readouterr().err
     assert "could not decompress" in err and "Traceback" not in err
+
+
+def test_election_night_only_follows_the_registry():
+    from skipjack.client.helpers import election_night_only
+    from skipjack.pipeline.results import RESULTS_ELECTIONS
+
+    # the downloads path's year rule and the pipeline's flag agree for every election
+    for e in RESULTS_ELECTIONS.values():
+        if e.precincts:
+            assert election_night_only(e.year) == (not e.precinct_every_vote_type), e.code
+    assert election_night_only("") is False and election_night_only(None) is False

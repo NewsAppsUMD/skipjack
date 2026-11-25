@@ -9,6 +9,7 @@ import sys
 from skipjack.client.helpers import (
     ELECTION_NIGHT_ONLY,
     choice,
+    election_night_only,
     county_for,
     file_stem,
     meta,
@@ -163,7 +164,7 @@ def results(args: argparse.Namespace, source: SkipjackSource) -> tuple[dict, lis
         official=election["official"], as_of=election["as_of"],
     )  # fmt: skip
     year = (election.get("election_day") or "")[:4]
-    if geography == "precinct" and year.isdigit() and int(year) <= 2018:
+    if geography == "precinct" and election_night_only(year):
         built["notes"] = [ELECTION_NIGHT_ONLY]
     return built, rows
 
