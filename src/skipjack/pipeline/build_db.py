@@ -29,7 +29,7 @@ class TurnoutLoadError(RuntimeError):
 
 
 class ResultsLoadError(RuntimeError):
-    """A county results CSV contradicts its sidecar or the registry, or has no sidecar."""
+    """A county or precinct results CSV contradicts its sidecar or the registry, or has no sidecar."""
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -403,15 +403,19 @@ def _check_results_cells(df: pl.DataFrame, csv_path: Path) -> None:
             )
 
 
-def _check_results_file(df: pl.DataFrame, prov: dict, csv_path: Path, code: str) -> None:
-    """The CSV must agree with its sidecar, its directory and its file name."""
+def _check_results_file(
+    df: pl.DataFrame, prov: dict, csv_path: Path, code: str, level: str = "county"
+) -> None:
+    """The CSV (a county or, with level="precinct", a gzipped precinct file) must agree with its
+    sidecar, its directory and its file name."""
     elections = df["election"].unique().to_list()
     if elections != [prov.get("election", "")] or elections != [code]:
         raise ResultsLoadError(
             f"{csv_path}: election column holds {elections} but the sidecar says "
             f"{prov.get('election', '')!r} and the directory says {code!r}"
         )
-    number, _, rest = csv_path.stem.partition("-")
+    name = csv_path.name.removesuffix(".gz").removesuffix(".csv")
+    number, _, rest = name.partition("-")
     county = COUNTY_CODES.get(number)
     if county is None or not rest.startswith(county_slug(county) + "-"):
         raise ResultsLoadError(f"{csv_path}: file name does not match a registry county")
@@ -421,7 +425,7 @@ def _check_results_file(df: pl.DataFrame, prov: dict, csv_path: Path, code: str)
             f"{csv_path}: county column holds {counties} but the file is {county!r}"
         )
     party_file = rest[len(county_slug(county)) + 1 :]
-    expected_id = f"sbe-results-{code}-county-{number}-{party_file}"
+    expected_id = f"sbe-results-{code}-{level}-{number}-{party_file}"
     if prov.get("source_id") != expected_id:
         raise ResultsLoadError(
             f"{csv_path}: sidecar source_id {prov.get('source_id')!r} does not match the file "
@@ -437,6 +441,109 @@ def _check_results_file(df: pl.DataFrame, prov: dict, csv_path: Path, code: str)
         raise ResultsLoadError(
             f"{csv_path}: party_file column holds {party_files} but the file name says {party_file!r}"
         )
+
+
+_PRECINCT_TEXT = [
+    "election", "county", "party_file", "precinct", "congressional", "legislative",
+    "office", "district", "candidate", "party",
+]  # fmt: skip
+
+
+def load_results_precinct(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -> int:
+    """Load every data/results/<CODE>/precinct/*.csv.gz, melting the vote-type columns as
+    load_results does. Each row's totals must be the sums of its vote types (the parser computed
+    or checked them). Returns the number of results_precinct rows loaded."""
+    root = data_dir / "results"
+    if not root.exists():
+        return 0
+    next_id = conn.execute("SELECT COALESCE(MAX(id), 0) FROM results_precinct").fetchone()[0] + 1
+    total = 0
+    for path in sorted(root.glob("*/precinct/*.csv.gz")):
+        prov = load_provenance(path)
+        if not prov:
+            raise ResultsLoadError(
+                f"{path}: no provenance sidecar; refusing to load an unattributable file"
+            )
+        code = path.parent.parent.name
+        election = RESULTS_ELECTIONS.get(code)
+        if election is None:
+            raise ResultsLoadError(f"{path}: unknown election code {code!r}")
+        stems = [stem for _, stem in election.precinct_vote_types]
+        against = election.kind == "general"
+        overrides = {c: pl.String for c in _PRECINCT_TEXT}
+        overrides |= {"winner": pl.Int64, "write_in": pl.Int64, "total_votes": pl.Int64}
+        overrides |= {f"{stem}_votes": pl.Int64 for stem in stems}
+        if against:
+            overrides |= {f"{stem}_against": pl.Int64 for stem in stems}
+            overrides["total_against"] = pl.Int64
+        try:
+            # a blank text cell (written "" by the parser) reads as "", not null
+            df = pl.read_csv(path, schema_overrides=overrides, missing_utf8_is_empty_string=True)
+        except PolarsError as e:
+            raise ResultsLoadError(f"{path}: {e}") from e
+        missing = [c for c in overrides if c not in df.columns]
+        if missing:
+            raise ResultsLoadError(f"{path}: missing columns {missing} for {code}")
+        if df.height == 0:
+            raise ResultsLoadError(f"{path}: no rows")
+        _check_results_file(df, prov, path, code, level="precinct")
+        _check_results_cells(df, path)
+        df = df.with_columns(
+            pl.col("district").map_elements(_normalize_district, return_dtype=pl.String)
+        )
+        _upsert_source(conn, prov)
+        precinct_rows, vote_rows = [], []
+        for row in df.with_row_index("_line", offset=2).iter_rows(named=True):
+            where = f"{path}: row {row['_line']} ({row['candidate']})"
+            vote_sum = 0
+            for stem in stems:
+                votes = row[f"{stem}_votes"]
+                if votes is None:
+                    raise ResultsLoadError(f"{where}: blank {stem}_votes")
+                vote_sum += votes
+                vote_rows.append(
+                    (next_id, stem, votes, row[f"{stem}_against"] if against else None)
+                )
+            if vote_sum != row["total_votes"]:
+                raise ResultsLoadError(
+                    f"{where}: total votes {row['total_votes']} != sum of vote types {vote_sum}"
+                )
+            if against:
+                seen = [row[f"{stem}_against"] for stem in stems]
+                seen = [a for a in seen if a is not None]
+                if seen and sum(seen) != (row["total_against"] or 0):
+                    raise ResultsLoadError(
+                        f"{where}: total against {row['total_against']} != sum of vote types "
+                        f"against {sum(seen)}"
+                    )
+            precinct_rows.append(
+                (
+                    next_id,
+                    prov["source_id"],
+                    *(row[c] for c in _PRECINCT_TEXT),
+                    row["winner"],
+                    row["write_in"],
+                    row["total_votes"],
+                    row["total_against"] if against else None,
+                )
+            )
+            next_id += 1
+        conn.executemany(
+            """INSERT INTO results_precinct
+               (id, source_id, election, county, party_file, precinct, congressional,
+                legislative, office, district, candidate, party, winner, write_in, total_votes,
+                total_against)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            precinct_rows,
+        )
+        conn.executemany(
+            "INSERT INTO results_precinct_votes (result_id, vote_type, votes, votes_against) "
+            "VALUES (?, ?, ?, ?)",
+            vote_rows,
+        )
+        total += len(precinct_rows)
+    logger.info("Loaded precinct results: %d rows", total)
+    return total
 
 
 # --- the unofficial running count (see pipeline/results_unofficial.py) ------------------------
@@ -603,6 +710,7 @@ def build(db_path: Path = DB_PATH, data_dir: Path = DATA_DIR) -> Path:
     counts["voter_file"] = load_voter_file(conn, data_dir)
     counts["turnout"] = load_turnout(conn, data_dir)
     counts["results"] = load_results(conn, data_dir)
+    counts["results_precinct"] = load_results_precinct(conn, data_dir)
     counts["results_unofficial"] = load_results_unofficial(conn, data_dir)
     counts["officials"] = load_officials(conn, data_dir)
     conn.commit()

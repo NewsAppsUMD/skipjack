@@ -165,6 +165,42 @@ CREATE INDEX IF NOT EXISTS idx_results_county_contest
 CREATE INDEX IF NOT EXISTS idx_results_county_county ON results_county (election, county);
 CREATE INDEX IF NOT EXISTS idx_results_votes_result ON results_votes (result_id);
 
+-- One candidate's certified result in one precinct (a row of the board's precinct results
+-- files), checked by the parser against the county file it sums to. precinct is 'DDD-PPP';
+-- congressional and legislative are the board's district codes for the precinct ('' in 2010).
+-- The 2010-2018 files carry election-night votes only, so total_votes there is the precinct's
+-- election-night votes, not its whole vote. district is normalized as in results_county.
+CREATE TABLE IF NOT EXISTS results_precinct (
+    id INTEGER PRIMARY KEY,
+    source_id TEXT REFERENCES sources(source_id),
+    election TEXT NOT NULL,
+    county TEXT NOT NULL,
+    party_file TEXT NOT NULL,
+    precinct TEXT NOT NULL,
+    congressional TEXT NOT NULL,
+    legislative TEXT NOT NULL,
+    office TEXT NOT NULL,
+    district TEXT NOT NULL,
+    candidate TEXT NOT NULL,
+    party TEXT,
+    winner INTEGER NOT NULL,
+    write_in INTEGER NOT NULL,
+    total_votes INTEGER NOT NULL,
+    total_against INTEGER
+);
+
+-- A results_precinct row's votes by vote type, as results_votes is for results_county.
+CREATE TABLE IF NOT EXISTS results_precinct_votes (
+    result_id INTEGER NOT NULL REFERENCES results_precinct(id),
+    vote_type TEXT NOT NULL,
+    votes INTEGER NOT NULL,
+    votes_against INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_results_precinct_contest
+    ON results_precinct (election, county, party_file, office, district);
+CREATE INDEX IF NOT EXISTS idx_results_precinct_votes_result
+    ON results_precinct_votes (result_id);
+
 -- The board's unofficial running count while an election is canvassed (GG26): one row per
 -- candidate, judge's Yes/No or question choice per table on a county page, per snapshot (the
 -- board's Last refreshed time, e.g. 2026-11-04T160222). Kept apart from results_county, which
