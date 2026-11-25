@@ -3,14 +3,18 @@ and the gzipped output."""
 
 from __future__ import annotations
 
+import gzip
+import json
 import logging
+from pathlib import Path
 
+import polars as pl
 import pytest
 
 from skipjack.pipeline import fetch, results
 
 # Not tests.<module>: another project's `tests` package on PYTHONPATH can shadow ours.
-from conftest import fake_client
+from conftest import archive, fake_client
 from test_results import BOM, GENERAL_HEAD
 
 PG24 = results.RESULTS_ELECTIONS["PG24"]
@@ -242,3 +246,175 @@ def test_read_precinct_names_the_precinct_file_when_columns_are_missing():
     rows = PRECINCT_ROWS.replace('"36",', "")
     with pytest.raises(results.ResultsParseError, match="PG24_15PrecinctsResults.csv.*Legislative"):
         results.read_precinct((head + rows.replace('"CC"', '"15"')).encode(), PG24, "Kent", "all")
+
+
+# ---- the precinct-to-county check -----------------------------------------------------------
+
+TOTAL_COLUMNS = [
+    "early_votes", "early_against", "election_night_votes", "election_night_against",
+    "mail_in_1_votes", "mail_in_1_against", "provisional_votes", "provisional_against",
+    "mail_in_2_votes", "mail_in_2_against", "total_votes", "total_against",
+]  # fmt: skip
+
+
+def frames(precincts: str = PRECINCT_ROWS, county: str = COUNTY_ROWS):
+    return (
+        results.read_precinct(precinct_csv("15", precincts), PG24, "Kent", "all").frame,
+        results._read_coded(county_csv(county), PG24, "Kent", "all").frame,
+    )
+
+
+def test_sidecar_path_drops_csv_and_gz():
+    assert results.sidecar_path(Path("d/15-kent-all.csv.gz")) == Path(
+        "d/15-kent-all_provenance.json"
+    )
+    assert results.sidecar_path(Path("d/15-kent-all.csv")) == Path("d/15-kent-all_provenance.json")
+
+
+def test_precinct_check_compares_every_vote_type_and_the_totals():
+    check = results._check_precinct_county(PG24, "Kent", "all", *frames())
+    assert check == results.SumCheck(contests=1, rows=2, columns=TOTAL_COLUMNS, exceptions=[])
+
+
+def test_precinct_check_names_the_row_and_column_that_differ():
+    precincts = PRECINCT_ROWS.replace('"390"', '"389"')
+    with pytest.raises(
+        results.ResultsParseError,
+        match=r"Trump and JD Vance \(REP\): precincts sum to 399 election_night_votes, "
+        r"the county file says 400",
+    ):
+        results._check_precinct_county(PG24, "Kent", "all", *frames(precincts))
+
+
+def test_precinct_check_needs_every_contest_on_both_sides():
+    senate = (
+        '"U.S. Senator","","Some One","DEM","Y","","1","","0","","0","","0","","0","","1","" \n'
+    )
+    with pytest.raises(results.ResultsParseError, match="U.S. Senator has no precinct rows"):
+        results._check_precinct_county(PG24, "Kent", "all", *frames(county=COUNTY_ROWS + senate))
+    senate_precinct = '"CC","Kent County","001-001","01","36","U.S. Senator","","Some One","DEM","Y","","1","","0","","0","","0","","0","" \n'
+    with pytest.raises(results.ResultsParseError, match="U.S. Senator is not in the county file"):
+        results._check_precinct_county(
+            PG24, "Kent", "all", *frames(precincts=PRECINCT_ROWS + senate_precinct)
+        )
+
+
+def test_a_county_row_of_zeros_needs_no_precinct_rows():
+    zero = '"President - Vice Pres","","Other Write-Ins","BOT","","Y","0","","0","","0","","0","","0","","0","" \n'
+    check = results._check_precinct_county(PG24, "Kent", "all", *frames(county=COUNTY_ROWS + zero))
+    assert check.rows == 3
+
+
+def test_a_listed_precinct_exception_is_accepted_and_reported(monkeypatch):
+    key = (
+        "PG24",
+        "Kent",
+        "all",
+        "President - Vice Pres",
+        "",
+        "Donald J. Trump and JD Vance",
+        "REP",
+    )
+    monkeypatch.setitem(
+        results.PRECINCT_CHECK_EXCEPTIONS, (*key, "election_night_votes"), (399, 400)
+    )
+    monkeypatch.setitem(results.PRECINCT_CHECK_EXCEPTIONS, (*key, "total_votes"), (611, 612))
+    check = results._check_precinct_county(
+        PG24, "Kent", "all", *frames(PRECINCT_ROWS.replace('"390"', '"389"'))
+    )
+    assert len(check.exceptions) == 2
+    assert check.exceptions[0].endswith("election_night_votes: precincts 399, county file 400")
+
+
+# ---- parse ------------------------------------------------------------------------------------
+
+
+def fill_precincts(env, election=PG24, overrides=None, skip=()):
+    """Archive every county's county file and precinct file: the same two-precinct fixture in each
+    county under its own code; `overrides` (source id -> bytes) replaces a precinct file."""
+    for f in results.county_files(election):
+        if f.role == "county":
+            archive(env, election, f, county_csv())
+    for f in results.precinct_files(election):
+        if f.source_id not in skip:
+            archive(
+                env, election, f, (overrides or {}).get(f.source_id) or precinct_csv(f.county_code)
+            )
+
+
+def test_parse_precincts_writes_gzipped_csvs_and_sidecars(env):
+    fill_precincts(env)
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    assert failed == [] and written == 24
+    out = env / "data" / "results" / "PG24" / "precinct" / "15-kent-all.csv.gz"
+    frame = pl.read_csv(out, infer_schema=False)
+    assert frame.height == 4 and frame["precinct"].to_list()[:2] == ["001-001", "001-001"]
+    side = json.loads((out.parent / "15-kent-all_provenance.json").read_text())
+    assert side["source_id"] == "sbe-results-PG24-precinct-15-all"
+    assert side["family"] == "results" and side["geography"] == "precinct"
+    assert side["checks"]["rows"] == 4
+    assert side["checks"]["row_totals"].startswith("computed")
+    assert side["checks"]["county_check"] == (
+        "ok: the precincts sum to PG24_15CountyResults.csv's 2 rows (1 contests) on "
+        + ", ".join(TOTAL_COLUMNS)
+    )
+    assert not (env / "data" / "results" / "PG24" / "county").exists()  # precinct level only
+
+
+def test_parse_precincts_writes_the_same_bytes_every_time(env):
+    fill_precincts(env)
+    results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    out = env / "data" / "results" / "PG24" / "precinct" / "15-kent-all.csv.gz"
+    first = out.read_bytes()
+    assert (
+        results.results_parse("PG24", force=True, data_dir=env / "data", level="precinct")[0] == 24
+    )
+    assert out.read_bytes() == first
+    assert gzip.decompress(first).startswith(b"election,county,party_file,precinct")
+
+
+def test_parse_precincts_is_all_or_nothing(env):
+    bad = precinct_csv("24", PRECINCT_ROWS.replace('"149"', '"150"'))
+    fill_precincts(env, overrides={"sbe-results-PG24-precinct-24-all": bad})
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    assert written == 0 and len(failed) == 1
+    assert "PG24_24PrecinctsResults.csv" in failed[0] and "election_night_votes" in failed[0]
+    assert not (env / "data" / "results" / "PG24" / "precinct").exists()
+
+
+def test_parse_precincts_missing_required_file_fails(env):
+    fill_precincts(env, skip={"sbe-results-PG24-precinct-05-all"})
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    assert written == 0 and "PG24_05PrecinctsResults.csv" in failed[0]
+
+
+def test_current_precinct_csvs_need_no_archive(env):
+    """The precinct archives are gitignored: a clone without them must not fail to parse."""
+    fill_precincts(env)
+    results.results_parse("PG24", data_dir=env / "data", level="precinct")
+    for p in (env / "archives").rglob("*Precincts*"):
+        p.unlink()
+    assert results.results_parse("PG24", data_dir=env / "data", level="precinct") == (0, [])
+
+
+def test_each_level_is_all_or_nothing_on_its_own(env):
+    fill_precincts(env)  # no statewide check file: the county level fails, the precinct level not
+    written, failed = results.results_parse("PG24", data_dir=env / "data")
+    assert written == 24 and len(failed) == 1
+    assert failed[0].startswith("PG24 county: missing required file PG24_CongressionalBreakDown")
+    assert (env / "data" / "results" / "PG24" / "precinct" / "15-kent-all.csv.gz").exists()
+    assert not (env / "data" / "results" / "PG24" / "county").exists()
+
+
+def test_cli_results_parse_passes_the_level(monkeypatch):
+    from skipjack import cli
+
+    seen = {}
+
+    def fake_parse(**kwargs):
+        seen.update(kwargs)
+        return 0, []
+
+    monkeypatch.setattr(results, "results_parse", fake_parse)
+    cli.main(["results-parse", "--election", "PG24", "--level", "precinct"])
+    assert seen["level"] == "precinct" and seen["election"] == "PG24"

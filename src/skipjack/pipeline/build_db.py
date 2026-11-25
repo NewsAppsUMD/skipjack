@@ -13,6 +13,7 @@ from polars.exceptions import PolarsError
 
 from skipjack.models import SCHEMA_SQL
 from skipjack.pipeline.officials import load_officials
+from skipjack.pipeline.provenance import sidecar_path
 from skipjack.pipeline.results import (
     COUNTY_CODES,
     RESULTS_ELECTIONS,
@@ -59,7 +60,7 @@ def create_db(db_path: Path = DB_PATH) -> sqlite3.Connection:
 
 
 def load_provenance(csv_path: Path) -> dict | None:
-    sidecar = csv_path.with_name(csv_path.stem + "_provenance.json")
+    sidecar = sidecar_path(csv_path)
     if sidecar.exists():
         return json.loads(sidecar.read_text())
     return None

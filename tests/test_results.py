@@ -248,7 +248,7 @@ def fill(env, election, skip=(), breakdown_data=GOOD_BREAKDOWN):
 def test_parse_writes_everything_when_checks_pass(env):
     e = results.RESULTS_ELECTIONS["GP26"]
     fill(env, e)
-    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    written, failed = results.results_parse("GP26", level="county", data_dir=env / "data")
     assert failed == []
     assert written == 48  # 24 counties x dem, rep; the missing non files are skipped
     out = env / "data" / "results" / "GP26" / "county" / "19-st-marys-dem.csv"
@@ -264,7 +264,7 @@ def test_parse_writes_everything_when_checks_pass(env):
 def test_parse_is_all_or_nothing_on_checksum_mismatch(env):
     e = results.RESULTS_ELECTIONS["GP26"]
     fill(env, e, breakdown_data=GOOD_BREAKDOWN.replace(b'"1656"', b'"1657"'))
-    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    written, failed = results.results_parse("GP26", level="county", data_dir=env / "data")
     assert written == 0 and failed and "Wes Moore" in failed[0]
     assert not (env / "data" / "results" / "GP26").exists()
 
@@ -272,18 +272,18 @@ def test_parse_is_all_or_nothing_on_checksum_mismatch(env):
 def test_parse_missing_required_file_fails_but_missing_non_is_fine(env):
     e = results.RESULTS_ELECTIONS["GP26"]
     fill(env, e, skip={"sbe-results-GP26-county-05-dem"})
-    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    written, failed = results.results_parse("GP26", level="county", data_dir=env / "data")
     assert written == 0
     assert len(failed) == 1 and "GP26_05DemocraticResults.csv" in failed[0]
     assert not (env / "data" / "results" / "GP26").exists()
 
 
 def test_parse_skips_unpublished_and_skips_existing(env):
-    assert results.results_parse("GG26", data_dir=env / "data") == (0, [])
+    assert results.results_parse("GG26", level="county", data_dir=env / "data") == (0, [])
     fill(env, results.RESULTS_ELECTIONS["GP26"])
-    assert results.results_parse("GP26", data_dir=env / "data")[0] == 48
-    assert results.results_parse("GP26", data_dir=env / "data")[0] == 0
-    assert results.results_parse("GP26", force=True, data_dir=env / "data")[0] == 48
+    assert results.results_parse("GP26", level="county", data_dir=env / "data")[0] == 48
+    assert results.results_parse("GP26", level="county", data_dir=env / "data")[0] == 0
+    assert results.results_parse("GP26", level="county", force=True, data_dir=env / "data")[0] == 48
 
 
 def test_fetch_file_expect_csv_rejects_html(tmp_path, monkeypatch):
@@ -529,7 +529,7 @@ def test_parse_pg20(env):
         ]
     )
     fill2020(env, PG20, all_state_data=totals)
-    written, failed = results.results_parse("PG20", data_dir=env / "data")
+    written, failed = results.results_parse("PG20", level="county", data_dir=env / "data")
     assert failed == [] and written == 24
     out = env / "data" / "results" / "PG20" / "county" / "03-baltimore-city-all.csv"
     assert out.exists()
@@ -538,19 +538,19 @@ def test_parse_pg20(env):
     assert side["checks"]["row_totals"] == "ok"
     assert side["checks"]["statewide_check"].startswith("ok: 3 statewide rows (3 for, 0 against)")
     assert "All_State_2020_General" in side["checks"]["statewide_check"]
-    assert results.results_parse("PG20", data_dir=env / "data")[0] == 0
+    assert results.results_parse("PG20", level="county", data_dir=env / "data")[0] == 0
 
 
 def test_parse_pg20_mismatch_writes_nothing(env):
     fill2020(env, PG20)  # GOOD_ALL_STATE is for two counties, not 24
-    written, failed = results.results_parse("PG20", data_dir=env / "data")
+    written, failed = results.results_parse("PG20", level="county", data_dir=env / "data")
     assert written == 0 and failed and "Trump" in failed[0]
     assert not (env / "data" / "results" / "PG20").exists()
 
 
 def test_parse_pp20_has_no_statewide_check(env):
     fill2020(env, PP20)
-    written, failed = results.results_parse("PP20", data_dir=env / "data")
+    written, failed = results.results_parse("PP20", level="county", data_dir=env / "data")
     assert failed == [] and written == 48
     out = env / "data" / "results" / "PP20" / "county" / "19-st-marys-dem.csv"
     side = json.loads(out.with_name("19-st-marys-dem_provenance.json").read_text())
@@ -562,7 +562,7 @@ def test_parse_pp20_row_total_still_checked(env):
     fill2020(env, PP20)
     f = next(x for x in results.county_files(PP20) if x.source_id.endswith("county-05-dem"))
     archive(env, PP20, f, p20_csv("Joe Biden,DEM,President - Vice Pres,,Y,3,2,1,9\n"))
-    written, failed = results.results_parse("PP20", data_dir=env / "data")
+    written, failed = results.results_parse("PP20", level="county", data_dir=env / "data")
     assert written == 0 and failed and "Joe Biden" in failed[0]
 
 
@@ -638,8 +638,10 @@ def test_changed_archived_file_is_reparsed_and_unchanged_is_skipped(env):
     e = results.RESULTS_ELECTIONS["GP26"]
     fill(env, e)
     data = env / "data"
-    assert results.results_parse("GP26", data_dir=data)[0] == 48
-    assert results.results_parse("GP26", data_dir=data)[0] == 0  # same bytes: skipped
+    assert results.results_parse("GP26", level="county", data_dir=data)[0] == 48
+    assert (
+        results.results_parse("GP26", level="county", data_dir=data)[0] == 0
+    )  # same bytes: skipped
     before = _sidecar(env, "01-allegany-dem")["sha256_original"]
     # a re-fetch changes Allegany's Democratic file (a contest the breakdown does not carry)
     changed = primary_csv(
@@ -650,13 +652,13 @@ def test_changed_archived_file_is_reparsed_and_unchanged_is_skipped(env):
     )
     allegany = next(f for f in results.county_files(e) if f.source_id.endswith("county-01-dem"))
     archive(env, e, allegany, changed)
-    assert results.results_parse("GP26", data_dir=data) == (1, [])
+    assert results.results_parse("GP26", level="county", data_dir=data) == (1, [])
     after = _sidecar(env, "01-allegany-dem")["sha256_original"]
     assert after != before
     newest = results.newest_source(results.MANIFEST_PATH, allegany.source_id)
     assert after == newest.sha256
     assert _sidecar(env, "02-anne-arundel-dem")["sha256_original"] != after
-    assert results.results_parse("GP26", data_dir=data)[0] == 0
+    assert results.results_parse("GP26", level="county", data_dir=data)[0] == 0
 
 
 def test_force_refetch_with_identical_bytes_adds_no_manifest_row(env, monkeypatch):
@@ -740,7 +742,7 @@ def test_vacuous_statewide_check_is_n_a_and_names_the_check_file(env):
     # a breakdown with no contest in common with the counties compares nothing
     other = breakdown(['"00","State of Maryland","Other Office","07","Y","DEM","Y","1","0" \n'])
     fill(env, e, breakdown_data=other)
-    assert results.results_parse("GP26", data_dir=env / "data")[1] == []
+    assert results.results_parse("GP26", level="county", data_dir=env / "data")[1] == []
     assert _sidecar(env, "01-allegany-dem")["checks"]["statewide_check"] == (
         "n/a: GP26_CongressionalBreakDownDemocratic.csv carries no statewide rows"
     )
@@ -751,7 +753,7 @@ def test_vacuous_statewide_check_is_n_a_and_names_the_check_file(env):
 
 def test_ok_statewide_check_names_the_real_file(env):
     fill(env, results.RESULTS_ELECTIONS["GP26"])
-    results.results_parse("GP26", data_dir=env / "data")
+    results.results_parse("GP26", level="county", data_dir=env / "data")
     assert _sidecar(env, "01-allegany-dem")["checks"]["statewide_check"] == (
         "ok: 2 statewide rows (2 for, 0 against) match GP26_CongressionalBreakDownDemocratic.csv"
     )
@@ -838,7 +840,7 @@ def test_parse_refuses_archive_bytes_that_do_not_match_the_manifest(env):
     (env / "archives" / "sbe" / "results" / "GP26" / f.file_name).write_bytes(
         primary_csv(PRIMARY_ROWS + '"U.S. Senator","","Z","DEM","","1","0","0","0","0","1" \n')
     )
-    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    written, failed = results.results_parse("GP26", level="county", data_dir=env / "data")
     assert written == 0 and len(failed) == 1
     assert "re-fetch" in failed[0] and f.file_name in failed[0]
     assert not (env / "data" / "results" / "GP26").exists()
@@ -860,11 +862,11 @@ def test_crash_before_sidecar_leaves_a_state_the_next_parse_repairs(env, monkeyp
     e = results.RESULTS_ELECTIONS["GP26"]
     fill(env, e)
     data = env / "data"
-    assert results.results_parse("GP26", data_dir=data)[0] == 48
+    assert results.results_parse("GP26", level="county", data_dir=data)[0] == 48
     county = data / "results" / "GP26" / "county"
     side = county / "01-allegany-dem_provenance.json"
     side.unlink()  # what a crash between the CSV and the sidecar leaves
-    assert results.results_parse("GP26", data_dir=data) == (1, [])
+    assert results.results_parse("GP26", level="county", data_dir=data) == (1, [])
     assert side.exists()
 
 
@@ -880,7 +882,7 @@ def test_sidecar_is_written_after_the_csv_and_no_temp_files_remain(env, monkeypa
         return real_write(self, csv_path)
 
     monkeypatch.setattr(results.ProvenanceSidecar, "write", write)
-    results.results_parse("GP26", data_dir=env / "data")
+    results.results_parse("GP26", level="county", data_dir=env / "data")
     first = order.index("sidecar-write")
     assert order[first - 1].endswith("01-allegany-dem.csv")  # the CSV was replaced just before
     county = env / "data" / "results" / "GP26" / "county"
@@ -897,7 +899,7 @@ def test_non_partisan_county_file_without_published_breakdown_is_n_a(env):
         non,
         primary_csv('"Board of Education","","N N","NON","Y","1","0","0","0","0","1" \n'),
     )
-    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    written, failed = results.results_parse("GP26", level="county", data_dir=env / "data")
     assert failed == [] and written == 49
     assert _sidecar(env, "05-calvert-non")["checks"]["statewide_check"] == (
         "n/a: GP26_CongressionalBreakDownNon-Partisian.csv not published"
@@ -908,7 +910,7 @@ def test_non_partisan_county_file_without_published_breakdown_is_n_a(env):
 def test_missing_dem_breakdown_still_fails_the_election(env):
     e = results.RESULTS_ELECTIONS["GP26"]
     fill(env, e, skip={"sbe-results-GP26-check-dem"})
-    written, failed = results.results_parse("GP26", data_dir=env / "data")
+    written, failed = results.results_parse("GP26", level="county", data_dir=env / "data")
     assert written == 0 and failed and "CongressionalBreakDownDemocratic" in failed[0]
 
 
@@ -934,7 +936,7 @@ def test_statewide_text_reports_for_and_against_separately(env):
     ).encode()
     for f in results.county_files(e):
         archive(env, e, f, check if f.role == "check" else (BOM + GENERAL_HEAD + row).encode())
-    written, failed = results.results_parse("PG24", data_dir=env / "data")
+    written, failed = results.results_parse("PG24", level="county", data_dir=env / "data")
     assert failed == [] and written == 24
     side = json.loads(
         (env / "data/results/PG24/county/01-allegany-all_provenance.json").read_text()
@@ -1697,7 +1699,7 @@ def test_parse_gg10_checks_against_the_legislative_file_on_election_night_votes(
         {"all": totals},
         overrides={"sbe-results-GG10-county-03-all": GG10_BALTIMORE_CITY},
     )
-    written, failed = results.results_parse("GG10", data_dir=env / "data")
+    written, failed = results.results_parse("GG10", level="county", data_dir=env / "data")
     assert failed == [] and written == 24
     county = env / "data" / "results" / "GG10" / "county"
     out = county / "19-st-marys-all.csv"
@@ -1728,7 +1730,7 @@ def test_parse_gg10_checks_against_the_legislative_file_on_election_night_votes(
     city_csv = (county / "03-baltimore-city-all.csv").read_text().splitlines()
     assert city_csv[3].startswith("GG10,Baltimore City,all,Governor / Lt. Governor,")
     assert city_csv[3].endswith(",62,")
-    assert results.results_parse("GG10", data_dir=env / "data")[0] == 0
+    assert results.results_parse("GG10", level="county", data_dir=env / "data")[0] == 0
 
 
 def test_parse_gg10_with_the_wrong_number_of_row_total_exceptions_writes_nothing(env):
@@ -1740,7 +1742,7 @@ def test_parse_gg10_with_the_wrong_number_of_row_total_exceptions_writes_nothing
         {"all": check_csv(LEGS_GENERAL_HEAD, [])},
         overrides={"sbe-results-GG10-county-03-all": fourteen},
     )
-    written, failed = results.results_parse("GG10", data_dir=env / "data")
+    written, failed = results.results_parse("GG10", level="county", data_dir=env / "data")
     assert written == 0 and len(failed) == 1
     assert "Baltimore_City_County_2010_General.csv" in failed[0]
     assert "14 rows whose total" in failed[0] and "15 are listed" in failed[0]
@@ -1762,7 +1764,7 @@ def test_parse_pg12_records_the_listed_statewide_exception(env):
         "sbe-results-PG12-county-01-all": g14_csv(G14_ROWS + PG12_WRITE_INS_REST),
     }
     fill_named(env, PG12, {"all": state}, overrides=overrides)
-    written, failed = results.results_parse("PG12", data_dir=env / "data")
+    written, failed = results.results_parse("PG12", level="county", data_dir=env / "data")
     assert failed == [] and written == 24
     side = json.loads(
         (env / "data" / "results" / "PG12" / "county" / "15-kent-all_provenance.json").read_text()
@@ -1784,7 +1786,7 @@ def test_parse_named_general_mismatch_writes_nothing(env):
         ['"1","00","Larry Hogan","REP","Governor / Lt. Governor","","Y","","30","8","2"\n'],
     )
     fill_named(env, GG14, {"all": two_counties})
-    written, failed = results.results_parse("GG14", data_dir=env / "data")
+    written, failed = results.results_parse("GG14", level="county", data_dir=env / "data")
     assert written == 0 and failed and "no statewide row" in failed[0] and "Brown" in failed[0]
     assert not (env / "data" / "results" / "GG14").exists()
     # and a wrong statewide figure (the other candidates add up over 24 counties)
@@ -1797,7 +1799,7 @@ def test_parse_named_general_mismatch_writes_nothing(env):
         ],
     )
     fill_named(env, GG14, {"all": wrong})
-    written, failed = results.results_parse("GG14", data_dir=env / "data")
+    written, failed = results.results_parse("GG14", level="county", data_dir=env / "data")
     assert written == 0 and failed and "Hogan" in failed[0]
     # a check file carrying the 24 counties' totals is just as wrong for these years
     totals = check_csv(
@@ -1809,14 +1811,14 @@ def test_parse_named_general_mismatch_writes_nothing(env):
         ],
     )
     fill_named(env, GG14, {"all": totals})
-    written, failed = results.results_parse("GG14", data_dir=env / "data")
+    written, failed = results.results_parse("GG14", level="county", data_dir=env / "data")
     assert written == 0 and failed
     assert f"Franchot: counties sum to {24 * 8}, statewide row is {24 * 15}" in failed[0]
 
 
 def test_parse_named_general_without_check_file_fails(env):
     fill_named(env, GG14, {})
-    written, failed = results.results_parse("GG14", data_dir=env / "data")
+    written, failed = results.results_parse("GG14", level="county", data_dir=env / "data")
     assert written == 0 and len(failed) == 1
     assert "State_Congressional_Districts_2014_General.csv" in failed[0]
 
@@ -1838,7 +1840,7 @@ def test_parse_gp14_checks_each_party_file_and_missing_non_check_is_n_a(env):
     archive(
         env, GP14, non, p14_csv('"N N","NON","Board of Education","","Y","1","0","0","0","0","1"\n')
     )
-    written, failed = results.results_parse("GP14", data_dir=env / "data")
+    written, failed = results.results_parse("GP14", level="county", data_dir=env / "data")
     assert failed == [] and written == 49
     county = env / "data" / "results" / "GP14" / "county"
 
@@ -1867,7 +1869,7 @@ def test_parse_named_primary_missing_dem_check_fails(env):
         ],
     )
     fill_named(env, GP14, {"rep": rep})
-    written, failed = results.results_parse("GP14", data_dir=env / "data")
+    written, failed = results.results_parse("GP14", level="county", data_dir=env / "data")
     assert written == 0 and failed and "Democratic_2014_Primary" in failed[0]
     assert not (env / "data" / "results" / "GP14").exists()
 

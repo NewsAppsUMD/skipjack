@@ -94,11 +94,11 @@ class ProvenanceSidecar:
         )
 
     def write(self, csv_path: Path) -> Path:
-        sidecar_path = csv_path.with_name(csv_path.stem + "_provenance.json")
-        tmp = sidecar_path.with_name(sidecar_path.name + ".tmp")
+        path = sidecar_path(csv_path)
+        tmp = path.with_name(path.name + ".tmp")
         tmp.write_text(json.dumps(asdict(self), indent=2) + "\n")
-        os.replace(tmp, sidecar_path)
-        return sidecar_path
+        os.replace(tmp, path)
+        return path
 
     @classmethod
     def read(cls, sidecar_path: Path) -> ProvenanceSidecar:
@@ -124,6 +124,13 @@ def compute_sha256(path: Path) -> str:
         for chunk in iter(lambda: f.read(8192), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def sidecar_path(data_path: Path) -> Path:
+    """Where a data file's provenance sidecar sits: x.csv and x.csv.gz both give
+    x_provenance.json."""
+    name = data_path.name.removesuffix(".gz")
+    return data_path.with_name(Path(name).stem + "_provenance.json")
 
 
 def read_manifest(manifest_path: Path) -> list[SourceRecord]:

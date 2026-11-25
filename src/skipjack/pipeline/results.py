@@ -14,11 +14,13 @@ only as listed, and recorded in the sidecar.
 from __future__ import annotations
 
 import csv
+import gzip
 import hashlib
 import io
 import logging
 import os
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import NamedTuple
@@ -32,6 +34,7 @@ from skipjack.pipeline.provenance import (
     SourceRecord,
     append_to_manifest,
     read_manifest,
+    sidecar_path,
 )
 
 logger = logging.getLogger(__name__)
@@ -152,6 +155,12 @@ STATEWIDE_CHECK_EXCEPTIONS: dict[tuple[str, str, str, str, str], tuple[int, int]
 # different count, or any mismatch in a file not listed (a primary's other party files
 # included), still fails the election.
 ROW_TOTAL_EXCEPTIONS: dict[tuple[str, str, str], int] = {("GG10", "Baltimore City", "all"): 15}
+
+# Precinct rows that do not sum to the board's own county file: (election code, county, party
+# file, office, district, candidate, party, column) -> (what the precincts sum to, what the county
+# file says). Empty until a full run finds one; a mismatch is accepted only when it equals the
+# listed pair, and any other fails the election.
+PRECINCT_CHECK_EXCEPTIONS: dict[tuple[str, ...], tuple[int, int]] = {}
 
 
 class ResultsParseError(RuntimeError):
@@ -962,28 +971,36 @@ def results_fetch(
 # ---- parse ----------------------------------------------------------------------------------
 
 
-def results_parse(
-    election: str | None = None, force: bool = False, data_dir: Path | None = None
-) -> tuple[int, list[str]]:
-    """Parse each election's archived files into data/results/<CODE>/county/.
+PARSE_LEVELS = ("county", "precinct", "all")
 
-    All-or-nothing per election: any failed check or missing required file writes nothing for
-    it. A file whose CSV exists and was parsed from the newest archived revision is skipped
-    unless force. Returns (files written,
-    failures).
+
+def results_parse(
+    election: str | None = None,
+    force: bool = False,
+    data_dir: Path | None = None,
+    level: str = "all",
+) -> tuple[int, list[str]]:
+    """Parse each election's archived files into data/results/<CODE>/: the county files, then
+    the precinct files checked against them (level picks one). Each level is all-or-nothing per
+    election: any failed check or missing required file writes nothing for that level.
+
+    A file whose CSV exists and was parsed from the newest archived revision is skipped unless
+    force. Returns (files written, failures), each failure prefixed "<CODE> <level>: ".
     """
+    if level not in PARSE_LEVELS:
+        raise ValueError(f"unknown level {level!r}; one of {', '.join(PARSE_LEVELS)}")
     data_dir = data_dir or RESULTS_DATA_DIR
+    levels = list(PARSERS) if level == "all" else [level]
     written, failures = 0, []
     for e in _selected(election):
         if not e.published:
             logger.info("%s: not published", e.code)
             continue
-        try:
-            n = _parse_election(e, force, data_dir)
-        except ResultsParseError as err:
-            failures.append(f"{e.code}: {err}")
-            continue
-        written += n
+        for name in levels:
+            try:
+                written += PARSERS[name](e, force, data_dir)
+            except ResultsParseError as err:
+                failures.append(f"{e.code} {name}: {err}")
     return written, failures
 
 
@@ -998,10 +1015,10 @@ def _archived(f: ResultsFile) -> Path | None:
 def _revision_updated(csv_path: Path, record: SourceRecord) -> bool:
     """Whether the CSV is missing or was parsed from different bytes than the newest revision
     (mirrors turnout's helper of the same name)."""
-    sidecar_path = csv_path.with_name(csv_path.stem + "_provenance.json")
-    if not csv_path.exists() or not sidecar_path.exists():
+    sidecar = sidecar_path(csv_path)
+    if not csv_path.exists() or not sidecar.exists():
         return True
-    return ProvenanceSidecar.read(sidecar_path).sha256_original != record.sha256
+    return ProvenanceSidecar.read(sidecar).sha256_original != record.sha256
 
 
 def _statewide_check_text(e: ResultsElection, check_file: str, result: StatewideCheck) -> str:
@@ -1026,27 +1043,45 @@ def _statewide_check_text(e: ResultsElection, check_file: str, result: Statewide
     return text
 
 
-def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
-    out_dir = data_dir / "results" / e.code / "county"
-    files = county_files(e)
-    county_frames: dict[str, list[tuple[ResultsFile, SourceRecord, ReadFile]]] = {}
+def _read_archived(f: ResultsFile) -> tuple[bytes, SourceRecord] | None:
+    """The newest archived revision of a file and its manifest row, or None when it is not
+    archived. Refuses bytes that are not the ones the manifest recorded."""
+    path = _archived(f)
+    if path is None:
+        return None
+    data = path.read_bytes()
+    record = newest_source(MANIFEST_PATH, f.source_id)
+    assert record is not None
+    if hashlib.sha256(data).hexdigest() != record.sha256:
+        raise ResultsParseError(
+            f"{f.file_name}: archived bytes do not match the newest manifest sha256 "
+            f"({f.source_id}); the archive and manifest are out of step, so re-fetch with "
+            f"`skipjack results-fetch --force`"
+        )
+    return data, record
+
+
+CountyFrames = dict[str, list[tuple[ResultsFile, SourceRecord, ReadFile]]]
+
+
+def _read_county_files(
+    e: ResultsElection, with_checks: bool = True
+) -> tuple[CountyFrames, dict[str, bytes]]:
+    """Every archived county file read with its layout's reader, by party file, and the
+    statewide check files' bytes (skipped when with_checks is False). A missing non-partisan
+    file is normal; any other missing file fails."""
+    county_frames: CountyFrames = {}
     breakdowns: dict[str, bytes] = {}
-    for f in files:
-        path = _archived(f)
-        if path is None:
+    for f in county_files(e):
+        if f.role == "check" and not with_checks:
+            continue
+        archived = _read_archived(f)
+        if archived is None:
             if f.party_file == "non":
                 # not every county has non-partisan contests; the breakdown may be absent too
                 continue
             raise ResultsParseError(f"missing required file {f.file_name} ({f.source_id})")
-        data = path.read_bytes()
-        record = newest_source(MANIFEST_PATH, f.source_id)
-        assert record is not None
-        if hashlib.sha256(data).hexdigest() != record.sha256:
-            raise ResultsParseError(
-                f"{f.file_name}: archived bytes do not match the newest manifest sha256 "
-                f"({f.source_id}); the archive and manifest are out of step, so re-fetch with "
-                f"`skipjack results-fetch --force`"
-            )
+        data, record = archived
         if f.role == "check":
             breakdowns[f.party_file] = data
             continue
@@ -1055,6 +1090,13 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
         except ResultsParseError as err:
             raise ResultsParseError(f"{f.file_name}: {err}") from None
         county_frames.setdefault(f.party_file, []).append((f, record, read))
+    return county_frames, breakdowns
+
+
+def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
+    out_dir = data_dir / "results" / e.code / "county"
+    files = county_files(e)
+    county_frames, breakdowns = _read_county_files(e)
 
     compared: dict[str, StatewideCheck] = {}
     has_check = any(f.role == "check" for f in files)
@@ -1120,3 +1162,209 @@ def _parse_election(e: ResultsElection, force: bool, data_dir: Path) -> int:
         sidecar.write(out_csv)
     logger.info("%s: parsed %d files", e.code, len(targets))
     return len(targets)
+
+
+# ---- precincts ------------------------------------------------------------------------------
+
+
+class SumCheck(NamedTuple):
+    contests: int  # contests (or questions) compared
+    rows: int  # county-file rows compared
+    columns: list[str]
+    # the listed exceptions applied, as "<row> <column>: precincts N, county file M"
+    exceptions: list[str]
+
+
+def _check_sums(
+    where: str,
+    keys: list[str],
+    contest_keys: int,
+    columns: list[str],
+    parts: pl.DataFrame,
+    whole: pl.DataFrame,
+    listed: Callable[[tuple, str], tuple[int, int] | None],
+) -> SumCheck:
+    """``parts`` (precinct rows) summed by ``keys`` must equal ``whole`` (the county file) on
+    every column, blank counting as 0. The first ``contest_keys`` keys name a contest (office and
+    district; a question number): a contest in one file and not the other fails. Within a
+    contest, a row missing on one side counts as zeros, so a county row of zeros (a write-in line
+    nobody used) needs no precinct rows. A difference passes only when ``listed`` returns exactly
+    (precinct sum, county figure) for that row and column."""
+
+    def summed(frame: pl.DataFrame) -> dict[tuple, dict[str, int]]:
+        out: dict[tuple, dict[str, int]] = {}
+        for r in frame.select(*keys, *columns).iter_rows(named=True):
+            sums = out.setdefault(tuple(r[k] for k in keys), dict.fromkeys(columns, 0))
+            for c in columns:
+                sums[c] += r[c] or 0
+        return out
+
+    mine, board = summed(parts), summed(whole)
+    contests_mine = {k[:contest_keys] for k in mine}
+    contests_board = {k[:contest_keys] for k in board}
+    if unmatched := sorted(contests_board - contests_mine):
+        raise ResultsParseError(f"{where}: {' '.join(unmatched[0]).strip()} has no precinct rows")
+    if unmatched := sorted(contests_mine - contests_board):
+        raise ResultsParseError(
+            f"{where}: {' '.join(unmatched[0]).strip()} is not in the county file"
+        )
+    zero = dict.fromkeys(columns, 0)
+    exceptions = []
+    for key in sorted(set(mine) | set(board)):
+        ours, theirs = mine.get(key, zero), board.get(key, zero)
+        label = " ".join(key[:contest_keys]).strip()
+        if len(key) > contest_keys:
+            label += f" / {key[contest_keys]}"
+            if len(key) > contest_keys + 1:
+                label += f" ({key[-1]})"
+        for c in columns:
+            if ours[c] == theirs[c]:
+                continue
+            if listed(key, c) != (ours[c], theirs[c]):
+                raise ResultsParseError(
+                    f"{where}: {label}: precincts sum to {ours[c]} {c}, the county file says "
+                    f"{theirs[c]}"
+                )
+            exceptions.append(f"{label} {c}: precincts {ours[c]}, county file {theirs[c]}")
+    return SumCheck(len(contests_board), len(board), columns, exceptions)
+
+
+def _precinct_check_columns(election: ResultsElection) -> list[str]:
+    """The columns a precinct file can be checked on: its vote types, and the totals when it
+    carries every vote type (from 2020; through 2018 only election-night votes)."""
+    against = election.kind == "general"
+    columns = []
+    for _, stem in election.precinct_vote_types:
+        columns.append(f"{stem}_votes")
+        if against:
+            columns.append(f"{stem}_against")
+    if election.precinct_vote_types == election.vote_types:
+        columns += ["total_votes", "total_against"] if against else ["total_votes"]
+    return columns
+
+
+def _check_precinct_county(
+    election: ResultsElection,
+    county: str,
+    party_file: str,
+    precincts: pl.DataFrame,
+    county_frame: pl.DataFrame,
+) -> SumCheck:
+    """One county and party file's precinct rows, summed by office, district, candidate and
+    party, against its county file (PRECINCT_CHECK_EXCEPTIONS aside)."""
+    return _check_sums(
+        f"{election.code} {county} {party_file} precincts",
+        ["office", "district", "candidate", "party"],
+        2,
+        _precinct_check_columns(election),
+        precincts,
+        county_frame,
+        lambda key, c: PRECINCT_CHECK_EXCEPTIONS.get((election.code, county, party_file, *key, c)),
+    )
+
+
+def _precinct_csv(out_dir: Path, f: ResultsFile) -> Path:
+    return out_dir / f"{f.county_code}-{county_slug(f.county)}-{f.party_file}.csv.gz"
+
+
+def _gzip_csv(frame: pl.DataFrame) -> bytes:
+    """The frame as gzipped CSV. mtime 0 (and no file name in the header) keeps the bytes the
+    same from run to run, so an unchanged re-parse leaves git nothing to commit."""
+    return gzip.compress(frame.write_csv().encode(), mtime=0)
+
+
+def _precinct_check_text(e: ResultsElection, county_file: str, check: SumCheck) -> str:
+    """The sidecar's county_check line: what was compared, on which columns, and any listed
+    exception applied."""
+    text = (
+        f"ok: the precincts sum to {county_file}'s {check.rows} rows ({check.contests} contests) "
+        f"on {', '.join(check.columns)}"
+    )
+    if e.year <= 2018:
+        text += " (the board's precinct files for 2010-2018 carry election-night votes only)"
+    if check.exceptions:
+        text += (
+            "; the board's own files disagree on "
+            + "; ".join(check.exceptions)
+            + " (listed in PRECINCT_CHECK_EXCEPTIONS, recorded, not corrected)"
+        )
+    return text
+
+
+def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
+    """Check each county's precinct files against its county files and write them gzipped to
+    data/results/<CODE>/precinct/.
+
+    All-or-nothing per election. A CSV written from the newest archived revision is current
+    without the archive (the precinct archives are gitignored), so a clone without them parses
+    nothing and fails nothing unless forced."""
+    files = precinct_files(e)
+    out_dir = data_dir / "results" / e.code / "precinct"
+    records = {f.source_id: newest_source(MANIFEST_PATH, f.source_id) for f in files}
+    for f in files:
+        if records[f.source_id] is None and f.party_file != "non":
+            raise ResultsParseError(f"missing required file {f.file_name} ({f.source_id})")
+    present = [f for f in files if records[f.source_id] is not None]
+    stale = {
+        f.source_id
+        for f in present
+        if force or _revision_updated(_precinct_csv(out_dir, f), records[f.source_id])
+    }
+    if not stale:
+        return 0
+    county_frames, _ = _read_county_files(e, with_checks=False)
+    by_county = {
+        (f.county, f.party_file): rd.frame for items in county_frames.values() for f, _, rd in items
+    }
+    checked = []
+    for f in present:
+        archived = _read_archived(f)
+        if archived is None:
+            raise ResultsParseError(
+                f"{f.file_name} is in the manifest but not archived here; re-fetch with "
+                "`skipjack results-fetch --level precinct`"
+            )
+        data, record = archived
+        try:
+            read = read_precinct(data, e, f.county, f.party_file)
+            if (f.county, f.party_file) not in by_county:
+                raise ResultsParseError("no county file to check it against")
+            check = _check_precinct_county(
+                e, f.county, f.party_file, read.frame, by_county[(f.county, f.party_file)]
+            )
+        except ResultsParseError as err:
+            raise ResultsParseError(f"{f.file_name}: {err}") from None
+        checked.append((f, record, read, check))
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for f, record, read, check in checked:
+        if f.source_id not in stale:
+            continue
+        county_file = ResultsFile(e, f.county_code, f.county, f.party_file, "county").file_name
+        checks: dict = {
+            "rows": read.frame.height,
+            "row_totals": "ok"
+            if e.precinct_total
+            else "computed: the precinct file prints no total, so total_votes is the sum of "
+            "its vote types",
+            "county_check": _precinct_check_text(e, county_file, check),
+        }
+        if check.exceptions:
+            checks["county_check_exceptions"] = check.exceptions
+        sidecar = ProvenanceSidecar.from_source(
+            record,
+            parser_version=PARSER_VERSION,
+            extraction_method="csv",
+            checks=checks,
+            notes=f"{e.code} {f.county} results by precinct ({f.party_file}), summed and "
+            "checked against the county file.",
+        )
+        sidecar.election, sidecar.family, sidecar.geography = e.code, "results", "precinct"
+        out = _precinct_csv(out_dir, f)
+        _write_atomic(out, _gzip_csv(read.frame))  # CSV first, sidecar last (see _parse_election)
+        sidecar.write(out)
+    logger.info("%s: parsed %d precinct files", e.code, len(stale))
+    return len(stale)
+
+
+PARSERS = {"county": _parse_election, "precinct": _parse_precincts}

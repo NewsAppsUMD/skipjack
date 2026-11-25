@@ -153,10 +153,10 @@ def cmd_results_parse(args: argparse.Namespace) -> None:
     if args.election and args.election not in RESULTS_ELECTIONS:
         print(f"known elections: {', '.join(RESULTS_ELECTIONS)}", file=sys.stderr)
         sys.exit(1)
-    written, failed = results_parse(election=args.election, force=args.force)
+    written, failed = results_parse(election=args.election, force=args.force, level=args.level)
     print(f"Parsed {written} results files -> data/results/")
     if failed:
-        print(f"{len(failed)} elections failed and were not written:")
+        print(f"{len(failed)} failed (nothing written for that election and level):")
         for line in failed:
             print(f"  {line}")
         sys.exit(1)
@@ -367,6 +367,13 @@ def main(argv: list[str] | None = None) -> None:
     )
     results_parse_p.add_argument("--force", action="store_true")
     results_parse_p.add_argument("--election", help="Only one election (e.g. GP26)")
+    results_parse_p.add_argument(
+        "--level",
+        choices=["county", "precinct", "all"],
+        default="all",
+        help="Which files: the county files, the precinct files (checked against the county "
+        "files), or all",
+    )
 
     unofficial_fetch_p = sub.add_parser(
         "unofficial-fetch", help="Archive a snapshot of the board's unofficial results pages"
