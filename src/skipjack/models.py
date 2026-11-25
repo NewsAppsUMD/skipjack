@@ -198,6 +198,10 @@ CREATE TABLE IF NOT EXISTS results_precinct_votes (
 );
 CREATE INDEX IF NOT EXISTS idx_results_precinct_contest
     ON results_precinct (election, county, party_file, office, district);
+CREATE INDEX IF NOT EXISTS idx_results_precinct_precinct
+    ON results_precinct (election, county, precinct);
+CREATE INDEX IF NOT EXISTS idx_results_precinct_office
+    ON results_precinct (election, office, district);
 CREATE INDEX IF NOT EXISTS idx_results_precinct_votes_result
     ON results_precinct_votes (result_id);
 

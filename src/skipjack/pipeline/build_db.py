@@ -443,6 +443,48 @@ def _check_results_file(
         )
 
 
+def _check_county_source(path: Path, prov: dict) -> None:
+    """A precinct file loads only beside the county file revision it was checked against: its
+    sidecar's checks.county_source must name the county CSV's own source_id and sha256."""
+    county_csv = path.parent.parent / "county" / (path.name.removesuffix(".gz"))
+    recorded = (prov.get("checks") or {}).get("county_source") or {}
+    county_prov = load_provenance(county_csv) if county_csv.exists() else None
+    if county_prov is None:
+        raise ResultsLoadError(
+            f"{path}: its county file {county_csv} (or that file's sidecar) is absent; "
+            "re-run skipjack results-parse"
+        )
+    current = {
+        "source_id": county_prov.get("source_id"),
+        "sha256": county_prov.get("sha256_original"),
+    }
+    if recorded != current:
+        was = (recorded.get("sha256") or "none")[:12]
+        now = (current["sha256"] or "none")[:12]
+        if recorded.get("source_id") != current["source_id"]:
+            was = f"{recorded.get('source_id')} {was}"
+            now = f"{current['source_id']} {now}"
+        raise ResultsLoadError(
+            f"{path} was checked against county revision {was} but the county file is {now}; "
+            "re-run skipjack results-parse"
+        )
+
+
+_PRECINCT_ID = r"^\d{3}-\d{3}$"
+
+
+def _check_precinct_ids(df: pl.DataFrame, path: Path) -> None:
+    """Every precinct value is the board's DDD-PPP (election district, precinct)."""
+    bad = df.with_row_index("_line", offset=2).filter(
+        ~pl.col("precinct").str.contains(_PRECINCT_ID)
+    )
+    if bad.height:
+        first = bad.row(0, named=True)
+        raise ResultsLoadError(
+            f"{path}: precinct {first['precinct']!r} (row {first['_line']}) is not DDD-PPP"
+        )
+
+
 _PRECINCT_TEXT = [
     "election", "county", "party_file", "precinct", "congressional", "legislative",
     "office", "district", "candidate", "party",
@@ -487,7 +529,9 @@ def load_results_precinct(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) -
         if df.height == 0:
             raise ResultsLoadError(f"{path}: no rows")
         _check_results_file(df, prov, path, code, level="precinct")
+        _check_county_source(path, prov)
         _check_results_cells(df, path)
+        _check_precinct_ids(df, path)
         df = df.with_columns(
             pl.col("district").map_elements(_normalize_district, return_dtype=pl.String)
         )
