@@ -15,6 +15,10 @@ skipjack_cvr.db
 
 # Archives (Git LFS or too large for regular Git)
 archives/sbe/cvr/
+# The board's precinct and ballot-question files: about 250 MB and re-fetchable with
+# `skipjack results-fetch`; their sha256 stays in archives/manifest.csv
+archives/sbe/results-precinct/
+archives/sbe/results-questions/
 
 # macOS
 .DS_Store

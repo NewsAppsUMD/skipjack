@@ -343,7 +343,7 @@ def test_results_fetch(env, monkeypatch):
         return primary_csv()
 
     monkeypatch.setattr(fetch.httpx, "Client", fake_client(body))
-    records = results.results_fetch("GP26")
+    records = results.results_fetch("GP26", level="county")
     # 24 x (dem, rep) + 2 breakdown files; the non files are not published
     assert len(records) == 50
     assert len(read_manifest(results.MANIFEST_PATH)) == 50
@@ -355,7 +355,7 @@ def test_results_fetch(env, monkeypatch):
         return b"<html></html>"
 
     monkeypatch.setattr(fetch.httpx, "Client", fake_client(only_non))
-    assert results.results_fetch("GP26") == []
+    assert results.results_fetch("GP26", level="county") == []
 
 
 def test_fetch_unpublished_election_fetches_nothing(env, monkeypatch):
@@ -742,7 +742,7 @@ def _http_404(url):
 def test_transient_failure_on_non_file_is_a_failure_not_unpublished(env, monkeypatch, fail):
     monkeypatch.setattr(fetch.httpx, "Client", failing_client(fail))
     failures: list[str] = []
-    records = results.results_fetch("GP26", failures=failures)
+    records = results.results_fetch("GP26", failures=failures, level="county")
     assert len(records) == 50  # everything else still archives
     assert len(failures) == 1 and "05Non-Partisan" in failures[0]
 
@@ -761,7 +761,7 @@ def test_cli_results_fetch_exits_nonzero_on_download_failure(env, monkeypatch, c
 
     monkeypatch.setattr(fetch.httpx, "Client", failing_client(_timeout))
     with pytest.raises(SystemExit) as exc:
-        cli.cmd_results_fetch(argparse.Namespace(election="GP26", force=False))
+        cli.cmd_results_fetch(argparse.Namespace(election="GP26", force=False, level="county"))
     assert exc.value.code == 1
     assert "05Non-Partisan" in capsys.readouterr().out
 
@@ -887,7 +887,7 @@ def test_fetch_writes_archives_atomically(env, monkeypatch):
     real = results.os.replace
     monkeypatch.setattr(results.os, "replace", lambda a, b: (replaced.append(b), real(a, b))[1])
     monkeypatch.setattr(fetch.httpx, "Client", fake_client(lambda url: primary_csv()))
-    results.results_fetch("PP24")
+    results.results_fetch("PP24", level="county")
     archive_dir = env / "archives" / "sbe" / "results" / "PP24"
     assert list(archive_dir.glob("*.tmp")) == []
     assert {Path(p).name for p in replaced} == {p.name for p in archive_dir.iterdir()}
@@ -1919,7 +1919,7 @@ def test_fetch_named_primary_skips_absent_non_files(env, monkeypatch):
         return p14_csv()
 
     monkeypatch.setattr(fetch.httpx, "Client", fake_client(body))
-    records = results.results_fetch("GP14")
+    records = results.results_fetch("GP14", level="county")
     assert len(records) == 50  # 24 x (dem, rep) + the dem and rep check files
     assert (
         env / "archives/sbe/results/GP14/Baltimore_City_County_Democratic_2014_Primary.csv"

@@ -174,15 +174,36 @@ class ResultsElection:
     check_votes: str = "total"
     # False until the SBE posts the files (it answers an HTML page meanwhile); flip it later
     published: bool = True
+    # the board posts precinct files for every election but the 2020 primary
+    precincts: bool = True
+    # ballot questions are on general-election ballots only (set by _election)
+    questions: bool = False
 
     @property
     def party_files(self) -> list[str]:
         return ["dem", "rep", "non"] if self.kind == "primary" else ["all"]
 
+    @property
+    def precinct_vote_types(self) -> list[tuple[str, str]]:
+        """The vote types the precinct files carry: through 2018 only election-night votes are
+        split by precinct; from 2020 every vote type is."""
+        if self.year <= 2018:
+            return [("Election Night", "election_night")]
+        return list(self.vote_types)
 
-def _election(code, year, kind, name, day, live=False, published=True) -> ResultsElection:
+    @property
+    def question_check(self) -> bool:
+        """Whether the board posts a statewide ballot-question breakdown (not for 2010)."""
+        return self.questions and self.year >= 2012
+
+
+def _election(
+    code, year, kind, name, day, live=False, published=True, precincts=True
+) -> ResultsElection:
     base = (LIVE_BASE if live else ARCHIVE_BASE).format(year=year)
     e = ResultsElection(code, year, kind, name, day, base, published=published)
+    e.precincts = precincts
+    e.questions = kind == "general"
     if year >= 2022:
         pass  # the coded layout, the dataclass defaults
     elif year == 2020:
@@ -222,7 +243,9 @@ RESULTS_ELECTIONS: dict[str, ResultsElection] = {
         _election("GG22", 2022, "general", "2022 gubernatorial general election", "2022-11-08"),
         _election("GP22", 2022, "primary", "2022 gubernatorial primary", "2022-07-19"),
         _election("PG20", 2020, "general", "2020 presidential general election", "2020-11-03"),
-        _election("PP20", 2020, "primary", "2020 presidential primary", "2020-06-02"),
+        _election(
+            "PP20", 2020, "primary", "2020 presidential primary", "2020-06-02", precincts=False
+        ),
         # GG18 is also a turnout code (pipeline/turnout.py); the ids and directories differ
         _election("GG18", 2018, "general", "2018 gubernatorial general election", "2018-11-06"),
         _election("GP18", 2018, "primary", "2018 gubernatorial primary", "2018-06-26"),
@@ -238,16 +261,39 @@ RESULTS_ELECTIONS: dict[str, ResultsElection] = {
 }
 
 
+# The precinct and question archives are gitignored (about 250 MB, re-fetchable); the county
+# files stay in the committed results/ folder.
+ARCHIVE_FOLDERS = {
+    "county": "results",
+    "check": "results",
+    "precinct": "results-precinct",
+    "question": "results-questions",
+    "question-precinct": "results-questions",
+    "question-check": "results-questions",
+}
+DOCUMENT_TITLES = {
+    "county": "{code} {county} results ({pf})",
+    "check": "{code} congressional breakdown ({pf})",
+    "precinct": "{code} {county} results by precinct ({pf})",
+    "question": "{code} {county} ballot questions",
+    "question-precinct": "{code} {county} ballot questions by precinct",
+    "question-check": "{code} ballot questions congressional breakdown",
+}
+
+
 @dataclass
 class ResultsFile:
     election: ResultsElection
     county_code: str  # "00" for the statewide check files
     county: str
     party_file: str  # "dem" | "rep" | "non" | "all"
-    role: str  # "county" | "check"
+    # "county" | "check" | "precinct" | "question" | "question-precinct" | "question-check"
+    role: str
 
     @property
     def file_name(self) -> str:
+        if self.role not in ("county", "check"):
+            return self._precinct_or_question_name()
         code = self.election.code
         year = self.election.year
         if self.election.layout == "named":
@@ -275,18 +321,53 @@ class ResultsFile:
             return f"{code}_{self.county_code}CountyResults.csv"
         return f"{code}_{self.county_code}{PARTY_FILES[self.party_file]}Results.csv"
 
+    def _precinct_or_question_name(self) -> str:
+        e, cc = self.election, self.county_code
+        if e.layout == "coded":
+            if self.role == "precinct":
+                if e.kind == "general":
+                    return f"{e.code}_{cc}PrecinctsResults.csv"
+                return f"{e.code}_{cc}Precincts{PARTY_FILES_NAMED[self.party_file]}.csv"
+            return {
+                "question": f"{e.code}_{cc}QuestionResults.csv",
+                "question-precinct": f"{e.code}_{cc}QuestionbyPrecinctsResults.csv",
+                "question-check": f"{e.code}_AllQuestionsCongressionalBreakDown.csv",
+            }[self.role]
+        if self.role == "question-check":
+            return f"Questions_State_Congressional_Districts_{e.year}.csv"
+        stem = COUNTY_FILE_STEMS[cc]
+        if self.role == "precinct":
+            if e.kind == "general":
+                return f"{stem}_By_Precinct_{e.year}_General.csv"
+            return f"{stem}_By_Precinct_{PARTY_FILES_NAMED[self.party_file]}_{e.year}_Primary.csv"
+        level = "County" if self.role == "question" else "Precinct"
+        return f"{stem}_Questions_{level}_{e.year}.csv"
+
     @property
     def url(self) -> str:
         return f"{self.election.base_url}/{self.file_name}"
 
     @property
     def source_id(self) -> str:
-        where = "check" if self.role == "check" else f"county-{self.county_code}"
-        return f"sbe-results-{self.election.code}-{where}-{self.party_file}"
+        code = self.election.code
+        if self.role == "check":
+            return f"sbe-results-{code}-check-{self.party_file}"
+        if self.role in ("county", "precinct"):
+            return f"sbe-results-{code}-{self.role}-{self.county_code}-{self.party_file}"
+        if self.role == "question-check":
+            return f"sbe-results-{code}-question-check"
+        return f"sbe-results-{code}-{self.role}-{self.county_code}"  # question, question-precinct
 
     @property
     def local_path(self) -> Path:
-        return ARCHIVES_DIR / "sbe" / "results" / self.election.code / self.file_name
+        folder = ARCHIVE_FOLDERS[self.role]
+        return ARCHIVES_DIR / "sbe" / folder / self.election.code / self.file_name
+
+    @property
+    def document_title(self) -> str:
+        return DOCUMENT_TITLES[self.role].format(
+            code=self.election.code, county=self.county, pf=self.party_file
+        )
 
 
 def county_files(election: ResultsElection) -> list[ResultsFile]:
@@ -300,6 +381,49 @@ def county_files(election: ResultsElection) -> list[ResultsFile]:
     files += [
         ResultsFile(election, "00", "State of Maryland", pf, "check") for pf in election.party_files
     ]
+    return files
+
+
+def precinct_files(election: ResultsElection) -> list[ResultsFile]:
+    """One precinct file per county and party file (none for the 2020 primary)."""
+    if not election.precincts:
+        return []
+    return [
+        ResultsFile(election, code, name, pf, "precinct")
+        for code, name in COUNTY_CODES.items()
+        for pf in election.party_files
+    ]
+
+
+def question_files(election: ResultsElection) -> list[ResultsFile]:
+    """A general's ballot-question files: each county's county and precinct files, and the
+    statewide breakdown where the board posts one."""
+    if not election.questions:
+        return []
+    files = [
+        ResultsFile(election, code, name, "all", role)
+        for role in ("question", "question-precinct")
+        for code, name in COUNTY_CODES.items()
+    ]
+    if election.question_check:
+        files.append(ResultsFile(election, "00", "State of Maryland", "all", "question-check"))
+    return files
+
+
+FETCH_LEVELS = ("county", "precinct", "questions", "all")
+
+
+def files_for(election: ResultsElection, level: str = "all") -> list[ResultsFile]:
+    """The files of one level ("county", "precinct", "questions") or of all three."""
+    if level not in FETCH_LEVELS:
+        raise ValueError(f"unknown level {level!r}; one of {', '.join(FETCH_LEVELS)}")
+    files = []
+    if level in ("county", "all"):
+        files += county_files(election)
+    if level in ("precinct", "all"):
+        files += precinct_files(election)
+    if level in ("questions", "all"):
+        files += question_files(election)
     return files
 
 
@@ -705,9 +829,13 @@ def download_status(url: str, timeout: float = 30.0) -> tuple[str, bytes, str]:
 
 
 def results_fetch(
-    election: str | None = None, force: bool = False, failures: list[str] | None = None
+    election: str | None = None,
+    force: bool = False,
+    failures: list[str] | None = None,
+    level: str = "all",
 ) -> list[SourceRecord]:
-    """Archive every county and check file not yet archived; returns the new manifest rows.
+    """Archive every file of the level (county, precinct, questions or all) not yet archived;
+    returns the new manifest rows.
 
     A file whose bytes equal the newest recorded revision adds no manifest row (a forced
     re-fetch of unchanged files is a no-op). Download errors (as opposed to files the SBE has not
@@ -719,7 +847,7 @@ def results_fetch(
         if not e.published:
             logger.info("%s: not published", e.code)
             continue
-        for f in county_files(e):
+        for f in files_for(e, level):
             newest = newest_source(MANIFEST_PATH, f.source_id)
             if not force and newest and resolve_archived(newest).exists():
                 continue
@@ -729,8 +857,10 @@ def results_fetch(
                 logger.warning("%s: download failed: %s (%s)", e.code, f.url, detail)
                 continue
             if status == "unpublished":
-                if f.party_file == "non" and f.role == "county":
-                    logger.info("%s: no non-partisan file for %s (normal)", e.code, f.county)
+                if f.party_file == "non" and f.role in ("county", "precinct"):
+                    logger.info(
+                        "%s: no non-partisan %s file for %s (normal)", e.code, f.role, f.county
+                    )
                 else:
                     logger.warning("%s: not available: %s", e.code, f.url)
                 continue
@@ -745,9 +875,7 @@ def results_fetch(
                 source_url=f.url,
                 source_name=SOURCE_NAME,
                 local_path=f.local_path,
-                document_title=f"{e.code} {f.county} results ({f.party_file})"
-                if f.role == "county"
-                else f"{e.code} congressional breakdown ({f.party_file})",
+                document_title=f.document_title,
             )
             append_to_manifest(MANIFEST_PATH, record)
             fetched.append(record)

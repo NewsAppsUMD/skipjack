@@ -136,7 +136,9 @@ def cmd_results_fetch(args: argparse.Namespace) -> None:
         if (not args.election or args.election == e.code) and not e.published:
             print(f"{e.code}: not published")
     failures: list[str] = []
-    records = results_fetch(election=args.election, force=args.force, failures=failures)
+    records = results_fetch(
+        election=args.election, force=args.force, failures=failures, level=args.level
+    )
     print(f"Fetched {len(records)} new results files")
     if failures:
         print(f"{len(failures)} downloads failed (not the same as unpublished):")
@@ -353,6 +355,12 @@ def main(argv: list[str] | None = None) -> None:
     )
     results_fetch_p.add_argument("--force", action="store_true")
     results_fetch_p.add_argument("--election", help="Only one election's files (e.g. GP26)")
+    results_fetch_p.add_argument(
+        "--level",
+        choices=["county", "precinct", "questions", "all"],
+        default="all",
+        help="Which files: the county files, the precinct files, the ballot questions, or all",
+    )
 
     results_parse_p = sub.add_parser(
         "results-parse", help="Check and parse archived results into CSVs"
