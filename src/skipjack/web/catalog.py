@@ -2,6 +2,10 @@
 
 Built from download_files(), so it lists exactly what the site offers: the publish gates in
 skipjack.web.downloads decide, not this module. Paths are relative to downloads/.
+
+A results entry's files are the county CSVs only; precinct_files (gzipped) and question_files
+({"county": [...], "precinct": [...]}) sit beside them. The keys are new and files is unchanged,
+so CATALOG_VERSION stays 1 and version-1 clients keep working.
 """
 
 from __future__ import annotations
@@ -27,7 +31,7 @@ def build_catalog(data_dir: Path) -> dict:
     results: dict[str, dict] = {}
     turnout: dict[str, dict] = {}
     for relative in download_files(data_dir):
-        if relative.suffix != ".csv":
+        if not relative.name.endswith((".csv", ".csv.gz")):
             continue
         parts = relative.parts
         path = relative.as_posix()
@@ -35,6 +39,17 @@ def build_catalog(data_dir: Path) -> dict:
             months.append(relative.stem)
         elif parts[0] == "results" and len(parts) == 4 and parts[2] == "county":
             _results_entry(results, parts[1], official=True, as_of=None)["files"].append(path)
+        elif parts[0] == "results" and len(parts) == 4 and parts[2] == "precinct":
+            entry = _results_entry(results, parts[1], official=True, as_of=None)
+            entry["precinct_files"].append(path)
+        elif (
+            parts[0] == "results"
+            and len(parts) == 5
+            and parts[2] == "questions"
+            and parts[3] in ("county", "precinct")
+        ):
+            entry = _results_entry(results, parts[1], official=True, as_of=None)
+            entry["question_files"][parts[3]].append(path)
         elif parts[0] == "results_unofficial" and len(parts) == 5 and parts[3] == "county":
             _results_entry(results, parts[1], official=False, as_of=parts[2])["files"].append(path)
         elif parts[0] == "turnout" and len(parts) == 5:
@@ -66,6 +81,8 @@ def _results_entry(results: dict, code: str, official: bool, as_of: str | None) 
             "official": official,
             "as_of": as_of,
             "files": [],
+            "precinct_files": [],
+            "question_files": {"county": [], "precinct": []},
         }
     return results[code]
 

@@ -16,9 +16,12 @@ from skipjack.web import statewide_csv
 from skipjack.web.db import get_db
 from skipjack.pipeline.results import RESULTS_ELECTIONS
 from skipjack.pipeline.results_unofficial import UNOFFICIAL_RESULTS
+from skipjack.pipeline.provenance import sidecar_path
 from skipjack.web.downloads import (
-    DOWNLOAD_SUFFIXES,
+    data_stem,
     download_files,
+    downloadable,
+    media_type,
     results_published,
     unofficial_offered,
     unofficial_snapshot,
@@ -72,8 +75,8 @@ async def turnout_download(relative: str):
         and may_publish(parts[0], parts[1])
     ):
         target = DATA_DIR / "turnout" / relative
-        if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
-            return FileResponse(target)
+        if target.is_file() and downloadable(target, "turnout"):
+            return FileResponse(target, media_type=media_type(target))
     raise HTTPException(404)
 
 
@@ -83,8 +86,8 @@ async def results_download(relative: str):
     parts = Path(relative).parts
     if len(parts) >= 2 and not any(p in ("..", ".") for p in parts) and results_published(parts[0]):
         target = DATA_DIR / "results" / relative
-        if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
-            return FileResponse(target)
+        if target.is_file() and downloadable(target, "results"):
+            return FileResponse(target, media_type=media_type(target))
     raise HTTPException(404)
 
 
@@ -105,18 +108,17 @@ async def results_unofficial_download(relative: str):
     parts = Path(relative).parts
     if not any(p in ("..", ".") for p in parts) and unofficial_offered(DATA_DIR, parts):
         target = DATA_DIR / "results_unofficial" / relative
-        if target.is_file() and target.suffix in DOWNLOAD_SUFFIXES:
-            return FileResponse(target)
+        if target.is_file() and downloadable(target, "results_unofficial"):
+            return FileResponse(target, media_type=media_type(target))
     raise HTTPException(404)
 
 
-def _file(data_dir: Path, csv_path: Path, name: str) -> dict:
+def _file(data_dir: Path, path: Path, name: str | None = None) -> dict:
+    """A data file (.csv or .csv.gz) with the provenance sidecar beside it."""
     return {
-        "name": name,
-        "path": csv_path.relative_to(data_dir).as_posix(),
-        "provenance": csv_path.with_name(csv_path.stem + "_provenance.json")
-        .relative_to(data_dir)
-        .as_posix(),
+        "name": name or data_stem(path),
+        "path": path.relative_to(data_dir).as_posix(),
+        "provenance": sidecar_path(path).relative_to(data_dir).as_posix(),
     }
 
 
@@ -153,8 +155,9 @@ def results_unofficial_listing(data_dir: Path) -> list[dict]:
 
 
 def results_listing(data_dir: Path) -> list[dict]:
-    """One block per published election with files: each county results CSV with the
-    provenance file beside it, in county order."""
+    """One block per published election with county files: each county results CSV with the
+    provenance file beside it, in county order, then the gzipped precinct files and the
+    ballot-question files (by county, then by precinct)."""
     blocks: list[dict] = []
     root = data_dir / "results"
     if not root.exists():
@@ -165,18 +168,24 @@ def results_listing(data_dir: Path) -> list[dict]:
         county_dir = root / code / "county"
         if not election.published or not county_dir.is_dir():
             continue
-        files = [
-            {
-                "name": csv.stem,
-                "path": csv.relative_to(data_dir).as_posix(),
-                "provenance": csv.with_name(csv.stem + "_provenance.json")
-                .relative_to(data_dir)
-                .as_posix(),
-            }
-            for csv in sorted(county_dir.glob("*.csv"))
+        files = [_file(data_dir, csv) for csv in sorted(county_dir.glob("*.csv"))]
+        if not files:
+            continue
+        precinct = sorted((root / code / "precinct").glob("*.csv.gz"))
+        questions = [
+            p
+            for p in sorted((root / code / "questions").glob("*/*.csv*"))
+            if downloadable(p, "results")
         ]
-        if files:
-            blocks.append({"code": code, "name": election.name, "files": files})
+        blocks.append(
+            {
+                "code": code,
+                "name": election.name,
+                "files": files,
+                "precinct_files": [_file(data_dir, p) for p in precinct],
+                "question_files": [_file(data_dir, p) for p in questions],
+            }
+        )
     return blocks
 
 

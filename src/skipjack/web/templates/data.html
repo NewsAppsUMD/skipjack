@@ -133,6 +133,7 @@
     The State Board's county results files, one CSV per county and party file (a primary has
     Democratic, Republican and non-partisan files; a general has one), each with a provenance
     file recording its source, checksum and checks. Winner marks are the Board's flag.
+    Precinct files are gzipped (<code>.csv.gz</code>); most tools read them as they are.
 </p>
 {% for section in results_sections %}
 <section class="dataset">
@@ -143,6 +144,24 @@
         (<a href="{{ base }}/downloads/{{ f.provenance }}">provenance</a>)&nbsp;
         {% endfor %}
     </p>
+    {% if section.precinct_files %}
+    <details>
+        <summary>By precinct ({{ section.precinct_files|length }} gzipped CSVs, one per county and party file)</summary>
+        <p>{% for f in section.precinct_files %}
+        <a href="{{ base }}/downloads/{{ f.path }}" style="white-space:nowrap">{{ f.name }}</a>
+        (<a href="{{ base }}/downloads/{{ f.provenance }}">provenance</a>)&nbsp;
+        {% endfor %}</p>
+    </details>
+    {% endif %}
+    {% if section.question_files %}
+    <details>
+        <summary>Ballot questions ({{ section.question_files|length }} files, by county and by precinct)</summary>
+        <p>{% for f in section.question_files %}
+        <a href="{{ base }}/downloads/{{ f.path }}" style="white-space:nowrap">{{ f.path.split("/")[3] }}/{{ f.name }}</a>
+        (<a href="{{ base }}/downloads/{{ f.provenance }}">provenance</a>)&nbsp;
+        {% endfor %}</p>
+    </details>
+    {% endif %}
 </section>
 {% endfor %}
 {% for section in unofficial_sections %}

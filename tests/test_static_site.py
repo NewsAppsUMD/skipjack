@@ -93,7 +93,11 @@ def test_prepare_output_refuses_a_folder_that_is_not_a_built_site(tmp_path):
 
 def test_downloads_are_only_aggregates():
     files = download_files(DATA_DIR)
-    assert all(f.suffix in DOWNLOAD_SUFFIXES for f in files)
+    # gzipped CSVs (the precinct files) under results/ only
+    assert all(
+        f.suffix in DOWNLOAD_SUFFIXES or (f.name.endswith(".csv.gz") and f.parts[0] == "results")
+        for f in files
+    )
     assert all(
         f.parts[0]
         in {
@@ -470,7 +474,12 @@ def test_no_raw_or_personal_files_are_published(root_site):
     out, _ = root_site
     suffixes = {p.suffix for p in out.rglob("*") if p.is_file()}
     # '' is .nojekyll; .webp is the logo in static/img and the brand icons derived for it (.ico, .png).
-    assert suffixes <= {".html", ".js", ".css", ".csv", ".json", ".webp", ".ico", ".png", ""}
+    # .gz is a results precinct file (.csv.gz), and only there.
+    assert suffixes <= {".html", ".js", ".css", ".csv", ".json", ".webp", ".ico", ".png", ".gz", ""}
+    gzipped = [p.relative_to(out) for p in out.rglob("*.gz")]
+    assert all(
+        p.name.endswith(".csv.gz") and p.parts[:2] == ("downloads", "results") for p in gzipped
+    )
     # Every published JSON: the voter-file summaries, the catalog and the county documents.
     published = "".join(p.read_text() for p in (out / "downloads").rglob("*.json"))
     for forbidden in ("VTR_ID", "LastName", "FirstName", "BirthDate"):

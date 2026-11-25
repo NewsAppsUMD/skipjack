@@ -7,7 +7,8 @@ voter_registration, voter_file and turnout_model (the forecast's aggregate input
 outputs) are mounted and served wholesale; the turnout files
 are gated per family instead, so a certified election does not publish the board's
 unofficial early-voting tallies (see skipjack.pipeline.turnout.may_publish). The results files
-are gated per election: only elections the registry marks published are offered. The
+(the county CSVs, and the precinct and question-precinct files as .csv.gz) are gated per
+election: only elections the registry marks published are offered. The
 unofficial results (results_unofficial) are offered only while the count runs, and only the
 newest snapshot: once the certified results are published they are no longer offered.
 """
@@ -30,7 +31,29 @@ DOWNLOAD_ROOTS = (
 )
 MOUNTED_ROOTS = ("voter_registration", "voter_file", "turnout_model")
 DOWNLOAD_SUFFIXES = {".csv", ".json"}
+GZIP_SUFFIX = ".csv.gz"  # the precinct and question-precinct files
+# Only results/ offers gzipped CSVs: turnout_model's .csv.gz draw files stay unpublished.
+GZIP_ROOTS = ("results",)
 SQLITE_NAME = "skipjack.db"
+
+
+def downloadable(path: Path, root: str) -> bool:
+    """Whether a file's type is offered under a download root: a CSV, a JSON sidecar, or (under
+    results/ only) a gzipped CSV."""
+    if path.name.endswith(GZIP_SUFFIX):
+        return root in GZIP_ROOTS
+    return path.suffix in DOWNLOAD_SUFFIXES
+
+
+def media_type(path: Path) -> str | None:
+    """The type to serve a download as: gzip for .csv.gz (left to guess, it would be text/csv
+    over compressed bytes), otherwise the server's guess."""
+    return "application/gzip" if path.name.endswith(GZIP_SUFFIX) else None
+
+
+def data_stem(path: Path) -> str:
+    """A data file's name without .csv or .csv.gz."""
+    return path.name.removesuffix(".gz").removesuffix(".csv")
 
 
 def results_published(code: str) -> bool:
@@ -65,7 +88,7 @@ def download_files(data_dir: Path) -> list[Path]:
         if not base.exists():
             continue
         for p in base.rglob("*"):
-            if not (p.is_file() and p.suffix in DOWNLOAD_SUFFIXES):
+            if not (p.is_file() and downloadable(p, root)):
                 continue
             relative = p.relative_to(data_dir)
             parts = relative.parts

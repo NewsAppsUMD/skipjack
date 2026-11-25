@@ -53,3 +53,18 @@ def test_the_catalog_lists_only_what_is_offered(tmp_path, monkeypatch):
         "2026-10-15",
     ]
     assert catalog["county_history"] == "county/{slug}.json"
+
+
+def test_the_catalog_lists_precinct_and_question_files_apart(tmp_path):
+    _touch(tmp_path, "results/PG24/county/15-kent-all.csv")
+    _touch(tmp_path, "results/PG24/precinct/15-kent-all.csv.gz")
+    _touch(tmp_path, "results/PG24/precinct/15-kent-all_provenance.json")
+    _touch(tmp_path, "results/PG24/questions/county/15-kent.csv")
+    _touch(tmp_path, "results/PG24/questions/precinct/15-kent.csv.gz")
+    pg24 = build_catalog(tmp_path)["results"]["PG24"]
+    assert pg24["files"] == ["results/PG24/county/15-kent-all.csv"]  # county only: version 1
+    assert pg24["precinct_files"] == ["results/PG24/precinct/15-kent-all.csv.gz"]
+    assert pg24["question_files"] == {
+        "county": ["results/PG24/questions/county/15-kent.csv"],
+        "precinct": ["results/PG24/questions/precinct/15-kent.csv.gz"],
+    }
