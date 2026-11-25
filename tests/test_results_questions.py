@@ -109,7 +109,7 @@ def test_county_question_totals_must_be_the_sum():
 
 def test_read_named_county_questions_with_a_blank_third_option():
     frame = results.read_questions(named_county(), GG18, "Kent").frame
-    assert frame["question"].to_list() == ["01"]
+    assert frame["question"].to_list() == ["1"]  # the named files' "01", numbered as the coded
     assert (frame["total_votes"][0], frame["total_against"][0]) == (6857, 964)
     assert frame.columns[5:8] == ["early_votes", "early_against", "early_third"]
     assert frame.columns[-3:] == ["total_votes", "total_against", "total_third"]
@@ -190,7 +190,7 @@ def test_read_named_precinct_questions_election_night_only():
 def test_read_wicomico_2016_precinct_third_choice():
     body = (NAMED_PRECINCT_HEAD + WICOMICO_PRECINCT_2016).encode()
     frame = results.read_questions(body, PG16, "Wicomico", level="precinct").frame
-    assert frame["question"].to_list() == ["01", "A", "A"]
+    assert frame["question"].to_list() == ["1", "A", "A"]
     assert frame["election_night_third"].to_list() == [None, 13, 118]
     assert frame["total_third"].to_list() == [None, 13, 118]
     assert frame["total_votes"].to_list() == [35, 15, 111]
@@ -272,6 +272,14 @@ def test_garretts_question_numbers_are_kept_as_printed():
     frame = results.read_questions((GG14_COUNTY_HEAD + row).encode(), GG14, "Garrett").frame
     assert frame["question"].to_list() == ["A 002 000"]
     assert (frame["total_votes"][0], frame["total_against"][0]) == (235, 252)
+
+
+def test_question_numbers_drop_leading_zeros_only_when_all_digits():
+    assert [results.question_number(n) for n in ["01", "1", "10", "A", "A 002 000", "1A", "00"]] == [
+        "1", "1", "10", "A", "A 002 000", "1A", "0",
+    ]  # fmt: skip
+    precincts = results.read_questions(named_precincts(), GG18, "Kent", level="precinct").frame
+    assert precincts["question"].unique().to_list() == ["1"]
 
 
 def test_an_unknown_county_is_a_parse_error():
@@ -377,7 +385,7 @@ def test_statewide_question_check_compares_the_third_choice():
     )
     frames = [results.read_questions(named_county(third), GG18, "Kent").frame]
     assert results._check_questions_statewide(GG18, frames, named_breakdown(4078, 628, "5")) == 1
-    with pytest.raises(results.ResultsParseError, match="question 01: counties sum to 5 third, the breakdown says 6"):  # fmt: skip
+    with pytest.raises(results.ResultsParseError, match="question 1: counties sum to 5 third, the breakdown says 6"):  # fmt: skip
         results._check_questions_statewide(GG18, frames, named_breakdown(4078, 628, "6"))
     # a blank Vote Type 3 row and blank third cells agree; a local question's
     # third-choice row (Wicomico's A) is not compared
@@ -388,14 +396,30 @@ def test_statewide_question_check_compares_the_third_choice():
         results._check_questions_statewide(GG18, frames, named_breakdown(4078, 628, "3"))
 
 
+def test_statewide_question_check_skips_the_local_questions_in_the_county_files():
+    # a county's own questions (How it Runs? "Ed", "County") are not in the statewide rows,
+    # whatever their figures
+    local = (
+        (
+            NAMED_COUNTY_ROWS.replace('"00","01","State"', '"15","A","County"')
+            + NAMED_COUNTY_ROWS.replace('"00","01","State"', '"15","B","Ed"')
+        )
+        .replace('"4078","628"', '"999999","888888"')
+        .replace('"6857","964"', '"1002778","889224"')
+    )
+    frames = [results.read_questions(named_county(NAMED_COUNTY_ROWS + local), GG18, "Kent").frame]
+    assert frames[0]["how_it_runs"].to_list() == ["State", "County", "Ed"]
+    assert results._check_questions_statewide(GG18, frames, named_breakdown(4078, 628)) == 1
+
+
 def test_statewide_question_check_needs_each_question_on_both_sides():
     frames = [results.read_questions(named_county(), GG18, "Kent").frame]
     extra = '1,00,"02",State,,1,\n2,00,"02",State,,1,\n'
-    with pytest.raises(results.ResultsParseError, match="question 02 for is in the breakdown but no county file"):  # fmt: skip
+    with pytest.raises(results.ResultsParseError, match="question 2 for is in the breakdown but no county file"):  # fmt: skip
         results._check_questions_statewide(GG18, frames, named_breakdown(4078, 628, "", extra))
     two = named_county(NAMED_COUNTY_ROWS + NAMED_COUNTY_ROWS.replace('"01"', '"02"'))
     frames = [results.read_questions(two, GG18, "Kent").frame]
-    with pytest.raises(results.ResultsParseError, match="question 02 for is in the county files but not the breakdown"):  # fmt: skip
+    with pytest.raises(results.ResultsParseError, match="question 2 for is in the county files but not the breakdown"):  # fmt: skip
         results._check_questions_statewide(GG18, frames, named_breakdown(4078, 628))
 
 
@@ -437,7 +461,7 @@ def test_question_precinct_check_compares_the_third_choice():
     ]  # fmt: skip
     body = (NAMED_PRECINCT_HEAD + WICOMICO_PRECINCTS_A.replace('"14"', '"15"')).encode()
     bad = results.read_questions(body, PG16, "Wicomico", level="precinct").frame
-    with pytest.raises(results.ResultsParseError, match="A: precincts sum to 6515 election_night_third, the county file says 6514"):  # fmt: skip
+    with pytest.raises(results.ResultsParseError, match="A County: precincts sum to 6515 election_night_third, the county file says 6514"):  # fmt: skip
         results._check_question_precincts(PG16, "Wicomico", bad, county)
 
 
@@ -556,6 +580,55 @@ def test_a_reposted_county_question_file_rechecks_its_precincts(env):
     assert results.results_parse("PG24", data_dir=env / "data", level="questions") == (0, [])
 
 
+def _breakdown_file():
+    return next(f for f in results.question_files(PG24) if f.role == "question-check")
+
+
+def test_a_reposted_statewide_breakdown_rechecks_every_county(env):
+    fill_questions(env)
+    assert results.results_parse("PG24", data_dir=env / "data", level="questions") == (48, [])
+    base = env / "data" / "results" / "PG24" / "questions"
+    side_path = base / "county" / "15-kent_provenance.json"
+    side = json.loads(side_path.read_text())
+    newest = results.newest_source(results.MANIFEST_PATH, _breakdown_file().source_id)
+    assert side["checks"]["statewide_source"] == {
+        "source_id": "sbe-results-PG24-question-check", "sha256": newest.sha256,
+    }  # fmt: skip
+    files = sorted(p for p in base.rglob("*") if p.is_file())
+    before = {p: p.read_bytes() for p in files}
+
+    # a re-posted breakdown the counties no longer sum to: the level fails, nothing is written
+    archive(env, PG24, _breakdown_file(), coded_breakdown(1, 1))
+    written, failed = results.results_parse("PG24", data_dir=env / "data", level="questions")
+    assert written == 0 and len(failed) == 1
+    assert "PG24_AllQuestionsCongressionalBreakDown.csv" in failed[0]
+    assert {p: p.read_bytes() for p in files} == before
+
+    # one that still matches (the district split changed): every county sidecar records the
+    # new revision; the county CSVs are unchanged, so the precinct files are current
+    good = coded_breakdown(7773 * 24, 2937 * 24).replace(b'","100" ', b'","0" ')
+    good = good.replace(f'"{7773 * 24 - 100}"'.encode(), f'"{7773 * 24}"'.encode())
+    archive(env, PG24, _breakdown_file(), good)
+    assert results.results_parse("PG24", data_dir=env / "data", level="questions") == (24, [])
+    new_sha = results.newest_source(results.MANIFEST_PATH, _breakdown_file().source_id).sha256
+    assert new_sha != newest.sha256
+    assert json.loads(side_path.read_text())["checks"]["statewide_source"]["sha256"] == new_sha
+    for p in files:
+        if p.name.endswith((".csv", ".csv.gz")) or "precinct" in p.parts:
+            assert p.read_bytes() == before[p], p
+    assert results.results_parse("PG24", data_dir=env / "data", level="questions") == (0, [])
+
+
+def test_a_county_question_file_without_its_statewide_source_is_stale(env):
+    fill_questions(env)
+    assert results.results_parse("PG24", data_dir=env / "data", level="questions") == (48, [])
+    side_path = env / "data" / "results" / "PG24" / "questions" / "county" / "15-kent_provenance.json"  # fmt: skip
+    side = json.loads(side_path.read_text())
+    del side["checks"]["statewide_source"]
+    side_path.write_text(json.dumps(side))
+    assert results.results_parse("PG24", data_dir=env / "data", level="questions") == (1, [])
+
+
 def test_a_precinct_question_file_checked_against_an_older_county_file_is_stale(env):
     fill_questions(env)
     assert results.results_parse("PG24", data_dir=env / "data", level="questions") == (48, [])
@@ -602,6 +675,8 @@ def test_gg10_has_no_statewide_question_breakdown(env):
     assert side["checks"]["statewide_check"] == (
         "n/a: the board posted no statewide question breakdown for 2010"
     )
+    assert "statewide_source" not in side["checks"]
+    assert results.results_parse("GG10", data_dir=env / "data", level="questions") == (0, [])
     side = json.loads((base / "precinct" / "15-kent_provenance.json").read_text())
     assert "election-night votes only" in side["checks"]["county_check"]
 

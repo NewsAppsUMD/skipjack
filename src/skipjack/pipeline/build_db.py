@@ -19,6 +19,7 @@ from skipjack.pipeline.results import (
     RESULTS_ELECTIONS,
     ROW_TOTAL_EXCEPTIONS,
     county_slug,
+    question_number,
     question_third,
 )
 
@@ -676,6 +677,11 @@ def load_results_questions(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) 
         missing = [c for c in overrides if c not in df.columns]
         if missing:
             raise ResultsLoadError(f"{path}: missing columns {missing} for {code}")
+        # a column the election's files do not have (a *_third in a coded-layout file, a vote
+        # type from another year) would be dropped unread: refuse it
+        unexpected = [c for c in df.columns if c not in overrides]
+        if unexpected:
+            raise ResultsLoadError(f"{path}: unexpected columns {unexpected} for {code}")
         if df.height == 0:
             raise ResultsLoadError(f"{path}: no rows")
         _check_question_file(df, prov, path, code, geography)
@@ -686,6 +692,11 @@ def load_results_questions(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) 
         question_rows, vote_rows = [], []
         for row in df.with_row_index("_line", offset=2).iter_rows(named=True):
             where = f"{path}: row {row['_line']}, question {row['question']}"
+            if row["question"] != question_number(row["question"]):
+                raise ResultsLoadError(
+                    f"{where}: question number not as the parser writes it "
+                    f"({question_number(row['question'])!r}); parse it again"
+                )
             if row["winner"] is None:
                 raise ResultsLoadError(f"{where}: blank winner")
             sums: dict[str, int | None] = {"votes": 0, "against": 0, "third": None}
@@ -716,7 +727,7 @@ def load_results_questions(conn: sqlite3.Connection, data_dir: Path = DATA_DIR) 
                 (
                     next_id, prov["source_id"], code, geography, row["county"],
                     row.get("precinct"), row.get("congressional"), row.get("legislative"),
-                    _normalize_district(row["question"]), row["how_it_runs"], row["winner"],
+                    row["question"], row["how_it_runs"], row["winner"],
                     row["total_votes"], row["total_against"], row.get("total_third"),
                 )
             )  # fmt: skip

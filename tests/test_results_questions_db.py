@@ -94,12 +94,12 @@ def votes(stems, side_values: dict[str, list]) -> dict:
 GG18_STEMS = [s for _, s in RESULTS_ELECTIONS["GG18"].vote_types]
 # Kent GG18 question 01: For 6857, Against 964, no third choice
 KENT_GG18 = {
-    "question": "01", "how_it_runs": "State", "winner": 1,
+    "question": "1", "how_it_runs": "State", "winner": 1,
     **votes(GG18_STEMS, {"votes": [2409, 4078, 178, 80, 112], "against": [290, 628, 31, 6, 9]}),
     "total_votes": 6857, "total_against": 964,
 }  # fmt: skip
 KENT_GG18_PRECINCT = {
-    "precinct": "001-001", "congressional": "01", "legislative": "36", "question": "01",
+    "precinct": "001-001", "congressional": "01", "legislative": "36", "question": "1",
     "how_it_runs": "State", "winner": 0, "election_night_votes": 4078,
     "election_night_against": 628, "total_votes": 4078, "total_against": 628,
 }  # fmt: skip
@@ -160,7 +160,8 @@ def test_a_coded_layout_question_has_no_third_choice(conn, tmp_path):
     ).fetchone() == (5,)
 
 
-def test_question_numbers_drop_leading_zeros_only_when_numeric(conn, tmp_path):
+def test_question_numbers_load_as_the_parser_numbers_them(conn, tmp_path):
+    # the reader drops an all-digit number's leading zeros and keeps anything else as printed
     garrett = {**KENT_GG18, "question": "A 002 000", "how_it_runs": "County"}
     write_questions(tmp_path, "GG18", "12", "Garrett", "county", [KENT_GG18, garrett])
     load_results_questions(conn, tmp_path)
@@ -170,15 +171,35 @@ def test_question_numbers_drop_leading_zeros_only_when_numeric(conn, tmp_path):
     ]
 
 
+def test_load_questions_refuses_a_number_the_parser_would_not_write(conn, tmp_path):
+    write_questions(tmp_path, "GG18", "15", "Kent", "county", [{**KENT_GG18, "question": "01"}])
+    with pytest.raises(ResultsLoadError, match="question 01: question number not as the parser writes it \\('1'\\)"):  # fmt: skip
+        load_results_questions(conn, tmp_path)
+
+
+def test_load_questions_refuses_unexpected_columns(conn, tmp_path):
+    stems = [s for _, s in RESULTS_ELECTIONS["PG24"].vote_types]
+    row = {
+        "question": "1", "how_it_runs": "State", "winner": 1,
+        **votes(stems, {"votes": [2454, 3243, 801, 272, 1003], "against": [1047, 1534, 132, 70, 154]}),
+        "total_votes": 7773, "total_against": 2937,
+    }  # fmt: skip
+    path = write_questions(tmp_path, "PG24", "15", "Kent", "county", [row])
+    lines = path.read_text().splitlines()
+    path.write_text(f"{lines[0]},early_third\n{lines[1]},5\n")
+    with pytest.raises(ResultsLoadError, match=r"unexpected columns \['early_third'\] for PG24"):
+        load_results_questions(conn, tmp_path)
+
+
 @pytest.mark.parametrize(
     ("change", "message"),
     [
-        ({"total_votes": 6858}, "question 01: total votes 6858 != sum of vote types 6857"),
-        ({"total_against": 965}, "question 01: total against 965 != sum of vote types 964"),
-        ({"total_third": 1}, "question 01: total third 1 != sum of vote types None"),
-        ({"early_third": 1}, "question 01: total third None != sum of vote types 1"),
-        ({"early_votes": ""}, "question 01: blank early_votes"),
-        ({"winner": ""}, "question 01: blank winner"),
+        ({"total_votes": 6858}, "question 1: total votes 6858 != sum of vote types 6857"),
+        ({"total_against": 965}, "question 1: total against 965 != sum of vote types 964"),
+        ({"total_third": 1}, "question 1: total third 1 != sum of vote types None"),
+        ({"early_third": 1}, "question 1: total third None != sum of vote types 1"),
+        ({"early_votes": ""}, "question 1: blank early_votes"),
+        ({"winner": ""}, "question 1: blank winner"),
     ],
 )
 def test_load_questions_refuses_rows_that_do_not_add_up(conn, tmp_path, change, message):

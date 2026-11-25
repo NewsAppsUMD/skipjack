@@ -808,6 +808,13 @@ def _question_sides(election: ResultsElection, precinct: bool, label: str) -> li
     return sides
 
 
+def question_number(printed: str) -> str:
+    """A question number as every layer carries it: an all-digit number drops its leading zeros
+    (the named files' "01" is the coded files' "1"); anything else is kept as printed (Garrett's
+    "A 002 000", lettered local questions). Only ASCII digits count."""
+    return str(int(printed)) if printed.isascii() and printed.isdigit() else printed
+
+
 def read_questions(
     data: bytes, election: ResultsElection, county: str, level: str = "county"
 ) -> ReadFile:
@@ -818,8 +825,9 @@ def read_questions(
     level "county" reads the county question file, "precinct" its precinct file (the election's
     precinct vote types, and the precinct id columns). Columns are matched by name: the question
     number is "Question Number" in the named layout ("01"), "QuestionNumber" in a coded county
-    file and "Question" in a coded precinct file ("1"), kept as printed, as is How it Runs?
-    ("State", "County", "Ed"). The named county file's County column is "00" for a statewide
+    file and "Question" in a coded precinct file ("1"), written as question_number has it ("01"
+    -> "1"; errors name it as printed). How it Runs? is kept as printed ("State", "County",
+    "Ed"). The named county file's County column is "00" for a statewide
     question (How it Runs? "State") and the county's code otherwise; every other file prints the
     county's code.
 
@@ -907,7 +915,7 @@ def read_questions(
             out["congressional"] = r.get("Congressional", r.get("Cong", ""))
             out["legislative"] = r.get("Legislative", r.get("Legs", ""))
         out |= {
-            "question": r[number],
+            "question": question_number(r[number]),
             "how_it_runs": runs,
             "winner": 1 if r["Winner"].upper() in ("Y", "YES") else 0,
         }
@@ -1677,7 +1685,8 @@ def _check_questions_statewide(
         if side is None:
             raise ResultsParseError(f"{where}: unknown vote type {r[vt]!r}")
         n = sum(_int(r[c], where, c) or 0 for c in district_cols)
-        state[(r[number], side)] = state.get((r[number], side), 0) + n
+        key = (question_number(r[number]), side)  # numbered as the county frames are
+        state[key] = state.get(key, 0) + n
     column = election.check_votes
     sums: dict[tuple[str, str], int] = {}
     for frame in frames:
@@ -1736,8 +1745,8 @@ def _check_question_precincts(
     file (QUESTION_CHECK_EXCEPTIONS aside), on _question_precinct_check_columns."""
     return _check_sums(
         f"{election.code} {county} questions by precinct",
-        ["question"],
-        1,
+        ["question", "how_it_runs"],
+        2,
         _question_precinct_check_columns(election),
         precincts,
         county_frame,
@@ -1757,6 +1766,18 @@ def _county_question_file(f: ResultsFile) -> ResultsFile:
     return ResultsFile(f.election, f.county_code, f.county, "all", "question")
 
 
+def _statewide_source_changed(csv_path: Path, check_file: ResultsFile) -> bool:
+    """Whether a county question CSV's sidecar records a statewide breakdown revision other than
+    the newest archived one (or none): a re-posted breakdown means every county is checked
+    against it again."""
+    sidecar = sidecar_path(csv_path)
+    if not sidecar.exists():
+        return True
+    recorded = ProvenanceSidecar.read(sidecar).checks.get("statewide_source")
+    newest = newest_source(MANIFEST_PATH, check_file.source_id)
+    return newest is None or recorded != {"source_id": newest.source_id, "sha256": newest.sha256}
+
+
 def _parse_questions(e: ResultsElection, force: bool, data_dir: Path) -> int:
     """Check a general's ballot-question files and write them: the county files to
     questions/county/ (plain CSV) and the precinct files, each checked against its county file,
@@ -1765,7 +1786,8 @@ def _parse_questions(e: ResultsElection, force: bool, data_dir: Path) -> int:
 
     All-or-nothing per election. As for the precinct files, a file written from the newest
     archived revision is current without the (gitignored) archive; a precinct file is stale too
-    when its county question file was re-posted (checks.county_source, as for the candidates).
+    when its county question file was re-posted (checks.county_source, as for the candidates),
+    and every county file is stale when the statewide breakdown was (checks.statewide_source).
     When anything is stale every file is read and checked again."""
     files = question_files(e)
     records = {f.source_id: newest_source(MANIFEST_PATH, f.source_id) for f in files}
@@ -1777,6 +1799,7 @@ def _parse_questions(e: ResultsElection, force: bool, data_dir: Path) -> int:
         if records[f.source_id] is None:
             raise ResultsParseError(f"missing required file {f.file_name} ({f.source_id})")
     data_files = [f for f in files if f.role != "question-check"]
+    check_file = next((f for f in files if f.role == "question-check"), None)
     stale = {
         f.source_id
         for f in data_files
@@ -1785,6 +1808,11 @@ def _parse_questions(e: ResultsElection, force: bool, data_dir: Path) -> int:
         or (
             f.role == "question-precinct"
             and _county_source_changed(_question_out(data_dir, f), _county_question_file(f))
+        )
+        or (
+            f.role == "question"
+            and check_file is not None
+            and _statewide_source_changed(_question_out(data_dir, f), check_file)
         )
     }
     if not stale:
@@ -1806,13 +1834,18 @@ def _parse_questions(e: ResultsElection, force: bool, data_dir: Path) -> int:
             counties[f.county] = (f, record, read_questions(data, e, f.county))
         except ResultsParseError as err:
             raise ResultsParseError(f"{f.file_name}: {err}") from None
-    check_file = next((f for f in files if f.role == "question-check"), None)
+    statewide_source = None
     if check_file is None:
         statewide = f"n/a: the board posted no statewide question breakdown for {e.year}"
     else:
+        breakdown, breakdown_record = read(check_file)
+        statewide_source = {
+            "source_id": breakdown_record.source_id,
+            "sha256": breakdown_record.sha256,
+        }
         try:
             n = _check_questions_statewide(
-                e, [rd.frame for _, _, rd in counties.values()], read(check_file)[0]
+                e, [rd.frame for _, _, rd in counties.values()], breakdown
             )
         except ResultsParseError as err:
             raise ResultsParseError(f"{check_file.file_name}: {err}") from None
@@ -1846,6 +1879,9 @@ def _parse_questions(e: ResultsElection, force: bool, data_dir: Path) -> int:
                 "row_totals": "ok",
                 "statewide_check": statewide,
             }
+            if statewide_source is not None:
+                # the breakdown revision checked against: a re-posted one re-checks every county
+                checks["statewide_source"] = statewide_source
             data = rd.frame.write_csv().encode()
         else:
             geography = "precinct"
