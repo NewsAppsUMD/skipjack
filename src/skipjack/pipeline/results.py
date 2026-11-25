@@ -477,8 +477,12 @@ def newest_source(manifest_path: Path, source_id: str) -> SourceRecord | None:
 # ---- reading --------------------------------------------------------------------------------
 
 
-def _frame(data: bytes, where: str) -> pl.DataFrame:
-    """The file as a frame of stripped strings (BOM, quotes, and the stray trailing space)."""
+def _frame(data: bytes, where: str, optional_tail: tuple[str, ...] = ()) -> pl.DataFrame:
+    """The file as a frame of stripped strings (BOM, quotes, and the stray trailing space).
+
+    A row may stop short of the header's trailing columns named in ``optional_tail`` (PG20's
+    precinct question files leave off their last Total columns); those cells read as blank. A
+    row short by more than that, or long, fails."""
     try:
         text = data.decode("utf-8-sig")
     except UnicodeDecodeError:
@@ -492,9 +496,18 @@ def _frame(data: bytes, where: str) -> pl.DataFrame:
         c = c.strip()
         # Dorchester's 2020 file repeats an unused "N/A Votes" column; keep the names unique
         header.append(f"{c}.{header.count(c)}" if c in header else c)
-    body = [[c.strip() for c in r] for r in rows[1:]]
-    if any(len(r) != len(header) for r in body):
-        raise ResultsParseError(f"{where}: rows do not all have {len(header)} columns")
+    width = len(header)
+    tail = 0
+    while tail < width and header[width - 1 - tail] in optional_tail:
+        tail += 1
+    body = []
+    for r in rows[1:]:
+        cells = [c.strip() for c in r]
+        if width - tail <= len(cells) < width:
+            cells += [""] * (width - len(cells))
+        body.append(cells)
+    if any(len(r) != width for r in body):
+        raise ResultsParseError(f"{where}: rows do not all have {width} columns")
     return pl.DataFrame(body, schema={c: pl.Utf8 for c in header}, orient="row")
 
 
@@ -758,6 +771,162 @@ def _drop_lone_zero_against(rows: list[dict], vote_types: list[tuple[str, str]])
             for c in stems:
                 r[c] = None
             r["total_against"] = None
+
+
+QUESTION_ID_COLUMNS = ["election", "county", "question", "how_it_runs", "winner"]
+QUESTION_PRECINCT_ID_COLUMNS = [
+    "election", "county", "precinct", "congressional", "legislative", "question",
+    "how_it_runs", "winner",
+]  # fmt: skip
+QUESTION_TOTALS = ("Total Votes", "Total Votes Against", "Total 3rd option")
+
+
+def question_third(election: ResultsElection) -> bool:
+    """Whether the election's question files print a third choice (the named layout's 2016-2020
+    "3rd option" columns)."""
+    return election.layout == "named" and 2016 <= election.year <= 2020
+
+
+def _question_sides(election: ResultsElection, precinct: bool, label: str) -> list[tuple[str, str]]:
+    """(output suffix, the board's column) for one vote type: For, Against and, where printed,
+    the third choice ("<label> 3rd option"; the 2016-2018 precinct files' "<label> Votes (3rd
+    option)")."""
+    sides = [("votes", f"{label} Votes"), ("against", f"{label} Votes Against")]
+    if question_third(election):
+        third = (
+            f"{label} Votes (3rd option)"
+            if precinct and election.year <= 2018
+            else f"{label} 3rd option"
+        )
+        sides.append(("third", third))
+    return sides
+
+
+def read_questions(
+    data: bytes, election: ResultsElection, county: str, level: str = "county"
+) -> ReadFile:
+    """One county's ballot-question file as a wide frame: by vote type, For in <stem>_votes,
+    Against in <stem>_against and, where the file prints one, the third choice in <stem>_third;
+    then total_votes, total_against and total_third.
+
+    level "county" reads the county question file, "precinct" its precinct file (the election's
+    precinct vote types, and the precinct id columns). Columns are matched by name: the question
+    number is "Question Number" in the named layout ("01"), "QuestionNumber" in a coded county
+    file and "Question" in a coded precinct file ("1"), kept as printed, as is How it Runs?
+    ("State", "County", "Ed"). The named county file's County column is "00" for a statewide
+    question (How it Runs? "State") and the county's code otherwise; every other file prints the
+    county's code.
+
+    The third choice (2016-2020) is carried as published, blank as None: only Wicomico's
+    question A fills it (2016's three-way question, and 2018's files repeat 2016's third-choice
+    figures). A blank For or Against reads as 0 in the named layout (an empty precinct prints a
+    blank Against). A printed total must equal the sum of the vote types, the third choice
+    included; the county files print them, the precinct files do not (PG20's Total cells are
+    blank or missing), so there the totals are the sums.
+    """
+    precinct = level == "precinct"
+    where = f"{election.code} {county} questions" + (" by precinct" if precinct else "")
+    raw = _frame(data, where, optional_tail=QUESTION_TOTALS if precinct else ())
+    code = next(c for c, n in COUNTY_CODES.items() if n == county)
+    named = election.layout == "named"
+    third = question_third(election)
+    vote_types = election.precinct_vote_types if precinct else election.vote_types
+    if named:
+        number = "Question Number"
+    else:
+        number = "Question" if precinct else "QuestionNumber"
+    need = (_precinct_id_columns(election) if precinct else ["County"]) + [
+        number, "How it Runs?", "Winner",
+    ]  # fmt: skip
+    for label, _ in vote_types:
+        need += [column for _, column in _question_sides(election, precinct, label)]
+    totals = [("votes", "Total Votes"), ("against", "Total Votes Against")]
+    if third:
+        totals.append(("third", "Total 3rd option"))
+    if not precinct:
+        need += [column for _, column in totals]
+    missing = [c for c in need if c not in raw.columns]
+    if missing:
+        role = "question-precinct" if precinct else "question"
+        expected = ResultsFile(election, code, county, "all", role).file_name
+        raise ResultsParseError(
+            f"{where}: expected {election.code} {election.layout} layout columns in {expected}; "
+            f"missing {missing}"
+        )
+    unknown = sorted(
+        c
+        for c in raw.columns
+        if c.endswith((" Votes", " Votes Against")) and c not in need and not c.startswith("Total")
+    )
+    if unknown:
+        raise ResultsParseError(f"{where}: vote columns not in the registry: {unknown}")
+    stray = sorted(
+        c for c in raw.columns if "3rd option" in c and c not in need and c != "Total 3rd option"
+    )
+    if stray or (not third and "Total 3rd option" in raw.columns):
+        raise ResultsParseError(
+            f"{where}: third-option columns not in the registry: {stray or ['Total 3rd option']}"
+        )
+    if raw.height == 0:
+        raise ResultsParseError(f"{where}: no data rows (header only)")
+
+    rows = []
+    for r in raw.iter_rows(named=True):
+        who = f"{where}: question {r[number]}"
+        out: dict = {"election": election.code, "county": county}
+        runs = r["How it Runs?"]
+        if precinct or not named:
+            if r["County"] != code:
+                raise ResultsParseError(
+                    f"{who}: County {r['County']!r} is not {county}'s code {code}"
+                )
+        elif r["County"] != ("00" if runs == "State" else code):
+            raise ResultsParseError(
+                f"{who}: County {r['County']!r} for a question that runs {runs!r}"
+            )
+        if precinct:
+            out["precinct"] = _precinct_id(r, who)
+            # 2010's named files carry no Cong/Legs: "" (need requires them where they exist)
+            out["congressional"] = r.get("Congressional", r.get("Cong", ""))
+            out["legislative"] = r.get("Legislative", r.get("Legs", ""))
+        out |= {
+            "question": r[number],
+            "how_it_runs": runs,
+            "winner": 1 if r["Winner"].upper() in ("Y", "YES") else 0,
+        }
+        sums: dict[str, int | None] = {"votes": 0, "against": 0, "third": None}
+        for label, stem in vote_types:
+            for side, column in _question_sides(election, precinct, label):
+                v = _int(r[column], who, column)
+                if v is None and side != "third":
+                    if not named:
+                        raise ResultsParseError(f"{who}: blank {column}")
+                    v = 0
+                out[f"{stem}_{side}"] = v
+                if v is not None:
+                    sums[side] = (sums[side] or 0) + v
+        for side, column in totals:
+            printed = _int(r[column], who, column) if column in r else None
+            if printed is None and not precinct and side != "third":
+                raise ResultsParseError(f"{who}: blank {column}")
+            # a county file's blank Total 3rd option must mean no third choice; a precinct
+            # file prints no totals (PG20's are blank), so there only a printed one is checked
+            checked = printed is not None or (not precinct and side == "third")
+            if checked and printed != sums[side]:
+                raise ResultsParseError(
+                    f"{who}: {column} {printed} != sum of vote types {sums[side]}"
+                )
+            out[f"total_{side}"] = sums[side]
+        rows.append(out)
+
+    ids = QUESTION_PRECINCT_ID_COLUMNS if precinct else QUESTION_ID_COLUMNS
+    schema = {c: pl.Utf8 for c in ids if c != "winner"} | {"winner": pl.Int64}
+    for label, stem in vote_types:
+        for side, _ in _question_sides(election, precinct, label):
+            schema[f"{stem}_{side}"] = pl.Int64
+    for side, _ in totals:
+        schema[f"total_{side}"] = pl.Int64
+    return ReadFile(pl.DataFrame(rows, schema=schema), [])
 
 
 class StatewideCheck(NamedTuple):
