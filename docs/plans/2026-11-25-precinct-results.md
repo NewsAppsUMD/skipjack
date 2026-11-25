@@ -2649,6 +2649,14 @@ EOF
 
 ### Task 8: Precinct readers for the named layout (2010-2020)
 
+**Note from the Task 2 review:** when a precinct file prints no total, `total_against` is the
+sum of the Against cells and the county reader's lone-zero rule does not apply. The named
+layout reads blanks as zero (`blank_is_zero=True`), so a general precinct row with a lone "0"
+in Election Night Votes Against gets `total_against = 0` where the county reader gives None
+(the 2012 county files have that pattern on 835 rows). Apply the same lone-zero rule to
+precinct rows, or make Task 3's check treat None and 0 against-totals alike for such rows, and
+test it with a 2012-style fixture.
+
 **Files:**
 - Modify: `src/skipjack/pipeline/results.py` (`_precinct_id_columns`)
 - Test: `tests/test_results_precinct.py`
