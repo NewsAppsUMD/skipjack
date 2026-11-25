@@ -552,10 +552,12 @@ def read_precinct(data: bytes, election: ResultsElection, county: str, party_fil
 
 
 def _precinct_id_columns(election: ResultsElection) -> list[str]:
-    """The columns that place a precinct row."""
+    """The columns that place a precinct row: the coded layout's combined district-precinct
+    column, or the named layout's two, with Cong and Legs from 2012 (2010's files have none)."""
     if election.layout == "coded":
         return ["County", "Election District - Precinct", "Congressional", "Legislative"]
-    raise ResultsParseError(f"{election.code}: no precinct reader for the named layout yet")
+    columns = ["County", "Election District", "Election Precinct"]
+    return columns + (["Cong", "Legs"] if election.year >= 2012 else [])
 
 
 def _precinct_id(r: dict, where: str) -> str:
@@ -585,7 +587,8 @@ def _read_wide(
     against `county`, and the precinct as DDD-PPP, congressional and legislative district), the
     election's precinct vote types, and a Total Votes that is checked where the file prints one
     (election.precinct_total) and otherwise the sum of the vote types (total_against likewise:
-    the sum of the Against cells, None where the row has none).
+    the sum of the Against cells, None where the row has none, and in the named layout None
+    for a contest with no Against vote in any precinct: see _drop_lone_zero_against).
     """
     precinct = level == "precinct"
     where = f"{election.code} {county} {party_file}" + (" precincts" if precinct else "")
@@ -714,6 +717,8 @@ def _read_wide(
                     f"{against_sum if against_seen else None}"
                 )
         rows.append(out)
+    if precinct and against and not printed and blank_is_zero:
+        _drop_lone_zero_against(rows, vote_types)
     if len(row_total_exceptions) != allowed_total_mismatches:
         raise ResultsParseError(
             f"{where}: {len(row_total_exceptions)} rows whose total is not the sum of the vote "
@@ -733,6 +738,21 @@ def _read_wide(
         cols.append("total_against")
     schema |= {c: pl.Int64 for c in cols}
     return ReadFile(pl.DataFrame(rows, schema=schema), row_total_exceptions)
+
+
+def _drop_lone_zero_against(rows: list[dict], vote_types: list[tuple[str, str]]) -> None:
+    """A named-layout precinct file prints no Total Votes Against, so the county reader's rule
+    (a lone 0 in an Against cell with a blank total is no Against figure) is applied by contest:
+    a contest whose Against cells are blank or 0 in every precinct has no Against figures, None
+    throughout, as its county row reads. A contest with Against votes somewhere (a retention
+    judge) keeps a precinct's 0, which is a count there."""
+    stems = [f"{stem}_against" for _, stem in vote_types]
+    counted = {(r["office"], r["district"]) for r in rows if any(r[c] for c in stems)}
+    for r in rows:
+        if (r["office"], r["district"]) not in counted:
+            for c in stems:
+                r[c] = None
+            r["total_against"] = None
 
 
 class StatewideCheck(NamedTuple):

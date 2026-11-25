@@ -490,11 +490,40 @@ def test_results_live_pp20_refusal_offers_no_published_copy(capsys):
     assert "--source skipjack" not in err
 
 
-def test_results_live_named_layout_precincts_are_refused_before_any_download(capsys):
-    # the autouse no_network fixture fails the test if a download is attempted
-    err = fails(capsys, "get", "results", "--election", "GG18", "--source", "sbe",
-                "--geography", "precinct", "--county", "Kent")  # fmt: skip
-    assert "live precinct parsing of the 2010-2020 (named) layout is not supported yet" in err
+GP18_PRECINCT_HEAD = (
+    '"County","Election District","Election Precinct","Cong","Legs","Candidate Name","Party",'
+    '"Office Name","Office District","Winner","Election Night Votes"\n'
+)
+
+
+def test_results_live_named_layout_precincts(capsys, monkeypatch):
+    # the 2010-2020 layout; Kent posted no non-partisan precinct file (the board's HTML page)
+    seen = []
+
+    def fake(url, timeout=30.0):
+        seen.append(url.rsplit("/", 1)[1])
+        if "NonPartisan" in url:
+            return "unpublished", b"", "HTML or empty body"
+        row = (
+            '"15","001","002","01","36","Ben Jealous","DEM","Governor / Lt. Governor","","Y","17"\n'
+        )
+        return "ok", (GP18_PRECINCT_HEAD + row).encode(), ""
+
+    monkeypatch.setattr(results, "download_status", fake)
+    out = run(capsys, "get", "results", "--election", "GP18", "--source", "sbe",
+              "--geography", "precinct", "--county", "Kent")  # fmt: skip
+    assert seen == [
+        "Kent_By_Precinct_Democratic_2018_Primary.csv",
+        "Kent_By_Precinct_Republican_2018_Primary.csv",
+        "Kent_By_Precinct_NonPartisan_2018_Primary.csv",
+    ]
+    assert [(r["party_file"], r["precinct"], r["congressional"]) for r in out["rows"]] == [
+        ("dem", "001-002", "01"), ("rep", "001-002", "01"),
+    ]  # fmt: skip
+    assert out["rows"][0]["election_night_votes"] == 17 and out["rows"][0]["total_votes"] == 17
+    assert out["meta"]["notes"] == [
+        "Kent_By_Precinct_NonPartisan_2018_Primary.csv not posted (no non-partisan contests)"
+    ]
 
 
 def test_results_live_precinct_needs_a_county(capsys):

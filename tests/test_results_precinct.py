@@ -516,3 +516,155 @@ def test_cli_results_parse_passes_the_level(monkeypatch):
     monkeypatch.setattr(results, "results_parse", fake_parse)
     cli.main(["results-parse", "--election", "PG24", "--level", "precinct"])
     assert seen["level"] == "precinct" and seen["election"] == "PG24"
+
+
+# ---- the named layout -------------------------------------------------------------------------
+
+GG10 = results.RESULTS_ELECTIONS["GG10"]
+PG12 = results.RESULTS_ELECTIONS["PG12"]
+GG18 = results.RESULTS_ELECTIONS["GG18"]
+GP18 = results.RESULTS_ELECTIONS["GP18"]
+PG20 = results.RESULTS_ELECTIONS["PG20"]
+
+NAMED_2018_GENERAL_HEAD = (
+    '"County","Election District","Election Precinct","Cong","Legs","Candidate Name","Party",'
+    '"Office Name","Office District","Winner","Write-In?","Election Night Votes",'
+    '"Election Night Votes Against"\n'
+)
+NAMED_2018_PRIMARY_HEAD = (
+    '"County","Election District","Election Precinct","Cong","Legs","Candidate Name","Party",'
+    '"Office Name","Office District","Winner","Election Night Votes"\n'
+)
+NAMED_2010_GENERAL_HEAD = NAMED_2018_GENERAL_HEAD.replace('"Cong","Legs",', "")
+PG20_HEAD = (
+    '"County","Election District","Election Precinct","Cong","Legs","Candidate Name","Party",'
+    '"Office Name","Office District","Winner","Write-In?","Early Voting Votes",'
+    '"Early Voting Votes Against","Election Day Votes","Election Day Votes Against",'
+    '"By Mail Votes","By Mail Votes Against","Prov. Votes","Prov. Votes Against",'
+    '"By Mail 2 Votes","By Mail 2 Votes Against","Total Votes","Total Votes Against"\n'
+)
+
+
+def test_read_precinct_2018_general_is_election_night_only():
+    rows = (
+        '"15","001","001","01","36","Larry Hogan","REP","Governor / Lt. Governor","","Y","","420",""\n'
+        '"15","001","002","01","36","Judge Jane","","Judge Court of Appeals","","","","3","1"\n'
+    )  # fmt: skip
+    frame = results.read_precinct(
+        (NAMED_2018_GENERAL_HEAD + rows).encode(), GG18, "Kent", "all"
+    ).frame
+    assert frame["precinct"].to_list() == ["001-001", "001-002"]
+    assert frame["congressional"].to_list() == ["01", "01"]
+    assert frame.columns[12:] == [
+        "election_night_votes", "election_night_against", "total_votes", "total_against",
+    ]  # fmt: skip
+    assert frame["total_votes"].to_list() == [420, 3]
+    assert frame["total_against"].to_list() == [None, 1]
+
+
+def test_read_precinct_2018_primary():
+    row = '"15","001","001","01","36","Ben Jealous","DEM","Governor / Lt. Governor","","Y","17"\n'
+    frame = results.read_precinct(
+        (NAMED_2018_PRIMARY_HEAD + row).encode(), GP18, "Kent", "dem"
+    ).frame
+    assert frame["congressional"].to_list() == ["01"] and frame["total_votes"].to_list() == [17]
+
+
+def test_read_precinct_2010_has_no_districts():
+    row = '"15","001","001","Martin O\'Malley","DEM","Governor / Lt. Governor","","Y","","195",""\n'
+    frame = results.read_precinct(
+        (NAMED_2010_GENERAL_HEAD + row).encode(), GG10, "Kent", "all"
+    ).frame
+    assert frame["congressional"].to_list() == [""] and frame["legislative"].to_list() == [""]
+    assert frame["total_votes"].to_list() == [195]
+
+
+def test_read_precinct_2010_refuses_a_file_without_its_precinct_columns():
+    row = '"15","001","Martin O\'Malley","DEM","Governor / Lt. Governor","","Y","","195",""\n'
+    head = NAMED_2010_GENERAL_HEAD.replace('"Election Precinct",', "")
+    with pytest.raises(results.ResultsParseError, match="missing \\['Election Precinct'\\]"):
+        results.read_precinct((head + row).encode(), GG10, "Kent", "all")
+
+
+def test_read_precinct_2012_lone_zero_against_is_no_against():
+    # the 2012 county files print a lone 0 in Election Night Votes Against on 835 rows (a
+    # write-in for president, say), which the county reader reads as no Against figures; a
+    # precinct file with the same pattern reads alike, contest by contest, while a retention
+    # judge's real 0 in one precinct stays a 0 (other precincts voted against)
+    rows = (
+        '"15","001","001","01","36","Tiffany Renee Briscoe","DEM","President - Vice Pres","","","Y","0","0"\n'
+        '"15","001","002","01","36","Tiffany Renee Briscoe","DEM","President - Vice Pres","","","Y","1","0"\n'
+        '"15","001","001","01","36","Stuart R. Berger","BOT","Judge Special Appeals At Large","","Y","","3","0"\n'
+        '"15","001","002","01","36","Stuart R. Berger","BOT","Judge Special Appeals At Large","","Y","","616","138"\n'
+    )  # fmt: skip
+    frame = results.read_precinct(
+        (NAMED_2018_GENERAL_HEAD + rows).encode(), PG12, "Kent", "all"
+    ).frame
+    assert frame["election_night_against"].to_list() == [None, None, 0, 138]
+    assert frame["total_against"].to_list() == [None, None, 0, 138]
+
+
+def test_read_precinct_pg20_checks_its_printed_total():
+    row = '"15","001","001","01","36","Joe Biden","DEM","President - Vice Pres","","Y","","76","","89","","55","","26","","78","","324",""\n'  # fmt: skip
+    frame = results.read_precinct((PG20_HEAD + row).encode(), PG20, "Kent", "all").frame
+    assert frame["total_votes"].to_list() == [324] and frame["by_mail_2_votes"].to_list() == [78]
+    with pytest.raises(results.ResultsParseError, match="total votes 325 != sum of vote types 324"):
+        results.read_precinct((PG20_HEAD + row.replace('"324"', '"325"')).encode(), PG20, "Kent", "all")  # fmt: skip
+
+
+def test_named_precinct_check_compares_election_night_only():
+    assert results._precinct_check_columns(GG18) == ["election_night_votes", "election_night_against"]  # fmt: skip
+    assert results._precinct_check_columns(GP18) == ["election_night_votes"]
+    assert results._precinct_check_columns(PG20)[-2:] == ["total_votes", "total_against"]
+
+
+def test_parse_gp18_precincts_tolerates_a_missing_non_partisan_file(env):
+    county_head = (
+        '"Candidate Name","Party","Office Name","Office District","Winner","Early Votes",'
+        '"Election Night Votes","Absentees Votes","Provisional Votes","2nd Absentees Votes",'
+        '"Total Votes"\n'
+    )
+    county = county_head + '"Ben Jealous","DEM","Governor / Lt. Governor","","Y","5","17","1","0","0","23"\n'  # fmt: skip
+    precincts = '"CC","001","001","01","36","Ben Jealous","DEM","Governor / Lt. Governor","","Y","17"\n'  # fmt: skip
+    for f in results.county_files(GP18):
+        if f.role == "county" and f.party_file != "non":
+            archive(env, GP18, f, county.encode())
+    for f in results.precinct_files(GP18):
+        if f.party_file != "non":
+            body = NAMED_2018_PRIMARY_HEAD + precincts.replace('"CC"', f'"{f.county_code}"')
+            archive(env, GP18, f, body.encode())
+    written, failed = results.results_parse("GP18", data_dir=env / "data", level="precinct")
+    assert failed == [] and written == 48
+    side = json.loads(
+        (env / "data" / "results" / "GP18" / "precinct" / "15-kent-dem_provenance.json").read_text()
+    )
+    assert side["checks"]["county_check"].endswith(
+        "on election_night_votes (the board's precinct files for 2010-2018 carry election-night "
+        "votes only)"
+    )
+
+
+def test_parse_pg12_precincts_with_the_lone_zero_pattern_pass_the_check(env):
+    # the county file's lone 0 and the precinct file's (or its blank) both read as no Against
+    county_head = (
+        '"Candidate Name","Party","Office Name","Office District","Winner","Write-In?",'
+        '"Early Votes","Early Votes Against","Election Night Votes","Election Night Votes Against",'
+        '"Absentees Votes","Absentees Votes Against","Provisional Votes","Provisional Votes Against",'
+        '"2nd Absentees Votes","2nd Absentees Votes Against","Total Votes","Total Votes Against"\n'
+    )
+    county = county_head + '"Tiffany Renee Briscoe","DEM","President - Vice Pres","","","Y","0","","1","0","0","","0","","0","","1",""\n'  # fmt: skip
+    precincts = (
+        '"CC","001","001","01","36","Tiffany Renee Briscoe","DEM","President - Vice Pres","","","Y","1","0"\n'
+        '"CC","001","002","01","36","Tiffany Renee Briscoe","DEM","President - Vice Pres","","","Y","0",""\n'
+    )  # fmt: skip
+    for f in results.county_files(PG12):
+        if f.role == "county":
+            archive(env, PG12, f, county.encode())
+    for f in results.precinct_files(PG12):
+        body = NAMED_2018_GENERAL_HEAD + precincts.replace('"CC"', f'"{f.county_code}"')
+        archive(env, PG12, f, body.encode())
+    written, failed = results.results_parse("PG12", data_dir=env / "data", level="precinct")
+    assert failed == [] and written == 24
+    out = env / "data" / "results" / "PG12" / "precinct" / "15-kent-all.csv.gz"
+    frame = pl.read_csv(gzip.decompress(out.read_bytes()))
+    assert frame["total_against"].to_list() == [None, None]
