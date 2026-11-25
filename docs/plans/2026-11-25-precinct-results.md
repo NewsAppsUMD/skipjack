@@ -5,8 +5,8 @@
 **Goal:** Load the State Board's certified candidate results by precinct, and its ballot-question
 results by county and by precinct, for every election from 2010 on; check them against the
 county files before anything is written; and offer them as gzipped downloads, database tables,
-`skipjack get` output and a precinct table per contest (and per question) on each county's
-results pages. No maps.
+`skipjack get` output and one precinct page per county per election, whose contest picker
+draws any contest or question from the county's published files. No maps.
 
 **Architecture:** The results registry (`pipeline/results.py`) gains three file roles
 (`precinct`, `question`, `question-precinct`, plus `question-check` for the statewide question
@@ -2132,21 +2132,29 @@ EOF
 
 ---
 
-### Task 7: A precinct table per contest on the county pages
+### Task 7: One precinct page per county, with a contest picker
 
-URL: `/results/{election}/county/{county}/{contest}/`, where `{contest}` is the contest's
-**anchor** on the county page (unique within the county; two local contests can share a slug,
-see `county_page`). Linked as "By precinct" under each contest card that has precinct rows.
-Certified elections only: the unofficial count has no precinct figures, so the route 404s for
-an election being counted.
+**Decision (2026-11-25):** not a page per contest (about 10,000 pages), but one page per county
+per certified election, about 400 in all: `/results/{election}/county/{county}/precincts/`. The
+page lists the county's contests that have precinct rows in a `<select>`; picking one draws its
+table in the browser from the county's published precinct file
+(`downloads/results/{CODE}/precinct/{cc}-{slug}-{pf}.csv.gz`, one per party file), so the HTML
+stays small and the site carries no second copy of the figures. A contest is deep-linked as
+`precincts/#{anchor}`, the anchor being the contest's anchor on the county page. Unofficial
+elections get no page: the running count has no precinct figures.
+
+GitHub Pages serves `.csv.gz` as `application/gzip` without `Content-Encoding`, so the browser
+receives gzip bytes; a server that adds `Content-Encoding: gzip` hands `fetch` plain text. The
+script checks the first two bytes (`1f 8b`) and decompresses only then, with
+`DecompressionStream("gzip")`, as the CLI does in Task 6.
 
 **Files:**
-- Modify: `src/skipjack/web/results.py` (`county_page` 506-573; new `precinct_table`,
-  `precinct_slugs` after it)
-- Modify: `src/skipjack/web/routes/results.py` (docstring 1-8, `_SOURCE_ID` 27 and
-  `source_links` 61-73, new route after `county` 261-287)
-- Create: `src/skipjack/web/templates/results_precinct.html`
-- Modify: `src/skipjack/web/templates/results_county.html` (contest card ~50-53)
+- Modify: `src/skipjack/web/results.py` (`county_page` 506-573; new `precinct_picker` after it)
+- Modify: `src/skipjack/web/routes/results.py` (docstring 1-8, new route after `county` 261-287)
+- Create: `src/skipjack/web/templates/results_precincts.html`
+- Create: `src/skipjack/web/static/precincts.js`
+- Modify: `src/skipjack/web/templates/results_county.html` (a "Results by precinct" link under
+  the heading, and "By precinct" under each contest card that has precinct rows, ~50-53)
 - Modify: `src/skipjack/web/static_site.py` (`page_urls` 98-110: factor out `results_urls`)
 - Test: `tests/test_results_routes.py`
 
@@ -2155,6 +2163,10 @@ an election being counted.
 Append to `tests/test_results_routes.py`:
 
 ```python
+import json
+import re
+
+
 def add_precinct(conn, election, county, party_file, office, district, precinct, name, party, total):
     code = {"Allegany": "01", "Garrett": "11"}[county]
     conn.execute(
@@ -2173,45 +2185,54 @@ def governor_precincts(db):
         add_precinct(db, "GP26", "Allegany", "dem", "Governor / Lt. Governor", "", precinct, name, "DEM", n)
 
 
-def test_county_page_links_contests_that_have_precinct_rows(client, db):
+def picker_contests(html):
+    """The contests the page hands its script, from the embedded JSON."""
+    m = re.search(r'<script type="application/json" id="precinct-contests">(.*?)</script>', html, re.S)
+    return json.loads(m.group(1))
+
+
+def test_county_page_links_its_precinct_page_and_each_contest(client, db):
     governor_precincts(db)
     slug = results.contest_slug("Governor / Lt. Governor", "", "dem")
     html = client.get("/results/gp26/county/allegany/").text
-    assert f"/results/gp26/county/allegany/{slug}/" in html
-    sheriff = results.contest_slug("Sheriff", "", "dem")
-    assert f"/county/garrett/{sheriff}/" not in client.get("/results/gp26/county/garrett/").text
+    assert "/results/gp26/county/allegany/precincts/" in html
+    assert f"/results/gp26/county/allegany/precincts/#{slug}" in html
+    garrett = client.get("/results/gp26/county/garrett/").text  # no precinct rows there
+    assert "/precincts/" not in garrett
 
 
-def test_precinct_page_has_a_row_per_precinct_and_a_column_per_candidate(client, db):
+def test_precinct_page_lists_contests_with_their_file_and_candidates(client, db):
     governor_precincts(db)
     slug = results.contest_slug("Governor / Lt. Governor", "", "dem")
-    resp = client.get(f"/results/gp26/county/allegany/{slug}/")
+    resp = client.get("/results/gp26/county/allegany/precincts/")
     assert resp.status_code == 200
     html = resp.text
-    assert html.index("001-001") < html.index("001-002")  # precinct order
-    assert html.index("Wes Moore") < html.index("Eric Felber")  # the county page's order
+    assert f'<option value="{slug}"' in html
+    assert "/static/precincts.js" in html
+    [contest] = picker_contests(html)
+    assert contest["anchor"] == slug
+    assert contest["file"] == "results/GP26/precinct/01-allegany-dem.csv.gz"
+    assert (contest["office"], contest["district"]) == ("Governor / Lt. Governor", "")
+    assert contest["candidates"][:2] == ["Wes Moore", "Eric Felber"]  # the county page's order
+    assert contest["kind"] == "contest"
     assert "election-day votes only" not in html  # GP26 counts every way of voting by precinct
-    assert f'/results/gp26/county/allegany/#{slug}' in html
+    assert "/downloads/results/GP26/precinct/01-allegany-dem.csv.gz" in html  # the noscript list
 
 
-def test_precinct_table_cells(db, data):
+def test_precinct_picker_leaves_out_contests_without_precinct_rows(db, data):
     governor_precincts(db)
-    slug = results.contest_slug("Governor / Lt. Governor", "", "dem")
-    table = results.precinct_table(db, "GP26", "allegany", slug)
-    assert [(p["precinct"], p["cells"], p["total"]) for p in table["rows"]] == [
-        ("001-001", [60, 30], 90),
-        ("001-002", [41, None], 41),
-    ]
-    assert table["election_night_only"] is False
-    assert results.precinct_slugs(db, "GP26", "allegany") == [slug]
+    picker = results.precinct_picker(db, "GP26", "allegany")
+    assert [c["office"] for c in picker["contests"]] == ["Governor / Lt. Governor"]
+    assert picker["files"] == ["results/GP26/precinct/01-allegany-dem.csv.gz"]
+    assert picker["election_night_only"] is False
+    assert results.precinct_picker(db, "GP26", "garrett") is None
 
 
 @pytest.mark.parametrize(
     "url",
     [
-        "/results/gp26/county/allegany/no-such-contest/",
-        "/results/gp26/county/nowhere/governor-lt-governor-dem/",
-        "/results/gp26/county/garrett/sheriff-dem/",  # a contest without precinct rows
+        "/results/gp26/county/nowhere/precincts/",
+        "/results/gp26/county/garrett/precincts/",  # a county without precinct rows
     ],
 )
 def test_unknown_precinct_pages_are_404(client, db, url):
@@ -2223,25 +2244,31 @@ def test_2018_precinct_pages_say_election_day_votes_only(client, db):
     add(db, "GG18", "Allegany", "all", "Governor / Lt. Governor", "",
         [("Larry Hogan", "REP", True, {"election_night": 50})])  # fmt: skip
     add_precinct(db, "GG18", "Allegany", "all", "Governor / Lt. Governor", "", "001-001", "Larry Hogan", "REP", 50)
-    slug = results.contest_slug("Governor / Lt. Governor", "", "all")
-    html = client.get(f"/results/gg18/county/allegany/{slug}/").text
+    html = client.get("/results/gg18/county/allegany/precincts/").text
     assert "election-day votes only" in html
 
 
-def test_results_urls_include_the_precinct_pages(db, data):
+def test_results_urls_include_one_precinct_page_per_county(db, data):
     from skipjack.web.static_site import results_urls
 
     governor_precincts(db)
-    slug = results.contest_slug("Governor / Lt. Governor", "", "dem")
-    assert f"/results/gp26/county/allegany/{slug}/" in results_urls(db)
+    urls = results_urls(db)
+    assert "/results/gp26/county/allegany/precincts/" in urls
+    assert "/results/gp26/county/garrett/precincts/" not in urls
+    under = [u for u in urls if u.startswith("/results/gp26/county/allegany/")]
+    assert under == ["/results/gp26/county/allegany/", "/results/gp26/county/allegany/precincts/"]
 ```
+
+(Check first that the `data` fixture's GP26 rows include Allegany's "Governor / Lt. Governor"
+DEM contest with Wes Moore ahead of Eric Felber, and a Garrett county page; adjust the names to
+the fixture if not. If GP26 is unofficial in the fixture, use a certified election the fixture
+has instead, as the route 404s for an election being counted.)
 
 **Step 2: Run it to see it fail**
 
-`uv run pytest -q tests/test_results_routes.py -k precinct`
-Expected: FAIL, the county page has no precinct link and the precinct URL is a 404
-(`AttributeError: module 'skipjack.web.results' has no attribute 'precinct_table'` for the unit
-test).
+`uv run pytest -q tests/test_results_routes.py -k "precinct"`
+Expected: FAIL: no precinct link on the county page, the precinct URL is a 404, and
+`AttributeError: module 'skipjack.web.results' has no attribute 'precinct_picker'`.
 
 **Step 3: Implement**
 
@@ -2257,120 +2284,100 @@ test).
     )
 ```
 
-and in each contest dict add
-`"precinct_slug": anchor if (party_file, office, district) in with_precincts else None,`.
+(guard it as the module guards other optional tables if an older database may lack
+`results_precinct`), and in each contest dict add
+`"by_precinct": (party_file, office, district) in with_precincts,`. The page dict gains
+`"by_precinct": any(...)` over its contests, for the link under the heading.
 
 After `county_page`:
 
 ```python
-def precinct_table(
-    conn: sqlite3.Connection, code: str, county_slug: str, anchor: str
-) -> dict | None:
-    """One contest in one county by precinct: a row per precinct, a column per candidate in the
-    county page's order (most votes first). None for an unknown county or contest, or one with
-    no precinct rows. Through 2018 the precinct figures are election-night votes only."""
+_CODE_FOR_COUNTY = {name: code for code, name in COUNTY_CODES.items()}
+
+
+def precinct_file(code: str, county: str, party_file: str) -> str:
+    """The county's published precinct file for one party file, relative to downloads/
+    (as Task 3 writes it under data/)."""
+    return f"results/{code}/precinct/{_CODE_FOR_COUNTY[county]}-{slugify(county)}-{party_file}.csv.gz"
+
+
+def precinct_picker(conn: sqlite3.Connection, code: str, county_slug: str) -> dict | None:
+    """One county's contests that have precinct rows, for the precinct page's picker: each
+    with its anchor on the county page, its published file, the office and district its rows
+    carry in that file, and its candidates in the county page's order. The figures themselves
+    stay in the files; the page's script reads them. None for an unknown county or one with no
+    precinct rows. Through 2018 the precinct figures are election-night votes only."""
     page = county_page(conn, code, county_slug)
     if page is None:
         return None
-    found = next(
-        (c for g in page["groups"] for c in g["contests"] if c["anchor"] == anchor), None
-    )
-    if found is None or found["precinct_slug"] is None:
+    contests = [
+        {
+            "kind": "contest",
+            "anchor": c["anchor"],
+            "title": c["title"],
+            "group": g["label"],
+            "file": precinct_file(code, page["county"], c["party_file"]),
+            "office": c["office"],
+            "district": c["district"],
+            "candidates": [cand["name"] for cand in c["candidates"]],
+            "has_against": c["has_against"],
+        }
+        for g in page["groups"]
+        for c in g["contests"]
+        if c["by_precinct"]
+    ]
+    if not contests:
         return None
-    rows = conn.execute(
-        """SELECT source_id, precinct, congressional, legislative, candidate, party,
-                  total_votes, total_against
-           FROM results_precinct
-           WHERE election = ? AND county = ? AND party_file = ? AND office = ? AND district = ?
-           ORDER BY precinct, id""",
-        (code, page["county"], found["party_file"], found["office"], found["district"]),
-    ).fetchall()
-    column = {(c["name"], c["party"]): i for i, c in enumerate(found["candidates"])}
-    by_precinct: dict[str, dict] = {}
-    for _, precinct, cong, legs, candidate, party, total, against in rows:
-        p = by_precinct.setdefault(
-            precinct,
-            {
-                "precinct": precinct,
-                "congressional": cong,
-                "legislative": legs,
-                "cells": [None] * len(column),
-                "against": [None] * len(column),
-            },
-        )
-        i = column.get((candidate, party or ""))
-        if i is None:
-            continue  # only a candidate with no votes anywhere can be missing from the county file
-        p["cells"][i], p["against"][i] = total, against
-    for p in by_precinct.values():
-        p["total"] = sum(n for n in p["cells"] if n is not None)
     return {
         "election": page["election"],
         "county": page["county"],
         "county_slug": county_slug,
-        "contest": found,
-        "rows": list(by_precinct.values()),
-        "has_districts": any(p["congressional"] for p in by_precinct.values()),
+        "contests": contests,
+        "files": sorted({c["file"] for c in contests}),
         "election_night_only": RESULTS_ELECTIONS[code].year <= 2018,
-        "source_ids": sorted({r[0] for r in rows}),
     }
-
-
-def precinct_slugs(conn: sqlite3.Connection, code: str, county_slug: str) -> list[str]:
-    """The county's precinct pages, as anchors (the static site reads this list)."""
-    page = county_page(conn, code, county_slug)
-    if page is None:
-        return []
-    return [c["precinct_slug"] for g in page["groups"] for c in g["contests"] if c["precinct_slug"]]
 ```
 
-`routes/results.py`: the docstring gains "``/{slug}/county/{county_slug}/{contest_slug}/`` is a
-county contest by precinct (three segments, so it never meets ``/{slug}/{contest_slug}/``)."
-Recognize the precinct source ids in `source_links`:
+(Use the real key names of `county_page`'s groups and contests: read lines 506-573 and match
+`label`, `title`, `party_file`, `candidates[].name`, `has_against` to what it returns. The
+office and district must be the values as written in the precinct CSV, which Task 3 copies from
+the reader, so the script's filter matches; if `county_page` normalizes the district, as the
+loader does "01" to "1", carry the raw value or normalize in the script the same way, and say
+which in a comment.)
+
+`routes/results.py`: the docstring gains "``/{slug}/county/{county_slug}/precincts/`` is a
+county's results by precinct (a fixed last segment, three segments in all, so it never meets
+``/{slug}/{contest_slug}/``)." New route, right after `county`:
 
 ```python
-_SOURCE_ID = re.compile(r"-(county|precinct)-(\d\d)-(\w+)$")
-...
-        elif m := _SOURCE_ID.search(sid):
-            county = COUNTY_CODES.get(m.group(2), m.group(2))
-            party = qr.PARTY_LABELS.get(m.group(3), "")
-            label = f"{county}, {party}" if party else county
-            if m.group(1) == "precinct":
-                label += ", by precinct"
-```
-
-New route, right after `county`:
-
-```python
-@router.get("/{slug}/county/{county_slug}/{contest_slug}/")
-async def county_contest(request: Request, slug: str, county_slug: str, contest_slug: str):
-    """One contest in one county by precinct (certified results only)."""
+@router.get("/{slug}/county/{county_slug}/precincts/")
+async def county_precincts(request: Request, slug: str, county_slug: str):
+    """A county's results by precinct: a contest picker over its published precinct files
+    (certified results only)."""
     with get_db() as conn:
         code = _code(conn, slug)
         if qu.is_unofficial(code):
             raise HTTPException(status_code=404)  # the running count is by county only
-        data = qr.precinct_table(conn, code, county_slug, contest_slug)
+        data = qr.precinct_picker(conn, code, county_slug)
         if data is None:
             raise HTTPException(status_code=404)
-        sources = source_links(conn, data["source_ids"])
         context = _page_context(conn, code)
-    return _render(request, "results_precinct.html", {**data, "sources": sources, **context})
+    return _render(request, "results_precincts.html", {**data, **context})
 ```
 
-`templates/results_precinct.html`:
+`templates/results_precincts.html`:
 
 ```jinja
 {% extends "base.html" %}
 {% import "_results.html" as r with context %}
-{% block title %}{{ contest.title }} in {{ county }} by precinct: {{ election.name.title() }}{% endblock %}
+{% block title %}{{ county }} by precinct: {{ election.name.title() }}{% endblock %}
 
 {% block content %}
 <div class="viz-root">
-{{ r.breadcrumb(election, [("By county", base ~ "/results/" ~ election.slug ~ "/county/"), (county, base ~ "/results/" ~ election.slug ~ "/county/" ~ county_slug ~ "/"), (contest.title, none)]) }}
-<h1>{{ contest.title }}: {{ county }} by precinct</h1>
-<p class="secondary">{{ election.name.title() }}, {{ rows|length }} precincts.
-    <a href="{{ base }}/results/{{ election.slug }}/county/{{ county_slug }}/#{{ contest.anchor }}">{{ county }}'s totals</a>{% if contest.page_slug %};
-    <a href="{{ base }}/results/{{ election.slug }}/{{ contest.page_slug }}/">the whole contest</a>{% endif %}.</p>
+{{ r.breadcrumb(election, [("By county", base ~ "/results/" ~ election.slug ~ "/county/"), (county, base ~ "/results/" ~ election.slug ~ "/county/" ~ county_slug ~ "/"), ("By precinct", none)]) }}
+<h1>{{ county }} by precinct</h1>
+<p class="secondary">{{ election.name.title() }}.
+    <a href="{{ base }}/results/{{ election.slug }}/county/{{ county_slug }}/">{{ county }}'s totals</a>.</p>
 {% if election_night_only %}
 {# keep "election-day votes only" on one line: the tests look for the phrase #}
 <p class="note">The State Board's precinct files for {{ election.year }} count election-day votes only:
@@ -2380,44 +2387,206 @@ async def county_contest(request: Request, slug: str, county_slug: str, contest_
 <p class="note">Every way of voting is counted by precinct, so these figures add up to
     {{ county }}'s totals.</p>
 {% endif %}
+<label for="precinct-contest">Contest</label>
+<select id="precinct-contest">
+    {% for g in contests|groupby("group", sort=false) %}
+    <optgroup label="{{ g.grouper }}">
+        {% for c in g.list %}<option value="{{ c.anchor }}">{{ c.title }}</option>{% endfor %}
+    </optgroup>
+    {% endfor %}
+</select>
+<p id="precinct-status" class="secondary" aria-live="polite"></p>
 <div class="overflow-auto">
-<table data-sortable class="results-table compact">
-    <caption class="sr-only">{{ contest.title }} in {{ county }}, by precinct</caption>
-    <thead>
-        <tr>
-            <th scope="col">Precinct</th>
-            {% if has_districts %}<th scope="col">Congressional district</th><th scope="col">Legislative district</th>{% endif %}
-            {% for c in contest.candidates %}<th scope="col" class="num">{{ c.name }}{% if c.party %} ({{ c.party }}){% endif %}</th>{% if contest.has_against %}<th scope="col" class="num">Against</th>{% endif %}{% endfor %}
-            {% if not contest.has_against %}<th scope="col" class="num">Votes cast</th>{% endif %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for p in rows %}
-        <tr>
-            <th scope="row">{{ p.precinct }}</th>
-            {% if has_districts %}<td>{{ p.congressional }}</td><td>{{ p.legislative }}</td>{% endif %}
-            {% for n in p.cells %}<td class="num">{{ r.votes(n) }}</td>{% if contest.has_against %}<td class="num">{{ r.votes(p.against[loop.index0]) }}</td>{% endif %}{% endfor %}
-            {% if not contest.has_against %}<td class="num">{{ "{:,}".format(p.total) }}</td>{% endif %}
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<table id="precinct-table" data-sortable class="results-table compact" hidden></table>
 </div>
-{{ r.source_strip(sources, data_page, "this page") }}
+<noscript><p>The table needs JavaScript. The same figures are in the county's precinct
+    files:</p></noscript>
+<ul class="secondary">
+    {% for f in files %}<li><a href="{{ base }}/downloads/{{ f }}"><code>{{ f.split("/")[-1] }}</code></a></li>{% endfor %}
+</ul>
+<script type="application/json" id="precinct-contests">{{ contests|tojson }}</script>
+<script>window.SKIPJACK_DOWNLOADS = "{{ base }}/downloads/";</script>
+<script src="{{ base }}/static/precincts.js"></script>
 </div>
 {% endblock %}
 ```
 
-`results_county.html`, inside the contest `<article>` after the candidate table:
+(Jinja's `groupby` with `sort=false` needs Jinja 3.1; check the locked version, and fall back to
+grouping in `precinct_picker` if it is older. Check how other templates load scripts and the
+`base` prefix, e.g. the map pages with `maps.js`, and match them, including any `defer`.
+`sortable.js` enables tables at load, before this table has rows: check whether it needs
+calling again, and if so call its `enable` from `precincts.js` after drawing, exporting it from
+`sortable.js` if it is not already reachable.)
 
-```jinja
-    {% if c.precinct_slug %}<p class="note"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/{{ c.precinct_slug }}/">By precinct</a></p>{% endif %}
+`static/precincts.js`:
+
+```javascript
+// The precinct page: draw the picked contest's table from the county's published precinct
+// file. The files are gzipped CSV; a server may already have decompressed one (Content-Encoding),
+// so decompress only when the bytes still start with the gzip magic number.
+(function () {
+  const contests = JSON.parse(document.getElementById("precinct-contests").textContent);
+  const select = document.getElementById("precinct-contest");
+  const table = document.getElementById("precinct-table");
+  const status = document.getElementById("precinct-status");
+  const files = {};  // file -> Promise of parsed rows, fetched once per page
+
+  async function text(url) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`${url}: ${resp.status}`);
+    const bytes = new Uint8Array(await resp.arrayBuffer());
+    if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) return new TextDecoder().decode(bytes);
+    const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+    return await new Response(stream).text();
+  }
+
+  // RFC 4180: quoted fields may hold commas, quotes ("") and newlines.
+  function parse(csv) {
+    const rows = [];
+    let row = [], field = "", quoted = false;
+    for (let i = 0; i < csv.length; i++) {
+      const ch = csv[i];
+      if (quoted) {
+        if (ch === '"' && csv[i + 1] === '"') { field += '"'; i++; }
+        else if (ch === '"') quoted = false;
+        else field += ch;
+      } else if (ch === '"') quoted = true;
+      else if (ch === ",") { row.push(field); field = ""; }
+      else if (ch === "\n" || ch === "\r") {
+        if (ch === "\r" && csv[i + 1] === "\n") i++;
+        row.push(field); rows.push(row); row = []; field = "";
+      } else field += ch;
+    }
+    if (field || row.length) { row.push(field); rows.push(row); }
+    const [header, ...body] = rows;
+    return body.map((r) => Object.fromEntries(header.map((h, j) => [h, r[j]])));
+  }
+
+  function load(file) {
+    if (!files[file]) files[file] = text(window.SKIPJACK_DOWNLOADS + file).then(parse);
+    return files[file];
+  }
+
+  const num = (s) => (s === undefined || s === "" ? null : Number(s));
+  const fmt = (n) => (n === null ? "—" : n.toLocaleString("en-US"));
+
+  // kind: true for a number column, "row" for the precinct heading of a row
+  function cell(tag, value, kind) {
+    const el = document.createElement(tag);
+    if (tag === "th") el.scope = kind === "row" ? "row" : "col";
+    if (kind === true) el.className = "num";
+    el.textContent = value;
+    return el;
+  }
+
+  // Candidate contests: a row per precinct, a column per candidate in the county page's order.
+  function contestTable(c, rows) {
+    const mine = rows.filter((r) => r.office === c.office && r.district === c.district);
+    const byPrecinct = new Map();
+    for (const r of mine) {
+      if (!byPrecinct.has(r.precinct)) byPrecinct.set(r.precinct, { r, votes: {}, against: {} });
+      const p = byPrecinct.get(r.precinct);
+      p.votes[r.candidate] = num(r.total_votes);
+      p.against[r.candidate] = num(r.total_against);
+    }
+    const head = ["Precinct", "Congressional district", "Legislative district"];
+    for (const name of c.candidates) {
+      head.push(name);
+      if (c.has_against) head.push(`${name}: against`);
+    }
+    if (!c.has_against) head.push("Votes cast");
+    const body = [...byPrecinct.values()].sort((a, b) => a.r.precinct.localeCompare(b.r.precinct)).map((p) => {
+      const cells = [];
+      for (const name of c.candidates) {
+        cells.push(p.votes[name] ?? null);
+        if (c.has_against) cells.push(p.against[name] ?? null);
+      }
+      if (!c.has_against) cells.push(c.candidates.reduce((s, n) => s + (p.votes[n] || 0), 0));
+      return [p.r.precinct, p.r.congressional, p.r.legislative, cells];
+    });
+    return { head, body };
+  }
+
+  // Ballot questions (Task 12): For, Against and the For share per precinct.
+  function questionTable(c, rows) {
+    const mine = rows.filter((r) => String(Number(r.question)) === String(Number(c.question)));
+    const body = mine.sort((a, b) => a.precinct.localeCompare(b.precinct)).map((r) => {
+      const yes = num(r.total_votes), no = num(r.total_against);
+      const share = yes + no ? `${((100 * yes) / (yes + no)).toFixed(1)}%` : "—";
+      return [r.precinct, r.congressional, r.legislative, [yes, no], share];
+    });
+    return { head: ["Precinct", "Congressional district", "Legislative district", "For", "Against", "For share"], body };
+  }
+
+  function draw(c, { head, body }) {
+    const withDistricts = body.some((b) => b[1]);
+    table.replaceChildren();
+    const caption = document.createElement("caption");
+    caption.className = "sr-only";
+    caption.textContent = `${c.title}, by precinct`;
+    const thead = document.createElement("thead"), tr = document.createElement("tr");
+    head.forEach((h, i) => {
+      if (!withDistricts && (i === 1 || i === 2)) return;
+      tr.append(cell("th", h, i > 2));
+    });
+    thead.append(tr);
+    const tbody = document.createElement("tbody");
+    for (const [precinct, cong, legs, cells, extra] of body) {
+      const row = document.createElement("tr");
+      row.append(cell("th", precinct, "row"));
+      if (withDistricts) row.append(cell("td", cong), cell("td", legs));
+      for (const n of cells) row.append(cell("td", fmt(n), true));
+      if (extra !== undefined) row.append(cell("td", extra, true));
+      tbody.append(row);
+    }
+    table.append(caption, thead, tbody);
+    table.hidden = false;
+    status.textContent = `${body.length} precincts.`;
+  }
+
+  async function show(anchor) {
+    const c = contests.find((x) => x.anchor === anchor) || contests[0];
+    select.value = c.anchor;
+    status.textContent = "Loading…";
+    try {
+      const rows = await load(c.file);
+      if (select.value !== c.anchor) return;  // picked another contest while this one loaded
+      draw(c, c.kind === "question" ? questionTable(c, rows) : contestTable(c, rows));
+    } catch (err) {
+      table.hidden = true;
+      status.textContent = `Could not load ${c.file}: ${err.message}`;
+    }
+  }
+
+  select.addEventListener("change", () => {
+    history.replaceState(null, "", `#${select.value}`);
+    show(select.value);
+  });
+  window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+  show(location.hash.slice(1));
+})();
 ```
 
-(`c.precinct_slug` is undefined on the unofficial county page, which Jinja reads as false.)
+(Read how `results_county.html` shows a contest with Against columns
+(retention judges) and match its column wording. Match the site's number format for a missing
+value, `r.votes` in `_results.html`.)
+
+`results_county.html`: under the `<h1>`,
+
+```jinja
+{% if by_precinct %}<p class="secondary"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/precincts/">Results by precinct</a></p>{% endif %}
+```
+
+and inside the contest `<article>` after the candidate table:
+
+```jinja
+    {% if c.by_precinct %}<p class="note"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/precincts/#{{ c.anchor }}">By precinct</a></p>{% endif %}
+```
+
+(`by_precinct` is undefined on the unofficial county page, which Jinja reads as false.)
 
 `static_site.py`: move the results block of `page_urls` (lines 98-110) into a function the test
-can call, adding the precinct pages:
+can call, adding one precinct page per county:
 
 ```python
 def results_urls(conn: sqlite3.Connection) -> list[str]:
@@ -2429,8 +2598,8 @@ def results_urls(conn: sqlite3.Connection) -> list[str]:
         urls += [base, base + "county/"]
         for c in county_slugs_for(conn, e["code"]):
             urls.append(f"{base}county/{c}/")
-            if not e.get("unofficial"):
-                urls += [f"{base}county/{c}/{p}/" for p in qr.precinct_slugs(conn, e["code"], c)]
+            if not e.get("unofficial") and qr.precinct_picker(conn, e["code"], c):
+                urls.append(f"{base}county/{c}/precincts/")
         urls += [f"{base}{c}/" for c in contest_slugs_for(conn, e["code"])]
     if urls:
         urls.append("/results/county/")
@@ -2447,19 +2616,30 @@ with `from skipjack.web import results as qr`, and in `page_urls`:
             results_urls_found = []
 ```
 
-(rename the local consistently below it.)
+(rename the local consistently below it; check how `site_elections` marks an unofficial
+election and use that key.) `precinct_picker` builds the whole county page; if the site build
+slows noticeably, replace the call with one `SELECT DISTINCT county FROM results_precinct WHERE
+election = ?` per election.
 
 **Step 4: Run the tests**
 
 `uv run pytest -q tests/test_results_routes.py tests/test_results_web.py tests/test_static_site.py`
 Expected: PASS.
 
-**Step 5: Commit**
+**Step 5: Check the script in a browser**
+
+The tests cover the page, not the script. Build a small site the way the tests' fixtures do, or
+wait for Task 13's real build, and open a precinct page in the preview browser: pick two
+contests, check the hash updates, a deep link `precincts/#<anchor>` opens that contest, the
+console has no errors, and the table's sums for one contest equal the county page's totals. If
+waiting for Task 13, say so in the task's report so the controller checks it there.
+
+**Step 6: Commit**
 
 ```bash
-git add src/skipjack/web/results.py src/skipjack/web/routes/results.py src/skipjack/web/templates/results_precinct.html src/skipjack/web/templates/results_county.html src/skipjack/web/static_site.py tests/test_results_routes.py
+git add src/skipjack/web/results.py src/skipjack/web/routes/results.py src/skipjack/web/templates/results_precincts.html src/skipjack/web/static/precincts.js src/skipjack/web/templates/results_county.html src/skipjack/web/static_site.py tests/test_results_routes.py
 git commit -F - <<'EOF'
-web: a precinct table for each contest on a county's results page
+web: one precinct page per county, with a contest picker over its precinct files
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 EOF
@@ -3567,17 +3747,16 @@ EOF
 The certified county pages show no ballot questions today (the `questions` section of
 `results_county.html` is filled only by the unofficial count, `results_unofficial.question`).
 This task adds them to the certified county page from `results_questions` (county rows), each
-with a "By precinct" link to `/results/{election}/county/{county}/question-{n}/`, served by the
-Task 7 route. It does not add certified statewide question pages (the unofficial
+with a "By precinct" link to `/results/{election}/county/{county}/precincts/#question-{n}`: the
+questions join the contests in Task 7's picker, read from the county's question precinct file
+(`results/{CODE}/questions/precinct/{cc}-{slug}.csv.gz`). No page per question. It does not add certified statewide question pages (the unofficial
 `question-*` contest pages stay unofficial-only); that is a separate design question.
 
 **Files:**
 - Modify: `src/skipjack/web/results.py` (`county_page`, new `_county_questions`,
-  `question_precinct_table`, `precinct_slugs`)
-- Modify: `src/skipjack/web/routes/results.py` (`county_contest`)
+  `precinct_picker`)
 - Modify: `src/skipjack/web/templates/_results.html` (new `question_table` macro)
 - Modify: `src/skipjack/web/templates/results_county.html` (questions section ~111-122)
-- Create: `src/skipjack/web/templates/results_question_precinct.html`
 - Modify: `src/skipjack/client/datasets.py` (new `questions` after `results`),
   `src/skipjack/client/commands.py` (new `questions` parser, `_GET`), `tests/client_fixture.py`
   (the catalog's `question_files` already come from Task 5)
@@ -3610,17 +3789,23 @@ def test_certified_county_page_lists_its_questions_with_a_precinct_link(client, 
     add_question(db, "PG24", "Allegany", "precinct", "1", 70, 30, precinct="001-001")
     html = client.get("/results/pg24/county/allegany/").text
     assert 'id="question-1"' in html and "70.0%" in html
-    assert "/results/pg24/county/allegany/question-1/" in html
-    page = client.get("/results/pg24/county/allegany/question-1/")
-    assert page.status_code == 200 and "001-001" in page.text
+    assert "/results/pg24/county/allegany/precincts/#question-1" in html
+    page = client.get("/results/pg24/county/allegany/precincts/")
+    assert page.status_code == 200
+    question = next(c for c in picker_contests(page.text) if c["kind"] == "question")
+    assert question == {
+        "kind": "question", "anchor": "question-1", "title": "Question 1",
+        "group": "Ballot questions", "question": "1",
+        "file": "results/PG24/questions/precinct/01-allegany.csv.gz",
+    }  # fmt: skip
 
 
-def test_question_precinct_slugs_are_in_the_site(db, data):
+def test_a_county_with_only_question_precincts_gets_a_precinct_page(db, data):
     from skipjack.web.static_site import results_urls
 
     add_question(db, "PG24", "Allegany", "county", "1", 70, 30)
     add_question(db, "PG24", "Allegany", "precinct", "1", 70, 30, precinct="001-001")
-    assert "/results/pg24/county/allegany/question-1/" in results_urls(db)
+    assert "/results/pg24/county/allegany/precincts/" in results_urls(db)
 ```
 
 (Both rely on the `data` fixture's PG24 rows in Allegany; confirm them in the fixture first.)
@@ -3716,64 +3901,39 @@ def _county_questions(conn: sqlite3.Connection, code: str, county: str) -> list[
                      "share": 100 * total / cast if cast else None}
                     for i, (label, total) in enumerate((("For", for_votes), ("Against", against)))
                 ],  # fmt: skip
-                "precinct_slug": anchor if number in with_precincts else None,
+                "by_precinct": number in with_precincts,
             }
         )
     return out
 
 
-def question_precinct_table(
-    conn: sqlite3.Connection, code: str, county_slug: str, anchor: str
-) -> dict | None:
-    """One ballot question in one county by precinct: For, Against and the For share."""
-    county = _COUNTY_SLUGS.get(county_slug)
-    if code not in RESULTS_ELECTIONS or county is None:
-        return None
-    found = next((q for q in _county_questions(conn, code, county) if q["anchor"] == anchor), None)
-    if found is None or found["precinct_slug"] is None:
-        return None
-    rows = conn.execute(
-        """SELECT source_id, precinct, congressional, legislative, total_votes, total_against
-           FROM results_questions
-           WHERE election = ? AND county = ? AND geography = 'precinct' AND question = ?
-           ORDER BY precinct""",
-        (code, county, found["question"]),
-    ).fetchall()
-    return {
-        "election": _election_record(code),
-        "county": county,
-        "county_slug": county_slug,
-        "question": found,
-        "rows": [
-            {"precinct": p, "congressional": cong, "legislative": legs, "for": yes,
-             "against": no, "share": 100 * yes / (yes + no) if yes + no else None}
-            for _, p, cong, legs, yes, no in rows
-        ],  # fmt: skip
-        "has_districts": any(r[2] for r in rows),
-        "election_night_only": RESULTS_ELECTIONS[code].year <= 2018,
-        "source_ids": sorted({r[0] for r in rows}),
-    }
 ```
 
-`county_page` returns `"questions": _county_questions(conn, code, county)`; `precinct_slugs`
-appends `[q["precinct_slug"] for q in page["questions"] if q["precinct_slug"]]`.
-
-`routes/results.py`, `county_contest`: before `precinct_table`,
+`county_page` returns `"questions": _county_questions(conn, code, county)`, and its
+`by_precinct` becomes true when any contest or question has precinct rows. `precinct_picker`
+(Task 7) appends the questions after the contests, and keeps the page when only questions have
+rows: move its `if not contests: return None` after this addition.
 
 ```python
-        if contest_slug.startswith("question-"):
-            data = qr.question_precinct_table(conn, code, county_slug, contest_slug)
-            template = "results_question_precinct.html"
-        else:
-            data = qr.precinct_table(conn, code, county_slug, contest_slug)
-            template = "results_precinct.html"
+    county_code = _CODE_FOR_COUNTY[page["county"]]
+    contests += [
+        {
+            "kind": "question",
+            "anchor": q["anchor"],
+            "title": q["title"],
+            "group": "Ballot questions",
+            "question": q["question"],
+            "file": f"results/{code}/questions/precinct/{county_code}-{slugify(page['county'])}.csv.gz",
+        }
+        for q in page["questions"]
+        if q["by_precinct"]
+    ]
 ```
 
-(no contest slug starts with "question-": every contest slug ends in its party file and no
-office is named "Question"; say so in the module docstring). Recognize question source ids in
-`source_links`: `_QUESTION_SOURCE_ID = re.compile(r"-question-(?:(precinct)-)?(\d\d)$")`, label
-`f"{county}, ballot questions"` plus `", by precinct"`; test it in the step-1 test by inserting
-a `sources` row and asserting the label, if you want the strip covered.
+The script's `questionTable` (Task 7) already handles `kind: "question"`, comparing question
+numbers numerically ("01" in the named files, "1" in the coded ones). Its For share column
+should match `share` in `_results.html` (one decimal and a percent sign). Check it in the
+browser with the contests (Task 7, step 5).
 
 `_results.html`:
 
@@ -3817,15 +3977,10 @@ a `sources` row and asserting the label, if you want the strip covered.
     {% else %}
     <h3>{{ q.title }}{% if not q.statewide %} <span class="tag">county question</span>{% endif %}</h3>
     {{ r.question_table(q, q.title ~ " in " ~ county, vote_types, compact=true) }}
-    {% if q.precinct_slug %}<p class="note"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/{{ q.precinct_slug }}/">By precinct</a></p>{% endif %}
+    {% if q.by_precinct %}<p class="note"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/precincts/#{{ q.anchor }}">By precinct</a></p>{% endif %}
     {% endif %}
 </article>
 ```
-
-`results_question_precinct.html`: as `results_precinct.html` (Task 7), with the heading
-`{{ question.title }}: {{ county }} by precinct`, the same election-night note, and columns
-Precinct, [districts], For, Against, For share (`r.votes(p.for)`, `r.votes(p.against)`,
-`{% if p.share is none %}&mdash;{% else %}{{ "%.1f"|format(p.share) }}%{% endif %}`).
 
 `client/commands.py`:
 
@@ -3883,9 +4038,9 @@ Expected: PASS (the unofficial county page still renders its own question sectio
 **Step 5: Commit**
 
 ```bash
-git add src/skipjack/web/results.py src/skipjack/web/routes/results.py src/skipjack/web/templates/_results.html src/skipjack/web/templates/results_county.html src/skipjack/web/templates/results_question_precinct.html src/skipjack/client/datasets.py src/skipjack/client/commands.py tests/client_fixture.py tests/test_results_routes.py tests/test_client_results.py
+git add src/skipjack/web/results.py src/skipjack/web/templates/_results.html src/skipjack/web/templates/results_county.html src/skipjack/client/datasets.py src/skipjack/client/commands.py tests/client_fixture.py tests/test_results_routes.py tests/test_client_results.py
 git commit -F - <<'EOF'
-web: certified ballot questions on the county pages, each with a precinct table
+web: certified ballot questions on the county pages, and in the precinct picker
 
 The data cli gains skipjack get questions, by county or by precinct.
 

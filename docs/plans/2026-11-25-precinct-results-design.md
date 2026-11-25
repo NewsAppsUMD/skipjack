@@ -7,7 +7,7 @@
 Load the State Board's certified results by precinct, and its ballot-question results by county
 and by precinct, for every election skipjack covers from 2010 on. Check them against the county
 figures before anything is written, and surface them as downloads, database tables, `skipjack
-get` output and a precinct table per contest on each county's results pages. No maps.
+get` output and one precinct page per county per election. No maps.
 
 ## Decisions
 
@@ -88,8 +88,12 @@ All-or-nothing per election, as for county results; listed exceptions only.
   county-only, so version 1 clients keep working.
 - **CLI:** `skipjack get results --geography precinct`, `--precinct DDD-PPP`, and
   `skipjack get questions`. Gzipped files are decompressed on read.
-- **Pages:** `/results/{election}/county/{county}/{contest}/`, one row per precinct, linked
-  from each contest on the county page; question pages get a per-county precinct page too.
+- **Pages:** one page per county per certified election,
+  `/results/{election}/county/{county}/precincts/`, about 400 in all rather than about 10,000
+  pages per contest. A picker lists the county's contests and questions; the page's script
+  reads the picked one from the county's published `.csv.gz` file and draws a row per
+  precinct, so the site carries no second copy of the figures. Each contest and question on
+  the county page links to `precincts/#<anchor>`.
 
 ## Left out
 
