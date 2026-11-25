@@ -2813,6 +2813,12 @@ EOF
 
 ### Task 9: The ballot-question readers (county and precinct files, both layouts)
 
+> **Third choice (decided 2026-11-25, supersedes the blank rule below):** the readers carry the
+> "3rd option" columns as published: `<stem>_third` per vote type, after `<stem>_against`, and
+> `total_third` where the county file prints `Total 3rd option`; blank reads as None, and a
+> layout without the columns has none. A printed total is checked for the third choice too.
+> Wicomico 2016 and 2018 (question A) fill it. `How it Runs?` is kept as printed (`Ed` occurs).
+
 **Files:**
 - Modify: `src/skipjack/pipeline/results.py` (`_frame` 331-349; new `QUESTION_*` columns and
   `read_questions` after `read_precinct`)
@@ -3174,12 +3180,16 @@ Checks (all-or-nothing per election, questions as one level):
 
 - **Row totals** in each county question file (in the reader).
 - **Statewide:** the statewide questions' county figures summed must equal the breakdown file's
-  County `00` rows (Vote Type 1 = For, 2 = Against; Vote Type 3, the third option, must be blank
-  or zero). The county column compared is the election's `check_votes`, as for the candidates
+  County `00` rows (Vote Type 1 = For, 2 = Against, 3 = the third choice, compared with the
+  `_third` column, None counting as 0; the coded breakdown has no Vote Type 3 rows). The named
+  breakdown also lists local questions (Vote Type 3 for Wicomico A, 2016 and 2018); they are not
+  compared. The county column compared is the election's `check_votes`, as for the candidates
   (election-night votes for 2012-2018, totals otherwise) — **verify this in step 1**. 2010 has no
   breakdown: recorded as n/a.
 - **Precinct to county:** each county's precinct question rows summed per question must equal
   its county question file on `_precinct_check_columns(e)`.
+  The `_third` columns are compared too, on the precinct file's vote types (plus
+  `total_third` from 2020); the code below predates this and must add them.
 
 Output: `data/results/{CODE}/questions/county/{cc}-{slug}.csv` (plain) and
 `data/results/{CODE}/questions/precinct/{cc}-{slug}.csv.gz`, with sidecars (`family`
@@ -3535,6 +3545,10 @@ EOF
 
 ### Task 11: Question tables in the database
 
+> **Third choice:** `results_questions` gains `total_third INTEGER` and `results_question_votes`
+> gains `votes_third INTEGER`, both nullable (NULL where the file prints none); the loader checks
+> `total_third` as the sum of the `_third` columns where any is printed.
+
 **Files:**
 - Modify: `src/skipjack/models.py` (after the precinct tables)
 - Modify: `src/skipjack/pipeline/build_db.py` (new `load_results_questions`, `build`)
@@ -3751,6 +3765,10 @@ EOF
 ---
 
 ### Task 12: Question pages, `get questions`
+
+> **Third choice:** the county page's question table and the precinct picker's question table
+> (`precincts.js`) show a third-choice column only for a question that has one (any `_third`
+> figure); `get questions` passes the `_third` and `total_third` columns through.
 
 The certified county pages show no ballot questions today (the `questions` section of
 `results_county.html` is filled only by the unofficial count, `results_unofficial.question`).

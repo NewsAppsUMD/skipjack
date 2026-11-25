@@ -47,8 +47,13 @@ Surveyed on 2026-11-25 from Kent County's files for every election, plus statewi
 
 - County files carry every vote type with For/Against pairs and totals. In the named layout
   the `County` column is `00` for a statewide question and the county code for a local one.
-- 2016-2020 add a "3rd option" column per vote type, blank in every row seen so far; the
-  reader requires it to stay blank.
+- 2016-2020 add a "3rd option" column per vote type (and `Total 3rd option`; the precinct
+  files' `Election Night Votes (3rd option)`). It is carried as published wherever printed:
+  `<stem>_third` per vote type and `total_third`, blank read as None. Only Wicomico fills it:
+  its 2016 question A had three choices, and its 2018 files print the identical third-choice
+  figures again (county and every precinct); both are loaded as published, no errata.
+- `How it Runs?` is kept as printed: `State`, `County`, and `Ed` (GG22 Montgomery question B).
+  Question numbers are kept as printed too (Garrett 2014-2016 prints `A 002 000`).
 - Precinct question files carry Election Night only through 2018, every vote type from 2020.
 - The coded county question file names the question `QuestionNumber`; its precinct file
   `Question`.
@@ -67,9 +72,9 @@ All-or-nothing per election, as for county results; listed exceptions only.
 - **Question county to statewide:** statewide questions' county totals summed must match the
   board's statewide question breakdown file where one is posted.
 - **Question precinct to county:** precinct rows summed per question must equal the county
-  question file on the vote types the precinct file carries.
+  question file on the vote types the precinct file carries, third choice included.
 - **Row totals:** where a file prints a total (PG20 precinct, county question files), it must
-  equal the sum of the vote types.
+  equal the sum of the vote types (For, Against and the third choice).
 
 ## Output
 
