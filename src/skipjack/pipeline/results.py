@@ -628,8 +628,9 @@ def _read_wide(
                     f"{who}: County {r['County']!r} is not {county}'s code {code}"
                 )
             out["precinct"] = _precinct_id(r, who)
-            out["congressional"] = r["Congressional"] if "Congressional" in r else r["Cong"]
-            out["legislative"] = r["Legislative"] if "Legislative" in r else r["Legs"]
+            # 2010's named files carry no Cong/Legs: "" (need requires them where they exist)
+            out["congressional"] = r.get("Congressional", r.get("Cong", ""))
+            out["legislative"] = r.get("Legislative", r.get("Legs", ""))
         out |= {
             "office": r["Office Name"],
             "district": r["Office District"],

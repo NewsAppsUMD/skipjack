@@ -218,6 +218,23 @@ def test_read_precinct_refuses_another_countys_rows_and_a_bad_precinct():
     bad = PRECINCT_ROWS.replace('"001-002"', '"Absentee"')
     with pytest.raises(results.ResultsParseError, match="'Absentee' is not district-precinct"):
         results.read_precinct(precinct_csv("15", bad), PG24, "Kent", "all")
+    bad = PRECINCT_ROWS.replace('"001-002"', '"-001"')
+    with pytest.raises(results.ResultsParseError, match="'-001' is not district-precinct"):
+        results.read_precinct(precinct_csv("15", bad), PG24, "Kent", "all")
+
+
+def test_read_precinct_coded_refuses_a_blank_vote_cell():
+    blank = PRECINCT_ROWS.replace('"390"', '""')
+    with pytest.raises(results.ResultsParseError, match="Trump.*blank Election Night Votes"):
+        results.read_precinct(precinct_csv("15", blank), PG24, "Kent", "all")
+
+
+def test_read_precinct_reads_the_write_in_flag():
+    row = '"15","Kent County","001-001","01","36","President - Vice Pres","","A Write-In","","","Y","0","","1","","0","","0","","0","" \n'
+    frame = results.read_precinct(
+        precinct_csv("15", PRECINCT_ROWS + row), PG24, "Kent", "all"
+    ).frame
+    assert frame["write_in"].to_list() == [0, 0, 0, 0, 1]
 
 
 def test_read_precinct_names_the_precinct_file_when_columns_are_missing():
