@@ -216,6 +216,29 @@ def test_load_precinct_refuses_a_file_whose_county_file_is_absent(conn, tmp_path
         load_results_precinct(conn, tmp_path)
 
 
+def test_load_precinct_refuses_a_county_csv_without_its_sidecar(conn, tmp_path):
+    write_precinct(tmp_path, "GG18", "15", "Kent", "all", GG18_ROWS)
+    county = tmp_path / "results" / "GG18" / "county"
+    (county / "15-kent-all_provenance.json").unlink()
+    assert (county / "15-kent-all.csv").is_file()
+    with pytest.raises(ResultsLoadError, match="county file .* is absent"):
+        load_results_precinct(conn, tmp_path)
+
+
+def test_load_precinct_refuses_a_county_source_with_another_source_id(conn, tmp_path):
+    write_precinct(tmp_path, "GG18", "15", "Kent", "all", GG18_ROWS)
+    sidecar = tmp_path / "results" / "GG18" / "county" / "15-kent-all_provenance.json"
+    prov = json.loads(sidecar.read_text())
+    prov["source_id"] = "sbe-results-GG18-county-15-other"
+    sidecar.write_text(json.dumps(prov))
+    with pytest.raises(
+        ResultsLoadError,
+        match="checked against county revision sbe-results-GG18-county-15-all cccccccccccc but "
+        "the county file is sbe-results-GG18-county-15-other cccccccccccc",
+    ):
+        load_results_precinct(conn, tmp_path)
+
+
 @pytest.mark.parametrize("precinct", ["1-1", "001001", "001-01", "abc-001", ""])
 def test_load_precinct_refuses_a_precinct_that_is_not_ddd_ppp(conn, tmp_path, precinct):
     write_precinct(tmp_path, "GG18", "15", "Kent", "all", [[precinct, *GG18_ROWS[0][1:]]])

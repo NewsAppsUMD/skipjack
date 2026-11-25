@@ -156,7 +156,8 @@ def test_a_gzipped_file_is_served_as_gzip(tmp_path, monkeypatch):
 def test_the_data_page_links_the_precinct_and_question_files(tmp_path, monkeypatch):
     base = tmp_path / "results" / "PG24"
     for relative in ("county/15-kent-all.csv", "precinct/15-kent-all.csv.gz",
-                     "questions/county/15-kent.csv", "questions/precinct/15-kent.csv.gz"):  # fmt: skip
+                     "questions/county/15-kent.csv", "questions/precinct/15-kent.csv.gz",
+                     "questions/check/statewide.csv"):  # fmt: skip
         (base / relative).parent.mkdir(parents=True, exist_ok=True)
         (base / relative).write_text("x")
     monkeypatch.setattr(data_route, "DATA_DIR", tmp_path)
@@ -168,6 +169,7 @@ def test_the_data_page_links_the_precinct_and_question_files(tmp_path, monkeypat
     assert "Ballot questions (2 files" in html
     assert ">county/15-kent</a>" in html and ">precinct/15-kent</a>" in html
     assert "/downloads/results/PG24/questions/precinct/15-kent_provenance.json" in html
+    assert "check/statewide" not in html  # only the folders the catalog lists
 
 
 def test_gzipped_files_outside_results_stay_unpublished(tmp_path):

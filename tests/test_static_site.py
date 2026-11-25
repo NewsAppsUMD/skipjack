@@ -284,7 +284,7 @@ def test_the_turnout_forecast_and_its_files_are_published(root_site, project_sit
         assert (out / "turnout" / "forecast" / "index.html").is_file()
         assert (out / "turnout" / "forecast" / "report" / "index.html").is_file()
         assert (out / "downloads" / "turnout_model" / "gg26" / "forecast_county.csv").is_file()
-        # the draw files are .csv.gz and stay unpublished
+        # the draw files are .csv.gz and are left out of the static site
         assert not list((out / "downloads" / "turnout_model").rglob("*.gz"))
     html = (project_site[0] / "turnout" / "forecast" / "index.html").read_text()
     assert 'href="/skipjack/downloads/turnout_model/gg26/forecast_county.csv"' in html

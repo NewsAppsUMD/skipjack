@@ -32,7 +32,8 @@ DOWNLOAD_ROOTS = (
 MOUNTED_ROOTS = ("voter_registration", "voter_file", "turnout_model")
 DOWNLOAD_SUFFIXES = {".csv", ".json"}
 GZIP_SUFFIX = ".csv.gz"  # the precinct and question-precinct files
-# Only results/ offers gzipped CSVs: turnout_model's .csv.gz draw files stay unpublished.
+# Only results/ offers gzipped CSVs: turnout_model's .csv.gz draw files are left out of the
+# static site and the catalog (the live app's mount still serves them; they are not private).
 GZIP_ROOTS = ("results",)
 SQLITE_NAME = "skipjack.db"
 

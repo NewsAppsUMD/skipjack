@@ -174,7 +174,8 @@ def results_listing(data_dir: Path) -> list[dict]:
         precinct = sorted((root / code / "precinct").glob("*.csv.gz"))
         questions = [
             p
-            for p in sorted((root / code / "questions").glob("*/*.csv*"))
+            for level in ("county", "precinct")
+            for p in sorted((root / code / "questions" / level).glob("*.csv*"))
             if downloadable(p, "results")
         ]
         blocks.append(
