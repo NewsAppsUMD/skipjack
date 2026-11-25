@@ -9,6 +9,7 @@
 <h1>{{ county }}{% if unofficial %} <span class="tag">unofficial</span>{% endif %}</h1>
 {{ u.banner(full=false) }}
 <p class="secondary">{{ election.name.title() }}: every contest on the county's ballot.</p>
+{% if by_precinct %}<p class="secondary"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/precincts/">Results by precinct</a></p>{% endif %}
 <p class="note">How {{ county }} has voted since 2010: <a href="{{ base }}/results/county/{{ county|slug }}/">results over time</a>.</p>
 {% if marked %}{{ r.incumbent_note(election) }}{% endif %}
 
@@ -50,6 +51,7 @@
 <article class="contest-card" id="{{ c.anchor }}">
     <h3>{% if c.page_slug %}<a href="{{ base }}/results/{{ election.slug }}/{{ c.page_slug }}/">{{ c.title }}</a>{% else %}{{ c.title }} <span class="tag">county office</span>{% endif %}</h3>
     {{ r.candidate_table(c.candidates, c.title ~ " in " ~ county, vote_types, c.has_against, compact=true, win_label=win_label, leader=c.leader, tied_ix=c.tied) }}
+    {% if c.by_precinct %}<p class="note"><a href="{{ base }}/results/{{ election.slug }}/county/{{ county|slug }}/precincts/#{{ c.anchor }}">By precinct</a></p>{% endif %}
 </article>
 {% endfor %}
 </section>

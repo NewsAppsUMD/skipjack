@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% import "_results.html" as r with context %}
+{% block title %}{{ county }} by precinct: {{ election.name.title() }} results{% endblock %}
+
+{% block content %}
+<div class="viz-root">
+{{ r.breadcrumb(election, [("By county", base ~ "/results/" ~ election.slug ~ "/county/"), (county, base ~ "/results/" ~ election.slug ~ "/county/" ~ county_slug ~ "/"), ("By precinct", none)]) }}
+<h1>{{ county }} by precinct</h1>
+<p class="secondary">{{ election.name.title() }}: each contest's votes in every {{ county }}
+    precinct. <a href="{{ base }}/results/{{ election.slug }}/county/{{ county_slug }}/">{{ county }}'s totals</a>.</p>
+{% if election_night_only %}
+{# keep "election-day votes only" on one line: the tests look for the phrase #}
+<p class="note">The State Board's precinct files for {{ election.year }} count election-day votes only:
+    early, absentee and provisional ballots were counted by county, not by precinct. These
+    figures add up to {{ county }}'s election-day votes, not its total.</p>
+{% else %}
+<p class="note">Every way of voting is counted by precinct, so these figures add up to
+    {{ county }}'s totals.</p>
+{% endif %}
+
+<div class="filters">
+    <div>
+        <label for="precinct-contest">Contest</label>
+        <select id="precinct-contest">
+            {% for g in groups %}
+            {% if g.label %}<optgroup label="{{ g.label }}">{% endif %}
+                {% for c in g.contests %}<option value="{{ c.anchor }}">{{ c.title }}</option>
+                {% endfor %}
+            {% if g.label %}</optgroup>{% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<p id="precinct-status" class="secondary" aria-live="polite"></p>
+<div class="overflow-auto">
+<table id="precinct-table" data-sortable class="results-table compact" hidden></table>
+</div>
+<noscript><p>The table needs JavaScript. The same figures are in the county's precinct
+    files below.</p></noscript>
+<p class="note">The figures come from {{ county }}'s precinct file{{ "s" if files|length != 1 }}
+    (gzipped CSV):</p>
+<ul class="secondary">
+    {% for f in files %}<li><a href="{{ base }}/downloads/{{ f }}"><code>{{ f.split("/")[-1] }}</code></a></li>
+    {% endfor %}
+</ul>
+<script type="application/json" id="precinct-contests" data-downloads="{{ base }}/downloads/">{{ contests|tojson }}</script>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{# after base.html's sortable.js, which precincts.js calls on each table it draws #}
+<script type="module" src="{{ base }}/static/precincts.js"></script>
+{% endblock %}

@@ -5,6 +5,8 @@ time, ``results_trends``) are registered before ``/{slug}/``, since ``_code`` 40
 is not an election; and ``/{slug}/county/...`` before ``/{slug}/{contest_slug}/`` so the
 county pages are never read as a contest. No contest slug can be "county" either (they all
 end in a party-file suffix, see ``results.contest_slug``).
+``/{slug}/county/{county_slug}/precincts/`` is a county's results by precinct (a fixed last
+segment, three segments in all, so it never meets ``/{slug}/{contest_slug}/``).
 """
 
 from __future__ import annotations
@@ -281,10 +283,27 @@ async def county(request: Request, slug: str, county_slug: str):
             "questions": data.get("questions", []),
             "outran": ticket.outran(data),
             "marked": marked,
+            # the unofficial count has no precinct figures, and no such key
+            "by_precinct": data.get("by_precinct", False),
             "sources": sources,
             **context,
         },
     )
+
+
+@router.get("/{slug}/county/{county_slug}/precincts/")
+async def county_precincts(request: Request, slug: str, county_slug: str):
+    """A county's results by precinct: a contest picker over its published precinct files
+    (certified results only)."""
+    with get_db() as conn:
+        code = _code(conn, slug)
+        if qu.is_unofficial(code):
+            raise HTTPException(status_code=404)  # the running count is by county only
+        data = qr.precinct_picker(conn, code, county_slug)
+        if data is None:
+            raise HTTPException(status_code=404)
+        context = _page_context(conn, code)
+    return _render(request, "results_precincts.html", {**data, **context})
 
 
 @router.get("/{slug}/{contest_slug}/")

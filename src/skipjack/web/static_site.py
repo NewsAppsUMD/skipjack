@@ -33,6 +33,7 @@ from skipjack.web.downloads import SQLITE_NAME, download_files
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
 from skipjack.web.results_trends import county_slugs
 from skipjack.web.results_unofficial import contest_slugs_for, county_slugs_for, site_elections
+from skipjack.web import results as qr
 from skipjack.web import statewide_csv
 from skipjack.web.turnout import publishable_geographies, same_day_statewide
 from skipjack.web.race import snapshots_with_race
@@ -58,6 +59,37 @@ class SiteReport:
     files: int = 0
     bytes: int = 0
     problems: list[str] = field(default_factory=list)
+
+
+def _precinct_counties(conn: sqlite3.Connection, code: str) -> set[str]:
+    """The counties with precinct rows in a certified election (none in an older database)."""
+    try:
+        rows = conn.execute(
+            "SELECT DISTINCT county FROM results_precinct WHERE election = ?", (code,)
+        )
+        return {slugify(r[0]) for r in rows}
+    except sqlite3.OperationalError:  # a database built before the precinct tables
+        return set()
+
+
+def results_urls(conn: sqlite3.Connection) -> list[str]:
+    """The results pages: each election's hub, county index, county pages and their precinct
+    pages (certified elections only), contest pages, and the county histories."""
+    urls: list[str] = []
+    for e in site_elections(conn):
+        base = f"/results/{e['slug']}/"
+        urls += [base, base + "county/"]
+        with_precincts = set() if e.get("unofficial") else _precinct_counties(conn, e["code"])
+        for c in county_slugs_for(conn, e["code"]):
+            urls.append(f"{base}county/{c}/")
+            # the page exists only where a contest on the county page has precinct rows
+            if c in with_precincts and qr.precinct_picker(conn, e["code"], c):
+                urls.append(f"{base}county/{c}/precincts/")
+        urls += [f"{base}{c}/" for c in contest_slugs_for(conn, e["code"])]
+    if urls:
+        urls.append("/results/county/")
+        urls += [f"/results/county/{c}/" for c in county_slugs(conn)]
+    return urls
 
 
 def page_urls() -> list[str]:
@@ -95,19 +127,10 @@ def page_urls() -> list[str]:
             ]
             if same_day_statewide(conn, code) is not None:
                 turnout_urls.append(f"/turnout/{code.lower()}/same-day/")
-        results_urls: list[str] = []
         try:
-            found = site_elections(conn)
-            for e in found:
-                base = f"/results/{e['slug']}/"
-                results_urls += [base, base + "county/"]
-                results_urls += [f"{base}county/{c}/" for c in county_slugs_for(conn, e["code"])]
-                results_urls += [f"{base}{c}/" for c in contest_slugs_for(conn, e["code"])]
-            if results_urls:
-                results_urls.append("/results/county/")
-                results_urls += [f"/results/county/{c}/" for c in county_slugs(conn)]
+            results_pages = results_urls(conn)
         except sqlite3.OperationalError:  # no results tables in an older database
-            results_urls = []
+            results_pages = []
     if not dates:
         raise SiteBuildError("skipjack.db has no registration data. Run `skipjack build-db` first.")
 
@@ -128,9 +151,9 @@ def page_urls() -> list[str]:
         urls.append("/turnout/forecast/")
         if report_available():
             urls.append("/turnout/forecast/report/")
-    if results_urls:
+    if results_pages:
         urls.append("/results/")
-        urls += results_urls
+        urls += results_pages
     urls += [f"/voters/month/{d}/" for d in dates]
     urls += ["/voters/county/"] + [f"/voters/county/{slugify(c)}/" for c in counties]
     if latest_snapshot:

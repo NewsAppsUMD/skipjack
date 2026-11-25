@@ -13,7 +13,7 @@ from __future__ import annotations
 import re
 import sqlite3
 
-from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS
+from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS, county_slug as file_slug
 from skipjack.web.urls import slugify
 
 # --- which contests get pages -----------------------------------------------------------
@@ -517,6 +517,19 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
     grouped: dict[tuple, list[dict]] = {}
     for r in rows:  # dicts keep the SBE's order of first appearance
         grouped.setdefault((r["party_file"], r["office"], r["district"]), []).append(r)
+    # the contests with precinct rows: both tables hold the district as the loader normalizes
+    # it ("01" -> "1"), so the keys match
+    try:
+        with_precincts = {
+            tuple(r)
+            for r in conn.execute(
+                "SELECT DISTINCT party_file, office, district FROM results_precinct "
+                "WHERE election = ? AND county = ?",
+                (code, county),
+            )
+        }
+    except sqlite3.OperationalError:  # a database built before the precinct tables
+        with_precincts = set()
     by_party: dict[str, list[dict]] = {}
     used: set[str] = set()
     for (party_file, office, district), contest_rows in grouped.items():
@@ -556,6 +569,7 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
                 "seats": max(1, sum(c["winner"] for c in candidates)),
                 "leader": leader,
                 "tied": tied,
+                "by_precinct": (party_file, office, district) in with_precincts,
             }
         )
     groups = [
@@ -570,4 +584,60 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
         "vote_types": vote_types,
         "groups": groups,
         "source_ids": sorted({r["source_id"] for r in rows}),
+        "by_precinct": any(c["by_precinct"] for g in groups for c in g["contests"]),
+    }
+
+
+_CODE_FOR_COUNTY = {name: code for code, name in COUNTY_CODES.items()}
+
+
+def precinct_file(code: str, county: str, party_file: str) -> str:
+    """A county's published precinct file for one party file, relative to downloads/, named as
+    the precinct parse writes it under data/ (``skipjack.pipeline.results``)."""
+    return (
+        f"results/{code}/precinct/{_CODE_FOR_COUNTY[county]}-{file_slug(county)}-{party_file}"
+        ".csv.gz"
+    )
+
+
+def precinct_picker(conn: sqlite3.Connection, code: str, county_slug: str) -> dict | None:
+    """One county's contests that have precinct rows, for the precinct page's picker: each
+    with its anchor on the county page, its published file, the office and district that
+    pick its rows out of that file, and its ballot lines (name and party) in the county page's
+    order. The figures stay in the files; the page's script reads them. None for an unknown
+    county or one with no precinct rows.
+
+    The district is the database's, normalized as the loader does ("01" -> "1"); the CSV
+    prints the board's own ("01"), so the script normalizes the CSV's the same way before it
+    compares. Through 2018 the precinct files carry election-night votes only."""
+    page = county_page(conn, code, county_slug)
+    if page is None or not page["by_precinct"]:
+        return None
+    groups = []
+    for g in page["groups"]:
+        contests = [
+            {
+                "kind": "contest",
+                "anchor": c["anchor"],
+                "title": c["title"],
+                "file": precinct_file(code, page["county"], c["party_file"]),
+                "office": c["office"],
+                "district": c["district"],
+                "candidates": [{"name": x["name"], "party": x["party"]} for x in c["candidates"]],
+                "has_against": c["has_against"],
+            }
+            for c in g["contests"]
+            if c["by_precinct"]
+        ]
+        if contests:
+            groups.append({"label": g["label"], "contests": contests})
+    contests = [c for g in groups for c in g["contests"]]
+    return {
+        "election": page["election"],
+        "county": page["county"],
+        "county_slug": county_slug,
+        "groups": groups,
+        "contests": contests,
+        "files": sorted({c["file"] for c in contests}),
+        "election_night_only": not RESULTS_ELECTIONS[code].precinct_every_vote_type,
     }

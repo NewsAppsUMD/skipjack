@@ -6,6 +6,7 @@ race tests); the last test renders every page of two real elections when skipjac
 
 from __future__ import annotations
 
+import json
 import re
 import sqlite3
 from contextlib import contextmanager
@@ -667,3 +668,153 @@ def test_every_trend_class_the_templates_emit_is_styled():
     assert classes >= {"trend-legend", "trend-table", "trend-hero", "trend-cell-unofficial"}
     missing = sorted(c for c in classes if f".{c}" not in css)
     assert missing == []
+
+
+# --- results by precinct --------------------------------------------------------------------
+
+
+def add_precinct(conn, election, county, party_file, office, district, precinct, name, party, total):  # fmt: skip
+    """A results_precinct row, its district as the loader stores it (normalized: "01" is "1")."""
+    code = {"Allegany": "01", "Garrett": "11"}[county]
+    conn.execute(
+        """INSERT INTO results_precinct (source_id, election, county, party_file, precinct,
+           congressional, legislative, office, district, candidate, party, winner, write_in,
+           total_votes, total_against)
+           VALUES (?, ?, ?, ?, ?, '06', '01', ?, ?, ?, ?, 0, 0, ?, NULL)""",
+        (f"sbe-results-{election}-precinct-{code}-{party_file}", election, county, party_file,
+         precinct, office, district, name, party, total),
+    )  # fmt: skip
+
+
+def governor_precincts(db):
+    for precinct, name, n in (("001-002", "Wes Moore", 41), ("001-001", "Wes Moore", 60),
+                              ("001-001", "Eric Felber", 30)):  # fmt: skip
+        add_precinct(db, "GP26", "Allegany", "dem", "Governor / Lt. Governor", "", precinct,
+                     name, "DEM", n)  # fmt: skip
+
+
+def picker_contests(html):
+    """The contests the page hands its script, from the embedded JSON."""
+    m = re.search(
+        r'<script type="application/json" id="precinct-contests"[^>]*>(.*?)</script>', html, re.S
+    )
+    return json.loads(m.group(1))
+
+
+def test_county_page_links_its_precinct_page_and_each_contest(client, db):
+    governor_precincts(db)
+    slug = results.contest_slug("Governor / Lt. Governor", "", "dem")
+    html = client.get("/results/gp26/county/allegany/").text
+    assert 'href="/results/gp26/county/allegany/precincts/"' in html
+    assert f'href="/results/gp26/county/allegany/precincts/#{slug}"' in html
+    # the Senate contest has no precinct rows here: no link under its card
+    senate = _article(html, results.contest_slug("State Senator", "1", "dem"))
+    assert "/precincts/" not in senate
+    garrett = client.get("/results/gp26/county/garrett/").text  # no precinct rows there
+    assert "/precincts/" not in garrett
+
+
+def test_precinct_page_lists_contests_with_their_file_and_candidates(client, db):
+    governor_precincts(db)
+    slug = results.contest_slug("Governor / Lt. Governor", "", "dem")
+    resp = client.get("/results/gp26/county/allegany/precincts/")
+    assert resp.status_code == 200
+    html = resp.text
+    assert f'<option value="{slug}"' in html
+    assert "/static/precincts.js" in html
+    [contest] = picker_contests(html)
+    assert contest["anchor"] == slug
+    assert contest["file"] == "results/GP26/precinct/01-allegany-dem.csv.gz"
+    assert (contest["office"], contest["district"]) == ("Governor / Lt. Governor", "")
+    # the county page's order, each ballot line by name and party
+    assert contest["candidates"][:2] == [
+        {"name": "Wes Moore", "party": "DEM"},
+        {"name": "Eric Felber", "party": "DEM"},
+    ]
+    assert contest["kind"] == "contest"
+    assert contest["has_against"] is False
+    assert "election-day votes only" not in html  # GP26 counts every way of voting by precinct
+    assert 'href="/downloads/results/GP26/precinct/01-allegany-dem.csv.gz"' in html
+    assert 'data-downloads="/downloads/"' in html
+
+
+def test_precinct_picker_leaves_out_contests_without_precinct_rows(db, data):
+    governor_precincts(db)
+    picker = results.precinct_picker(db, "GP26", "allegany")
+    assert [c["office"] for c in picker["contests"]] == ["Governor / Lt. Governor"]
+    assert picker["files"] == ["results/GP26/precinct/01-allegany-dem.csv.gz"]
+    assert picker["election_night_only"] is False
+    assert results.precinct_picker(db, "GP26", "garrett") is None
+    assert results.precinct_picker(db, "GP26", "nowhere") is None
+
+
+def test_precinct_picker_carries_the_districts_as_the_database_has_them(db, data):
+    # the CSV prints "01"; the loader stores "1", as county_page does. The page's script
+    # normalizes the CSV's district the same way before it filters (see precincts.js)
+    add_precinct(db, "GP26", "Allegany", "dem", "State Senator", "1", "001-001", "Sen One",
+                 "DEM", 5)  # fmt: skip
+    picker = results.precinct_picker(db, "GP26", "allegany")
+    [senate] = [c for c in picker["contests"] if c["office"] == "State Senator"]
+    assert senate["district"] == "1"
+
+
+def test_precinct_page_groups_a_primarys_contests_by_party_file(client, db):
+    governor_precincts(db)
+    add_precinct(db, "GP26", "Allegany", "rep", "Governor / Lt. Governor", "", "001-001",
+                 "Dan Cox", "REP", 40)  # fmt: skip
+    html = client.get("/results/gp26/county/allegany/precincts/").text
+    assert '<optgroup label="Democratic">' in html and '<optgroup label="Republican">' in html
+    assert html.index('label="Democratic"') < html.index('label="Republican"')
+    assert "01-allegany-rep.csv.gz" in html
+
+
+def test_a_generals_precinct_page_has_no_empty_optgroup(client, db):
+    add_precinct(db, "PG24", "Allegany", "all", "President - Vice Pres", "", "001-001", "Trump",
+                 "REP", 70)  # fmt: skip
+    html = client.get("/results/pg24/county/allegany/precincts/").text
+    assert "<optgroup" not in html
+    assert '<option value="president-vice-pres' in html
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "/results/gp26/county/nowhere/precincts/",
+        "/results/gp26/county/garrett/precincts/",  # a county without precinct rows
+        "/results/zz99/county/allegany/precincts/",
+    ],
+)
+def test_unknown_precinct_pages_are_404(client, db, url):
+    governor_precincts(db)
+    assert client.get(url).status_code == 404
+
+
+def test_2018_precinct_pages_say_election_day_votes_only(client, db):
+    add(db, "GG18", "Allegany", "all", "Governor / Lt. Governor", "",
+        [("Larry Hogan", "REP", True, {"election_night": 50})])  # fmt: skip
+    add_precinct(db, "GG18", "Allegany", "all", "Governor / Lt. Governor", "", "001-001",
+                 "Larry Hogan", "REP", 50)  # fmt: skip
+    html = client.get("/results/gg18/county/allegany/precincts/").text
+    assert "election-day votes only" in html
+
+
+def test_precinct_pages_use_the_base_path(data):
+    governor_precincts(data)
+    app = create_app()
+    configure_templates(app.state.templates, base="/skipjack", static_site=True)
+    html = TestClient(app).get("/results/gp26/county/allegany/precincts/").text
+    assert 'href="/skipjack/results/' in html and 'href="/results/' not in html
+    assert 'src="/skipjack/static/precincts.js"' in html
+    assert 'data-downloads="/skipjack/downloads/"' in html
+    assert 'href="/skipjack/downloads/results/GP26/precinct/01-allegany-dem.csv.gz"' in html
+
+
+def test_results_urls_include_one_precinct_page_per_county(db, data):
+    from skipjack.web.static_site import results_urls
+
+    governor_precincts(db)
+    urls = results_urls(db)
+    assert "/results/gp26/county/allegany/precincts/" in urls
+    assert "/results/gp26/county/garrett/precincts/" not in urls
+    under = [u for u in urls if u.startswith("/results/gp26/county/allegany/")]
+    assert under == ["/results/gp26/county/allegany/", "/results/gp26/county/allegany/precincts/"]

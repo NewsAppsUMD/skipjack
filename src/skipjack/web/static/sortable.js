@@ -71,4 +71,6 @@
   }
 
   document.querySelectorAll("table[data-sortable]").forEach(enable);
+  // for a table a script draws after load (precincts.js), whose headings came too late
+  window.skipjackSortable = { enable };
 })();
