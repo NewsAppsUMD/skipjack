@@ -161,6 +161,10 @@ ROW_TOTAL_EXCEPTIONS: dict[tuple[str, str, str], int] = {("GG10", "Baltimore Cit
 # file says). Empty until a full run finds one; a mismatch is accepted only when it equals the
 # listed pair, and any other fails the election.
 PRECINCT_CHECK_EXCEPTIONS: dict[tuple[str, ...], tuple[int, int]] = {}
+# Ballot-question figures the board's own files disagree on: (election code, county or
+# "statewide", question, column) -> (what the parts sum to, what the whole says). Empty until a
+# full run finds one; accepted only as listed, and recorded in the sidecar.
+QUESTION_CHECK_EXCEPTIONS: dict[tuple[str, str, str, str], tuple[int, int]] = {}
 
 
 class ResultsParseError(RuntimeError):
@@ -1192,7 +1196,7 @@ def results_fetch(
 # ---- parse ----------------------------------------------------------------------------------
 
 
-PARSE_LEVELS = ("county", "precinct", "all")
+PARSE_LEVELS = ("county", "precinct", "questions", "all")
 
 
 def results_parse(
@@ -1202,9 +1206,11 @@ def results_parse(
     level: str = "all",
 ) -> tuple[int, list[str]]:
     """Parse each election's archived files into data/results/<CODE>/: the county files, then
-    the precinct files checked against them (level picks one). Each level is all-or-nothing per
-    election: any failed check or missing required file writes nothing for that level. Under
-    "all", an election whose county level failed has its precinct level skipped (and failed).
+    the precinct files checked against them, then a general's ballot questions (level picks
+    one). Each level is all-or-nothing per election: any failed check or missing required file
+    writes nothing for that level. Under "all", an election whose county level failed has its
+    precinct level skipped (and failed); the questions are checked against their own files and
+    run regardless.
 
     A file whose CSV exists and was parsed from the newest archived revision is skipped unless
     force. Returns (files written, failures), each failure prefixed "<CODE> <level>: ".
@@ -1222,6 +1228,8 @@ def results_parse(
         for name in levels:
             if name == "precinct" and not e.precincts:
                 continue  # the board posted no precinct files for this election
+            if name == "questions" and not e.questions:
+                continue  # ballot questions are on general-election ballots only
             if name == "precinct" and "county" in failed:
                 # never write precinct files checked against county files that were refused
                 failures.append(f"{e.code} precinct: not checked, the county level failed")
@@ -1504,11 +1512,17 @@ def _gzip_csv(frame: pl.DataFrame) -> bytes:
     return gzip.compress(frame.write_csv().encode(), mtime=0)
 
 
-def _precinct_check_text(e: ResultsElection, county_file: str, check: SumCheck) -> str:
+def _precinct_check_text(
+    e: ResultsElection,
+    county_file: str,
+    check: SumCheck,
+    noun: str = "contests",
+    registry: str = "PRECINCT_CHECK_EXCEPTIONS",
+) -> str:
     """The sidecar's county_check line: what was compared, on which columns, and any listed
-    exception applied."""
+    exception applied (``noun`` and ``registry`` name the questions' own)."""
     text = (
-        f"ok: the precincts sum to {county_file}'s {check.rows} rows ({check.contests} contests) "
+        f"ok: the precincts sum to {county_file}'s {check.rows} rows ({check.contests} {noun}) "
         f"on {', '.join(check.columns)}"
     )
     if not e.precinct_every_vote_type:
@@ -1517,7 +1531,7 @@ def _precinct_check_text(e: ResultsElection, county_file: str, check: SumCheck) 
         text += (
             "; the board's own files disagree on "
             + "; ".join(check.exceptions)
-            + " (listed in PRECINCT_CHECK_EXCEPTIONS, recorded, not corrected)"
+            + f" (listed in {registry}, recorded, not corrected)"
         )
     return text
 
@@ -1626,4 +1640,245 @@ def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
     return len(stale)
 
 
-PARSERS = {"county": _parse_election, "precinct": _parse_precincts}
+# ---- ballot questions -----------------------------------------------------------------------
+
+
+QUESTION_SIDES = {"1": "for", "2": "against", "3": "third"}  # the breakdown's Vote Type
+QUESTION_SUFFIX = {"for": "votes", "against": "against", "third": "third"}
+
+
+def _check_questions_statewide(
+    election: ResultsElection, frames: list[pl.DataFrame], breakdown: bytes
+) -> int:
+    """The statewide questions (How it Runs? "State") summed over the county files must equal
+    the breakdown file's County 00 rows on the election's check column (election-night votes
+    for 2012-2018, totals from 2020, as for the candidates): Vote Type 1 the For votes, 2 the
+    Against, 3 the third choice, compared with the summed <column>_third, blank and None
+    counting as 0 (the coded breakdown prints no Vote Type 3 rows, the 2012-2014 county files no
+    third columns: an absent third side is 0). Local questions are not compared, though the
+    named breakdown lists them. A difference passes only as listed in QUESTION_CHECK_EXCEPTIONS.
+    Returns how many questions matched."""
+    where = f"{election.code} question breakdown"
+    raw = _frame(breakdown, where)
+    vt = "Vote Type (FOR=1,AGAINST=2)"
+    number = "QuestionNumber" if election.layout == "coded" else "Question Number"
+    if vt not in raw.columns or number not in raw.columns or "County" not in raw.columns:
+        raise ResultsParseError(f"{where}: no {vt!r}, 'County' or {number!r} column")
+    district_cols = [
+        c
+        for c in raw.columns
+        if c.startswith("Congressional District") or re.fullmatch(r"CONG \S+", c)
+    ]
+    if not district_cols:
+        raise ResultsParseError(f"{where}: no district columns")
+    state: dict[tuple[str, str], int] = {}
+    for r in raw.filter(pl.col("County") == "00").iter_rows(named=True):
+        side = QUESTION_SIDES.get(r[vt])
+        if side is None:
+            raise ResultsParseError(f"{where}: unknown vote type {r[vt]!r}")
+        n = sum(_int(r[c], where, c) or 0 for c in district_cols)
+        state[(r[number], side)] = state.get((r[number], side), 0) + n
+    column = election.check_votes
+    sums: dict[tuple[str, str], int] = {}
+    for frame in frames:
+        for r in frame.filter(pl.col("how_it_runs") == "State").iter_rows(named=True):
+            for side, suffix in QUESTION_SUFFIX.items():
+                if f"{column}_{suffix}" in r:
+                    key = (r["question"], side)
+                    sums[key] = sums.get(key, 0) + (r[f"{column}_{suffix}"] or 0)
+    order = list(QUESTION_SUFFIX)  # by question, then for, against, third
+    for key in sorted(set(sums) | set(state), key=lambda k: (k[0], order.index(k[1]))):
+        question, side = key
+        if side == "third":
+            ours, theirs = sums.get(key, 0), state.get(key, 0)
+        else:
+            ours, theirs = sums.get(key), state.get(key)
+            if ours is None or theirs is None:
+                raise ResultsParseError(
+                    f"{where}: question {question} {side} is "
+                    + (
+                        "in the breakdown but no county file"
+                        if ours is None
+                        else "in the county files but not the breakdown"
+                    )
+                )
+        listed = QUESTION_CHECK_EXCEPTIONS.get(
+            (election.code, "statewide", question, f"{column}_{QUESTION_SUFFIX[side]}")
+        )
+        if ours != theirs and listed != (ours, theirs):
+            raise ResultsParseError(
+                f"{where}: question {question}: counties sum to {ours} {side}, the breakdown "
+                f"says {theirs}"
+            )
+    return len({k[0] for k in sums})
+
+
+def _question_precinct_check_columns(election: ResultsElection) -> list[str]:
+    """The columns a precinct question file is checked on: _precinct_check_columns (its vote
+    types' For and Against, and the totals when it carries every vote type, from 2020) and,
+    where the files print one (2016-2020), each of those vote types' third choice and, with the
+    totals, total_third. The 2016-2018 precinct files' total_third is their election-night
+    third choice, not the county file's total, so it is not compared."""
+    columns = _precinct_check_columns(election)
+    if not question_third(election):
+        return columns
+    for _, stem in election.precinct_vote_types:
+        columns.insert(columns.index(f"{stem}_against") + 1, f"{stem}_third")
+    if election.precinct_every_vote_type:
+        columns.append("total_third")
+    return columns
+
+
+def _check_question_precincts(
+    election: ResultsElection, county: str, precincts: pl.DataFrame, county_frame: pl.DataFrame
+) -> SumCheck:
+    """One county's precinct question rows summed per question against its county question
+    file (QUESTION_CHECK_EXCEPTIONS aside), on _question_precinct_check_columns."""
+    return _check_sums(
+        f"{election.code} {county} questions by precinct",
+        ["question"],
+        1,
+        _question_precinct_check_columns(election),
+        precincts,
+        county_frame,
+        lambda key, c: QUESTION_CHECK_EXCEPTIONS.get((election.code, county, key[0], c)),
+    )
+
+
+def _question_out(data_dir: Path, f: ResultsFile) -> Path:
+    """questions/county/<cc>-<slug>.csv (plain: small) or questions/precinct/<cc>-<slug>.csv.gz."""
+    level, suffix = ("county", ".csv") if f.role == "question" else ("precinct", ".csv.gz")
+    name = f"{f.county_code}-{county_slug(f.county)}{suffix}"
+    return data_dir / "results" / f.election.code / "questions" / level / name
+
+
+def _county_question_file(f: ResultsFile) -> ResultsFile:
+    """The county question file a precinct question file is checked against."""
+    return ResultsFile(f.election, f.county_code, f.county, "all", "question")
+
+
+def _parse_questions(e: ResultsElection, force: bool, data_dir: Path) -> int:
+    """Check a general's ballot-question files and write them: the county files to
+    questions/county/ (plain CSV) and the precinct files, each checked against its county file,
+    to questions/precinct/ (gzipped). The county files' statewide questions are checked against
+    the statewide breakdown where the board posts one (not for 2010).
+
+    All-or-nothing per election. As for the precinct files, a file written from the newest
+    archived revision is current without the (gitignored) archive; a precinct file is stale too
+    when its county question file was re-posted (checks.county_source, as for the candidates).
+    When anything is stale every file is read and checked again."""
+    files = question_files(e)
+    records = {f.source_id: newest_source(MANIFEST_PATH, f.source_id) for f in files}
+    if files and all(r is None for r in records.values()):
+        raise ResultsParseError(
+            "question files not fetched (skipjack results-fetch --level questions)"
+        )
+    for f in files:
+        if records[f.source_id] is None:
+            raise ResultsParseError(f"missing required file {f.file_name} ({f.source_id})")
+    data_files = [f for f in files if f.role != "question-check"]
+    stale = {
+        f.source_id
+        for f in data_files
+        if force
+        or _revision_updated(_question_out(data_dir, f), records[f.source_id])
+        or (
+            f.role == "question-precinct"
+            and _county_source_changed(_question_out(data_dir, f), _county_question_file(f))
+        )
+    }
+    if not stale:
+        return 0
+
+    def read(f: ResultsFile) -> tuple[bytes, SourceRecord]:
+        archived = _read_archived(f)
+        if archived is None:
+            raise ResultsParseError(
+                f"{f.file_name} is in the manifest but not archived here; re-fetch with "
+                "`skipjack results-fetch --level questions`"
+            )
+        return archived
+
+    counties: dict[str, tuple[ResultsFile, SourceRecord, ReadFile]] = {}
+    for f in (f for f in data_files if f.role == "question"):
+        data, record = read(f)
+        try:
+            counties[f.county] = (f, record, read_questions(data, e, f.county))
+        except ResultsParseError as err:
+            raise ResultsParseError(f"{f.file_name}: {err}") from None
+    check_file = next((f for f in files if f.role == "question-check"), None)
+    if check_file is None:
+        statewide = f"n/a: the board posted no statewide question breakdown for {e.year}"
+    else:
+        try:
+            n = _check_questions_statewide(
+                e, [rd.frame for _, _, rd in counties.values()], read(check_file)[0]
+            )
+        except ResultsParseError as err:
+            raise ResultsParseError(f"{check_file.file_name}: {err}") from None
+        statewide = f"ok: {n} statewide questions match {check_file.file_name}"
+        if e.check_votes == "election_night":
+            statewide += (
+                " on election-night votes (the board's district files for 2012-2018 carry "
+                "election-day votes only)"
+            )
+    precincts = []
+    for f in (f for f in data_files if f.role == "question-precinct"):
+        data, record = read(f)
+        try:
+            rd = read_questions(data, e, f.county, level="precinct")
+            check = _check_question_precincts(e, f.county, rd.frame, counties[f.county][2].frame)
+        except ResultsParseError as err:
+            raise ResultsParseError(f"{f.file_name}: {err}") from None
+        precincts.append((f, record, rd, check))
+
+    targets = [(f, record, rd, None) for f, record, rd in counties.values()] + precincts
+    written = 0
+    for f, record, rd, check in targets:
+        if f.source_id not in stale:
+            continue
+        out = _question_out(data_dir, f)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        if check is None:
+            geography = "county"
+            checks: dict = {
+                "rows": rd.frame.height,
+                "row_totals": "ok",
+                "statewide_check": statewide,
+            }
+            data = rd.frame.write_csv().encode()
+        else:
+            geography = "precinct"
+            county_file, county_record, _ = counties[f.county]
+            checks = {
+                "rows": rd.frame.height,
+                "row_totals": "computed: the precinct file prints no total, so the totals are "
+                "the sums of its vote types",
+                "county_check": _precinct_check_text(
+                    e, county_file.file_name, check, "questions", "QUESTION_CHECK_EXCEPTIONS"
+                ),
+                # the county question file revision checked against: a re-posted one re-checks
+                "county_source": {
+                    "source_id": county_record.source_id,
+                    "sha256": county_record.sha256,
+                },
+            }
+            if check.exceptions:
+                checks["county_check_exceptions"] = check.exceptions
+            data = _gzip_csv(rd.frame)
+        sidecar = ProvenanceSidecar.from_source(
+            record,
+            parser_version=PARSER_VERSION,
+            extraction_method="csv",
+            checks=checks,
+            notes=f"{e.code} {f.county} ballot questions ({geography}), checked.",
+        )
+        sidecar.election, sidecar.family, sidecar.geography = e.code, "questions", geography
+        _write_atomic(out, data)  # CSV first, sidecar last (see _parse_election)
+        sidecar.write(out)
+        written += 1
+    logger.info("%s: parsed %d question files", e.code, written)
+    return written
+
+
+PARSERS = {"county": _parse_election, "precinct": _parse_precincts, "questions": _parse_questions}

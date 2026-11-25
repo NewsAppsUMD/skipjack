@@ -412,9 +412,11 @@ def test_each_level_is_all_or_nothing_on_its_own(env):
 def test_level_all_skips_the_precincts_when_the_county_level_failed(env):
     fill_precincts(env)  # no statewide check file: the county level fails
     written, failed = results.results_parse("PG24", data_dir=env / "data")
-    assert written == 0 and len(failed) == 2
+    assert written == 0 and len(failed) == 3
     assert failed[0].startswith("PG24 county: missing required file")
     assert failed[1] == "PG24 precinct: not checked, the county level failed"
+    # the questions do not depend on the county files: they fail on their own (not fetched)
+    assert failed[2].startswith("PG24 questions: question files not fetched")
     assert not (env / "data" / "results" / "PG24").exists()
 
 

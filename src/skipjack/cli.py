@@ -369,10 +369,11 @@ def main(argv: list[str] | None = None) -> None:
     results_parse_p.add_argument("--election", help="Only one election (e.g. GP26)")
     results_parse_p.add_argument(
         "--level",
-        choices=["county", "precinct", "all"],
+        choices=["county", "precinct", "questions", "all"],
         default="all",
         help="Which files: the county files, the precinct files (checked against the county "
-        "files), or all (an election's precinct files are skipped when its county files fail)",
+        "files), a general's ballot questions, or all (an election's precinct files are skipped "
+        "when its county files fail)",
     )
 
     unofficial_fetch_p = sub.add_parser(
