@@ -263,8 +263,8 @@ def series(conn: sqlite3.Connection, election: str, family: str) -> dict:
         )
     ]
     series: dict[str, list[int | None]] = {measure: [] for measure in measures}
-    for date in dates:
-        totals = _statewide(conn, election, family, date)
+    for day in dates:
+        totals = _statewide(conn, election, family, day)
         for measure in measures:
             series[measure].append(totals.get(measure))
     return {"dates": dates, "series": series}

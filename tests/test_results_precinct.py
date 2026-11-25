@@ -3,12 +3,14 @@ and the gzipped output."""
 
 from __future__ import annotations
 
+import logging
+
 import pytest
 
-from skipjack.pipeline import results
+from skipjack.pipeline import fetch, results
 
-# Not tests.test_results: another project's `tests` package on PYTHONPATH can shadow ours.
-from test_results import BOM, GENERAL_HEAD, archive, env, fake_client  # noqa: F401 (env: fixture)
+# Not tests.<module>: another project's `tests` package on PYTHONPATH can shadow ours.
+from conftest import fake_client
 
 PG24 = results.RESULTS_ELECTIONS["PG24"]
 ARCHIVE = "https://elections.maryland.gov/elections/archive"
@@ -38,6 +40,12 @@ def test_precinct_file_names_and_ids():
     assert gp22["sbe-results-GP22-precinct-15-non"].file_name == "GP22_15PrecinctsNonPartisan.csv"
     assert gp22["sbe-results-GP22-precinct-15-dem"].file_name == "GP22_15PrecinctsDemocratic.csv"
     gg18 = {f.source_id: f for f in results.precinct_files(results.RESULTS_ELECTIONS["GG18"])}
+    assert gg18["sbe-results-GG18-precinct-03-all"].file_name == (
+        "Baltimore_City_By_Precinct_2018_General.csv"
+    )
+    assert gg18["sbe-results-GG18-precinct-04-all"].file_name == (
+        "Baltimore_By_Precinct_2018_General.csv"
+    )
     assert gg18["sbe-results-GG18-precinct-15-all"].url == (
         f"{ARCHIVE}/2018/election_data/Kent_By_Precinct_2018_General.csv"
     )
@@ -83,9 +91,8 @@ def test_files_for_each_level():
         results.files_for(PG24, "towns")
 
 
-@pytest.mark.usefixtures("env")
-def test_fetch_precinct_level_archives_only_the_precinct_files(monkeypatch):
-    monkeypatch.setattr(results.httpx, "Client", fake_client(lambda url: b'"County"\n"15"\n'))
+def test_fetch_precinct_level_archives_only_the_precinct_files(env, monkeypatch):
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(lambda url: b'"County"\n"15"\n'))
     records = results.results_fetch("PG24", level="precinct")
     assert len(records) == 24
     assert all("/results-precinct/PG24/" in r.local_path for r in records)
@@ -98,3 +105,33 @@ def test_fetch_precinct_level_archives_only_the_precinct_files(monkeypatch):
         "PG24 Kent ballot questions by precinct",
         "PG24 ballot questions congressional breakdown",
     }
+
+
+def test_fetch_html_non_partisan_precinct_file_is_logged_not_a_failure(env, monkeypatch, caplog):
+    def body(url):
+        if "PrecinctsNonPartisan" in url:
+            return b"\xef\xbb\xbf<!DOCTYPE html><html></html>"
+        return b'"County"\n"15"\n'
+
+    monkeypatch.setattr(fetch.httpx, "Client", fake_client(body))
+    failures: list[str] = []
+    with caplog.at_level(logging.INFO, logger=results.logger.name):
+        records = results.results_fetch("GP22", failures=failures, level="precinct")
+    assert failures == []
+    assert len(records) == 48  # 24 counties x dem, rep
+    assert not any("NonPartisan" in r.local_path for r in records)
+    assert "no non-partisan precinct file for Kent (normal)" in caplog.text
+
+
+def test_cli_results_fetch_passes_the_level(monkeypatch):
+    from skipjack import cli
+
+    seen = {}
+
+    def fake_fetch(**kwargs):
+        seen.update(kwargs)
+        return []
+
+    monkeypatch.setattr(results, "results_fetch", fake_fetch)
+    cli.main(["results-fetch", "--election", "PG24", "--level", "precinct"])
+    assert seen["level"] == "precinct" and seen["election"] == "PG24"

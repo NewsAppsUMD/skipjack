@@ -9,8 +9,11 @@ import polars as pl
 import pytest
 
 from skipjack.pipeline import fetch, results
-from skipjack.pipeline.provenance import SourceRecord, append_to_manifest, read_manifest
+from skipjack.pipeline.provenance import read_manifest
 from skipjack.pipeline.clean import COUNTY_NORMALIZE
+
+# Not tests.conftest: another project's `tests` package on PYTHONPATH can shadow ours.
+from conftest import FakeResp, archive, fake_client
 
 BOM = "﻿"
 PRIMARY_HEAD = (
@@ -209,24 +212,8 @@ def test_statewide_check_general_uses_for_rows_only():
 # ---- parse and fetch on a fake archive -----------------------------------------------------
 
 
-@pytest.fixture
-def env(tmp_path, monkeypatch):
-    arch = tmp_path / "archives"
-    manifest = tmp_path / "manifest.csv"
-    monkeypatch.setattr(results, "ARCHIVES_DIR", arch)
-    monkeypatch.setattr(results, "MANIFEST_PATH", manifest)
-    monkeypatch.setattr(fetch, "ARCHIVES_DIR", arch)
-    return tmp_path
-
-
-def archive(env, election, file, data: bytes):
-    dest = env / "archives" / "sbe" / "results" / election.code / file.url.rsplit("/", 1)[-1]
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_bytes(data)
-    append_to_manifest(
-        results.MANIFEST_PATH,
-        SourceRecord.create(file.source_id, file.url, "SBE", dest, document_title=file.source_id),
-    )
+# the env fixture, archive() and fake_client() are in conftest.py, shared with the precinct
+# and question tests
 
 
 GOOD_BREAKDOWN = breakdown(
@@ -297,31 +284,6 @@ def test_parse_skips_unpublished_and_skips_existing(env):
     assert results.results_parse("GP26", data_dir=env / "data")[0] == 48
     assert results.results_parse("GP26", data_dir=env / "data")[0] == 0
     assert results.results_parse("GP26", force=True, data_dir=env / "data")[0] == 48
-
-
-class FakeResp:
-    def __init__(self, content: bytes):
-        self.content = content
-
-    def raise_for_status(self):
-        pass
-
-
-def fake_client(bodies):
-    class Client:
-        def __init__(self, *a, **k):
-            pass
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *a):
-            return False
-
-        def get(self, url):
-            return FakeResp(bodies(url))
-
-    return Client
 
 
 def test_fetch_file_expect_csv_rejects_html(tmp_path, monkeypatch):
