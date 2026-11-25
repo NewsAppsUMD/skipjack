@@ -818,3 +818,51 @@ def test_results_urls_include_one_precinct_page_per_county(db, data):
     assert "/results/gp26/county/garrett/precincts/" not in urls
     under = [u for u in urls if u.startswith("/results/gp26/county/allegany/")]
     assert under == ["/results/gp26/county/allegany/", "/results/gp26/county/allegany/precincts/"]
+
+
+def test_county_page_without_the_precinct_tables_has_no_precinct_links(client, db):
+    db.execute("DROP TABLE results_precinct_votes")
+    db.execute("DROP TABLE results_precinct")  # a database built before the precinct tables
+    page = results.county_page(db, "GP26", "allegany")
+    assert page["by_precinct"] is False
+    resp = client.get("/results/gp26/county/allegany/")
+    assert resp.status_code == 200 and "/precincts/" not in resp.text
+    assert client.get("/results/gp26/county/allegany/precincts/").status_code == 404
+
+
+def test_county_page_raises_other_database_errors(db, data, monkeypatch):
+    real = db.execute
+
+    class Wrapped:
+        row_factory = db.row_factory
+
+        def execute(self, sql, *args):
+            if "results_precinct" in sql:
+                raise sqlite3.OperationalError("database is locked")
+            return real(sql, *args)
+
+    with pytest.raises(sqlite3.OperationalError, match="locked"):
+        results.county_page(Wrapped(), "GP26", "allegany")
+
+
+def test_an_unpublished_elections_precinct_page_is_404(client, db, monkeypatch):
+    from skipjack.pipeline.results import RESULTS_ELECTIONS
+    from skipjack.web.static_site import results_urls
+
+    governor_precincts(db)
+    monkeypatch.setattr(RESULTS_ELECTIONS["GP26"], "published", False)
+    assert client.get("/results/gp26/county/allegany/precincts/").status_code == 404
+    assert "/precincts/" not in client.get("/results/gp26/county/allegany/").text
+    assert not [u for u in results_urls(db) if u.endswith("/precincts/")]
+
+
+def test_an_unofficial_elections_precinct_page_is_404(client, db):
+    from skipjack.web.results_unofficial import is_unofficial, site_elections
+
+    assert is_unofficial("GG26")
+    add(db, "GG26", "Allegany", "all", "Governor / Lt. Governor", "",
+        [("Wes Moore", "DEM", True, {"early": 60})])  # fmt: skip
+    add_precinct(db, "GG26", "Allegany", "all", "Governor / Lt. Governor", "", "001-001",
+                 "Wes Moore", "DEM", 60)  # fmt: skip
+    assert "GG26" in [e["code"] for e in site_elections(db)]  # the slug is known
+    assert client.get("/results/gg26/county/allegany/precincts/").status_code == 404

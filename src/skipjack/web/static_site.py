@@ -29,7 +29,7 @@ from skipjack.web.county_history import county_document
 from skipjack.web.forecast import available as forecast_available
 from skipjack.web.forecast import report_available
 from skipjack.web.db import get_db
-from skipjack.web.downloads import SQLITE_NAME, download_files
+from skipjack.web.downloads import SQLITE_NAME, download_files, results_published
 from skipjack.web.paths import DATA_DIR, PROJECT_ROOT, STATIC_DIR
 from skipjack.web.results_trends import county_slugs
 from skipjack.web.results_unofficial import contest_slugs_for, county_slugs_for, site_elections
@@ -62,14 +62,19 @@ class SiteReport:
 
 
 def _precinct_counties(conn: sqlite3.Connection, code: str) -> set[str]:
-    """The counties with precinct rows in a certified election (none in an older database)."""
+    """The counties with precinct rows in a certified, published election (none in an older
+    database)."""
+    if not results_published(code):
+        return set()  # the precinct page would point at files not offered
     try:
         rows = conn.execute(
             "SELECT DISTINCT county FROM results_precinct WHERE election = ?", (code,)
         )
         return {slugify(r[0]) for r in rows}
-    except sqlite3.OperationalError:  # a database built before the precinct tables
-        return set()
+    except sqlite3.OperationalError as err:
+        if "no such table" not in str(err):
+            raise
+        return set()  # a database built before the precinct tables
 
 
 def results_urls(conn: sqlite3.Connection) -> list[str]:

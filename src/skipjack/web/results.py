@@ -14,6 +14,7 @@ import re
 import sqlite3
 
 from skipjack.pipeline.results import COUNTY_CODES, RESULTS_ELECTIONS, county_slug as file_slug
+from skipjack.web.downloads import results_published
 from skipjack.web.urls import slugify
 
 # --- which contests get pages -----------------------------------------------------------
@@ -519,17 +520,24 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
         grouped.setdefault((r["party_file"], r["office"], r["district"]), []).append(r)
     # the contests with precinct rows: both tables hold the district as the loader normalizes
     # it ("01" -> "1"), so the keys match
+    # (only for a published election: the precinct page points at its published files)
     try:
-        with_precincts = {
-            tuple(r)
-            for r in conn.execute(
-                "SELECT DISTINCT party_file, office, district FROM results_precinct "
-                "WHERE election = ? AND county = ?",
-                (code, county),
-            )
-        }
-    except sqlite3.OperationalError:  # a database built before the precinct tables
-        with_precincts = set()
+        with_precincts = (
+            {
+                tuple(r)
+                for r in conn.execute(
+                    "SELECT DISTINCT party_file, office, district FROM results_precinct "
+                    "WHERE election = ? AND county = ?",
+                    (code, county),
+                )
+            }
+            if results_published(code)
+            else set()
+        )
+    except sqlite3.OperationalError as err:
+        if "no such table" not in str(err):
+            raise
+        with_precincts = set()  # a database built before the precinct tables
     by_party: dict[str, list[dict]] = {}
     used: set[str] = set()
     for (party_file, office, district), contest_rows in grouped.items():

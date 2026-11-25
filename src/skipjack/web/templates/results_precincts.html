@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% import "_results.html" as r with context %}
 {% block title %}{{ county }} by precinct: {{ election.name.title() }} results{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ base }}/static/charts.css">
+{% endblock %}
 
 {% block content %}
 <div class="viz-root">

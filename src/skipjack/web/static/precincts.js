@@ -20,8 +20,10 @@ async function text(url) {
   return await new Response(stream).text();
 }
 
-// RFC 4180: a quoted field may hold commas, doubled quotes and newlines.
+// RFC 4180: a quoted field may hold commas, doubled quotes and newlines. A leading byte-order
+// mark is dropped and a blank line is skipped.
 function parse(csv) {
+  csv = csv.replace(/^\uFEFF/, "");
   const rows = [];
   let row = [], field = "", quoted = false;
   for (let i = 0; i < csv.length; i++) {
@@ -34,7 +36,9 @@ function parse(csv) {
     else if (ch === ",") { row.push(field); field = ""; }
     else if (ch === "\n" || ch === "\r") {
       if (ch === "\r" && csv[i + 1] === "\n") i++;
-      row.push(field); rows.push(row); row = []; field = "";
+      row.push(field);
+      if (row.length > 1 || row[0] !== "") rows.push(row);
+      row = []; field = "";
     } else field += ch;
   }
   if (field || row.length) { row.push(field); rows.push(row); }
@@ -42,8 +46,15 @@ function parse(csv) {
   return body.map((r) => Object.fromEntries(header.map((h, j) => [h, r[j] ?? ""])));
 }
 
+// a failed fetch is forgotten, so picking the contest again retries it
 function load(file) {
-  if (!files[file]) files[file] = text(downloads + file).then(parse);
+  if (!files[file]) {
+    const rows = text(downloads + file).then(parse);
+    rows.catch(() => {
+      if (files[file] === rows) delete files[file];
+    });
+    files[file] = rows;
+  }
   return files[file];
 }
 
@@ -52,8 +63,9 @@ function load(file) {
 // drops its leading zeros, anything else ("1A", "") stays.
 const district = (d) => (/^[0-9]+$/.test(d) ? String(parseInt(d, 10)) : d);
 // A ballot line is a name under a party: one candidate on two party lines is two columns.
-const line = (name, party) => `${name}\u0000${party}`;
+const line = (name, party) => `${name}\u0000${party ?? ""}`;
 const num = (s) => (s === undefined || s === "" ? null : Number(s));
+const add = (a, b) => (a == null ? b : b === null ? a : a + b);
 const fmt = (n) => (n === null ? "—" : n.toLocaleString("en-US"));
 
 // kind: "num" for a number column, "row" for a row's precinct heading
@@ -74,9 +86,11 @@ function contestTable(c, rows) {
     if (!byPrecinct.has(r.precinct)) {
       byPrecinct.set(r.precinct, { r, votes: new Map(), against: new Map() });
     }
+    // a ballot line printed twice for one precinct is added, never overwritten
     const p = byPrecinct.get(r.precinct);
-    p.votes.set(line(r.candidate, r.party), num(r.total_votes));
-    p.against.set(line(r.candidate, r.party), num(r.total_against));
+    const key = line(r.candidate, r.party);
+    p.votes.set(key, add(p.votes.get(key), num(r.total_votes)));
+    p.against.set(key, add(p.against.get(key), num(r.total_against)));
   }
   const head = [];
   for (const x of c.candidates) {
@@ -145,7 +159,12 @@ function draw(c, { head, body }) {
 }
 
 async function show(anchor) {
-  const c = contests.find((x) => x.anchor === anchor) || contests[0];
+  let c = contests.find((x) => x.anchor === anchor);
+  if (!c) {
+    // a hash naming no contest (or none): the first, and the address says so
+    c = contests[0];
+    if (location.hash) history.replaceState(null, "", `#${c.anchor}`);
+  }
   select.value = c.anchor;
   status.textContent = "Loading…";
   try {
@@ -153,6 +172,7 @@ async function show(anchor) {
     if (select.value !== c.anchor) return; // another contest was picked while this one loaded
     draw(c, contestTable(c, rows));
   } catch (err) {
+    if (select.value !== c.anchor) return; // a stale failure must not hide another table
     table.hidden = true;
     status.textContent = `Could not load ${c.file.split("/").pop()} (${err.message}).`;
   }
@@ -162,5 +182,13 @@ select.addEventListener("change", () => {
   history.replaceState(null, "", `#${select.value}`);
   show(select.value);
 });
-window.addEventListener("hashchange", () => show(decodeURIComponent(location.hash.slice(1))));
-show(decodeURIComponent(location.hash.slice(1)));
+// a malformed escape in the hash ("#%E0") names no contest
+function hashAnchor() {
+  try {
+    return decodeURIComponent(location.hash.slice(1));
+  } catch {
+    return "";
+  }
+}
+window.addEventListener("hashchange", () => show(hashAnchor()));
+show(hashAnchor());
