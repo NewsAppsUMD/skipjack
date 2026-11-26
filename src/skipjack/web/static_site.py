@@ -250,7 +250,7 @@ def build_site(
 
     base_path: URL prefix when the site is not served from the root, for example "/skipjack"
         for https://<user>.github.io/skipjack/.
-    include_db: also offer skipjack.db as a download (about 16 MB).
+    include_db: also offer skipjack.db as a download (about 1 GB since the precinct results).
     """
     logging.getLogger("httpx").setLevel(logging.WARNING)  # one line per page is just noise
     out_dir = Path(out_dir).expanduser().resolve()

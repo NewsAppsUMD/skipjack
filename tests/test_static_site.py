@@ -506,9 +506,12 @@ def test_pages_keep_their_content_and_the_turnout_notice(root_site):
 
 
 @needs_db
-def test_rebuilding_replaces_the_previous_build_and_restores_the_live_app(tmp_path):
+def test_rebuilding_replaces_the_previous_build_and_restores_the_live_app(tmp_path, monkeypatch):
     from skipjack.web.app import app
 
+    # the home page alone: what is checked here does not depend on how many pages are built,
+    # and two builds of every page took most of the suite's time
+    monkeypatch.setattr(static_site, "page_urls", lambda: ["/"])
     out = tmp_path / "site"
     build_site(out, base_path="/x")
     (out / "stale.html").write_text("old")
