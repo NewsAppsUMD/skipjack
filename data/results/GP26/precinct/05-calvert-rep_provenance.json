@@ -1,0 +1,34 @@
+{
+  "source_id": "sbe-results-GP26-precinct-05-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_05PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Calvert results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:23+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "d9b62e8ae7b925126be169f9926529e023c3e456c8eb9eba21f8af05caa6733e",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Calvert results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 819,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_05RepublicanResults.csv's 52 rows (20 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-05-rep",
+      "sha256": "0301939c8483ee7294b48b9805bf9ba3456590d69bcb22112e7bab0bc907fa45"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Commissioner At Large",
+      "Judge Orphans' Court",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney",
+      "Treasurer"
+    ]
+  }
+}

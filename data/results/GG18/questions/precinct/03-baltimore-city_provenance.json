@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-precinct-03",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Baltimore_City_Questions_Precinct_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Baltimore City ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:13+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "549470d2e5152f1671668e8ba7831ad147295a1627cea1ed24aabed61e38768a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG18 Baltimore City ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3289,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Baltimore_City_Questions_County_2018.csv's 11 rows (11 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-question-03",
+      "sha256": "9f0c5872899ac1578e887981e34854884cec97fd74e84317a0b566db6d9ee6d0"
+    }
+  }
+}

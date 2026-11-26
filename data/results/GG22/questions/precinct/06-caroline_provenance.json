@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-06",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_06QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Caroline ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:12+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "d6e64d078f1db782dd47b6337921ba31d0b39b4da410e59253ef7527e0d448ed",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 Caroline ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 40,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_06QuestionResults.csv's 5 rows (5 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-06",
+      "sha256": "9c291bea30d45d4df90e42ce87a41efc221a684f4f9568697eca09620e523afb"
+    }
+  }
+}

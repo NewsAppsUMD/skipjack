@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-precinct-13-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Harford_By_Precinct_2020_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Harford results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:44+00:00",
+  "parse_date": "2026-11-26T01:26:09+00:00",
+  "sha256_original": "cb87c480bc563000708adbceb3206bceea093bcd6071ce1ea853f1135e08d6df",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG20 Harford results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3204,
+    "row_totals": "ok",
+    "county_check": "ok: the precincts sum to Harford_County_2020_General.csv's 39 rows (4 contests) on early_voting_votes, early_voting_against, election_day_votes, election_day_against, by_mail_votes, by_mail_against, prov_votes, prov_against, by_mail_2_votes, by_mail_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-PG20-county-13-all",
+      "sha256": "3aa78a7a5195e2c1e8f0d07dfb0c150373d5d273e05aa46cb2a6f7abeb3be33c"
+    }
+  }
+}

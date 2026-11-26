@@ -1,0 +1,31 @@
+{
+  "source_id": "sbe-results-GG22-precinct-21-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_21PrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Talbot results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:04+00:00",
+  "parse_date": "2026-11-26T01:25:56+00:00",
+  "sha256_original": "c9ba6cf243a478561bff48d2d67dcb9191dd9d8cdf8861ac4eff2d182564ce13",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG22 Talbot results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 717,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GG22_21CountyResults.csv's 69 rows (18 contests) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against; the board's own files disagree on Board of Education 001 / Other Write-Ins () election_night_votes: precincts 1, county file 2; Board of Education 001 / Other Write-Ins () total_votes: precincts 1, county file 2; Board of Education 003 / Other Write-Ins () early_votes: precincts 0, county file 1; Board of Education 003 / Other Write-Ins () election_night_votes: precincts 0, county file 5; Board of Education 003 / Other Write-Ins () total_votes: precincts 0, county file 6 (listed in PRECINCT_CHECK_EXCEPTIONS, recorded, not corrected)",
+    "county_source": {
+      "source_id": "sbe-results-GG22-county-21-all",
+      "sha256": "9fd7c96037a3f9612f067fa2b99b3e0f18d991933dc76c55f46af59d55fea705"
+    },
+    "county_check_exceptions": [
+      "Board of Education 001 / Other Write-Ins () election_night_votes: precincts 1, county file 2",
+      "Board of Education 001 / Other Write-Ins () total_votes: precincts 1, county file 2",
+      "Board of Education 003 / Other Write-Ins () early_votes: precincts 0, county file 1",
+      "Board of Education 003 / Other Write-Ins () election_night_votes: precincts 0, county file 5",
+      "Board of Education 003 / Other Write-Ins () total_votes: precincts 0, county file 6"
+    ]
+  }
+}

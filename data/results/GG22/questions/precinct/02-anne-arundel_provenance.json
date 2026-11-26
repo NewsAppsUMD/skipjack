@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-02",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_02QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Anne Arundel ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:12+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "0cb3b5cefdcf4c544643053a0eb36925c00800a2a3c4e7b22672bffaa95e8546",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 Anne Arundel ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2535,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_02QuestionResults.csv's 13 rows (13 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-02",
+      "sha256": "b9af8ccb21afdaa9661ce0eb2574ec0ca671b56321ef1b2cf68dfc8c450930a9"
+    }
+  }
+}

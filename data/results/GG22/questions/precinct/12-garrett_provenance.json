@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-12",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_12QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Garrett ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:13+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "21e79ca7bde806964c87fbb10ba0f28a82b59620e8b29ed390c3939adb6d2473",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 Garrett ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 95,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_12QuestionResults.csv's 5 rows (5 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-12",
+      "sha256": "90df2d6baaa60a9aab67211e186a6c05009a8872a7cba2d5876e74b72772a54c"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP26-precinct-16-non",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_16PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Montgomery results by precinct (non)",
+  "fetch_date": "2026-11-25T22:30:29+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "a1f0d5197816c50ddd88fa85edb2316f483987859ea16360aa2f9ec55ceb1c05",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Montgomery results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2313,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_16Non-PartisanResults.csv's 9 rows (2 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-16-non",
+      "sha256": "5ee8086ee53bb4ec0e301685726a5f103b3cfc86d28f8934e26fec09a57d9b6e"
+    }
+  }
+}

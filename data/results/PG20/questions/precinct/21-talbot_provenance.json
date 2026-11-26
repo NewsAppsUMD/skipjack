@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-question-precinct-21",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Talbot_Questions_Precinct_2020.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Talbot ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:53+00:00",
+  "parse_date": "2026-11-25T22:35:42+00:00",
+  "sha256_original": "69101315ce19dc176d25b23ff0be78d9c31b0813da9bd88a0d53655ce33ceeb4",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG20 Talbot ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 72,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Talbot_Questions_County_2020.csv's 6 rows (6 questions) on early_voting_votes, early_voting_against, early_voting_third, election_day_votes, election_day_against, election_day_third, by_mail_votes, by_mail_against, by_mail_third, prov_votes, prov_against, prov_third, by_mail_2_votes, by_mail_2_against, by_mail_2_third, total_votes, total_against, total_third",
+    "county_source": {
+      "source_id": "sbe-results-PG20-question-21",
+      "sha256": "9c466e8e050f827b42545fbec9a522c7333ac6e52502db7e0ab6c2a78842c2b6"
+    }
+  }
+}

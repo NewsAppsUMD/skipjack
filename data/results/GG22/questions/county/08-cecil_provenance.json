@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-08",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_08QuestionResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Cecil ballot questions",
+  "fetch_date": "2026-11-25T22:31:06+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "d26e358a36fe8bea2e255383df715a92a956fb16128c213141f6d0179539cd9c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG22 Cecil ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 10,
+    "row_totals": "ok",
+    "statewide_check": "ok: 5 statewide questions match GG22_AllQuestionsCongressionalBreakDown.csv",
+    "statewide_source": {
+      "source_id": "sbe-results-GG22-question-check",
+      "sha256": "a417210b1bc2cc74176a1387a026b3ef9726d83dd7b221c85486797df5acae81"
+    }
+  }
+}

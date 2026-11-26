@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-GP26-precinct-14-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_14PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Howard results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:27+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "316d21bb9c247ea1570a4f89f56aea7533f30d54402cd4d27c091681eec03411",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Howard results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1719,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_14RepublicanResults.csv's 30 rows (11 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-14-rep",
+      "sha256": "23b53a0273d79154f6831d11920773a07052808a3480a8a2935da4ef6d9b3c02"
+    },
+    "district_read_as_blank": [
+      "REP Cent Committee"
+    ]
+  }
+}

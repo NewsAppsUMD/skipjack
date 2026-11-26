@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-precinct-12-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Garrett_By_Precinct_2012_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Garrett results by precinct (all)",
+  "fetch_date": "2026-11-25T22:33:55+00:00",
+  "parse_date": "2026-11-26T01:26:33+00:00",
+  "sha256_original": "6a327935813d26c1752af3ba8b137d3335f9ce18f29a0555bcba5bb799fdbf0f",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG12 Garrett results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1083,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Garrett_County_2012_General.csv's 57 rows (6 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-county-12-all",
+      "sha256": "26ab86d9d8b81a9dfb6a62c51fb700fa7eef3b84b6184881016f3aec72809552"
+    }
+  }
+}

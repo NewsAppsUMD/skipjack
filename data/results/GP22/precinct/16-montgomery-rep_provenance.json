@@ -1,0 +1,29 @@
+{
+  "source_id": "sbe-results-GP22-precinct-16-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_16PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Montgomery results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:31:35+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "c7656ba6659462dac0819573ab8fff7e4b4eb3479132a4a65f635628c97ab445",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Montgomery results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 13303,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_16RepublicanResults.csv's 125 rows (38 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-16-rep",
+      "sha256": "2a57f674bf50b0e8adf5fcdf5348b49392f6cfb4e282372cfa3bb287fc187189"
+    },
+    "district_read_as_blank": [
+      "County Council At Large",
+      "County Executive",
+      "REP Cent Comm at Large"
+    ]
+  }
+}

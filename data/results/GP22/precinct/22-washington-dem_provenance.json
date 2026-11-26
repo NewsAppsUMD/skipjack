@@ -1,0 +1,30 @@
+{
+  "source_id": "sbe-results-GP22-precinct-22-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_22PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Washington results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:39+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "1fd5313fdda3d27d26d1ff9653df99bcc7bd5379f50b478ed16281a5a6af2fbc",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Washington results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2189,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_22DemocraticResults.csv's 43 rows (14 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-22-dem",
+      "sha256": "378506e5e27a772f54a9a2a60b26169f55a7e167b74e9d097b2b93754a64c830"
+    },
+    "district_read_as_blank": [
+      "County Commissioner",
+      "DEM Cent Committee",
+      "Register of Wills",
+      "Sheriff"
+    ]
+  }
+}

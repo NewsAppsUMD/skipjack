@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-09-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_09PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Charles results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:43+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "8bd1c45e395f9eeca997b3bf1dbb09d74eab0e526dda7b036c4fe4ca52c21b6a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Charles results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1088,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_09DemocraticResults.csv's 32 rows (5 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-09-dem",
+      "sha256": "40a877c4f94c1647224805c67d481cbad8da4659d69a4bd68ca58181d0726d29"
+    }
+  }
+}

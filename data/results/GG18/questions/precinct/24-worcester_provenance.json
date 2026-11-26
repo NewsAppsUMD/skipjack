@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-precinct-24",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Worcester_Questions_Precinct_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Worcester ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:17+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "87f62e38f25370da0d2386e2aa151cea7cbe43df8fc3fdc5778477b096aeab41",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG18 Worcester ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 40,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Worcester_Questions_County_2018.csv's 2 rows (2 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-question-24",
+      "sha256": "d19fac1ce6611dbece3ce34fcc3f8cc8a143515da8a8360222055529eae0ba49"
+    }
+  }
+}

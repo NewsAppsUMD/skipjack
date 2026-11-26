@@ -1,0 +1,32 @@
+{
+  "source_id": "sbe-results-GP26-precinct-04-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_04PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Baltimore County results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:21+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "f403e5f945937dd3528ae321804cbf97df86a6b028fc1f6a304690779ad648ff",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Baltimore County results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 10268,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_04DemocraticResults.csv's 146 rows (52 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-04-dem",
+      "sha256": "bb885b6d79ac227e04b156ec8eb5b15e1ab4c436925069a7648f96138995ba3a"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Executive",
+      "Judge Orphans' Court",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

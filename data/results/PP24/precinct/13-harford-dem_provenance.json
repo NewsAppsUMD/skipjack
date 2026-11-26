@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-13-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_13PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Harford results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:46+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "f091b2cd8a333ec6d81fa4e343519132218996e2f462b1641e713fa2fd64083f",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Harford results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1920,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_13DemocraticResults.csv's 30 rows (6 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-13-dem",
+      "sha256": "65659c394aff5ccd7a15e640777ac7f0933353509f5f6be8acbece6aeb015ce4"
+    }
+  }
+}

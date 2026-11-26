@@ -1,0 +1,6 @@
+election,county,question,how_it_runs,winner,early_votes,early_against,election_night_votes,election_night_against,mail_in_1_votes,mail_in_1_against,provisional_votes,provisional_against,mail_in_2_votes,mail_in_2_against,total_votes,total_against
+PG24,Anne Arundel,1,State,1,64803,33462,76738,32467,55485,10295,9741,2513,10173,1946,216940,80683
+PG24,Anne Arundel,A,County,1,51402,39407,55730,43896,39597,20262,6175,4160,6328,4207,159232,111932
+PG24,Anne Arundel,B,County,1,80260,12164,89951,11598,58476,3605,9659,956,9948,1003,248294,29326
+PG24,Anne Arundel,C,County,0,32170,59223,39752,60907,22211,37920,5181,5282,3991,6639,103305,169971
+PG24,Anne Arundel,D,County,1,80259,10641,89534,10474,57884,3092,9540,919,10093,696,247310,25822

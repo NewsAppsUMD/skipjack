@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-22-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_22PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Washington results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:53+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "4d10eb0238d6f389970d14a2af4e73ccff3072043f3d84ec116ff04ef22afcf4",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Washington results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1380,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_22RepublicanResults.csv's 30 rows (7 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-22-rep",
+      "sha256": "e8e7b88b462cdf42e8ffdbc10ecc412cf8bd4491ec52514ae24eaf66fcd70caa"
+    }
+  }
+}

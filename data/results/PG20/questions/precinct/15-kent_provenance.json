@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-question-precinct-15",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Kent_Questions_Precinct_2020.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Kent ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:52+00:00",
+  "parse_date": "2026-11-25T22:35:42+00:00",
+  "sha256_original": "c2d7f99c203b87053236dd512a53c00ab5033efa1f7bde3af759ffc5ba99191f",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG20 Kent ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 20,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Kent_Questions_County_2020.csv's 2 rows (2 questions) on early_voting_votes, early_voting_against, early_voting_third, election_day_votes, election_day_against, election_day_third, by_mail_votes, by_mail_against, by_mail_third, prov_votes, prov_against, prov_third, by_mail_2_votes, by_mail_2_against, by_mail_2_third, total_votes, total_against, total_third",
+    "county_source": {
+      "source_id": "sbe-results-PG20-question-15",
+      "sha256": "c7807dbaeefdd3a5cce316b4e77d82bbe15df5a21dfda17674e1d94850c11369"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-10-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_10PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Dorchester results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:27+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "d5edc53434e59f3ecceec18c47da476b7f30f268b9ffcbbaa7e4f5f9ab06bc31",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Dorchester results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 24,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_10Non-PartisanResults.csv's 4 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-10-non",
+      "sha256": "3d16d85ad6683bb309d734076969eddd4612a7f83c136e573c1b4f63a15987ac"
+    }
+  }
+}

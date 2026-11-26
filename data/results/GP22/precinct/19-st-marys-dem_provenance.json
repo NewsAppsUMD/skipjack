@@ -1,0 +1,28 @@
+{
+  "source_id": "sbe-results-GP22-precinct-19-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_19PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 St. Mary's results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:37+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "faa80f54f1300ab2670e6c4136a2cfa5dcaa171cc2f6b528853e0ed370d2a871",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 St. Mary's results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1250,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_19DemocraticResults.csv's 35 rows (13 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-19-dem",
+      "sha256": "1453f9c0dcbe7137ed85d7a40b3907e4b26c111f07cd4068f8e9a914f2f44517"
+    },
+    "district_read_as_blank": [
+      "DEM Cent Committee",
+      "Pres County Commission"
+    ]
+  }
+}

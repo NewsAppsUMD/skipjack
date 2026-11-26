@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP26-precinct-13-non",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_13PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Harford results by precinct (non)",
+  "fetch_date": "2026-11-25T22:30:27+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "c971f18fbb93882301849f788f83a1bf757b1e469aa876a8eebae98a7fc06b48",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Harford results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 117,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_13Non-PartisanResults.csv's 12 rows (4 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-13-non",
+      "sha256": "1162980cafb35b58d6453bda653a97a5734f060b6b885227278938e1b8eecf29"
+    }
+  }
+}

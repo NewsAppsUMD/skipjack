@@ -1,0 +1,30 @@
+{
+  "source_id": "sbe-results-GP26-precinct-22-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_22PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Washington results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:32+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "8d94e435159a2c9f2da3e557ea6bd7023e8d04141173a646b9871a1f934884af",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Washington results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1822,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_22DemocraticResults.csv's 43 rows (13 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-22-dem",
+      "sha256": "45e1da7e3373c21dbf9f22a2eda65936563191f52e8d12ea23241811b4fa0ed9"
+    },
+    "district_read_as_blank": [
+      "County Commissioner",
+      "DEM Cent Committee",
+      "Judge Orphans' Court",
+      "Sheriff"
+    ]
+  }
+}

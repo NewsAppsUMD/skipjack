@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-precinct-16-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Montgomery_By_Precinct_2020_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Montgomery results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:45+00:00",
+  "parse_date": "2026-11-26T01:26:09+00:00",
+  "sha256_original": "5d214cc882e5da6f28148b11cda01c328ec16b006a33cc03e41bb4095b0d9cec",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG20 Montgomery results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 14260,
+    "row_totals": "ok",
+    "county_check": "ok: the precincts sum to Montgomery_County_2020_General.csv's 63 rows (11 contests) on early_voting_votes, early_voting_against, election_day_votes, election_day_against, by_mail_votes, by_mail_against, prov_votes, prov_against, by_mail_2_votes, by_mail_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-PG20-county-16-all",
+      "sha256": "32f1eee0cd98ca541465d5ce7d0f41987a831d9099de3fc53b29b5d16186cd3f"
+    }
+  }
+}

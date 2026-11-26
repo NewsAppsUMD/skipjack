@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-question-precinct-21",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Talbot_Questions_Precinct_2012.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Talbot ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:34:10+00:00",
+  "parse_date": "2026-11-25T22:36:26+00:00",
+  "sha256_original": "6d4ccd6f3eda99d9e2e1479fffc2d2ca5f9b2e83a1fda0f91aed5c745d406226",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG12 Talbot ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 84,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Talbot_Questions_County_2012.csv's 7 rows (7 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-question-21",
+      "sha256": "a0700d33e8c190d74699188bd607aa659200317fb66ae7a4dabe88e3142d2539"
+    }
+  }
+}

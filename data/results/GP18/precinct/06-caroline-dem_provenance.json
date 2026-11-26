@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-06-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Caroline_By_Precinct_Democratic_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Caroline results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:32:25+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "58e872191a6a0e7114391495f04e0d5662528c78b16ab82a3ba02ea86f9e97fd",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 Caroline results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 300,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Caroline_County_Democratic_2018_Primary.csv's 40 rows (15 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-06-dem",
+      "sha256": "0f564b6f8549dfdf4949c2a07152f58d567e779a5827553b575f86eabda083a2"
+    }
+  }
+}

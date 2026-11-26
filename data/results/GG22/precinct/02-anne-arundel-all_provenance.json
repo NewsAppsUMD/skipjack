@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-precinct-02-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_02PrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Anne Arundel results by precinct (all)",
+  "fetch_date": "2026-11-25T22:30:55+00:00",
+  "parse_date": "2026-11-26T01:25:56+00:00",
+  "sha256_original": "2f76195a5d5167f244a7c8cd52fb25a79b42cc085a4226e100dc5cf120ac0f2a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG22 Anne Arundel results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 11334,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GG22_02CountyResults.csv's 128 rows (37 contests) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-county-02-all",
+      "sha256": "4817dbc62449630bb531a454e4623bf3e479a3a825f781e42e4ea9d3cbe0a4a8"
+    }
+  }
+}

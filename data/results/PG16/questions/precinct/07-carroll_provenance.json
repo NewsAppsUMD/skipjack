@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG16-question-precinct-07",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Carroll_Questions_Precinct_2016.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Carroll ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:49+00:00",
+  "parse_date": "2026-11-25T22:36:02+00:00",
+  "sha256_original": "e1fc29bd848fed44ad02f10d8e429ce2195424a7dfaa4e81cacaab8ce9c6ee4b",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG16 Carroll ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 70,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Carroll_Questions_County_2016.csv's 2 rows (2 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG16-question-07",
+      "sha256": "b2e6d7f189142013619085dbf999838a7c203aa0dda90b35028d80cc503d6531"
+    }
+  }
+}

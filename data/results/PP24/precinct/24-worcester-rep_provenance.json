@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-24-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_24PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Worcester results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:54+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "f2488c8c5d0095084bf32b09ed1017bf79fb8d11d175f3bca6185903868d7837",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Worcester results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 520,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_24RepublicanResults.csv's 26 rows (6 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-24-rep",
+      "sha256": "6e0d0a969af3efac3b89c854a407797a5eb6094f7fe209f73d2b4072ddedda7e"
+    }
+  }
+}

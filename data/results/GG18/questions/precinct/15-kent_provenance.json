@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-precinct-15",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Kent_Questions_Precinct_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Kent ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:16+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "39513c3ccf1530228ea6784e8b49aa3e49a6ca92f3bdb2dd0f3df7b45e0ab39c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG18 Kent ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 20,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Kent_Questions_County_2018.csv's 2 rows (2 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-question-15",
+      "sha256": "20c2eb51fe9b4683b6446cbe51033100fd6539e6265a04340a00dcbbfb344625"
+    }
+  }
+}

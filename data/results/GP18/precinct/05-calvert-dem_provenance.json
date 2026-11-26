@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-05-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Calvert_By_Precinct_Democratic_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Calvert results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:32:24+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "97a5fd89e3c5cae95608e2d631c686cb21cba37b08137117a0034eb3b54ca7a6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 Calvert results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1099,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Calvert_County_Democratic_2018_Primary.csv's 51 rows (19 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-05-dem",
+      "sha256": "429fc1cb635a5d527d6e608156558d4226d8ee158cf41fcea9a157dbf29ab44a"
+    }
+  }
+}

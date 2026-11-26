@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-precinct-15-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_15PrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Kent results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:00+00:00",
+  "parse_date": "2026-11-26T01:25:56+00:00",
+  "sha256_original": "d08c431c502c24e5ea8929fe7355f135c496f7badb450a620f4db2ef60fded80",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG22 Kent results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 580,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GG22_15CountyResults.csv's 58 rows (15 contests) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-county-15-all",
+      "sha256": "7228d904043652f4d64801b6e3f7bee3208fb6dad7f7e9ee53c5940bc2d64418"
+    }
+  }
+}

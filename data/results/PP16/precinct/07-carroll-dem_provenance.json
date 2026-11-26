@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-07-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Carroll_By_Precinct_Democratic_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Carroll results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:33:01+00:00",
+  "parse_date": "2026-11-25T22:36:09+00:00",
+  "sha256_original": "1c5e3287a40219ae618e991bf01cd28e21186e29f60e155f41d25866d919e3f4",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 Carroll results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1443,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Carroll_County_Democratic_2016_Primary.csv's 65 rows (10 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-07-dem",
+      "sha256": "39ab5da7a6b6fc721378eae8e7f34dfb1e7291516e7a7960a95faf0ee1615850"
+    }
+  }
+}

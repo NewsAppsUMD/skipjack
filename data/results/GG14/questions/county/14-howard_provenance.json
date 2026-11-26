@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG14-question-14",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Howard_Questions_County_2014.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Howard ballot questions",
+  "fetch_date": "2026-11-25T22:33:26+00:00",
+  "parse_date": "2026-11-25T22:36:15+00:00",
+  "sha256_original": "aaddd64bdca51588a4d4e726e9ed7cb9db6ae587902ba91fc823ca7da99b3f96",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG14 Howard ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3,
+    "row_totals": "ok",
+    "statewide_check": "ok: 2 statewide questions match Questions_State_Congressional_Districts_2014.csv on election-night votes (the board's district files for 2012-2018 carry election-day votes only)",
+    "statewide_source": {
+      "source_id": "sbe-results-GG14-question-check",
+      "sha256": "b0030314fb941bfa450860b60fb6d0db96b61538abc02cd28ce84a9cee23721c"
+    }
+  }
+}

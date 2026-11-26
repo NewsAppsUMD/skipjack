@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP14-precinct-09-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Charles_By_Precinct_Democratic_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Charles results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:33:41+00:00",
+  "parse_date": "2026-11-25T22:36:22+00:00",
+  "sha256_original": "40bf7e0973761208a320aab3e89ba5841827918bfb0b65c52eb3cce3b24c3251",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP14 Charles results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3197,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Charles_County_Democratic_2014_Primary.csv's 77 rows (20 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP14-county-09-dem",
+      "sha256": "257c2b312178d7ee890bf297040523dc5b85e7b9a7fea8c7228ac6aa6e51b472"
+    }
+  }
+}

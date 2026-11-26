@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-GP22-precinct-24-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_24PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Worcester results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:41+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "c552fc73720ecf7f186964c591a89f4e4ea7814cb7363f1db26d0d300bee84b8",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Worcester results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 480,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_24DemocraticResults.csv's 32 rows (15 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-24-dem",
+      "sha256": "514ea17e1e32b1c20687738f6b1eb7a4019f8e1cb7e37c69a005f8fc814e5802"
+    },
+    "district_read_as_blank": [
+      "Dem Cent Comm at Large"
+    ]
+  }
+}

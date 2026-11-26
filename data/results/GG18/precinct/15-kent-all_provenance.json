@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-precinct-15-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Kent_By_Precinct_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Kent results by precinct (all)",
+  "fetch_date": "2026-11-25T22:32:04+00:00",
+  "parse_date": "2026-11-25T22:35:47+00:00",
+  "sha256_original": "eca66277593f6207b27dafd7d7b8e60c20e3f93cd2a412671d8bfcb89f6b41fc",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG18 Kent results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 630,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Kent_County_2018_General.csv's 63 rows (16 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-county-15-all",
+      "sha256": "1beef4f0f643aa5d99f3b334748f4350971ee2b63e45350bf3313a01ad0b032c"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP10-precinct-16-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Montgomery_By_Precinct_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Montgomery results by precinct (non)",
+  "fetch_date": "2026-11-25T22:35:01+00:00",
+  "parse_date": "2026-11-25T22:36:41+00:00",
+  "sha256_original": "4dfde450f17e83b81234dd2f1a55b10be9012b641203fc00685bd13a0d868284",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP10 Montgomery results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2450,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Montgomery_County_NonPartisan_2010_Primary.csv's 10 rows (3 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP10-county-16-non",
+      "sha256": "8c4eaa94ab6355bf5c322d99fd42720a01c295d833a9ee101df5649bdd0b2ae6"
+    }
+  }
+}

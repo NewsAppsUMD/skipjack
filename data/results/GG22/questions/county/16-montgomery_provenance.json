@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-16",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_16QuestionResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Montgomery ballot questions",
+  "fetch_date": "2026-11-25T22:31:10+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "8adeccc6ac7443c2ace937b77127e1d0e1d6c57b0de44ef6d33d3c5bf6bf9807",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG22 Montgomery ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 7,
+    "row_totals": "ok",
+    "statewide_check": "ok: 5 statewide questions match GG22_AllQuestionsCongressionalBreakDown.csv",
+    "statewide_source": {
+      "source_id": "sbe-results-GG22-question-check",
+      "sha256": "a417210b1bc2cc74176a1387a026b3ef9726d83dd7b221c85486797df5acae81"
+    }
+  }
+}

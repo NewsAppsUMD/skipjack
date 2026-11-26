@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-11-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Frederick_By_Precinct_Republican_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Frederick results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:33:04+00:00",
+  "parse_date": "2026-11-25T22:36:09+00:00",
+  "sha256_original": "7bc74af8244b91cd3d423a71979ae66b5ac6c9903601b883433dd1a8d8fe0f0c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 Frederick results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 8304,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Frederick_County_Republican_2016_Primary.csv's 172 rows (11 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-11-rep",
+      "sha256": "62700ffdefbea363086ecf919e77814b66d181d87f11f65517ac04d2a7bb7501"
+    }
+  }
+}

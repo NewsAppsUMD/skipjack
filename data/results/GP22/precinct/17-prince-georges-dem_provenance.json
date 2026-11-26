@@ -1,0 +1,33 @@
+{
+  "source_id": "sbe-results-GP22-precinct-17-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_17PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Prince George's results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:36+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "d579e7da45bde80e59e043575fb62394772ebb3a62fc46b040e264fc7b0ad861",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Prince George's results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 26427,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_17DemocraticResults.csv's 196 rows (58 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-17-dem",
+      "sha256": "8612541c7c7edd0408f29f1bf6ffe42a8fdbeb9d41ec0a2d735e9b65f6ffa25f"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Council At Large",
+      "County Executive",
+      "Judge Orphans' Court",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

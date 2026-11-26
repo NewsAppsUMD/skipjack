@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-precinct-04-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Baltimore_By_Precinct_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Baltimore County results by precinct (all)",
+  "fetch_date": "2026-11-25T22:32:01+00:00",
+  "parse_date": "2026-11-25T22:35:47+00:00",
+  "sha256_original": "3fbc31a30a337bb8a27515817d4a2eef5dec8de12b4d327d154d5c82d72d8a11",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG18 Baltimore County results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 15484,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Baltimore_County_2018_General.csv's 182 rows (47 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-county-04-all",
+      "sha256": "79be223f3ac2a7a68f8c60020f23b25e72f2c73cc1760038f874073428d56914"
+    }
+  }
+}

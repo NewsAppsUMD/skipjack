@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-precinct-14-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_14PrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Howard results by precinct (all)",
+  "fetch_date": "2026-11-25T22:30:59+00:00",
+  "parse_date": "2026-11-26T01:25:56+00:00",
+  "sha256_original": "20739a0355fae320fa1c2c5280d5df50c0547bfd5707a9b56a246a47abac68eb",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG22 Howard results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 6595,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GG22_14CountyResults.csv's 85 rows (26 contests) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-county-14-all",
+      "sha256": "c15baeb538e2861adc035082fb94e4118bb275ee5838d9a905f25989eef72a4c"
+    }
+  }
+}

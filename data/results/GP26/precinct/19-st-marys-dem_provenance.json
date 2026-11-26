@@ -1,0 +1,30 @@
+{
+  "source_id": "sbe-results-GP26-precinct-19-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_19PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 St. Mary's results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:31+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "4a8cf1f2ecd7dbde4af4070d399cdbd36758e9cf7a6c18a3094aa8c82d4b1d1f",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 St. Mary's results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1387,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_19DemocraticResults.csv's 56 rows (17 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-19-dem",
+      "sha256": "7b6554844f23972bfc4fc48b23ea32972523322812f8720654035773b8f16ae1"
+    },
+    "district_read_as_blank": [
+      "DEM Cent Committee",
+      "Judge Orphans' Court",
+      "Pres County Commission",
+      "Sheriff"
+    ]
+  }
+}

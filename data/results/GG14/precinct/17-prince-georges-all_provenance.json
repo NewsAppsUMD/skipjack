@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG14-precinct-17-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Prince_Georges_By_Precinct_2014_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Prince George's results by precinct (all)",
+  "fetch_date": "2026-11-25T22:33:22+00:00",
+  "parse_date": "2026-11-25T22:36:13+00:00",
+  "sha256_original": "6d0c4a8bd124428293533e2a501df0e61f933a013b49c63d69e270763980e358",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG14 Prince George's results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 16182,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Prince_Georges_County_2014_General.csv's 143 rows (45 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG14-county-17-all",
+      "sha256": "cc80a67a411881d005c4a19c26a6147eb45578fec20a576bbd7efe973cb69df5"
+    }
+  }
+}

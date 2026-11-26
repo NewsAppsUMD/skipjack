@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-09-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_09PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Charles results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:25+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "54830ebe52c2c4388fb6d509c01ea91c710a8299db8af27c574d9d9e60645646",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Charles results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 396,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_09Non-PartisanResults.csv's 21 rows (4 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-09-non",
+      "sha256": "ce1a9d3b9d1e32f69bb271d9e1fe7debd4c94d1db40b874cf3e066dd216c2447"
+    }
+  }
+}

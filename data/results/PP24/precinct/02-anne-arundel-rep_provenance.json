@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-02-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_02PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Anne Arundel results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:38+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "ad7de446cb4f01aa1d17cfabc066ac6693d983d476b807ac6c0e54400830a500",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Anne Arundel results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 6738,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_02RepublicanResults.csv's 51 rows (11 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-02-rep",
+      "sha256": "9ba85df1297cfef7d5caded379c24d85ad469f6dc08aad8f2e028cda733e13a2"
+    }
+  }
+}

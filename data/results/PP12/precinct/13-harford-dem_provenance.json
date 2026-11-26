@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-13-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Harford_By_Precinct_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Harford results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:34:23+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "b433c49a0ee4e2ec53595ffafa913d9a3799b56410154062236ef217e35655c6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Harford results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1796,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Harford_County_Democratic_2012_Primary.csv's 37 rows (11 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-13-dem",
+      "sha256": "7352ebf65f8f4093e16e28d9003aa09dc9810b1a57a15a2402c0a79d98a52bd9"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-11",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Frederick_Questions_County_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Frederick ballot questions",
+  "fetch_date": "2026-11-25T22:32:11+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "8a8e088fb54d6b1b8f7aac83f387400a6ca5b7e5900cb9a8d19091c972bee34a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG18 Frederick ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 6,
+    "row_totals": "ok",
+    "statewide_check": "ok: 2 statewide questions match Questions_State_Congressional_Districts_2018.csv on election-night votes (the board's district files for 2012-2018 carry election-day votes only)",
+    "statewide_source": {
+      "source_id": "sbe-results-GG18-question-check",
+      "sha256": "a4f1c0c41cf565d92e32e717de0f55850cf70169a88f0f7a613174b16a394f46"
+    }
+  }
+}

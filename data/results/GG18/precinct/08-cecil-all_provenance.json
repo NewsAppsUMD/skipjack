@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-precinct-08-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Cecil_By_Precinct_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Cecil results by precinct (all)",
+  "fetch_date": "2026-11-25T22:32:02+00:00",
+  "parse_date": "2026-11-25T22:35:47+00:00",
+  "sha256_original": "9e147f298b2911e3dfee1d974b568ee5ab2c430ae1629d701f88f90cd6142949",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG18 Cecil results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1739,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Cecil_County_2018_General.csv's 75 rows (23 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-county-08-all",
+      "sha256": "c5e1d50e2a743a72f9ab2b4654eb7da7a6c84bf6c9c0d50d412e882bb99c412a"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-20-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_20PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Somerset results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:52+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "120b10a49a1606a5722191da2e13a96e4168fe4a21502ae88f5d45e8b86e4895",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Somerset results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 667,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_20DemocraticResults.csv's 29 rows (5 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-20-dem",
+      "sha256": "7d08cbe1096ea1b12367c6903700dcb96d8e6a294b96b9a9adc0bc165d6688d3"
+    }
+  }
+}

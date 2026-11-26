@@ -1,0 +1,31 @@
+{
+  "source_id": "sbe-results-GP22-precinct-03-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_03PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Baltimore City results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:21+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "35011f24dc649de526b92717ee153f10b172343ec186a04f3e48cc8479489419",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Baltimore City results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 17477,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_03DemocraticResults.csv's 145 rows (27 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-03-dem",
+      "sha256": "d92a7efccb1e605a03eab21cd90a9c4f018372ff369313feda23ea9402ad255e"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "Judge Orphans' Court",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

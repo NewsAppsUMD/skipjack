@@ -1,0 +1,30 @@
+{
+  "source_id": "sbe-results-GP26-precinct-09-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_09PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Charles results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:25+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "8398c70e781585f14155a393d73338e0d02e721d30fcfae3da6d78191d734e6b",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Charles results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 943,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_09RepublicanResults.csv's 32 rows (14 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-09-rep",
+      "sha256": "83a0aa50ff4221a49a460fd2dfa31c9a0ceb341ed8c6fc3fea01a543bcc096bd"
+    },
+    "district_read_as_blank": [
+      "Judge Orphans' Court",
+      "Pres County Commission",
+      "REP Cent Committee",
+      "Register of Wills"
+    ]
+  }
+}

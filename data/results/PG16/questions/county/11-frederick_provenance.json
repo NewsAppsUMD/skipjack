@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG16-question-11",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Frederick_Questions_County_2016.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Frederick ballot questions",
+  "fetch_date": "2026-11-25T22:32:46+00:00",
+  "parse_date": "2026-11-25T22:36:02+00:00",
+  "sha256_original": "efd2edd2d7b5869161e853784e11b612307ac67ed74241dd7a0512f5212362d6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "questions",
+  "geography": "county",
+  "notes": "PG16 Frederick ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3,
+    "row_totals": "ok",
+    "statewide_check": "ok: 1 statewide questions match Questions_State_Congressional_Districts_2016.csv on election-night votes (the board's district files for 2012-2018 carry election-day votes only)",
+    "statewide_source": {
+      "source_id": "sbe-results-PG16-question-check",
+      "sha256": "3b7ed2a04df19bd724a385f2e6fb34a4826d31070dbea541b4caba7a115153df"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-GP26-precinct-24-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_24PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Worcester results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:33+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "9c648e014d5442675bda8776643d44ad2aea5e9defb612fae47194efe6b570e9",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Worcester results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 288,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_24DemocraticResults.csv's 20 rows (15 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-24-dem",
+      "sha256": "382ac13027cfb9634bc3512f9455acc2e808da5fb96bb2b213a9aeee7ccabe75"
+    },
+    "district_read_as_blank": [
+      "Judge Orphans' Court"
+    ]
+  }
+}

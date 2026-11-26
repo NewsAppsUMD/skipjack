@@ -1,0 +1,32 @@
+{
+  "source_id": "sbe-results-GP26-precinct-23-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_23PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Wicomico results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:33+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "c80bd0fb28e8099aed67a4060caad7ab5f791741fe2d86cc161d39253459eaa1",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Wicomico results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2835,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_23RepublicanResults.csv's 54 rows (22 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-23-rep",
+      "sha256": "606c5b30fbac7bbb9157245bda9277abfd031c412ed7b2b06f83c203347c9913"
+    },
+    "district_read_as_blank": [
+      "County Executive",
+      "Judge Orphans' Court",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

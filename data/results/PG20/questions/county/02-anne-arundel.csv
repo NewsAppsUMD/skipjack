@@ -1,0 +1,10 @@
+election,county,question,how_it_runs,winner,early_voting_votes,early_voting_against,early_voting_third,election_day_votes,election_day_against,election_day_third,by_mail_votes,by_mail_against,by_mail_third,prov_votes,prov_against,prov_third,by_mail_2_votes,by_mail_2_against,by_mail_2_third,total_votes,total_against,total_third
+PG20,Anne Arundel,1,State,1,65599,33744,,23603,11068,,59428,18326,,7128,2291,,35897,13760,,191655,79189,
+PG20,Anne Arundel,2,State,1,67986,37040,,25375,11521,,52009,30301,,7005,3025,,35636,17825,,188011,99712,
+PG20,Anne Arundel,A,County,1,79978,18924,,26921,7704,,73313,5947,,7513,1476,,45231,5353,,232956,39404,
+PG20,Anne Arundel,B,County,1,68305,28230,,23911,9838,,59262,17637,,6632,2136,,37597,11189,,195707,69030,
+PG20,Anne Arundel,C,County,1,58356,35997,,20962,12153,,47927,26394,,5822,2796,,31941,15817,,165008,93157,
+PG20,Anne Arundel,D,County,1,59349,35874,,20446,12783,,54599,21146,,5778,2841,,32615,15505,,172787,88149,
+PG20,Anne Arundel,E,County,1,73137,23808,,25666,8367,,67042,10409,,7277,1591,,42137,7504,,215259,51679,
+PG20,Anne Arundel,F,County,1,54222,40880,,19328,13935,,47151,28804,,5490,3151,,29892,18350,,156083,105120,
+PG20,Anne Arundel,G,County,1,58789,34752,,20988,11812,,59049,15460,,6707,1845,,36385,11251,,181918,75120,

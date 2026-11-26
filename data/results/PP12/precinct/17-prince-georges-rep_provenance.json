@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-17-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Prince_Georges_By_Precinct_Republican_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Prince George's results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:34:25+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "c47bb4f947ddc2969c0b9d657b4b0a4dee572923881c2995e9ac2a595aa14a99",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Prince George's results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 13718,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Prince_Georges_County_Republican_2012_Primary.csv's 111 rows (11 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-17-rep",
+      "sha256": "aed93585b510983cc5599a792fe9a4622e2b1c40f6e734bd1f289780ac73760f"
+    }
+  }
+}

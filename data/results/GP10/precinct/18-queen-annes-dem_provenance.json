@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP10-precinct-18-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Queen_Annes_By_Precinct_Democratic_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Queen Anne's results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:35:02+00:00",
+  "parse_date": "2026-11-25T22:36:42+00:00",
+  "sha256_original": "af0f8edc4adc17b18ef60ad8ed37150a00d79a7c1ffb0b597a2cd18366e87a94",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP10 Queen Anne's results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 561,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Queen_Annes_County_Democratic_2010_Primary.csv's 33 rows (18 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP10-county-18-dem",
+      "sha256": "e72b26b46a6ec8894f1f879bd3b78ebfbb78970a26e7e22ec0e3d2c92ab40ebe"
+    }
+  }
+}

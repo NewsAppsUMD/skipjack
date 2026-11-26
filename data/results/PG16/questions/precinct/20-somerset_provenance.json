@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG16-question-precinct-20",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Somerset_Questions_Precinct_2016.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Somerset ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:52+00:00",
+  "parse_date": "2026-11-25T22:36:02+00:00",
+  "sha256_original": "bfd68672a7e81ab70fdea7cd90ee02da9063c3812c61550f28bc594ad1658db2",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG16 Somerset ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 23,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Somerset_Questions_County_2016.csv's 1 rows (1 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG16-question-20",
+      "sha256": "e6e42bd963264c411aa0fd37d0d35ba35c024983f3a41ce0e7bac7431815cf29"
+    }
+  }
+}

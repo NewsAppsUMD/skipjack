@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-precinct-22-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Washington_By_Precinct_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Washington results by precinct (all)",
+  "fetch_date": "2026-11-25T22:32:05+00:00",
+  "parse_date": "2026-11-25T22:35:47+00:00",
+  "sha256_original": "872382d7cf6553eec385d00216e7c9a5d20e8bb0a2194c7c4dc9d4fa1b61fcf0",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG18 Washington results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3877,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Washington_County_2018_General.csv's 82 rows (21 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-county-22-all",
+      "sha256": "b972499d3717542b157afec7e5d147da237a98f1404c38a9f9f7c4d3f0f32e7d"
+    }
+  }
+}

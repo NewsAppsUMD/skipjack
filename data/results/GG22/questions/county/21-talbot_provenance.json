@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-21",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_21QuestionResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Talbot ballot questions",
+  "fetch_date": "2026-11-25T22:31:11+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "d9708306fb2c83cee8bc7bc4be7cbe0b9a2e2da139a2dbf36f30af3513b9c5eb",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG22 Talbot ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 7,
+    "row_totals": "ok",
+    "statewide_check": "ok: 5 statewide questions match GG22_AllQuestionsCongressionalBreakDown.csv",
+    "statewide_source": {
+      "source_id": "sbe-results-GG22-question-check",
+      "sha256": "a417210b1bc2cc74176a1387a026b3ef9726d83dd7b221c85486797df5acae81"
+    }
+  }
+}

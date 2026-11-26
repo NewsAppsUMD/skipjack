@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP10-precinct-23-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Wicomico_By_Precinct_Democratic_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Wicomico results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:35:05+00:00",
+  "parse_date": "2026-11-25T22:36:42+00:00",
+  "sha256_original": "9037120ca5ca1b06bf3af9b3db01760d17cfcb2f138e52b3774e28954e7b9653",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP10 Wicomico results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1324,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Wicomico_County_Democratic_2010_Primary.csv's 44 rows (20 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP10-county-23-dem",
+      "sha256": "46107f9e01e411c0af80932a104370283c9d8181019d4d23f50a85a193f05d51"
+    }
+  }
+}

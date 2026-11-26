@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-23-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Wicomico_By_Precinct_NonPartisan_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Wicomico results by precinct (non)",
+  "fetch_date": "2026-11-25T22:32:37+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "c8127af47a23c63459eddfd0989dcdfa429f96daba2ee3a984423cba84637d02",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 Wicomico results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 54,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Wicomico_County_NonPartisan_2018_Primary.csv's 6 rows (2 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-23-non",
+      "sha256": "ae7c64fc591b209bb03d6ece5ea8a7bd1fa600c97652746d9f082cda07e254c6"
+    }
+  }
+}

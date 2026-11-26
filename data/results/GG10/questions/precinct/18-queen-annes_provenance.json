@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG10-question-precinct-18",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Queen_Annes_Questions_Precinct_2010.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG10 Queen Anne's ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:34:45+00:00",
+  "parse_date": "2026-11-25T22:36:35+00:00",
+  "sha256_original": "04b1846534f28ac43f1b63a19e5eb889f9232cc61a9167dbd44495da91f8a1eb",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG10",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG10 Queen Anne's ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 51,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Queen_Annes_Questions_County_2010.csv's 3 rows (3 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG10-question-18",
+      "sha256": "3408e499873a33c7beea3e6e15460715526a995c4e852cf3653a551d02193a3f"
+    }
+  }
+}

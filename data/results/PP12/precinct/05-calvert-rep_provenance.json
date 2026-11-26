@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-05-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Calvert_By_Precinct_Republican_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Calvert results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:34:18+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "f2ff7d405c79ca58f1a7546ac82afa2fbc3ee47bef1d21b0284f557b6f93af61",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Calvert results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1334,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Calvert_County_Republican_2012_Primary.csv's 66 rows (7 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-05-rep",
+      "sha256": "13df098edf7bbefb1ccf3d9e7b4923924ef723588f95e5c986a01e3330afb393"
+    }
+  }
+}

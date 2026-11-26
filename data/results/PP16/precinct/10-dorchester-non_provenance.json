@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-10-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Dorchester_By_Precinct_NonPartisan_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Dorchester results by precinct (non)",
+  "fetch_date": "2026-11-25T22:33:03+00:00",
+  "parse_date": "2026-11-25T22:36:09+00:00",
+  "sha256_original": "47c203a177df4becb8190d36f5f78a44d9f8f922da62e0cfd4a2565ca0f21bc1",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 Dorchester results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 87,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Dorchester_County_NonPartisan_2016_Primary.csv's 6 rows (2 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-10-non",
+      "sha256": "87cb868ef6a178f530feb9990927307ece96f8d1f7c85addbb9502f36ec81e8e"
+    }
+  }
+}

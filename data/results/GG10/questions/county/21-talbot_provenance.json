@@ -1,0 +1,20 @@
+{
+  "source_id": "sbe-results-GG10-question-21",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Talbot_Questions_County_2010.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG10 Talbot ballot questions",
+  "fetch_date": "2026-11-25T22:34:42+00:00",
+  "parse_date": "2026-11-25T22:36:34+00:00",
+  "sha256_original": "cc27002825847346d1fb02c25793b6dca8784c1f47ab328a23232e7955d3ddba",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG10",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG10 Talbot ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 4,
+    "row_totals": "ok",
+    "statewide_check": "n/a: the board posted no statewide question breakdown for 2010"
+  }
+}

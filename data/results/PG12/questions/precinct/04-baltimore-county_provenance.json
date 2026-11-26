@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-question-precinct-04",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Baltimore_Questions_Precinct_2012.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Baltimore County ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:34:05+00:00",
+  "parse_date": "2026-11-25T22:36:26+00:00",
+  "sha256_original": "f36020cd460db393da3fe117f9df5acc98a57ec20b4089a6a2daa219546605a4",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG12 Baltimore County ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3632,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Baltimore_Questions_County_2012.csv's 16 rows (16 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-question-04",
+      "sha256": "e2feb18fe4ccc990800620a58512ddff55366912fb0fb22cfe516895782e0244"
+    }
+  }
+}

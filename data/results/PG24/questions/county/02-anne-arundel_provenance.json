@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG24-question-02",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PG24_02QuestionResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG24 Anne Arundel ballot questions",
+  "fetch_date": "2026-11-25T22:28:49+00:00",
+  "parse_date": "2026-11-25T22:29:14+00:00",
+  "sha256_original": "a31ad38669fe6945b196bcde35a35e4f1a66643ea0b0fb6808a697ff8f393b92",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG24",
+  "family": "questions",
+  "geography": "county",
+  "notes": "PG24 Anne Arundel ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 5,
+    "row_totals": "ok",
+    "statewide_check": "ok: 1 statewide questions match PG24_AllQuestionsCongressionalBreakDown.csv",
+    "statewide_source": {
+      "source_id": "sbe-results-PG24-question-check",
+      "sha256": "39f7c941740139a2e007d77b97904c535833ee9e447b4420178180f2aefdde98"
+    }
+  }
+}

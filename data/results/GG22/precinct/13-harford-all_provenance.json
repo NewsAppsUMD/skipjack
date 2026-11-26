@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-precinct-13-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_13PrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Harford results by precinct (all)",
+  "fetch_date": "2026-11-25T22:30:59+00:00",
+  "parse_date": "2026-11-26T01:25:56+00:00",
+  "sha256_original": "4a7934ad374ee57bcb0ed95e34593415b85c5914fb6580548a12ea3902877767",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG22 Harford results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3762,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GG22_13CountyResults.csv's 97 rows (31 contests) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-county-13-all",
+      "sha256": "7fa4d0b5a60e5436c4bd9359a3ad88b6928c80e9c03efd156efda1545a58ffb9"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "source_id": "sbe-results-GP26-precinct-13-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_13PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Harford results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:27+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "def0de031657c8b0ecaa4ee5a32e330ba33d349ee8f2de21a68a4795fd544551",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Harford results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3014,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_13RepublicanResults.csv's 65 rows (24 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-13-rep",
+      "sha256": "33c974b4176a0febe3daa79664864e7433c6bf01d4b9797e381acde17ad878c9"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Executive",
+      "Pres County Council",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

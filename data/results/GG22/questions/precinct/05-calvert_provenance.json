@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-05",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_05QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Calvert ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:12+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "f7239bfd5f162d61edeb862f71e829b1f09284b4bfb297647c6108365c79e370",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 Calvert ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 100,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_05QuestionResults.csv's 5 rows (5 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-05",
+      "sha256": "f828ad75b64df139e848ff7952402e6ab7e9d35463191dd3a163a6e0a64a8c31"
+    }
+  }
+}

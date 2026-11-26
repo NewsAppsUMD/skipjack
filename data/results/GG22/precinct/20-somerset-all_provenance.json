@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-precinct-20-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_20PrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Somerset results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:03+00:00",
+  "parse_date": "2026-11-26T01:25:56+00:00",
+  "sha256_original": "f8c01103e12b5054019d76b06d292fdb5977a18a0ea394f763cf2fdffa50d81d",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG22 Somerset results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1082,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GG22_20CountyResults.csv's 62 rows (21 contests) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-county-20-all",
+      "sha256": "7ac265176104f26030cdbf344df6d8e5868a6f72c170caa3c69636f0fa6fe8c6"
+    }
+  }
+}

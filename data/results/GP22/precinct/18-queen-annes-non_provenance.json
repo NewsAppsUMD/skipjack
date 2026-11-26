@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-18-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_18PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Queen Anne's results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:37+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "6870e1bb243bd09510dd0f9672c07b32c27098ea998b9ce02859ce2a7f2409d1",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Queen Anne's results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 44,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_18Non-PartisanResults.csv's 4 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-18-non",
+      "sha256": "a589c3964a4f0f652ea1c2beb0d22230e4a11b9b44688d6331b904994efd789c"
+    }
+  }
+}

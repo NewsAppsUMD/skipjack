@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-precinct-09-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Charles_By_Precinct_2020_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Charles results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:43+00:00",
+  "parse_date": "2026-11-26T01:26:09+00:00",
+  "sha256_original": "156011b816eb4737a8105710bd957d829e866054a659bc2b2178a7c6b8e7199c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG20 Charles results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1720,
+    "row_totals": "ok",
+    "county_check": "ok: the precincts sum to Charles_County_2020_General.csv's 40 rows (5 contests) on early_voting_votes, early_voting_against, election_day_votes, election_day_against, by_mail_votes, by_mail_against, prov_votes, prov_against, by_mail_2_votes, by_mail_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-PG20-county-09-all",
+      "sha256": "101f890471fc4dbe6dee7e133ec937c7fec357fcb7e3b6e052e7d14063120818"
+    }
+  }
+}

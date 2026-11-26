@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-03-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Baltimore_City_By_Precinct_Republican_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Baltimore City results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:32:58+00:00",
+  "parse_date": "2026-11-25T22:36:09+00:00",
+  "sha256_original": "7a6f14502b9ec402d02807aca1681cb3451706ae0b30a4c43c4f17731ea99b94",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 Baltimore City results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 33285,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Baltimore_City_County_Republican_2016_Primary.csv's 259 rows (26 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-03-rep",
+      "sha256": "1c41c6bbaec5950e1c14a48c1bf12bdfc9990bb1b170aff303c61caaaa63f3a9"
+    }
+  }
+}

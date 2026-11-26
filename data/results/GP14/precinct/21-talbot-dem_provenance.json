@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP14-precinct-21-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Talbot_By_Precinct_Democratic_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Talbot results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:33:49+00:00",
+  "parse_date": "2026-11-25T22:36:22+00:00",
+  "sha256_original": "86221c057f114114674be61dfe78f2532441f153b361feb054ffc77ba0a9c6e8",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP14 Talbot results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 336,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Talbot_County_Democratic_2014_Primary.csv's 28 rows (11 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP14-county-21-dem",
+      "sha256": "7d2f3d05848f85f8071e6fba9832573214e9b1e578416b14a993a8946030d6fa"
+    }
+  }
+}

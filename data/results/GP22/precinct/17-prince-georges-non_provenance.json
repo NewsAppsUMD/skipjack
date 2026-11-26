@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-17-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_17PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Prince George's results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:36+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "f3e5c2eff4a7d9c007839750746b1c78e74692caec8e6ca710af02fd0e300e41",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Prince George's results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 225,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_17Non-PartisanResults.csv's 5 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-17-non",
+      "sha256": "8d1f6ebdf73ec9c0ce301a34cc696dde1069105921f674c69b9c496ebd7a9d38"
+    }
+  }
+}

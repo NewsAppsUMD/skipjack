@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-precinct-23-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Wicomico_By_Precinct_2020_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Wicomico results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:47+00:00",
+  "parse_date": "2026-11-26T01:26:09+00:00",
+  "sha256_original": "bcab1054892b7dbdcc5ce604a389d1bab8183e4b9ab9440340b8bcdaf343d7b3",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG20 Wicomico results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2118,
+    "row_totals": "ok",
+    "county_check": "ok: the precincts sum to Wicomico_County_2020_General.csv's 43 rows (7 contests) on early_voting_votes, early_voting_against, election_day_votes, election_day_against, by_mail_votes, by_mail_against, prov_votes, prov_against, by_mail_2_votes, by_mail_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-PG20-county-23-all",
+      "sha256": "857f3ec874ae47c4e721a0bbe0de75f3e3edd8158cc3291a27c1594fd3a84d2a"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG14-question-precinct-12",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Garrett_Questions_Precinct_2014.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Garrett ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:33:30+00:00",
+  "parse_date": "2026-11-25T22:36:15+00:00",
+  "sha256_original": "45caceb87818c688dffc92299e736b2877fd91c1ba9dcc817b573093f1021977",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG14 Garrett ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 69,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Garrett_Questions_County_2014.csv's 33 rows (33 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG14-question-12",
+      "sha256": "51500971268609a4941b083a4247531df0bb9c2e292d099149d00b9c852da6cd"
+    }
+  }
+}

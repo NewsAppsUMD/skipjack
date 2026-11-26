@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG16-question-21",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Talbot_Questions_County_2016.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Talbot ballot questions",
+  "fetch_date": "2026-11-25T22:32:48+00:00",
+  "parse_date": "2026-11-25T22:36:02+00:00",
+  "sha256_original": "3143f58f94091948f5e27ff8fb99e63f3d9db88221e6b039957dc60991a1e163",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "questions",
+  "geography": "county",
+  "notes": "PG16 Talbot ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1,
+    "row_totals": "ok",
+    "statewide_check": "ok: 1 statewide questions match Questions_State_Congressional_Districts_2016.csv on election-night votes (the board's district files for 2012-2018 carry election-day votes only)",
+    "statewide_source": {
+      "source_id": "sbe-results-PG16-question-check",
+      "sha256": "3b7ed2a04df19bd724a385f2e6fb34a4826d31070dbea541b4caba7a115153df"
+    }
+  }
+}

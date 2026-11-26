@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-10",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_10QuestionResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Dorchester ballot questions",
+  "fetch_date": "2026-11-25T22:31:07+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "dc5ba157eb11296f3df74df8c4456ba62c5e4004ef96b0eccae76fd5cb0dcb5e",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG22 Dorchester ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 5,
+    "row_totals": "ok",
+    "statewide_check": "ok: 5 statewide questions match GG22_AllQuestionsCongressionalBreakDown.csv",
+    "statewide_source": {
+      "source_id": "sbe-results-GG22-question-check",
+      "sha256": "a417210b1bc2cc74176a1387a026b3ef9726d83dd7b221c85486797df5acae81"
+    }
+  }
+}

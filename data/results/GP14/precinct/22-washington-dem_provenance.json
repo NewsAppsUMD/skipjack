@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP14-precinct-22-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Washington_By_Precinct_Democratic_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Washington results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:33:50+00:00",
+  "parse_date": "2026-11-25T22:36:22+00:00",
+  "sha256_original": "68e34d1474f712a95ff8dfec157e9708e455926421895af8e6673daef89ed599",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP14 Washington results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1940,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Washington_County_Democratic_2014_Primary.csv's 39 rows (16 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP14-county-22-dem",
+      "sha256": "4b8b82e36d703a2d1bfcb2923587e2f69d849ff4f2b86dc554742dac3626f12d"
+    }
+  }
+}

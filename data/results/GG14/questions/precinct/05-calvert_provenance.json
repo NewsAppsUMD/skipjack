@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG14-question-precinct-05",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Calvert_Questions_Precinct_2014.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Calvert ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:33:29+00:00",
+  "parse_date": "2026-11-25T22:36:15+00:00",
+  "sha256_original": "e7e7e403c496f10c5dfe1f33d2f88116da0d087df4e4ad7f48f4a848af6d87d0",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG14 Calvert ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 46,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Calvert_Questions_County_2014.csv's 2 rows (2 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG14-question-05",
+      "sha256": "8a37872bacbaadba8f7f27967a02de4b8e205a775cda9ff79359351eab1b3fc0"
+    }
+  }
+}

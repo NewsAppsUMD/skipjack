@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-03-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Baltimore_City_By_Precinct_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Baltimore City results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:34:17+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "8af15e52ebb5c4720cfceb38010a58485e64a9e3fd93fa5a615178d11b33ed1c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Baltimore City results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 8982,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Baltimore_City_County_Democratic_2012_Primary.csv's 59 rows (15 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-03-dem",
+      "sha256": "5c39f7ed470f03a920912aadd90f77ee4e2ef1e14ed2b12c10a238f2b4f15fa8"
+    }
+  }
+}

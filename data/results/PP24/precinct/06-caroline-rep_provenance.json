@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-06-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_06PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Caroline results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:41+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "de918030ce23cf74a64ac467576c4a434d648bcfce4ffd607a29f95c79a290ad",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Caroline results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 208,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_06RepublicanResults.csv's 26 rows (6 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-06-rep",
+      "sha256": "23e6d705a70608e6bbc274bcdd1aa98f9b5584be53f2c9ffaffe020d38d4d3d8"
+    }
+  }
+}

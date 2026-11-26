@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-19-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/St._Marys_By_Precinct_Democratic_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 St. Mary's results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:32:34+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "954f64c3bd8dd34447892051f58cfa09ead8748b82d1ca90fe9ec4ae4ca67deb",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 St. Mary's results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1476,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to St._Marys_County_Democratic_2018_Primary.csv's 43 rows (17 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-19-dem",
+      "sha256": "e8f6336683bb2d1c77256b90418e73dda94bca14472552ac32f60c8a43f13e90"
+    }
+  }
+}

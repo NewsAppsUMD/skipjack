@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-12-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_12PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Garrett results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:45+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "f03d7853555737fdb2b3f3924dba2f89fe2a0c3c191121bbaca1a1891be4be27",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Garrett results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 570,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_12RepublicanResults.csv's 30 rows (7 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-12-rep",
+      "sha256": "ec7533722bd3f1b3fdac2b036088065134ed428438e57ea09f738a0694a63591"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP14-precinct-20-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Somerset_By_Precinct_Democratic_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Somerset results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:33:49+00:00",
+  "parse_date": "2026-11-25T22:36:22+00:00",
+  "sha256_original": "b2def73b47b26afa0d7fe1a090a0aa7b533947e5d7749cc17a3d17904e4fb9d7",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP14 Somerset results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 644,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Somerset_County_Democratic_2014_Primary.csv's 32 rows (16 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP14-county-20-dem",
+      "sha256": "35aaba0d16b32dc13ca7d4770153cf1a26108be78715d7171430a9c6ba1516af"
+    }
+  }
+}

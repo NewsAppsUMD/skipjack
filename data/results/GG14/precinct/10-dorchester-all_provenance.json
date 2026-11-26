@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG14-precinct-10-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Dorchester_By_Precinct_2014_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Dorchester results by precinct (all)",
+  "fetch_date": "2026-11-25T22:33:21+00:00",
+  "parse_date": "2026-11-25T22:36:13+00:00",
+  "sha256_original": "b3426e9d2573f5a6c999873e21943a9edcf7d5c70af16032c99a3a072d82c831",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG14 Dorchester results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1707,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Dorchester_County_2014_General.csv's 62 rows (21 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG14-county-10-all",
+      "sha256": "4c2ba1586793d31bfff3c83fe27196f005aff9514cb48949a84321d35448379a"
+    }
+  }
+}

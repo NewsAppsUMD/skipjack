@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-16-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Montgomery_By_Precinct_Democratic_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Montgomery results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:32:31+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "d512d8f024cc429267e53e43f0f598bffd901d296c2a254d5256ce5b40d98210",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 Montgomery results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 27791,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Montgomery_County_Democratic_2018_Primary.csv's 216 rows (53 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-16-dem",
+      "sha256": "01511924818551fa0f5d56202278e4a3419932a6e16fc3975187689894dd9459"
+    }
+  }
+}

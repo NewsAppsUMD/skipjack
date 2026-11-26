@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-18-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Queen_Annes_By_Precinct_NonPartisan_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Queen Anne's results by precinct (non)",
+  "fetch_date": "2026-11-25T22:32:33+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "38470ae4528684d57ad8a8c8f6083a3d1d495cd28f293410b57b6851c488daad",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 Queen Anne's results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 33,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Queen_Annes_County_NonPartisan_2018_Primary.csv's 3 rows (1 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-18-non",
+      "sha256": "682978c773608a44a70214b8980f2b914b6d04b07af5e40e9dea803f998f8fb1"
+    }
+  }
+}

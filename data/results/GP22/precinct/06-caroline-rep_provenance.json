@@ -1,0 +1,33 @@
+{
+  "source_id": "sbe-results-GP22-precinct-06-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_06PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Caroline results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:31:23+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "239981c6f9c4b93fffdb86df0a66a5c1c23f563d70d2c48f4d3db8631a96a061",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Caroline results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 400,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_06RepublicanResults.csv's 56 rows (17 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-06-rep",
+      "sha256": "3728c4a3a0041a842f53110ccedd631061dba3a6cc7b73bd53ad01c7c3446295"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Commissioner",
+      "Judge Orphans' Court",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

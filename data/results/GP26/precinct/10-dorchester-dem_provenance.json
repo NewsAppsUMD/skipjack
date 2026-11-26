@@ -1,0 +1,29 @@
+{
+  "source_id": "sbe-results-GP26-precinct-10-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_10PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Dorchester results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:25+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "3478cdb6702a5e994c0a32c7c861aad602238cff8ef6c87c0b2d64592cecfad0",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Dorchester results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 914,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_10DemocraticResults.csv's 32 rows (20 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-10-dem",
+      "sha256": "41221dbf8c5dc81fa259db2708af4363b913f887378720cf79712dcfef929d2b"
+    },
+    "district_read_as_blank": [
+      "Dem Cent Comm at Large",
+      "Register of Wills",
+      "Sheriff"
+    ]
+  }
+}

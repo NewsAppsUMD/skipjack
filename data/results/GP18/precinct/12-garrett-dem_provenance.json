@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-12-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Garrett_By_Precinct_Democratic_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Garrett results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:32:29+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "585e4f9e4573939f6a98de5335aa97d59ccd1ffb03d3cf1c21e4e7f179103503",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 Garrett results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 703,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Garrett_County_Democratic_2018_Primary.csv's 37 rows (9 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-12-dem",
+      "sha256": "19b82240e702aad1c679e1d261428827d9c4875487c45e5fbf5538a5a87a60d3"
+    }
+  }
+}

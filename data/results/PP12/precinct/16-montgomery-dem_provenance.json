@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-16-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Montgomery_By_Precinct_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Montgomery results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:34:25+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "1fb8dcb439a294810670a543bed2442fd18620d639153ad9f8ddc878ca1aff91",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Montgomery results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 6233,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Montgomery_County_Democratic_2012_Primary.csv's 56 rows (15 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-16-dem",
+      "sha256": "b99ce1ce2c6f659ed0121f5d91eaf3b17018048c9a50991fa48a434a2ba95352"
+    }
+  }
+}

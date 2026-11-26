@@ -1,0 +1,29 @@
+{
+  "source_id": "sbe-results-PP24-precinct-03-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_03PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Baltimore City results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:39+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "d902521966109efa6573b65dba1833c9c980942d3f820947618537e38dd1fa2c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Baltimore City results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 16397,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_03DemocraticResults.csv's 105 rows (26 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-03-dem",
+      "sha256": "8b04f4f8a094aff1d2d10f38f35d9d9236c656488bb2ec037492ec495be9154d"
+    },
+    "district_read_as_blank": [
+      "Comptroller",
+      "Mayor",
+      "President City Council"
+    ]
+  }
+}

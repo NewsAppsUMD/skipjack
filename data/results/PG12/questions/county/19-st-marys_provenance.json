@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-question-19",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/St._Marys_Questions_County_2012.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 St. Mary's ballot questions",
+  "fetch_date": "2026-11-25T22:34:03+00:00",
+  "parse_date": "2026-11-25T22:36:26+00:00",
+  "sha256_original": "72fe3761dcd8daaa8d37aa789896d82cd9b141a7e8b5ad208cfd01bf81155620",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "questions",
+  "geography": "county",
+  "notes": "PG12 St. Mary's ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 7,
+    "row_totals": "ok",
+    "statewide_check": "ok: 7 statewide questions match Questions_State_Congressional_Districts_2012.csv on election-night votes (the board's district files for 2012-2018 carry election-day votes only)",
+    "statewide_source": {
+      "source_id": "sbe-results-PG12-question-check",
+      "sha256": "d84c3b246b47cc337e45e3fc1204379ae82f53419a2c1b4bc1ebde37291e651f"
+    }
+  }
+}

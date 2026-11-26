@@ -1,0 +1,34 @@
+{
+  "source_id": "sbe-results-GP26-precinct-22-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_22PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Washington results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:32+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "21cd72717e28d39fad2605237397384c7c7538157d9ebb19973d3befeee73dbe",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Washington results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2259,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_22RepublicanResults.csv's 52 rows (17 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-22-rep",
+      "sha256": "2ea495a61de73ede2d397cb3f042aea34685fee335035e2d25c95af9a7282da3"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Commissioner",
+      "Judge Orphans' Court",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney",
+      "Treasurer"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-PG12-precinct-19-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/St._Marys_By_Precinct_2012_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 St. Mary's results by precinct (all)",
+  "fetch_date": "2026-11-25T22:34:00+00:00",
+  "parse_date": "2026-11-26T01:26:33+00:00",
+  "sha256_original": "5b5a4f342a533fd2cdc0fb63c183dfc5f8308dd7aea7986b8595b129473cd6c9",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG12 St. Mary's results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1984,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to St._Marys_County_2012_General.csv's 64 rows (8 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only); the board's own files disagree on President - Vice Pres / Other Write-Ins (BOT) election_night_votes: precincts 161, county file 159 (listed in PRECINCT_CHECK_EXCEPTIONS, recorded, not corrected)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-county-19-all",
+      "sha256": "acd18aa0c40d6f95d0594278a167dcd4c6007e67b34f4b9ecd5a25e00db0e074"
+    },
+    "county_check_exceptions": [
+      "President - Vice Pres / Other Write-Ins (BOT) election_night_votes: precincts 161, county file 159"
+    ]
+  }
+}

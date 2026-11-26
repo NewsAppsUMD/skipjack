@@ -1,0 +1,5 @@
+election,county,question,how_it_runs,winner,early_votes,early_against,early_third,election_night_votes,election_night_against,election_night_third,absentees_votes,absentees_against,absentees_third,provisional_votes,provisional_against,provisional_third,absentees_2_votes,absentees_2_against,absentees_2_third,total_votes,total_against,total_third
+GG18,Wicomico,1,State,1,7763,1235,,16707,2483,,687,136,,552,65,,349,31,,26058,3950,
+GG18,Wicomico,2,State,1,5545,4085,,11511,9153,,452,413,,514,150,,302,88,,18324,13889,
+GG18,Wicomico,A,County,1,6288,2665,2253,13622,5409,6514,530,234,427,381,111,182,220,106,137,21041,8525,9513
+GG18,Wicomico,B,County,1,7082,1928,,15319,3883,,613,158,,421,81,,273,61,,23708,6111,

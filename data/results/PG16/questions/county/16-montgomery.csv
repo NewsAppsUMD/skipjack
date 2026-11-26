@@ -1,0 +1,5 @@
+election,county,question,how_it_runs,winner,early_votes,early_against,early_third,election_night_votes,election_night_against,election_night_third,absentees_votes,absentees_against,absentees_third,provisional_votes,provisional_against,provisional_third,absentees_2_votes,absentees_2_against,absentees_2_third,total_votes,total_against,total_third
+PG16,Montgomery,1,State,1,110855,33693,,166311,60072,,15379,5751,,6633,1745,,13053,4907,,312231,106168,
+PG16,Montgomery,A,County,1,132839,12800,,203292,24892,,18869,2178,,7387,900,,16142,1603,,378529,42373,
+PG16,Montgomery,B,County,1,95167,53234,,167839,65381,,16573,4801,,6134,2277,,14000,4068,,299713,129761,
+PG16,Montgomery,C,County,1,112294,28453,,173027,48674,,16292,3841,,6367,1645,,13620,3269,,321600,85882,

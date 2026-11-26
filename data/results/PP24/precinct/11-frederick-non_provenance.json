@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-11-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_11PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Frederick results by precinct (non)",
+  "fetch_date": "2026-11-25T22:30:45+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "9cee19db60f52f111ca9e4df056afe30823a9ef917c11d89af1f2268579d1b85",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Frederick results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1122,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_11Non-PartisanResults.csv's 17 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-11-non",
+      "sha256": "bca052c83c79c9611624d828825a2a3068671876aa13e7fb0b3639a88cd1895b"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "source_id": "sbe-results-GP22-precinct-11-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_11PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Frederick results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:31:28+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "ae125a755fc88cdd94d5ca257a66ecc305e579c84ce6c849675b2ff1871ff73b",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Frederick results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 5122,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_11RepublicanResults.csv's 88 rows (27 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-11-rep",
+      "sha256": "5bea1be05c8cd03e98042e0bca74d77ffda25643256f4f777bee8b2934bd05f3"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Council At Large",
+      "County Executive",
+      "Judge Orphans' Court",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-11",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_11QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Frederick ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:13+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "02bc0ba80209afbacde8463dc0d1534efb6a966a1692b03ff0c403fb3d704706",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 Frederick ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 581,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_11QuestionResults.csv's 7 rows (7 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-11",
+      "sha256": "c4fa666d223decbe98e57c67ed0fc05b7e35968d059814db9a9bb2b60c7e1197"
+    }
+  }
+}

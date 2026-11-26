@@ -1,0 +1,30 @@
+{
+  "source_id": "sbe-results-GP26-precinct-16-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_16PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Montgomery results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:29+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "aa51edb92f532540e378e6392ba8c65686da5e9d57fd517d09a25c567608c905",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Montgomery results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 8011,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_16RepublicanResults.csv's 63 rows (30 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-16-rep",
+      "sha256": "5d747aacce4dd92cfc1e952d4c718982ed19b656bea268051c78eeeb5e3e1fbf"
+    },
+    "district_read_as_blank": [
+      "County Council At Large",
+      "County Executive",
+      "REP Cent Comm at Large",
+      "Register of Wills"
+    ]
+  }
+}

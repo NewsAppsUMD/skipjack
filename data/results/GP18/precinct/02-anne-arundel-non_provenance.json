@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP18-precinct-02-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Anne_Arundel_By_Precinct_NonPartisan_2018_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP18 Anne Arundel results by precinct (non)",
+  "fetch_date": "2026-11-25T22:32:21+00:00",
+  "parse_date": "2026-11-25T22:35:56+00:00",
+  "sha256_original": "92071be579c4b233ef565496827aae8fd33bb163d6f92968701301175e7c48b9",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP18 Anne Arundel results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 377,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Anne_Arundel_County_NonPartisan_2018_Primary.csv's 13 rows (4 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP18-county-02-non",
+      "sha256": "384f8afa4337402aad143595cc69b9248652e3781baa43c61ef78ff97b3b5c68"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-01-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_01PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Allegany results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:38+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "bea9ce6b1c847fb2cb465c91a6b06fa70bf1a8e7ffe317559bc9bd8c5d4dcc9e",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Allegany results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1380,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_01DemocraticResults.csv's 46 rows (5 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-01-dem",
+      "sha256": "1b8636abb3f58439a03a877c70b15de29f4c94b51031fb42832176534b0bdf4a"
+    }
+  }
+}

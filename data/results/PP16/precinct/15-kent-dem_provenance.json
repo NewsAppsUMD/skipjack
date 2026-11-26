@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-15-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Kent_By_Precinct_Democratic_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Kent results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:33:07+00:00",
+  "parse_date": "2026-11-25T22:36:09+00:00",
+  "sha256_original": "072cadcd61a6dababf54b5e69eb37c2534f95bf039ac840aa7afd92c47adec1b",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 Kent results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 340,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Kent_County_Democratic_2016_Primary.csv's 34 rows (6 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-15-dem",
+      "sha256": "8c9ab9c02742f6a3e5bc772c014894986db080a8bcfb3dfdf91211c599bc2c04"
+    }
+  }
+}

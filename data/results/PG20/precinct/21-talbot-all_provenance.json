@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-precinct-21-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Talbot_By_Precinct_2020_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Talbot results by precinct (all)",
+  "fetch_date": "2026-11-25T22:31:46+00:00",
+  "parse_date": "2026-11-26T01:26:09+00:00",
+  "sha256_original": "e35aa5abdab5d0b3920a9256104ff0c6c6145cc7b3ac6dcdb2bc887c72bf0824",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG20 Talbot results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 482,
+    "row_totals": "ok",
+    "county_check": "ok: the precincts sum to Talbot_County_2020_General.csv's 44 rows (8 contests) on early_voting_votes, early_voting_against, election_day_votes, election_day_against, by_mail_votes, by_mail_against, prov_votes, prov_against, by_mail_2_votes, by_mail_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-PG20-county-21-all",
+      "sha256": "4c41f2ff4c6d01f110e89db3cf98b78c1e0daaf099cd23f3f7690579cf6686ef"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-19-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/St._Marys_By_Precinct_NonPartisan_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 St. Mary's results by precinct (non)",
+  "fetch_date": "2026-11-25T22:34:27+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "f56ff4d28b39be13cb525521aa40c060124e5603417604444c7825be70ab21e5",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 St. Mary's results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 186,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to St._Marys_County_NonPartisan_2012_Primary.csv's 6 rows (2 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-19-non",
+      "sha256": "92f32a0651921942d010ac1f7b5006f4ed273e1b2e19996730e3162c44b8280a"
+    }
+  }
+}

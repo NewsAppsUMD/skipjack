@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG14-question-precinct-08",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Cecil_Questions_Precinct_2014.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Cecil ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:33:29+00:00",
+  "parse_date": "2026-11-25T22:36:15+00:00",
+  "sha256_original": "67e8eeeabac5e7e59fca35eac62f22ae84b0f047d02b15c4c56c06158b7396fa",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG14 Cecil ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 168,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Cecil_Questions_County_2014.csv's 6 rows (6 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG14-question-08",
+      "sha256": "d5ce329c9573e7496011aa208cd6f1d408210f26d7fc9d3790db4b5d8904c266"
+    }
+  }
+}

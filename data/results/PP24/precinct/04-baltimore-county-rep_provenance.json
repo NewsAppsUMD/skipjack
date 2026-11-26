@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-04-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_04PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Baltimore County results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:40+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "0d47ab6d3ec11f771f8fae763ad086b9f380784c3f9c26f3680e82acd1bffa40",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Baltimore County results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 6799,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_04RepublicanResults.csv's 60 rows (15 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-04-rep",
+      "sha256": "65c84b02d6ec454e634b79649724d3dde36c3de7ca0ef82a39a95833d126c51b"
+    }
+  }
+}

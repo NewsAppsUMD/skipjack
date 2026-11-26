@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-question-24",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Worcester_Questions_County_2012.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Worcester ballot questions",
+  "fetch_date": "2026-11-25T22:34:04+00:00",
+  "parse_date": "2026-11-25T22:36:26+00:00",
+  "sha256_original": "f528c2abcf90d0eed2e0d51bb08218c7bee8673efdcc36b4e5ef9b8e271143c1",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "questions",
+  "geography": "county",
+  "notes": "PG12 Worcester ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 7,
+    "row_totals": "ok",
+    "statewide_check": "ok: 7 statewide questions match Questions_State_Congressional_Districts_2012.csv on election-night votes (the board's district files for 2012-2018 carry election-day votes only)",
+    "statewide_source": {
+      "source_id": "sbe-results-PG12-question-check",
+      "sha256": "d84c3b246b47cc337e45e3fc1204379ae82f53419a2c1b4bc1ebde37291e651f"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-question-precinct-02",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Anne_Arundel_Questions_Precinct_2012.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Anne Arundel ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:34:04+00:00",
+  "parse_date": "2026-11-25T22:36:26+00:00",
+  "sha256_original": "30c0099b6328ba473b0624092734a1f245dcb634e051719e599f4125b0052201",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG12 Anne Arundel ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 4158,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Anne_Arundel_Questions_County_2012.csv's 22 rows (22 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-question-02",
+      "sha256": "b380be45fb33bf945d5ab1afa4edc5cb6f91065d8b7024263f5d2d8151a10011"
+    }
+  }
+}

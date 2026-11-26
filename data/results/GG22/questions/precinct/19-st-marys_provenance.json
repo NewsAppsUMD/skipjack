@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-19",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_19QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 St. Mary's ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:15+00:00",
+  "parse_date": "2026-11-25T22:35:34+00:00",
+  "sha256_original": "efd6bf23e78993e50051dcd149d5e106cd59ee960a5b8a7149373e1151ac98fb",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 St. Mary's ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 190,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_19QuestionResults.csv's 5 rows (5 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-19",
+      "sha256": "59b7c106f9191d3e2a3cd3b408c914dd3998c302442d874c841db636d5ff4f28"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG16-question-precinct-11",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Frederick_Questions_Precinct_2016.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Frederick ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:50+00:00",
+  "parse_date": "2026-11-25T22:36:02+00:00",
+  "sha256_original": "742804d27ce6a41ede95426d07681bd6396578ee8f51316e83a6234f775eb20a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG16 Frederick ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 252,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Frederick_Questions_County_2016.csv's 3 rows (3 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG16-question-11",
+      "sha256": "efd2edd2d7b5869161e853784e11b612307ac67ed74241dd7a0512f5212362d6"
+    }
+  }
+}

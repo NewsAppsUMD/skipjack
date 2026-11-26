@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-precinct-13-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Harford_By_Precinct_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Harford results by precinct (all)",
+  "fetch_date": "2026-11-25T22:32:03+00:00",
+  "parse_date": "2026-11-25T22:35:47+00:00",
+  "sha256_original": "9bf7a079f91e41d2a1b192e7bb88741caa8c5f480efede6a9a78b315ad499cdc",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG18 Harford results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 5563,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Harford_County_2018_General.csv's 117 rows (33 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-county-13-all",
+      "sha256": "816ec26f4802822bf19059eaddb866db665b2d81d2cbf4515c25324665ff5989"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-11-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Frederick_By_Precinct_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Frederick results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:34:22+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "b80b19b159e17d7478abcc566c6268f67f45661cf075b38dcb75660c66a20192",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Frederick results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1897,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Frederick_County_Democratic_2012_Primary.csv's 40 rows (11 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-11-dem",
+      "sha256": "c1d394461ae3eefe630f697629dc3ae713af9ae6878643c6c97e190550fe6a7b"
+    }
+  }
+}

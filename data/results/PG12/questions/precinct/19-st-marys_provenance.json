@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-question-precinct-19",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/St._Marys_Questions_Precinct_2012.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 St. Mary's ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:34:09+00:00",
+  "parse_date": "2026-11-25T22:36:26+00:00",
+  "sha256_original": "3c682d1543c95e33cab6f04e34dcf713568b0a56e376cf9d81963a0cea6c7beb",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG12 St. Mary's ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 217,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to St._Marys_Questions_County_2012.csv's 7 rows (7 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-question-19",
+      "sha256": "72fe3761dcd8daaa8d37aa789896d82cd9b141a7e8b5ad208cfd01bf81155620"
+    }
+  }
+}

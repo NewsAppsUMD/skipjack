@@ -1,0 +1,32 @@
+{
+  "source_id": "sbe-results-GP22-precinct-23-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_23PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Wicomico results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:40+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "b37f8a5602177f7b491d93e7cabfa45b8f4d4dec8a6f6b93fcb490ef6c533eed",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Wicomico results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2379,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_23DemocraticResults.csv's 46 rows (20 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-23-dem",
+      "sha256": "69f131dcdf901f19d75ab8e41ff424f98e77282f1a4d3b5fd5d679916829519d"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Council At Large",
+      "County Executive",
+      "DEM Cent Committee",
+      "Judge Orphans' Court",
+      "Register of Wills"
+    ]
+  }
+}

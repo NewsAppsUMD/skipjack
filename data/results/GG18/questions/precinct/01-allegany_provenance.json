@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-precinct-01",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Allegany_Questions_Precinct_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Allegany ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:13+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "8020c72d6323f82e188f1fc0536758127d239f69095b0189d2f3cb1d234506c7",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG18 Allegany ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 74,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Allegany_Questions_County_2018.csv's 2 rows (2 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-question-01",
+      "sha256": "e9ca9db12afa1478c0ce53be036b45c29d6a7be93d4451177a70b28bdd9c5160"
+    }
+  }
+}

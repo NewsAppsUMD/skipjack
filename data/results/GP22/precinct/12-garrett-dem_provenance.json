@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-GP22-precinct-12-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_12PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Garrett results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:29+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "3c32d7668fd310b937fc2039a1de62606b70be3f5d829ff208a9fdae88440a1e",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Garrett results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 608,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_12DemocraticResults.csv's 32 rows (11 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-12-dem",
+      "sha256": "fc62cb35df55742512250f3620d6913dc3675a343ae699c79404c04a267fbecf"
+    },
+    "district_read_as_blank": [
+      "DEM Cent Committee"
+    ]
+  }
+}

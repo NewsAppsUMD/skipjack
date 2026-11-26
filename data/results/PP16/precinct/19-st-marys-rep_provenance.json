@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-19-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/St._Marys_By_Precinct_Republican_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 St. Mary's results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:33:13+00:00",
+  "parse_date": "2026-11-25T22:36:10+00:00",
+  "sha256_original": "cba30773787669329bda6a6ac84962f412e8f0416f2db60ab897ad2c0a4ae9f2",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 St. Mary's results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3420,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to St._Marys_County_Republican_2016_Primary.csv's 95 rows (6 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-19-rep",
+      "sha256": "91cf9cee28808178007f77bb93c033f077159c8b307668d8ffb5240bd5b19363"
+    }
+  }
+}

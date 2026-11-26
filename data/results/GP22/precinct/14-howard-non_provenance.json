@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-14-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_14PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Howard results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:33+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "07e8816ec0d753d53527d6ce38f47a3d450a04b34a9315336a4726ba032e8a6c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Howard results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 944,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_14Non-PartisanResults.csv's 8 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-14-non",
+      "sha256": "441aa3245536f8f353bf5e6828571ac64918441f571022b25f48aefec41e4b89"
+    }
+  }
+}

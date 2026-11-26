@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-GP22-precinct-07-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_07PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Carroll results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:23+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "d8ff1c5dee707ac0c99f755e75646652981bb29589d85e40fe66008837289dcf",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Carroll results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1354,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_07DemocraticResults.csv's 31 rows (9 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-07-dem",
+      "sha256": "6dd59b160a469e306148445e069720a9280148910ca7169da69c5b7904d4d542"
+    },
+    "district_read_as_blank": [
+      "DEM Cent Committee"
+    ]
+  }
+}

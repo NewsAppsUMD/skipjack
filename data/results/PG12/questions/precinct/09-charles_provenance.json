@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-question-precinct-09",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Charles_Questions_Precinct_2012.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Charles ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:34:06+00:00",
+  "parse_date": "2026-11-25T22:36:26+00:00",
+  "sha256_original": "809ba2e3b18bca59693e78d85fa85621e4a74340a61a4749e239bd82d57074d6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG12 Charles ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 301,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Charles_Questions_County_2012.csv's 7 rows (7 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-question-09",
+      "sha256": "15132d96791c71754f74d1d1a856d158da61ca57a236b7b75acca7b52027039e"
+    }
+  }
+}

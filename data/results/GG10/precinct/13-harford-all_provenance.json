@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-GG10-precinct-13-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Harford_By_Precinct_2010_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG10 Harford results by precinct (all)",
+  "fetch_date": "2026-11-25T22:34:34+00:00",
+  "parse_date": "2026-11-26T01:26:44+00:00",
+  "sha256_original": "6d27cea579d775735c8817c4d9bae7d9ce155ea989cb8e81f433848f844dd382",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG10 Harford results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 4488,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Harford_County_2010_General.csv's 113 rows (30 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only); the board's own files disagree on Pres County Council / Joseph Leonard Delozier (DEM) election_night_votes: precincts 432, county file 433 (listed in PRECINCT_CHECK_EXCEPTIONS, recorded, not corrected)",
+    "county_source": {
+      "source_id": "sbe-results-GG10-county-13-all",
+      "sha256": "cb781133ffdace00c44b7fd0d79a82f6828956f4cb07eafd3fd2326c6e94b9b6"
+    },
+    "county_check_exceptions": [
+      "Pres County Council / Joseph Leonard Delozier (DEM) election_night_votes: precincts 432, county file 433"
+    ]
+  }
+}

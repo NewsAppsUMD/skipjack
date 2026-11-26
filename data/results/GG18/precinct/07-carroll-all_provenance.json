@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-precinct-07-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Carroll_By_Precinct_2018_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Carroll results by precinct (all)",
+  "fetch_date": "2026-11-25T22:32:01+00:00",
+  "parse_date": "2026-11-25T22:35:47+00:00",
+  "sha256_original": "2853351d7b73c7b3b7b6e092aae1a5994fd0d59c7109ba4bae4137b3ccac61f0",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG18 Carroll results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2251,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Carroll_County_2018_General.csv's 94 rows (26 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-county-07-all",
+      "sha256": "39f7d50caf2d407e8c83529419c296e9bfe987b65df0b88b78cb8993763ccbca"
+    }
+  }
+}

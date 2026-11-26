@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG16-question-precinct-08",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Cecil_Questions_Precinct_2016.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Cecil ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:49+00:00",
+  "parse_date": "2026-11-25T22:36:02+00:00",
+  "sha256_original": "432c3d3c3f91f5189d1e1a60b646d960f0626f4e77c6e8b8bc1607f6c1209c3b",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG16 Cecil ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 28,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Cecil_Questions_County_2016.csv's 1 rows (1 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG16-question-08",
+      "sha256": "28b266f03874030859f7ed4451ac7f791402205aa9ebf3f5961cfff5f24183bd"
+    }
+  }
+}

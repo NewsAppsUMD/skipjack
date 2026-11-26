@@ -1,0 +1,7 @@
+election,county,question,how_it_runs,winner,early_voting_votes,early_voting_against,early_voting_third,election_day_votes,election_day_against,election_day_third,by_mail_votes,by_mail_against,by_mail_third,prov_votes,prov_against,prov_third,by_mail_2_votes,by_mail_2_against,by_mail_2_third,total_votes,total_against,total_third
+PG20,Montgomery,1,State,1,79948,37644,,24343,12013,,132969,28008,,13056,3703,,113902,31942,,364218,113310,
+PG20,Montgomery,2,State,1,83610,37177,,26966,10549,,106377,59182,,12556,4703,,101693,50329,,331202,161940,
+PG20,Montgomery,A,County,1,64448,53012,,19303,16925,,110829,51420,,10130,5928,,95010,52227,,299720,179512,
+PG20,Montgomery,B,County,0,59767,57041,,20347,15702,,54915,106427,,7691,8306,,61443,84801,,204163,272277,
+PG20,Montgomery,C,County,1,67498,50980,,20689,15866,,104501,55797,,11234,4917,,94245,51636,,298167,179196,
+PG20,Montgomery,D,County,0,62159,55262,,20680,15491,,51980,107899,,8197,7796,,58721,86664,,201737,273112,

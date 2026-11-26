@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG12-precinct-24-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Worcester_By_Precinct_2012_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG12 Worcester results by precinct (all)",
+  "fetch_date": "2026-11-25T22:34:01+00:00",
+  "parse_date": "2026-11-26T01:26:33+00:00",
+  "sha256_original": "7cac12c2a217168334e75aa0232cc2e4f62178f60d5fb2e697508e4f832ce94f",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG12 Worcester results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1027,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Worcester_County_2012_General.csv's 63 rows (8 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG12-county-24-all",
+      "sha256": "e744853b81a7b47fabf9bc7dfb39fd850478f6cdc44b69fc9cf91803bb888976"
+    }
+  }
+}

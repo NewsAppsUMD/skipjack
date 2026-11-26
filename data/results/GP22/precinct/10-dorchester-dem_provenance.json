@@ -1,0 +1,30 @@
+{
+  "source_id": "sbe-results-GP22-precinct-10-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_10PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Dorchester results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:26+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "484a7a275333c3d2556a9cde6412b7fd717fddf0361978fde16fa190d5be75cd",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Dorchester results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1309,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_10DemocraticResults.csv's 41 rows (23 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-10-dem",
+      "sha256": "1c1eb31d75d9605667bab37f1ebfb193bb774059fdbbf2db42f9a6cb36905a20"
+    },
+    "district_read_as_blank": [
+      "Dem Cent Comm at Large",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

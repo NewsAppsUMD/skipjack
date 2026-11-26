@@ -1,0 +1,29 @@
+{
+  "source_id": "sbe-results-GP26-precinct-18-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_18PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Queen Anne's results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:30+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "94a4acc3a8844760211c7bc75a4907cf472ca019769aae6c9dcba5fad1d59356",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Queen Anne's results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 308,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_18DemocraticResults.csv's 28 rows (10 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-18-dem",
+      "sha256": "a5959c755cae8c1133a719009282da0717916fdc118c176c92c72acbba8b303d"
+    },
+    "district_read_as_blank": [
+      "County Commissioner At Large",
+      "DEM Cent Committee",
+      "Judge Orphans' Court"
+    ]
+  }
+}

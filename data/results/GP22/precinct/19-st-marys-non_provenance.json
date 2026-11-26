@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-19-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_19PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 St. Mary's results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:37+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "73c51ad625e8928fe7396f731cb63a1b0e40ec942e4af9fa29899d27c7662a0d",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 St. Mary's results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 114,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_19Non-PartisanResults.csv's 3 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-19-non",
+      "sha256": "9e7c0070b6acf5e5f2d8006437943aa31b048291890b47cd09c302281eb77363"
+    }
+  }
+}

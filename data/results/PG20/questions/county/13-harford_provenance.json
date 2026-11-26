@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-question-13",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Harford_Questions_County_2020.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Harford ballot questions",
+  "fetch_date": "2026-11-25T22:31:49+00:00",
+  "parse_date": "2026-11-25T22:35:42+00:00",
+  "sha256_original": "c0e24e9e8a1dbc4bd5923590493e598efbb119842cb2166f243026867f006ece",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "questions",
+  "geography": "county",
+  "notes": "PG20 Harford ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2,
+    "row_totals": "ok",
+    "statewide_check": "ok: 2 statewide questions match Questions_State_Congressional_Districts_2020.csv",
+    "statewide_source": {
+      "source_id": "sbe-results-PG20-question-check",
+      "sha256": "5a8c5ce618a64c4999377470481e3477f2efa98d63c27970452248f060b74d7a"
+    }
+  }
+}

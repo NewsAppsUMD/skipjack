@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG14-question-precinct-01",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Allegany_Questions_Precinct_2014.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG14 Allegany ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:33:28+00:00",
+  "parse_date": "2026-11-25T22:36:15+00:00",
+  "sha256_original": "72e39bcdaaf5a66eebc92fc22aed936cf990e3c79ce3e7875ee3116ea88f507c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG14",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG14 Allegany ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 74,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Allegany_Questions_County_2014.csv's 2 rows (2 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG14-question-01",
+      "sha256": "bfb649ea8d00b827e916fb64f4faaba6f7f9d9967c19e72702386451ef444730"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source_id": "sbe-results-PP24-precinct-08-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_08PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Cecil results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:42+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "97234f3e4daf0c6e049b807d78420b02ee4d9c2e6ce633e5a78c6ce0363bac4e",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Cecil results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 924,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_08DemocraticResults.csv's 33 rows (9 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-08-dem",
+      "sha256": "2008a591eed1c679074dea11486829f71d8e5bee16543c162796cdaae6d868d5"
+    },
+    "district_read_as_blank": [
+      "County Executive"
+    ]
+  }
+}

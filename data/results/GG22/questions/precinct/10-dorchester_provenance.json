@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-10",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_10QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Dorchester ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:13+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "c36c9a7cb7e68a69c6e07adbcff024f0ee1b9b8a5e19de88fb09f86c944642c0",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 Dorchester ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 220,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_10QuestionResults.csv's 5 rows (5 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-10",
+      "sha256": "dc5ba157eb11296f3df74df8c4456ba62c5e4004ef96b0eccae76fd5cb0dcb5e"
+    }
+  }
+}

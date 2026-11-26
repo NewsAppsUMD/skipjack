@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG16-precinct-14-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Howard_By_Precinct_2016_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG16 Howard results by precinct (all)",
+  "fetch_date": "2026-11-25T22:32:42+00:00",
+  "parse_date": "2026-11-25T22:36:00+00:00",
+  "sha256_original": "508f9b4e851f1cd0c6b95720e78b3041fbf30252857b98b2bc921237a7e75712",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PG16 Howard results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 9729,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Howard_County_2016_General.csv's 92 rows (8 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PG16-county-14-all",
+      "sha256": "9cc88c4aee4a1174f53a5cdf6da1e27c01de81a7139bfd13ce387ba068540d57"
+    }
+  }
+}

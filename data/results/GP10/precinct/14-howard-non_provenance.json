@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP10-precinct-14-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Howard_By_Precinct_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Howard results by precinct (non)",
+  "fetch_date": "2026-11-25T22:35:00+00:00",
+  "parse_date": "2026-11-25T22:36:41+00:00",
+  "sha256_original": "699b81583c33d51e461a4b87cdfaac53fc4502f5e080a1020a0f02ee9446c8ac",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP10 Howard results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 1210,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Howard_County_NonPartisan_2010_Primary.csv's 11 rows (1 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP10-county-14-non",
+      "sha256": "bbfa419336801c4af4132c631a7b2cc4fa3e4264c4d2f7520aadb5c220e802b7"
+    }
+  }
+}

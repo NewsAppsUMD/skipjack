@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-02-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Anne_Arundel_By_Precinct_Democratic_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Anne Arundel results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:32:56+00:00",
+  "parse_date": "2026-11-25T22:36:09+00:00",
+  "sha256_original": "af8152ea343befa3c7ac0012d9e47ec0b4f6e73425ed0d00450bf7fde7ab834a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 Anne Arundel results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 9630,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Anne_Arundel_County_Democratic_2016_Primary.csv's 131 rows (19 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-02-dem",
+      "sha256": "58175e0fa973d412fcc9b4ab15c3f61b741827e835c3a8dffef9df33e417c527"
+    }
+  }
+}

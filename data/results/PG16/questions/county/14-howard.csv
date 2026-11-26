@@ -1,0 +1,4 @@
+election,county,question,how_it_runs,winner,early_votes,early_against,early_third,election_night_votes,election_night_against,election_night_third,absentees_votes,absentees_against,absentees_third,provisional_votes,provisional_against,provisional_third,absentees_2_votes,absentees_2_against,absentees_2_third,total_votes,total_against,total_third
+PG16,Howard,1,State,1,36895,16352,,52271,28696,,3682,1595,,1550,545,,2014,817,,96412,48005,
+PG16,Howard,A,County,1,30559,22699,,39695,41763,,2937,2211,,1191,735,,1623,1111,,76005,68519,
+PG16,Howard,B,County,1,33272,17211,,46397,30753,,3129,1737,,1194,605,,1713,860,,85705,51166,

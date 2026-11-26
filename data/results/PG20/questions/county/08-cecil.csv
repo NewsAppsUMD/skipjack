@@ -1,0 +1,4 @@
+election,county,question,how_it_runs,winner,early_voting_votes,early_voting_against,early_voting_third,election_day_votes,election_day_against,election_day_third,by_mail_votes,by_mail_against,by_mail_third,prov_votes,prov_against,prov_third,by_mail_2_votes,by_mail_2_against,by_mail_2_third,total_votes,total_against,total_third
+PG20,Cecil,1,State,1,9076,5176,,9628,4873,,4604,1561,,677,216,,4186,1682,,28171,13508,
+PG20,Cecil,2,State,1,9490,5282,,10709,4453,,4591,2018,,710,236,,4481,1797,,29981,13786,
+PG20,Cecil,A,County,1,7342,6595,,7961,6180,,3374,2627,,518,323,,3341,2376,,22536,18101,

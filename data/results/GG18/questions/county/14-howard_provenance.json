@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-14",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Howard_Questions_County_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Howard ballot questions",
+  "fetch_date": "2026-11-25T22:32:11+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "ac0ea195db33157aff5da07cce7849319b8eb85bd44cb20aef1084a06ec14179",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "county",
+  "notes": "GG18 Howard ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3,
+    "row_totals": "ok",
+    "statewide_check": "ok: 2 statewide questions match Questions_State_Congressional_Districts_2018.csv on election-night votes (the board's district files for 2012-2018 carry election-day votes only)",
+    "statewide_source": {
+      "source_id": "sbe-results-GG18-question-check",
+      "sha256": "a4f1c0c41cf565d92e32e717de0f55850cf70169a88f0f7a613174b16a394f46"
+    }
+  }
+}

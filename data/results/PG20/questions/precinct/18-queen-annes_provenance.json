@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-question-precinct-18",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Queen_Annes_Questions_Precinct_2020.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Queen Anne's ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:53+00:00",
+  "parse_date": "2026-11-25T22:35:42+00:00",
+  "sha256_original": "f4b4e7e30e8dde3b286685033968957be228663e7eb374109b831c80772b9157",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "PG20 Queen Anne's ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 22,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Queen_Annes_Questions_County_2020.csv's 2 rows (2 questions) on early_voting_votes, early_voting_against, early_voting_third, election_day_votes, election_day_against, election_day_third, by_mail_votes, by_mail_against, by_mail_third, prov_votes, prov_against, prov_third, by_mail_2_votes, by_mail_2_against, by_mail_2_third, total_votes, total_against, total_third",
+    "county_source": {
+      "source_id": "sbe-results-PG20-question-18",
+      "sha256": "45249e0408327083e71bbc9fbc1568053f0971a34103b4316940bf980715543e"
+    }
+  }
+}

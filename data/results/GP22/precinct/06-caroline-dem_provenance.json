@@ -1,0 +1,29 @@
+{
+  "source_id": "sbe-results-GP22-precinct-06-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_06PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Caroline results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:23+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "6358f01cf779d3db017fe9d3f58683cfa3a06ae54ac6a6ad0a7cd2d13149c300",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Caroline results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 202,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_06DemocraticResults.csv's 26 rows (11 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-06-dem",
+      "sha256": "6227b9870c4c6623999a4e4d5f4e6df7245f167a7691068afc8d4ca817337716"
+    },
+    "district_read_as_blank": [
+      "DEM Cent Committee",
+      "Register of Wills",
+      "Sheriff"
+    ]
+  }
+}

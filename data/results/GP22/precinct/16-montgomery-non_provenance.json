@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-16-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_16PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Montgomery results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:35+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "39c390976ad4981b8b42c07794d9ad200af8eead83c25ef2663925223769e985",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Montgomery results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3612,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_16Non-PartisanResults.csv's 14 rows (4 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-16-non",
+      "sha256": "b1e41e332eec07a1003427326cdade7ecd78091f1e49c66deee26fc6e6af55fc"
+    }
+  }
+}

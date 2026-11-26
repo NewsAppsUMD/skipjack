@@ -1,0 +1,28 @@
+{
+  "source_id": "sbe-results-GP22-precinct-20-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_20PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Somerset results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:31:37+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "987fe5f01a8705b1720beefa8066ef8d71fd8f48f5d0a97c8f6af0f066a9955b",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Somerset results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 549,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_20DemocraticResults.csv's 27 rows (13 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-20-dem",
+      "sha256": "9192689e6c49adf1822132d3528598a6a2a2d817860af516cd71dc90e836915c"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "DEM Cent Committee"
+    ]
+  }
+}

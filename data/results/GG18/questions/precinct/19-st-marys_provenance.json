@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-precinct-19",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/St._Marys_Questions_Precinct_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 St. Mary's ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:16+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "72b5ed1ec02134bc0e341a37ab73f5ec458a23bf2fb80eefc280aded4c828ab0",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG18 St. Mary's ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 72,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to St._Marys_Questions_County_2018.csv's 2 rows (2 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-question-19",
+      "sha256": "3499841edb629c347976d9a2e57fa7a3cbcfd86b28ad68676975fadde3c35bab"
+    }
+  }
+}

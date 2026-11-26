@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP26-precinct-03-non",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_03PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Baltimore City results by precinct (non)",
+  "fetch_date": "2026-11-25T22:30:21+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "07f1f43e42b6e7369043659a0c94ec2c1479203882935d514fa4087a4328e85b",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Baltimore City results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2065,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_03Non-PartisanResults.csv's 7 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-03-non",
+      "sha256": "6122eec3e7660b656cb8463f098d8f0a0dafb662636b1fbe6af2aedfb30a05e3"
+    }
+  }
+}

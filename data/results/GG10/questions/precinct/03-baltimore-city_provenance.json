@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG10-question-precinct-03",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Baltimore_City_Questions_Precinct_2010.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG10 Baltimore City ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:34:42+00:00",
+  "parse_date": "2026-11-25T22:36:35+00:00",
+  "sha256_original": "12e02656ac433a7055dbe9086e2301e5cb8ef0bb77176c03cf428934eaa74d18",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG10",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG10 Baltimore City ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 4060,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Baltimore_City_Questions_County_2010.csv's 14 rows (14 questions) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG10-question-03",
+      "sha256": "baaac5e19ef9e5a3db1fd8826989f2ef68759654e0d28514d56428ea81363487"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-01-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_01PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Allegany results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:19+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "7342396ae7c74ef9db3a038ccdceb32ad49e9ccd7982780ff7da56add8c5aa4a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Allegany results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 343,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_01Non-PartisanResults.csv's 14 rows (2 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-01-non",
+      "sha256": "77740ee0aadc55ed0399f57096e80c5fb5d692bbf8e4a144595393528ed8a009"
+    }
+  }
+}

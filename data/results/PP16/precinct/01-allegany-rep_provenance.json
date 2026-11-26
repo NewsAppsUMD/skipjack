@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP16-precinct-01-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2016/election_data/Allegany_By_Precinct_Republican_2016_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP16 Allegany results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:32:56+00:00",
+  "parse_date": "2026-11-25T22:36:09+00:00",
+  "sha256_original": "3ee323ced720fca986feb1bdedda1798fbb9e548ce0f56777e4e0ef57ee43f06",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP16",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP16 Allegany results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3811,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Allegany_County_Republican_2016_Primary.csv's 103 rows (7 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP16-county-01-rep",
+      "sha256": "392eba91824ef06f80d418b1d092c29f0d00c8b9399a057d55d10df7900f7610"
+    }
+  }
+}

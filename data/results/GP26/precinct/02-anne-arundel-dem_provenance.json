@@ -1,0 +1,32 @@
+{
+  "source_id": "sbe-results-GP26-precinct-02-dem",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_02PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Anne Arundel results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:20+00:00",
+  "parse_date": "2026-11-26T01:25:42+00:00",
+  "sha256_original": "f6219988b2082fe770861157792a3659fa78695d98eba7019aa483398cb92a2c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Anne Arundel results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 8857,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_02DemocraticResults.csv's 131 rows (40 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-02-dem",
+      "sha256": "974b8df71b1da4d2107a4913c0e7c91826102242ec3e604ebc4d01cbcb64daae"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "County Executive",
+      "Judge Orphans' Court",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

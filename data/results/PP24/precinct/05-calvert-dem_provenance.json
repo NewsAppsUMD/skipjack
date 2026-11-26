@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-05-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_05PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Calvert results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:40+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "ff9b49de0ab503f4b3072cff0b781430c21f66657414ae4b6eec641242dde874",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Calvert results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 576,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_05DemocraticResults.csv's 32 rows (5 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-05-dem",
+      "sha256": "ffcecdf18d5f41ae4230353e1377e2646872b7d3bbbaa1f4de809187c91cf056"
+    }
+  }
+}

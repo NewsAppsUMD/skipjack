@@ -1,0 +1,6 @@
+election,county,question,how_it_runs,winner,early_votes,early_against,early_third,election_night_votes,election_night_against,election_night_third,absentees_votes,absentees_against,absentees_third,provisional_votes,provisional_against,provisional_third,absentees_2_votes,absentees_2_against,absentees_2_third,total_votes,total_against,total_third
+GG18,Montgomery,1,State,1,94294,9562,,192063,29448,,16650,1965,,6768,629,,11330,1318,,321105,42922,
+GG18,Montgomery,2,State,1,84210,20979,,165141,58657,,14603,4450,,6353,1123,,10795,2124,,281102,87333,
+GG18,Montgomery,A,County,1,82416,16107,,175867,36576,,15701,2626,,5905,1158,,10304,1666,,290193,58133,
+GG18,Montgomery,B,County,1,68031,30656,,150129,63419,,12702,5698,,5090,1973,,7904,3825,,243856,105571,
+GG18,Montgomery,C,County,1,52884,43114,,116381,91829,,9368,8582,,4358,2566,,6165,5348,,189156,151439,

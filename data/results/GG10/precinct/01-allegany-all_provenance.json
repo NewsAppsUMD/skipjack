@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG10-precinct-01-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Allegany_By_Precinct_2010_General.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG10 Allegany results by precinct (all)",
+  "fetch_date": "2026-11-25T22:34:31+00:00",
+  "parse_date": "2026-11-26T01:26:44+00:00",
+  "sha256_original": "44f309b05155c1f4d45928c0cf921438355217b0d761f75699ed9db5b4de2d20",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG10 Allegany results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2628,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Allegany_County_2010_General.csv's 85 rows (20 contests) on election_night_votes, election_night_against (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG10-county-01-all",
+      "sha256": "7ebfd08c0f68841ec968c9e20aa928c023dd6c8e7a821894d09f1723a64de164"
+    }
+  }
+}

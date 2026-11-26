@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-precinct-22",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Washington_Questions_Precinct_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Washington ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:17+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "c8e4de57b6393c4341cf51f295be76ebf02fa6cd1c6614f801cd019ce5737003",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG18 Washington ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 106,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Washington_Questions_County_2018.csv's 2 rows (2 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-question-22",
+      "sha256": "07dd87d8523e93151dbe0b69ab624d6d44ddcd024fd79060e1c8516e9e772ebb"
+    }
+  }
+}

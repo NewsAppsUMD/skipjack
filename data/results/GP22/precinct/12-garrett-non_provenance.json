@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP22-precinct-12-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_12PrecinctsNonPartisan.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Garrett results by precinct (non)",
+  "fetch_date": "2026-11-25T22:31:29+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "b7c39594cd0941d2ba56723853f0498de58eab3bb2e9665b94bc9d537f4f83d4",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Garrett results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 57,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_12Non-PartisanResults.csv's 3 rows (1 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-12-non",
+      "sha256": "3334f5c63380285652466a7c13c7b8f85fecdb0c43766dbcdc769a5e96f307ae"
+    }
+  }
+}

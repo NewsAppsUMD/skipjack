@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-question-precinct-03",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_03QuestionbyPrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Baltimore City ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:31:12+00:00",
+  "parse_date": "2026-11-25T22:35:33+00:00",
+  "sha256_original": "dffc292e89bfac5b69c7b2a24846a6595b7b73bb9028824f3de329db56b4bf25",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG22 Baltimore City ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 4736,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to GG22_03QuestionResults.csv's 16 rows (16 questions) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-question-03",
+      "sha256": "7f327b4dcabff158afd6adf447d592d029c3d3381288e6b0be042b3adc4e9a62"
+    }
+  }
+}

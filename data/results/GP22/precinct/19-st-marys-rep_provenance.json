@@ -1,0 +1,34 @@
+{
+  "source_id": "sbe-results-GP22-precinct-19-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_19PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 St. Mary's results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:31:37+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "9c93b262f84f2dfd8a0e0e173aaae3355f39fe34158dbe3482c4d1a31ca1a6ae",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 St. Mary's results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2330,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_19RepublicanResults.csv's 64 rows (22 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-19-rep",
+      "sha256": "33b8ce6e48cc59e8b9f6611da0422bf13a731c8006df55a53a0e6604a3627f1a"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "Judge Orphans' Court",
+      "Pres County Commission",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney",
+      "Treasurer"
+    ]
+  }
+}

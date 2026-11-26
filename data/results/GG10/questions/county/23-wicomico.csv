@@ -1,0 +1,8 @@
+election,county,question,how_it_runs,winner,early_votes,early_against,election_night_votes,election_night_against,absentees_votes,absentees_against,provisional_votes,provisional_against,absentees_2_votes,absentees_2_against,absentees_3_votes,absentees_3_against,total_votes,total_against
+GG10,Wicomico,1,State,0,2052,1468,12562,8151,618,518,229,118,207,119,0,1,15668,10375
+GG10,Wicomico,2,State,1,2352,1173,13177,7490,729,378,218,126,199,130,1,0,16676,9297
+GG10,Wicomico,3,State,1,2651,668,15825,3827,856,169,295,48,258,44,1,0,19886,4756
+GG10,Wicomico,A,County,1,2586,853,15036,5017,827,284,244,73,236,73,0,1,18929,6301
+GG10,Wicomico,B,County,1,3150,403,18628,2106,1080,93,296,36,299,33,1,0,23454,2671
+GG10,Wicomico,C,County,1,2939,395,16686,2611,947,109,267,40,268,39,1,0,21108,3194
+GG10,Wicomico,D,County,1,3121,365,17836,2395,1042,95,292,34,291,37,1,0,22583,2926

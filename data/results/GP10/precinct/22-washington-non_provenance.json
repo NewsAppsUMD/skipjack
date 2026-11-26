@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP10-precinct-22-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Washington_By_Precinct_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Washington results by precinct (non)",
+  "fetch_date": "2026-11-25T22:35:04+00:00",
+  "parse_date": "2026-11-25T22:36:42+00:00",
+  "sha256_original": "7c5f0bb1c02370f9e0c4010b40224887c89537da702dab1911b68e401bd8d66a",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP10 Washington results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 561,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Washington_County_NonPartisan_2010_Primary.csv's 11 rows (1 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP10-county-22-non",
+      "sha256": "dc1a7760394e01cc0440f443ace698181ba43b2cc48e8756c2688964b631036e"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP10-precinct-15-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Kent_By_Precinct_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Kent results by precinct (non)",
+  "fetch_date": "2026-11-25T22:35:00+00:00",
+  "parse_date": "2026-11-25T22:36:41+00:00",
+  "sha256_original": "686c7ddfb863d9a1168d5f908a3b040f28b918b4a2cb460afc6bab12e4445fca",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP10 Kent results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 50,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Kent_County_NonPartisan_2010_Primary.csv's 5 rows (1 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP10-county-15-non",
+      "sha256": "7b5415cef3694dead6a182238390d26b6e866007e4b8f93d8904d6f7b226470f"
+    }
+  }
+}

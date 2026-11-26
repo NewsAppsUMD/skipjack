@@ -1,0 +1,31 @@
+{
+  "source_id": "sbe-results-GP26-precinct-15-rep",
+  "source_url": "https://elections.maryland.gov/elections/2026/election_data/GP26_15PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP26 Kent results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:30:28+00:00",
+  "parse_date": "2026-11-26T01:25:43+00:00",
+  "sha256_original": "2805cc4e14de9e9720ec170748d215669fd847fe13904cc7ba3f091b28faa80e",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP26",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP26 Kent results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 270,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP26_15RepublicanResults.csv's 27 rows (11 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP26-county-15-rep",
+      "sha256": "25bff7d8fcf310e707dfecfc131d964db163d452ea5f395e0656b0bb2df2637a"
+    },
+    "district_read_as_blank": [
+      "County Commissioner",
+      "Judge Orphans' Court",
+      "REP Cent Committee",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

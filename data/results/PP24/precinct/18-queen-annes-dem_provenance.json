@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP24-precinct-18-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2024/election_data/PP24_18PrecinctsDemocratic.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP24 Queen Anne's results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:30:50+00:00",
+  "parse_date": "2026-11-26T01:25:52+00:00",
+  "sha256_original": "9b5e86a0cbff382ff36d9e33a121d58d529e8982f9dd0145856ae436d9bdd799",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP24",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP24 Queen Anne's results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 319,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to PP24_18DemocraticResults.csv's 29 rows (5 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-PP24-county-18-dem",
+      "sha256": "a771fd8593ad90c174333a8c3054381a4b236626183182ce830e609c18dc13ab"
+    }
+  }
+}

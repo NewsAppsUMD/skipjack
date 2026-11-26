@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP10-precinct-05-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2010/election_data/Calvert_By_Precinct_NonPartisan_2010_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP10 Calvert results by precinct (non)",
+  "fetch_date": "2026-11-25T22:34:54+00:00",
+  "parse_date": "2026-11-25T22:36:41+00:00",
+  "sha256_original": "c7487b770ef4727be98cf925c61eb4f58d798557cc274c9c5cae4f6c8bce7c74",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP10",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP10 Calvert results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 115,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Calvert_County_NonPartisan_2010_Primary.csv's 5 rows (1 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP10-county-05-non",
+      "sha256": "6a4fb7ca64ede74f33d15747cff798ad2747875cac7c1c48115c0ef81d6d69ef"
+    }
+  }
+}

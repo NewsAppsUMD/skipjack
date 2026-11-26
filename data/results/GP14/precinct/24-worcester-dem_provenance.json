@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GP14-precinct-24-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2014/election_data/Worcester_By_Precinct_Democratic_2014_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP14 Worcester results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:33:51+00:00",
+  "parse_date": "2026-11-25T22:36:22+00:00",
+  "sha256_original": "4ca7c59f0e36662b6aa715096fb43421d0da9f0b83638573997c25e617e75674",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP14",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP14 Worcester results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 464,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Worcester_County_Democratic_2014_Primary.csv's 33 rows (21 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GP14-county-24-dem",
+      "sha256": "4c7b01254587fa9faf2979928e3b258902688ab8c29dad21d47afbcb88f36aeb"
+    }
+  }
+}

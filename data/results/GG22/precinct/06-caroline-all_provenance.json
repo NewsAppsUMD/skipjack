@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG22-precinct-06-all",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GG22_06PrecinctsResults.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG22 Caroline results by precinct (all)",
+  "fetch_date": "2026-11-25T22:30:56+00:00",
+  "parse_date": "2026-11-26T01:25:56+00:00",
+  "sha256_original": "8ed62193091caef836da388b25e960932214fb7a4d3677f1a841281c86cd2616",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GG22 Caroline results by precinct (all), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 411,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GG22_06CountyResults.csv's 59 rows (18 contests) on early_votes, early_against, election_night_votes, election_night_against, mail_in_1_votes, mail_in_1_against, provisional_votes, provisional_against, mail_in_2_votes, mail_in_2_against, total_votes, total_against",
+    "county_source": {
+      "source_id": "sbe-results-GG22-county-06-all",
+      "sha256": "25ca625a75d8c42d478f66e8f53f90fb5988abb3c1410c929bcdd6a90d7991d5"
+    }
+  }
+}

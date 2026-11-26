@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-06-non",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Caroline_By_Precinct_NonPartisan_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Caroline results by precinct (non)",
+  "fetch_date": "2026-11-25T22:34:19+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "964a9ddc27c486efa4c43911f5f041615b63b22e0d40ffef0c4969db558631e9",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Caroline results by precinct (non), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 18,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Caroline_County_NonPartisan_2012_Primary.csv's 6 rows (2 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-06-non",
+      "sha256": "2b0a53e1f4ad28b4c91d5582006c7df6bf18b22606aa38bd962a03e99651fa9b"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PG20-question-24",
+  "source_url": "https://elections.maryland.gov/elections/archive/2020/election_data/Worcester_Questions_County_2020.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PG20 Worcester ballot questions",
+  "fetch_date": "2026-11-25T22:31:50+00:00",
+  "parse_date": "2026-11-25T22:35:42+00:00",
+  "sha256_original": "4759a346fdc294decbea7d7173170f06e76f2c21ad7c685404d06639c8c003a5",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PG20",
+  "family": "questions",
+  "geography": "county",
+  "notes": "PG20 Worcester ballot questions (county), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 2,
+    "row_totals": "ok",
+    "statewide_check": "ok: 2 statewide questions match Questions_State_Congressional_Districts_2020.csv",
+    "statewide_source": {
+      "source_id": "sbe-results-PG20-question-check",
+      "sha256": "5a8c5ce618a64c4999377470481e3477f2efa98d63c27970452248f060b74d7a"
+    }
+  }
+}

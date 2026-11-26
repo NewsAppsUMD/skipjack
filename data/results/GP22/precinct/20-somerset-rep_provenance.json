@@ -1,0 +1,32 @@
+{
+  "source_id": "sbe-results-GP22-precinct-20-rep",
+  "source_url": "https://elections.maryland.gov/elections/archive/2022/election_data/GP22_20PrecinctsRepublican.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GP22 Somerset results by precinct (rep)",
+  "fetch_date": "2026-11-25T22:31:38+00:00",
+  "parse_date": "2026-11-26T01:26:05+00:00",
+  "sha256_original": "ab2295c191bec6c60021046c5dfa5fc0202c8a84fc454a89d13820e015e88b00",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GP22",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "GP22 Somerset results by precinct (rep), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 897,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to GP22_20RepublicanResults.csv's 43 rows (17 contests) on early_votes, election_night_votes, mail_in_1_votes, provisional_votes, mail_in_2_votes, total_votes",
+    "county_source": {
+      "source_id": "sbe-results-GP22-county-20-rep",
+      "sha256": "c7da81d9046dcd2938050ca5a27c2f5daca66873728166d9c5c9e979f9e1718b"
+    },
+    "district_read_as_blank": [
+      "Clerk Circuit Court",
+      "Judge Orphans' Court",
+      "REP Cent Committee",
+      "Register of Wills",
+      "Sheriff",
+      "State's Attorney"
+    ]
+  }
+}

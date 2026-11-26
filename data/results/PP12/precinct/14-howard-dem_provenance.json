@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-PP12-precinct-14-dem",
+  "source_url": "https://elections.maryland.gov/elections/archive/2012/election_data/Howard_By_Precinct_Democratic_2012_Primary.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "PP12 Howard results by precinct (dem)",
+  "fetch_date": "2026-11-25T22:34:24+00:00",
+  "parse_date": "2026-11-26T01:26:41+00:00",
+  "sha256_original": "a274bf3d5e5329ee841b82b342670cb5b89298a7d8c514df31d4c97a43bacba6",
+  "parser_version": "skipjack 0.4.0",
+  "election": "PP12",
+  "family": "results",
+  "geography": "precinct",
+  "notes": "PP12 Howard results by precinct (dem), summed and checked against the county file.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 3036,
+    "row_totals": "computed: the precinct file prints no total, so total_votes is the sum of its vote types",
+    "county_check": "ok: the precincts sum to Howard_County_Democratic_2012_Primary.csv's 56 rows (15 contests) on election_night_votes (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-PP12-county-14-dem",
+      "sha256": "20f4e17d2996ad92c6a35aa192462648502b416af2cdbca2e69273191910ec2d"
+    }
+  }
+}

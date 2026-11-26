@@ -1,0 +1,24 @@
+{
+  "source_id": "sbe-results-GG18-question-precinct-23",
+  "source_url": "https://elections.maryland.gov/elections/archive/2018/election_data/Wicomico_Questions_Precinct_2018.csv",
+  "source_name": "Maryland State Board of Elections",
+  "document_title": "GG18 Wicomico ballot questions by precinct",
+  "fetch_date": "2026-11-25T22:32:17+00:00",
+  "parse_date": "2026-11-25T22:35:49+00:00",
+  "sha256_original": "54c4757df9ec6f9a57890e4aae3c7674275e0d80cf01fc4a4571615cd881971c",
+  "parser_version": "skipjack 0.4.0",
+  "election": "GG18",
+  "family": "questions",
+  "geography": "precinct",
+  "notes": "GG18 Wicomico ballot questions (precinct), checked.",
+  "extraction_method": "csv",
+  "checks": {
+    "rows": 216,
+    "row_totals": "computed: the precinct file prints no total, so the totals are the sums of its vote types",
+    "county_check": "ok: the precincts sum to Wicomico_Questions_County_2018.csv's 4 rows (4 questions) on election_night_votes, election_night_against, election_night_third (the board's precinct files for 2010-2018 carry election-night votes only)",
+    "county_source": {
+      "source_id": "sbe-results-GG18-question-23",
+      "sha256": "a391dd74cd690703746bac92e58f246e2c12035a75664c6961b3b61b9ee3a585"
+    }
+  }
+}
