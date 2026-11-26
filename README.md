@@ -10,9 +10,6 @@ Skipjack turns Maryland election data that sits in scattered PDFs and spreadshee
 datasets and a small website. Every number can be followed back to the document it came from.
 It is named for the Chesapeake Bay skipjack, Maryland's state boat.
 
-Once GitHub Pages is switched on, the site publishes to
-<https://newsappsumd.github.io/skipjack/>.
-
 ## What's inside
 
 | Dataset | Coverage | Source |
@@ -22,6 +19,8 @@ Once GitHub Pages is switched on, the site publishes to
 | **New registrations and removals**, by method and by reason | Same reports, statewide | Same |
 | **Turnout tracking** (mail-in ballot requests, ballots sent, returned and accepted) | The certified reports of the 2022 and 2026 primaries, the 2018 and 2022 generals and the 2024 primary and general, and snapshots of the 2026 general election's, daily as they change; the daily mail-in sent-and-returned reports of the 2022 and 2024 generals | SBE press-room statistical reports (2018: the SBE's election archive), PDF and XLSX; the earlier daily reports as [maryland_git_scraping](https://github.com/dwillis/maryland_git_scraping) saved them |
 | **Election results by county** (every contest, candidate and vote type) | Every primary and general from 2010 through 2024 and the 2026 primary | SBE election data pages, county CSV files |
+| **Election results by precinct** | The same elections, except the 2020 primary, for which the board posted none; through 2018, election-day votes only | SBE election data pages, precinct CSV files by county |
+| **Ballot questions** (For, Against and any third choice, by county and by precinct) | Every general from 2010 through 2024 | SBE election data pages, question CSV files |
 | **Voter file aggregates** (participation by party, age and district; voting habits; first-time registrants by age at registration) | Snapshots of 2024-09-11 and 2026-08-12 | SBE statewide voter list, aggregates only |
 
 ### The site
@@ -72,9 +71,12 @@ Once GitHub Pages is switched on, the site publishes to
   certified ballot questions, For and Against by way of voting (and the third choice where the
   board printed one, 2016-2020), the statewide ones checked against the board's statewide
   question breakdown (2012 on; 2010 posts none).
-  Each county has one precinct page per election, linked from its county page and from each
-  contest and question that has precinct rows: pick a contest or a ballot question and the page draws its table
-  by precinct from the county's published file. The precinct files are checked to sum to the
+  Each county has one precinct page per election, at `/results/<code>/county/<county>/precincts/`
+  (for example `/results/pg24/county/montgomery/precincts/`), linked from the county page and
+  from each contest and question there that has precinct rows. Pick a contest or a ballot
+  question and the page draws a sortable table, one row per precinct, from the county's
+  published `.csv.gz` file, which the page also offers as a download; the contest you came from
+  is chosen already. There is no page per contest. The precinct files are checked to sum to the
   county files before they are written. The board's precinct files for 2010 through 2018 count
   election-day votes only (early, absentee and provisional ballots were counted by county), so
   those tables say so; from 2020 every way of voting is split by precinct. The 2020 primary has
@@ -259,6 +261,9 @@ data/voter_registration/activity/YYYY-MM.csv   report_date, county, measure, par
 data/voter_registration/summary/YYYY-MM.csv    report_date, section, category, party, value
 data/turnout/<election>/<family>/<geography>/<as-of>.csv   one press-room snapshot
 data/results/<CODE>/county/<NN>-<county>-<party>.csv   one county's results file
+data/results/<CODE>/precinct/<NN>-<county>-<party>.csv.gz   that county's results by precinct
+data/results/<CODE>/questions/county/<NN>-<county>.csv   one county's ballot questions
+data/results/<CODE>/questions/precinct/<NN>-<county>.csv.gz   that county's questions by precinct
 data/results_unofficial/<CODE>/<snapshot>/county/<NN>-<county>.csv   one county's running count
 data/voter_file/<snapshot>/*.json              suppressed aggregates, plus snapshot.json
 ```
@@ -355,7 +360,8 @@ move it.
 
 `.github/workflows/pages.yml` publishes the site on every push to `main`. It installs from the
 lock file, builds the database, runs the tests, builds the site, and deploys only if all of that
-passes. One-time setup: in the repository's **Settings > Pages**, set the source to
+passes. A run takes about 6½ minutes, most of it the tests (about 4 minutes); the job's limit
+is 20. One-time setup: in the repository's **Settings > Pages**, set the source to
 **GitHub Actions**.
 
 During a campaign, `.github/workflows/turnout-daily.yml` snapshots the press-room turnout
@@ -373,7 +379,7 @@ src/skipjack/
   cli.py              the `skipjack` command
   models.py           SQLite schema
   pipeline/           fetch, vrar (PDF parsing), turnout (press-room stats), results (county
-                      results), voterfile,
+                      and precinct results, ballot questions), voterfile,
                       provenance, build_db
   web/                FastAPI app, routes, templates, static files, static_site.py
 data/                 the committed CSV and JSON, with provenance files
