@@ -685,3 +685,206 @@ def test_parse_pg12_precincts_with_the_lone_zero_pattern_pass_the_check(env):
     out = env / "data" / "results" / "PG12" / "precinct" / "15-kent-all.csv.gz"
     frame = pl.read_csv(gzip.decompress(out.read_bytes()))
     assert frame["total_against"].to_list() == [None, None]
+
+
+# ---- the coded primaries' countywide districts (GP22, GP26, PP24) ----------------------------
+
+CODED_PRIMARY_PRECINCT_HEAD = (
+    '"County","County Name","Election District - Precinct","Congressional","Legislative",'
+    '"Office Name","Office District","Candidate Name","Party","Winner","Early Votes",'
+    '"Election Night Votes","Mail-In Ballot 1 Votes","Provisional Votes",'
+    '"Mail-In Ballot 2 Votes" \n'
+)
+CODED_PRIMARY_COUNTY_HEAD = (
+    '"Office Name","Office District","Candidate Name","Party","Winner","Early Votes",'
+    '"Election Night Votes","Mail-In Ballot 1 Votes","Provisional Votes",'
+    '"Mail-In Ballot 2 Votes","Total Votes" \n'
+)
+GP22 = results.RESULTS_ELECTIONS["GP22"]
+PP24 = results.RESULTS_ELECTIONS["PP24"]
+# GP22_01PrecinctsRepublican.csv prints Allegany's Sheriff under district "01" (the county's
+# code); GP22_01RepublicanResults.csv prints it blank. Two of its precincts, as printed, and a
+# county row that is their sum.
+ALLEGANY_SHERIFF_PRECINCTS = (
+    '"01","Allegany County","001-000","06","01C","Sheriff","01","Craig Robertson","REP","Y","2","95","7","5","7" \n'
+    '"01","Allegany County","002-000","06","01C","Sheriff","01","Craig Robertson","REP","Y","6","102","8","4","3" \n'
+)  # fmt: skip
+ALLEGANY_SHERIFF_COUNTY = (
+    '"Sheriff","","Craig Robertson","REP","Y","8","197","15","9","10","239" \n'
+)
+
+
+def coded_primary(election, county, code, precincts, county_rows):
+    return (
+        results.read_precinct(
+            (CODED_PRIMARY_PRECINCT_HEAD + precincts).encode(), election, county, "rep"
+        ).frame,
+        results._read_coded(
+            (CODED_PRIMARY_COUNTY_HEAD + county_rows).encode(), election, county, "rep"
+        ).frame,
+    )
+
+
+def test_a_countywide_district_printed_as_the_county_code_is_read_as_blank():
+    precincts, county = coded_primary(
+        GP22, "Allegany", "01", ALLEGANY_SHERIFF_PRECINCTS, ALLEGANY_SHERIFF_COUNTY
+    )
+    with pytest.raises(results.ResultsParseError, match="Sheriff has no precinct rows"):
+        results._check_precinct_county(GP22, "Allegany", "rep", precincts, county)
+    frame, blanked = results._blank_countywide_districts(precincts, county, "01")
+    assert blanked == ["Sheriff"] and frame["district"].to_list() == ["", ""]
+    assert results._check_precinct_county(GP22, "Allegany", "rep", frame, county).contests == 1
+    # PP24_03PrecinctsDemocratic.csv: Baltimore City's Mayor under "03"
+    mayor = (
+        '"03","Baltimore City","001-001","07","46","Mayor","03","""Uncle Wayne"" Baker","DEM","","0","2","0","0","0" \n'
+        '"03","Baltimore City","001-001","07","46","Mayor","03","Wendy Bozel","DEM","","0","1","0","1","0" \n'
+    )  # fmt: skip
+    county_mayor = (
+        '"Mayor","","""Uncle Wayne"" Baker","DEM","","0","2","0","0","0","2" \n'
+        '"Mayor","","Wendy Bozel","DEM","","0","1","0","1","0","2" \n'
+    )
+    precincts, county = coded_primary(PP24, "Baltimore City", "03", mayor, county_mayor)
+    frame, blanked = results._blank_countywide_districts(precincts, county, "03")
+    assert blanked == ["Mayor"]
+    assert results._check_precinct_county(PP24, "Baltimore City", "rep", frame, county).rows == 2
+
+
+def test_a_genuine_district_numbered_like_the_county_is_never_blanked():
+    # the county file has the office under "01" (a commissioner district 1): no pairing
+    district_1 = ALLEGANY_SHERIFF_PRECINCTS.replace('"Sheriff"', '"County Commissioner"')
+    county_1 = (
+        '"County Commissioner","01","Craig Robertson","REP","Y","8","197","15","9","10","239" \n'
+    )
+    precincts, county = coded_primary(GP22, "Allegany", "01", district_1, county_1)
+    frame, blanked = results._blank_countywide_districts(precincts, county, "01")
+    assert blanked == [] and frame["district"].to_list() == ["01", "01"]
+    # ... nor when the county file has the office both blank and under "01"
+    both = county_1 + county_1.replace('"01"', '""', 1)
+    precincts, county = coded_primary(GP22, "Allegany", "01", district_1, both)
+    assert results._blank_countywide_districts(precincts, county, "01")[1] == []
+    # ... nor when the precinct file has blank-district rows of the office itself
+    mixed = district_1 + district_1.replace(
+        '"County Commissioner","01"', '"County Commissioner",""'
+    )
+    precincts, county = coded_primary(
+        GP22, "Allegany", "01", mixed, county_1.replace('"01"', '""', 1)
+    )
+    assert results._blank_countywide_districts(precincts, county, "01")[1] == []
+    # ... nor another county's number
+    precincts, county = coded_primary(
+        GP22, "Allegany", "01", ALLEGANY_SHERIFF_PRECINCTS.replace('"Sheriff","01"', '"Sheriff","02"'),
+        ALLEGANY_SHERIFF_COUNTY,
+    )  # fmt: skip
+    assert results._blank_countywide_districts(precincts, county, "01")[1] == []
+
+
+def test_parse_writes_the_countywide_district_blank_and_says_so(env):
+    for f in results.county_files(GP22):
+        if f.role == "county" and f.party_file != "non":
+            archive(env, GP22, f, (CODED_PRIMARY_COUNTY_HEAD + ALLEGANY_SHERIFF_COUNTY).encode())
+    for f in results.precinct_files(GP22):
+        if f.party_file != "non":
+            rows = ALLEGANY_SHERIFF_PRECINCTS.replace(
+                '"01","Allegany County"', f'"{f.county_code}","X"'
+            )
+            rows = rows.replace('"Sheriff","01"', f'"Sheriff","{f.county_code}"')
+            archive(env, GP22, f, (CODED_PRIMARY_PRECINCT_HEAD + rows).encode())
+    written, failed = results.results_parse("GP22", data_dir=env / "data", level="precinct")
+    assert failed == [] and written == 48
+    out = env / "data" / "results" / "GP22" / "precinct" / "01-allegany-rep.csv.gz"
+    frame = pl.read_csv(gzip.decompress(out.read_bytes()), infer_schema=False)
+    assert frame["district"].fill_null("").to_list() == ["", ""]
+    side = json.loads((out.parent / "01-allegany-rep_provenance.json").read_text())
+    assert side["checks"]["district_read_as_blank"] == ["Sheriff"]
+
+
+# ---- PP12's presidential primary by congressional district -----------------------------------
+
+PP12 = results.RESULTS_ELECTIONS["PP12"]
+PP12_COUNTY_HEAD = (
+    '"Candidate Name","Party","Office Name","Office District","Winner","Early Votes",'
+    '"Election Night Votes","Absentees Votes","Provisional Votes","2nd Absentees Votes",'
+    '"Total Votes"\n'
+)
+# Montgomery's county file prints the presidential primary statewide and again for each of its
+# congressional districts (03, 06, 08); its precinct file prints the statewide rows only, with
+# each precinct's Cong. One precinct per district here; the county rows are their sums.
+PP12_PRECINCTS = (
+    '"16","001","001","03","15","Barack Obama","DEM","President - Vice Pres","","Y","100"\n'
+    '"16","002","001","06","15","Barack Obama","DEM","President - Vice Pres","","Y","200"\n'
+    '"16","003","001","08","15","Barack Obama","DEM","President - Vice Pres","","Y","300"\n'
+)
+PP12_COUNTY = (
+    '"Barack Obama","DEM","President - Vice Pres","","Y","9","600","0","0","0","609"\n'
+    '"Barack Obama","DEM","President - Vice Pres","03","Y","1","100","0","0","0","101"\n'
+    '"Barack Obama","DEM","President - Vice Pres","06","Y","3","200","0","0","0","203"\n'
+    '"Barack Obama","DEM","President - Vice Pres","08","Y","5","300","0","0","0","305"\n'
+)
+
+
+def pp12_frames(precincts=PP12_PRECINCTS):
+    return (
+        results.read_precinct(
+            (NAMED_2018_PRIMARY_HEAD + precincts).encode(), PP12, "Montgomery", "dem"
+        ).frame,
+        results._read_named((PP12_COUNTY_HEAD + PP12_COUNTY).encode(), PP12, "Montgomery", "dem").frame,
+    )  # fmt: skip
+
+
+def test_pp12_president_by_congressional_district_is_checked_on_the_cong_column(monkeypatch):
+    check = results._check_precinct_county(PP12, "Montgomery", "dem", *pp12_frames())
+    assert check.contests == 4 and check.rows == 4 and check.exceptions == []
+    # a vote moved between districts: the statewide sum holds, the districts' do not
+    moved = PP12_PRECINCTS.replace('"Y","200"', '"Y","199"').replace('"Y","300"', '"Y","301"')
+    with pytest.raises(results.ResultsParseError, match=r"President - Vice Pres 06 / Barack Obama \(DEM\): precincts sum to 199 election_night_votes, the county file says 200"):  # fmt: skip
+        results._check_precinct_county(PP12, "Montgomery", "dem", *pp12_frames(moved))
+    # the same exception mechanism, keyed by the district
+    key = ("PP12", "Montgomery", "dem", "President - Vice Pres")
+    monkeypatch.setitem(results.PRECINCT_CHECK_EXCEPTIONS, (*key, "06", "Barack Obama", "DEM", "election_night_votes"), (199, 200))  # fmt: skip
+    monkeypatch.setitem(results.PRECINCT_CHECK_EXCEPTIONS, (*key, "08", "Barack Obama", "DEM", "election_night_votes"), (301, 300))  # fmt: skip
+    check = results._check_precinct_county(PP12, "Montgomery", "dem", *pp12_frames(moved))
+    assert len(check.exceptions) == 2
+
+
+def test_the_breakdown_is_for_the_check_only():
+    precincts, county = pp12_frames()
+    assert results._congressional_breakdown(PP12, precincts, county).height == 6
+    assert precincts.height == 3  # the written frame keeps the board's rows
+    other = results.RESULTS_ELECTIONS["PP16"]  # not listed: no breakdown, so the check fails
+    assert results._congressional_breakdown(other, precincts, county).height == 3
+
+
+# ---- the listed disagreements -----------------------------------------------------------------
+
+
+def test_the_listed_disagreements_are_accepted_and_no_other_figure_is():
+    gg10 = results.RESULTS_ELECTIONS["GG10"]
+    head = NAMED_2010_GENERAL_HEAD
+    county_head = (
+        '"Candidate Name","Party","Office Name","Office District","Winner","Write-In?",'
+        '"Early Votes","Early Votes Against","Election Night Votes","Election Night Votes Against",'
+        '"Absentees Votes","Absentees Votes Against","Provisional Votes",'
+        '"Provisional Votes Against","2nd Absentees Votes","2nd Absentees Votes Against",'
+        '"3rd Absentees Votes","3rd Absentees Votes Against","Total Votes","Total Votes Against"\n'
+    )
+
+    def check(precinct_votes):
+        precincts = f'"13","001","001","Joseph Leonard Delozier","DEM","Pres County Council","","","Y","{precinct_votes}",""\n'  # fmt: skip
+        county = '"Joseph Leonard Delozier","DEM","Pres County Council","","","Y","146","","433","","10","","5","","1","","0","","595",""\n'  # fmt: skip
+        return results._check_precinct_county(
+            gg10, "Harford", "all",
+            results.read_precinct((head + precincts).encode(), gg10, "Harford", "all").frame,
+            results._read_named((county_head + county).encode(), gg10, "Harford", "all").frame,
+        )  # fmt: skip
+
+    assert check(433).exceptions == []
+    # Harford_By_Precinct_2010_General.csv sums to 432 where the county file says 433: listed
+    assert check(432).exceptions == [
+        "Pres County Council / Joseph Leonard Delozier (DEM) election_night_votes: precincts "
+        "432, county file 433"
+    ]
+    with pytest.raises(
+        results.ResultsParseError, match="precincts sum to 431 election_night_votes"
+    ):
+        check(431)
+    assert len(results.PRECINCT_CHECK_EXCEPTIONS) == 10

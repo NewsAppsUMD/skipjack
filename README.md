@@ -68,8 +68,17 @@ Once GitHub Pages is switched on, the site publishes to
   A page per county, "results over time", lines up every office on its ballot across every election
   since 2010: its lean against the state, a grid of margins by office and year, share lines per
   office, how county offices ran against the ticket, ballots cast, primaries, the times it
-  disagreed with the statewide result, and a wall of winners. Precinct and ballot-question files
-  are not loaded yet.
+  disagreed with the statewide result, and a wall of winners. County pages also list the
+  certified ballot questions, For and Against by way of voting (and the third choice where the
+  board printed one, 2016-2020), the statewide ones checked against the board's statewide
+  question breakdown (2012 on; 2010 posts none).
+  Each county has one precinct page per election, linked from its county page and from each
+  contest and question that has precinct rows: pick a contest or a ballot question and the page draws its table
+  by precinct from the county's published file. The precinct files are checked to sum to the
+  county files before they are written. The board's precinct files for 2010 through 2018 count
+  election-day votes only (early, absentee and provisional ballots were counted by county), so
+  those tables say so; from 2020 every way of voting is split by precinct. The 2020 primary has
+  no precinct files. No precinct maps.
   While the 2026 general is being counted, its pages show the board's unofficial results pages
   instead, as of each refresh: marked unofficial and incomplete, with "not yet counted" for
   canvasses a county has not reported, no winner marks, and the statewide ballot questions. The
@@ -130,7 +139,14 @@ brings only httpx, polars and python-calamine, and the `pdf` and `web` extras ad
 `make all` runs fetch, parse and build-db. Results are not part of the daily workflow: run
 `make results` once, and again when the board corrects a file. The 2026 general (GG26) is
 registered but not yet published by the SBE, so `make results` skips it until it is posted; flip
-`published` in the registry (`pipeline/results.py`) then. Each make target wraps `uv run skipjack <command>`;
+`published` in the registry (`pipeline/results.py`) then. `results-fetch` and `results-parse` take
+`--level county|precinct|questions|all` (default all). The board's precinct and question files
+(about 270 MB) are archived under `archives/sbe/results-precinct/` and `results-questions/`,
+recorded in `archives/manifest.csv`, and gitignored: `skipjack results-fetch` gets them again,
+and a parse skips files already written from the same revision, so a clone without them still
+builds. Parsed and gzipped they come to about 27 MB under `data/results/`; loaded, the
+precinct tables take about 680 MB of `skipjack.db` (about 970 MB in all), and the site, with a
+precinct page per county per election, is about 320 MB. Each make target wraps `uv run skipjack <command>`;
 run `uv run skipjack --help` for the options.
 
 ## Pulling the data from the command line
@@ -147,6 +163,8 @@ uvx --from git+https://github.com/NewsAppsUMD/skipjack skipjack get registration
 | `skipjack list elections` / `counties` / `turnout GG26` | What there is to ask for |
 | `skipjack get registration [--table monthly\|activity\|summary] [--county] [--party] [--from YYYY-MM] [--to YYYY-MM]` | Registration by month; `monthly` (the default) is active voters by county and party, `summary` is statewide |
 | `skipjack get results --election GG22 [--county] [--office] [--party-file dem\|rep\|non\|all]` | An election's results by county; `--office` keeps offices containing the text |
+| `skipjack get results --election PG24 --geography precinct --county Kent [--precinct 001-001]` | Results by precinct; without `--county`, every county's needs `-o FILE`, and a line per file read goes to stderr |
+| `skipjack get questions --election PG24 [--geography county\|precinct] [--county] [--precinct]` | Certified ballot questions, For and Against by way of voting; `--precinct` needs `--county` |
 | `skipjack get turnout --election GG26 [--family] [--geography] [--as-of latest\|all\|DATE] [--county]` | Turnout reports, by county unless `--geography` says otherwise; `--as-of all` is the day-by-day trend |
 | `skipjack get county "Prince George's" [--section registration\|turnout\|results]` | A county's whole record in one document |
 
@@ -168,7 +186,14 @@ The columns differ by election. Certified results use party codes (`DEM`) and a 
 column for each way of voting; a general election also has an `*_against` column beside each,
 filled for contests decided for and against, such as judicial retention, and a primary does not. The running count of the
 2026 general uses party names (`Democratic`) and `early`, `election_day`, `mail_in`,
-`provisional` and `total`. Turnout rows are long: one `measure` and its `value` per row.
+`provisional` and `total`. Precinct rows add `precinct` (`DDD-PPP`, as the board numbers them within
+a county, which is why `--precinct` needs `--county`), `congressional` and `legislative` (blank in
+2010). Ballot-question rows have `question` (an all-digit number without leading zeros, `1`; others
+as printed, `A`), `how_it_runs` (the board's `State`, `County`, or `Ed` for one election district's question), and per way of voting
+`*_votes` (For) and `*_against` (Against), plus `*_third` and `total_third` where the board printed
+a third choice (2016-2020). Through 2018 a precinct pull's totals are election-day votes, and
+`meta` has a note saying so. The precinct files are published gzipped (`.csv.gz`); `skipjack get`
+decompresses them. Turnout rows are long: one `measure` and its `value` per row.
 
 By default the data comes from this site's published files, which have been through the checks
 described under "Accuracy". `--source sbe` instead downloads the State Board's own file and

@@ -260,15 +260,12 @@ def test_load_precinct_refuses_a_precinct_that_is_not_ddd_ppp(conn, tmp_path, pr
         load_results_precinct(conn, tmp_path)
 
 
-def test_the_precinct_table_is_indexed_by_precinct_and_by_office(conn):
+def test_the_precinct_table_has_only_the_contest_index(conn):
     names = {
         r[0]
         for r in conn.execute(
             "SELECT name FROM sqlite_master WHERE type = 'index' AND tbl_name = 'results_precinct'"
         )
     }
-    assert {
-        "idx_results_precinct_contest",
-        "idx_results_precinct_precinct",
-        "idx_results_precinct_office",
-    } <= names
+    # by precinct and by office cost ~190 MB over every election, and nothing queries them
+    assert names == {"idx_results_precinct_contest"}

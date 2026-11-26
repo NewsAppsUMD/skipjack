@@ -158,9 +158,41 @@ ROW_TOTAL_EXCEPTIONS: dict[tuple[str, str, str], int] = {("GG10", "Baltimore Cit
 
 # Precinct rows that do not sum to the board's own county file: (election code, county, party
 # file, office, district, candidate, party, column) -> (what the precincts sum to, what the county
-# file says). Empty until a full run finds one; a mismatch is accepted only when it equals the
-# listed pair, and any other fails the election.
-PRECINCT_CHECK_EXCEPTIONS: dict[tuple[str, ...], tuple[int, int]] = {}
+# file says). Found by the first full run (2026-11-25); every one is a write-in line or a single
+# vote. A mismatch is accepted only when it equals the listed pair, and any other fails the
+# election.
+PRECINCT_CHECK_EXCEPTIONS: dict[tuple[str, ...], tuple[int, int]] = {
+    # GG22_21PrecinctsResults.csv against GG22_21CountyResults.csv (Talbot): the Board of
+    # Education write-ins. District 001: the precincts carry 1 election-night write-in, the
+    # county file 2 (one apart). District 003: the precincts carry none, the county file 1 early
+    # and 5 election-night (six apart in all).
+    ("GG22", "Talbot", "all", "Board of Education", "001", "Other Write-Ins", "", "election_night_votes"): (1, 2),
+    ("GG22", "Talbot", "all", "Board of Education", "001", "Other Write-Ins", "", "total_votes"): (1, 2),
+    ("GG22", "Talbot", "all", "Board of Education", "003", "Other Write-Ins", "", "early_votes"): (0, 1),
+    ("GG22", "Talbot", "all", "Board of Education", "003", "Other Write-Ins", "", "election_night_votes"): (0, 5),
+    ("GG22", "Talbot", "all", "Board of Education", "003", "Other Write-Ins", "", "total_votes"): (0, 6),
+    # Calvert_By_Precinct_2020_General.csv against Calvert_County_2020_General.csv: the
+    # presidential write-ins, one election-day vote more by precinct (53 against 52; 248
+    # against 247 in all).
+    ("PG20", "Calvert", "all", "President - Vice Pres", "", "Other Write-Ins", "BOT", "election_day_votes"): (53, 52),
+    ("PG20", "Calvert", "all", "President - Vice Pres", "", "Other Write-Ins", "BOT", "total_votes"): (248, 247),
+    # St._Marys_By_Precinct_2012_General.csv against St._Marys_County_2012_General.csv: the
+    # presidential write-ins, two election-night votes more by precinct.
+    ("PG12", "St. Mary's", "all", "President - Vice Pres", "", "Other Write-Ins", "BOT", "election_night_votes"): (161, 159),
+    # Caroline_By_Precinct_2010_General.csv against Caroline_County_2010_General.csv: the U.S.
+    # Senate write-ins, two election-night votes more by precinct.
+    ("GG10", "Caroline", "all", "U.S. Senator", "", "Other Write-Ins", "BOT", "election_night_votes"): (12, 10),
+    # Harford_By_Precinct_2010_General.csv against Harford_County_2010_General.csv: Joseph
+    # Leonard Delozier (DEM) for County Council President, one election-night vote fewer by
+    # precinct.
+    ("GG10", "Harford", "all", "Pres County Council", "", "Joseph Leonard Delozier", "DEM", "election_night_votes"): (432, 433),
+}  # fmt: skip
+# Contests a county file also prints by congressional district, as more rows of the same office
+# with the district's number ("01".."08") beside the statewide rows (district blank), while the
+# precinct files print the statewide rows only: (election code, office). PP12's county files
+# split the presidential primary by congressional district (the delegates were allocated by
+# district). Those rows are checked against the precinct rows summed by their Cong column.
+CONGRESSIONAL_BREAKDOWN_CONTESTS: set[tuple[str, str]] = {("PP12", "President - Vice Pres")}
 # Ballot-question figures the board's own files disagree on: (election code, county or
 # "statewide", question, how it runs, column) -> (what the parts sum to, what the whole says).
 # How it runs is part of the key as it is of the check's: a county can print a "1" State and a
@@ -1493,6 +1525,83 @@ def _precinct_check_columns(election: ResultsElection) -> list[str]:
     return columns
 
 
+def _blank_countywide_districts(
+    precincts: pl.DataFrame, county_frame: pl.DataFrame, county_code: str
+) -> tuple[pl.DataFrame, list[str]]:
+    """The coded primary precinct files (GP22, GP26, PP24) print the county's own code as the
+    Office District of a countywide contest ("01" for Allegany's Sheriff, "03" for Baltimore
+    City's Mayor) where the county file prints it blank. Such a district is read as blank, so
+    the written file names the contest as the county file does, when it pairs: the county file
+    has the office with a blank district and none numbered as the county's code, and the
+    precinct file has no blank-district rows of its own for it. A genuine district contest
+    numbered like the county (Allegany's commissioner district 1, say) is in the county file
+    under its number, so it never pairs. Returns the frame and the offices read so."""
+
+    def blank(d) -> bool:
+        return d is None or d == ""
+
+    code = question_number(county_code)
+    county_districts: dict[str, set[str]] = {}
+    for office, district in county_frame.select("office", "district").unique().iter_rows():
+        county_districts.setdefault(office, set()).add("" if blank(district) else district)
+    precinct_districts: dict[str, set[str]] = {}
+    for office, district in precincts.select("office", "district").unique().iter_rows():
+        precinct_districts.setdefault(office, set()).add("" if blank(district) else district)
+    offices = sorted(
+        office
+        for office, districts in precinct_districts.items()
+        if "" not in districts
+        and any(question_number(d) == code for d in districts)
+        and "" in county_districts.get(office, set())
+        and not any(question_number(d) == code for d in county_districts[office] if d)
+    )
+    if not offices:
+        return precincts, []
+    rewrite = pl.col("office").is_in(offices) & (
+        pl.col("district").map_elements(question_number, return_dtype=pl.String) == code
+    )
+    return (
+        precincts.with_columns(
+            pl.when(rewrite).then(pl.lit("")).otherwise(pl.col("district")).alias("district")
+        ),
+        offices,
+    )
+
+
+def _congressional_breakdown(
+    election: ResultsElection, precincts: pl.DataFrame, county_frame: pl.DataFrame
+) -> pl.DataFrame:
+    """The precinct rows with, for each CONGRESSIONAL_BREAKDOWN_CONTESTS office the county file
+    also prints by congressional district, a copy of the office's blank-district rows under each
+    of those districts, taken from the precincts whose Cong column is that district: so the
+    check sums the precincts by district against the county file's district rows. For the
+    check only; the written file keeps the board's rows."""
+    extra = []
+    for code, office in CONGRESSIONAL_BREAKDOWN_CONTESTS:
+        if code != election.code:
+            continue
+        districts = (
+            county_frame.filter((pl.col("office") == office) & (pl.col("district") != ""))
+            .get_column("district")
+            .unique()
+            .to_list()
+        )
+        statewide = precincts.filter(
+            (pl.col("office") == office) & pl.col("district").fill_null("").eq("")
+        )
+        for district in districts:
+            number = question_number(district)
+            extra.append(
+                statewide.filter(
+                    pl.col("congressional")
+                    .fill_null("")
+                    .map_elements(question_number, return_dtype=pl.String)
+                    == number
+                ).with_columns(pl.lit(district).alias("district"))
+            )
+    return pl.concat([precincts, *extra]) if extra else precincts
+
+
 def _check_precinct_county(
     election: ResultsElection,
     county: str,
@@ -1501,13 +1610,15 @@ def _check_precinct_county(
     county_frame: pl.DataFrame,
 ) -> SumCheck:
     """One county and party file's precinct rows, summed by office, district, candidate and
-    party, against its county file (PRECINCT_CHECK_EXCEPTIONS aside)."""
+    party, against its county file (PRECINCT_CHECK_EXCEPTIONS aside); a contest the county
+    file also prints by congressional district (CONGRESSIONAL_BREAKDOWN_CONTESTS) is checked
+    by district too, on the precincts' Cong column."""
     return _check_sums(
         f"{election.code} {county} {party_file} precincts",
         ["office", "district", "candidate", "party"],
         2,
         _precinct_check_columns(election),
-        precincts,
+        _congressional_breakdown(election, precincts, county_frame),
         county_frame,
         lambda key, c: PRECINCT_CHECK_EXCEPTIONS.get((election.code, county, party_file, *key, c)),
     )
@@ -1610,13 +1721,15 @@ def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
             if (f.county, f.party_file) not in by_county:
                 raise ResultsParseError("no county file to check it against")
             county_frame, county_record = by_county[(f.county, f.party_file)]
+            frame, blanked = _blank_countywide_districts(read.frame, county_frame, f.county_code)
+            read = read._replace(frame=frame) if blanked else read
             check = _check_precinct_county(e, f.county, f.party_file, read.frame, county_frame)
         except ResultsParseError as err:
             raise ResultsParseError(f"{f.file_name}: {err}") from None
-        checked.append((f, record, read, check, county_record))
+        checked.append((f, record, read, check, county_record, blanked))
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    for f, record, read, check, county_record in checked:
+    for f, record, read, check, county_record, blanked in checked:
         if f.source_id not in stale:
             continue
         county_file = _county_file(f).file_name
@@ -1635,6 +1748,9 @@ def _parse_precincts(e: ResultsElection, force: bool, data_dir: Path) -> int:
         }
         if check.exceptions:
             checks["county_check_exceptions"] = check.exceptions
+        if blanked:
+            # the precinct file printed the county's code as these countywide offices' district
+            checks["district_read_as_blank"] = blanked
         sidecar = ProvenanceSidecar.from_source(
             record,
             parser_version=PARSER_VERSION,

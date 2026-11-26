@@ -64,4 +64,9 @@ def test_downloads_only_include_expected_folders_and_types():
         "results_unofficial",
         "turnout_model",
     }
-    assert {f.suffix for f in files} <= {".csv", ".json"}
+    assert {f.suffix for f in files} <= {".csv", ".json", ".gz"}
+    # gzipped only as the precinct files are: results/<CODE>/precinct/ and questions/precinct/
+    for f in files:
+        if f.suffix == ".gz":
+            assert f.name.endswith(".csv.gz") and f.parts[0] == "results", f
+            assert f.parts[2] == "precinct" or f.parts[2:4] == ("questions", "precinct"), f

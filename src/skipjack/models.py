@@ -196,12 +196,10 @@ CREATE TABLE IF NOT EXISTS results_precinct_votes (
     votes INTEGER NOT NULL,
     votes_against INTEGER
 );
+-- One index: the county pages and the precinct picker ask by election and county (and contest).
+-- Indexes by precinct and by office cost ~190 MB over every election and nothing queries them.
 CREATE INDEX IF NOT EXISTS idx_results_precinct_contest
     ON results_precinct (election, county, party_file, office, district);
-CREATE INDEX IF NOT EXISTS idx_results_precinct_precinct
-    ON results_precinct (election, county, precinct);
-CREATE INDEX IF NOT EXISTS idx_results_precinct_office
-    ON results_precinct (election, office, district);
 CREATE INDEX IF NOT EXISTS idx_results_precinct_votes_result
     ON results_precinct_votes (result_id);
 
@@ -242,8 +240,6 @@ CREATE TABLE IF NOT EXISTS results_question_votes (
 );
 CREATE INDEX IF NOT EXISTS idx_results_questions_county
     ON results_questions (election, county, geography);
-CREATE INDEX IF NOT EXISTS idx_results_questions_question
-    ON results_questions (election, question);
 CREATE INDEX IF NOT EXISTS idx_results_question_votes_question
     ON results_question_votes (question_id);
 
