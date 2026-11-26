@@ -145,7 +145,7 @@ registered but not yet published by the SBE, so `make results` skips it until it
 recorded in `archives/manifest.csv`, and gitignored: `skipjack results-fetch` gets them again,
 and a parse skips files already written from the same revision, so a clone without them still
 builds. Parsed and gzipped they come to about 27 MB under `data/results/`; loaded, the
-precinct tables take about 680 MB of `skipjack.db` (about 970 MB in all), and the site, with a
+precinct tables take about 680 MB of `skipjack.db` (about 1 GB in all), and the site, with a
 precinct page per county per election, is about 320 MB. Each make target wraps `uv run skipjack <command>`;
 run `uv run skipjack --help` for the options.
 

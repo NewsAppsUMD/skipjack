@@ -11,7 +11,8 @@ turnout:
 	uv run skipjack turnout-fetch
 	uv run skipjack turnout-parse
 
-# County election results from the SBE (one-time, re-runnable; not part of the daily workflow)
+# Election results from the SBE: county, precinct and ballot-question files, about 270 MB
+# (one-time, re-runnable; not part of the daily workflow)
 # Usage: make results
 results:
 	uv run skipjack results-fetch

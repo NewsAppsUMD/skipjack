@@ -1535,7 +1535,9 @@ def _blank_countywide_districts(
     has the office with a blank district and none numbered as the county's code, and the
     precinct file has no blank-district rows of its own for it. A genuine district contest
     numbered like the county (Allegany's commissioner district 1, say) is in the county file
-    under its number, so it never pairs. Returns the frame and the offices read so."""
+    under its number, so it never pairs. It runs for every election, since the pairing rule
+    alone decides; only those three primaries pair today. Returns the frame and the offices
+    read so."""
 
     def blank(d) -> bool:
         return d is None or d == ""

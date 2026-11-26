@@ -601,12 +601,10 @@ def county_page(conn: sqlite3.Connection, code: str, county_slug: str) -> dict |
     }
 
 
-# How it Runs? as the board prints it: "State" is statewide; a county's own questions say
-# "County", and Montgomery's GG22 question B "Ed". Anything not listed is tagged as printed.
 # How it Runs? as the board prints it -> the tag on a question's card. "Ed" is an election
 # district's own question: GG22 Montgomery question B, the General Assembly's referendum on a
 # Class B alcoholic beverages license for Damascus (the 12th election district), on the ballot
-# only in district 012's precincts.
+# only in district 012's precincts. A value not listed is tagged "local question (<value>)".
 QUESTION_KINDS = {"State": None, "County": "county question", "Ed": "election district question"}
 QUESTION_CHOICES = (("votes", "For"), ("against", "Against"), ("third", "Third choice"))
 
